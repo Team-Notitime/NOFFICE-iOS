@@ -16,12 +16,14 @@
 *.perspectivev3
 *.xcuserstate
 
-# Build files
+# Ignore DerivedData folders recursively
+**/DerivedData/
+DerivedData/
+
+# Ignore build folders recursively
 build/
 **/build/
 Build/
-DerivedData/
-**/DerivedData/
 
 # Temporary files
 *.tmp
