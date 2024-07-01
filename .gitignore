@@ -9,21 +9,13 @@
 /.swiftpm/
 /xcuserdata/
 /*.xcscmblueprint
+Derived/
 
 # User-specific files
 *.mode1v3
 *.mode2v3
 *.perspectivev3
 *.xcuserstate
-
-# Ignore DerivedData folders recursively
-**/DerivedData/
-DerivedData/
-
-# Ignore build folders recursively
-build/
-**/build/
-Build/
 
 # Temporary files
 *.tmp
@@ -32,6 +24,7 @@ Build/
 
 # Swift Package Manager
 /.build/
+.build/
 # Add Xcode workspace for Swift Packages
 *.xcodeproj/*/xcuserdata/
 *.xcodeproj/*/project.xcworkspace/
