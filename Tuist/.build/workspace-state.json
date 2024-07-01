@@ -1,0 +1,110 @@
+{
+  "object" : {
+    "artifacts" : [
+      {
+        "kind" : "artifactsArchive",
+        "packageRef" : {
+          "identity" : "swiftlintplugin",
+          "kind" : "remoteSourceControl",
+          "location" : "https://github.com/lukepistrol/SwiftLintPlugin",
+          "name" : "SwiftLintPlugin"
+        },
+        "path" : "/Users/doyeonlee/Desktop/PROJ/Noffice/Tuist/.build/artifacts/swiftlintplugin/SwiftLintBinary/SwiftLintBinary.artifactbundle",
+        "source" : {
+          "checksum" : "722a705de1cf4e0e07f2b7d2f9f631f3a8b2635a0c84cce99f9677b38aa4a1d6",
+          "type" : "remote",
+          "url" : "https://github.com/realm/SwiftLint/releases/download/0.55.1/SwiftLintBinary-macos.artifactbundle.zip"
+        },
+        "targetName" : "SwiftLintBinary"
+      }
+    ],
+    "dependencies" : [
+      {
+        "basedOn" : null,
+        "packageRef" : {
+          "identity" : "rxswift",
+          "kind" : "remoteSourceControl",
+          "location" : "https://github.com/ReactiveX/RxSwift.git",
+          "name" : "RxSwift"
+        },
+        "state" : {
+          "checkoutState" : {
+            "revision" : "b06a8c8596e4c3e8e7788e08e720e3248563ce6a",
+            "version" : "6.7.1"
+          },
+          "name" : "sourceControlCheckout"
+        },
+        "subpath" : "RxSwift"
+      },
+      {
+        "basedOn" : null,
+        "packageRef" : {
+          "identity" : "snapkit",
+          "kind" : "remoteSourceControl",
+          "location" : "https://github.com/SnapKit/SnapKit.git",
+          "name" : "SnapKit"
+        },
+        "state" : {
+          "checkoutState" : {
+            "revision" : "2842e6e84e82eb9a8dac0100ca90d9444b0307f4",
+            "version" : "5.7.1"
+          },
+          "name" : "sourceControlCheckout"
+        },
+        "subpath" : "SnapKit"
+      },
+      {
+        "basedOn" : null,
+        "packageRef" : {
+          "identity" : "swiftlintplugin",
+          "kind" : "remoteSourceControl",
+          "location" : "https://github.com/lukepistrol/SwiftLintPlugin",
+          "name" : "SwiftLintPlugin"
+        },
+        "state" : {
+          "checkoutState" : {
+            "revision" : "a0f7b12c7be228592d924f29f654ebbd924ac9c5",
+            "version" : "0.55.1"
+          },
+          "name" : "sourceControlCheckout"
+        },
+        "subpath" : "SwiftLintPlugin"
+      },
+      {
+        "basedOn" : null,
+        "packageRef" : {
+          "identity" : "swinject",
+          "kind" : "remoteSourceControl",
+          "location" : "https://github.com/Swinject/Swinject.git",
+          "name" : "Swinject"
+        },
+        "state" : {
+          "checkoutState" : {
+            "revision" : "be9dbcc7b86811bc131539a20c6f9c2d3e56919f",
+            "version" : "2.9.1"
+          },
+          "name" : "sourceControlCheckout"
+        },
+        "subpath" : "Swinject"
+      },
+      {
+        "basedOn" : null,
+        "packageRef" : {
+          "identity" : "then",
+          "kind" : "remoteSourceControl",
+          "location" : "https://github.com/devxoul/Then.git",
+          "name" : "Then"
+        },
+        "state" : {
+          "checkoutState" : {
+            "revision" : "d41ef523faef0f911369f79c0b96815d9dbb6d7a",
+            "version" : "3.0.0"
+          },
+          "name" : "sourceControlCheckout"
+        },
+        "subpath" : "Then"
+      }
+    ]
+  },
+  "version" : 6
+}
