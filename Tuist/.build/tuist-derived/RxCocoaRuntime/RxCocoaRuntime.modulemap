@@ -1,6 +1,0 @@
-framework module RxCocoaRuntime {
-  umbrella header "/Users/doyeonlee/Desktop/PROJ/Noffice/Tuist/.build/checkouts/RxSwift/Sources/RxCocoaRuntime/include/RxCocoaRuntime.h"
-
-  export *
-  module * { export * }
-}
