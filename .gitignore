@@ -18,6 +18,7 @@
 
 # Build files
 build/
+**/build/
 Build/
 DerivedData/
 **/DerivedData/
