@@ -19,6 +19,7 @@ public enum Example: String, CaseIterable {
 public enum Domain: String, CaseIterable {
     case common = "Common"
 }
+
 public enum DataInterface: String, CaseIterable {
     case sample = "Sample"
 }

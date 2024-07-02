@@ -13,7 +13,13 @@ let packageSettings = PackageSettings(
         "RxSwift": .framework,
         "SnapKit": .framework,
         "Then": .framework,
-    ]
+    ], 
+    baseSettings: .settings(
+        configurations: [
+            .debug(name: "dev"),
+            .release(name: "prod")
+        ]
+    )
 )
 #endif
 
@@ -26,12 +32,5 @@ let package = Package(
         .package(url: "https://github.com/SnapKit/SnapKit.git", from: "5.7.0"),
         .package(url: "https://github.com/devxoul/Then.git", from: "3.0.0")
     ],
-    targets: [
-        .target(
-            name: "Noffice",
-            plugins: [
-                .plugin(name: "SwiftLint", package: "SwiftLintPlugin"),
-            ]
-        ),
-    ]
+    targets: []
 )
