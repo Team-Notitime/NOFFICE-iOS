@@ -2,38 +2,38 @@ import ProjectDescription
 
 public extension TargetDependency {
     static func feature(
-        name: String
+        _ target: Feature
     ) -> TargetDependency {
         return .project(
-            target: "\(name)Feature",
-            path: .relativeToRoot("Projects/Feature/\(name)Feature")
+            target: "\(target.rawValue)Feature",
+            path: .relativeToRoot("Projects/Feature/\(target.rawValue)Feature")
         )
     }
     
     static func domain(
-        name: String
+        _ target: Domain
     ) -> TargetDependency {
         return .project(
-            target: "\(name)Domain",
-            path: .relativeToRoot("Projects/Feature/\(name)Domain")
+            target: "\(target.rawValue)Domain",
+            path: .relativeToRoot("Projects/Feature/\(target.rawValue)Domain")
         )
     }
     
     static func dataInterface(
-        name: String
+        _ target: DataInterface
     ) -> TargetDependency {
         return .project(
-            target: "\(name)DataInterface",
-            path: .relativeToRoot("Projects/DataInterface/\(name)DataInterface")
+            target: "\(target.rawValue)DataInterface",
+            path: .relativeToRoot("Projects/DataInterface/\(target.rawValue)DataInterface")
         )
     }
     
     static func data(
-        name: String
+        _ target: Data
     ) -> TargetDependency {
         return .project(
-            target: "\(name)Data",
-            path: .relativeToRoot("Projects/Data/\(name)Data")
+            target: "\(target.rawValue)Data",
+            path: .relativeToRoot("Projects/Data/\(target.rawValue)Data")
         )
     }
 }

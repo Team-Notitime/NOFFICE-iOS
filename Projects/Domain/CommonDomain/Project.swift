@@ -4,6 +4,6 @@ import ProjectDescriptionHelpers
 let project = Project.domainFramework(
     name: "Common",
     dependencies: [
-        .dataInterface(name: "Sample")
+        .dataInterface(.sample)
     ]
 )

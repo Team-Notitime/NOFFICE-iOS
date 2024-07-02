@@ -14,10 +14,10 @@ let project = Project(
             sources: ["Sources/**"],
             resources: ["Resources/**"],
             dependencies: [
-                .feature(name: "Home"),
-                .feature(name: "Group"),
-                .feature(name: "My"),
-                .feature(name: "Signup"),
+                .feature(.home),
+                .feature(.group),
+                .feature(.my),
+                .feature(.signup),
             ]
         ),
         .target(

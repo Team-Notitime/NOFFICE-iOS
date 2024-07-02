@@ -4,6 +4,6 @@ import ProjectDescriptionHelpers
 let project = Project.exampleApp(
     name: "Signup",
     dependencies: [
-        .feature(name: "Signup")
+        .feature(.signup)
     ]
 )

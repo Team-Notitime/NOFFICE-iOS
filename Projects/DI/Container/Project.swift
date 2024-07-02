@@ -2,13 +2,13 @@ import ProjectDescription
 import ProjectDescriptionHelpers
 
 let project = Project(
-    name: "DIContainer",
+    name: "DI",
     targets: [
         .target(
-            name: "DIContainer",
+            name: "Container",
             destinations: .iOS,
             product: .framework,
-            bundleId: "com.notice.di",
+            bundleId: "com.notice.di.container",
             deploymentTargets: .iOS("\(Project.deployTarget)"),
             sources: ["Sources/**"],
             dependencies: [
