@@ -45,7 +45,7 @@ extension Project {
                 makeTarget(
                     name: "\(name)Feature",
                     product: .framework,
-                    bundleId: "\(bundleId).app.tests",
+                    bundleId: "\(bundleId).\(name).feature",
                     infoPlist: .default,
                     hasResource: true,
                     dependencies: dependencies + uiDependencies
@@ -201,7 +201,7 @@ extension Project {
         name: String,
         product: Product,
         bundleId: String,
-        infoPlist: InfoPlist? = nil,
+        infoPlist: InfoPlist? = .default,
         hasResource: Bool = false,
         dependencies: [TargetDependency] = []
     ) -> Target {

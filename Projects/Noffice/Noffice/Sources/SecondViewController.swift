@@ -14,7 +14,6 @@ class SecondViewController: UIViewController {
         view.backgroundColor = .orange
         // Do any additional setup after loading the view.
     }
-    
 
     /*
     // MARK: - Navigation
