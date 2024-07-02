@@ -36,4 +36,13 @@ public extension TargetDependency {
             path: .relativeToRoot("Projects/Data/\(target.rawValue)Data")
         )
     }
+    
+    static func di(
+        _ target: DI
+    ) -> TargetDependency {
+        return .project(
+            target: "\(target.rawValue)",
+            path: .relativeToRoot("Projects/DI/\(target.rawValue)")
+        )
+    }
 }

@@ -22,7 +22,7 @@ let project = Project(
         ),
         .target(
             name: "DesignSystem",
-            destinations: .iOS,
+            destinations: [.iPhone],
             product: .framework,
             bundleId: "com.notice.designsystem",
             deploymentTargets: .iOS("\(Project.deployTarget)"),

@@ -18,6 +18,7 @@ let project = Project(
                 .feature(.group),
                 .feature(.my),
                 .feature(.signup),
+                .di(.router)
             ]
         ),
         .target(

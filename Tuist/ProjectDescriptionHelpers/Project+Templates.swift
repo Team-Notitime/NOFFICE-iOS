@@ -118,6 +118,27 @@ extension Project {
             ]
         )
     }
+    
+    public static func diFramework(
+        name: String,
+        dependencies: [TargetDependency] = []
+    ) -> Project {
+        return Project(
+            name: "\(name)",
+            targets: [
+                .target(
+                    name: "\(name)",
+                    destinations: [.iPhone],
+                    product: .framework,
+                    bundleId: "com.notice.\(name).di",
+                    deploymentTargets: .iOS("\(Project.deployTarget)"),
+                    infoPlist: .extendingDefault(with: dataInfoPlist),
+                    sources: ["Sources/**"],
+                    dependencies: dependencies
+                )
+            ]
+        )
+    }
 }
 
 // MARK: - Info.plist
