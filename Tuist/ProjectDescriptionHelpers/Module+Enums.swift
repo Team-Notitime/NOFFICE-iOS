@@ -1,34 +1,36 @@
-public enum Feature: String, CaseIterable {
-    case home = "Home"
-    case group = "Group"
-    case my = "My"
-    case signup = "Signup"
-}
+public enum Module {
+    public enum Feature: String, CaseIterable {
+        case home = "Home"
+        case group = "Group"
+        case my = "My"
+        case signup = "Signup"
+    }
 
-public enum UI: String, CaseIterable {
-    case designSystem = "DesignSystem"
-}
+    public enum UI: String, CaseIterable {
+        case designSystem = "DesignSystem"
+    }
 
-public enum Example: String, CaseIterable {
-    case home = "Home"
-    case group = "Group"
-    case my = "My"
-    case signup = "Signup"
-}
+    public enum Example: String, CaseIterable {
+        case home = "Home"
+        case group = "Group"
+        case my = "My"
+        case signup = "Signup"
+    }
 
-public enum Domain: String, CaseIterable {
-    case common = "Common"
-}
+    public enum Domain: String, CaseIterable {
+        case common = "Common"
+    }
 
-public enum DataInterface: String, CaseIterable {
-    case sample = "Sample"
-}
+    public enum DataInterface: String, CaseIterable {
+        case sample = "Sample"
+    }
 
-public enum Data: String, CaseIterable {
-    case sample = "Sample"
-}
+    public enum Data: String, CaseIterable {
+        case sample = "Sample"
+    }
 
-public enum DI: String, CaseIterable {
-    case container = "Container"
-    case router = "Router"
+    public enum DI: String, CaseIterable {
+        case container = "Container"
+        case router = "Router"
+    }
 }

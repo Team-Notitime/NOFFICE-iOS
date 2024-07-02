@@ -1,4 +1,4 @@
 import ProjectDescription
 import ProjectDescriptionHelpers
 
-let project = Project.mainApp(name: "Noffice")
+let project = Project.makeMainApp(name: "Noffice")

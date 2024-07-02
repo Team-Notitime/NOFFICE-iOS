@@ -4,20 +4,17 @@ extension Project {
     public static let deployTarget = 16.0
     public static let bundleId = "com.notice"
     
-    public static func mainApp(name: String) -> Project {
-        Project(
+    public static func makeMainApp(name: String) -> Project {
+        return Project(
             name: "\(name)",
             settings: .settings(.base),
             targets: [
-                .target(
+                makeTarget(
                     name: "\(name)",
-                    destinations: [.iPhone],
                     product: .app,
                     bundleId: "\(bundleId).app",
-                    deploymentTargets: .iOS("\(deployTarget)"),
-                    infoPlist: .file(path: "Sources/Info.plist"),
-                    sources: ["Sources/**"],
-                    resources: ["Resources/**"],
+                    infoPlist: .file(path: "\(name)/Sources/Info.plist"),
+                    hasResource: true,
                     dependencies: [
                         .feature(.home),
                         .feature(.group),
@@ -26,77 +23,63 @@ extension Project {
                         .di(.router),
                     ] + uiDependencies
                 ),
-                .target(
+                makeTarget(
                     name: "\(name)Tests",
-                    destinations: .iOS,
                     product: .unitTests,
                     bundleId: "\(bundleId).app.tests",
-                    infoPlist: .default,
-                    sources: ["Tests/**"],
-                    resources: [],
                     dependencies: [.target(name: "Noffice")]
-                ),
-            ],
-            schemes: .base
-        )
-    }
-    
-    public static func featureFramework(
-        name: String,
-        dependencies: [TargetDependency] = []
-    ) -> Project {
-        return Project(
-            name: "\(name)Feature",
-            settings: .settings(.base),
-            targets: [
-                .target(
-                    name: "\(name)Feature",
-                    destinations: [.iPhone],
-                    product: .framework,
-                    bundleId: "\(bundleId).\(name).feature",
-                    deploymentTargets: .iOS("\(deployTarget)"),
-                    infoPlist: .default,
-                    sources: ["Sources/**"],
-                    resources: ["Resources/**",],
-                    dependencies: [
-                    ] + dependencies + uiDependencies
                 )
             ],
             schemes: .base
         )
     }
     
-    public static func uiFramework(
+    public static func makeFeatureModule(
         name: String,
         dependencies: [TargetDependency] = []
     ) -> Project {
         return Project(
-            name: "\(name)",
+            name: "\(name)FeatureModule",
             settings: .settings(.base),
             targets: [
-                .target(
+                makeTarget(
+                    name: "\(name)Feature",
+                    product: .framework,
+                    bundleId: "\(bundleId).app.tests",
+                    infoPlist: .default,
+                    hasResource: true,
+                    dependencies: dependencies + uiDependencies
+                ),
+            ],
+            schemes: .base
+        )
+    }
+    
+    public static func makeUIModule(
+        name: String,
+        dependencies: [TargetDependency] = []
+    ) -> Project {
+        return Project(
+            name: "\(name)Module",
+            settings: .settings(.base),
+            targets: [
+                makeTarget(
                     name: "\(name)App",
-                    destinations: [.iPhone],
                     product: .app,
-                    bundleId: "com.notice.designsystem.app",
-                    deploymentTargets: .iOS("\(deployTarget)"),
-                    infoPlist: .file(path: "Sources/Info.plist"),
-                    sources: ["Sources/**"],
-                    resources: ["Resources/**"],
+                    bundleId: "\(bundleId).\(name).app",
+                    infoPlist: .file(path: "\(name)App/Sources/Info.plist"),
+                    hasResource: true,
                     dependencies: [
-                        .target(name: "DesignSystem"),
+                        .target(name: "\(name)"),
                     ] + dependencies + uiDependencies
                 ),
-                .target(
+                makeTarget(
                     name: "\(name)",
-                    destinations: [.iPhone],
                     product: .framework,
-                    bundleId: "com.notice.designsystem",
-                    deploymentTargets: .iOS("\(deployTarget)"),
-                    sources: ["Core/Sources/**"],
-                    resources: ["Core/Resources/**"],
-                    dependencies: [
-                    ] + dependencies + uiDependencies
+                    bundleId: "\(bundleId).\(name)",
+                    infoPlist: .file(path: "\(name)/Sources/Info.plist"),
+                    hasResource: true,
+                    dependencies: dependencies + uiDependencies
                 ),
             ],
             schemes: .base,
@@ -106,132 +89,139 @@ extension Project {
         )
     }
     
-    public static func exampleApp(
+    public static func makeExampleModule(
         name: String,
         dependencies: [TargetDependency] = []
     ) -> Project {
         return Project(
-            name: "\(name)Example",
+            name: "\(name)ExampleModule",
             settings: .settings(.base),
             targets: [
-                .target(
+                makeTarget(
                     name: "\(name)Example",
-                    destinations: [.iPhone],
-                    product: .app,
+                    product: .framework,
                     bundleId: "\(bundleId).\(name).example",
-                    deploymentTargets: .iOS("\(deployTarget)"),
-                    infoPlist: .file(path: "Sources/Info.plist"),
-                    sources: ["Sources/**"],
-                    resources: ["Resources/**"],
-                    dependencies: dependencies
-                )
+                    infoPlist: .file(path: "\(name)Example/Sources/Info.plist"),
+                    hasResource: true,
+                    dependencies: dependencies + uiDependencies
+                ),
             ],
             schemes: .base
         )
     }
     
-    public static func domainFramework(
+    public static func makeDomainModule(
         name: String,
         dependencies: [TargetDependency] = []
     ) -> Project {
         return Project(
-            name: "\(name)Domain",
+            name: "\(name)DomainModule",
             settings: .settings(.base),
             targets: [
-                .target(
+                makeTarget(
                     name: "\(name)Domain",
-                    destinations: [.iPhone],
                     product: .framework,
                     bundleId: "\(bundleId).\(name).domain",
-                    deploymentTargets: .iOS("\(deployTarget)"),
-                    sources: ["Sources/**"],
-                    dependencies: dependencies
-                )
-            ],
-            schemes: .base
-        )
-    }
-    
-    public static func dataInterface(
-        name: String,
-        dependencies: [TargetDependency] = []
-    ) -> Project {
-        return Project(
-            name: "\(name)DataInterface",
-            settings: .settings(.base),
-            targets: [
-                .target(
-                    name: "\(name)DataInterface",
-                    destinations: [.iPhone],
-                    product: .framework,
-                    bundleId: "\(bundleId).\(name).repository.interface",
-                    deploymentTargets: .iOS("\(deployTarget)"),
-                    sources: ["Sources/**"],
-                    dependencies: dependencies
-                )
-            ],
-            schemes: .base
-        )
-    }
-    
-    public static func dataFramework(
-        name: String,
-        dependencies: [TargetDependency] = []
-    ) -> Project {
-        return Project(
-            name: "\(name)Data",
-            settings: .settings(.data),
-            targets: [
-                .target(
-                    name: "\(name)Data",
-                    destinations: [.iPhone],
-                    product: .framework,
-                    bundleId: "\(bundleId).\(name).data",
-                    deploymentTargets: .iOS("\(deployTarget)"),
-                    infoPlist: .extendingDefault(with: dataInfoPlist),
-                    sources: ["Sources/**"],
                     dependencies: dependencies
                 ),
-                .target(
-                    name: "\(name)DataMock",
-                    destinations: .iOS,
-                    product: .dynamicLibrary,
-                    bundleId: "\(bundleId).\(name).data.mock",
-                    sources: ["Mock/**"]
-                )
             ],
             schemes: .base
         )
     }
     
-    public static func diFramework(
+    public static func makeDataInterfaceModule(
         name: String,
         dependencies: [TargetDependency] = []
     ) -> Project {
         return Project(
-            name: "\(name)",
+            name: "\(name)DataInterfaceModule",
             settings: .settings(.base),
             targets: [
-                .target(
+                makeTarget(
+                    name: "\(name)DataInterface",
+                    product: .framework,
+                    bundleId: "\(bundleId).\(name).datainterface",
+                    dependencies: dependencies
+                ),
+            ],
+            schemes: .base
+        )
+    }
+    
+    public static func makeDataModule(
+        name: String,
+        dependencies: [TargetDependency] = []
+    ) -> Project {
+        return Project(
+            name: "\(name)DataModule",
+            settings: .settings(.data),
+            targets: [
+                makeTarget(
+                    name: "\(name)Data",
+                    product: .framework,
+                    bundleId: "\(bundleId).\(name).data",
+                    infoPlist: .extendingDefault(with: dataInfoPlist),
+                    dependencies: dependencies
+                ),
+                makeTarget(
+                    name: "\(name)DataMock",
+                    product: .framework,
+                    bundleId: "\(bundleId).\(name).data.mock",
+                    infoPlist: .extendingDefault(with: dataInfoPlist),
+                    dependencies: dependencies
+                ),
+            ],
+            schemes: .base
+        )
+    }
+    
+    public static func makeDIModule(
+        name: String,
+        dependencies: [TargetDependency] = []
+    ) -> Project {
+        return Project(
+            name: "\(name)Module",
+            settings: .settings(.base),
+            targets: [
+                makeTarget(
                     name: "\(name)",
-                    destinations: [.iPhone],
                     product: .framework,
                     bundleId: "\(bundleId).\(name).di",
-                    deploymentTargets: .iOS("\(deployTarget)"),
-                    infoPlist: .extendingDefault(with: dataInfoPlist),
-                    sources: ["Sources/**"],
                     dependencies: dependencies
-                )
+                ),
             ],
             schemes: .base
         )
     }
 }
 
+// MARK: - Target
+extension Project {
+    static func makeTarget(
+        name: String,
+        product: Product,
+        bundleId: String,
+        infoPlist: InfoPlist? = nil,
+        hasResource: Bool = false,
+        dependencies: [TargetDependency] = []
+    ) -> Target {
+        return .target(
+            name: name,
+            destinations: [.iPhone],
+            product: product,
+            bundleId: bundleId,
+            deploymentTargets: .iOS("\(Project.deployTarget)"),
+            infoPlist: infoPlist,
+            sources: ["\(name)/Sources/**"],
+            resources: hasResource ? ["\(name)/Resources/**"] : nil,
+            scripts: [.swiftlint],
+            dependencies: dependencies
+        )
+    }
+}
 
 
 // MARK: - Info.plist
-
 extension Project {
     static let dataInfoPlist: [String: Plist.Value] = [
         "API_BASE_URL": "$(API_BASE_URL)",
@@ -245,4 +235,10 @@ extension Project {
         .external(name: "SnapKit"),
         .external(name: "Then"),
     ]
+    
+    static let dataDependencies: [TargetDependency] = [
+//        .external(name: "Moya"),
+//        .external(name: "RxSwift"),
+    ]
 }
+
