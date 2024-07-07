@@ -2,8 +2,8 @@ import ProjectDescription
 import ProjectDescriptionHelpers
 
 let project = Project.makeExampleModule(
-    name: "My",
+    .organization,
     dependencies: [
-        .feature(.my)
+        .feature(.organization)
     ]
 )

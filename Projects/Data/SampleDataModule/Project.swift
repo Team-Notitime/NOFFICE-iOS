@@ -1,4 +1,4 @@
 import ProjectDescription
 import ProjectDescriptionHelpers
 
-let project = Project.makeDataModule(name: "Sample")
+let project = Project.makeDataModule(.sample)

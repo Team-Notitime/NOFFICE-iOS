@@ -2,8 +2,8 @@ import ProjectDescription
 import ProjectDescriptionHelpers
 
 let project = Project.makeExampleModule(
-    name: "Group",
+    .mypage,
     dependencies: [
-        .feature(.group)
+        .feature(.mypage)
     ]
 )

@@ -2,7 +2,7 @@ import ProjectDescription
 import ProjectDescriptionHelpers
 
 let project = Project.makeDIModule(
-    name: "Container",
+    .container,
     dependencies: [
         .external(name: "Swinject")
     ]

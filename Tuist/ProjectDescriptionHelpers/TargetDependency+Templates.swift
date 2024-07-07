@@ -15,7 +15,7 @@ public extension TargetDependency {
     ) -> TargetDependency {
         return .project(
             target: "\(target.rawValue)Domain",
-            path: .relativeToRoot("Projects/Feature/\(target.rawValue)DomainModule")
+            path: .relativeToRoot("Projects/Domain/\(target.rawValue)DomainModule")
         )
     }
     

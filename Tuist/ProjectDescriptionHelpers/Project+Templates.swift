@@ -4,27 +4,27 @@ extension Project {
     public static let deployTarget = 16.0
     public static let bundleId = "com.notice"
     
-    public static func makeMainApp(name: String) -> Project {
+    public static func makeMainApp( _ target: Module.MainApp) -> Project {
         return Project(
-            name: "\(name)",
+            name: "\(target.name)",
             settings: .settings(.base),
             targets: [
                 makeTarget(
-                    name: "\(name)",
+                    name: "\(target.name)",
                     product: .app,
                     bundleId: "\(bundleId).app",
-                    infoPlist: .file(path: "\(name)/Sources/Info.plist"),
+                    infoPlist: .file(path: "\(target.rawValue)/Sources/Info.plist"),
                     hasResource: true,
                     dependencies: [
                         .feature(.home),
-                        .feature(.group),
-                        .feature(.my),
+                        .feature(.organization),
+                        .feature(.mypage),
                         .feature(.signup),
                         .di(.router),
                     ] + uiDependencies
                 ),
                 makeTarget(
-                    name: "\(name)Tests",
+                    name: "\(target.rawValue)Tests",
                     product: .unitTests,
                     bundleId: "\(bundleId).app.tests",
                     dependencies: [.target(name: "Noffice")]
@@ -35,17 +35,17 @@ extension Project {
     }
     
     public static func makeFeatureModule(
-        name: String,
+        _ target: Module.Feature,
         dependencies: [TargetDependency] = []
     ) -> Project {
         return Project(
-            name: "\(name)FeatureModule",
+            name: "\(target.rawValue)FeatureModule",
             settings: .settings(.base),
             targets: [
                 makeTarget(
-                    name: "\(name)Feature",
+                    name: "\(target.rawValue)Feature",
                     product: .framework,
-                    bundleId: "\(bundleId).\(name).feature",
+                    bundleId: "\(bundleId).\(target.rawValue).feature",
                     infoPlist: .default,
                     hasResource: true,
                     dependencies: dependencies + uiDependencies
@@ -56,28 +56,28 @@ extension Project {
     }
     
     public static func makeUIModule(
-        name: String,
+        _ target: Module.UI,
         dependencies: [TargetDependency] = []
     ) -> Project {
         return Project(
-            name: "\(name)Module",
+            name: "\(target.rawValue)Module",
             settings: .settings(.base),
             targets: [
                 makeTarget(
-                    name: "\(name)App",
+                    name: "\(target.rawValue)App",
                     product: .app,
-                    bundleId: "\(bundleId).\(name).app",
-                    infoPlist: .file(path: "\(name)App/Sources/Info.plist"),
+                    bundleId: "\(bundleId).\(target.rawValue).app",
+                    infoPlist: .file(path: "\(target.rawValue)App/Sources/Info.plist"),
                     hasResource: true,
                     dependencies: [
-                        .target(name: "\(name)"),
+                        .target(name: "\(target.rawValue)"),
                     ] + dependencies + uiDependencies
                 ),
                 makeTarget(
-                    name: "\(name)",
+                    name: "\(target.rawValue)",
                     product: .framework,
-                    bundleId: "\(bundleId).\(name)",
-                    infoPlist: .file(path: "\(name)/Sources/Info.plist"),
+                    bundleId: "\(bundleId).\(target.rawValue)",
+                    infoPlist: .file(path: "\(target.rawValue)/Sources/Info.plist"),
                     hasResource: true,
                     dependencies: dependencies + uiDependencies
                 ),
@@ -90,18 +90,18 @@ extension Project {
     }
     
     public static func makeExampleModule(
-        name: String,
+        _ target: Module.Feature,
         dependencies: [TargetDependency] = []
     ) -> Project {
         return Project(
-            name: "\(name)ExampleModule",
+            name: "\(target.rawValue)ExampleModule",
             settings: .settings(.base),
             targets: [
                 makeTarget(
-                    name: "\(name)Example",
+                    name: "\(target.rawValue)Example",
                     product: .framework,
-                    bundleId: "\(bundleId).\(name).example",
-                    infoPlist: .file(path: "\(name)Example/Sources/Info.plist"),
+                    bundleId: "\(bundleId).\(target.rawValue).example",
+                    infoPlist: .file(path: "\(target.rawValue)Example/Sources/Info.plist"),
                     hasResource: true,
                     dependencies: dependencies + uiDependencies
                 ),
@@ -111,17 +111,17 @@ extension Project {
     }
     
     public static func makeDomainModule(
-        name: String,
+        _ target: Module.Domain,
         dependencies: [TargetDependency] = []
     ) -> Project {
         return Project(
-            name: "\(name)DomainModule",
+            name: "\(target.rawValue)DomainModule",
             settings: .settings(.base),
             targets: [
                 makeTarget(
-                    name: "\(name)Domain",
+                    name: "\(target.rawValue)Domain",
                     product: .framework,
-                    bundleId: "\(bundleId).\(name).domain",
+                    bundleId: "\(bundleId).\(target.rawValue).domain",
                     dependencies: dependencies
                 ),
             ],
@@ -130,17 +130,17 @@ extension Project {
     }
     
     public static func makeDataInterfaceModule(
-        name: String,
+        _ target: Module.DataInterface,
         dependencies: [TargetDependency] = []
     ) -> Project {
         return Project(
-            name: "\(name)DataInterfaceModule",
+            name: "\(target.rawValue)DataInterfaceModule",
             settings: .settings(.base),
             targets: [
                 makeTarget(
-                    name: "\(name)DataInterface",
+                    name: "\(target.rawValue)DataInterface",
                     product: .framework,
-                    bundleId: "\(bundleId).\(name).datainterface",
+                    bundleId: "\(bundleId).\(target.rawValue).datainterface",
                     dependencies: dependencies
                 ),
             ],
@@ -149,24 +149,24 @@ extension Project {
     }
     
     public static func makeDataModule(
-        name: String,
+        _ target: Module.Data,
         dependencies: [TargetDependency] = []
     ) -> Project {
         return Project(
-            name: "\(name)DataModule",
+            name: "\(target.rawValue)DataModule",
             settings: .settings(.data),
             targets: [
                 makeTarget(
-                    name: "\(name)Data",
+                    name: "\(target.rawValue)Data",
                     product: .framework,
-                    bundleId: "\(bundleId).\(name).data",
+                    bundleId: "\(bundleId).\(target.rawValue).data",
                     infoPlist: .extendingDefault(with: dataInfoPlist),
                     dependencies: dependencies
                 ),
                 makeTarget(
-                    name: "\(name)DataMock",
+                    name: "\(target.rawValue)DataMock",
                     product: .framework,
-                    bundleId: "\(bundleId).\(name).data.mock",
+                    bundleId: "\(bundleId).\(target.rawValue).data.mock",
                     infoPlist: .extendingDefault(with: dataInfoPlist),
                     dependencies: dependencies
                 ),
@@ -176,17 +176,17 @@ extension Project {
     }
     
     public static func makeDIModule(
-        name: String,
+        _ target: Module.DI,
         dependencies: [TargetDependency] = []
     ) -> Project {
         return Project(
-            name: "\(name)Module",
+            name: "\(target.rawValue)Module",
             settings: .settings(.base),
             targets: [
                 makeTarget(
-                    name: "\(name)",
+                    name: "\(target.rawValue)",
                     product: .framework,
-                    bundleId: "\(bundleId).\(name).di",
+                    bundleId: "\(bundleId).\(target.rawValue).di",
                     dependencies: dependencies
                 ),
             ],

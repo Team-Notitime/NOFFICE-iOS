@@ -2,7 +2,7 @@ import ProjectDescription
 import ProjectDescriptionHelpers
 
 let project = Project.makeExampleModule(
-    name: "Home",
+    .home,
     dependencies: [
         .feature(.home)
     ]

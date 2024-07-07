@@ -286,7 +286,7 @@ import UIKit
 }
 #endif
 
-// MARK: - Extension
+// MARK: - UIKit Extension
 public extension UIColor {
 {% macro colorBlock assets %}
   {% for asset in assets %}
@@ -311,6 +311,45 @@ public extension UIImage {
   {% for asset in assets %}
   {% if asset.type == "image" %}
   static let {{asset.name|swiftIdentifier:"pretty"|lowerFirstWord|escapeReservedKeywords}} = {{imageType}}(name: "{{asset.value}}").image
+  {% elif asset.items and ( forceNamespaces == "true" or asset.isNamespaced == "true" ) %}
+  {{accessModifier}} enum {{asset.name|swiftIdentifier:"pretty"|escapeReservedKeywords}} {
+    {% filter indent:2 %}{% call casesBlock asset.items %}{% endfilter %}
+  }
+  {% elif asset.items %}
+  {% call colorBlock asset.items %}
+  {% endif %}
+  {% endfor %}
+{% endmacro %}
+{% for catalog in catalogs %}
+    {% call colorBlock catalog.assets %}
+{% endfor %}
+}
+
+// MARK: - SwiftUI Extension
+public extension Color {
+{% macro colorBlock assets %}
+  {% for asset in assets %}
+  {% if asset.type == "color" %}
+  static let {{asset.name|swiftIdentifier:"pretty"|lowerFirstWord|escapeReservedKeywords}} = {{colorType}}(name: "{{asset.value}}").swiftUIColor
+  {% elif asset.items and ( forceNamespaces == "true" or asset.isNamespaced == "true" ) %}
+  {{accessModifier}} enum {{asset.name|swiftIdentifier:"pretty"|escapeReservedKeywords}} {
+    {% filter indent:2 %}{% call casesBlock asset.items %}{% endfilter %}
+  }
+  {% elif asset.items %}
+  {% call colorBlock asset.items %}
+  {% endif %}
+  {% endfor %}
+{% endmacro %}
+{% for catalog in catalogs %}
+    {% call colorBlock catalog.assets %}
+{% endfor %}
+}
+
+public extension Image {
+{% macro colorBlock assets %}
+  {% for asset in assets %}
+  {% if asset.type == "image" %}
+  static let {{asset.name|swiftIdentifier:"pretty"|lowerFirstWord|escapeReservedKeywords}} = Image("{{asset.value}}")
   {% elif asset.items and ( forceNamespaces == "true" or asset.isNamespaced == "true" ) %}
   {{accessModifier}} enum {{asset.name|swiftIdentifier:"pretty"|escapeReservedKeywords}} {
     {% filter indent:2 %}{% call casesBlock asset.items %}{% endfilter %}

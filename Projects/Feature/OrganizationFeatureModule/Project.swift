@@ -1,4 +1,4 @@
 import ProjectDescription
 import ProjectDescriptionHelpers
 
-let project = Project.makeFeatureModule(name: "My")
+let project = Project.makeFeatureModule(.organization)
