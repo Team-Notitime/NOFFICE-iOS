@@ -1,6 +1,6 @@
 ---
 name: "Issue: Setting"
-about: "어떤 \b환경 세팅을 하는지 알려주세요!"
+about: "어떤 환경 세팅을 하는지 알려주세요!"
 title: "[Setting]"
 labels: setting
 assignees: ""

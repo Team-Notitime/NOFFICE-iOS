@@ -1,6 +1,6 @@
 ---
 name: "Issue: Fix"
-about: "Fix a bug"
+about: "어떤 버그가 발생했는지 알려주세요!"
 title: "[Fix]"
 labels: bug
 assignees: ""
