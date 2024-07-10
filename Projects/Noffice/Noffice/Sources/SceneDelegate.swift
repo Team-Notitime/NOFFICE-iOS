@@ -22,7 +22,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         window = UIWindow(windowScene: windowScene)
         window?.rootViewController = Router.shared.root
-        Router.shared.push(ViewController())
+        
+        let tabBarController = TabBarController()
+        Router.shared.push(tabBarController)
+        
         window?.makeKeyAndVisible()
     }
 

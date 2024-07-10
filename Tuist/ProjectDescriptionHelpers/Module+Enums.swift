@@ -5,7 +5,7 @@ public enum Module {
         var name: String { rawValue }
     }
     
-    public enum Feature: String, CaseIterable {
+    public enum Present: String, CaseIterable {
         case home = "Home"
         case organization = "Organization"
         case mypage = "Mypage"
@@ -16,6 +16,7 @@ public enum Module {
 
     public enum UI: String, CaseIterable {
         case designSystem = "DesignSystem"
+        case assets = "Assets"
         
         var name: String { rawValue }
     }
@@ -57,6 +58,7 @@ public enum Module {
     public enum ThirdParty: String, CaseIterable {
         case swinject = "Swinject"
         case rxSwift = "RxSwift"
+        case rxCocoa = "RxCocoa"
         case snapKit = "SnapKit"
         case then = "Then"
         case alamofire = "Alamofire"

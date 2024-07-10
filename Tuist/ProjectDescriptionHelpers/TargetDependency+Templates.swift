@@ -1,12 +1,21 @@
 import ProjectDescription
 
 public extension TargetDependency {
-    static func feature(
-        _ target: Module.Feature
+    static func present(
+        _ target: Module.Present
     ) -> TargetDependency {
         return .project(
-            target: "\(target.rawValue)Feature",
-            path: .relativeToRoot("Projects/Feature/\(target.rawValue)FeatureModule")
+            target: "\(target.rawValue)Present",
+            path: .relativeToRoot("Projects/Present/\(target.rawValue)PresentModule")
+        )
+    }
+    
+    static func ui(
+        _ target: Module.UI
+    ) -> TargetDependency {
+        return .project(
+            target: "\(target.rawValue)",
+            path: .relativeToRoot("Projects/UI/\(target.rawValue)UIModule")
         )
     }
     
@@ -51,7 +60,7 @@ public extension TargetDependency {
     ) -> TargetDependency {
         return .project(
             target: "\(target.rawValue)",
-            path: .relativeToRoot("Projects/DI/\(target.rawValue)Module")
+            path: .relativeToRoot("Projects/DI/\(target.rawValue)DIModule")
         )
     }
     

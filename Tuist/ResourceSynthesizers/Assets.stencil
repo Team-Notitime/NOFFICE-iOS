@@ -310,7 +310,14 @@ public extension UIImage {
 {% macro colorBlock assets %}
   {% for asset in assets %}
   {% if asset.type == "image" %}
-  static let {{asset.name|swiftIdentifier:"pretty"|lowerFirstWord|escapeReservedKeywords}} = {{imageType}}(name: "{{asset.value}}").image
+  static let {{asset.name|swiftIdentifier:"pretty"|lowerFirstWord|escapeReservedKeywords}}: UIImage = {
+    let image = {{imageType}}(name: "{{asset.value}}").image
+    {% if "icon" in asset.name %}
+    return image.withRenderingMode(.alwaysTemplate)
+    {% else %}
+    return image
+    {% endif %}
+  }()
   {% elif asset.items and ( forceNamespaces == "true" or asset.isNamespaced == "true" ) %}
   {{accessModifier}} enum {{asset.name|swiftIdentifier:"pretty"|escapeReservedKeywords}} {
     {% filter indent:2 %}{% call casesBlock asset.items %}{% endfilter %}

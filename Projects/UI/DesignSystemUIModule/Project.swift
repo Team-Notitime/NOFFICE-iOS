@@ -1,9 +1,9 @@
 import ProjectDescription
 import ProjectDescriptionHelpers
 
-let project = Project.makeExampleModule(
-    .mypage,
+let project = Project.makeUIModule(
+    .designSystem,
     dependencies: [
-        .present(.mypage)
+        .ui(.assets)
     ]
 )

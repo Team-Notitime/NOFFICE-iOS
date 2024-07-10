@@ -14,12 +14,13 @@ extension Project {
                     product: .app,
                     bundleId: "\(bundleId).app",
                     infoPlist: .file(path: "\(target.rawValue)/Sources/Info.plist"),
-                    hasResource: true,
                     dependencies: [
-                        .feature(.home),
-                        .feature(.organization),
-                        .feature(.mypage),
-                        .feature(.signup),
+                        .ui(.designSystem),
+                        .ui(.assets),
+                        .present(.home),
+                        .present(.organization),
+                        .present(.mypage),
+                        .present(.signup),
                         .di(.router),
                     ] + uiDependencies
                 ),
@@ -34,21 +35,23 @@ extension Project {
         )
     }
     
-    public static func makeFeatureModule(
-        _ target: Module.Feature,
+    public static func makePresentModule(
+        _ target: Module.Present,
         dependencies: [TargetDependency] = []
     ) -> Project {
         return Project(
-            name: "\(target.rawValue)FeatureModule",
+            name: "\(target.rawValue)PresentModule",
             settings: .settings(.base),
             targets: [
                 makeTarget(
-                    name: "\(target.rawValue)Feature",
+                    name: "\(target.rawValue)Present",
                     product: .framework,
-                    bundleId: "\(bundleId).\(target.rawValue).feature",
+                    bundleId: "\(bundleId).\(target.rawValue).present",
                     infoPlist: .default,
-                    hasResource: true,
-                    dependencies: dependencies + uiDependencies
+                    dependencies: [
+                        .ui(.designSystem),
+                        .ui(.assets)
+                    ] + dependencies + uiDependencies
                 ),
             ],
             schemes: .base
@@ -68,7 +71,6 @@ extension Project {
                     product: .app,
                     bundleId: "\(bundleId).\(target.rawValue).app",
                     infoPlist: .file(path: "\(target.rawValue)App/Sources/Info.plist"),
-                    hasResource: true,
                     dependencies: [
                         .target(name: "\(target.rawValue)"),
                     ] + dependencies + uiDependencies
@@ -77,10 +79,8 @@ extension Project {
                     name: "\(target.rawValue)",
                     product: .framework,
                     bundleId: "\(bundleId).\(target.rawValue)",
-                    infoPlist: .file(path: "\(target.rawValue)/Sources/Info.plist"),
-                    hasResource: true,
                     dependencies: dependencies + uiDependencies
-                ),
+                )
             ],
             schemes: .base,
             resourceSynthesizers: [
@@ -90,7 +90,7 @@ extension Project {
     }
     
     public static func makeExampleModule(
-        _ target: Module.Feature,
+        _ target: Module.Present,
         dependencies: [TargetDependency] = []
     ) -> Project {
         return Project(
@@ -102,7 +102,6 @@ extension Project {
                     product: .framework,
                     bundleId: "\(bundleId).\(target.rawValue).example",
                     infoPlist: .file(path: "\(target.rawValue)Example/Sources/Info.plist"),
-                    hasResource: true,
                     dependencies: dependencies + uiDependencies
                 ),
             ],
@@ -211,7 +210,6 @@ extension Project {
         product: Product,
         bundleId: String,
         infoPlist: InfoPlist? = .default,
-        hasResource: Bool = false,
         dependencies: [TargetDependency] = []
     ) -> Target {
         return .target(
@@ -222,7 +220,7 @@ extension Project {
             deploymentTargets: .iOS("\(Project.deployTarget)"),
             infoPlist: infoPlist,
             sources: ["\(name)/Sources/**"],
-            resources: hasResource ? ["\(name)/Resources/**"] : nil,
+            resources: ["\(name)/Resources/**"],
             scripts: [.swiftlint],
             dependencies: dependencies
         )
