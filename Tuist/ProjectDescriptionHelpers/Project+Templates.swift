@@ -119,7 +119,16 @@ extension Project {
             settings: .settings(.base),
             targets: [
                 makeTarget(
-                    name: "\(target.rawValue)Domain",
+                    name: "\(target.rawValue)Usecase",
+                    product: .framework,
+                    bundleId: "\(bundleId).\(target.rawValue).domain",
+                    dependencies: [
+                        .di(.container),
+                        .target(name: "\(target.rawValue)Entity")
+                    ] + dependencies
+                ),
+                makeTarget(
+                    name: "\(target.rawValue)Entity",
                     product: .framework,
                     bundleId: "\(bundleId).\(target.rawValue).domain",
                     dependencies: dependencies

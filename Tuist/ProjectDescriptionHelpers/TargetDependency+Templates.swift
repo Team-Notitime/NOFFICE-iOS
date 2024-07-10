@@ -10,11 +10,20 @@ public extension TargetDependency {
         )
     }
     
-    static func domain(
+    static func usecase(
         _ target: Module.Domain
     ) -> TargetDependency {
         return .project(
-            target: "\(target.rawValue)Domain",
+            target: "\(target.rawValue)Usecase",
+            path: .relativeToRoot("Projects/Domain/\(target.rawValue)DomainModule")
+        )
+    }
+    
+    static func entity(
+        _ target: Module.Domain
+    ) -> TargetDependency {
+        return .project(
+            target: "\(target.rawValue)Entity",
             path: .relativeToRoot("Projects/Domain/\(target.rawValue)DomainModule")
         )
     }
