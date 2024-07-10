@@ -240,14 +240,14 @@ extension Project {
 // MARK: - Dependencies {
 extension Project {
     static let uiDependencies: [TargetDependency] = [
-        .external(name: "RxSwift"),
-        .external(name: "SnapKit"),
-        .external(name: "Then"),
+        .thirdParty(.rxSwift),
+        .thirdParty(.snapKit),
+        .thirdParty(.then)
     ]
     
     static let dataDependencies: [TargetDependency] = [
-//        .external(name: "Moya"),
-//        .external(name: "RxSwift"),
+        .thirdParty(.alamofire),
+        .thirdParty(.rxSwift)
     ]
 }
 

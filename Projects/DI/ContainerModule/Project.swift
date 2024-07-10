@@ -6,6 +6,6 @@ let project = Project.makeDIModule(
     dependencies: [
         .dataInterface(.sample),
         .data(.sample),
-        .external(name: "Swinject")
+        .thirdParty(.swinject)
     ]
 )

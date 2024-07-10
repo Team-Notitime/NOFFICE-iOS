@@ -1,7 +1,7 @@
 TUIST = tuist
 SWIFTLINT = swiftlint
 
-all: lint build-dev
+all: lint generate
 
 generate:
 	TUIST_ROOT_DIR=${PWD} $(TUIST) generate

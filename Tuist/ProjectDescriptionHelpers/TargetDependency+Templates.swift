@@ -54,4 +54,10 @@ public extension TargetDependency {
             path: .relativeToRoot("Projects/DI/\(target.rawValue)Module")
         )
     }
+    
+    static func thirdParty(
+        _ target: Module.ThirdParty
+    ) -> TargetDependency {
+        return .external(name: target.rawValue)
+    }
 }
