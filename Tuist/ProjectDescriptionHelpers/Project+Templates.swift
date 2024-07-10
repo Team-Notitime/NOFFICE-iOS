@@ -241,6 +241,7 @@ extension Project {
 extension Project {
     static let uiDependencies: [TargetDependency] = [
         .thirdParty(.rxSwift),
+        .thirdParty(.rxCocoa),
         .thirdParty(.snapKit),
         .thirdParty(.then)
     ]
