@@ -26,12 +26,10 @@ class TestCompositionalLayoutViewController: UIViewController {
         Section2(
             identifier: UUID().uuidString,
             items: [
-                Item2(identifier: UUID().uuidString, value: "Item3", value2: "hihi") { cell in
-                    
+                Item2(identifier: UUID().uuidString, value: "Item3", value2: "hihi") { _ in
                     
                 },
-                Item2(identifier: UUID().uuidString, value: "Item4", value2: "메롱메롱"){ cell in
-                    
+                Item2(identifier: UUID().uuidString, value: "Item4", value2: "메롱메롱") { _ in
                     
                 }
             ]

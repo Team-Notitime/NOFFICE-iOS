@@ -15,7 +15,7 @@ import Router
 import SnapKit
 
 /// Apple signin test view
-class ViewController: UIViewController{
+class ViewController: UIViewController {
     let button: UIButton = UIButton()
     let appleSigninButton = AppleSignInButton()
     let disposeBag = DisposeBag()

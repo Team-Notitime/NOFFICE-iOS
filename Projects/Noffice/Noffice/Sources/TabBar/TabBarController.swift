@@ -15,28 +15,50 @@ import Then
 import SnapKit
 
 final class TabBarController: UITabBarController {
-    
     var isHidden: Bool = false {
-        didSet { self.announceButton.isHidden = tabBar.isHidden }
+        didSet { self.announceTabItem.isHidden = tabBar.isHidden }
     }
     
     // MARK: Component
-    private lazy var homeButton = UIButton().then {
-        $0.setImage(.iconHome, for: .normal)
+    private lazy var homeTabImage = UIImageView(image: .iconHome).then {
         $0.contentMode = .scaleAspectFit
     }
     
-    private lazy var announceButton = UIButton().then {
-        $0.backgroundColor = .green
-        $0.setImage(UIImage(systemName: "plus"), for: .normal)
-        $0.contentMode = .scaleAspectFit
-        $0.imageView?.tintColor = .white
-        $0.layer.cornerRadius = view.frame.width / 12
+    private lazy var homeTabItem = UIView().then {
+        $0.backgroundColor = .clear
+        $0.addSubview(homeTabImage)
+        homeTabImage.snp.makeConstraints { make in
+            make.edges.equalToSuperview().inset(10)
+        }
     }
     
-    private lazy var groupButton = UIButton().then {
-        $0.setImage(.iconGroup, for: .normal)
+    private lazy var announceTabItem = UIView().then {
+        $0.backgroundColor = .green500
+        $0.layer.cornerRadius = view.frame.width / 10
+        $0.clipsToBounds = true
+
+        let imageView = UIImageView(image: .iconPlus).then {
+            $0.contentMode = .scaleAspectFit
+            $0.tintColor = .fullWhite
+        }
+
+        $0.addSubview(imageView)
+
+        imageView.snp.makeConstraints { make in
+            make.edges.equalToSuperview().inset(20)
+        }
+    }
+    
+    private lazy var groupTabImage = UIImageView(image: .iconGroup).then {
         $0.contentMode = .scaleAspectFit
+    }
+    
+    private lazy var groupTabItem = UIView().then {
+        $0.backgroundColor = .clear
+        $0.addSubview(groupTabImage)
+        groupTabImage.snp.makeConstraints { make in
+            make.edges.equalToSuperview().inset(10)
+        }
     }
     
     // MARK: DisposeBag
@@ -65,8 +87,8 @@ final class TabBarController: UITabBarController {
     private func setupTabBarStyle() {
         self.view.backgroundColor = .systemBackground
         self.tabBar.backgroundColor = .systemBackground
-        self.tabBar.tintColor = .systemBlue
-        self.tabBar.unselectedItemTintColor = .gray
+        self.tabBar.tintColor = Self.selectedColor
+        self.tabBar.unselectedItemTintColor = Self.unselectedColor
     }
     
     /// Assign view controllers that are currently visible to the TabBar.
@@ -79,28 +101,28 @@ final class TabBarController: UITabBarController {
     private func setupTabBarItems() {
         if let homeTabBarItemView = self.findTabBarItemView(at: TabBarItem.home.tag) {
             homeTabBarItemView.tag = TabBarItem.home.tag
-            homeTabBarItemView.addSubview(homeButton)
+            homeTabBarItemView.addSubview(homeTabItem)
             
-            homeButton.snp.makeConstraints {
+            homeTabItem.snp.makeConstraints {
                 $0.top.bottom.equalToSuperview()
                 $0.width.equalToSuperview().multipliedBy(1.2)
                 $0.centerX.equalToSuperview().multipliedBy(0.8)
             }
         }
         
-        announceButton.tag = TabBarItem.announce.tag
-        self.view.addSubview(announceButton)
-        announceButton.snp.makeConstraints { make in
+        announceTabItem.tag = TabBarItem.announce.tag
+        self.view.addSubview(announceTabItem)
+        announceTabItem.snp.makeConstraints { make in
             make.centerY.equalTo(tabBar.snp.top)
             make.centerX.equalToSuperview()
-            make.height.width.equalTo(view.frame.width / 6)
+            make.height.width.equalTo(view.frame.width / 5)
         }
         
         if let groupTabBarItemView = self.findTabBarItemView(at: TabBarItem.group.tag) {
             groupTabBarItemView.tag = TabBarItem.group.tag
-            groupTabBarItemView.addSubview(groupButton)
+            groupTabBarItemView.addSubview(groupTabItem)
             
-            groupButton.snp.makeConstraints {
+            groupTabItem.snp.makeConstraints {
                 $0.top.bottom.equalToSuperview()
                 $0.width.equalToSuperview().multipliedBy(1.2)
                 $0.centerX.equalToSuperview().multipliedBy(1.2)
@@ -110,22 +132,30 @@ final class TabBarController: UITabBarController {
     
     /// Set up bindings for button in TabBarItem
     private func setupBind() {
-        homeButton.rx.tap
-            .bind { [weak self] in
+        let homeapGesture = UITapGestureRecognizer()
+        homeTabItem.addGestureRecognizer(homeapGesture)
+        
+        homeapGesture.rx.event
+            .bind { [weak self] _ in
                 self?.selectedIndex = TabBarItem.home.tag
                 self?.updateTabBarItemColor(selectedItem: .home)
             }
             .disposed(by: disposeBag)
         
-        announceButton.rx.tap
-            .bind { [weak self] in
-                // TODO: Implement announce button action (show sheet or navigation)
-                
+        let announceTapGesture = UITapGestureRecognizer()
+        announceTabItem.addGestureRecognizer(announceTapGesture)
+
+        announceTapGesture.rx.event
+            .bind { [weak self] _ in
+                // TODO
             }
             .disposed(by: disposeBag)
         
-        groupButton.rx.tap
-            .bind { [weak self] in
+        let groupTapGesture = UITapGestureRecognizer()
+        groupTabItem.addGestureRecognizer(groupTapGesture)
+        
+        groupTapGesture.rx.event
+            .bind { [weak self] _ in
                 self?.selectedIndex = TabBarItem.group.tag
                 self?.updateTabBarItemColor(selectedItem: .group)
             }
@@ -138,7 +168,9 @@ final class TabBarController: UITabBarController {
             if let tabBarItemView = self.findTabBarItemView(at: item.tag) {
                 let isSelected = tabBarItemView.tag == selectedItem.tag
                 UIView.animate(withDuration: 0.35) {
-                    tabBarItemView.tintColor = isSelected ? .systemBlue : .gray
+                    tabBarItemView.tintColor = isSelected
+                    ? Self.selectedColor
+                    : Self.unselectedColor
                 }
             }
         }
@@ -147,7 +179,7 @@ final class TabBarController: UITabBarController {
     // MARK: Helper method
     /// Find and return the UIView that matches the TabBarItem.
     private func findTabBarItemView(at index: Int) -> UIView? {
-        let tabBarButtons = self.tabBar.subviews.filter { $0 is UIControl }
+        let tabBarButtons = self.tabBar.subviews.filter { $0 is UIView }
         if index < tabBarButtons.count {
             return tabBarButtons.sorted {
                 $0.frame.minX < $1.frame.minX
@@ -163,4 +195,9 @@ extension TabBarController: UIPopoverPresentationControllerDelegate {
         traitCollection: UITraitCollection) -> UIModalPresentationStyle {
             return .none
     }
+}
+
+extension TabBarController {
+    static let selectedColor: UIColor = .green500
+    static let unselectedColor: UIColor = .grey300
 }
