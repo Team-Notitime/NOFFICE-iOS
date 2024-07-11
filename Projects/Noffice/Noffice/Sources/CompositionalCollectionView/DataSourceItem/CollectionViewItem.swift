@@ -28,6 +28,8 @@ public protocol CollectionViewItem: Hashable {
     ///
     /// Implement this function to add additional values that should be combined into the hash.
     func hash(into hasher: inout Hasher)
+    
+    var cellType: Cell.Type { get } 
 }
 
 public extension CollectionViewItem {
@@ -41,8 +43,23 @@ public extension CollectionViewItem {
         } else {
             fatalError(
                 """
-                The Cell type of the CollectionViewItem (\(type(of: self))) and the Item type of the CollectionViewItemCell (\(Cell.Item.self)) must match.
+                The Cell type of the CollectionViewItem (\(type(of: self))) 
+                and the Item type of the CollectionViewItemCell (\(Cell.Item.self)) must match.
                 """)
         }
+    }
+    
+    
+}
+
+struct CollectionViewItemWrapper: Hashable {
+    let wrappee: any CollectionViewItem
+    
+    static func == (lhs: CollectionViewItemWrapper, rhs: CollectionViewItemWrapper) -> Bool {
+        lhs.wrappee.hashValue == rhs.wrappee.hashValue
+    }
+
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(wrappee.hashValue)
     }
 }

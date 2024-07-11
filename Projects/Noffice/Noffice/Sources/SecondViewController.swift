@@ -20,28 +20,26 @@ class SecondViewController: UIViewController {
         $0.backgroundColor = .systemBlue
         $0.layer.cornerRadius = 10
     }
-    let collectionView: CompositionalCollectionView<Section> = CompositionalCollectionView(
-        layout: SecondViewController.layout
-    )
+    let collectionView = CompositionalCollectionView()
     
-    var sections = [
+    var sections: [AnyCollectionViewSection] = [
         Section(
             identifier: UUID().uuidString,
             items: [
                 Item(identifier: UUID().uuidString, value: "Item1"),
                 Item(identifier: UUID().uuidString, value: "Item2")
             ]
-        ),
-        Section(
+        ).asAnySection(),
+        Section2(
             identifier: UUID().uuidString,
             items: [
-                Item(identifier: UUID().uuidString, value: "Item3"),
-                Item(identifier: UUID().uuidString, value: "Item4")
+                Item2(identifier: UUID().uuidString, value: "Item3"),
+                Item2(identifier: UUID().uuidString, value: "Item4")
             ]
-        )
+        ).asAnySection()
     ]
     
-    lazy var sectionsSubject = BehaviorSubject(value: sections)
+    lazy var sectionsSubject = BehaviorSubject<[AnyCollectionViewSection]>(value: sections)
     
     let disposeBag = DisposeBag()
     
@@ -80,7 +78,7 @@ class SecondViewController: UIViewController {
                             Item(identifier: UUID().uuidString, value: "Additional Item"),
                             Item(identifier: UUID().uuidString, value: "Additional Item")
                         ]
-                    )
+                    ).asAnySection()
                 ]
                 
                 self.sectionsSubject.onNext(self.sections)
@@ -91,35 +89,33 @@ class SecondViewController: UIViewController {
 
 extension SecondViewController {
     struct Section: CollectionViewSection {
-        var layout: UICollectionViewCompositionalLayout {
-            UICollectionViewCompositionalLayout {_,_ in
-                let itemSize1 = NSCollectionLayoutSize(
-                    widthDimension: .fractionalWidth(0.7),
-                    heightDimension: .absolute(100)
-                )
-                let item1 = NSCollectionLayoutItem(layoutSize: itemSize1)
-                
-                let itemSize2 = NSCollectionLayoutSize(
-                    widthDimension: .fractionalWidth(0.3),
-                    heightDimension: .absolute(100)
-                )
-                let item2 = NSCollectionLayoutItem(layoutSize: itemSize2)
-                
-                let groupSize = NSCollectionLayoutSize(
-                    widthDimension: .fractionalWidth(1.0),
-                    heightDimension: .absolute(100)
-                )
-                let group = NSCollectionLayoutGroup.horizontal(
-                    layoutSize: groupSize,
-                    subitems: [item1, item2]
-                )
-                
-                let section = NSCollectionLayoutSection(group: group)
-                return section
-            }
+        var layout: NSCollectionLayoutSection {
+            let itemSize1 = NSCollectionLayoutSize(
+                widthDimension: .fractionalWidth(0.7),
+                heightDimension: .absolute(100)
+            )
+            let item1 = NSCollectionLayoutItem(layoutSize: itemSize1)
+            
+            let itemSize2 = NSCollectionLayoutSize(
+                widthDimension: .fractionalWidth(0.3),
+                heightDimension: .absolute(100)
+            )
+            let item2 = NSCollectionLayoutItem(layoutSize: itemSize2)
+            
+            let groupSize = NSCollectionLayoutSize(
+                widthDimension: .fractionalWidth(1.0),
+                heightDimension: .absolute(100)
+            )
+            let group = NSCollectionLayoutGroup.horizontal(
+                layoutSize: groupSize,
+                subitems: [item1, item2]
+            )
+            
+            let section = NSCollectionLayoutSection(group: group)
+            return section
         }
         
-        var items: [Item]
+        var items: [any CollectionViewItem]
         
         var identifier: String
         var reusableIdentifier: String {
@@ -127,6 +123,51 @@ extension SecondViewController {
         }
         
         init(identifier: String, items: [Item]) {
+            self.items = items
+            self.identifier = identifier
+        }
+        
+        func hash(into hasher: inout Hasher) {
+            hasher.combine(identifier)
+//            hasher.combine(items)
+        }
+    }
+    
+    struct Section2: CollectionViewSection {
+        var layout: NSCollectionLayoutSection {
+            let itemSize1 = NSCollectionLayoutSize(
+                widthDimension: .fractionalWidth(0.3),
+                heightDimension: .fractionalHeight(1.0)
+            )
+            let item1 = NSCollectionLayoutItem(layoutSize: itemSize1)
+            
+            let itemSize2 = NSCollectionLayoutSize(
+                widthDimension: .fractionalWidth(0.7),
+                heightDimension: .absolute(100)
+            )
+            let item2 = NSCollectionLayoutItem(layoutSize: itemSize2)
+            
+            let groupSize = NSCollectionLayoutSize(
+                widthDimension: .fractionalWidth(1.0),
+                heightDimension: .absolute(100)
+            )
+            let group = NSCollectionLayoutGroup.horizontal(
+                layoutSize: groupSize,
+                subitems: [item1, item2]
+            )
+            
+            let section = NSCollectionLayoutSection(group: group)
+            return section
+        }
+        
+        var items: [any CollectionViewItem]
+        
+        var identifier: String
+        var reusableIdentifier: String {
+            return "Section"
+        }
+        
+        init(identifier: String, items: [Item2]) {
             self.items = items
             self.identifier = identifier
         }
@@ -157,6 +198,35 @@ extension SecondViewController {
             hasher.combine(value)
         }
         
+        var cellType: SecondViewController.ItemCell.Type {
+            return ItemCell.self
+        }
+        
+    }
+    
+    final class Item2: CollectionViewItem {
+        typealias Cell = ItemCell2
+        
+        var identifier: String = UUID().uuidString
+        var value: String = ""
+
+        var reusableIdentifier: String {
+            return "ItemCell"
+        }
+        
+        init(identifier: String, value: String) {
+            self.identifier = identifier
+            self.value = value
+        }
+        
+        func hash(into hasher: inout Hasher) {
+            hasher.combine(identifier)
+            hasher.combine(value)
+        }
+        
+        var cellType: SecondViewController.ItemCell2.Type {
+            return ItemCell2.self
+        }
     }
     
     final class ItemCell: UICollectionViewCell, CollectionViewItemCell {
@@ -187,6 +257,38 @@ extension SecondViewController {
         }
         
         func configure(with item: Item) {
+            label.text = item.value
+        }
+    }
+    
+    final class ItemCell2: UICollectionViewCell, CollectionViewItemCell {
+        private lazy var label: UILabel = {
+            let label = UILabel()
+            label.textColor = .white
+            label.textAlignment = .center
+            return label
+        }()
+        
+        required init?(coder: NSCoder) {
+            super.init(coder: coder)
+            setup()
+        }
+        
+        override init(frame: CGRect) {
+            super.init(frame: frame)
+            setup()
+        }
+        
+        private func setup() {
+            self.contentView.backgroundColor = .gray
+            contentView.addSubview(label)
+            
+            label.snp.makeConstraints { make in
+                make.edges.equalToSuperview().inset(8)
+            }
+        }
+        
+        func configure(with item: Item2) {
             label.text = item.value
         }
     }

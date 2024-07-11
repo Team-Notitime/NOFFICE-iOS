@@ -9,17 +9,16 @@ import UIKit
 
 import RxSwift
 
-final public class CompositionalCollectionView<Section: CollectionViewSection>: UIView, UICollectionViewDelegate {
-    typealias Item = Section.Item
+final public class CompositionalCollectionView: UIView, UICollectionViewDelegate {
+//    typealias AnyCollectionViewItem = any CollectionViewItem & Hashable
     
     // MARK: Public properties
     public var collectionView: UICollectionView!
-    
-    private var dataSource: UICollectionViewDiffableDataSource<Section, Item>!
+    private var dataSource: UICollectionViewDiffableDataSource<AnyCollectionViewSection, CollectionViewItemWrapper>!
     private var registeredCellIdentifiers: Set<String> = []
     
     // MARK: Data source
-    private var sections: [Section] = [] {
+    private var sections: [AnyCollectionViewSection] = [] {
         didSet {
             applySnapshot(animatingDifferences: true)
         }
@@ -28,10 +27,11 @@ final public class CompositionalCollectionView<Section: CollectionViewSection>: 
     private let disposeBag = DisposeBag()
     
     init(
-        layout: UICollectionViewCompositionalLayout
+//        layout: UICollectionViewCompositionalLayout
     ) {
         super.init(frame: .zero)
-        configure(layout: layout)
+        configureLayout()
+        configureDatasource()
         self.backgroundColor = .systemGreen
         
         self.addSubview(collectionView)
@@ -45,7 +45,7 @@ final public class CompositionalCollectionView<Section: CollectionViewSection>: 
     }
     
     public func bindSections(
-        by sectionsObservable: Observable<[Section]>
+        by sectionsObservable: Observable<[AnyCollectionViewSection]>
     ) -> Disposable {
         let sectionsDisposable = sectionsObservable
             .observe(on: MainScheduler.instance)
@@ -57,7 +57,10 @@ final public class CompositionalCollectionView<Section: CollectionViewSection>: 
         return Disposables.create([sectionsDisposable])
     }
     
-    private func configure(layout: UICollectionViewCompositionalLayout) {
+    private func configureLayout() {
+        let layout = UICollectionViewCompositionalLayout { [weak self] sectionIndex, _ in
+            return self?.sections[sectionIndex].layout
+        }
         collectionView = UICollectionView(
             frame: .zero,
             collectionViewLayout: layout
@@ -65,34 +68,46 @@ final public class CompositionalCollectionView<Section: CollectionViewSection>: 
         collectionView.setCollectionViewLayout(layout, animated: false)
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         collectionView.delegate = self
-        
-        dataSource = UICollectionViewDiffableDataSource<Section, Item>(
+    }
+    
+    private func configureDatasource() {
+        dataSource = UICollectionViewDiffableDataSource<AnyCollectionViewSection, CollectionViewItemWrapper>(
             collectionView: collectionView
-        ) { [weak self] (collectionView, indexPath, item) in
+        ) { [weak self] (collectionView, indexPath, itemWrapper) in
             guard let self = self else { return UICollectionViewCell() }
             
-            self.registerCellIfNeeded(item: item)
+            // Resigter cell identifier and container cell type
+            let reusableIdentifier = CollectionViewItemCellContainer.reusableIdentifier
+            self.registerCellIfNeeded(reusableIdentifier: reusableIdentifier)
             
-            let cell = collectionView.dequeueReusableCell(
-                withReuseIdentifier: item.reusableIdentifier,
+            // Dequeue cell and cast container cell type
+            guard let containerCell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: reusableIdentifier,
                 for: indexPath
-            )
-            
-            if var cell = cell as? Item.Cell {
-                item.configureCell(cell: &cell)
+            ) as? CollectionViewItemCellContainer else {
+                return UICollectionViewCell()
             }
             
-            return cell
+            // Configure inner view of container cell
+            let cellType = itemWrapper.wrappee.cellType
+            let cell = cellType.init()
+            containerCell.setContainedCell(cell)
+            containerCell.configure(with: itemWrapper.wrappee)
+            
+            return containerCell
         }
         
         applySnapshot()
     }
     
     private func applySnapshot(animatingDifferences: Bool = true) {
-        var snapshot = NSDiffableDataSourceSnapshot<Section, Item>()
+        var snapshot = NSDiffableDataSourceSnapshot<AnyCollectionViewSection, CollectionViewItemWrapper>()
         for section in sections {
             snapshot.appendSections([section])
-            snapshot.appendItems(section.items, toSection: section)
+            snapshot.appendItems(
+                section.items.map { CollectionViewItemWrapper(wrappee: $0) },
+                toSection: section
+            )
         }
         
         dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
@@ -105,12 +120,10 @@ final public class CompositionalCollectionView<Section: CollectionViewSection>: 
 }
 
 extension CompositionalCollectionView {
-    private func registerCellIfNeeded(item: Item) {
-        let reusableIdentifier = item.reusableIdentifier
-        
+    private func registerCellIfNeeded(reusableIdentifier: String) {
         if !registeredCellIdentifiers.contains(reusableIdentifier) {
             collectionView.register(
-                Item.Cell.self,
+                CollectionViewItemCellContainer.self,
                 forCellWithReuseIdentifier: reusableIdentifier
             )
             registeredCellIdentifiers.insert(reusableIdentifier)
