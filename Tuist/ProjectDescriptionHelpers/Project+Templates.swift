@@ -2,7 +2,7 @@ import ProjectDescription
 
 extension Project {
     public static let deployTarget = 16.0
-    public static let bundleId = "com.notice"
+    public static let bundleId = "notitime.noffice"
     
     public static func makeMainApp( _ target: Module.MainApp) -> Project {
         return Project(

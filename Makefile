@@ -5,6 +5,7 @@ all: lint generate
 
 generate:
 	TUIST_ROOT_DIR=${PWD} $(TUIST) generate
+	$(SWIFTLINT) autocorrect --fix
 
 lint:
 	$(SWIFTLINT)

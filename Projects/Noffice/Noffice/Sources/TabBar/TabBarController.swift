@@ -120,7 +120,7 @@ final class TabBarController: UITabBarController {
         announceButton.rx.tap
             .bind { [weak self] in
                 // TODO: Implement announce button action (show sheet or navigation)
-//                self?.selectedIndex = TabBarItem.announce.tag
+                
             }
             .disposed(by: disposeBag)
         
@@ -137,7 +137,7 @@ final class TabBarController: UITabBarController {
         for item in TabBarItem.allCases {
             if let tabBarItemView = self.findTabBarItemView(at: item.tag) {
                 let isSelected = tabBarItemView.tag == selectedItem.tag
-                UIView.animate(withDuration: 0.2) {
+                UIView.animate(withDuration: 0.35) {
                     tabBarItemView.tintColor = isSelected ? .systemBlue : .gray
                 }
             }
@@ -158,7 +158,9 @@ final class TabBarController: UITabBarController {
 }
 
 extension TabBarController: UIPopoverPresentationControllerDelegate {
-    public func adaptivePresentationStyle(for controller: UIPresentationController, traitCollection: UITraitCollection) -> UIModalPresentationStyle {
-        return .none
+    public func adaptivePresentationStyle(
+        for controller: UIPresentationController,
+        traitCollection: UITraitCollection) -> UIModalPresentationStyle {
+            return .none
     }
 }
