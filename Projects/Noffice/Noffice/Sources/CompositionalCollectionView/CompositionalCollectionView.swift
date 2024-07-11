@@ -22,9 +22,6 @@ final public class CompositionalCollectionView: UIView, UICollectionViewDelegate
         }
     }
     
-    // MARK: Bind
-    
-    
     // MARK: Disposebag
     private let disposeBag = DisposeBag()
     
