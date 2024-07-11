@@ -15,12 +15,15 @@ public protocol CompositionalItemCell: UIView {
     ///
     /// - Parameter item: The item to configure the cell with.
     func configure(with item: Item)
+    
+    var itemType: Item.Type { get }
 }
 
 // MARK: - Helper component
 /// The only cell registered in the collection view.
 ///
-/// To accommodate various CompositionalItemCells, the actual cell content is laid out as a UIView within this container.
+/// To accommodate various CompositionalItemCells, 
+/// the actual cell content is laid out as a UIView within this container.
 final class CollectionViewItemCellContainer: UICollectionViewCell {
     private var currentCell: (any CompositionalItemCell)?
     
@@ -47,5 +50,9 @@ final class CollectionViewItemCellContainer: UICollectionViewCell {
         }
         
         cell.configure(with: item)
+        
+        if let cell = cell as? T.Cell.Item.Cell {
+            item.bind(cell: cell)
+        }
     }
 }

@@ -26,8 +26,29 @@ public extension CompositionalSection {
 }
 
 // MARK: - Helper component
-/// A wrapper class for adding various sections to a single collection view.
-public struct AnyCollectionViewSection: CompositionalSection {
+/** 
+ A wrapper class for adding various sections to a single collection view.
+ 
+```swift
+ let collectionView = CompositionalCollectionView()
+ 
+ let sectionsSubject = BehaviorSubject<[AnyCompositionalSection]>(value: sections)
+ 
+ collectionView.bindSections(
+     by: sectionsSubject.asObservable()
+ )
+ .disposed(by: disposeBag)
+ 
+ let sections = [
+    Section(
+         items: [ ... ]
+     ).asAnySection()
+ ]
+
+ self.sectionsSubject.onNext(sections)
+ ```
+*/
+public struct AnyCompositionalSection: CompositionalSection {
     public var items: [any CompositionalItem]
     public var layout: NSCollectionLayoutSection
     
@@ -45,7 +66,29 @@ public struct AnyCollectionViewSection: CompositionalSection {
 }
 
 extension CompositionalSection {
-    public func asAnySection() -> AnyCollectionViewSection {
-        return AnyCollectionViewSection(self)
+    /**
+     It is a helper method for using AnyCompositionalSection
+     
+    ```swift
+     let collectionView = CompositionalCollectionView()
+     
+     let sectionsSubject = BehaviorSubject<[AnyCompositionalSection]>(value: sections)
+     
+     collectionView.bindSections(
+         by: sectionsSubject.asObservable()
+     )
+     .disposed(by: disposeBag)
+     
+     let sections = [
+        Section(
+             items: [ ... ]
+         ).asAnySection() // ✅
+     ]
+ 
+     self.sectionsSubject.onNext(sections)
+     ```
+     */
+    public func asAnySection() -> AnyCompositionalSection {
+        return AnyCompositionalSection(self)
     }
 }

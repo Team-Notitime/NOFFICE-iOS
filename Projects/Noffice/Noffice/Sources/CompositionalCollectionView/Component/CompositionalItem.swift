@@ -10,24 +10,31 @@ import Foundation
 /// This is a data container for UICollectionViewCell and DiffableDataSource
 public protocol CompositionalItem: Hashable {
     associatedtype Cell: CompositionalItemCell
-    
-    /// Identifier for registering the cell in the collection view.
-    var reusableIdentifier: String { get }
-    
-    /** 
-     Method to inject data into the cell. Call the configure(with:) method of the cell passed as an argument.
+    /**
+     This closure is used to propagate events from within the cell to the parent view.
+     Conversely, if you want to modify the cell's data from the parent view, change the sections value of the CompositionCollectionView.
+     The diffable data source will detect the changes and update the view accordingly.
      
-     - example:
+     - Note: It will be automatically called. Just assign it.
+     
+     If you want to bind from outside, receive the binding closure in the initializer.
      ```swift
-     func configureCell(cell: inout
-         cell.configure(with: self)
+     struct Item: CompositionalItem {
+        let value: String
+        let binding: (Cell) -> Void
+     
+        init(value: String, binding: @escaping (Cell) -> Void) {
+            self.value = value
+            self.binding = binding
+        }
      }
      ```
-     
-     - Note: A default implementation is provided, so there is no need to implement this method unless customization is required.
      */
-//    func configureCell(cell: inout Cell) // TODO: rename to configure
+    var binding: (Cell) -> Void { get }
     
+    /**
+     A method that binds data to the actual cell. It is implemented by default.
+     */
     func bind(cell: Cell)
     
     /**
@@ -57,18 +64,9 @@ public extension CompositionalItem {
         return lhs.hashValue == rhs.hashValue
     }
     
-//    func configureCell(cell: inout Cell) {
-//        if let self = self as? Cell.Item {
-//            cell.configure(with: self)
-//        } else {
-//            fatalError(
-//                """
-//                The Cell type of the CollectionViewItem (\(type(of: self))) 
-//                and the Item type of the CollectionViewItemCell (\(Cell.Item.self)) must match.
-//                """
-//            )
-//        }
-//    }
+    func bind(cell: Cell) {
+        binding(cell)
+    }
 }
 
 // MARK: - Helper component

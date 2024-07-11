@@ -12,11 +12,11 @@ import RxSwift
 final public class CompositionalCollectionView: UIView, UICollectionViewDelegate {
     // MARK: CollectionView & DataSource
     private var collectionView: UICollectionView!
-    private var dataSource: UICollectionViewDiffableDataSource<AnyCollectionViewSection, CollectionViewItemWrapper>!
+    private var dataSource: UICollectionViewDiffableDataSource<AnyCompositionalSection, CollectionViewItemWrapper>!
     private var registeredCellIdentifiers: Set<String> = []
     
     // MARK: Injected data
-    private var sections: [AnyCollectionViewSection] = [] {
+    private var sections: [AnyCompositionalSection] = [] {
         didSet {
             applySnapshot(animatingDifferences: true)
         }
@@ -42,7 +42,7 @@ final public class CompositionalCollectionView: UIView, UICollectionViewDelegate
     
     // MARK: Public interface for RxSwift
     public func bindSections(
-        by sectionsObservable: Observable<[AnyCollectionViewSection]>
+        by sectionsObservable: Observable<[AnyCompositionalSection]>
     ) -> Disposable {
         let sectionsDisposable = sectionsObservable
             .observe(on: MainScheduler.instance)
@@ -67,7 +67,7 @@ final public class CompositionalCollectionView: UIView, UICollectionViewDelegate
     }
     
     private func configureDatasource() {
-        dataSource = UICollectionViewDiffableDataSource<AnyCollectionViewSection, CollectionViewItemWrapper>(
+        dataSource = UICollectionViewDiffableDataSource<AnyCompositionalSection, CollectionViewItemWrapper>(
             collectionView: collectionView
         ) { [weak self] (collectionView, indexPath, itemWrapper) in
             guard let self = self else { return UICollectionViewCell() }
@@ -108,7 +108,7 @@ final public class CompositionalCollectionView: UIView, UICollectionViewDelegate
     
     // MARK: Snapshot
     private func applySnapshot(animatingDifferences: Bool = true) {
-        var snapshot = NSDiffableDataSourceSnapshot<AnyCollectionViewSection, CollectionViewItemWrapper>()
+        var snapshot = NSDiffableDataSourceSnapshot<AnyCompositionalSection, CollectionViewItemWrapper>()
         
         for section in sections {
             snapshot.appendSections([section])

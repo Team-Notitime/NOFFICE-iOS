@@ -22,17 +22,23 @@ class TestCompositionalLayoutViewController: UIViewController {
     }
     let collectionView = CompositionalCollectionView()
     
-    var sections: [AnyCollectionViewSection] = [
+    var sections: [AnyCompositionalSection] = [
         Section2(
             identifier: UUID().uuidString,
             items: [
-                Item2(identifier: UUID().uuidString, value: "Item3", value2: "hihi"),
-                Item2(identifier: UUID().uuidString, value: "Item4", value2: "메롱메롱")
+                Item2(identifier: UUID().uuidString, value: "Item3", value2: "hihi") { cell in
+                    
+                    
+                },
+                Item2(identifier: UUID().uuidString, value: "Item4", value2: "메롱메롱"){ cell in
+                    
+                    
+                }
             ]
         ).asAnySection()
     ]
     
-    lazy var sectionsSubject = BehaviorSubject<[AnyCollectionViewSection]>(value: sections)
+    lazy var sectionsSubject = BehaviorSubject<[AnyCompositionalSection]>(value: sections)
     
     let labelTapEvent = PublishSubject<String>()
     
@@ -177,9 +183,7 @@ extension TestCompositionalLayoutViewController {
     }
     
     final class Item: CompositionalItem {
-        typealias Cell = ItemCell
-        
-        let binding: (Cell) -> Void
+        let binding: (ItemCell) -> Void
         var identifier: String = UUID().uuidString
         var value: String = ""
 
@@ -189,7 +193,7 @@ extension TestCompositionalLayoutViewController {
         
         let disposeBag = DisposeBag()
         
-        init(identifier: String, value: String, _ binding: @escaping (Cell) -> Void) {
+        init(identifier: String, value: String, _ binding: @escaping (ItemCell) -> Void) {
             self.identifier = identifier
             self.value = value
             self.binding = binding
@@ -203,37 +207,24 @@ extension TestCompositionalLayoutViewController {
         var cellType: TestCompositionalLayoutViewController.ItemCell.Type {
             return ItemCell.self
         }
-        
-        func bind(cell: Cell) {
-//            cell.button.rx.tap
-//                .subscribe(onNext: { [weak self] in
-//                    guard let self = self else { return }
-//                    print("탭탭!!!")
-//                })
-//                .disposed(by: disposeBag)
-            
-            binding(cell)
-        }
     }
     
     final class Item2: CompositionalItem {
-        func bind(cell: TestCompositionalLayoutViewController.ItemCell2) {
-        }
+        let binding: (ItemCell2) -> Void
         
         var reusableIdentifier: String {
             return "ItemCell2"
         }
         
-        typealias Cell = ItemCell2
-        
         var identifier: String = UUID().uuidString
         var value: String = ""
         var value2: String = ""
         
-        init(identifier: String, value: String, value2: String) {
+        init(identifier: String, value: String, value2: String, _ binding: @escaping (ItemCell2) -> Void) {
             self.identifier = identifier
             self.value = value
             self.value2 = value2
+            self.binding = binding
         }
         
         func hash(into hasher: inout Hasher) {
@@ -247,6 +238,10 @@ extension TestCompositionalLayoutViewController {
     }
     
     final class ItemCell: UICollectionViewCell, CompositionalItemCell {
+        var itemType: TestCompositionalLayoutViewController.Item.Type {
+            return Item.self
+        }
+        
         lazy var button: UIButton = {
             let button = UIButton(configuration: .filled())
             button.setTitle("Tab me", for: .normal)
@@ -288,11 +283,14 @@ extension TestCompositionalLayoutViewController {
         
         func configure(with item: Item) {
             label.text = item.value
-            item.bind(cell: self)
         }
     }
     
     final class ItemCell2: UICollectionViewCell, CompositionalItemCell {
+        var itemType: TestCompositionalLayoutViewController.Item2.Type {
+            return Item2.self
+        }
+        
         private lazy var label: UILabel = {
             let label = UILabel()
             label.textColor = .white
