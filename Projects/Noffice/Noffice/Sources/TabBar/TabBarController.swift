@@ -71,7 +71,7 @@ final class TabBarController: UITabBarController {
     
     /// Assign view controllers that are currently visible to the TabBar.
     private func setupTabBarControllers() {
-        let controllers: [UIViewController] = [ViewController(), SecondViewController()]
+        let controllers: [UIViewController] = [ViewController(), TestCompositionalLayoutViewController()]
         self.setViewControllers(controllers, animated: false)
     }
     

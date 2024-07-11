@@ -50,7 +50,7 @@ class ViewController: UIViewController{
     }
     
     @objc func buttonTapped() {
-        Router.shared.push(SecondViewController())
+        Router.shared.push(TestCompositionalLayoutViewController())
     }
     
     func bind() {

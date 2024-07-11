@@ -7,9 +7,9 @@
 
 import UIKit
 
-// This is a UICollectionViewCell as it actually appears.
-public protocol CollectionViewItemCell: UIView {
-    associatedtype Item: CollectionViewItem
+/// This is a UICollectionViewCell as it actually appears.
+public protocol CompositionalItemCell: UIView {
+    associatedtype Item: CompositionalItem
     
     /// Configure the cell using the provided item of type ``CollectionViewItem``.
     ///
@@ -17,14 +17,18 @@ public protocol CollectionViewItemCell: UIView {
     func configure(with item: Item)
 }
 
+// MARK: - Helper component
+/// The only cell registered in the collection view.
+///
+/// To accommodate various CompositionalItemCells, the actual cell content is laid out as a UIView within this container.
 final class CollectionViewItemCellContainer: UICollectionViewCell {
-    private var currentCell: (any CollectionViewItemCell)?
+    private var currentCell: (any CompositionalItemCell)?
     
     static var reusableIdentifier: String {
         return "\(type(of: self))"
     }
     
-    func setContainedCell(_ cell: any CollectionViewItemCell) {
+    func setContainedCell(_ cell: any CompositionalItemCell) {
         currentCell?.removeFromSuperview()
         currentCell = cell
         contentView.addSubview(cell)
@@ -33,7 +37,7 @@ final class CollectionViewItemCellContainer: UICollectionViewCell {
         }
     }
     
-    func configure<T: CollectionViewItem>(with item: T) {
+    func configure<T: CompositionalItem>(with item: T) {
         guard let cell = currentCell as? T.Cell else {
             fatalError("Invalid cell type for item: \(item)")
         }

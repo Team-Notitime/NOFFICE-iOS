@@ -12,7 +12,7 @@ import RxCocoa
 import SnapKit
 import Then
 
-class SecondViewController: UIViewController {
+class TestCompositionalLayoutViewController: UIViewController {
     
     let button: UIButton = UIButton().then {
         $0.setTitle("아이템 추가추가!", for: .normal)
@@ -23,23 +23,18 @@ class SecondViewController: UIViewController {
     let collectionView = CompositionalCollectionView()
     
     var sections: [AnyCollectionViewSection] = [
-        Section(
-            identifier: UUID().uuidString,
-            items: [
-                Item(identifier: UUID().uuidString, value: "Item1"),
-                Item(identifier: UUID().uuidString, value: "Item2")
-            ]
-        ).asAnySection(),
         Section2(
             identifier: UUID().uuidString,
             items: [
-                Item2(identifier: UUID().uuidString, value: "Item3"),
-                Item2(identifier: UUID().uuidString, value: "Item4")
+                Item2(identifier: UUID().uuidString, value: "Item3", value2: "hihi"),
+                Item2(identifier: UUID().uuidString, value: "Item4", value2: "메롱메롱")
             ]
         ).asAnySection()
     ]
     
     lazy var sectionsSubject = BehaviorSubject<[AnyCollectionViewSection]>(value: sections)
+    
+    let labelTapEvent = PublishSubject<String>()
     
     let disposeBag = DisposeBag()
     
@@ -64,7 +59,7 @@ class SecondViewController: UIViewController {
         
         // bind
         collectionView.bindSections(
-            by: sectionsSubject.debug().asObservable()
+            by: sectionsSubject.asObservable()
         )
         .disposed(by: disposeBag)
         
@@ -75,8 +70,18 @@ class SecondViewController: UIViewController {
                     Section(
                         identifier: UUID().uuidString,
                         items: [
-                            Item(identifier: UUID().uuidString, value: "Additional Item"),
-                            Item(identifier: UUID().uuidString, value: "Additional Item")
+                            Item(identifier: UUID().uuidString, value: "Additional Item") { cell in
+                                cell.button.rx.tap
+                                    .subscribe(onNext: { _ in
+                                        print("탭탭!q")
+                                    }).disposed(by: self.disposeBag)
+                            },
+                            Item(identifier: UUID().uuidString, value: "Additional Item") { cell in
+                                cell.button.rx.tap
+                                    .subscribe(onNext: { _ in
+                                        print("탭탭!w")
+                                    }).disposed(by: self.disposeBag)
+                            }
                         ]
                     ).asAnySection()
                 ]
@@ -87,8 +92,8 @@ class SecondViewController: UIViewController {
     }
 }
 
-extension SecondViewController {
-    struct Section: CollectionViewSection {
+extension TestCompositionalLayoutViewController {
+    struct Section: CompositionalSection {
         var layout: NSCollectionLayoutSection {
             let itemSize1 = NSCollectionLayoutSize(
                 widthDimension: .fractionalWidth(0.7),
@@ -115,12 +120,9 @@ extension SecondViewController {
             return section
         }
         
-        var items: [any CollectionViewItem]
+        var items: [any CompositionalItem]
         
         var identifier: String
-        var reusableIdentifier: String {
-            return "Section"
-        }
         
         init(identifier: String, items: [Item]) {
             self.items = items
@@ -129,11 +131,10 @@ extension SecondViewController {
         
         func hash(into hasher: inout Hasher) {
             hasher.combine(identifier)
-//            hasher.combine(items)
         }
     }
     
-    struct Section2: CollectionViewSection {
+    struct Section2: CompositionalSection {
         var layout: NSCollectionLayoutSection {
             let itemSize1 = NSCollectionLayoutSize(
                 widthDimension: .fractionalWidth(0.3),
@@ -160,12 +161,9 @@ extension SecondViewController {
             return section
         }
         
-        var items: [any CollectionViewItem]
+        var items: [any CompositionalItem]
         
         var identifier: String
-        var reusableIdentifier: String {
-            return "Section"
-        }
         
         init(identifier: String, items: [Item2]) {
             self.items = items
@@ -178,9 +176,10 @@ extension SecondViewController {
         }
     }
     
-    final class Item: CollectionViewItem {
+    final class Item: CompositionalItem {
         typealias Cell = ItemCell
         
+        let binding: (Cell) -> Void
         var identifier: String = UUID().uuidString
         var value: String = ""
 
@@ -188,9 +187,12 @@ extension SecondViewController {
             return "ItemCell"
         }
         
-        init(identifier: String, value: String) {
+        let disposeBag = DisposeBag()
+        
+        init(identifier: String, value: String, _ binding: @escaping (Cell) -> Void) {
             self.identifier = identifier
             self.value = value
+            self.binding = binding
         }
         
         func hash(into hasher: inout Hasher) {
@@ -198,25 +200,40 @@ extension SecondViewController {
             hasher.combine(value)
         }
         
-        var cellType: SecondViewController.ItemCell.Type {
+        var cellType: TestCompositionalLayoutViewController.ItemCell.Type {
             return ItemCell.self
         }
         
+        func bind(cell: Cell) {
+//            cell.button.rx.tap
+//                .subscribe(onNext: { [weak self] in
+//                    guard let self = self else { return }
+//                    print("탭탭!!!")
+//                })
+//                .disposed(by: disposeBag)
+            
+            binding(cell)
+        }
     }
     
-    final class Item2: CollectionViewItem {
+    final class Item2: CompositionalItem {
+        func bind(cell: TestCompositionalLayoutViewController.ItemCell2) {
+        }
+        
+        var reusableIdentifier: String {
+            return "ItemCell2"
+        }
+        
         typealias Cell = ItemCell2
         
         var identifier: String = UUID().uuidString
         var value: String = ""
-
-        var reusableIdentifier: String {
-            return "ItemCell"
-        }
+        var value2: String = ""
         
-        init(identifier: String, value: String) {
+        init(identifier: String, value: String, value2: String) {
             self.identifier = identifier
             self.value = value
+            self.value2 = value2
         }
         
         func hash(into hasher: inout Hasher) {
@@ -224,19 +241,25 @@ extension SecondViewController {
             hasher.combine(value)
         }
         
-        var cellType: SecondViewController.ItemCell2.Type {
+        var cellType: TestCompositionalLayoutViewController.ItemCell2.Type {
             return ItemCell2.self
         }
     }
     
-    final class ItemCell: UICollectionViewCell, CollectionViewItemCell {
-        private lazy var label: UILabel = {
+    final class ItemCell: UICollectionViewCell, CompositionalItemCell {
+        lazy var button: UIButton = {
+            let button = UIButton(configuration: .filled())
+            button.setTitle("Tab me", for: .normal)
+            return button
+        }()
+        
+        lazy var label: UILabel = {
             let label = UILabel()
             label.textColor = .white
             label.textAlignment = .center
             return label
         }()
-        
+
         required init?(coder: NSCoder) {
             super.init(coder: coder)
             setup()
@@ -252,17 +275,32 @@ extension SecondViewController {
             contentView.addSubview(label)
             
             label.snp.makeConstraints { make in
-                make.edges.equalToSuperview().inset(8)
+                make.top.left.right.equalToSuperview()
+            }
+            
+            contentView.addSubview(button)
+            
+            button.snp.makeConstraints { make in
+                make.top.equalTo(label.snp.bottom).offset(12)
+                make.left.right.equalToSuperview()
             }
         }
         
         func configure(with item: Item) {
             label.text = item.value
+            item.bind(cell: self)
         }
     }
     
-    final class ItemCell2: UICollectionViewCell, CollectionViewItemCell {
+    final class ItemCell2: UICollectionViewCell, CompositionalItemCell {
         private lazy var label: UILabel = {
+            let label = UILabel()
+            label.textColor = .white
+            label.textAlignment = .center
+            return label
+        }()
+        
+        private lazy var label2: UILabel = {
             let label = UILabel()
             label.textColor = .white
             label.textAlignment = .center
@@ -284,12 +322,20 @@ extension SecondViewController {
             contentView.addSubview(label)
             
             label.snp.makeConstraints { make in
-                make.edges.equalToSuperview().inset(8)
+                make.top.left.right.equalToSuperview()
+            }
+            
+            contentView.addSubview(label2)
+            
+            label2.snp.makeConstraints { make in
+                make.top.equalTo(label.snp.bottom).offset(12)
+                make.left.right.equalToSuperview()
             }
         }
         
         func configure(with item: Item2) {
             label.text = item.value
+            label2.text = item.value2
         }
     }
 }
