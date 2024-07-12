@@ -3,7 +3,7 @@
 //
 //  Created by DOYEON LEE on 7/11/24.
 //
-//  Referenced by Mumu
+//  Refer to MUMU
 //
 
 import UIKit
@@ -36,13 +36,7 @@ public extension CompositionalSection {
 }
 
 // MARK: - Helper component
-public class EmptyReusableView: UICollectionReusableView, CompositionalReusableView {
-    public typealias Section = AnyCompositionalSection
-    public var reusableIdentifier: String { return "EmptyReusableView" }
-    public func configure(with section: AnyCompositionalSection) { }
-}
-
-public struct AnyCompositionalSection: CompositionalSection {
+public struct EmptyCompositionalSection: CompositionalSection {
     public typealias Header = EmptyReusableView
     public typealias Footer = EmptyReusableView
     
@@ -85,31 +79,68 @@ public struct AnyCompositionalSection: CompositionalSection {
  ```
 */
 
-//
-//extension CompositionalSection {
-//    /**
-//     It is a helper method for using AnyCompositionalSection
-//     
-//    ```swift
-//     let collectionView = CompositionalCollectionView()
-//     
-//     let sectionsSubject = BehaviorSubject<[AnyCompositionalSection]>(value: sections)
-//     
-//     collectionView.bindSections(
-//         by: sectionsSubject.asObservable()
-//     )
-//     .disposed(by: disposeBag)
-//     
-//     let sections = [
-//        Section(
-//             items: [ ... ]
-//         ).asAnySection() // ✅
-//     ]
-// 
-//     self.sectionsSubject.onNext(sections)
-//     ```
-//     */
+public struct CompositionalSectionWrapper: Hashable {
+    let wrappee: any CompositionalSection
+    
+    public static func == (lhs: CompositionalSectionWrapper, rhs: CompositionalSectionWrapper) -> Bool {
+        lhs.wrappee.hashValue == rhs.wrappee.hashValue
+    }
+    
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(wrappee.hashValue)
+    }
+}
+
+// public struct AnyCompositionalSection: CompositionalSection {
+//    public var items: [any CompositionalItem]
+//    public var layout: CompositionalLayout
+//    
+//    private let _sectionType: any CompositionalSection.Type
+//    private let _hashInto: (inout Hasher) -> Void
+//    
+//    public init<S: CompositionalSection>(_ section: S) {
+//        self.items = section.items
+//        self.layout = section.layout
+//        self._hashInto = section.hash
+//    }
+//    
+//    public func hash(into hasher: inout Hasher) {
+//        _hashInto(&hasher)
+//    }
+//    
+//    public var headerType: Header.Type {
+//        return _sectionType.Header.self
+//    }
+//    
+//    var footerType: Footer.Type {
+//        
+//    }
+// }
+
+// extension CompositionalSection {
+    /**
+     It is a helper method for using AnyCompositionalSection
+     
+    ```swift
+     let collectionView = CompositionalCollectionView()
+     
+     let sectionsSubject = BehaviorSubject<[AnyCompositionalSection]>(value: sections)
+     
+     collectionView.bindSections(
+         by: sectionsSubject.asObservable()
+     )
+     .disposed(by: disposeBag)
+     
+     let sections = [
+        Section(
+             items: [ ... ]
+         ).asAnySection() // ✅
+     ]
+ 
+     self.sectionsSubject.onNext(sections)
+     ```
+     */
 //    public func asAnySection() -> AnyCompositionalSection {
 //        return AnyCompositionalSection(self)
 //    }
-//}
+// }

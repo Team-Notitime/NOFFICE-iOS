@@ -3,24 +3,24 @@
 //
 //  Created by DOYEON LEE on 7/11/24.
 //
-//  Referenced by Mumu
+//  Refer to MUMU
 //
 
 import UIKit
 
 import RxSwift
 
-final public class CompositionalCollectionView<Section: CompositionalSection>: UIView, UICollectionViewDelegate {
+final public class CompositionalCollectionView: UIView, UICollectionViewDelegate {
     // MARK: Identifier
     private let itemCellIdentifier = CollectionViewItemCellContainer.reusableIdentifier
     private let reusableViewIdentifier = CollectionViewResuableViewContainer.reusableIdentifier
     
     // MARK: CollectionView & DataSource
     private var collectionView: UICollectionView!
-    private var dataSource: UICollectionViewDiffableDataSource<Section, CollectionViewItemWrapper>!
+    private var dataSource: UICollectionViewDiffableDataSource<CompositionalSectionWrapper, CollectionViewItemWrapper>!
     
     // MARK: Injected data
-    private var sections: [Section] = [] {
+    private var sections: [CompositionalSectionWrapper] = [] {
         didSet {
             applySnapshot(animatingDifferences: true)
         }
@@ -44,13 +44,15 @@ final public class CompositionalCollectionView<Section: CompositionalSection>: U
     
     // MARK: Public interface for RxSwift
     public func bindSections(
-        to sectionsObservable: Observable<[Section]>
+        to sectionsObservable: Observable<[any CompositionalSection]>
     ) -> Disposable {
         let sectionsDisposable = sectionsObservable
             .observe(on: MainScheduler.instance)
             .subscribe(onNext: { [weak self] newSections in
                 guard let self = self else { return }
-                self.sections = newSections
+                self.sections = newSections.map {
+                    CompositionalSectionWrapper(wrappee: $0)
+                }
             })
         
         return Disposables.create([sectionsDisposable])
@@ -60,7 +62,7 @@ final public class CompositionalCollectionView<Section: CompositionalSection>: U
     /// Set the compositional layout of collection view using the sections
     private func configureCompositionalLayout() {
         let layout = UICollectionViewCompositionalLayout { [weak self] sectionIndex, _ in
-            return self?.sections[sectionIndex].layout.makeSectionLayout()
+            return self?.sections[sectionIndex].wrappee.layout.makeSectionLayout()
         }
         
         collectionView = UICollectionView(
@@ -71,7 +73,7 @@ final public class CompositionalCollectionView<Section: CompositionalSection>: U
     
     /// Set the diffable datasource and cell dequeue logic
     private func configureDatasource() {
-        dataSource = UICollectionViewDiffableDataSource<Section, CollectionViewItemWrapper>(
+        dataSource = UICollectionViewDiffableDataSource<CompositionalSectionWrapper, CollectionViewItemWrapper>(
             collectionView: collectionView
         ) { [weak self] (collectionView, indexPath, itemWrapper) in
             guard let self = self else { return UICollectionViewCell() }
@@ -110,11 +112,11 @@ final public class CompositionalCollectionView<Section: CompositionalSection>: U
                 }
                 
                 // Configure inner view of container cell
-                let headerType = section.headerType
+                let headerType = section.wrappee.headerType
                 let view = headerType.init()
                 
                 headerView.setContainedView(view)
-                headerView.configure(with: section, type: .header)
+                headerView.configure(with: section.wrappee, type: .header)
                 
                 return headerView
             } else if kind == UICollectionView.elementKindSectionFooter {
@@ -127,11 +129,11 @@ final public class CompositionalCollectionView<Section: CompositionalSection>: U
                 }
                 
                 // Configure inner view of container cell
-                let footerType = section.footerType
+                let footerType = section.wrappee.footerType
                 let view = footerType.init()
                 
                 footerView.setContainedView(view)
-                footerView.configure(with: section, type: .footer)
+                footerView.configure(with: section.wrappee, type: .footer)
                 
                 return footerView
             }
@@ -154,12 +156,12 @@ final public class CompositionalCollectionView<Section: CompositionalSection>: U
     
     // MARK: Snapshot
     private func applySnapshot(animatingDifferences: Bool = true) {
-        var snapshot = NSDiffableDataSourceSnapshot<Section, CollectionViewItemWrapper>()
+        var snapshot = NSDiffableDataSourceSnapshot<CompositionalSectionWrapper, CollectionViewItemWrapper>()
         
         for section in sections {
             snapshot.appendSections([section])
             snapshot.appendItems(
-                section.items.map { CollectionViewItemWrapper(wrappee: $0) },
+                section.wrappee.items.map { CollectionViewItemWrapper(wrappee: $0) },
                 toSection: section
             )
         }
@@ -172,10 +174,9 @@ final public class CompositionalCollectionView<Section: CompositionalSection>: U
     public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
     }
-}
-
-extension CompositionalCollectionView {
-    private func registerCell(){
+    
+    // MARK: Register cell
+    private func registerCell() {
         collectionView.register(
             CollectionViewItemCellContainer.self,
             forCellWithReuseIdentifier: self.itemCellIdentifier
@@ -192,7 +193,7 @@ extension CompositionalCollectionView {
         collectionView.register(
             CollectionViewResuableViewContainer.self,
             forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter,
-            withReuseIdentifier:self.reusableViewIdentifier
+            withReuseIdentifier: self.reusableViewIdentifier
         )
     }
 }

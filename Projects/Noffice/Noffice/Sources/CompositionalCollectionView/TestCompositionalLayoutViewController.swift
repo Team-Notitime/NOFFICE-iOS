@@ -20,9 +20,9 @@ class TestCompositionalLayoutViewController: UIViewController {
         $0.backgroundColor = .systemBlue
         $0.layer.cornerRadius = 10
     }
-    let collectionView = CompositionalCollectionView<Section>()
+    let collectionView = CompositionalCollectionView()
     
-    var sections: [Section] = [
+    var sections: [any CompositionalSection] = [
         Section(
             identifier: UUID().uuidString,
             items: [
@@ -36,7 +36,7 @@ class TestCompositionalLayoutViewController: UIViewController {
         )
     ]
     
-    lazy var sectionsSubject = BehaviorSubject<[Section]>(value: sections)
+    lazy var sectionsSubject = BehaviorSubject<[any CompositionalSection]>(value: sections)
     
     let disposeBag = DisposeBag()
     
@@ -82,6 +82,7 @@ class TestCompositionalLayoutViewController: UIViewController {
                                 cell.button.rx.tap
                                     .subscribe(onNext: { _ in
                                         print("탭탭!w")
+                                        cell.label.text = "탭됨"
                                     }).disposed(by: self.disposeBag)
                             }
                         ]
@@ -174,7 +175,7 @@ extension TestCompositionalLayoutViewController {
         }
     }
     
-    final class ItemCell: UICollectionViewCell, CompositionalItemCell {
+    final class ItemCell: UIView, CompositionalItemCell {
         var itemType: TestCompositionalLayoutViewController.Item.Type {
             return Item.self
         }
@@ -203,14 +204,14 @@ extension TestCompositionalLayoutViewController {
         }
         
         private func setup() {
-            self.contentView.backgroundColor = .gray
-            contentView.addSubview(label)
+            self.backgroundColor = .gray
+            addSubview(label)
             
             label.snp.makeConstraints { make in
                 make.top.left.right.equalToSuperview()
             }
             
-            contentView.addSubview(button)
+            addSubview(button)
             
             button.snp.makeConstraints { make in
                 make.top.equalTo(label.snp.bottom).offset(12)
@@ -223,7 +224,7 @@ extension TestCompositionalLayoutViewController {
         }
     }
     
-    final class ItemCell2: UICollectionViewCell, CompositionalItemCell {
+    final class ItemCell2: UIView, CompositionalItemCell {
         var itemType: TestCompositionalLayoutViewController.Item2.Type {
             return Item2.self
         }
@@ -253,14 +254,14 @@ extension TestCompositionalLayoutViewController {
         }
         
         private func setup() {
-            self.contentView.backgroundColor = .gray
-            contentView.addSubview(label)
+            self.backgroundColor = .gray
+            addSubview(label)
             
             label.snp.makeConstraints { make in
                 make.top.left.right.equalToSuperview()
             }
             
-            contentView.addSubview(label2)
+            addSubview(label2)
             
             label2.snp.makeConstraints { make in
                 make.top.equalTo(label.snp.bottom).offset(12)
@@ -274,7 +275,7 @@ extension TestCompositionalLayoutViewController {
         }
     }
     
-    class SectionHeader: UICollectionReusableView, CompositionalReusableView {
+    class SectionHeader: UIView, CompositionalReusableView {
         typealias Section = TestCompositionalLayoutViewController.Section
         
         var reusableIdentifier: String = "SectionHeader"
@@ -310,4 +311,3 @@ extension TestCompositionalLayoutViewController {
         }
     }
 }
-

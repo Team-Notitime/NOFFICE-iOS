@@ -3,10 +3,12 @@
 //
 //  Created by DOYEON LEE on 7/11/24.
 //
-//  Referenced by Mumu
+//  Refer to MUMU
 //
 
 import UIKit
+
+import SnapKit
 
 /// This is a UICollectionViewCell as it actually appears.
 public protocol CompositionalItemCell: UIView {

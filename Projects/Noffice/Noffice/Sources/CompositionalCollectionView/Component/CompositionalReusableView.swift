@@ -1,11 +1,14 @@
 //
 //  CompositionalReusableView.swift
-//  Noffice
 //
 //  Created by DOYEON LEE on 7/12/24.
 //
+//  Refer to MUMU
+//
 
 import UIKit
+
+import SnapKit
 
 public protocol CompositionalReusableView: UIView {
     associatedtype Section: CompositionalSection
@@ -13,33 +16,12 @@ public protocol CompositionalReusableView: UIView {
     func configure(with section: Section)
 }
 
-// MARK: - Helper
-// Type erased header and footer
-//public struct AnyCompositionalReusableView {
-//    private let _configure: (any CompositionalSection) -> Void
-//    let reusableIdentifier: String
-//    
-//    init<V: CompositionalReusableView>(_ view: V) {
-//        self.reusableIdentifier = view.reusableIdentifier
-//        self._configure = { section in
-//            if let section = section as? V.Section {
-//                view.configure(section: section)
-//            } else {
-//                fatalError("Invalid section type for reusable view")
-//            }
-//        }
-//    }
-//    
-//    func configure(section: any CompositionalSection) {
-//        _configure(section)
-//    }
-//}
-//
-//extension CompositionalReusableView {
-//    public func asAnyReusableView() -> AnyCompositionalReusableView {
-//        return AnyCompositionalReusableView(self)
-//    }
-//}
+// MARK: - Helper component
+public class EmptyReusableView: UICollectionReusableView, CompositionalReusableView {
+    public typealias Section = EmptyCompositionalSection
+    public var reusableIdentifier: String { return "EmptyReusableView" }
+    public func configure(with section: EmptyCompositionalSection) { }
+}
 
 final class CollectionViewResuableViewContainer: UICollectionReusableView {
     enum ResuableViewType {
@@ -95,4 +77,3 @@ final class CollectionViewResuableViewContainer: UICollectionReusableView {
         }
     }
 }
-

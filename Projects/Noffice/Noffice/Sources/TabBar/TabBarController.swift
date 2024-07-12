@@ -27,10 +27,6 @@ final class TabBarController: UITabBarController {
     
     private lazy var homeTabItem = UIView().then {
         $0.backgroundColor = .clear
-        $0.addSubview(homeTabImage)
-        homeTabImage.snp.makeConstraints { make in
-            make.edges.equalToSuperview().inset(10)
-        }
     }
     
     private lazy var announceTabItem = UIView().then {
@@ -46,7 +42,7 @@ final class TabBarController: UITabBarController {
         $0.addSubview(imageView)
 
         imageView.snp.makeConstraints { make in
-            make.edges.equalToSuperview().inset(20)
+            make.edges.equalToSuperview().inset(10)
         }
     }
     
@@ -56,10 +52,6 @@ final class TabBarController: UITabBarController {
     
     private lazy var groupTabItem = UIView().then {
         $0.backgroundColor = .clear
-        $0.addSubview(groupTabImage)
-        groupTabImage.snp.makeConstraints { make in
-            make.edges.equalToSuperview().inset(10)
-        }
     }
     
     // MARK: DisposeBag
@@ -109,6 +101,12 @@ final class TabBarController: UITabBarController {
                 $0.width.equalToSuperview().multipliedBy(1.2)
                 $0.centerX.equalToSuperview().multipliedBy(0.8)
             }
+            
+            homeTabItem.addSubview(homeTabImage)
+            homeTabImage.snp.makeConstraints { make in
+                make.centerX.centerY.equalToSuperview()
+                make.width.height.equalTo(28)
+            }
         }
         
         announceTabItem.tag = TabBarItem.announce.tag
@@ -127,6 +125,12 @@ final class TabBarController: UITabBarController {
                 $0.top.bottom.equalToSuperview()
                 $0.width.equalToSuperview().multipliedBy(1.2)
                 $0.centerX.equalToSuperview().multipliedBy(1.2)
+            }
+            
+            groupTabItem.addSubview(groupTabImage)
+            groupTabImage.snp.makeConstraints { make in
+                make.centerX.centerY.equalToSuperview()
+                make.width.height.equalTo(28)
             }
         }
     }
