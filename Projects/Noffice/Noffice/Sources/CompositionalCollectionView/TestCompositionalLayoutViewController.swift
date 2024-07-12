@@ -20,10 +20,10 @@ class TestCompositionalLayoutViewController: UIViewController {
         $0.backgroundColor = .systemBlue
         $0.layer.cornerRadius = 10
     }
-    let collectionView = CompositionalCollectionView()
+    let collectionView = CompositionalCollectionView<Section>()
     
-    var sections: [AnyCompositionalSection] = [
-        Section2(
+    var sections: [Section] = [
+        Section(
             identifier: UUID().uuidString,
             items: [
                 Item2(identifier: UUID().uuidString, value: "Item3", value2: "hihi") { _ in
@@ -33,12 +33,10 @@ class TestCompositionalLayoutViewController: UIViewController {
                     
                 }
             ]
-        ).asAnySection()
+        )
     ]
     
-    lazy var sectionsSubject = BehaviorSubject<[AnyCompositionalSection]>(value: sections)
-    
-    let labelTapEvent = PublishSubject<String>()
+    lazy var sectionsSubject = BehaviorSubject<[Section]>(value: sections)
     
     let disposeBag = DisposeBag()
     
@@ -63,7 +61,7 @@ class TestCompositionalLayoutViewController: UIViewController {
         
         // bind
         collectionView.bindSections(
-            by: sectionsSubject.asObservable()
+            to: sectionsSubject.asObservable()
         )
         .disposed(by: disposeBag)
         
@@ -87,7 +85,7 @@ class TestCompositionalLayoutViewController: UIViewController {
                                     }).disposed(by: self.disposeBag)
                             }
                         ]
-                    ).asAnySection()
+                    )
                 ]
                 
                 self.sectionsSubject.onNext(self.sections)
@@ -98,85 +96,34 @@ class TestCompositionalLayoutViewController: UIViewController {
 
 extension TestCompositionalLayoutViewController {
     struct Section: CompositionalSection {
-        var layout: NSCollectionLayoutSection {
-            let itemSize1 = NSCollectionLayoutSize(
-                widthDimension: .fractionalWidth(0.7),
-                heightDimension: .absolute(100)
-            )
-            let item1 = NSCollectionLayoutItem(layoutSize: itemSize1)
-            
-            let itemSize2 = NSCollectionLayoutSize(
-                widthDimension: .fractionalWidth(0.3),
-                heightDimension: .absolute(100)
-            )
-            let item2 = NSCollectionLayoutItem(layoutSize: itemSize2)
-            
-            let groupSize = NSCollectionLayoutSize(
-                widthDimension: .fractionalWidth(1.0),
-                heightDimension: .absolute(100)
-            )
-            let group = NSCollectionLayoutGroup.horizontal(
-                layoutSize: groupSize,
-                subitems: [item1, item2]
-            )
-            
-            let section = NSCollectionLayoutSection(group: group)
-            return section
-        }
+        typealias Header = SectionHeader
+//        typealias Footer = SectionHeader
+        
+        var layout: CompositionalLayout = .init(
+            groupLayout: .init(
+                size: .init(width: .fractionalWidth(1.0), height: .absolute(100)),
+                items: [
+                    .init(width: .fractionalWidth(0.3), height: .absolute(100)),
+                    .init(width: .fractionalWidth(0.7), height: .absolute(100))
+                ],
+                spacing: 8
+            ),
+            headerSize: .init(width: .fractionalWidth(1.0), height: .absolute(50)),
+            sectionInset: .init(top: 12, leading: 12, bottom: 12, trailing: 12),
+            scrollBehavior: .groupPaging
+        )
         
         var items: [any CompositionalItem]
         
         var identifier: String
         
-        init(identifier: String, items: [Item]) {
+        init(identifier: String, items: [any CompositionalItem]) {
             self.items = items
             self.identifier = identifier
         }
         
         func hash(into hasher: inout Hasher) {
             hasher.combine(identifier)
-        }
-    }
-    
-    struct Section2: CompositionalSection {
-        var layout: NSCollectionLayoutSection {
-            let itemSize1 = NSCollectionLayoutSize(
-                widthDimension: .fractionalWidth(0.3),
-                heightDimension: .fractionalHeight(1.0)
-            )
-            let item1 = NSCollectionLayoutItem(layoutSize: itemSize1)
-            
-            let itemSize2 = NSCollectionLayoutSize(
-                widthDimension: .fractionalWidth(0.7),
-                heightDimension: .absolute(100)
-            )
-            let item2 = NSCollectionLayoutItem(layoutSize: itemSize2)
-            
-            let groupSize = NSCollectionLayoutSize(
-                widthDimension: .fractionalWidth(1.0),
-                heightDimension: .absolute(100)
-            )
-            let group = NSCollectionLayoutGroup.horizontal(
-                layoutSize: groupSize,
-                subitems: [item1, item2]
-            )
-            
-            let section = NSCollectionLayoutSection(group: group)
-            return section
-        }
-        
-        var items: [any CompositionalItem]
-        
-        var identifier: String
-        
-        init(identifier: String, items: [Item2]) {
-            self.items = items
-            self.identifier = identifier
-        }
-        
-        func hash(into hasher: inout Hasher) {
-            hasher.combine(identifier)
-//            hasher.combine(items)
         }
     }
     
@@ -201,10 +148,6 @@ extension TestCompositionalLayoutViewController {
             hasher.combine(identifier)
             hasher.combine(value)
         }
-        
-        var cellType: TestCompositionalLayoutViewController.ItemCell.Type {
-            return ItemCell.self
-        }
     }
     
     final class Item2: CompositionalItem {
@@ -228,10 +171,6 @@ extension TestCompositionalLayoutViewController {
         func hash(into hasher: inout Hasher) {
             hasher.combine(identifier)
             hasher.combine(value)
-        }
-        
-        var cellType: TestCompositionalLayoutViewController.ItemCell2.Type {
-            return ItemCell2.self
         }
     }
     
@@ -334,4 +273,41 @@ extension TestCompositionalLayoutViewController {
             label2.text = item.value2
         }
     }
+    
+    class SectionHeader: UICollectionReusableView, CompositionalReusableView {
+        typealias Section = TestCompositionalLayoutViewController.Section
+        
+        var reusableIdentifier: String = "SectionHeader"
+        
+        private lazy var label: UILabel = {
+            let label = UILabel()
+            label.textColor = .black
+            label.textAlignment = .center
+            return label
+        }()
+        
+        required init?(coder: NSCoder) {
+            super.init(coder: coder)
+            setup()
+        }
+        
+        override init(frame: CGRect) {
+            super.init(frame: frame)
+            setup()
+        }
+        
+        private func setup() {
+            self.backgroundColor = .green100
+            addSubview(label)
+            
+            label.snp.makeConstraints { make in
+                make.top.left.right.bottom.equalToSuperview()
+            }
+        }
+        
+        func configure(with section: Section) {
+            label.text = section.identifier
+        }
+    }
 }
+

@@ -7,6 +7,7 @@
 
 import UIKit
 
+import HomePresent
 import Assets
 
 import RxSwift
@@ -85,15 +86,15 @@ final class TabBarController: UITabBarController {
     // MARK: Setup
     /// Style the tab bar
     private func setupTabBarStyle() {
-        self.view.backgroundColor = .systemBackground
-        self.tabBar.backgroundColor = .systemBackground
+        self.view.backgroundColor = .grey50
+        self.tabBar.backgroundColor = .grey50
         self.tabBar.tintColor = Self.selectedColor
         self.tabBar.unselectedItemTintColor = Self.unselectedColor
     }
     
     /// Assign view controllers that are currently visible to the TabBar.
     private func setupTabBarControllers() {
-        let controllers: [UIViewController] = [ViewController(), TestCompositionalLayoutViewController()]
+        let controllers: [UIViewController] = [HomeViewController(), TestCompositionalLayoutViewController()]
         self.setViewControllers(controllers, animated: false)
     }
     

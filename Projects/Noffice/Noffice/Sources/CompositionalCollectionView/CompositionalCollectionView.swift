@@ -1,22 +1,26 @@
 //
 //  CompositionalCollectionView.swift
-//  Noffice
 //
 //  Created by DOYEON LEE on 7/11/24.
+//
+//  Referenced by Mumu
 //
 
 import UIKit
 
 import RxSwift
 
-final public class CompositionalCollectionView: UIView, UICollectionViewDelegate {
+final public class CompositionalCollectionView<Section: CompositionalSection>: UIView, UICollectionViewDelegate {
+    // MARK: Identifier
+    private let itemCellIdentifier = CollectionViewItemCellContainer.reusableIdentifier
+    private let reusableViewIdentifier = CollectionViewResuableViewContainer.reusableIdentifier
+    
     // MARK: CollectionView & DataSource
     private var collectionView: UICollectionView!
-    private var dataSource: UICollectionViewDiffableDataSource<AnyCompositionalSection, CollectionViewItemWrapper>!
-    private var registeredCellIdentifiers: Set<String> = []
+    private var dataSource: UICollectionViewDiffableDataSource<Section, CollectionViewItemWrapper>!
     
     // MARK: Injected data
-    private var sections: [AnyCompositionalSection] = [] {
+    private var sections: [Section] = [] {
         didSet {
             applySnapshot(animatingDifferences: true)
         }
@@ -31,6 +35,7 @@ final public class CompositionalCollectionView: UIView, UICollectionViewDelegate
         configureCompositionalLayout()
         configureDatasource()
         configureCollectionView()
+        registerCell()
     }
     
     required init?(coder: NSCoder) {
@@ -39,7 +44,7 @@ final public class CompositionalCollectionView: UIView, UICollectionViewDelegate
     
     // MARK: Public interface for RxSwift
     public func bindSections(
-        by sectionsObservable: Observable<[AnyCompositionalSection]>
+        to sectionsObservable: Observable<[Section]>
     ) -> Disposable {
         let sectionsDisposable = sectionsObservable
             .observe(on: MainScheduler.instance)
@@ -52,9 +57,10 @@ final public class CompositionalCollectionView: UIView, UICollectionViewDelegate
     }
     
     // MARK: Configure collection view
+    /// Set the compositional layout of collection view using the sections
     private func configureCompositionalLayout() {
         let layout = UICollectionViewCompositionalLayout { [weak self] sectionIndex, _ in
-            return self?.sections[sectionIndex].layout
+            return self?.sections[sectionIndex].layout.makeSectionLayout()
         }
         
         collectionView = UICollectionView(
@@ -63,19 +69,16 @@ final public class CompositionalCollectionView: UIView, UICollectionViewDelegate
         )
     }
     
+    /// Set the diffable datasource and cell dequeue logic
     private func configureDatasource() {
-        dataSource = UICollectionViewDiffableDataSource<AnyCompositionalSection, CollectionViewItemWrapper>(
+        dataSource = UICollectionViewDiffableDataSource<Section, CollectionViewItemWrapper>(
             collectionView: collectionView
         ) { [weak self] (collectionView, indexPath, itemWrapper) in
             guard let self = self else { return UICollectionViewCell() }
             
-            // Resigter cell identifier and container cell type
-            let reusableIdentifier = CollectionViewItemCellContainer.reusableIdentifier
-            self.registerCellIfNeeded(reusableIdentifier: reusableIdentifier)
-            
             // Dequeue cell and cast container cell type
             guard let containerCell = collectionView.dequeueReusableCell(
-                withReuseIdentifier: reusableIdentifier,
+                withReuseIdentifier: self.itemCellIdentifier,
                 for: indexPath
             ) as? CollectionViewItemCellContainer else {
                 return UICollectionViewCell()
@@ -86,14 +89,60 @@ final public class CompositionalCollectionView: UIView, UICollectionViewDelegate
             let cell = cellType.init()
             
             containerCell.setContainedCell(cell)
-            containerCell.configure(with: itemWrapper.wrappee)
+            containerCell.configure(with: itemWrapper.wrappee) // include bind
             
             return containerCell
+        }
+        
+        // Set the supplementary view provider
+        dataSource.supplementaryViewProvider = { [weak self] (collectionView, kind, indexPath) -> UICollectionReusableView? in
+            guard let self = self else { return nil }
+            
+            let section = self.dataSource.snapshot().sectionIdentifiers[indexPath.section]
+            
+            if kind == UICollectionView.elementKindSectionHeader {
+                guard let headerView = collectionView.dequeueReusableSupplementaryView(
+                    ofKind: kind,
+                    withReuseIdentifier: self.reusableViewIdentifier,
+                    for: indexPath
+                ) as? CollectionViewResuableViewContainer else {
+                    return UICollectionReusableView()
+                }
+                
+                // Configure inner view of container cell
+                let headerType = section.headerType
+                let view = headerType.init()
+                
+                headerView.setContainedView(view)
+                headerView.configure(with: section, type: .header)
+                
+                return headerView
+            } else if kind == UICollectionView.elementKindSectionFooter {
+                guard let footerView = collectionView.dequeueReusableSupplementaryView(
+                    ofKind: kind,
+                    withReuseIdentifier: self.reusableViewIdentifier,
+                    for: indexPath
+                ) as? CollectionViewResuableViewContainer else {
+                    return UICollectionReusableView()
+                }
+                
+                // Configure inner view of container cell
+                let footerType = section.footerType
+                let view = footerType.init()
+                
+                footerView.setContainedView(view)
+                footerView.configure(with: section, type: .footer)
+                
+                return footerView
+            }
+            
+            return nil
         }
         
         applySnapshot()
     }
     
+    /// Set the collection view layout (relative to the parent view) and delegate
     private func configureCollectionView() {
         self.addSubview(collectionView)
         collectionView.snp.makeConstraints {
@@ -105,7 +154,7 @@ final public class CompositionalCollectionView: UIView, UICollectionViewDelegate
     
     // MARK: Snapshot
     private func applySnapshot(animatingDifferences: Bool = true) {
-        var snapshot = NSDiffableDataSourceSnapshot<AnyCompositionalSection, CollectionViewItemWrapper>()
+        var snapshot = NSDiffableDataSourceSnapshot<Section, CollectionViewItemWrapper>()
         
         for section in sections {
             snapshot.appendSections([section])
@@ -126,13 +175,24 @@ final public class CompositionalCollectionView: UIView, UICollectionViewDelegate
 }
 
 extension CompositionalCollectionView {
-    private func registerCellIfNeeded(reusableIdentifier: String) {
-        if !registeredCellIdentifiers.contains(reusableIdentifier) {
-            collectionView.register(
-                CollectionViewItemCellContainer.self,
-                forCellWithReuseIdentifier: reusableIdentifier
-            )
-            registeredCellIdentifiers.insert(reusableIdentifier)
-        }
+    private func registerCell(){
+        collectionView.register(
+            CollectionViewItemCellContainer.self,
+            forCellWithReuseIdentifier: self.itemCellIdentifier
+        )
+        
+        // section header
+        collectionView.register(
+            CollectionViewResuableViewContainer.self,
+            forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
+            withReuseIdentifier: self.reusableViewIdentifier
+        )
+        
+        // section footer
+        collectionView.register(
+            CollectionViewResuableViewContainer.self,
+            forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter,
+            withReuseIdentifier:self.reusableViewIdentifier
+        )
     }
 }

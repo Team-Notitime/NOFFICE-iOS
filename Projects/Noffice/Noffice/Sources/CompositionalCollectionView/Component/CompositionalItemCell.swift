@@ -1,8 +1,9 @@
 //
 //  CollectionViewItemCell.swift
-//  Noffice
 //
 //  Created by DOYEON LEE on 7/11/24.
+//
+//  Referenced by Mumu
 //
 
 import UIKit
@@ -17,6 +18,10 @@ public protocol CompositionalItemCell: UIView {
     func configure(with item: Item)
     
     var itemType: Item.Type { get }
+}
+
+extension CompositionalItemCell {
+    var itemType: Item.Type { return Item.self }
 }
 
 // MARK: - Helper component

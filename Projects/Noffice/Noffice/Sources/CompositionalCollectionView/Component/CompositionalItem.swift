@@ -1,8 +1,9 @@
 //
 //  CollectionViewItem.swift
-//  Noffice
 //
 //  Created by DOYEON LEE on 7/11/24.
+//
+//  Referenced by Mumu
 //
 
 import Foundation
@@ -60,6 +61,8 @@ public protocol CompositionalItem: Hashable {
 }
 
 public extension CompositionalItem {
+    var cellType: Cell.Type { return Cell.self }
+    
     static func == (lhs: Self, rhs: Self) -> Bool {
         return lhs.hashValue == rhs.hashValue
     }
