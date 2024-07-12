@@ -57,7 +57,7 @@ public class HomeView: BaseView {
         $0.styled(variant: .underline)
     }
     
-    lazy var pageViewController = PageView<Page>(
+    lazy var pageView = PageView<Page>(
         pages: Page.allCases,
         firstPage: Page.noti
     )
@@ -68,7 +68,7 @@ public class HomeView: BaseView {
         addSubview(segmentControl)
         
         // pageViewController
-        addSubview(pageViewController)
+        addSubview(pageView)
     }
     
     public override func setupLayout() { 
@@ -79,19 +79,19 @@ public class HomeView: BaseView {
             $0.height.equalTo(60)
         }
         
-        pageViewController.snp.makeConstraints {
+        pageView.snp.makeConstraints {
             $0.top.equalTo(segmentControl.snp.bottom)
             $0.leading.trailing.bottom.equalToSuperview()
         }
     }
     
     public override func setupBind() { 
-        pageViewController.onMove
+        pageView.onMove
             .bind(to: self.segmentControl.selectedOption)
             .disposed(by: disposeBag)
         
         segmentControl.onChange
-            .bind(to: self.pageViewController.selectedPage)
+            .bind(to: self.pageView.selectedPage)
             .disposed(by: disposeBag)
     }
     
