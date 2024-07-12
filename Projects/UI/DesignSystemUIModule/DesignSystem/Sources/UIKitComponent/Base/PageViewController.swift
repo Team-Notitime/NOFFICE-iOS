@@ -77,7 +77,7 @@ public protocol PageType: Hashable {
     var viewController: UIViewController { get }
 }
 
-open class PageViewController<Page: PageType>: UIViewController, UIScrollViewDelegate {
+open class PageView<Page: PageType>: UIView, UIScrollViewDelegate {
     // MARK: Event
     public let _onMove = PublishSubject<Page>()
     public var onMove: Observable<Page> {
@@ -85,9 +85,9 @@ open class PageViewController<Page: PageType>: UIViewController, UIScrollViewDel
     }
     
     public var selectedPage: Binder<Page> {
-        return Binder(self) { (pageViewController: PageViewController, page: Page) in
-            guard let pageIndex = pageViewController.pages.firstIndex(of: page) else { return }
-            pageViewController.moveToPage(at: pageIndex, animated: true)
+        return Binder(self) { (pageView: PageView, page: Page) in
+            guard let pageIndex = pageView.pages.firstIndex(of: page) else { return }
+            pageView.moveToPage(at: pageIndex, animated: true)
         }
     }
     
@@ -107,7 +107,7 @@ open class PageViewController<Page: PageType>: UIViewController, UIScrollViewDel
     // MARK: Initializer
     public init(pages: [Page], firstPage: Page) {
         self.firstPage = firstPage
-        super.init(nibName: nil, bundle: nil)
+        super.init(frame: .zero)
         
         if pages.isEmpty {
             fatalError("You must provide at least one page.")
@@ -131,11 +131,10 @@ open class PageViewController<Page: PageType>: UIViewController, UIScrollViewDel
     }
     
     // MARK: Life cycle
-    public override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
+    public override func layoutSubviews() {
+        super.layoutSubviews()
         setupPages()
         setupFirstPage()
-
     }
     
     // MARK: Public interface
@@ -157,7 +156,7 @@ open class PageViewController<Page: PageType>: UIViewController, UIScrollViewDel
         scrollView.isPagingEnabled = true
         scrollView.showsHorizontalScrollIndicator = false
         
-        view.addSubview(scrollView)
+        addSubview(scrollView)
         scrollView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
@@ -174,7 +173,7 @@ open class PageViewController<Page: PageType>: UIViewController, UIScrollViewDel
     }
     
     private func setupFirstPage() {
-        guard let firstViewController = viewControllersDict[firstPage],
+        guard let firstView = viewControllersDict[firstPage],
               let firstPageIndex = pages.firstIndex(of: firstPage)
         else { return }
         
@@ -188,17 +187,13 @@ open class PageViewController<Page: PageType>: UIViewController, UIScrollViewDel
     private func setupPages() {
         for (index, page) in pages.enumerated() {
             if let viewController = viewControllersDict[page] {
-                addChild(viewController)
                 contentView.addSubview(viewController.view)
-                viewController.didMove(toParent: self)
                 
                 viewController.view.snp.makeConstraints { make in
                     make.top.bottom.equalToSuperview()
                     make.width.equalTo(scrollView.snp.width)
                     make.leading.equalTo(scrollView.snp.leading)
                         .offset(scrollView.bounds.width * CGFloat(index))
-                    
-                    print(scrollView.bounds.width)
                 }
             }
         }
