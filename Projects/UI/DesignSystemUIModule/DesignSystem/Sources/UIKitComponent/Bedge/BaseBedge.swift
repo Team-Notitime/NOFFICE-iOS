@@ -50,7 +50,7 @@ public class BaseBedge: UIView {
     // MARK: UIConstant
     
     // MARK: UI Component
-    private lazy var itemStack = 
+    private lazy var itemStack = UIStackView()
     
     // MARK: DisposeBag
     private let disposeBag = DisposeBag()

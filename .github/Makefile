@@ -18,7 +18,7 @@ endif
 # Help target
 help:
 	@echo "Usage:"
-	@echo "  make sync-labels GITHUB_ACCESS_TOKEN=<your_token> REPO=<your_repo>"
+	@echo "  make sync-labels GITHUB_ACCESS_TOKEN=<your_token> REPO=<your_nickname>/<your_repo_name>"
 	@echo ""
 	@echo "This target syncs the labels defined in labels.json with the specified GitHub repository."
 
