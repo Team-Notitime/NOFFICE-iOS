@@ -1,5 +1,5 @@
 //
-//  BasicBedgeColorTheme.swift
+//  BasicBadgeColorTheme.swift
 //  DesignSystemApp
 //
 //  Created by DOYEON LEE on 7/14/24.
@@ -9,13 +9,13 @@ import Foundation
 
 import Assets
 
-public struct BasicBedgeColorTheme: BedgeColorTheme {
-    private var color: BasicBedgeColor
-    private var variant: BasicBedgeVariant
+public struct BasicBadgeColorTheme: BadgeColorTheme {
+    private var color: BasicBadgeColor
+    private var variant: BasicBadgeVariant
     
     init(
-        color: BasicBedgeColor,
-        variant: BasicBedgeVariant
+        color: BasicBadgeColor,
+        variant: BasicBadgeVariant
     ) {
         self.color = color
         self.variant = variant
@@ -35,5 +35,9 @@ public struct BasicBedgeColorTheme: BedgeColorTheme {
         case (.green, .weak): return .init(.green500.opacity(0.16))
         case (.green, .off): return .init(.grey100)
         }
+    }
+    
+    func iconForegroundColor() -> UniversalColor {
+        return .init(foregroundColor().color.opacity(0.5))
     }
 }

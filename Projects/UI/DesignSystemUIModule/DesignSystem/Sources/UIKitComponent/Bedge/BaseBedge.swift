@@ -1,5 +1,5 @@
 //
-//  BaseBedge.swift
+//  BaseBadge.swift
 //  DesignSystemApp
 //
 //  Created by DOYEON LEE on 7/14/24.
@@ -12,26 +12,24 @@ import Then
 import SnapKit
 
 /// Extension for set theme
-public extension BaseBedge {
+public extension BaseBadge {
     func styled(
-        color: BasicBedgeColor = .green,
-        variant: BasicBedgeVariant = .on
+        color: BasicBadgeColor = .green,
+        variant: BasicBadgeVariant = .on
     ) {
-        let colorTheme = BasicBedgeColorTheme(color: color, variant: variant)
-        let figureTheme = BasicBedgeFigureTheme()
+        let colorTheme = BasicBadgeColorTheme(color: color, variant: variant)
+        let figureTheme = BasicBadgeFigureTheme()
         
         self.colorTheme = colorTheme
         self.figureTheme = figureTheme
     }
 }
 
-/// Extension for set content
-public extension BaseBedge {
-}
-
-public class BaseBedge: UIView {
+public class BaseBadge: UIView {
+    public typealias ViewBuilder = () -> [UIView]
+    
     // MARK: Theme
-    private var colorTheme: BasicBedgeColorTheme? {
+    private var colorTheme: BasicBadgeColorTheme? {
         didSet {
             updateCornerRadius()
             updateTheme()
@@ -39,7 +37,7 @@ public class BaseBedge: UIView {
         }
     }
     
-    private var figureTheme: BasicBedgeFigureTheme? {
+    private var figureTheme: BasicBadgeFigureTheme? {
         didSet {
             updateCornerRadius()
             updateTheme()
@@ -50,7 +48,17 @@ public class BaseBedge: UIView {
     // MARK: UIConstant
     
     // MARK: UI Component
-    private lazy var itemStack = UIStackView()
+    private lazy var backgroundView = UIView()
+    
+    private lazy var itemStack = UIStackView().then {
+        $0.axis = .horizontal
+        $0.spacing = 4
+        $0.distribution = .fill
+        $0.alignment = .center
+    }
+    
+    // MARK: Builder
+    private var itemBuilder: ViewBuilder = { [] }
     
     // MARK: DisposeBag
     private let disposeBag = DisposeBag()
@@ -59,29 +67,50 @@ public class BaseBedge: UIView {
     public override init(frame: CGRect) {
         super.init(frame: frame)
         setupHierachy()
-        updateCornerRadius()
         setupBind()
         updateTheme()
         updateLayout()
+        updateCornerRadius()
     }
     
     public required init?(coder: NSCoder) {
         super.init(coder: coder)
         setupHierachy()
         setupBind()
-        updateCornerRadius()
         updateTheme()
         updateLayout()
+        updateCornerRadius()
     }
     
-    public convenience init() {
-        self.init(frame: .zero)
+    public init(
+        itemBuilder: @escaping ViewBuilder
+    ) {
+        super.init(frame: .zero)
+        
+        self.itemBuilder = itemBuilder
+        
+        setupHierachy()
+        setupBind()
+        updateTheme()
+        updateLayout()
+        updateCornerRadius()
     }
-    
     // MARK: Life cycle
+    public override func layoutSubviews() {
+        super.layoutSubviews()
+        updateLayout()
+        updateCornerRadius()
+    }
     
     // MARK: Setup
     private func setupHierachy() {
+        self.addSubview(backgroundView)
+        
+        backgroundView.addSubview(itemStack)
+        
+        itemBuilder().forEach {
+            itemStack.addArrangedSubview($0)
+        }
     }
     
     private func setupBind() { }
@@ -89,13 +118,41 @@ public class BaseBedge: UIView {
     // MARK: Update
     private func updateCornerRadius() {
         guard let figureTheme = figureTheme else { return }
+        
+        self.layer.cornerRadius = figureTheme.rounded().max
+        self.layer.masksToBounds = true
     }
     
     private func updateTheme() {
         guard let colorTheme = colorTheme else { return }
         
+        let foregroundColor = colorTheme.foregroundColor().uiColor
+        let backgroundColor = colorTheme.backgroundColor().uiColor
+        let iconForegroundColor = colorTheme.iconForegroundColor().uiColor
+        
+        backgroundView.backgroundColor = backgroundColor
+        
+        itemStack.arrangedSubviews.forEach {
+            if let label = $0 as? UILabel {
+                label.textColor = foregroundColor
+            } else if let image = $0 as? UIImageView {
+                image.tintColor = iconForegroundColor
+            }
+        }
     }
     
     private func updateLayout() {
+        guard let figureTheme = figureTheme else { return }
+        
+        let padding = figureTheme.padding()
+        
+        backgroundView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+        
+        itemStack.snp.remakeConstraints {
+            $0.top.bottom.equalToSuperview().inset(padding.vertical ?? 0)
+            $0.left.right.equalToSuperview().inset(padding.horizontal ?? 0)
+        }
     }
 }

@@ -81,9 +81,6 @@ public class BaseTextField: UIView {
         }
     }
     
-    // MARK: DisposeBag
-    private let disposeBag = DisposeBag()
-    
     // MARK: UI Component
     private let titleStack = UIStackView().then {
         $0.axis = .horizontal
@@ -126,6 +123,9 @@ public class BaseTextField: UIView {
     private var prefixBuilder: ViewBuilder = { []}
     private var suffixBuilder: ViewBuilder = { [] }
     private var descriptionBuilder: ViewBuilder = { [] }
+    
+    // MARK: DisposeBag
+    private let disposeBag = DisposeBag()
     
     // MARK: Initializer
     public override init(frame: CGRect) {

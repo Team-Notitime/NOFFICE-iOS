@@ -47,11 +47,13 @@ public class HomeView: BaseView {
     private lazy var segmentControl = BaseSegmentControl(
         source: Page.allCases,
         itemBuilder: { option in
-            UILabel().then {
-                $0.text = "\(option.krName)"
-                $0.setTypo(.heading3)
-                $0.textAlignment = .center
-            }
+            [
+                UILabel().then {
+                    $0.text = "\(option.krName)"
+                    $0.setTypo(.heading3)
+                    $0.textAlignment = .center
+                }
+            ]
         }
     ).then {
         $0.styled(variant: .underline)

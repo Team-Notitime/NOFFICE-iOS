@@ -1,5 +1,5 @@
 //
-//  BasicBedgeFigureTheme.swift
+//  BasicBadgeFigureTheme.swift
 //  DesignSystemApp
 //
 //  Created by DOYEON LEE on 7/14/24.
@@ -7,9 +7,9 @@
 
 import Foundation
 
-public struct BasicBedgeFigureTheme: BedgeFigureTheme {
+public struct BasicBadgeFigureTheme: BadgeFigureTheme {
     func padding() -> GapOffset {
-        return .init(4, 12)
+        return .init(6, 12)
     }
     
     func rounded() -> RoundedOffset {

@@ -1,5 +1,5 @@
 //
-//  BedgeFigureTheme.swift
+//  BadgeFigureTheme.swift
 //  DesignSystemApp
 //
 //  Created by DOYEON LEE on 7/14/24.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol BedgeFigureTheme {
+protocol BadgeFigureTheme {
     func padding() -> GapOffset
     func rounded() -> RoundedOffset
 }

@@ -64,9 +64,6 @@ public class BaseButton: UIControl {
         }
     }
     
-    // MARK: DisposeBag
-    private let disposeBag = DisposeBag()
-    
     // MARK: UI Components
     private let stackView = UIStackView().then {
         $0.axis = .horizontal
@@ -78,6 +75,9 @@ public class BaseButton: UIControl {
     
     // MARK: Builder
     private var itemBuilder: ViewBuilder = { [] }
+    
+    // MARK: DisposeBag
+    private let disposeBag = DisposeBag()
     
     // MARK: Initializers
     public override init(frame: CGRect) {

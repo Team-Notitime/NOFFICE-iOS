@@ -62,6 +62,17 @@ class ViewController: UIViewController {
         $0.setTitleColor(.systemBlue, for: .normal)
     }
     
+    private lazy var badgeBooKLabel = UILabel().then {
+        $0.text = "Badge"
+        $0.setTypo(.heading3)
+        $0.textColor = .grey700
+    }
+    
+    private lazy var badgeBookButton = UIButton().then {
+        $0.setTitle("Basic badge example", for: .normal)
+        $0.setTitleColor(.systemBlue, for: .normal)
+    }
+    
     // MARK: DisposeBag
     private let disposeBag = DisposeBag()
 
@@ -88,6 +99,9 @@ class ViewController: UIViewController {
         
         stackView.addArrangedSubview(textFieldBooKLabel)
         stackView.addArrangedSubview(textFieldBookButton)
+        
+        stackView.addArrangedSubview(badgeBooKLabel)
+        stackView.addArrangedSubview(badgeBookButton)
     }
     
     private func setupLayout() {
@@ -121,6 +135,13 @@ class ViewController: UIViewController {
         textFieldBookButton.rx.tap
             .subscribe(onNext: { [weak self] in
                 let viewController = TextFieldBookViewController()
+                self?.navigationController?.pushViewController(viewController, animated: true)
+            })
+            .disposed(by: disposeBag)
+        
+        badgeBookButton.rx.tap
+            .subscribe(onNext: { [weak self] in
+                let viewController = BadgeBookViewController()
                 self?.navigationController?.pushViewController(viewController, animated: true)
             })
             .disposed(by: disposeBag)
