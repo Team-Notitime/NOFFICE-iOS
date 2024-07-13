@@ -18,9 +18,9 @@ struct BasicButtonFigureTheme: ButtonFigureTheme {
     
     func padding() -> GapOffset {
         switch size {
-        case .large: .init(16, 32)
-        case .medium: .init(10, 24)
-        case .small: .init(8, 16)
+        case .large: .init(22, 32)
+        case .medium: .init(16, 24)
+        case .small: .init(10, 16)
         case .xsmall: .init(6, 8)
         }
     }
@@ -61,7 +61,7 @@ struct BasicButtonFigureTheme: ButtonFigureTheme {
         switch size {
         case .large: return .large
         case .medium: return .medium
-        case .small: return .small
+        case .small: return .medium
         case .xsmall: return .xsmall
         }
     }
@@ -71,8 +71,8 @@ struct BasicButtonFigureTheme: ButtonFigureTheme {
     
     func frame() -> FrameOffset {
         switch size {
-        case .large: .init(.infinity, nil)
-        case .medium, .small, .xsmall: .init(nil, nil)
+        case .large, .medium: .init(.infinity, nil)
+        case .small, .xsmall: .init(nil, nil)
         }
     }
     

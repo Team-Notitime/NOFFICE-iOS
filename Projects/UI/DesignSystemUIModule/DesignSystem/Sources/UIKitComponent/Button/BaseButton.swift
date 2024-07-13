@@ -34,17 +34,11 @@ public extension BaseButton {
     }
 }
 
-public enum BaseButtonImageAlignment {
-    case leading
-    case trailing
-}
-
 public class BaseButton: UIControl {
+    public typealias ViewBuilder = () -> [UIView]
+    
     // MARK: Event emitter
     public var onTap: PublishSubject<Void> = PublishSubject()
-    
-    // MARK: Source
-    private var itemBuilder: () -> [UIView] = { [] }
     
     // MARK: Theme
     private var colorTheme: ButtonColorTheme? {
@@ -82,6 +76,9 @@ public class BaseButton: UIControl {
         $0.isUserInteractionEnabled = false
     }
     
+    // MARK: Builder
+    private var itemBuilder: ViewBuilder = { [] }
+    
     // MARK: Initializers
     public override init(frame: CGRect) {
         super.init(frame: frame)
@@ -102,7 +99,7 @@ public class BaseButton: UIControl {
     }
     
     public init(
-        itemBuilder: @escaping () -> [UIView]
+        itemBuilder: @escaping ViewBuilder
     ) {
         super.init(frame: .zero)
         self.itemBuilder = itemBuilder

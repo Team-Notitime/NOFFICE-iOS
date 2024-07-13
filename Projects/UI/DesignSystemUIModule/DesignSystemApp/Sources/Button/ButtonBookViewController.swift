@@ -16,28 +16,29 @@ import SnapKit
 
 final class ButtonBookViewController: UIViewController {
     // MARK: UI Component
-    let scrollView = UIScrollView()
-    let contentView = UIView()
+    lazy var scrollView = UIScrollView()
     
-    let stackView = UIStackView().then {
+    lazy var contentView = UIView()
+    
+    lazy var stackView = UIStackView().then {
         $0.axis = .vertical
         $0.alignment = .center
         $0.distribution = .fill
         $0.spacing = 16
     }
     
-    let sizeControlLabel = UILabel().then {
+    lazy var sizeControlLabel = UILabel().then {
         $0.text = "size"
         $0.setTypo(.body1b)
     }
     
-    let sizeControl = UISegmentedControl(
+    lazy var sizeControl = UISegmentedControl(
         items: Array(BasicButtonSize.allCases).map { $0.rawValue }
     ).then {
         $0.selectedSegmentIndex = 0
     }
     
-    let variantControlLabel = UILabel().then {
+    lazy var variantControlLabel = UILabel().then {
         $0.text = "variant"
         $0.setTypo(.body1b)
     }
@@ -48,7 +49,7 @@ final class ButtonBookViewController: UIViewController {
         $0.selectedSegmentIndex = 0
     }
 
-    let shapeControlLabel = UILabel().then {
+    lazy var shapeControlLabel = UILabel().then {
         $0.text = "shape"
         $0.setTypo(.body1b)
     }
@@ -59,22 +60,22 @@ final class ButtonBookViewController: UIViewController {
         $0.selectedSegmentIndex = 0
     }
     
-    let stateControlLabel = UILabel().then {
+    lazy var stateControlLabel = UILabel().then {
         $0.text = "state"
         $0.setTypo(.body1b)
     }
     
-    let stateControl = UISegmentedControl(
+    lazy var stateControl = UISegmentedControl(
         items: ["enabled", "disabled"]
     ).then {
         $0.selectedSegmentIndex = 0
     }
     
-    let divider = UIView().then {
+    lazy var divider = UIView().then {
         $0.backgroundColor = .grey100
     }
     
-    let colorLabels: [UILabel] = BasicButtonColor.allCases.map { color in
+    lazy var colorLabels: [UILabel] = BasicButtonColor.allCases.map { color in
         UILabel().then {
             $0.text = color.rawValue
             $0.setTypo(.body3)
@@ -82,7 +83,7 @@ final class ButtonBookViewController: UIViewController {
         }
     }
     
-    let buttons: [BaseButton] = BasicButtonColor.allCases.map { _ in
+    lazy var buttons: [BaseButton] = BasicButtonColor.allCases.map { _ in
         BaseButton(
             itemBuilder: {
                 [
@@ -98,11 +99,13 @@ final class ButtonBookViewController: UIViewController {
     }
     
     // MARK: DisposeBag
-    let disposeBag = DisposeBag()
+    private let disposeBag = DisposeBag()
     
     // MARK: Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.view.backgroundColor = .white
+        
         setupHierarchy()
         setupLayout()
         setupBind()

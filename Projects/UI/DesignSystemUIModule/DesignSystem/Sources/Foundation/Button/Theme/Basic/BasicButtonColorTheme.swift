@@ -32,7 +32,7 @@ struct BasicButtonColorTheme: ButtonColorTheme {
     func foregroundColor(state: ButtonState) -> UniversalColor {
         switch variant {
         case .fill:
-            return .init(.white)
+            return fillForegroundColor(state: state, color: color)
         case .translucent:
             return translucentForegroundColor(state: state, color: color)
         case .transparent:
@@ -42,10 +42,10 @@ struct BasicButtonColorTheme: ButtonColorTheme {
     
     func borderColor(state: ButtonState) -> UniversalColor {
         switch variant {
-        case .fill, .translucent:
+        case .fill, .transparent:
             return .init(.none)
-        case .transparent:
-            return .init(.none)
+        case .translucent:
+            return transparentBorderColor(state: state, color: color)
         }
     }
 }
@@ -69,7 +69,18 @@ private extension BasicButtonColorTheme {
         switch (state, color) {
         case (.enabled, .green): return .init(.green500.opacity(0.06))
         case (.pressed, .green): return .init(.green600.opacity(0.06))
-        case (.disabled, _): return .init(.grey100)
+        case (.disabled, _): return .init(.grey100.opacity(0.06))
+        }
+    }
+    
+    func fillForegroundColor(
+        state: ButtonState,
+        color: BasicButtonColor
+    ) -> UniversalColor {
+        switch (state, color) {
+        case (.enabled, .green): return .init(.fullWhite)
+        case (.pressed, .green): return .init(.fullWhite)
+        case (.disabled, _): return .init(.grey500)
         }
     }
     
@@ -92,6 +103,17 @@ private extension BasicButtonColorTheme {
         case (.enabled, .green): return .init(.green500)
         case (.pressed, .green): return .init(.green600)
         case (.disabled, _): return .init(.grey500)
+        }
+    }
+    
+    func transparentBorderColor(
+        state: ButtonState,
+        color: BasicButtonColor
+    ) -> UniversalColor {
+        switch (color, state) {
+        case (.green, .enabled): return .init(.green500)
+        case (.green, .pressed): return .init(.green600)
+        case (.green, .disabled): return .init(.grey200)
         }
     }
 }

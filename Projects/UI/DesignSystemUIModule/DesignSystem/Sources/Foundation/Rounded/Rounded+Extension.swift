@@ -9,11 +9,11 @@ import Foundation
 
 extension RoundedOffset {
     static let zero = RoundedOffset()
-    static let extraSmall = RoundedOffset(all: 4)
-    static let xsmall = RoundedOffset(all: 8)
-    static let small = RoundedOffset(all: 10)
-    static let medium = RoundedOffset(all: 12)
-    static let large = RoundedOffset(all: 16)
-    static let xlarge = RoundedOffset(all: 20)
+    static let extraSmall = RoundedOffset(all: 2)
+    static let xsmall = RoundedOffset(all: 2)
+    static let small = RoundedOffset(all: 4)
+    static let medium = RoundedOffset(all: 8)
+    static let large = RoundedOffset(all: 12)
+    static let xlarge = RoundedOffset(all: 16)
     static let infinity = RoundedOffset(all: .infinity)
 }
