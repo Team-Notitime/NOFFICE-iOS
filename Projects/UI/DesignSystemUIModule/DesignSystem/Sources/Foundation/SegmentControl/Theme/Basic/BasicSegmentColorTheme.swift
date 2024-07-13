@@ -32,17 +32,19 @@ struct BasicSegmentColorTheme: SegmentColorTheme {
         
         // for flat, shadow
         switch (color, state) {
-        case (_, .unselected):
-            return .init(.grey400)
-        case (_, .selected):
-            return .init(.white)
+        case (.green, .unselected): return .init(.grey400)
+        case (.green, .selected): return .init(.green500)
+        case (.stone, .unselected): return .init(.grey400)
+        case (.stone, .selected): return .init(.fullWhite)
         }
     }
     
     func indicatorBackgroundColor() -> UniversalColor {
-        switch color {
-        case .green: return .init(.green500)
-        case .stone: return .init(.grey800)
+        switch (variant, color) {
+        case (.underline, .green): return .init(.green500)
+        case (.underline, .stone): return .init(.grey800)
+        case (_, .green): return .init(.fullWhite)
+        case (_, .stone): return .init(.grey800)
         }
     }
     

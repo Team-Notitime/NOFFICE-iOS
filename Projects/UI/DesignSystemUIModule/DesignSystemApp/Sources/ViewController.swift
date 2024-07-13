@@ -84,6 +84,17 @@ class ViewController: UIViewController {
         $0.setTitleColor(.systemBlue, for: .normal)
     }
     
+    private lazy var segmentControlBookLabel = UILabel().then {
+        $0.text = "SegmentControl"
+        $0.setTypo(.heading3)
+        $0.textColor = .grey700
+    }
+    
+    private lazy var segmentControlBookButton = UIButton().then {
+        $0.setTitle("Basic segment control example", for: .normal)
+        $0.setTitleColor(.systemBlue, for: .normal)
+    }
+    
     // MARK: DisposeBag
     private let disposeBag = DisposeBag()
 
@@ -116,6 +127,9 @@ class ViewController: UIViewController {
         
         stackView.addArrangedSubview(dialogBookLabel)
         stackView.addArrangedSubview(dialogBookButton)
+        
+        stackView.addArrangedSubview(segmentControlBookLabel)
+        stackView.addArrangedSubview(segmentControlBookButton)
     }
     
     private func setupLayout() {
@@ -163,6 +177,13 @@ class ViewController: UIViewController {
         dialogBookButton.rx.tap
             .subscribe(onNext: { [weak self] in
                 let viewController = DialogBookViewController()
+                self?.navigationController?.pushViewController(viewController, animated: true)
+            })
+            .disposed(by: disposeBag)
+        
+        segmentControlBookButton.rx.tap
+            .subscribe(onNext: { [weak self] in
+                let viewController = SegmentControlBookViewController()
                 self?.navigationController?.pushViewController(viewController, animated: true)
             })
             .disposed(by: disposeBag)

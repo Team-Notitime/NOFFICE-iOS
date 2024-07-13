@@ -71,10 +71,6 @@ final class ButtonBookViewController: UIViewController {
         $0.selectedSegmentIndex = 0
     }
     
-    lazy var divider = UIView().then {
-        $0.backgroundColor = .grey100
-    }
-    
     lazy var colorLabels: [UILabel] = BasicButtonColor.allCases.map { color in
         UILabel().then {
             $0.text = color.rawValue
@@ -126,7 +122,10 @@ final class ButtonBookViewController: UIViewController {
         stackView.addArrangedSubview(shapeControl)
         stackView.addArrangedSubview(stateControlLabel)
         stackView.addArrangedSubview(stateControl)
-        stackView.addArrangedSubview(divider)
+        
+        stackView.addArrangedSubview(BaseSpacer())
+        stackView.addArrangedSubview(BaseDivider())
+        stackView.addArrangedSubview(BaseSpacer())
         
         buttons.enumerated().forEach { index, button in
             stackView.addArrangedSubview(colorLabels[index])
@@ -164,11 +163,6 @@ final class ButtonBookViewController: UIViewController {
         }
         
         stateControl.snp.makeConstraints {
-            $0.width.equalTo(stackView.snp.width)
-        }
-        
-        divider.snp.makeConstraints {
-            $0.height.equalTo(1)
             $0.width.equalTo(stackView.snp.width)
         }
         

@@ -31,7 +31,7 @@ struct BasicSegmentFigureTheme: SegmentFigureTheme {
     
     func containerRounded() -> RoundedOffset {
         switch _shape {
-        case .round: return .xlarge
+        case .round: return .medium
         case .square: return .medium
         case .pill: return .infinity
         }
@@ -55,7 +55,7 @@ struct BasicSegmentFigureTheme: SegmentFigureTheme {
     
     func itemPadding() -> GapOffset {
         if variant == .underline {
-            return .init(0, 0)
+            return .init(8, 0)
         }
         
         return .init(8, 28)

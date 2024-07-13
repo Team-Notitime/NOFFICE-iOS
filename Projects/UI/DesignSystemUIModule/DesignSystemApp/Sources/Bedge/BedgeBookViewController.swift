@@ -99,6 +99,10 @@ final class BadgeBookViewController: UIViewController {
         stackView.addArrangedSubview(variantControlLabel)
         stackView.addArrangedSubview(variantControl)
         
+        stackView.addArrangedSubview(BaseSpacer())
+        stackView.addArrangedSubview(BaseDivider())
+        stackView.addArrangedSubview(BaseSpacer())
+        
         badges.enumerated().forEach { index, badge in
             stackView.addArrangedSubview(badgeLabels[index])
             stackView.addArrangedSubview(badge)
