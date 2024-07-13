@@ -86,32 +86,46 @@ final class TextFieldBookViewController: UIViewController {
         }
     }
     
-    private lazy var textFieldWithAffixLabel = UILabel().then {
-        $0.text = "With Affix"
+    private lazy var textFieldWithTextCountLabel = UILabel().then {
+        $0.text = "With text count"
         $0.setTypo(.body1b)
     }
     
-    private lazy var textFieldSuffix = UILabel().then {
+    private lazy var textFieldDescription = UILabel().then {
         $0.text = "0/10"
-        $0.setTypo(.body1)
+        $0.setTypo(.body3)
     }
     
-    private lazy var textFieldWithAffix = BaseTextField(
-        prefixBuilder: {
-            [
-                UIImageView(
-                    image: UIImage(systemName: "square.and.pencil")
-                ).then {
-                    $0.snp.makeConstraints {
-                        $0.width.equalTo(20)
-                    }
-                }
+    private lazy var textFieldWithTextCount = BaseTextField(
+        descriptionBuilder: { [weak self] in
+            guard let self = self else { return [] }
+            
+            return [
+                BaseSpacer(),
+                self.textFieldDescription
             ]
-        },
+        }
+    ).then {
+        $0.styled()
+    }
+    
+    private lazy var textFieldWithDeleteLabel = UILabel().then {
+        $0.text = "With delete button"
+        $0.setTypo(.body1b)
+    }
+    
+    private lazy var textFieldDeleteButton = UIImageView(image: .imgXCircle).then {
+        $0.contentMode = .scaleAspectFit
+        $0.frame.size = CGSize(width: 20, height: 20)
+        $0.layer.cornerRadius = 10
+        $0.isUserInteractionEnabled = true
+    }
+    
+    private lazy var textFieldWithDelete = BaseTextField(
         suffixBuilder: { [weak self] in
             guard let self = self else { return [] }
             
-            return [self.textFieldSuffix]
+            return [textFieldDeleteButton]
         }
     ).then {
         $0.styled()
@@ -191,8 +205,16 @@ final class TextFieldBookViewController: UIViewController {
             stackView.addArrangedSubview(colorLabels[index])
             stackView.addArrangedSubview(textField)
         }
-        stackView.addArrangedSubview(textFieldWithAffixLabel)
-        stackView.addArrangedSubview(textFieldWithAffix)
+        
+        // Textfield with text count
+        stackView.addArrangedSubview(textFieldWithTextCountLabel)
+        stackView.addArrangedSubview(textFieldWithTextCount)
+        
+        // Textfield with delete button
+        stackView.addArrangedSubview(textFieldWithDeleteLabel)
+        stackView.addArrangedSubview(textFieldWithDelete)
+        
+        // Textfield with others
         stackView.addArrangedSubview(textFieldWithOthersLabel)
         stackView.addArrangedSubview(textFieldWithOthers)
     }
@@ -261,14 +283,23 @@ final class TextFieldBookViewController: UIViewController {
                 textField.disabled = value.3 == 1
             }
             
-            owner.textFieldWithAffix.styled(
+            owner.textFieldWithTextCount.styled(
                 variant: BasicTextFieldVariant.allCases[value.0],
                 color: .gray,
                 size: BasicTextFieldSize.allCases[value.1],
                 shape: BasicTextFieldShape.allCases[value.2],
                 state: owner.convertState(value.3)
             )
-            owner.textFieldWithAffix.disabled = value.3 == 1
+            owner.textFieldWithTextCount.disabled = value.3 == 1
+            
+            owner.textFieldWithDelete.styled(
+                variant: BasicTextFieldVariant.allCases[value.0],
+                color: .gray,
+                size: BasicTextFieldSize.allCases[value.1],
+                shape: BasicTextFieldShape.allCases[value.2],
+                state: owner.convertState(value.3)
+            )
+            owner.textFieldWithDelete.disabled = value.3 == 1
             
             owner.textFieldWithOthers.styled(
                 variant: BasicTextFieldVariant.allCases[value.0],
@@ -281,11 +312,20 @@ final class TextFieldBookViewController: UIViewController {
         })
         .disposed(by: disposeBag)
         
-        textFieldWithAffix.onChange
+        textFieldWithTextCount.onChange
             .withUnretained(self)
             .subscribe { owner, value in
-                owner.textFieldSuffix.text = "\(value?.count ?? 0)/10"
+                owner.textFieldDescription.text = "\(value?.count ?? 0)/10"
             }
+            .disposed(by: disposeBag)
+        
+        let deleteTapGesture = UITapGestureRecognizer()
+        textFieldDeleteButton.addGestureRecognizer(deleteTapGesture)
+        
+        deleteTapGesture.rx.event
+            .debug()
+            .map { _ in "" }
+            .bind(to: textFieldWithDelete.text)
             .disposed(by: disposeBag)
     }
     

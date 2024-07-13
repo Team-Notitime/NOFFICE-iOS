@@ -44,6 +44,12 @@ public class BaseTextField: UIView {
     // MARK: Event
     public let textFieldEvent = PublishSubject<UIControl.Event>()
     public let onChange = PublishSubject<String?>()
+    public var text: Binder<String?> {
+        return Binder(self) { textField, text in
+            textField.textField.text = text
+            textField.onChange.onNext(text) 
+        }
+    }
     
     // MARK: Theme
     private var colorTheme: TextFieldColorTheme? {
