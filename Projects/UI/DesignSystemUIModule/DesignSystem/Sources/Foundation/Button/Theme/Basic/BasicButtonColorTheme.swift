@@ -21,9 +21,9 @@ struct BasicButtonColorTheme: ButtonColorTheme {
     func backgroundColor(state: ButtonState) -> UniversalColor {
         switch variant {
         case .fill:
-            return fillBackgroundColor(state: state, color: color)
+            return fillBackgroundColor(color: color, state: state)
         case .translucent:
-            return translucentBackgroundColor(state: state, color: color)
+            return translucentBackgroundColor(color: color, state: state)
         case .transparent:
             return state == .pressed ? .init(.grey100.opacity(0.5)) : .init(.none)
         }
@@ -32,11 +32,11 @@ struct BasicButtonColorTheme: ButtonColorTheme {
     func foregroundColor(state: ButtonState) -> UniversalColor {
         switch variant {
         case .fill:
-            return fillForegroundColor(state: state, color: color)
+            return fillForegroundColor(color: color, state: state)
         case .translucent:
-            return translucentForegroundColor(state: state, color: color)
+            return translucentForegroundColor(color: color, state: state)
         case .transparent:
-            return transparentForegroundColor(state: state, color: color)
+            return transparentForegroundColor(color: color, state: state)
         }
     }
     
@@ -45,75 +45,87 @@ struct BasicButtonColorTheme: ButtonColorTheme {
         case .fill, .transparent:
             return .init(.none)
         case .translucent:
-            return transparentBorderColor(state: state, color: color)
+            return transparentBorderColor(color: color, state: state)
         }
     }
 }
 
 private extension BasicButtonColorTheme {
     func fillBackgroundColor(
-        state: ButtonState,
-        color: BasicButtonColor
-    ) -> UniversalColor {
-        switch (state, color) {
-        case (.enabled, .green): return .init(.green500)
-        case (.pressed, .green): return .init(.green600)
-        case (.disabled, _): return .init(.grey100)
-        }
-    }
-    
-    func translucentBackgroundColor(
-        state: ButtonState,
-        color: BasicButtonColor
-    ) -> UniversalColor {
-        switch (state, color) {
-        case (.enabled, .green): return .init(.green500.opacity(0.06))
-        case (.pressed, .green): return .init(.green600.opacity(0.06))
-        case (.disabled, _): return .init(.grey100.opacity(0.06))
-        }
-    }
-    
-    func fillForegroundColor(
-        state: ButtonState,
-        color: BasicButtonColor
-    ) -> UniversalColor {
-        switch (state, color) {
-        case (.enabled, .green): return .init(.fullWhite)
-        case (.pressed, .green): return .init(.fullWhite)
-        case (.disabled, _): return .init(.grey500)
-        }
-    }
-    
-    func translucentForegroundColor(
-        state: ButtonState,
-        color: BasicButtonColor
-    ) -> UniversalColor {
-        switch (state, color) {
-        case (.enabled, .green): return .init(.green500)
-        case (.pressed, .green): return .init(.green600)
-        case (.disabled, _): return .init(.grey500)
-        }
-    }
-    
-    func transparentForegroundColor(
-        state: ButtonState,
-        color: BasicButtonColor
-    ) -> UniversalColor {
-        switch (state, color) {
-        case (.enabled, .green): return .init(.green500)
-        case (.pressed, .green): return .init(.green600)
-        case (.disabled, _): return .init(.grey500)
-        }
-    }
-    
-    func transparentBorderColor(
-        state: ButtonState,
-        color: BasicButtonColor
+        color: BasicButtonColor,
+        state: ButtonState
     ) -> UniversalColor {
         switch (color, state) {
         case (.green, .enabled): return .init(.green500)
         case (.green, .pressed): return .init(.green600)
-        case (.green, .disabled): return .init(.grey200)
+        case (.ghost, .pressed): return .init(.grey100)
+        case (.ghost, .enabled): return .init(.grey100)
+        case (_, .disabled): return .init(.grey100)
+        }
+    }
+    
+    func translucentBackgroundColor(
+        color: BasicButtonColor,
+        state: ButtonState
+    ) -> UniversalColor {
+        switch (color, state) {
+        case (.green, .enabled): return .init(.green500.opacity(0.06))
+        case (.green, .pressed): return .init(.green600.opacity(0.06))
+        case (.ghost, .pressed): return .init(.grey100.opacity(0.06))
+        case (.ghost, .enabled): return .init(.grey100.opacity(0.06))
+        case (_, .disabled): return .init(.grey100.opacity(0.06))
+        }
+    }
+    
+    func fillForegroundColor(
+        color: BasicButtonColor,
+        state: ButtonState
+    ) -> UniversalColor {
+        switch (color, state) {
+        case (.green, .enabled): return .init(.fullWhite)
+        case (.green, .pressed): return .init(.fullWhite)
+        case (.ghost, .pressed): return .init(.grey500)
+        case (.ghost, .enabled): return .init(.grey500)
+        case (_, .disabled): return .init(.grey500)
+        }
+    }
+    
+    func translucentForegroundColor(
+        color: BasicButtonColor,
+        state: ButtonState
+    ) -> UniversalColor {
+        switch (color, state) {
+        case (.green, .enabled): return .init(.green500)
+        case (.green, .pressed): return .init(.green600)
+        case (.ghost, .pressed): return .init(.grey500)
+        case (.ghost, .enabled): return .init(.grey500)
+        case (_, .disabled): return .init(.grey500)
+        }
+    }
+    
+    func transparentForegroundColor(
+        color: BasicButtonColor,
+        state: ButtonState
+    ) -> UniversalColor {
+        switch (color, state) {
+        case (.green, .enabled): return .init(.green500)
+        case (.green, .pressed): return .init(.green600)
+        case (.ghost, .pressed): return .init(.grey500)
+        case (.ghost, .enabled): return .init(.grey500)
+        case (_, .disabled): return .init(.grey500)
+        }
+    }
+    
+    func transparentBorderColor(
+        color: BasicButtonColor,
+        state: ButtonState
+    ) -> UniversalColor {
+        switch (color, state) {
+        case (.green, .enabled): return .init(.green500)
+        case (.green, .pressed): return .init(.green600)
+        case (.ghost, .pressed): return .init(.grey200)
+        case (.ghost, .enabled): return .init(.grey200)
+        case (_, .disabled): return .init(.grey200)
         }
     }
 }

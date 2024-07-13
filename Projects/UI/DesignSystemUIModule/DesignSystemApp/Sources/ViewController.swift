@@ -62,7 +62,7 @@ class ViewController: UIViewController {
         $0.setTitleColor(.systemBlue, for: .normal)
     }
     
-    private lazy var badgeBooKLabel = UILabel().then {
+    private lazy var badgeBookLabel = UILabel().then {
         $0.text = "Badge"
         $0.setTypo(.heading3)
         $0.textColor = .grey700
@@ -70,6 +70,17 @@ class ViewController: UIViewController {
     
     private lazy var badgeBookButton = UIButton().then {
         $0.setTitle("Basic badge example", for: .normal)
+        $0.setTitleColor(.systemBlue, for: .normal)
+    }
+    
+    private lazy var dialogBookLabel = UILabel().then {
+        $0.text = "Dialog"
+        $0.setTypo(.heading3)
+        $0.textColor = .grey700
+    }
+    
+    private lazy var dialogBookButton = UIButton().then {
+        $0.setTitle("Basic dialog example", for: .normal)
         $0.setTitleColor(.systemBlue, for: .normal)
     }
     
@@ -100,8 +111,11 @@ class ViewController: UIViewController {
         stackView.addArrangedSubview(textFieldBooKLabel)
         stackView.addArrangedSubview(textFieldBookButton)
         
-        stackView.addArrangedSubview(badgeBooKLabel)
+        stackView.addArrangedSubview(badgeBookLabel)
         stackView.addArrangedSubview(badgeBookButton)
+        
+        stackView.addArrangedSubview(dialogBookLabel)
+        stackView.addArrangedSubview(dialogBookButton)
     }
     
     private func setupLayout() {
@@ -142,6 +156,13 @@ class ViewController: UIViewController {
         badgeBookButton.rx.tap
             .subscribe(onNext: { [weak self] in
                 let viewController = BadgeBookViewController()
+                self?.navigationController?.pushViewController(viewController, animated: true)
+            })
+            .disposed(by: disposeBag)
+        
+        dialogBookButton.rx.tap
+            .subscribe(onNext: { [weak self] in
+                let viewController = DialogBookViewController()
                 self?.navigationController?.pushViewController(viewController, animated: true)
             })
             .disposed(by: disposeBag)

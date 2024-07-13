@@ -83,6 +83,7 @@ final class TextFieldBookViewController: UIViewController {
     private lazy var textFields: [BaseTextField] = BasicTextFieldColor.allCases.map { _ in
         BaseTextField().then {
             $0.styled()
+            $0.placeholder = "Placeholder"
         }
     }
     
@@ -107,6 +108,7 @@ final class TextFieldBookViewController: UIViewController {
         }
     ).then {
         $0.styled()
+        $0.placeholder = "Placeholder"
     }
     
     private lazy var textFieldWithDeleteLabel = UILabel().then {
@@ -129,6 +131,7 @@ final class TextFieldBookViewController: UIViewController {
         }
     ).then {
         $0.styled()
+        $0.placeholder = "Placeholder"
     }
     
     private lazy var textFieldWithOthersLabel = UILabel().then {
@@ -171,6 +174,7 @@ final class TextFieldBookViewController: UIViewController {
         }
     ).then {
         $0.styled()
+        $0.placeholder = "Placeholder"
     }
 
     // MARK: DisposeBag

@@ -25,29 +25,26 @@ struct BasicTextFieldFigureTheme: TextFieldFigureTheme {
     func padding() -> GapOffset {
         if variant == .underlined {
             switch size {
-            case .large: return .init(16, 0)
+            case .textLarge, .large: return .init(16, 0)
             case .medium: return .init(10, 0)
             case .small: return .init(8, 0)
             }
         }
         
         switch size {
-        case .large: return .init(16, 24)
+        case .textLarge, .large: return .init(16, 24)
         case .medium: return .init(10, 20)
         case .small: return .init(8, 16)
         }
     }
     
-    func textSize() -> CGFloat {
+    func typo() -> Typo {
         switch size {
-        case .large: 16
-        case .medium: 16
-        case .small: 14
+        case .textLarge: .heading3
+        case .large: .body1
+        case .medium: .body1
+        case .small: .body2
         }
-    }
-    
-    func textWeight() -> Font.Weight {
-        return .regular
     }
     
     func rounded() -> RoundedOffset {
@@ -60,7 +57,7 @@ struct BasicTextFieldFigureTheme: TextFieldFigureTheme {
         }
         
         switch size {
-        case .large: return .large
+        case .textLarge, .large: return .large
         case .medium: return .medium
         case .small: return .small
         }

@@ -8,5 +8,5 @@
 import Foundation
 
 public enum BasicTextFieldSize: String, CaseIterable {
-    case large, medium, small
+    case textLarge, large, medium, small
 }

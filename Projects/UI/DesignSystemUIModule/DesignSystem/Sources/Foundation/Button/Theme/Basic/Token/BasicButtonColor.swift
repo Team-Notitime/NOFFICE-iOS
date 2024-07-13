@@ -8,5 +8,5 @@
 import Foundation
 
 public enum BasicButtonColor: String, CaseIterable {
-    case green
+    case green, ghost
 }

@@ -81,6 +81,12 @@ public class BaseTextField: UIView {
         }
     }
     
+    public var placeholder: String? {
+        didSet {
+            textField.placeholder = placeholder
+        }
+    }
+    
     // MARK: UI Component
     private let titleStack = UIStackView().then {
         $0.axis = .horizontal
@@ -112,7 +118,6 @@ public class BaseTextField: UIView {
     }
     
     private let textField = UITextField().then {
-        $0.placeholder = "TextField"
         $0.textAlignment = .left
         $0.setContentHuggingPriority(.defaultLow, for: .horizontal)
         $0.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
@@ -255,12 +260,14 @@ public class BaseTextField: UIView {
         
         // color
         let foregroundColor = colorTheme.foregroundColor(state: allState).uiColor
+        let placeholderColor = colorTheme.placeholderColor(state: allState).uiColor
         let backgroundColor = colorTheme.backgroundColor(state: allState).uiColor
         let borderColor = colorTheme.borderColor(state: allState).cgColor
         let descriptionColor = colorTheme.descriptionColor(state: allState).uiColor
         
         // figure
         let borderWidth = figureTheme.borderWidth()
+        let typo = figureTheme.typo()
         
         updateCornerRadius()
         
@@ -276,6 +283,11 @@ public class BaseTextField: UIView {
             
             // TextField
             self.textField.textColor = foregroundColor
+            self.textField.setTypo(typo)
+            self.textField.attributedPlaceholder = NSAttributedString(
+                string: placeholder ?? "",
+                attributes: [.foregroundColor: placeholderColor]
+            )
             
             // Title stack
             self.titleStack.subviews.forEach {

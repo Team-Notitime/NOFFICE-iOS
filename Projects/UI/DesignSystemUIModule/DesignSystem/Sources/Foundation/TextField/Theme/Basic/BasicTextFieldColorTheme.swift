@@ -16,12 +16,16 @@ struct BasicTextFieldColorTheme: TextFieldColorTheme {
         case .disabled:
             return .init(.grey400)
         case .normal:
-            return .init(.grey500)
+            return .init(.grey800)
         case .focused:
             return .init(.grey800)
         default:
             return .init(.grey800)
         }
+    }
+    
+    func placeholderColor(state: TextFieldAllState) -> UniversalColor {
+        return .init(.grey400)
     }
     
     func backgroundColor(state: TextFieldAllState) -> UniversalColor {
