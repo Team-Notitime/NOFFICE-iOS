@@ -6,8 +6,10 @@
 //
 
 import UIKit
+
 import RxSwift
 import RxCocoa
+import SnapKit
 
 public protocol PageType: Hashable {
     var viewController: UIViewController { get }
@@ -275,6 +277,8 @@ open class PaginableView<Page: PageType>: UIView, UIScrollViewDelegate {
     }
 
     private func moveToPage(at index: Int, animated: Bool) {
+        currentPage = pages[index]
+        
         scrollView.setContentOffset(
             CGPoint(
                 x: scrollView.bounds.width * CGFloat(index),
@@ -286,20 +290,8 @@ open class PaginableView<Page: PageType>: UIView, UIScrollViewDelegate {
     
     // MARK: UIScrollViewDelegate
     public func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        
         let offsetX = scrollView.contentOffset.x
         _scrollOffset.onNext(offsetX)
-        
-        let width = scrollView.bounds.width
-        let pageIndex = Int((offsetX + width / 2) / width)
-        
-        guard let currentPageIndex = pageIndexDict[firstPage]
-        else { return }
-        
-        if pageIndex != currentPageIndex {
-            currentPage = pages[pageIndex]
-            _onMove.onNext(pages[pageIndex])
-        }
     }
     
     public func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {

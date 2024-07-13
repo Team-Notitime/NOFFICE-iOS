@@ -7,23 +7,45 @@
 
 import UIKit
 
+import DesignSystem
+
+import RxSwift
+import RxCocoa
+import Then
+import SnapKit
+
 class ViewController: UIViewController {
+    
+    private let buittonBookButton = UIButton().then {
+        $0.setTitle("Button example", for: .normal)
+    }
+    
+    private let disposeBag = DisposeBag()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-
-        // Do any additional setup after loading the view.
+        
+        setupHierarchy()
+        setupLayout()
+        setupBind()
     }
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    
+    private func setupHierarchy() {
+        view.addSubview(buittonBookButton)
     }
-    */
-
+    
+    private func setupLayout() {
+        buittonBookButton.snp.makeConstraints {
+            $0.center.equalToSuperview()
+        }
+    }
+    
+    private func setupBind() {
+        buittonBookButton.rx.tap
+            .subscribe(onNext: { [weak self] in
+                let vc = ButtonBookViewController()
+                self?.navigationController?.pushViewController(vc, animated: true)
+            }).disposed(by: disposeBag)
+    }
 }

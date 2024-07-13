@@ -44,7 +44,7 @@ public class HomeView: BaseView {
     }
     
     // MARK: UI component
-    lazy var segmentControl = BaseSegmentControl(
+    private lazy var segmentControl = BaseSegmentControl(
         source: Page.allCases,
         itemBuilder: { option in
             UILabel().then {
@@ -57,7 +57,7 @@ public class HomeView: BaseView {
         $0.styled(variant: .underline)
     }
     
-    lazy var paginableView = PaginableView<Page>(
+    private lazy var paginableView = PaginableView<Page>(
         pages: Page.allCases,
         firstPage: Page.todo
     )
