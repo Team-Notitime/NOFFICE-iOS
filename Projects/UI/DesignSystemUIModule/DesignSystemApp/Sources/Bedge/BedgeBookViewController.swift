@@ -135,7 +135,6 @@ final class BadgeBookViewController: UIViewController {
             .observe(on: MainScheduler.instance)
             .withUnretained(self)
             .subscribe(onNext: { owner, index in
-                let variant = BasicBadgeVariant.allCases[index]
                 BasicBadgeColor.allCases.enumerated().forEach { colorIndex, color in
                     
                     owner.badges[colorIndex].styled(
@@ -143,11 +142,12 @@ final class BadgeBookViewController: UIViewController {
                         variant: BasicBadgeVariant.allCases[index]
                     )
                     
-                    owner.badgeWithIcon.styled(
-                        color: color,
-                        variant: BasicBadgeVariant.allCases[index]
-                    )
                 }
+                
+                owner.badgeWithIcon.styled(
+                    color: .green,
+                    variant: BasicBadgeVariant.allCases[index]
+                )
             })
             .disposed(by: disposeBag)
     }
