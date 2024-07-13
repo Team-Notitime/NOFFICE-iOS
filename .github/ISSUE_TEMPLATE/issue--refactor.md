@@ -1,12 +1,16 @@
 ---
 name: "Issue: Refactor"
-about: "Refactoring code or architecture"
-title: "[Refactor]"
-labels: refactor
+about: "Please describe the refactoring of code or architecture!"
+title: "refactor:"
+labels: 🔨 Refactor
 assignees: ""
 ---
 
-## ♻️ Refactoring plans
+## 🔄 Reason for Refactoring
+
+Describe why refactoring is necessary.
+
+## ♻️ Refactoring Plans
 
 Describe refactoring plans to be determined.
 

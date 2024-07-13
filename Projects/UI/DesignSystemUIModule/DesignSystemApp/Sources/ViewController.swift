@@ -35,14 +35,26 @@ class ViewController: UIViewController {
     
     private lazy var stackView = UIStackView().then {
         $0.axis = .vertical
-        $0.spacing = 16
+        $0.spacing = 12
         $0.alignment = .leading
         $0.distribution = .fill
     }
     
+    private lazy var buttonBooKLabel = UILabel().then {
+        $0.text = "Button"
+        $0.setTypo(.heading3)
+        $0.textColor = .grey700
+    }
+    
     private lazy var buttonBookButton = UIButton().then {
-        $0.setTitle("Basic button example", for: .normal)
+        $0.setTitle("Basic Button example", for: .normal)
         $0.setTitleColor(.systemBlue, for: .normal)
+    }
+    
+    private lazy var textFieldBooKLabel = UILabel().then {
+        $0.text = "TextField"
+        $0.setTypo(.heading3)
+        $0.textColor = .grey700
     }
     
     private lazy var textFieldBookButton = UIButton().then {
@@ -70,7 +82,11 @@ class ViewController: UIViewController {
         contentView.addSubview(stackView)
         stackView.addArrangedSubview(iconImage)
         stackView.addArrangedSubview(titleLabel)
+        
+        stackView.addArrangedSubview(buttonBooKLabel)
         stackView.addArrangedSubview(buttonBookButton)
+        
+        stackView.addArrangedSubview(textFieldBooKLabel)
         stackView.addArrangedSubview(textFieldBookButton)
     }
     

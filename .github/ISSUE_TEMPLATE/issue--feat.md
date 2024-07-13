@@ -1,10 +1,11 @@
 ---
 name: "Issue: Feat"
-about: Improve performance or feature
-title: "[Feat]"
+about: "Please describe the performance improvement or feature enhancement!"
+title: "feat:"
 labels: feat
 assignees: ""
 ---
+
 ## 🚀 Highlights
 
 Write the main purpose of the issue.
