@@ -5,6 +5,7 @@
 //  Created by DOYEON LEE on 7/4/24.
 //
 
+import Foundation
 import UIKit
 
 import RxSwift
@@ -41,7 +42,7 @@ import RxCocoa
  }
 ```
  
- Create an RxPageViewController using the defined enumeration 
+ Create an RxPageViewController using the defined enumeration
  and inject the pages to be displayed into the initializer.
  - Important: The elements of the page array must not be duplicated.
  ```swift
@@ -68,12 +69,13 @@ import RxCocoa
  ```
  
  If you want to change the page configuration at runtime, use the updatePages(_:) method.
-- Note: Even if you remove the current page from the configuration, 
+- Note: Even if you remove the current page from the configuration,
  it will not be removed from the screen immediately. Use this to modify the previous or next page.
  ```swift
  pageViewController.updatePages([.first, .second])
  ```
  */
+@available(*, deprecated, message: "Use this instead: ``PageniableView.``")
 open class RxPageViewController<Page: PageType>: UIPageViewController, UIPageViewControllerDataSource {
     // MARK: Event
     private let _onMove = PublishSubject<Page>()
@@ -246,7 +248,7 @@ open class RxPageViewController<Page: PageType>: UIPageViewController, UIPageVie
     /// Move to specific page
     private func moveToPage(at index: Int) {
         let selectedPage = pages[index].viewController
-        let direction: UIPageViewController.NavigationDirection = index 
+        let direction: UIPageViewController.NavigationDirection = index
             > (currentPageIndex ?? 0) ? .forward : .reverse
         
         setViewControllers([selectedPage], direction: direction, animated: true, completion: nil)
@@ -328,7 +330,7 @@ final class RxPageViewControllerProxy: DelegateProxy<UIPageViewController, UIPag
     }
 
     static func setCurrentDelegate(
-        _ delegate: UIPageViewControllerDelegate?, 
+        _ delegate: UIPageViewControllerDelegate?,
         to object: UIPageViewController
     ) {
         object.delegate = delegate

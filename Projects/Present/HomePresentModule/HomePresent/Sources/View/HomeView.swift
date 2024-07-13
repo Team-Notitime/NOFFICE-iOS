@@ -57,9 +57,9 @@ public class HomeView: BaseView {
         $0.styled(variant: .underline)
     }
     
-    lazy var pageView = PageView<Page>(
+    lazy var paginableView = PaginableView<Page>(
         pages: Page.allCases,
-        firstPage: Page.noti
+        firstPage: Page.todo
     )
     
     // MARK: Setup
@@ -68,7 +68,7 @@ public class HomeView: BaseView {
         addSubview(segmentControl)
         
         // pageViewController
-        addSubview(pageView)
+        addSubview(paginableView)
     }
     
     public override func setupLayout() { 
@@ -79,20 +79,19 @@ public class HomeView: BaseView {
             $0.height.equalTo(60)
         }
         
-        pageView.snp.makeConstraints {
+        paginableView.snp.makeConstraints {
             $0.top.equalTo(segmentControl.snp.bottom)
             $0.leading.trailing.bottom.equalToSuperview()
         }
     }
     
     public override func setupBind() { 
-        pageView.onMove
+        paginableView.onMove
             .bind(to: self.segmentControl.selectedOption)
             .disposed(by: disposeBag)
         
         segmentControl.onChange
-            .bind(to: self.pageView.selectedPage)
+            .bind(to: self.paginableView.selectedPage)
             .disposed(by: disposeBag)
     }
-    
 }

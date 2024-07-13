@@ -1,5 +1,5 @@
 //
-//  PageView.swift
+//  PaginableView.swift
 //  DesignSystem
 //
 //  Created by DOYEON LEE on 7/13/24.
@@ -18,7 +18,6 @@ public protocol PageType: Hashable {
 
  First, define the types of pages to be displayed as an enumeration.
  This enumeration is also used to determine which page to move to in a clear way, not by index.
- Thus, for all pages to be displayed, define the enumeration as follows:
  ```swift
  enum TestViewPage: PageType {
      case first
@@ -46,19 +45,20 @@ public protocol PageType: Hashable {
  
  Create an RxPageViewController using the defined enumeration
  and inject the pages to be displayed into the initializer.
- - Important: The elements of the page array must not be duplicated.
+ - Important: The elements of the page array must not be duplicated. 
+ The recommended approach is to use allCases.
  ```swift
  // 1. Create a PageView with pages.
- let pageView = PageView<TestViewPage>(pages: [.first, .second, third])
+ let paginableView = PaginableView<TestViewPage>(pages: [.first, .second, third])
  
  // 2. Add the PageView to the parent view.
- addSubview(pageViewController)
- pageViewController.snp.makeConstraints { make in
+ addSubview(paginableView)
+ paginableView.snp.makeConstraints { make in
      make.edges.equalToSuperview()
  }
  
  // 3. Subscribe the onMove action. You can observe when the page changes by dragging.
- pageView.onMove
+ paginableView.onMove
      .subscribe(onNext: { page in
          print(page) // result: first or second or third
      })
@@ -66,18 +66,18 @@ public protocol PageType: Hashable {
  
  // 4. Bind the some subject to moveTo. This allows you to programmatically move to a specific page.
  someSubject
-     .bind(to: pageView.moveTo)
+     .bind(to: paginableView.moveTo)
      .disposed(by: disposeBag)
  ```
  
  If you want to change the page configuration at runtime, use the ``updatePages(_:)`` method.
-- Note: Even if you remove the current page from the configuration,
- it will not be removed from the screen immediately. Use this to modify the previous or next page.
+- Warning: There is no problem modifying the previous view, the next view,
+ but if you delete the page you are currently showing, unexpected behavior can occur.
  ```swift
- pageViewController.updatePages([.first, .second])
+ paginableView.updatePages([.first, .second])
  ```
  */
-open class PageView<Page: PageType>: UIView, UIScrollViewDelegate {
+open class PaginableView<Page: PageType>: UIView, UIScrollViewDelegate {
     // MARK: Event
     private let _onMove = PublishSubject<Page>()
     public var onMove: Observable<Page> {
@@ -85,7 +85,7 @@ open class PageView<Page: PageType>: UIView, UIScrollViewDelegate {
     }
     
     public var selectedPage: Binder<Page> {
-        return Binder(self) { (pageView: PageView, page: Page) in
+        return Binder(self) { (pageView: PaginableView, page: Page) in
             guard let pageIndex = pageView.pages.firstIndex(of: page) else { return }
             pageView.moveToPage(at: pageIndex, animated: true)
         }
@@ -101,7 +101,8 @@ open class PageView<Page: PageType>: UIView, UIScrollViewDelegate {
     private let firstPage: Page
     private let gestureDisabled: Bool
     private var viewControllersDict: [Page: UIViewController] = [:]
-    private var currentPageIndex: Int?
+    private var pageIndexDict: [Page: Int] = [:]
+    private var currentPage: Page?
     
     // MARK: UI component
     private let scrollView = UIScrollView()
@@ -132,7 +133,7 @@ open class PageView<Page: PageType>: UIView, UIScrollViewDelegate {
         if pages.count != Set(pages).count {
             fatalError("There are duplicate pages.")
         }
-        updatePages(pages)
+        setupPages(pages)
         setupScrollView()
         setupContentView()
         setupFirstPage()
@@ -145,7 +146,7 @@ open class PageView<Page: PageType>: UIView, UIScrollViewDelegate {
     // MARK: Life cycle
     public override func layoutSubviews() {
         super.layoutSubviews()
-        setupPages()
+        setupPageLayout()
         setupFirstPage()
     }
     
@@ -155,14 +156,20 @@ open class PageView<Page: PageType>: UIView, UIScrollViewDelegate {
             fatalError("There are duplicate pages.")
         }
         
-        self.pages = pages
-        viewControllersDict.removeAll()
-        pages.forEach { page in
-            viewControllersDict[page] = page.viewController
-        }
+        setupPages(pages)
+        updatePageLayout()
     }
     
     // MARK: Setup
+    private func setupPages(_ pages: [Page]) {
+        self.pages = pages
+        viewControllersDict.removeAll()
+        pages.enumerated().forEach { index, page in
+            viewControllersDict[page] = page.viewController
+            pageIndexDict[page] = index
+        }
+    }
+    
     private func setupScrollView() {
         scrollView.delegate = self
         scrollView.isPagingEnabled = true
@@ -186,22 +193,12 @@ open class PageView<Page: PageType>: UIView, UIScrollViewDelegate {
         contentView.snp.makeConstraints { make in
             make.edges.equalTo(scrollView)
             make.height.equalTo(scrollView.snp.height)
-            make.width.equalTo(scrollView.snp.width).multipliedBy(CGFloat(pages.count))
+            make.width.equalTo(scrollView.snp.width)
+                .multipliedBy(CGFloat(pages.count))
         }
     }
     
-    private func setupFirstPage() {
-        guard let firstPageIndex = pages.firstIndex(of: firstPage)
-        else { return }
-        
-        currentPageIndex = firstPageIndex
-        scrollView.contentOffset = CGPoint(
-            x: scrollView.bounds.width * CGFloat(firstPageIndex),
-            y: 0
-        )
-    }
-    
-    private func setupPages() {
+    private func setupPageLayout() {
         for (index, page) in pages.enumerated() {
             if let viewController = viewControllersDict[page] {
                 contentView.addSubview(viewController.view)
@@ -216,7 +213,67 @@ open class PageView<Page: PageType>: UIView, UIScrollViewDelegate {
         }
     }
     
+    private func setupFirstPage() {
+        guard let firstPageIndex = pageIndexDict[firstPage]
+        else { return }
+        
+        currentPage = firstPage
+        scrollView.contentOffset = CGPoint(
+            x: scrollView.bounds.width * CGFloat(firstPageIndex),
+            y: 0
+        )
+    }
+    
     // MARK: Update
+    private func updatePageLayout() {
+        let existingViews = Set(contentView.subviews)
+        var newViews: Set<UIView> = []
+        
+        // Iterate over pages array and configure the view for each page
+        for (index, page) in pages.enumerated() {
+            if let viewController = viewControllersDict[page],
+                let view = viewController.view {
+                
+                newViews.insert(view)
+                
+                // If the view is not already in the existingViews, add it to contentView
+                if !existingViews.contains(view) {
+                    contentView.addSubview(view)
+                }
+                
+                view.snp.remakeConstraints { make in
+                    make.top.bottom.equalToSuperview()
+                    make.width.equalTo(scrollView.snp.width)
+                    make.leading.equalTo(scrollView.snp.leading)
+                        .offset(scrollView.bounds.width * CGFloat(index))
+                }
+            }
+        }
+        
+        // Remove views that are no longer needed
+        for view in existingViews.subtracting(newViews) {
+            view.removeFromSuperview()
+        }
+        
+        // Remake constraints for contentView to fit all pages
+        contentView.snp.remakeConstraints { make in
+            make.edges.equalTo(scrollView)
+            make.height.equalTo(scrollView.snp.height)
+            make.width.equalTo(scrollView.snp.width)
+                .multipliedBy(CGFloat(pages.count))
+        }
+        
+        // Ensure the scroll view is positioned correctly for the current page
+        guard let currentPage = currentPage,
+                let currentPageIndex = pageIndexDict[currentPage]
+        else { return }
+        
+        scrollView.contentOffset = CGPoint(
+            x: scrollView.bounds.width * CGFloat(currentPageIndex),
+            y: 0
+        )
+    }
+
     private func moveToPage(at index: Int, animated: Bool) {
         scrollView.setContentOffset(
             CGPoint(
@@ -229,26 +286,31 @@ open class PageView<Page: PageType>: UIView, UIScrollViewDelegate {
     
     // MARK: UIScrollViewDelegate
     public func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        
         let offsetX = scrollView.contentOffset.x
         _scrollOffset.onNext(offsetX)
         
         let width = scrollView.bounds.width
         let pageIndex = Int((offsetX + width / 2) / width)
+        
+        guard let currentPageIndex = pageIndexDict[firstPage]
+        else { return }
+        
         if pageIndex != currentPageIndex {
-            currentPageIndex = pageIndex
+            currentPage = pages[pageIndex]
             _onMove.onNext(pages[pageIndex])
         }
     }
     
     public func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         let pageIndex = Int(scrollView.contentOffset.x / scrollView.bounds.width)
-        currentPageIndex = pageIndex
+        currentPage = pages[pageIndex]
         _onMove.onNext(pages[pageIndex])
     }
     
     public func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
         let pageIndex = Int(scrollView.contentOffset.x / scrollView.bounds.width)
-        currentPageIndex = pageIndex
+        currentPage = pages[pageIndex]
         _onMove.onNext(pages[pageIndex])
     }
 }
