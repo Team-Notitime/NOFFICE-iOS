@@ -25,23 +25,23 @@ public class NofficeBanner: UIView {
         }
     }
     
-    private var _dateText: String = ""
-    public var dateText: String {
-        get { _dateText }
-        set {
-            if _dateText != newValue {
-                _dateText = newValue
-                updateText()
-            }
-        }
-    }
-    
     private var _todayPrefixText: String = ""
     public var todayPrefixText: String {
         get { _todayPrefixText }
         set {
             if _todayPrefixText != newValue {
                 _todayPrefixText = newValue
+                updateText()
+            }
+        }
+    }
+    
+    private var _dateText: String = ""
+    public var dateText: String {
+        get { _dateText }
+        set {
+            if _dateText != newValue {
+                _dateText = newValue
                 updateText()
             }
         }

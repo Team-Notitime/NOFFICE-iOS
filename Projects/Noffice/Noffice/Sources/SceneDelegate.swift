@@ -8,6 +8,7 @@
 import UIKit
 
 import Router
+import Assets
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 

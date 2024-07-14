@@ -7,6 +7,8 @@
 
 import UIKit
 
+import Assets
+
 import RxSwift
 
 public protocol BaseViewProtocol {
@@ -24,6 +26,8 @@ open class BaseView: UIView, BaseViewProtocol {
     
     public override init(frame: CGRect) {
         super.init(frame: frame)
+        
+        self.backgroundColor = .fullWhite
 
         setupHierarchy()
         setupLayout()

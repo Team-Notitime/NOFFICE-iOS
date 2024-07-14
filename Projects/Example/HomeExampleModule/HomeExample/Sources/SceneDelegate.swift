@@ -7,6 +7,9 @@
 
 import UIKit
 
+import HomePresent
+import Assets
+
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
@@ -19,7 +22,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
         window = UIWindow(windowScene: windowScene)
-        window?.rootViewController = ViewController() // 초기 ViewController 설정
+        let homeViewController = HomeViewController()
+        let navigationController = UINavigationController(rootViewController: homeViewController)
+        window?.rootViewController = navigationController
+        
+        window?.backgroundColor = .fullWhite
         window?.makeKeyAndVisible()
     }
 

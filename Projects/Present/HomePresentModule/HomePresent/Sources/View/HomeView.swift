@@ -14,36 +14,11 @@ import SnapKit
 import Then
 
 public class HomeView: BaseView {
-    enum Page: CaseIterable, Identifiable, PageType {
-        case noti
-        case todo
-        
-        var krName: String {
-            switch self {
-            case .noti: return "노티"
-            case .todo: return "투두"
-            }
-        }
-        
-        var id: String {
-            return String(describing: "\(self))")
-        }
-        
-        var viewController: UIViewController {
-            switch self {
-            case .noti:
-                let vc = UIViewController()
-                vc.view.backgroundColor = .blue100
-                return vc
-            case .todo:
-                let vc = UIViewController()
-                vc.view.backgroundColor = .yellow100
-                return vc
-            }
-        }
+    // MARK: UI component
+    private lazy var topBarBackgroundView = UIView().then {
+        $0.backgroundColor = .white // 원하는 배경색으로 설정
     }
     
-    // MARK: UI component
     private lazy var segmentControl = BaseSegmentControl(
         source: Page.allCases,
         itemBuilder: { option in
@@ -59,35 +34,63 @@ public class HomeView: BaseView {
         $0.styled(variant: .underline)
     }
     
+    private lazy var notificationIcon = UIImageView(image: .iconBell).then {
+        $0.tintColor = .grey500
+    }
+    
+    private lazy var mypageIcon = UIImageView(image: .iconUser).then {
+        $0.tintColor = .grey500
+    }
+    
     private lazy var paginableView = PaginableView<Page>(
         pages: Page.allCases,
-        firstPage: Page.todo
+        firstPage: Page.announcement
     )
     
     // MARK: Setup
     public override func setupHierarchy() {
-        // segmentControl
-        addSubview(segmentControl)
+        addSubview(topBarBackgroundView)
         
-        // pageViewController
+        topBarBackgroundView.addSubview(segmentControl)
+        topBarBackgroundView.addSubview(notificationIcon)
+        topBarBackgroundView.addSubview(mypageIcon)
+        
         addSubview(paginableView)
     }
     
-    public override func setupLayout() { 
-        segmentControl.snp.makeConstraints {
+    public override func setupLayout() {
+        topBarBackgroundView.snp.makeConstraints {
             $0.top.equalTo(safeAreaLayoutGuide.snp.top)
+            $0.leading.trailing.equalToSuperview()
+            $0.height.equalTo(50)
+        }
+        
+        segmentControl.snp.makeConstraints {
             $0.leading.equalToSuperview().offset(pagePadding)
-            $0.width.equalToSuperview().multipliedBy(0.4)
-            $0.height.equalTo(60)
+            $0.width.equalToSuperview().multipliedBy(0.36)
+            $0.height.equalToSuperview()
+            $0.centerY.equalToSuperview()
+        }
+        
+        mypageIcon.snp.makeConstraints {
+            $0.centerY.equalTo(segmentControl.snp.centerY)
+            $0.right.equalToSuperview().inset(GlobalViewConstant.pagePadding)
+            $0.centerY.equalToSuperview()
+        }
+        
+        notificationIcon.snp.makeConstraints {
+            $0.centerY.equalTo(segmentControl.snp.centerY)
+            $0.right.equalTo(mypageIcon.snp.left).offset(-16)
+            $0.centerY.equalToSuperview()
         }
         
         paginableView.snp.makeConstraints {
-            $0.top.equalTo(segmentControl.snp.bottom)
+            $0.top.equalTo(topBarBackgroundView.snp.bottom)
             $0.leading.trailing.bottom.equalToSuperview()
         }
     }
     
-    public override func setupBind() { 
+    public override func setupBind() {
         paginableView.onMove
             .bind(to: self.segmentControl.selectedOption)
             .disposed(by: disposeBag)
@@ -96,4 +99,39 @@ public class HomeView: BaseView {
             .bind(to: self.paginableView.selectedPage)
             .disposed(by: disposeBag)
     }
+}
+
+// MARK: - DisplayModel
+public extension HomeView {
+    enum Page: CaseIterable, Identifiable, PageType {
+        case announcement
+        case todo
+        
+        var krName: String {
+            switch self {
+            case .announcement: return "노티"
+            case .todo: return "투두"
+            }
+        }
+        
+        public var id: String {
+            return String(describing: "\(self))")
+        }
+        
+        public var viewController: UIViewController {
+            switch self {
+            case .announcement:
+                return AnnouncementPageViewController()
+            case .todo:
+                let vc = UIViewController()
+                vc.view.backgroundColor = .yellow100
+                return vc
+            }
+        }
+    }
+}
+
+// MARK: - Constant
+private extension HomeView {
+    
 }

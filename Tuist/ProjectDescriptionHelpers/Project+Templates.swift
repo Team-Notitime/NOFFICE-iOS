@@ -99,7 +99,7 @@ extension Project {
             targets: [
                 makeTarget(
                     name: "\(target.rawValue)Example",
-                    product: .framework,
+                    product: .app,
                     bundleId: "\(bundleId).\(target.rawValue).example",
                     infoPlist: .file(path: "\(target.rawValue)Example/Sources/Info.plist"),
                     dependencies: dependencies + uiDependencies
