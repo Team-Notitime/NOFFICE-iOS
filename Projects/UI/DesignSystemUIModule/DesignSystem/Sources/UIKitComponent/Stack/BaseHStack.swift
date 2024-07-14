@@ -30,7 +30,7 @@ public class BaseHStack: UIStackView {
         distribution: UIStackView.Distribution = .fill
     ) {
         self.init()
-        self.axis = .vertical
+        self.axis = .horizontal
         self.spacing = spacing
         self.alignment = alignment
         self.distribution = distribution

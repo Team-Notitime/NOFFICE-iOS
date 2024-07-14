@@ -81,7 +81,7 @@ final class ButtonBookViewController: UIViewController {
     
     lazy var buttons: [BaseButton] = BasicButtonColor.allCases.map { _ in
         BaseButton(
-            itemBuilder: {
+            contentsBuilder: {
                 [
                     UILabel().then {
                         $0.text = "Button"

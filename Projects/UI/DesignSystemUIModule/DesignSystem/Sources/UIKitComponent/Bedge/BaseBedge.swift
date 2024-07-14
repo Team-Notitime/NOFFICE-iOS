@@ -50,15 +50,15 @@ public class BaseBadge: UIView {
     // MARK: UI Component
     private lazy var backgroundView = UIView()
     
-    private lazy var itemStack = UIStackView().then {
+    private lazy var contentsStack = UIStackView().then {
         $0.axis = .horizontal
         $0.spacing = 4
         $0.distribution = .fill
         $0.alignment = .center
     }
     
-    // MARK: Builder
-    private var itemBuilder: ViewBuilder = { [] }
+    // MARK: Build component
+    private var contents: [UIView] = []
     
     // MARK: DisposeBag
     private let disposeBag = DisposeBag()
@@ -83,11 +83,11 @@ public class BaseBadge: UIView {
     }
     
     public init(
-        itemBuilder: @escaping ViewBuilder
+        contentsBudiler: ViewBuilder
     ) {
         super.init(frame: .zero)
         
-        self.itemBuilder = itemBuilder
+        contents.append(contentsOf: contentsBudiler())
         
         setupHierachy()
         setupBind()
@@ -106,10 +106,10 @@ public class BaseBadge: UIView {
     private func setupHierachy() {
         self.addSubview(backgroundView)
         
-        backgroundView.addSubview(itemStack)
+        backgroundView.addSubview(contentsStack)
         
-        itemBuilder().forEach {
-            itemStack.addArrangedSubview($0)
+        contents.forEach {
+            contentsStack.addArrangedSubview($0)
         }
     }
     
@@ -132,7 +132,7 @@ public class BaseBadge: UIView {
         
         backgroundView.backgroundColor = backgroundColor
         
-        itemStack.arrangedSubviews.forEach {
+        contentsStack.arrangedSubviews.forEach {
             if let label = $0 as? UILabel {
                 label.textColor = foregroundColor
             } else if let image = $0 as? UIImageView {
@@ -150,7 +150,7 @@ public class BaseBadge: UIView {
             $0.edges.equalToSuperview()
         }
         
-        itemStack.snp.remakeConstraints {
+        contentsStack.snp.remakeConstraints {
             $0.top.bottom.equalToSuperview().inset(padding.vertical ?? 0)
             $0.left.right.equalToSuperview().inset(padding.horizontal ?? 0)
         }

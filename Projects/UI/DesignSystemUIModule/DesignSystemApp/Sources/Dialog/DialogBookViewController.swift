@@ -51,7 +51,7 @@ final class DialogBookViewController: UIViewController {
     }
     
     private lazy var dialogOpenButton = BaseButton(
-        itemBuilder: {
+        contentsBuilder: {
             [
                 UILabel().then {
                     $0.text = "open dialog"
@@ -79,7 +79,7 @@ final class DialogBookViewController: UIViewController {
     }
     
     private lazy var dialogGrayButton = BaseButton(
-        itemBuilder: {
+        contentsBuilder: {
             [
                 UILabel().then {
                     $0.text = "Action"
@@ -96,7 +96,7 @@ final class DialogBookViewController: UIViewController {
     }
     
     private lazy var dialogGreenButton = BaseButton(
-        itemBuilder: {
+        contentsBuilder: {
             [
                 UILabel().then {
                     $0.text = "Close"
@@ -113,7 +113,7 @@ final class DialogBookViewController: UIViewController {
     }
     
     private lazy var dialog = BaseDialog(
-        contentbuilder: { [weak self] in
+        contentsBuilder: { [weak self] in
             guard let self = self else { return [] }
             
             return [

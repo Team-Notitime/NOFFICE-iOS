@@ -38,8 +38,8 @@ class ViewController: UIViewController {
         $0.numberOfLines = 2
     }
     
-    private lazy var segments: [Segment] = [
-        Segment(
+    private lazy var segments: [Section] = [
+        Section(
             title: "Button",
             examples: [
                 Example(
@@ -51,7 +51,7 @@ class ViewController: UIViewController {
                 )
             ]
         ),
-        Segment(
+        Section(
             title: "TextField",
             examples: [
                 Example(
@@ -63,7 +63,7 @@ class ViewController: UIViewController {
                 )
             ]
         ),
-        Segment(
+        Section(
             title: "Badge",
             examples: [
                 Example(
@@ -75,7 +75,7 @@ class ViewController: UIViewController {
                 )
             ]
         ),
-        Segment(
+        Section(
             title: "Dialog",
             examples: [
                 Example(
@@ -87,7 +87,7 @@ class ViewController: UIViewController {
                 )
             ]
         ),
-        Segment(
+        Section(
             title: "SegmentControl",
             examples: [
                 Example(
@@ -99,7 +99,7 @@ class ViewController: UIViewController {
                 )
             ]
         ),
-        Segment(
+        Section(
             title: "Card",
             examples: [
                 Example(
@@ -108,14 +108,35 @@ class ViewController: UIViewController {
                         $0.setTitleColor(.systemBlue, for: .normal)
                     },
                     viewController: CardBookViewController.self
-                ),
+                )
+            ]
+        ),
+        Section(
+            title: "Noffice",
+            examples: [
                 Example(
-                    label: "Noffice group card",
+                    label: "Group card",
                     button: UIButton().then {
                         $0.setTitle("Example", for: .normal)
                         $0.setTitleColor(.systemBlue, for: .normal)
                     },
                     viewController: NofficeGroupCardBookViewController.self
+                ),
+                Example(
+                    label: "Todo",
+                    button: UIButton().then {
+                        $0.setTitle("Example", for: .normal)
+                        $0.setTitleColor(.systemBlue, for: .normal)
+                    },
+                    viewController: NofficeTodoBookViewController.self
+                ),
+                Example(
+                    label: "Banner",
+                    button: UIButton().then {
+                        $0.setTitle("Example", for: .normal)
+                        $0.setTitleColor(.systemBlue, for: .normal)
+                    },
+                    viewController: NofficeBannerBookViewController.self
                 )
             ]
         )
@@ -207,7 +228,7 @@ extension ViewController {
         let viewController: UIViewController.Type
     }
     
-    struct Segment {
+    struct Section {
         let title: String
         let examples: [Example]
     }

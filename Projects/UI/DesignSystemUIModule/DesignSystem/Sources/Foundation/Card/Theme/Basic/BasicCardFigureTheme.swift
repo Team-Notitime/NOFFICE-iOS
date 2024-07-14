@@ -22,7 +22,9 @@ struct BasicCardFigureTheme: CardFigureTheme {
     func padding() -> GapOffset {
         switch _padding {
         case .none: return .init(all: .zero)
-        case .padding: return .init(24, 24)
+        case .large: return .init(22, 24)
+        case .medium: return .init(18, 20)
+        case .small: return .init(14, 16)
         }
     }
     

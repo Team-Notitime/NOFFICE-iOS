@@ -8,5 +8,5 @@
 import Foundation
 
 public enum BasicCardPadding: String, CaseIterable {
-    case none, padding
+    case none, large, medium, small
 }

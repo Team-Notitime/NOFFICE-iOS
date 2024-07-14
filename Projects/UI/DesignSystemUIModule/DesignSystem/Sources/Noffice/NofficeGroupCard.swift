@@ -32,7 +32,7 @@ public class NofficeGroupCard: UIView {
     
     public var state: NofficeGroupCard.State = .default {
         didSet {
-            updateHiddenView()
+            updateByState()
         }
     }
     
@@ -55,10 +55,8 @@ public class NofficeGroupCard: UIView {
     }
     
     private lazy var defaultCard = BaseCard(
-        contentBuilder: {[weak self] in
-            guard let self = self else { return [] }
-            
-            return [
+        contentsBuilder: {
+            [
                 UIImageView(image: .imgNottiLetter).then {
                     $0.setSize(height: 160)
                     $0.contentMode = .scaleAspectFill
@@ -68,7 +66,7 @@ public class NofficeGroupCard: UIView {
                     BaseSpacer(size: 20, orientation: .horizontal),
                     BaseVStack {[
                         BaseSpacer(size: 8, orientation: .vertical),
-                        self.titleLabel,
+                        titleLabel,
                         BaseSpacer(size: 2),
                         BaseDivider(),
                         BaseSpacer(size: 2),
@@ -77,14 +75,14 @@ public class NofficeGroupCard: UIView {
                                 $0.setSize(width: 24, height: 24)
                                 $0.tintColor = .grey200
                             },
-                            self.dateLabel
+                            dateLabel
                         ]},
                         BaseHStack {[
                             UIImageView(image: .iconMappin).then {
                                 $0.setSize(width: 24, height: 24)
                                 $0.tintColor = .grey200
                             },
-                            self.locationLabel
+                            locationLabel
                         ]},
                         BaseSpacer(size: 12, orientation: .vertical)
                     ]},
@@ -97,7 +95,7 @@ public class NofficeGroupCard: UIView {
     }
     
     private var loadingCard = BaseCard(
-        contentBuilder: {
+        contentsBuilder: {
             [
                 BaseVStack(alignment: .center, spacing: 20) {
                     [
@@ -123,7 +121,7 @@ public class NofficeGroupCard: UIView {
     }
     
     private var noneCard = BaseCard(
-        contentBuilder: {
+        contentsBuilder: {
             [
                 BaseVStack(alignment: .center, spacing: 20) {
                     [
@@ -159,7 +157,7 @@ public class NofficeGroupCard: UIView {
         setupHierarchy()
         setupBind()
         
-        updateHiddenView()
+        updateByState()
     }
     
     required init?(coder: NSCoder) {
@@ -168,7 +166,7 @@ public class NofficeGroupCard: UIView {
         setupHierarchy()
         setupBind()
         
-        updateHiddenView()
+        updateByState()
     }
     
     // MARK: Setup
@@ -182,7 +180,7 @@ public class NofficeGroupCard: UIView {
     private func setupBind() { }
     
     // MARK: Update
-    private func updateHiddenView() {
+    private func updateByState() {
         defaultCard.isHidden = (state != .default)
         loadingCard.isHidden = (state != .loading)
         noneCard.isHidden = (state != .none)

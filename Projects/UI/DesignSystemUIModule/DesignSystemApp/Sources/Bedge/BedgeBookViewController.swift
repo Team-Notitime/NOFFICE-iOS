@@ -48,7 +48,7 @@ final class BadgeBookViewController: UIViewController {
     }
     
     private lazy var badges: [BaseBadge] = BasicBadgeColor.allCases.map { color in
-        BaseBadge(itemBuilder: {
+        BaseBadge(contentsBudiler: {
             [
                 UILabel().then {
                     $0.text = "badge"
@@ -65,7 +65,7 @@ final class BadgeBookViewController: UIViewController {
         $0.setTypo(.body1b)
     }
     
-    private lazy var badgeWithIcon = BaseBadge(itemBuilder: {
+    private lazy var badgeWithIcon = BaseBadge(contentsBudiler: {
         [
             UILabel().then {
                 $0.text = "badge"

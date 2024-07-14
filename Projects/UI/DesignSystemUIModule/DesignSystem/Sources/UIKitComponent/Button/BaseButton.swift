@@ -38,7 +38,10 @@ public class BaseButton: UIControl {
     public typealias ViewBuilder = () -> [UIView]
     
     // MARK: Event emitter
-    public var onTap: PublishSubject<Void> = PublishSubject()
+    public var _onTap: PublishSubject<Void> = PublishSubject()
+    public var onTap: Observable<Void> {
+        return _onTap.asObservable()
+    }
     
     // MARK: Theme
     private var colorTheme: ButtonColorTheme? {
@@ -73,8 +76,8 @@ public class BaseButton: UIControl {
         $0.isUserInteractionEnabled = false
     }
     
-    // MARK: Builder
-    private var itemBuilder: ViewBuilder = { [] }
+    // MARK: Build component
+    private var contents: [UIView] = []
     
     // MARK: DisposeBag
     private let disposeBag = DisposeBag()
@@ -99,10 +102,11 @@ public class BaseButton: UIControl {
     }
     
     public init(
-        itemBuilder: @escaping ViewBuilder
+        contentsBuilder: ViewBuilder
     ) {
         super.init(frame: .zero)
-        self.itemBuilder = itemBuilder
+        
+        contents.append(contentsOf: contentsBuilder())
         
         setupHierachy()
         setupBind()
@@ -121,7 +125,8 @@ public class BaseButton: UIControl {
     // MARK: Setup
     private func setupHierachy() {
         addSubview(stackView)
-        itemBuilder().forEach {
+        
+        contents.forEach {
             stackView.addArrangedSubview($0)
         }
     }
@@ -235,7 +240,7 @@ public class BaseButton: UIControl {
                 self.transform = .identity
             }
         )
-        onTap.onNext(())
+        _onTap.onNext(())
         sendActions(for: .touchUpInside)
     }
     

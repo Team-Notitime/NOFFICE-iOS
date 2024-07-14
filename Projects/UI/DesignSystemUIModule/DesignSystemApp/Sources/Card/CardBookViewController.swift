@@ -71,27 +71,29 @@ final class CardBookViewController: UIViewController {
     }
     
     // MARK: - Card with button
-    private lazy var okButton = BaseButton(itemBuilder: {
-        [
-            UILabel().then {
-                $0.text = "OK"
-                $0.setTypo(.body2)
-            }
-        ]
-    }).then {
-        $0.styled(color: .green)
-    }
+    private lazy var okButton = BaseButton(
+        contentsBuilder: {
+            [
+                UILabel().then {
+                    $0.text = "OK"
+                    $0.setTypo(.body2)
+                }
+            ]
+        }).then {
+            $0.styled(color: .green)
+        }
     
-    private lazy var cancelButton = BaseButton(itemBuilder: {
-        [
-            UILabel().then {
-                $0.text = "Cancel"
-                $0.setTypo(.body2)
-            }
-        ]
-    }).then {
-        $0.styled(color: .ghost)
-    }
+    private lazy var cancelButton = BaseButton(
+        contentsBuilder: {
+            [
+                UILabel().then {
+                    $0.text = "Cancel"
+                    $0.setTypo(.body2)
+                }
+            ]
+        }).then {
+            $0.styled(color: .ghost)
+        }
     
     private lazy var card = BaseCard(
         headerBuilder: {
@@ -107,7 +109,7 @@ final class CardBookViewController: UIViewController {
                 }
             ]
         },
-        contentBuilder: {
+        contentsBuilder: {
             [
                 UILabel().then {
                     $0.text = "content section"
@@ -135,7 +137,7 @@ final class CardBookViewController: UIViewController {
     
     // MARK: - Card with image (별도로 컴포넌트화 필요)
     private lazy var cardWithImage = BaseCard(
-        contentBuilder: {
+        contentsBuilder: {
             [
                 UIImageView(image: .imgNottiLetter).then {
                     $0.setSize(height: 160)
@@ -285,5 +287,9 @@ final class CardBookViewController: UIViewController {
             )
         })
         .disposed(by: disposeBag)
+    }
+    
+    deinit {
+        print("noffice card vc deinit")
     }
 }
