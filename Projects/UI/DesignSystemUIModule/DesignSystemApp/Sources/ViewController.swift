@@ -95,6 +95,17 @@ class ViewController: UIViewController {
         $0.setTitleColor(.systemBlue, for: .normal)
     }
     
+    private lazy var cardBookLabel = UILabel().then {
+        $0.text = "Card"
+        $0.setTypo(.heading3)
+        $0.textColor = .grey700
+    }
+    
+    private lazy var cardBookButton = UIButton().then {
+        $0.setTitle("Basic card example", for: .normal)
+        $0.setTitleColor(.systemBlue, for: .normal)
+    }
+    
     // MARK: DisposeBag
     private let disposeBag = DisposeBag()
 
@@ -130,6 +141,9 @@ class ViewController: UIViewController {
         
         stackView.addArrangedSubview(segmentControlBookLabel)
         stackView.addArrangedSubview(segmentControlBookButton)
+        
+        stackView.addArrangedSubview(cardBookLabel)
+        stackView.addArrangedSubview(cardBookButton)
     }
     
     private func setupLayout() {
@@ -184,6 +198,13 @@ class ViewController: UIViewController {
         segmentControlBookButton.rx.tap
             .subscribe(onNext: { [weak self] in
                 let viewController = SegmentControlBookViewController()
+                self?.navigationController?.pushViewController(viewController, animated: true)
+            })
+            .disposed(by: disposeBag)
+        
+        cardBookButton.rx.tap
+            .subscribe(onNext: { [weak self] in
+                let viewController = CardBookViewController()
                 self?.navigationController?.pushViewController(viewController, animated: true)
             })
             .disposed(by: disposeBag)

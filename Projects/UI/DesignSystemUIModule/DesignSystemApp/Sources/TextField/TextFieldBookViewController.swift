@@ -327,7 +327,6 @@ final class TextFieldBookViewController: UIViewController {
         textFieldDeleteButton.addGestureRecognizer(deleteTapGesture)
         
         deleteTapGesture.rx.event
-            .debug()
             .map { _ in "" }
             .bind(to: textFieldWithDelete.text)
             .disposed(by: disposeBag)

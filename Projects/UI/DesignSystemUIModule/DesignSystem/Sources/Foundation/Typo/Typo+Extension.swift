@@ -70,7 +70,9 @@ public enum Typo {
     /// Font size: 28, weight: bold
     case heading2
     /// Font size: 22, weight: bold
-    case heading3
+    case heading3    
+    /// Font size: 20, weight: bold
+    case heading4
     /// Font size: 22, weight: regular
     case body0
     /// Font size: 22, weight: semibold
@@ -144,6 +146,8 @@ public extension UILabel {
             self.setDefaultFont(size: 28, weight: .bold)
         case .heading3:
             self.setDefaultFont(size: 22, weight: .bold)
+        case .heading4:
+            self.setDefaultFont(size: 20, weight: .bold)
         case .body0:
             self.setDefaultFont(size: 18, weight: .regular)
         case .body0b:
@@ -217,6 +221,8 @@ public extension UITextField {
             self.setDefaultFont(size: 28, weight: .bold)
         case .heading3:
             self.setDefaultFont(size: 22, weight: .bold)
+        case .heading4:
+            self.setDefaultFont(size: 20, weight: .bold)
         case .body0:
             self.setDefaultFont(size: 18, weight: .regular)
         case .body0b:
@@ -268,6 +274,8 @@ public extension View {
             return self.defaultFont(size: 28, weight: .bold)
         case .heading3:
             return self.defaultFont(size: 22, weight: .bold)
+        case .heading4:
+            return self.defaultFont(size: 20, weight: .bold)
         case .body0:
             return self.defaultFont(size: 18, weight: .regular)
         case .body0b:

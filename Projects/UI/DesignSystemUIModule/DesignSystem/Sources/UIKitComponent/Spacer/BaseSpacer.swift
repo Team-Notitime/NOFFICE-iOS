@@ -20,16 +20,12 @@ public final class BaseSpacer: UIView {
         super.init(frame: .zero)
         self.backgroundColor = .clear
         
-        print(#function)
-        
         self.snp.makeConstraints { make in
             switch orientation {
             case .vertical:
-                make.width.equalTo(1)
                 make.height.equalTo(size)
             case .horizontal:
                 make.width.equalTo(size)
-                make.height.equalTo(1)
             }
         }
     }

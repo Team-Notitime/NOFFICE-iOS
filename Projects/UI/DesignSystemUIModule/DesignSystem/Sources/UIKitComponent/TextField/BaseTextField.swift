@@ -290,7 +290,7 @@ public class BaseTextField: UIView {
             )
             
             // Title stack
-            self.titleStack.subviews.forEach {
+            self.titleStack.arrangedSubviews.forEach {
                 if let label = $0 as? UILabel {
                     label.textColor = foregroundColor
                 } else if let imageView = $0 as? UIImageView {
@@ -299,7 +299,7 @@ public class BaseTextField: UIView {
             }
             
             // TextField stack
-            self.textFieldStack.subviews.forEach {
+            self.textFieldStack.arrangedSubviews.forEach {
                 if let label = $0 as? UILabel {
                     label.textColor = foregroundColor.withAlphaComponent(0.6)
                 } else if let imageView = $0 as? UIImageView {
@@ -312,15 +312,13 @@ public class BaseTextField: UIView {
                 .bottomBorderColor(state: allState).uiColor
             
             // descriptionStack
-            self.descriptionStack.subviews.forEach { [weak self] in
-                guard let self = self else { return }
+            self.descriptionStack.arrangedSubviews.forEach {
                 if let label = $0 as? UILabel {
                     label.textColor = descriptionColor
                 } else if let imageView = $0 as? UIImageView {
                     imageView.tintColor = descriptionColor
                 }
             }
-            
         }
     }
     
