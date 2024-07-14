@@ -36,15 +36,47 @@ public struct CompositionalLayout {
     let sectionInset: NSDirectionalEdgeInsets
     
     var scrollBehavior: UICollectionLayoutSectionOrthogonalScrollingBehavior = .continuous
+    
+    public init(
+        groupLayout: CompositionalGroupLayout,
+        headerSize: CompositionalSize? = nil,
+        footerSize: CompositionalSize? = nil,
+        sectionInset: NSDirectionalEdgeInsets,
+        scrollBehavior: UICollectionLayoutSectionOrthogonalScrollingBehavior
+    ) {
+        self.groupLayout = groupLayout
+        self.headerSize = headerSize
+        self.footerSize = footerSize
+        self.sectionInset = sectionInset
+        self.scrollBehavior = scrollBehavior
+    }
 }
 
 public struct CompositionalGroupLayout {
     let size: CompositionalSize
     let items: [CompositionalSize]
     let spacing: CGFloat
+    
+    public init(
+        size: CompositionalSize,
+        items: [CompositionalSize],
+        spacing: CGFloat
+    ) {
+        self.size = size
+        self.items = items
+        self.spacing = spacing
+    }
 }
 
 public struct CompositionalSize {
     let width: NSCollectionLayoutDimension
     let height: NSCollectionLayoutDimension
+    
+    public init(
+        width: NSCollectionLayoutDimension,
+        height: NSCollectionLayoutDimension
+    ) {
+        self.width = width
+        self.height = height
+    }
 }

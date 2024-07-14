@@ -10,7 +10,7 @@ import UIKit
 import SnapKit
 import Then
 
-public class GroupCardView: UIView {
+public class NofficeGroupCard: UIView {
     // MARK: Data source
     public var titleText: String = "" {
         didSet {
@@ -27,6 +27,12 @@ public class GroupCardView: UIView {
     public var locationText: String = "" {
         didSet {
             locationLabel.text = locationText
+        }
+    }
+    
+    public var state: NofficeGroupCard.State = .default {
+        didSet {
+            updateHiddenView()
         }
     }
     
@@ -48,7 +54,7 @@ public class GroupCardView: UIView {
         $0.textColor = .grey600
     }
     
-    private lazy var card = BaseCard(
+    private lazy var defaultCard = BaseCard(
         contentBuilder: {[weak self] in
             guard let self = self else { return [] }
             
@@ -87,36 +93,105 @@ public class GroupCardView: UIView {
             ]
         }
     ).then {
-        $0.styled(variant: .outline, color: .gray)
+        $0.styled(variant: .outline, color: .gray, padding: .none)
     }
+    
+    private var loadingCard = BaseCard(
+        contentBuilder: {
+            [
+                BaseVStack(alignment: .center, spacing: 20) {
+                    [
+                        BaseSpacer(size: 44),
+                        UILabel().then {
+                            $0.text = "리더의 수락을 \n기다리고 있어요"
+                            $0.setTypo(.heading4)
+                            $0.textColor = .grey400
+                            $0.numberOfLines = 2
+                            $0.textAlignment = .center
+                        },
+                        UIImageView(image: .imgNottiLoading).then {
+                            $0.setSize(height: 130)
+                            $0.contentMode = .scaleAspectFit
+                        },
+                        BaseSpacer(size: 44)
+                    ]
+                }
+            ]
+        }
+    ).then {
+        $0.styled(variant: .outline, color: .gray, padding: .none)
+    }
+    
+    private var noneCard = BaseCard(
+        contentBuilder: {
+            [
+                BaseVStack(alignment: .center, spacing: 20) {
+                    [
+                        BaseSpacer(size: 60),
+                        UILabel().then {
+                            $0.text = "아직 등록된 \n노티가 없어요"
+                            $0.setTypo(.heading4)
+                            $0.textColor = .grey400
+                            $0.numberOfLines = 2
+                            $0.textAlignment = .center
+                        },
+                        UIImageView(image: .imgNottiX).then {
+                            $0.setSize(height: 100)
+                            $0.contentMode = .scaleAspectFit
+                        },
+                        BaseSpacer(size: 60)
+                    ]
+                }
+            ]
+        }
+    ).then {
+        $0.styled(variant: .outline, color: .gray, padding: .none)
+    }
+    
+    private lazy var stackView = BaseVStack(
+        contents: [defaultCard, loadingCard, noneCard]
+    )
     
     // MARK: Initializer
     public init() {
         super.init(frame: .zero)
         
         setupHierarchy()
-        setupLayout()
         setupBind()
+        
+        updateHiddenView()
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         
         setupHierarchy()
-        setupLayout()
         setupBind()
+        
+        updateHiddenView()
     }
     
     // MARK: Setup
     private func setupHierarchy() {
-        addSubview(card)
-    }
-    
-    private func setupLayout() {
-        card.snp.makeConstraints {
-            $0.edges.equalToSuperview()
+        addSubview(stackView)
+        stackView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
         }
     }
     
     private func setupBind() { }
+    
+    // MARK: Update
+    private func updateHiddenView() {
+        defaultCard.isHidden = (state != .default)
+        loadingCard.isHidden = (state != .loading)
+        noneCard.isHidden = (state != .none)
+    }
+}
+
+// MARK: - Display model
+public extension NofficeGroupCard {
+    enum State: String, CaseIterable {
+        case `default`, loading, none
+    }
 }

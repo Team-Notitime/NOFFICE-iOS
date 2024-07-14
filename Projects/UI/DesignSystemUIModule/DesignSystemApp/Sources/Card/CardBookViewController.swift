@@ -43,8 +43,8 @@ final class CardBookViewController: UIViewController {
     }
     
     private lazy var colorControl = UISegmentedControl(
-        items: Array(BasicCardColor.allCases
-                    ).map { $0.rawValue }).then {
+        items: Array(BasicCardColor.allCases).map { $0.rawValue }
+    ).then {
         $0.selectedSegmentIndex = 3
     }
     

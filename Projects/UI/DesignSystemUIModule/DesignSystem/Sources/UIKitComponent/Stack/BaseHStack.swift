@@ -19,6 +19,22 @@ public class BaseHStack: UIStackView {
         self.spacing = spacing
         self.alignment = alignment
         self.distribution = distribution
+        
         contentBuilder().forEach { self.addArrangedSubview($0) }
+    }
+    
+    public convenience init(
+        contents: [UIView],
+        spacing: CGFloat = 8,
+        alignment: UIStackView.Alignment = .fill,
+        distribution: UIStackView.Distribution = .fill
+    ) {
+        self.init()
+        self.axis = .vertical
+        self.spacing = spacing
+        self.alignment = alignment
+        self.distribution = distribution
+        
+        contents.forEach { self.addArrangedSubview($0) }
     }
 }
