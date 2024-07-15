@@ -3,6 +3,7 @@ public enum Module {
         case noffice = "Noffice"
         
         var name: String { rawValue }
+        var bundleIdenifier: String { rawValue.toBundleIdentifier() }
     }
     
     public enum Present: String, CaseIterable {
@@ -12,6 +13,7 @@ public enum Module {
         case signup = "Signup"
         
         var name: String { rawValue }
+        var bundleIdenifier: String { rawValue.toBundleIdentifier() }
     }
 
     public enum UI: String, CaseIterable {
@@ -19,6 +21,7 @@ public enum Module {
         case assets = "Assets"
         
         var name: String { rawValue }
+        var bundleIdenifier: String { rawValue.toBundleIdentifier() }
     }
 
     public enum Example: String, CaseIterable {
@@ -28,24 +31,28 @@ public enum Module {
         case signup = "Signup"
         
         var name: String { rawValue }
+        var bundleIdenifier: String { rawValue.toBundleIdentifier() }
     }
 
     public enum Domain: String, CaseIterable {
         case common = "Common"
         
         var name: String { rawValue }
+        var bundleIdenifier: String { rawValue.toBundleIdentifier() }
     }
 
     public enum DataInterface: String, CaseIterable {
         case sample = "Sample"
         
         var name: String { rawValue }
+        var bundleIdenifier: String { rawValue.toBundleIdentifier() }
     }
 
     public enum Data: String, CaseIterable {
         case sample = "Sample"
         
         var name: String { rawValue }
+        var bundleIdenifier: String { rawValue.toBundleIdentifier() }
     }
 
     public enum DI: String, CaseIterable {
@@ -53,6 +60,7 @@ public enum Module {
         case router = "Router"
         
         var name: String { rawValue }
+        var bundleIdenifier: String { rawValue.toBundleIdentifier() }
     }
     
     public enum ThirdParty: String, CaseIterable {
@@ -64,5 +72,20 @@ public enum Module {
         case alamofire = "Alamofire"
         
         var name: String { rawValue }
+    }
+}
+
+// MARK: - Helper
+extension String {
+    func toBundleIdentifier() -> String {
+        var result = ""
+        for (index, char) in self.enumerated() {
+            if char.isUppercase {
+                result += (index == 0 ? "" : "-") + char.lowercased()
+            } else {
+                result += String(char)
+            }
+        }
+        return result
     }
 }

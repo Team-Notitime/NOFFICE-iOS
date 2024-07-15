@@ -8,6 +8,7 @@
 import UIKit
 import AuthenticationServices
 
+import DesignSystem
 import SignupPresent
 
 import RxSwift
