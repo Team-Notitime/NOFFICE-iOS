@@ -27,8 +27,9 @@ platform :ios do
       readonly: true
     )
     
-    increment_minor_build_number(
-      xcodeproj: "./Projects/Noffice/Noffice.xcodeproj"
+    increment_build_number(
+      xcodeproj: "./Projects/Noffice/Noffice.xcodeproj",
+      build_number: (last_testflight_build_number.to_i + 1).to_s
     )
     
     build_app(
@@ -55,15 +56,4 @@ platform :ios do
     sync_code_signing(type: "appstore")
     build_app(scheme: "prod")
   end
-end
-
-private_lane :increment_minor_build_number do |options|
-  project_path = options[:xcodeproj]
-  current_version = get_build_number(xcodeproj: project_path)
-  new_version = (current_version.to_f + 0.1).round(1)
-  puts "Current build number: #{current_version}, new build number: #{new_version}"
-  increment_build_number(
-    xcodeproj: project_path,
-    build_number: new_version.to_s
-  )
 end

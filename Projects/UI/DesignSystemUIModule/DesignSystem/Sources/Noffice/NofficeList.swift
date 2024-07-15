@@ -1,8 +1,8 @@
 //
-//  NofficeTodo.swift
+//  NofficeList.swift
 //  DesignSystem
 //
-//  Created by DOYEON LEE on 7/14/24.
+//  Created by DOYEON LEE on 7/16/24.
 //
 
 import UIKit
@@ -14,7 +14,7 @@ import RxCocoa
 import SnapKit
 import Then
 
-public class NofficeTodo: UIControl {
+public class NofficeList: UIControl {
     // MARK: Event
     public var _onTap: PublishSubject<Void> = PublishSubject()
     public var onTap: Observable<Void> {
@@ -28,7 +28,7 @@ public class NofficeTodo: UIControl {
         }
     }
     
-    public var status: NofficeTodo.Status = .none {
+    public var status: NofficeList.Status = .unselected {
         didSet {
             updateByStatus()
         }
@@ -78,7 +78,7 @@ public class NofficeTodo: UIControl {
     
     // MARK: Public
     public func stateToggle() {
-        status = status == .none ? .done : .none
+        status = status == .selected ? .unselected : .selected
     }
     
     // MARK: Setup
@@ -103,7 +103,7 @@ public class NofficeTodo: UIControl {
     // MARK: Update
     private func updateByStatus() {
         switch status {
-        case .none:
+        case .selected:
             UIView.transition(
                 with: self,
                 duration: 0.2,
@@ -111,13 +111,11 @@ public class NofficeTodo: UIControl {
             ) { [weak self] in
                 guard let self = self else { return }
                 
-                self.icon.alpha = 0.0
-                self.backgroundView.backgroundColor = .blue100
-                self.label.textColor = .blue500
-            } completion: { [weak self] _ in
-                self?.icon.isHidden = true
+                self.backgroundView.backgroundColor = .green100
+                self.label.textColor = .green500
+                self.icon.tintColor = .green500
             }
-        case .done:
+        case .unselected:
             self.icon.isHidden = false
             UIView.transition(
                 with: self,
@@ -126,11 +124,9 @@ public class NofficeTodo: UIControl {
             ) { [weak self] in
                 guard let self = self else { return }
                 
-                self.icon.alpha = 1.0
                 self.backgroundView.backgroundColor = .grey100
                 self.label.textColor = .grey400
-            } completion: { [weak self] _ in
-                self?.icon.isHidden = false
+                self.icon.tintColor = .grey400
             }
         }
     }
@@ -143,14 +139,14 @@ public class NofficeTodo: UIControl {
 }
 
 // MARK: - Display model
-public extension NofficeTodo {
+public extension NofficeList {
     enum Status: String, CaseIterable {
-        case none, done
+        case unselected, selected
     }
 }
 
 // MARK: - Constant
-private extension NofficeTodo {
+private extension NofficeList {
     static let verticalPadding = 12
     static let horizontalPadding = 16
 }

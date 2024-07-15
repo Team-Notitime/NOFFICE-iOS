@@ -137,6 +137,14 @@ class ViewController: UIViewController {
                         $0.setTitleColor(.systemBlue, for: .normal)
                     },
                     viewController: NofficeBannerBookViewController.self
+                ),
+                Example(
+                    label: "List",
+                    button: UIButton().then {
+                        $0.setTitle("Example", for: .normal)
+                        $0.setTitleColor(.systemBlue, for: .normal)
+                    },
+                    viewController: NofficeListBookViewController.self
                 )
             ]
         )
