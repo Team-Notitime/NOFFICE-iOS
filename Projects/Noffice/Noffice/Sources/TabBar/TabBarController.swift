@@ -8,6 +8,7 @@
 import UIKit
 
 import HomePresent
+import DesignSystem
 import Assets
 
 import RxSwift

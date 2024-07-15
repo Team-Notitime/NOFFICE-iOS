@@ -75,3 +75,7 @@ GoogleService-Info.plist
 # Other
 .idea/
 .DS_Store
+
+# Fastlane
+*.p8
+*.env

@@ -14,22 +14,33 @@ extension Settings {
     /// The data module needs an `API URL`, so it has a special xcconfig file.
     /// Other modules have the same settings and don't require an xcconfig file. But it may be added in the future.
     public static func settings(_ type: SettingsType) -> Settings {
+        let baseSettings: SettingsDictionary = [
+            "VERSIONING_SYSTEM": "apple-generic", // For fastlane auto increment build version
+            "CURRENT_PROJECT_VERSION": "$(CURRENT_PROJECT_VERSION)",
+            "CODE_SIGN_STYLE": "Manual"
+        ]
+        
         switch type {
         case .base:
             return .settings(
+                base: baseSettings,
                 configurations: [
-                    .debug(name: Scheme.SchemeType.dev.name),
-                    .release(name: Scheme.SchemeType.prod.name)
+                    .debug(name: Scheme.SchemeType.dev.name, settings: baseSettings),
+                    .release(name: Scheme.SchemeType.prod.name, settings: baseSettings)
                 ],
                 defaultSettings: .recommended
             )
         case .view:
-            return settings(
+            var viewSettings: SettingsDictionary = [
+                "OTHER_LDFLAGS": ["-ObjC", "-Xlinker", "-interposable"]
+            ]
+            viewSettings.merge(baseSettings) { (_, new) in new } // Merge base settings
+            
+            return .settings(
+                base: viewSettings,
                 configurations: [
-                    .debug(name: Scheme.SchemeType.dev.name, settings: [
-                        "OTHER_LDFLAGS": ["-ObjC", "-Xlinker", "-interposable"]
-                    ]),
-                    .release(name: Scheme.SchemeType.prod.name)
+                    .debug(name: Scheme.SchemeType.dev.name, settings: viewSettings),
+                    .release(name: Scheme.SchemeType.prod.name, settings: baseSettings)
                 ],
                 defaultSettings: .recommended
             )
@@ -38,10 +49,12 @@ extension Settings {
                 configurations: [
                     .debug(
                         name: Scheme.SchemeType.dev.name,
+                        settings: baseSettings,
                         xcconfig: .relativeToRoot("Xcconfigs/DataConfig.xcconfig")
                     ),
                     .release(
                         name: Scheme.SchemeType.prod.name,
+                        settings: baseSettings,
                         xcconfig: .relativeToRoot("Xcconfigs/DataConfig.xcconfig")
                     )
                 ],

@@ -46,7 +46,7 @@ extension Project {
                 makeTarget(
                     name: "\(target.rawValue)Present",
                     product: .framework,
-                    bundleId: "\(bundleId).\(target.rawValue).present",
+                    bundleId: "\(bundleId).\(target.bundleIdenifier).present",
                     infoPlist: .default,
                     dependencies: [
                         .ui(.designSystem),
@@ -69,7 +69,7 @@ extension Project {
                 makeTarget(
                     name: "\(target.rawValue)App",
                     product: .app,
-                    bundleId: "\(bundleId).\(target.rawValue).app",
+                    bundleId: "\(bundleId).\(target.bundleIdenifier).app",
                     infoPlist: .file(path: "\(target.rawValue)App/Sources/Info.plist"),
                     dependencies: [
                         .target(name: "\(target.rawValue)"),
@@ -78,7 +78,7 @@ extension Project {
                 makeTarget(
                     name: "\(target.rawValue)",
                     product: .framework,
-                    bundleId: "\(bundleId).\(target.rawValue)",
+                    bundleId: "\(bundleId).\(target.bundleIdenifier)",
                     dependencies: dependencies + uiDependencies
                 )
             ],
@@ -94,14 +94,14 @@ extension Project {
         dependencies: [TargetDependency] = []
     ) -> Project {
         return Project(
-            name: "\(target.rawValue)ExampleModule",
+            name: "\(target.name)ExampleModule",
             settings: .settings(.base),
             targets: [
                 makeTarget(
-                    name: "\(target.rawValue)Example",
+                    name: "\(target.name)Example",
                     product: .app,
-                    bundleId: "\(bundleId).\(target.rawValue).example",
-                    infoPlist: .file(path: "\(target.rawValue)Example/Sources/Info.plist"),
+                    bundleId: "\(bundleId).\(target.bundleIdenifier).example",
+                    infoPlist: .file(path: "\(target.name)Example/Sources/Info.plist"),
                     dependencies: dependencies + uiDependencies
                 ),
             ],
@@ -114,22 +114,22 @@ extension Project {
         dependencies: [TargetDependency] = []
     ) -> Project {
         return Project(
-            name: "\(target.rawValue)DomainModule",
+            name: "\(target.name)DomainModule",
             settings: .settings(.base),
             targets: [
                 makeTarget(
-                    name: "\(target.rawValue)Usecase",
+                    name: "\(target.name)Usecase",
                     product: .framework,
-                    bundleId: "\(bundleId).\(target.rawValue).domain",
+                    bundleId: "\(bundleId).\(target.bundleIdenifier).domain",
                     dependencies: [
                         .di(.container),
-                        .target(name: "\(target.rawValue)Entity")
+                        .target(name: "\(target.name)Entity")
                     ] + dependencies
                 ),
                 makeTarget(
-                    name: "\(target.rawValue)Entity",
+                    name: "\(target.name)Entity",
                     product: .framework,
-                    bundleId: "\(bundleId).\(target.rawValue).domain",
+                    bundleId: "\(bundleId).\(target.bundleIdenifier).entity",
                     dependencies: dependencies
                 ),
             ],
@@ -142,13 +142,13 @@ extension Project {
         dependencies: [TargetDependency] = []
     ) -> Project {
         return Project(
-            name: "\(target.rawValue)DataInterfaceModule",
+            name: "\(target.name)DataInterfaceModule",
             settings: .settings(.base),
             targets: [
                 makeTarget(
-                    name: "\(target.rawValue)DataInterface",
+                    name: "\(target.name)DataInterface",
                     product: .framework,
-                    bundleId: "\(bundleId).\(target.rawValue).datainterface",
+                    bundleId: "\(bundleId).\(target.bundleIdenifier).datainterface",
                     dependencies: dependencies
                 ),
             ],
@@ -161,20 +161,20 @@ extension Project {
         dependencies: [TargetDependency] = []
     ) -> Project {
         return Project(
-            name: "\(target.rawValue)DataModule",
+            name: "\(target.name)DataModule",
             settings: .settings(.data),
             targets: [
                 makeTarget(
-                    name: "\(target.rawValue)Data",
+                    name: "\(target.name)Data",
                     product: .framework,
-                    bundleId: "\(bundleId).\(target.rawValue).data",
+                    bundleId: "\(bundleId).\(target.bundleIdenifier).data",
                     infoPlist: .extendingDefault(with: dataInfoPlist),
                     dependencies: dependencies
                 ),
                 makeTarget(
-                    name: "\(target.rawValue)DataMock",
+                    name: "\(target.name)DataMock",
                     product: .framework,
-                    bundleId: "\(bundleId).\(target.rawValue).data.mock",
+                    bundleId: "\(bundleId).\(target.bundleIdenifier).data.mock",
                     infoPlist: .extendingDefault(with: dataInfoPlist),
                     dependencies: dependencies
                 ),
@@ -188,13 +188,13 @@ extension Project {
         dependencies: [TargetDependency] = []
     ) -> Project {
         return Project(
-            name: "\(target.rawValue)Module",
+            name: "\(target.name)Module",
             settings: .settings(.base),
             targets: [
                 makeTarget(
-                    name: "\(target.rawValue)",
+                    name: "\(target.name)",
                     product: .framework,
-                    bundleId: "\(bundleId).\(target.rawValue).di",
+                    bundleId: "\(bundleId).\(target.bundleIdenifier).di",
                     dependencies: dependencies
                 ),
             ],
@@ -249,4 +249,3 @@ extension Project {
         .thirdParty(.rxSwift)
     ]
 }
-
