@@ -79,3 +79,5 @@ GoogleService-Info.plist
 # Fastlane
 *.p8
 *.env
+*.ipa
+.zip

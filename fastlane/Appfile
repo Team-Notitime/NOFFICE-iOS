@@ -6,8 +6,8 @@ app_identifier([
   "notitime.noffice.mypage.example",
   "notitime.noffice.signup.example"
 ]) # The bundle identifier of your app
-apple_id(["do83430208@gmail.com"]) # Your Apple Developer Portal username
-
+apple_id("do83430208@gmail.com") # Your Apple Developer Portal username
+itc_team_id("125313736")
 
 # For more information about the Appfile, see:
 #     https://docs.fastlane.tools/advanced/#appfile

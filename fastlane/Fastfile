@@ -16,19 +16,21 @@
 default_platform(:ios)
 
 platform :ios do
-  desc "Fetch development certificates and profiles for notitime.noffice.app and build the app"
-  lane :build_noffice_app do
+  desc "Build and upload the main Notitime app to TestFlight"
+  lane :beta_noffice_app do
     app_identifier = "notitime.noffice.app"
+    
     match(
       type: "appstore",
       app_identifier: app_identifier,
-      keychain_password: ENV["MATCH_KEYCHAIN_PASSWORD"]
+      keychain_password: ENV["MATCH_KEYCHAIN_PASSWORD"],
+      readonly: true
     )
-
+    
     increment_minor_build_number(
       xcodeproj: "./Projects/Noffice/Noffice.xcodeproj"
     )
-      
+    
     build_app(
       scheme: "Noffice",
       workspace: "./Noffice-Workspace.xcworkspace",
@@ -37,8 +39,10 @@ platform :ios do
       export_method: "app-store"
     )
     
-    upload_to_testflight
-    end
+    upload_to_testflight(
+      skip_waiting_for_build_processing: false
+    )
+  end
 
   desc "Fetch development certificates and profiles, and build the app for development"
   lane :development do
