@@ -2,20 +2,20 @@
 - **Tuist project creation**
   > Use this instead of ‘tuist generate’. It includes the lint command.
   ```
-  make generate
+  $ make generate
   ```
 - **Linting**
   ```
-  make lint
+  $ make lint
   ```
 - **Linting(Autocorrect and fix)**
   ```
-  make format
+  $ make format
   ```
 - **Clean**
   > Remove the DerivedData
   ```
-  make clean
+  $ make clean
   ```
 
 ## Fastlane
