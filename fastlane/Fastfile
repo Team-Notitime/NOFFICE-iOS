@@ -40,7 +40,7 @@ platform :ios do
     )
     
     upload_to_testflight(
-      skip_waiting_for_build_processing: false
+      skip_waiting_for_build_processing: true
     )
   end
 
