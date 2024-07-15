@@ -25,7 +25,7 @@
   $ fastlane beta_noffice_app
   ```
 - **Match**
-  > This works for the app targets of all bundle IDs defined in the app file.
+  > This works for the app targets of all bundle IDs defined in the AppFile.
   ```
   $ fastlane development
   ```
