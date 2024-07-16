@@ -123,7 +123,7 @@ public class BaseTextField: UIView {
         $0.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
     }
     
-    // MARK: Builder
+    // MARK: Build component
     private var titles: [UIView] = []
     
     private var prefixs: [UIView] = []

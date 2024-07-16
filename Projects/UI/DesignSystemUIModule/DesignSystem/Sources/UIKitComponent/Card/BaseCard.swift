@@ -81,11 +81,11 @@ public class BaseCard: UIView {
     }
     
     // MARK: Build component
-    private var headerComponents: [UIView] = []
+    private var headers: [UIView] = []
     
-    private var contentsComponents: [UIView] = []
+    private var contents: [UIView] = []
     
-    private var footerComponents: [UIView] = []
+    private var footers: [UIView] = []
     
     // MARK: DisposeBag
     private let disposeBag = DisposeBag()
@@ -116,9 +116,9 @@ public class BaseCard: UIView {
     ) {
         super.init(frame: .zero)
         
-        headerComponents.append(contentsOf: headerBuilder())
-        contentsComponents.append(contentsOf: contentsBuilder())
-        footerComponents.append(contentsOf: footerBuilder())
+        headers.append(contentsOf: headerBuilder())
+        contents.append(contentsOf: contentsBuilder())
+        footers.append(contentsOf: footerBuilder())
         
         setupHierachy()
         setupBind()
@@ -137,15 +137,15 @@ public class BaseCard: UIView {
         backgroundView.addSubview(contentStackView)
         backgroundView.addSubview(footerStackView)
         
-        headerComponents.forEach {
+        headers.forEach {
             headerStackView.addArrangedSubview($0)
         }
         
-        contentsComponents.forEach {
+        contents.forEach {
             contentStackView.addArrangedSubview($0)
         }
         
-        footerComponents.forEach {
+        footers.forEach {
             footerStackView.addArrangedSubview($0)
         }
     }

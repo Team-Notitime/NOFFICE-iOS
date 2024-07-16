@@ -74,11 +74,15 @@ public enum Typo {
     /// Font size: 20, weight: bold
     case heading4
     /// Font size: 22, weight: regular
-    case body0
+    case body0    
+    /// Font size: 22, weight: medium
+    case body0m
     /// Font size: 22, weight: semibold
     case body0b
     /// Font size: 16, weight: regular
-    case body1
+    case body1    
+    /// Font size: 16, weight: medium
+    case body1m
     /// Font size: 16, weight: semibold
     case body1b
     /// Font size: 14, weight: regular
@@ -149,11 +153,15 @@ public extension UILabel {
         case .heading4:
             self.setDefaultFont(size: 20, weight: .bold)
         case .body0:
-            self.setDefaultFont(size: 18, weight: .regular)
+            self.setDefaultFont(size: 18, weight: .regular)        
+        case .body0m:
+            self.setDefaultFont(size: 18, weight: .medium)
         case .body0b:
             self.setDefaultFont(size: 18, weight: .semibold)
         case .body1:
-            self.setDefaultFont(size: 16, weight: .regular)
+            self.setDefaultFont(size: 16, weight: .regular)        
+        case .body1m:
+            self.setDefaultFont(size: 16, weight: .medium)
         case .body1b:
             self.setDefaultFont(size: 16, weight: .semibold)
         case .body2:
@@ -224,11 +232,15 @@ public extension UITextField {
         case .heading4:
             self.setDefaultFont(size: 20, weight: .bold)
         case .body0:
-            self.setDefaultFont(size: 18, weight: .regular)
+            self.setDefaultFont(size: 18, weight: .regular)        
+        case .body0m:
+            self.setDefaultFont(size: 18, weight: .medium)
         case .body0b:
             self.setDefaultFont(size: 18, weight: .semibold)
         case .body1:
-            self.setDefaultFont(size: 16, weight: .regular)
+            self.setDefaultFont(size: 16, weight: .regular)        
+        case .body1m:
+            self.setDefaultFont(size: 16, weight: .medium)
         case .body1b:
             self.setDefaultFont(size: 16, weight: .semibold)
         case .body2:
@@ -277,11 +289,15 @@ public extension View {
         case .heading4:
             return self.defaultFont(size: 20, weight: .bold)
         case .body0:
-            return self.defaultFont(size: 18, weight: .regular)
+            return self.defaultFont(size: 18, weight: .regular)        
+        case .body0m:
+            return self.defaultFont(size: 18, weight: .medium)
         case .body0b:
             return self.defaultFont(size: 18, weight: .semibold)
         case .body1:
-            return self.defaultFont(size: 16, weight: .regular)
+            return self.defaultFont(size: 16, weight: .regular)        
+        case .body1m:
+            return self.defaultFont(size: 16, weight: .medium)
         case .body1b:
             return self.defaultFont(size: 16, weight: .semibold)
         case .body2:

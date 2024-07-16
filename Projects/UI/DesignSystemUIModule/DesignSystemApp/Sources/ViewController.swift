@@ -112,6 +112,18 @@ class ViewController: UIViewController {
             ]
         ),
         Section(
+            title: "ToggleButton",
+            examples: [
+                Example(
+                    button: UIButton().then {
+                        $0.setTitle("Basic toggle button example", for: .normal)
+                        $0.setTitleColor(.systemBlue, for: .normal)
+                    },
+                    viewController: ToogleButtonBookViewController.self
+                )
+            ]
+        ),
+        Section(
             title: "Noffice",
             examples: [
                 Example(
