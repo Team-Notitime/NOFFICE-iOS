@@ -107,7 +107,7 @@ public class BaseDialog: UIView {
     // MARK: Initializer
     public override init(frame: CGRect) {
         super.init(frame: frame)
-        setupHierachy()
+        setupHierarchy()
         updateCornerRadius()
         setupBind()
         updateTheme()
@@ -116,7 +116,7 @@ public class BaseDialog: UIView {
     
     public required init?(coder: NSCoder) {
         super.init(coder: coder)
-        setupHierachy()
+        setupHierarchy()
         setupBind()
         updateCornerRadius()
         updateTheme()
@@ -130,7 +130,7 @@ public class BaseDialog: UIView {
         
         contents.append(contentsOf: contentsBuilder())
         
-        setupHierachy()
+        setupHierarchy()
         updateCornerRadius()
         setupBind()
         updateTheme()
@@ -140,7 +140,7 @@ public class BaseDialog: UIView {
     // MARK: Life cycle
     
     // MARK: Setup
-    private func setupHierachy() { 
+    private func setupHierarchy() { 
         addSubview(overlayView)
         
         addSubview(backgroundView)

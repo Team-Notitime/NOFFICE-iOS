@@ -138,7 +138,7 @@ public class BaseTextField: UIView {
     // MARK: Initializer
     public override init(frame: CGRect) {
         super.init(frame: frame)
-        setupHierachy()
+        setupHierarchy()
         setupBind()
         updateTheme()
         updateLayout()
@@ -146,7 +146,7 @@ public class BaseTextField: UIView {
     
     public required init?(coder: NSCoder) {
         super.init(coder: coder)
-        setupHierachy()
+        setupHierarchy()
         setupBind()
         updateTheme()
         updateLayout()
@@ -172,14 +172,14 @@ public class BaseTextField: UIView {
         suffixs.append(contentsOf: suffixBuilder())
         descriptions.append(contentsOf: descriptionBuilder())
         
-        setupHierachy()
+        setupHierarchy()
         setupBind()
         updateTheme()
         updateLayout()
     }
     
     // MARK: Setup
-    private func setupHierachy() {
+    private func setupHierarchy() {
         addSubview(titleStack)
         titles.forEach {
             titleStack.addArrangedSubview($0)

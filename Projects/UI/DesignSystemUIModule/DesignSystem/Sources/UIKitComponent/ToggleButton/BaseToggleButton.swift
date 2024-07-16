@@ -14,7 +14,7 @@ import Then
 import SnapKit
 
 /// Extension for set theme
-public extension ToggleButton {
+public extension BaseToggleButton {
     func styled(
         color: BasicToggleButtonColor = .green,
         shape: BasicToggleButtonShape = .round
@@ -27,37 +27,38 @@ public extension ToggleButton {
     }
 }
 
-public class ToggleButton<Option>: UIControl where Option: Equatable & Identifiable {
+public class BaseToggleButton<Option>: UIControl where Option: Equatable & Identifiable {
     public typealias ViewBuilder = (Option) -> [UIView]
     
+    // MARK: Data
+    public let value: Option?
+    
     // MARK: Event
-    public var _onChange: PublishSubject<Bool> = PublishSubject()
+    private let _onChange: PublishSubject<Bool> = PublishSubject()
     public var onChange: Observable<Bool> {
         return _onChange.asObservable()
     }
     
     public override var isSelected: Bool {
         didSet {
-            updateCornerRadius()
             updateTheme()
-            updateLayout()
         }
     }
     
     // MARK: Theme
     private var colorTheme: BasicToggleButtonColorTheme? {
         didSet {
-            updateCornerRadius()
             updateTheme()
             updateLayout()
+            updateCornerRadius()
         }
     }
     
     private var figureTheme: BasicToggleButtonFigureTheme? {
         didSet {
-            updateCornerRadius()
             updateTheme()
             updateLayout()
+            updateCornerRadius()
         }
     }
     
@@ -81,15 +82,16 @@ public class ToggleButton<Option>: UIControl where Option: Equatable & Identifia
     }
     
     // MARK: Build component
-    private var items: [UIView] = []
+    public var items: [UIView] = []
     
     // MARK: DisposeBag
     private let disposeBag = DisposeBag()
     
     // MARK: Initializer
     public override init(frame: CGRect) {
+        value = nil
         super.init(frame: frame)
-        setupHierachy()
+        setupHierarchy()
         setupBind()
         updateTheme()
         updateLayout()
@@ -97,8 +99,9 @@ public class ToggleButton<Option>: UIControl where Option: Equatable & Identifia
     }
     
     public required init?(coder: NSCoder) {
+        value = nil
         super.init(coder: coder)
-        setupHierachy()
+        setupHierarchy()
         setupBind()
         updateTheme()
         updateLayout()
@@ -110,6 +113,8 @@ public class ToggleButton<Option>: UIControl where Option: Equatable & Identifia
         indicatorVisible: Bool = true,
         itemBuilder: ViewBuilder
     ) {
+        value = option
+        
         super.init(frame: .zero)
         
         // add item
@@ -120,7 +125,7 @@ public class ToggleButton<Option>: UIControl where Option: Equatable & Identifia
         // indicator setting
         indicatorIcon.isHidden = !indicatorVisible
         
-        setupHierachy()
+        setupHierarchy()
         setupBind()
         updateTheme()
         updateLayout()
@@ -128,9 +133,14 @@ public class ToggleButton<Option>: UIControl where Option: Equatable & Identifia
     }
     
     // MARK: Life cycle
+    public override func layoutSubviews() {
+        super.layoutSubviews()
+        indicatorBackground.layoutIfNeeded()
+        updateCornerRadius()
+    }
     
     // MARK: Setup
-    private func setupHierachy() {
+    private func setupHierarchy() {
         addSubview(backgroundView)
         backgroundView.addSubview(stackView)
         stackView.addArrangedSubview(indicatorBackground)
@@ -149,7 +159,7 @@ public class ToggleButton<Option>: UIControl where Option: Equatable & Identifia
         
         // indicator
         let rounded = figureTheme.rounded().max == .infinity
-        ? indicatorBackground.bounds.height / 2 : figureTheme.rounded().max
+        ? indicatorBackground.frame.height / 2 : figureTheme.rounded().max
         
         indicatorBackground.layer.cornerRadius = rounded
         indicatorBackground.clipsToBounds = true

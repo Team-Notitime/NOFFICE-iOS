@@ -57,7 +57,7 @@ final class ToogleButtonBookViewController: UIViewController {
         $0.selectedSegmentIndex = 0
     }
     
-    private let toggleButton = ToggleButton<ToggleOption>(
+    private let toggleButton = BaseToggleButton<ToggleOption>(
         option: ToggleOption(id: 1),
         indicatorVisible: true,
         itemBuilder: { option in
@@ -73,8 +73,72 @@ final class ToogleButtonBookViewController: UIViewController {
         $0.styled()
     }
     
+    private lazy var checkBoxGroupLabel = UILabel().then {
+        $0.text = "With CheckBoxGroup"
+        $0.setTypo(.body1b)
+    }
+    
+    private lazy var checkBoxGroup = BaseCheckBoxGroup(
+        source: ToggleOption.factory(Array(0...3))
+    ) { option in
+        BaseToggleButton<ToggleOption>(
+            option: option,
+            indicatorVisible: true,
+            itemBuilder: { option in
+                [
+                    UILabel().then {
+                        $0.text = "\(option.text) \(option.id)"
+                        $0.font = UIFont.systemFont(ofSize: 16)
+                        $0.textAlignment = .center
+                    }
+                ]
+            }
+        ).then {
+            $0.styled(shape: .circle)
+        }
+    }
+    
+    private lazy var checkBoxGroupSelectedOptionsLabel = UILabel().then {
+        $0.text = "Selected: "
+        $0.setTypo(.body2b)
+        $0.numberOfLines = 0
+    }
+    
+    private lazy var radioGroupLabel = UILabel().then {
+        $0.text = "With RadioGroup (+ grid)"
+        $0.setTypo(.body1b)
+    }
+    
+    private lazy var radioGroup = BaseRadioGroup(
+        source: ToggleOption.factory(Array(0...3))
+    ) { option in
+        BaseToggleButton<ToggleOption>(
+            option: option,
+            indicatorVisible: true,
+            itemBuilder: { option in
+                [
+                    UILabel().then {
+                        $0.text = "\(option.text) \(option.id)"
+                        $0.font = UIFont.systemFont(ofSize: 16)
+                        $0.textAlignment = .center
+                    }
+                ]
+            }
+        ).then {
+            $0.styled(shape: .circle)
+        }
+    }.then {
+        $0.gridStyled(columns: 2, verticalSpacing: 16, horizontalSpacing: 16)
+    }
+    
+    private lazy var radioGroupSelectedOptionLabel = UILabel().then {
+        $0.text = "Selected: "
+        $0.setTypo(.body2b)
+        $0.numberOfLines = 0
+    }
+    
     private let disposeBag = DisposeBag()
-
+    
     // MARK: Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -96,12 +160,19 @@ final class ToogleButtonBookViewController: UIViewController {
         stackView.addArrangedSubview(shapeControlLabel)
         stackView.addArrangedSubview(shapeControl)
         
-        stackView.addArrangedSubview(UIView().then {
-            $0.backgroundColor = .lightGray
-            $0.snp.makeConstraints { $0.height.equalTo(1) }
-        })
+        stackView.addArrangedSubview(BaseDivider())
         
         stackView.addArrangedSubview(toggleButton)
+        
+        stackView.addArrangedSubview(checkBoxGroupLabel)
+        stackView.addArrangedSubview(checkBoxGroup)
+        stackView.addArrangedSubview(checkBoxGroupSelectedOptionsLabel)
+        
+        stackView.addArrangedSubview(BaseSpacer(size: 16))
+        
+        stackView.addArrangedSubview(radioGroupLabel)
+        stackView.addArrangedSubview(radioGroup)
+        stackView.addArrangedSubview(radioGroupSelectedOptionLabel)
     }
     
     private func setupLayout() {
@@ -127,26 +198,46 @@ final class ToogleButtonBookViewController: UIViewController {
         shapeControl.snp.makeConstraints {
             $0.width.equalTo(stackView.snp.width)
         }
-        
-        toggleButton.snp.makeConstraints {
-            $0.width.equalTo(stackView.snp.width)
-            $0.height.equalTo(44)
-        }
     }
-
+    
     private func setupBind() {
         Observable.combineLatest(
-            colorControl.rx.selectedSegmentIndex,
-            shapeControl.rx.selectedSegmentIndex
+            colorControl.rx.selectedSegmentIndex.asObservable(),
+            shapeControl.rx.selectedSegmentIndex.asObservable()
         )
         .observe(on: MainScheduler.instance)
         .withUnretained(self)
         .subscribe(onNext: { owner, value in
+            let color = BasicToggleButtonColor.allCases[value.0]
+            let shape = BasicToggleButtonShape.allCases[value.1]
+            
             owner.toggleButton.styled(
-                color: BasicToggleButtonColor.allCases[value.0],
-                shape: BasicToggleButtonShape.allCases[value.1]
+                color: color,
+                shape: shape
             )
         })
         .disposed(by: disposeBag)
+        
+        // checkbox group
+        checkBoxGroup.onChangeSelectedOptions
+            .withUnretained(self)
+            .subscribe(onNext: { owner, selectedOptions in
+                owner.checkBoxGroupSelectedOptionsLabel.text = """
+                    Selected: \(selectedOptions.map { "\($0.text) \($0.id)" }.joined(separator: ", "))
+                    """
+            })
+            .disposed(by: disposeBag)
+        
+        // radio group
+        radioGroup.onChangeSelectedOption
+            .withUnretained(self)
+            .subscribe(onNext: { owner, selectedOption in
+                if let selectedOption = selectedOption {
+                    owner.radioGroupSelectedOptionLabel.text = "Selected: \(selectedOption.text) \(selectedOption.id)"
+                } else {
+                    owner.radioGroupSelectedOptionLabel.text = "Selected: "
+                }
+            })
+            .disposed(by: disposeBag)
     }
 }

@@ -92,7 +92,7 @@ public class BaseSegmentControl<Option>: UIView where Option: Equatable & Identi
     // MARK: Initializer
     public override init(frame: CGRect) {
         super.init(frame: frame)
-        setupHierachy()
+        setupHierarchy()
         setupBind()
         updateCornerRadius()
         updateTheme()
@@ -101,7 +101,7 @@ public class BaseSegmentControl<Option>: UIView where Option: Equatable & Identi
     
     public required init?(coder: NSCoder) {
         super.init(coder: coder)
-        setupHierachy()
+        setupHierarchy()
         setupBind()
         updateCornerRadius()
         updateTheme()
@@ -127,7 +127,7 @@ public class BaseSegmentControl<Option>: UIView where Option: Equatable & Identi
             items.append(itemContainerView)
         }
         
-        setupHierachy()
+        setupHierarchy()
         setupBind()
         updateCornerRadius()
         updateTheme()
@@ -143,7 +143,7 @@ public class BaseSegmentControl<Option>: UIView where Option: Equatable & Identi
     }
     
     // MARK: Setup
-    private func setupHierachy() {
+    private func setupHierarchy() {
         addSubview(containerView)
         
         containerView.addSubview(indicator)

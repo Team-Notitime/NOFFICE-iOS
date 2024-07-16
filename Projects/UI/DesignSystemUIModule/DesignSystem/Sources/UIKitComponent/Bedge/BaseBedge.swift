@@ -66,7 +66,7 @@ public class BaseBadge: UIView {
     // MARK: Initializer
     public override init(frame: CGRect) {
         super.init(frame: frame)
-        setupHierachy()
+        setupHierarchy()
         setupBind()
         updateTheme()
         updateLayout()
@@ -75,7 +75,7 @@ public class BaseBadge: UIView {
     
     public required init?(coder: NSCoder) {
         super.init(coder: coder)
-        setupHierachy()
+        setupHierarchy()
         setupBind()
         updateTheme()
         updateLayout()
@@ -89,7 +89,7 @@ public class BaseBadge: UIView {
         
         contents.append(contentsOf: contentsBudiler())
         
-        setupHierachy()
+        setupHierarchy()
         setupBind()
         updateTheme()
         updateLayout()
@@ -103,7 +103,7 @@ public class BaseBadge: UIView {
     }
     
     // MARK: Setup
-    private func setupHierachy() {
+    private func setupHierarchy() {
         self.addSubview(backgroundView)
         
         backgroundView.addSubview(contentsStack)

@@ -85,7 +85,7 @@ public class BaseButton: UIControl {
     // MARK: Initializers
     public override init(frame: CGRect) {
         super.init(frame: frame)
-        setupHierachy()
+        setupHierarchy()
         setupBind()
         updateTheme()
         updateLayout()
@@ -94,7 +94,7 @@ public class BaseButton: UIControl {
     
     public required init?(coder: NSCoder) {
         super.init(coder: coder)
-        setupHierachy()
+        setupHierarchy()
         setupBind()
         updateTheme()
         updateLayout()
@@ -108,7 +108,7 @@ public class BaseButton: UIControl {
         
         contents.append(contentsOf: contentsBuilder())
         
-        setupHierachy()
+        setupHierarchy()
         setupBind()
         updateTheme()
         updateLayout()
@@ -123,7 +123,7 @@ public class BaseButton: UIControl {
     }
     
     // MARK: Setup
-    private func setupHierachy() {
+    private func setupHierarchy() {
         addSubview(stackView)
         
         contents.forEach {

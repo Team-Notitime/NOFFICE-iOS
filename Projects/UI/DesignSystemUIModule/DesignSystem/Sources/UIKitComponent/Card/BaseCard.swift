@@ -93,7 +93,7 @@ public class BaseCard: UIView {
     // MARK: Initializer
     public override init(frame: CGRect) {
         super.init(frame: frame)
-        setupHierachy()
+        setupHierarchy()
         setupBind()
         updateTheme()
         updateLayout()
@@ -102,7 +102,7 @@ public class BaseCard: UIView {
     
     public required init?(coder: NSCoder) {
         super.init(coder: coder)
-        setupHierachy()
+        setupHierarchy()
         setupBind()
         updateTheme()
         updateLayout()
@@ -120,7 +120,7 @@ public class BaseCard: UIView {
         contents.append(contentsOf: contentsBuilder())
         footers.append(contentsOf: footerBuilder())
         
-        setupHierachy()
+        setupHierarchy()
         setupBind()
         updateTheme()
         updateLayout()
@@ -130,7 +130,7 @@ public class BaseCard: UIView {
     // MARK: Life cycle
     
     // MARK: Setup
-    private func setupHierachy() {
+    private func setupHierarchy() {
         self.addSubview(backgroundView)
         
         backgroundView.addSubview(headerStackView)
