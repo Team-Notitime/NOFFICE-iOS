@@ -20,6 +20,7 @@ public class TestCompositionalLayoutViewController: UIViewController {
         $0.backgroundColor = .systemBlue
         $0.layer.cornerRadius = 10
     }
+    
     let collectionView = CompositionalCollectionView()
     
     var sections: [any CompositionalSection] = [
@@ -98,16 +99,16 @@ public class TestCompositionalLayoutViewController: UIViewController {
 extension TestCompositionalLayoutViewController {
     struct Section: CompositionalSection {
         typealias Header = SectionHeader
-//        typealias Footer = SectionHeader
         
         var layout: CompositionalLayout = .init(
             groupLayout: .init(
                 size: .init(width: .fractionalWidth(1.0), height: .absolute(100)),
+                groupSpacing: 8,
                 items: [
                     .init(width: .fractionalWidth(0.3), height: .absolute(100)),
                     .init(width: .fractionalWidth(0.7), height: .absolute(100))
                 ],
-                spacing: 8
+                itemSpacing: 8
             ),
             headerSize: .init(width: .fractionalWidth(1.0), height: .absolute(50)),
             sectionInset: .init(top: 12, leading: 12, bottom: 12, trailing: 12),

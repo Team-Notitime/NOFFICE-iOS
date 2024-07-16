@@ -30,7 +30,7 @@ final public class CompositionalCollectionView: UIView, UICollectionViewDelegate
     private let disposeBag = DisposeBag()
     
     // MARK: Initializer
-    init() {
+    public init() {
         super.init(frame: .zero)
         configureCompositionalLayout()
         configureDatasource()

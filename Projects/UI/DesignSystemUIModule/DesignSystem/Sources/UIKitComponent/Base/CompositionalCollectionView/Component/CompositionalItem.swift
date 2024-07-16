@@ -70,6 +70,10 @@ public extension CompositionalItem {
     func bind(cell: Cell) {
         binding(cell)
     }
+    
+    var reusableIdentifier: String {
+        return String(describing: self)
+    }
 }
 
 // MARK: - Helper component

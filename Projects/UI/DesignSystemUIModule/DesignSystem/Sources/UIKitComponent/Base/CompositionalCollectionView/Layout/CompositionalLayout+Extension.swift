@@ -29,12 +29,13 @@ extension CompositionalLayout {
             layoutSize: groupSize,
             subitems: items
         )
-        group.interItemSpacing = .fixed(groupLayout.spacing)
+        group.interItemSpacing = .fixed(groupLayout.itemSpacing)
 
         // Create the section and configure its properties
         let section = NSCollectionLayoutSection(group: group)
         section.contentInsets = sectionInset
         section.orthogonalScrollingBehavior = scrollBehavior
+        section.interGroupSpacing = groupLayout.groupSpacing
 
         // Configure header if available
         if let headerSize = headerSize {

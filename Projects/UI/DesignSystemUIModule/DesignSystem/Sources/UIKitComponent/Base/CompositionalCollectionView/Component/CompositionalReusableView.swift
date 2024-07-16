@@ -16,6 +16,12 @@ public protocol CompositionalReusableView: UIView {
     func configure(with section: Section)
 }
 
+public extension CompositionalReusableView {
+    var reusableIdentifier: String {
+        return String(describing: self)
+    }
+}
+
 // MARK: - Helper component
 public class EmptyReusableView: UICollectionReusableView, CompositionalReusableView {
     public typealias Section = EmptyCompositionalSection

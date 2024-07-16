@@ -22,7 +22,7 @@ public protocol CompositionalItemCell: UIView {
     var itemType: Item.Type { get }
 }
 
-extension CompositionalItemCell {
+public extension CompositionalItemCell {
     var itemType: Item.Type { return Item.self }
 }
 

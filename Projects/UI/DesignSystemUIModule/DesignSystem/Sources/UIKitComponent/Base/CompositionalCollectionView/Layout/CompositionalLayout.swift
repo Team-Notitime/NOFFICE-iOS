@@ -54,17 +54,21 @@ public struct CompositionalLayout {
 
 public struct CompositionalGroupLayout {
     let size: CompositionalSize
-    let items: [CompositionalSize]
-    let spacing: CGFloat
+    let groupSpacing: CGFloat
     
+    let items: [CompositionalSize]
+    let itemSpacing: CGFloat
+
     public init(
         size: CompositionalSize,
+        groupSpacing: CGFloat,
         items: [CompositionalSize],
-        spacing: CGFloat
+        itemSpacing: CGFloat
     ) {
         self.size = size
+        self.groupSpacing = groupSpacing
         self.items = items
-        self.spacing = spacing
+        self.itemSpacing = itemSpacing
     }
 }
 

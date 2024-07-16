@@ -150,7 +150,7 @@ public extension NofficeBanner { }
 
 // MARK: - Constant
 private extension NofficeBanner { 
-    static let bannerHeight: CGFloat = 180
+    static let bannerHeight: CGFloat = 100
     static let textLeftPadding: CGFloat = 16
     static let textBottomPadding: CGFloat = 20
     static let textSize: CGFloat = 24
