@@ -24,6 +24,12 @@ public protocol CompositionalSection: Hashable {
     
     var headerType: Header.Type { get }
     var footerType: Footer.Type { get }
+    
+    var headerBinding: (Header) -> Void { get }
+    var footerBinding: (Footer) -> Void { get }
+    
+    func headerBind(view: Header)
+    func footerBind(view: Footer)
 }
 
 public extension CompositionalSection {
@@ -32,6 +38,22 @@ public extension CompositionalSection {
     
     static func == (lhs: Self, rhs: Self) -> Bool {
         return lhs.hashValue == rhs.hashValue
+    }
+    
+    var headerBinding: (Header) -> Void {
+        return { _ in }
+    }
+    
+    var footerBinding: (Footer) -> Void {
+        return { _ in }
+    }
+    
+    func headerBind(view: Header) {
+        headerBinding(view)
+    }
+    
+    func footerBind(view: Footer) {
+        footerBinding(view)
     }
 }
 
@@ -90,57 +112,3 @@ public struct CompositionalSectionWrapper: Hashable {
         hasher.combine(wrappee.hashValue)
     }
 }
-
-// public struct AnyCompositionalSection: CompositionalSection {
-//    public var items: [any CompositionalItem]
-//    public var layout: CompositionalLayout
-//    
-//    private let _sectionType: any CompositionalSection.Type
-//    private let _hashInto: (inout Hasher) -> Void
-//    
-//    public init<S: CompositionalSection>(_ section: S) {
-//        self.items = section.items
-//        self.layout = section.layout
-//        self._hashInto = section.hash
-//    }
-//    
-//    public func hash(into hasher: inout Hasher) {
-//        _hashInto(&hasher)
-//    }
-//    
-//    public var headerType: Header.Type {
-//        return _sectionType.Header.self
-//    }
-//    
-//    var footerType: Footer.Type {
-//        
-//    }
-// }
-
-// extension CompositionalSection {
-    /**
-     It is a helper method for using AnyCompositionalSection
-     
-    ```swift
-     let collectionView = CompositionalCollectionView()
-     
-     let sectionsSubject = BehaviorSubject<[AnyCompositionalSection]>(value: sections)
-     
-     collectionView.bindSections(
-         by: sectionsSubject.asObservable()
-     )
-     .disposed(by: disposeBag)
-     
-     let sections = [
-        Section(
-             items: [ ... ]
-         ).asAnySection() // ✅
-     ]
- 
-     self.sectionsSubject.onNext(sections)
-     ```
-     */
-//    public func asAnySection() -> AnyCompositionalSection {
-//        return AnyCompositionalSection(self)
-//    }
-// }

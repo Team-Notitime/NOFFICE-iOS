@@ -11,10 +11,9 @@ import DesignSystem
 import Assets
 
 import RxSwift
+import RxGesture
 
 struct OrganizationSection: CompositionalSection {
-    typealias Header = OrganizationSectionHeaderView
-    
     var layout: CompositionalLayout = .init(
         groupLayout: .init(
             size: .init(width: .fractionalWidth(0.8), height: .absolute(300)),
@@ -32,15 +31,18 @@ struct OrganizationSection: CompositionalSection {
     var identifier: String
     let organizationName: String
     var items: [any CompositionalItem]
+    let headerBinding: (OrganizationSectionHeaderView) -> Void
     
     init(
         identifier: String,
         organizationName: String,
-        items: [any CompositionalItem]
+        items: [any CompositionalItem],
+        headerBinding: @escaping (OrganizationSectionHeaderView) -> Void
     ) {
         self.items = items
         self.identifier = identifier
         self.organizationName = organizationName
+        self.headerBinding = headerBinding
     }
     
     func hash(into hasher: inout Hasher) {
@@ -50,12 +52,19 @@ struct OrganizationSection: CompositionalSection {
 }
 
 final class AnnouncementItem: CompositionalItem {
+    // MARK: Compositional
     let binding: (AnnouncementItemCell) -> Void
+    
+    // MARK: Data
     var identifier: String = UUID().uuidString
     var value: String = ""
     
+    let onTapAnnouncementCard = PublishSubject<Void>()
+    
+    // MARK: DisposeBag
     let disposeBag = DisposeBag()
     
+    // MARK: Initializer
     init(
         identifier: String,
         value: String,
@@ -66,6 +75,7 @@ final class AnnouncementItem: CompositionalItem {
         self.binding = binding
     }
     
+    // MARK: Hasher
     func hash(into hasher: inout Hasher) {
         hasher.combine(identifier)
         hasher.combine(value)
@@ -73,22 +83,25 @@ final class AnnouncementItem: CompositionalItem {
 }
 
 final class AnnouncementItemCell: UIView, CompositionalItemCell {
-    var itemType: AnnouncementItem.Type {
-        return Item.self
-    }
-    
+    // MARK: UI Component
     lazy var organizationCard = NofficeGroupCard()
     
+    // MARK: Initializer
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         setup()
+        bind()
     }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         setup()
+        
     }
     
+    private var disposeBag = DisposeBag()
+    
+    // MARK: Setup
     private func setup() {
         addSubview(organizationCard)
         
@@ -97,14 +110,23 @@ final class AnnouncementItemCell: UIView, CompositionalItemCell {
         }
     }
     
+    private func bind() {
+
+    }
+    
     func configure(with item: AnnouncementItem) {
-        
+        organizationCard.rx.tapGesture()
+            .when(.recognized)
+            .map { _ in }
+            .bind(to: item.onTapAnnouncementCard)
+            .disposed(by: disposeBag)
     }
 }
 
 class OrganizationSectionHeaderView: UIView, CompositionalReusableView {
     typealias Section = OrganizationSection
     
+    // MARK: UI Component
     private lazy var label = UILabel().then {
         $0.textColor = .grey800
         $0.textAlignment = .left
@@ -126,6 +148,7 @@ class OrganizationSectionHeaderView: UIView, CompositionalReusableView {
         setup()
     }
     
+    // MARK: Setup
     private func setup() {
         addSubview(label)
         addSubview(icon)

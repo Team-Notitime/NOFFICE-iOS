@@ -9,6 +9,7 @@ import UIKit
 import DesignSystem
 
 import RxSwift
+import RxCocoa
 import SnapKit
 import Then
 
@@ -16,6 +17,8 @@ public class AnnouncementPageView: BaseView {
     // MARK: Data source
     
     // MARK: UI Component
+    // viewmodel을 두고...? section에 전달...
+    
     private lazy var banner = NofficeBanner().then {
         $0.userName = "이즌"
         $0.todayPrefixText = "활기찬"
@@ -53,7 +56,9 @@ public class AnnouncementPageView: BaseView {
                 AnnouncementItem(identifier: UUID().uuidString, value: "Item4") { _ in
                     
                 }
-            ]
+            ],
+            headerBinding: { view in
+            }
         ),
         OrganizationSection(
             identifier: UUID().uuidString,
@@ -71,7 +76,7 @@ public class AnnouncementPageView: BaseView {
                 AnnouncementItem(identifier: UUID().uuidString, value: "Item4") { _ in
                     
                 }
-            ]
+            ], headerBinding: { _ in }
         )
     ]
     
@@ -91,5 +96,13 @@ public class AnnouncementPageView: BaseView {
             to: sectionsSubject.asObservable()
         )
         .disposed(by: disposeBag)
+        
+        if let item = sections[1].items[0] as? AnnouncementItem {
+            item.onTapAnnouncementCard
+                .subscribe(onNext: {
+                    print("a먕!!!")
+                })
+                .disposed(by: disposeBag)
+        }
     }
 }

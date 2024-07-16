@@ -12,7 +12,15 @@ import SnapKit
 
 public protocol CompositionalReusableView: UIView {
     associatedtype Section: CompositionalSection
+    /**
+     The identifier used when registering a cell in the collection view.
+     By default, it uses the name of the implementation.
+     */
     var reusableIdentifier: String { get }
+    
+    /// Configure the cell using the provided item of type ``CollectionViewItem``.
+    ///
+    /// - Parameter item: The item to configure the cell with.
     func configure(with section: Section)
 }
 
@@ -25,7 +33,15 @@ public extension CompositionalReusableView {
 // MARK: - Helper component
 public class EmptyReusableView: UICollectionReusableView, CompositionalReusableView {
     public typealias Section = EmptyCompositionalSection
+    
     public var reusableIdentifier: String { return "EmptyReusableView" }
+    
+    public var binding: (EmptyCompositionalSection) -> Void = { _ in }
+    
+    public func bind(section: EmptyCompositionalSection) {
+        // do nothing
+    }
+    
     public func configure(with section: EmptyCompositionalSection) { }
 }
 
@@ -66,6 +82,10 @@ final class CollectionViewResuableViewContainer: UICollectionReusableView {
             
             view.configure(with: section)
             
+            if let view = view as? S.Header.Section.Header {
+                section.headerBind(view: view)
+            }
+            
         case .footer:
             guard let view = currentView as? S.Footer else {
                 fatalError("""
@@ -80,6 +100,10 @@ final class CollectionViewResuableViewContainer: UICollectionReusableView {
             }
             
             view.configure(with: section)
+            
+            if let view = view as? S.Footer.Section.Footer {
+                section.footerBind(view: view)
+            }
         }
     }
 }

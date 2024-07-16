@@ -277,6 +277,12 @@ extension TestCompositionalLayoutViewController {
     }
     
     class SectionHeader: UIView, CompositionalReusableView {
+        var binding: (TestCompositionalLayoutViewController.Section) -> Void = { _ in }
+        
+        func bind(section: TestCompositionalLayoutViewController.Section) {
+            
+        }
+        
         typealias Section = TestCompositionalLayoutViewController.Section
         
         var reusableIdentifier: String = "SectionHeader"

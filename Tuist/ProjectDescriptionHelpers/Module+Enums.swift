@@ -67,6 +67,7 @@ public enum Module {
         case swinject = "Swinject"
         case rxSwift = "RxSwift"
         case rxCocoa = "RxCocoa"
+        case rxGesture = "RxGesture"
         case snapKit = "SnapKit"
         case then = "Then"
         case alamofire = "Alamofire"

@@ -17,7 +17,9 @@ final public class CompositionalCollectionView: UIView, UICollectionViewDelegate
     
     // MARK: CollectionView & DataSource
     private var collectionView: UICollectionView!
-    private var dataSource: UICollectionViewDiffableDataSource<CompositionalSectionWrapper, CollectionViewItemWrapper>!
+    private var dataSource: UICollectionViewDiffableDataSource<
+        CompositionalSectionWrapper, CollectionViewItemWrapper
+    >!
     
     // MARK: Injected data
     private var sections: [CompositionalSectionWrapper] = [] {
@@ -73,7 +75,9 @@ final public class CompositionalCollectionView: UIView, UICollectionViewDelegate
     
     /// Set the diffable datasource and cell dequeue logic
     private func configureDatasource() {
-        dataSource = UICollectionViewDiffableDataSource<CompositionalSectionWrapper, CollectionViewItemWrapper>(
+        dataSource = UICollectionViewDiffableDataSource<
+            CompositionalSectionWrapper, CollectionViewItemWrapper
+        >(
             collectionView: collectionView
         ) { [weak self] (collectionView, indexPath, itemWrapper) in
             guard let self = self else { return UICollectionViewCell() }
@@ -97,7 +101,9 @@ final public class CompositionalCollectionView: UIView, UICollectionViewDelegate
         }
         
         // Set the supplementary view provider
-        dataSource.supplementaryViewProvider = { [weak self] (collectionView, kind, indexPath) -> UICollectionReusableView? in
+        dataSource.supplementaryViewProvider = { [weak self] (
+            collectionView, kind, indexPath
+        ) -> UICollectionReusableView? in
             guard let self = self else { return nil }
             
             let section = self.dataSource.snapshot().sectionIdentifiers[indexPath.section]
@@ -116,7 +122,7 @@ final public class CompositionalCollectionView: UIView, UICollectionViewDelegate
                 let view = headerType.init()
                 
                 headerView.setContainedView(view)
-                headerView.configure(with: section.wrappee, type: .header)
+                headerView.configure(with: section.wrappee, type: .header) // include bind
                 
                 return headerView
             } else if kind == UICollectionView.elementKindSectionFooter {
@@ -133,7 +139,7 @@ final public class CompositionalCollectionView: UIView, UICollectionViewDelegate
                 let view = footerType.init()
                 
                 footerView.setContainedView(view)
-                footerView.configure(with: section.wrappee, type: .footer)
+                footerView.configure(with: section.wrappee, type: .footer) // include bind
                 
                 return footerView
             }
