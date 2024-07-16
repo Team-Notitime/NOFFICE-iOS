@@ -27,18 +27,17 @@ public extension BaseToggleButton {
     }
 }
 
-public class BaseToggleButton<Option>: UIControl where Option: Equatable & Identifiable {
+public class BaseToggleButton<Option>: UIControl, ToggleButton where Option: Equatable & Identifiable {
     public typealias ViewBuilder = (Option) -> [UIView]
+    // MARK: Event
+    private let _onChangeSelected: PublishSubject<Bool> = PublishSubject()
+    public var onChangeSelected: Observable<Bool> {
+        return _onChangeSelected.asObservable()
+    }
     
     // MARK: Data
     public let value: Option?
-    
-    // MARK: Event
-    private let _onChange: PublishSubject<Bool> = PublishSubject()
-    public var onChange: Observable<Bool> {
-        return _onChange.asObservable()
-    }
-    
+
     public override var isSelected: Bool {
         didSet {
             updateTheme()
@@ -65,24 +64,24 @@ public class BaseToggleButton<Option>: UIControl where Option: Equatable & Ident
     // MARK: UI Constant
     
     // MARK: UI Component
-    private var backgroundView = UIView().then {
+    private lazy var backgroundView = UIView().then {
         $0.isUserInteractionEnabled = false
     }
     
-    private var stackView = UIStackView().then {
+    private lazy var  stackView = UIStackView().then {
         $0.axis = .horizontal
         $0.alignment = .center
         $0.spacing = 8
     }
     
-    private var indicatorBackground = UIView()
+    private lazy var  indicatorBackground = UIView()
     
-    private var indicatorIcon = UIImageView(image: .iconCheck).then {
+    private lazy var  indicatorIcon = UIImageView(image: .iconCheck).then {
         $0.contentMode = .scaleAspectFit
     }
     
     // MARK: Build component
-    public var items: [UIView] = []
+    private var items: [UIView] = []
     
     // MARK: DisposeBag
     private let disposeBag = DisposeBag()
@@ -90,7 +89,9 @@ public class BaseToggleButton<Option>: UIControl where Option: Equatable & Ident
     // MARK: Initializer
     public override init(frame: CGRect) {
         value = nil
+        
         super.init(frame: frame)
+        
         setupHierarchy()
         setupBind()
         updateTheme()
@@ -100,7 +101,9 @@ public class BaseToggleButton<Option>: UIControl where Option: Equatable & Ident
     
     public required init?(coder: NSCoder) {
         value = nil
+        
         super.init(coder: coder)
+        
         setupHierarchy()
         setupBind()
         updateTheme()
@@ -184,17 +187,25 @@ public class BaseToggleButton<Option>: UIControl where Option: Equatable & Ident
         ).uiColor
         let labelTypo = figureTheme.labelTypo()
         
-        indicatorBackground.backgroundColor = indicatorBackgroundColor
-        indicatorBackground.layer.borderColor = indicatorBorderColor
-        indicatorBackground.layer.borderWidth = 1
-        indicatorIcon.tintColor = indicatorForegroundColor
+        UIView.animate(withDuration: 0.2) { [weak self] in
+            guard let self = self else { return }
+            
+            self.indicatorBackground.backgroundColor = indicatorBackgroundColor
+            self.indicatorBackground.layer.borderColor = indicatorBorderColor
+            self.indicatorBackground.layer.borderWidth = 1
+            self.indicatorIcon.tintColor = indicatorForegroundColor
+        }
         
         stackView.arrangedSubviews
             .compactMap { $0 as? UILabel }
-            .forEach {
-                $0.textColor = labelForegorundColor
-                $0.setTypo(labelTypo)
-                $0.textAlignment = .left
+            .forEach { label in
+                UIView.animate(withDuration: 0.2) { [weak self] in
+                    guard let self = self else { return }
+                    
+                    label.textColor = labelForegorundColor
+                }
+                label.setTypo(labelTypo)
+                label.textAlignment = .left
             }
     }
     
@@ -222,7 +233,7 @@ public class BaseToggleButton<Option>: UIControl where Option: Equatable & Ident
     // MARK: UIControl
     public override func endTracking(_ touch: UITouch?, with event: UIEvent?) {
         isSelected.toggle()
-        _onChange.onNext(isSelected)
+        _onChangeSelected.onNext(isSelected)
         sendActions(for: .touchUpInside)
     }
 }

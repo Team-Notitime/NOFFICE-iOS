@@ -14,25 +14,48 @@ import RxCocoa
 import SnapKit
 import Then
 
-public class NofficeList: UIControl {
+public class NofficeList<Option>: UIControl, ToggleButton where Option: Equatable & Identifiable {
     // MARK: Event
-    public var _onTap: PublishSubject<Void> = PublishSubject()
-    public var onTap: Observable<Void> {
-        return _onTap.asObservable()
+    private let _onChangeSelected: PublishSubject<Bool> = PublishSubject()
+    /// Emits a Bool when the isSelected property of the UIControl subclass NofficeList changes.
+    public var onChangeSelected: Observable<Bool> {
+        return _onChangeSelected.asObservable()
+    }
+
+    private let _onChangeStatus: PublishSubject<Status> = PublishSubject()
+    /// Emits a NofficeList.Status event when the status of the NofficeList changes.
+    public var onChangeStatus: Observable<Status> {
+        return _onChangeStatus.asObservable()
     }
     
-    // MARK: Data source
+    // MARK: Data
+    public var value: Option?
+    
     public var text: String = "" {
         didSet {
             label.text = text
         }
     }
     
-    public var status: NofficeList.Status = .unselected {
+    public var status: Status = .unselected {
         didSet {
             updateByStatus()
+            _onChangeStatus.onNext(status)
         }
     }
+    
+    public override var isSelected: Bool {
+        get {
+            return status == .selected
+        }
+        set {
+            status = newValue ? .selected : .unselected
+        }
+    }
+    
+    // MARK: UI Constant
+    private let verticalPadding = 12
+    private let horizontalPadding = 16
     
     // MARK: UI Component
     private lazy var backgroundView = UIView().then {
@@ -50,7 +73,6 @@ public class NofficeList: UIControl {
     private lazy var label = UILabel().then {
         $0.text = ""
         $0.setTypo(.body2b)
-        $0.textColor = .blue500
         $0.numberOfLines = 10
     }
     
@@ -60,24 +82,26 @@ public class NofficeList: UIControl {
     }
     
     // MARK: Initializer
-    public init() {
+    public init(option: Option) {
+        value = option
         super.init(frame: .zero)
-        
         setupHierarchy()
         setupLayout()
         setupBind()
+        updateByStatus()
     }
     
     required init?(coder: NSCoder) {
+        value = nil
         super.init(coder: coder)
-        
         setupHierarchy()
         setupLayout()
         setupBind()
+        updateByStatus()
     }
     
     // MARK: Public
-    public func stateToggle() {
+    public func statusToggle() {
         status = status == .selected ? .unselected : .selected
     }
     
@@ -93,8 +117,8 @@ public class NofficeList: UIControl {
         }
         
         stackView.snp.makeConstraints {
-            $0.top.bottom.equalToSuperview().inset(Self.verticalPadding)
-            $0.leading.trailing.equalToSuperview().inset(Self.horizontalPadding)
+            $0.top.bottom.equalToSuperview().inset(verticalPadding)
+            $0.leading.trailing.equalToSuperview().inset(horizontalPadding)
         }
     }
     
@@ -116,7 +140,6 @@ public class NofficeList: UIControl {
                 self.icon.tintColor = .green500
             }
         case .unselected:
-            self.icon.isHidden = false
             UIView.transition(
                 with: self,
                 duration: 0.2,
@@ -133,20 +156,16 @@ public class NofficeList: UIControl {
     
     // MARK: UIControl
     public override func endTracking(_ touch: UITouch?, with event: UIEvent?) {
-        _onTap.onNext(())
+        statusToggle()
+        _onChangeStatus.onNext(status)
+        _onChangeSelected.onNext(isSelected)
         sendActions(for: .touchUpInside)
     }
 }
 
 // MARK: - Display model
 public extension NofficeList {
-    enum Status: String, CaseIterable {
-        case unselected, selected
+    enum Status {
+        case selected, unselected
     }
-}
-
-// MARK: - Constant
-private extension NofficeList {
-    static let verticalPadding = 12
-    static let horizontalPadding = 16
 }

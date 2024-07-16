@@ -14,6 +14,9 @@ import SnapKit
 import Then
 
 class NofficeListBookViewController: UIViewController {
+    // MARK: Data
+    private let listModel = ListModel(id: 1)
+    
     // MARK: UI Components
     private lazy var scrollView = UIScrollView()
     
@@ -25,15 +28,31 @@ class NofficeListBookViewController: UIViewController {
         $0.alignment = .fill
         $0.distribution = .fill
     }
-    
-    private lazy var stateSegmentedControl = UISegmentedControl(
-        items: Array(NofficeList.Status.allCases).map { $0.rawValue }
+
+    private lazy var selectionSegmentedControl = UISegmentedControl(
+        items: ["Unselected", "Selected"]
     ).then {
         $0.selectedSegmentIndex = 0
     }
+
+    private lazy var listView = NofficeList(option: listModel).then {
+        $0.text = listModel.text
+    }
     
-    private let listView = NofficeList().then {
-        $0.text = "팀원 리스트 제출"
+    private lazy var radioGroupLabel = UILabel().then {
+        $0.text = "With RadioGroup (+ grid)"
+        $0.setTypo(.body1b)
+        $0.textAlignment = .center
+    }
+    
+    private lazy var listGroup = BaseRadioGroup(
+        source: ListModel.factory(Array(0...3))
+    ) { option in
+        NofficeList(option: option).then {
+            $0.text = "\(option.text) \(option.id)"
+        }
+    }.then {
+        $0.gridStyled(columns: 2, verticalSpacing: 16, horizontalSpacing: 16)
     }
     
     // MARK: DisposeBag
@@ -55,9 +74,10 @@ class NofficeListBookViewController: UIViewController {
         scrollView.addSubview(contentView)
         contentView.addSubview(stackView)
         
-        stackView.addArrangedSubview(stateSegmentedControl)
-        
+        stackView.addArrangedSubview(selectionSegmentedControl)
         stackView.addArrangedSubview(listView)
+        stackView.addArrangedSubview(radioGroupLabel)
+        stackView.addArrangedSubview(listGroup)
     }
     
     private func setupLayout() {
@@ -76,17 +96,24 @@ class NofficeListBookViewController: UIViewController {
     }
     
     private func setupBind() {
-        stateSegmentedControl.rx.selectedSegmentIndex
-            .map { NofficeList.Status.allCases[$0] }
-            .subscribe(onNext: { [weak self] state in
-                self?.listView.status = state
+        selectionSegmentedControl.rx.selectedSegmentIndex
+            .observe(on: MainScheduler.instance)
+            .subscribe(onNext: { [weak self] index in
+                guard let self = self else { return }
+                self.listView.isSelected = (index == 1)
             })
             .disposed(by: disposeBag)
+    }
+}
+
+// MARK: - Display model
+extension NofficeListBookViewController {
+    struct ListModel: Identifiable, Equatable {
+        let id: Int
+        let text: String = "Noffice List"
         
-        listView.onTap
-            .subscribe(onNext: { [weak self] _ in
-                self?.listView.stateToggle()
-            })
-            .disposed(by: disposeBag)
+        static func factory(_ options: [Int]) -> [ListModel] {
+            return options.map { ListModel(id: $0) }
+        }
     }
 }

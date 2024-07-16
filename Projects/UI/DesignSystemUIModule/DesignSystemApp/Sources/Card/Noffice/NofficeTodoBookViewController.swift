@@ -14,6 +14,14 @@ import SnapKit
 import Then
 
 class NofficeTodoBookViewController: UIViewController {
+    // MARK: Data
+    private let todoModel = TodoModel(id: 1, text: "팀원 리스트 제출")
+    
+    private let longTodoModel = TodoModel(
+        id: 1,
+        text: "투두가 길어지면 어떻게 하면 좋을까용 이렇게 하면 될 것 같습니다...투두가 길어지면 어떻게 하면 좋을까용 이렇게 하면 될 것 같습니다..."
+    )
+    
     // MARK: UI Components
     private lazy var scrollView = UIScrollView()
     
@@ -27,19 +35,35 @@ class NofficeTodoBookViewController: UIViewController {
     }
     
     private lazy var stateSegmentedControl = UISegmentedControl(
-        items: Array(NofficeTodo.Status.allCases).map { $0.rawValue }
+        items: Array(NofficeTodo<TodoModel>.Status.allCases).map { $0.rawValue }
     ).then {
         $0.selectedSegmentIndex = 0
     }
     
-    private let todoView = NofficeTodo().then {
-        $0.text = "팀원 리스트 제출"
+    private lazy var todoView = NofficeTodo(option: todoModel).then {
+        $0.text = todoModel.text
     }
     
-    private let longTodoView = NofficeTodo().then {
-        $0.text = "투두가 길어지면 어떻게 하면 좋을까용 이렇게 하면 될 것 같습니다...투두가 길어지면 어떻게 하면 좋을까용 이렇게 하면 될 것 같습니다..."
+    private lazy var longTodoView = NofficeTodo(option: longTodoModel).then {
+        $0.text = longTodoModel.text
     }
     
+    private lazy var todoGroupLabel = UILabel().then {
+        $0.text = "With RadioGroup (+ grid)"
+        $0.setTypo(.body1b)
+        $0.textAlignment = .center
+    }
+    
+    private lazy var todoGroup = BaseCheckBoxGroup(
+        source: TodoModel.factory(Array(0...3))
+    ) { option in
+        NofficeTodo<TodoModel>(option: option).then {
+            $0.text = "\(option.text) \(option.id)"
+        }
+    }.then {
+        $0.gridStyled(columns: 1, verticalSpacing: 16, horizontalSpacing: 16)
+    }
+
     // MARK: DisposeBag
     private let disposeBag = DisposeBag()
     
@@ -60,9 +84,10 @@ class NofficeTodoBookViewController: UIViewController {
         contentView.addSubview(stackView)
         
         stackView.addArrangedSubview(stateSegmentedControl)
-        
         stackView.addArrangedSubview(todoView)
         stackView.addArrangedSubview(longTodoView)
+        stackView.addArrangedSubview(todoGroupLabel)
+        stackView.addArrangedSubview(todoGroup)
     }
     
     private func setupLayout() {
@@ -95,16 +120,28 @@ class NofficeTodoBookViewController: UIViewController {
             })
             .disposed(by: disposeBag)
         
-        todoView.onTap
+        todoView.onChangeStatus
             .subscribe(onNext: { [weak self] _ in
-                self?.todoView.stateToggle()
+                self?.todoView.statusToggle()
             })
             .disposed(by: disposeBag)
         
-        longTodoView.onTap
+        longTodoView.onChangeStatus
             .subscribe(onNext: { [weak self] _ in
-                self?.longTodoView.stateToggle()
+                self?.longTodoView.statusToggle()
             })
             .disposed(by: disposeBag)
+    }
+}
+
+// MARK: - Display model
+extension NofficeTodoBookViewController {
+    struct TodoModel: Identifiable, Equatable {
+        let id: Int
+        let text: String
+        
+        static func factory(_ options: [Int]) -> [TodoModel] {
+            return options.map { TodoModel(id: $0, text: "Noffice Todo") }
+        }
     }
 }

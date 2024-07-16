@@ -14,14 +14,23 @@ import RxCocoa
 import SnapKit
 import Then
 
-public class NofficeTodo: UIControl {
+public class NofficeTodo<Option>: UIControl, ToggleButton where Option: Equatable & Identifiable {
     // MARK: Event
-    public var _onTap: PublishSubject<Void> = PublishSubject()
-    public var onTap: Observable<Void> {
-        return _onTap.asObservable()
+    private let _onChangeSelected: PublishSubject<Bool> = PublishSubject()
+    /// Emits a Bool when the isSelected property of the UIControl subclass NofficeTodo changes.
+    public var onChangeSelected: Observable<Bool> {
+        return _onChangeSelected.asObservable()
+    }
+
+    private let _onChangeStatus: PublishSubject<Status> = PublishSubject()
+    /// Emits a NofficeTodo.Status event when the status of the NofficeTodo changes.
+    public var onChangeStatus: Observable<Status> {
+        return _onChangeStatus.asObservable()
     }
     
-    // MARK: Data source
+    // MARK: Data
+    public var value: Option?
+    
     public var text: String = "" {
         didSet {
             label.text = text
@@ -33,6 +42,20 @@ public class NofficeTodo: UIControl {
             updateByStatus()
         }
     }
+    
+    public override var isSelected: Bool {
+        get {
+            return status == .done
+        }
+        set {
+            status = newValue ? .done : .none
+        }
+    }
+    
+    // MARK: UI Constant
+    private let verticalPadding = 12
+    
+    private let horizontalPadding = 16
     
     // MARK: UI Component
     private lazy var backgroundView = UIView().then {
@@ -60,12 +83,15 @@ public class NofficeTodo: UIControl {
     }
     
     // MARK: Initializer
-    public init() {
+    public init(option: Option) {
+        value = option
+        
         super.init(frame: .zero)
         
         setupHierarchy()
         setupLayout()
         setupBind()
+        updateByStatus()
     }
     
     required init?(coder: NSCoder) {
@@ -77,7 +103,7 @@ public class NofficeTodo: UIControl {
     }
     
     // MARK: Public
-    public func stateToggle() {
+    public func statusToggle() {
         status = status == .none ? .done : .none
     }
     
@@ -93,8 +119,8 @@ public class NofficeTodo: UIControl {
         }
         
         stackView.snp.makeConstraints {
-            $0.top.bottom.equalToSuperview().inset(Self.verticalPadding)
-            $0.leading.trailing.equalToSuperview().inset(Self.horizontalPadding)
+            $0.top.bottom.equalToSuperview().inset(verticalPadding)
+            $0.leading.trailing.equalToSuperview().inset(horizontalPadding)
         }
     }
     
@@ -137,7 +163,9 @@ public class NofficeTodo: UIControl {
     
     // MARK: UIControl
     public override func endTracking(_ touch: UITouch?, with event: UIEvent?) {
-        _onTap.onNext(())
+        statusToggle()
+        _onChangeStatus.onNext(status)
+        _onChangeSelected.onNext(isSelected)
         sendActions(for: .touchUpInside)
     }
 }
@@ -147,10 +175,4 @@ public extension NofficeTodo {
     enum Status: String, CaseIterable {
         case none, done
     }
-}
-
-// MARK: - Constant
-private extension NofficeTodo {
-    static let verticalPadding = 12
-    static let horizontalPadding = 16
 }

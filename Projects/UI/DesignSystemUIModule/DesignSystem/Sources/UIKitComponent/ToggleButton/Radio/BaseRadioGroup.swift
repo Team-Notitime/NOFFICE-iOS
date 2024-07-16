@@ -26,7 +26,7 @@ public extension BaseRadioGroup {
 }
 
 public class BaseRadioGroup<Option>: UIView where Option: Equatable & Identifiable {
-    public typealias ViewBuilder = (Option) -> BaseToggleButton<Option>
+    public typealias ViewBuilder = (Option) -> any ToggleButton
     
     // MARK: Event
     private let _onChangeSelectedOption = PublishSubject<Option?>()
@@ -58,7 +58,7 @@ public class BaseRadioGroup<Option>: UIView where Option: Equatable & Identifiab
     }
     
     // MARK: Build component
-    private let options: [BaseToggleButton<Option>]
+    private let options: [any ToggleButton]
     
     // MARK: DisposeBag
     private let disposeBag = DisposeBag()
@@ -125,15 +125,17 @@ public class BaseRadioGroup<Option>: UIView where Option: Equatable & Identifiab
     
     private func setupBind() {
         options.forEach { option in
-            option.onChange
+            option.onChangeSelected
                 .observe(on: MainScheduler.instance)
                 .subscribe(onNext: { [weak self] selected in
-                    guard let self = self, let value = option.value else { return }
+                    guard let self = self else { return }
                     
-                    if selected {
-                        self.selectOption(value)
-                    } else {
-                        self.deselectOption(value)
+                    if let value = option.value as? Option {
+                        if selected {
+                            self.selectOption(value)
+                        } else {
+                            self.deselectOption(value)
+                        }
                     }
                 })
                 .disposed(by: disposeBag)
@@ -142,9 +144,10 @@ public class BaseRadioGroup<Option>: UIView where Option: Equatable & Identifiab
 
     private func selectOption(_ value: Option) {
         self.selectedOption = value
-        self.options.forEach { btn in
-            if btn.value != value {
-                btn.isSelected = false
+        self.options.forEach { toggleButton in
+            if let toggleButtonValue = toggleButton.value as? Option,
+                toggleButtonValue != value {
+                toggleButton.isSelected = false
             }
         }
     }

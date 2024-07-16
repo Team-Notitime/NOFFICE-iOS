@@ -100,7 +100,7 @@ final class ToogleButtonBookViewController: UIViewController {
     
     private lazy var checkBoxGroupSelectedOptionsLabel = UILabel().then {
         $0.text = "Selected: "
-        $0.setTypo(.body2b)
+        $0.setTypo(.body2)
         $0.numberOfLines = 0
     }
     
@@ -133,7 +133,7 @@ final class ToogleButtonBookViewController: UIViewController {
     
     private lazy var radioGroupSelectedOptionLabel = UILabel().then {
         $0.text = "Selected: "
-        $0.setTypo(.body2b)
+        $0.setTypo(.body2)
         $0.numberOfLines = 0
     }
     

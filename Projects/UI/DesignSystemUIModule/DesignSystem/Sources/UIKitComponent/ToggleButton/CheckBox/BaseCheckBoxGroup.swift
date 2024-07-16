@@ -26,7 +26,7 @@ public extension BaseCheckBoxGroup {
 }
 
 public class BaseCheckBoxGroup<Option>: UIView where Option: Equatable & Identifiable {
-    public typealias ViewBuilder = (Option) -> BaseToggleButton<Option>
+    public typealias ViewBuilder = (Option) -> any ToggleButton
     
     // MARK: Event
     private let _onChangeSelectedOptions = PublishSubject<[Option]>()
@@ -59,7 +59,7 @@ public class BaseCheckBoxGroup<Option>: UIView where Option: Equatable & Identif
     }
     
     // MARK: Build component
-    private let options: [BaseToggleButton<Option>]
+    private let options: [any ToggleButton]
     
     // MARK: DisposeBag
     private let disposeBag = DisposeBag()
@@ -126,10 +126,12 @@ public class BaseCheckBoxGroup<Option>: UIView where Option: Equatable & Identif
     
     private func setupBind() {
         options.forEach { option in
-            option.onChange
+            option.onChangeSelected
                 .observe(on: MainScheduler.instance)
                 .subscribe(onNext: { [weak self] selected in
                     guard let self = self, let value = option.value else { return }
+                    
+                    guard let value = value as? Option else { return }
                     
                     if selected {
                         self.selectedOptions.append(value)
