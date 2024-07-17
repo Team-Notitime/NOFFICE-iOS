@@ -24,6 +24,7 @@ public class OrganizationTabView: BaseView {
                 $0.tintColor = .grey500
                 $0.contentMode = .scaleAspectFit
             },
+            BaseSpacer(size: 6, orientation: .horizontal),
             UIImageView(image: .iconUser).then {
                 $0.tintColor = .grey500
                 $0.contentMode = .scaleAspectFit
@@ -52,7 +53,6 @@ public class OrganizationTabView: BaseView {
     // MARK: Setup
     public override func setupHierarchy() { 
         addSubview(topBarBackgroundView)
-        
         addSubview(collectionView)
     }
     

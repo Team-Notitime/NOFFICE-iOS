@@ -22,7 +22,10 @@ final class TabBarController: UITabBarController {
         didSet { self.announceTabItem.isHidden = tabBar.isHidden }
     }
     
-    // MARK: Component
+    // MARK: UI Constant
+    private lazy var announcementButtonSize: CGFloat = view.frame.width / 7
+    
+    // MARK: UI Component
     private lazy var homeTabImage = UIImageView(image: .iconHome).then {
         $0.contentMode = .scaleAspectFit
     }
@@ -33,7 +36,7 @@ final class TabBarController: UITabBarController {
     
     private lazy var announceTabItem = UIView().then {
         $0.backgroundColor = .green500
-        $0.layer.cornerRadius = view.frame.width / 10
+        $0.layer.cornerRadius = announcementButtonSize / 2
         $0.clipsToBounds = true
 
         let imageView = UIImageView(image: .iconPlus).then {
@@ -119,7 +122,7 @@ final class TabBarController: UITabBarController {
         announceTabItem.snp.makeConstraints { make in
             make.centerY.equalTo(tabBar.snp.top)
             make.centerX.equalToSuperview()
-            make.height.width.equalTo(view.frame.width / 5)
+            make.height.width.equalTo(announcementButtonSize)
         }
         
         if let groupTabBarItemView = self.findTabBarItemView(at: TabBarItem.group.tag) {

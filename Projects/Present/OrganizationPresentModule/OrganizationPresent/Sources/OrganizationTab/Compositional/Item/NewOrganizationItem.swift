@@ -13,7 +13,7 @@ import Assets
 import RxSwift
 
 final class NewOrganizationItem: CompositionalItem {
-    typealias Cell = OrganizationAddItemCell
+    typealias Cell = NewOrganizationAddItemCell
     
     // MARK: Event
     let onTapNewButton = PublishSubject<Void>()
@@ -28,7 +28,7 @@ final class NewOrganizationItem: CompositionalItem {
     }
 }
 
-final class OrganizationAddItemCell: UIView, CompositionalItemCell {
+final class NewOrganizationAddItemCell: UIView, CompositionalItemCell {
     // MARK: UI Component
     lazy var newButton = BaseButton(
         contentsBuilder: {
@@ -68,7 +68,7 @@ final class OrganizationAddItemCell: UIView, CompositionalItemCell {
     }
     
     func configure(with item: NewOrganizationItem) {
-        // bind action
+        // action binding
         newButton.onTap
             .bind(to: item.onTapNewButton)
             .disposed(by: disposeBag)

@@ -24,6 +24,13 @@ public class OrganizationTabViewController: BaseViewController<OrganizationTabVi
             items: [
                 newOrganizationItem
             ]
+        ),
+        OrganizationSection(
+            items: [
+                OrganizationItem(organizationName: "CMC 15th"),
+                OrganizationItem(organizationName: "즐거운 소모임"),
+                OrganizationItem(organizationName: "행복한 스터디"),
+            ]
         )
     ]
     
@@ -37,7 +44,7 @@ public class OrganizationTabViewController: BaseViewController<OrganizationTabVi
         
         newOrganizationItem.onTapNewButton
             .withUnretained(self)
-            .subscribe(onNext: { owner, _ in
+            .subscribe(onNext: { _, _ in
                 Router.shared.push(NewOrganizationViewController())
             })
             .disposed(by: disposeBag)

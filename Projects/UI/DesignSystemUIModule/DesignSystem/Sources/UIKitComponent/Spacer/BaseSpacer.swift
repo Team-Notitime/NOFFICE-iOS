@@ -23,9 +23,9 @@ public final class BaseSpacer: UIView {
         self.snp.makeConstraints { make in
             switch orientation {
             case .vertical:
-                make.height.lessThanOrEqualTo(size).priority(.low)
+                make.height.lessThanOrEqualTo(size)
             case .horizontal:
-                make.width.lessThanOrEqualTo(size).priority(.low)
+                make.width.lessThanOrEqualTo(size)
             }
         }
     }
