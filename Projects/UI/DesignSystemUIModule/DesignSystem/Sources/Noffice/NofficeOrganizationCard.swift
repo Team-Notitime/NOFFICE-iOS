@@ -7,6 +7,8 @@
 
 import UIKit
 
+import Assets
+
 import SnapKit
 import Then
 
@@ -40,7 +42,7 @@ public class NofficeOrganizationCard: UIView {
     private lazy var titleLabel = UILabel().then {
         $0.text = ""
         $0.setTypo(.body0b)
-//        $0.setContentCompressionResistancePriority(.required, for: .vertical)
+        $0.setContentCompressionResistancePriority(.required, for: .vertical)
     }
     
     private lazy var dateLabel = UILabel().then {
@@ -65,10 +67,10 @@ public class NofficeOrganizationCard: UIView {
                 },
                 BaseHStack {[
                     BaseSpacer(size: 20, orientation: .horizontal),
-                    BaseVStack {[
-                        BaseSpacer(size: 8, orientation: .vertical),
+                    BaseVStack(spacing: 4) {[
+                        BaseSpacer(size: 4, orientation: .vertical),
                         titleLabel,
-                        BaseSpacer(size: 2),
+                        BaseSpacer(size: 0),
                         BaseDivider(),
                         BaseSpacer(size: 2),
                         BaseHStack {[
@@ -98,23 +100,27 @@ public class NofficeOrganizationCard: UIView {
     private var loadingCard = BaseCard(
         contentsBuilder: {
             [
-                BaseVStack(alignment: .center, spacing: 20) {
-                    [
-                        BaseSpacer(size: 44),
-                        UILabel().then {
-                            $0.text = "리더의 수락을 \n기다리고 있어요"
-                            $0.setTypo(.heading4)
-                            $0.textColor = .grey400
-                            $0.numberOfLines = 2
-                            $0.textAlignment = .center
-                        },
-                        UIImageView(image: .imgNottiLoading).then {
-                            $0.setSize(height: 130)
-                            $0.contentMode = .scaleAspectFit
-                        },
-                        BaseSpacer(size: 44)
-                    ]
-                }
+                BaseSpacer(size: 44),
+                UIImageView(image: .imgNottiLoading).then {
+                    $0.setSize(height: 130)
+                    $0.contentMode = .scaleAspectFit
+                },
+                BaseSpacer(size: 10),
+                UILabel().then {
+                    $0.text = "수락을 기다리고 있어요"
+                    $0.setTypo(.body1m)
+                    $0.textColor = .grey600
+                    $0.numberOfLines = 2
+                    $0.textAlignment = .center
+                },
+                UILabel().then {
+                    $0.text = "리더가 확인하고 있으니 조금만 기다려주세요!"
+                    $0.setTypo(.body3)
+                    $0.textColor = .grey400
+                    $0.numberOfLines = 2
+                    $0.textAlignment = .center
+                },
+                BaseSpacer(size: 44)
             ]
         }
     ).then {
@@ -124,40 +130,40 @@ public class NofficeOrganizationCard: UIView {
     private var noneCard = BaseCard(
         contentsBuilder: {
             [
-                BaseVStack(alignment: .center, spacing: 20) {
-                    [
-                        BaseSpacer(size: 60),
-                        UILabel().then {
-                            $0.text = "아직 등록된 \n노티가 없어요"
-                            $0.setTypo(.heading4)
-                            $0.textColor = .grey400
-                            $0.numberOfLines = 2
-                            $0.textAlignment = .center
-                        },
-                        UIImageView(image: .imgNottiX).then {
-                            $0.setSize(height: 100)
-                            $0.contentMode = .scaleAspectFit
-                        },
-                        BaseSpacer(size: 60)
-                    ]
-                }
+                BaseSpacer(size: 54),
+                UIImageView(image: .imgNottiX).then {
+                    $0.setSize(height: 100)
+                    $0.contentMode = .scaleAspectFit
+                },
+                BaseSpacer(size: 10),
+                UILabel().then {
+                    $0.text = "아직 등록된 노티가 없어요"
+                    $0.setTypo(.body1m)
+                    $0.textColor = .grey600
+                    $0.numberOfLines = 2
+                    $0.textAlignment = .center
+                },
+                UILabel().then {
+                    $0.text = "앞으로 어떤 즐거운 이벤트가 있을까요?"
+                    $0.setTypo(.body3)
+                    $0.textColor = .grey400
+                    $0.numberOfLines = 2
+                    $0.textAlignment = .center
+                },
+                BaseSpacer(size: 54)
             ]
         }
     ).then {
         $0.styled(variant: .outline, color: .gray, padding: .none)
     }
-    
-    private lazy var stackView = BaseVStack(
-        contents: [defaultCard, loadingCard, noneCard]
-    )
-    
+
     // MARK: Initializer
     public init() {
         super.init(frame: .zero)
         
         setupHierarchy()
         setupBind()
-        
+        setupLayout()
         updateByState()
     }
     
@@ -166,15 +172,32 @@ public class NofficeOrganizationCard: UIView {
         
         setupHierarchy()
         setupBind()
-        
+        setupLayout()
         updateByState()
     }
     
     // MARK: Setup
     private func setupHierarchy() {
-        addSubview(stackView)
-        stackView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
+        addSubview(defaultCard)
+        addSubview(loadingCard)
+        addSubview(noneCard)
+    }
+    
+    private func setupLayout() {
+        self.snp.makeConstraints {
+            $0.height.equalTo(GlobalViewConstant.organizationCardHeight)
+        }
+        
+        defaultCard.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+        
+        loadingCard.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+        
+        noneCard.snp.makeConstraints {
+            $0.edges.equalToSuperview()
         }
     }
     

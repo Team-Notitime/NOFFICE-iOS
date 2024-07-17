@@ -79,6 +79,7 @@ extension Project {
                     name: "\(target.rawValue)",
                     product: .framework,
                     bundleId: "\(bundleId).\(target.bundleIdenifier)",
+                    infoPlist: .file(path: "\(target.rawValue)/Sources/Info.plist"),
                     dependencies: dependencies + uiDependencies
                 )
             ],

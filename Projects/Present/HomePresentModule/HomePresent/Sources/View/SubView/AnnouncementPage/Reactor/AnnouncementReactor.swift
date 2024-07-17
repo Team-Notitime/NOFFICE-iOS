@@ -8,7 +8,6 @@
 import ReactorKit
 
 class AnnouncementReactor: Reactor {
-    
 
     enum Action {
         case viewWillAppear

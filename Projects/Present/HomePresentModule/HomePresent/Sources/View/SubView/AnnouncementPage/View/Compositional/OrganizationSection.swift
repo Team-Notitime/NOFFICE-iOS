@@ -19,10 +19,16 @@ struct OrganizationSection: CompositionalSection {
     // MARK: Compositional
     var layout: CompositionalLayout = .init(
         groupLayout: .init(
-            size: .init(width: .fractionalWidth(0.8), height: .estimated(300)),
+            size: .init(
+                width: .fractionalWidth(0.8),
+                height: .estimated(GlobalViewConstant.organizationCardHeight)
+            ),
             groupSpacing: 16,
             items: [
-                .init(width: .fractionalWidth(1.0), height: .estimated(300))
+                .init(
+                    width: .fractionalWidth(1.0),
+                    height: .estimated(GlobalViewConstant.organizationCardHeight)
+                )
             ],
             itemSpacing: 0
         ),
@@ -96,7 +102,6 @@ class OrganizationSectionHeaderView: UIView, CompositionalReusableView {
         label.text = section.organizationName
     }
 }
-
 
 final class AnnouncementItem: CompositionalItem {
     typealias Cell = AnnouncementItemCell

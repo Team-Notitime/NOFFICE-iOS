@@ -192,6 +192,9 @@ public class BaseCard: UIView {
         headerStackView.snp.remakeConstraints {
             $0.top.equalToSuperview().inset(padding.vertical ?? 0)
             $0.left.right.equalToSuperview().inset(padding.horizontal ?? 0)
+            if headers.isEmpty {
+                $0.height.equalTo(0)
+            }
         }
         
         contentStackView.snp.remakeConstraints {
@@ -202,6 +205,10 @@ public class BaseCard: UIView {
             
             $0.top.equalTo(headerStackView.snp.bottom).offset(stackViewSpacing)
             $0.left.right.equalToSuperview().inset(padding.horizontal ?? 0)
+            
+            if contents.isEmpty {
+                $0.height.equalTo(0)
+            }
         }
         
         footerStackView.snp.remakeConstraints {
@@ -213,6 +220,10 @@ public class BaseCard: UIView {
             $0.top.equalTo(contentStackView.snp.bottom).offset(stackViewSpacing)
             $0.left.right.equalToSuperview().inset(padding.horizontal ?? 0)
             $0.bottom.equalToSuperview().inset(padding.vertical ?? 0)
+            
+            if footers.isEmpty {
+                $0.height.equalTo(0)
+            }
         }
     }
     

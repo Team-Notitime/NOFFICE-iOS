@@ -109,7 +109,27 @@ public extension UILabel {
         size: CGFloat = 16,
         weight: FontWeight = .regular
     ) {
-        self.font = .systemFont(ofSize: size, weight: weight.uikitWeight)
+        switch weight {
+        case .thin:
+            self.font = UIFont(name: "Pretendard-Thin", size: size)
+        case .extraLight:
+            self.font = UIFont(name: "Pretendard-ExtraLight", size: size)
+        case .light:
+            self.font = UIFont(name: "Pretendard-Light", size: size)
+        case .regular:
+            self.font = UIFont(name: "Pretendard-Regular", size: size)
+        case .medium:
+            self.font = UIFont(name: "Pretendard-Medium", size: size)
+        case .semibold:
+            self.font = UIFont(name: "Pretendard-SemiBold", size: size)
+        case .bold:
+            self.font = UIFont(name: "Pretendard-Bold", size: size)
+        case .extraBold:
+            self.font = UIFont(name: "Pretendard-ExtraBold", size: size)
+        case .black:
+            self.font = UIFont(name: "Pretendard-Black", size: size)
+        }
+        
         self.setLineHeight(multiplier: lineSpacingMultiplier)
     }
     
@@ -190,7 +210,27 @@ public extension UITextField {
         size: CGFloat = 16,
         weight: FontWeight = .regular
     ) {
-        self.font = .systemFont(ofSize: size, weight: weight.uikitWeight)
+        switch weight {
+        case .thin:
+            self.font = UIFont(name: "Pretendard-Thin", size: size)
+        case .extraLight:
+            self.font = UIFont(name: "Pretendard-ExtraLight", size: size)
+        case .light:
+            self.font = UIFont(name: "Pretendard-Light", size: size)
+        case .regular:
+            self.font = UIFont(name: "Pretendard-Regular", size: size)
+        case .medium:
+            self.font = UIFont(name: "Pretendard-Medium", size: size)
+        case .semibold:
+            self.font = UIFont(name: "Pretendard-SemiBold", size: size)
+        case .bold:
+            self.font = UIFont(name: "Pretendard-Bold", size: size)
+        case .extraBold:
+            self.font = UIFont(name: "Pretendard-ExtraBold", size: size)
+        case .black:
+            self.font = UIFont(name: "Pretendard-Black", size: size)
+        }
+        
         self.setLineHeight(multiplier: lineSpacingMultiplier)
     }
     

@@ -14,7 +14,7 @@ public final class BaseSpacer: UIView {
     }
     
     public init(
-        size: CGFloat,
+        size: CGFloat = 0,
         orientation: Orientation = .vertical
     ) {
         super.init(frame: .zero)
@@ -23,9 +23,9 @@ public final class BaseSpacer: UIView {
         self.snp.makeConstraints { make in
             switch orientation {
             case .vertical:
-                make.height.equalTo(size)
+                make.height.lessThanOrEqualTo(size)
             case .horizontal:
-                make.width.equalTo(size)
+                make.width.lessThanOrEqualTo(size)
             }
         }
     }
