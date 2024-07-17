@@ -39,6 +39,7 @@ public class NofficeOrganizationCard: UIView {
     }
     
     // MARK: UI Component
+    // - default card
     private lazy var titleLabel = UILabel().then {
         $0.text = ""
         $0.setTypo(.body0b)
@@ -97,7 +98,8 @@ public class NofficeOrganizationCard: UIView {
         $0.styled(variant: .outline, color: .gray, padding: .none)
     }
     
-    private var loadingCard = BaseCard(
+    // - loading card
+    private lazy var loadingCard = BaseCard(
         contentsBuilder: {
             [
                 BaseSpacer(size: 44),
@@ -127,7 +129,8 @@ public class NofficeOrganizationCard: UIView {
         $0.styled(variant: .outline, color: .gray, padding: .none)
     }
     
-    private var noneCard = BaseCard(
+    // - none card
+    private lazy var noneCard = BaseCard(
         contentsBuilder: {
             [
                 BaseSpacer(size: 54),

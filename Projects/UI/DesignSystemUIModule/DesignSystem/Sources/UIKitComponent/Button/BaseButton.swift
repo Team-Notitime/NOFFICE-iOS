@@ -118,7 +118,6 @@ public class BaseButton: UIControl {
     // MARK: Life cycle
     public override func layoutSubviews() {
         super.layoutSubviews()
-        updateLayout()
         updateCornerRadius()
     }
     
@@ -184,7 +183,7 @@ public class BaseButton: UIControl {
         
         if superview != nil, isFullWidth {
             self.snp.remakeConstraints {
-                $0.leading.trailing.equalToSuperview()
+                $0.left.right.equalToSuperview()
             }
         } else {
             self.snp.removeConstraints()
@@ -195,7 +194,7 @@ public class BaseButton: UIControl {
             $0.top.bottom.equalToSuperview().inset(padding.vertical ?? 0)
             $0.centerX.equalToSuperview()
             // stackView가 button 양 옆을 당겨주는 레이아웃 full width일때는 self 제약을 우선하도록 설정
-            $0.leading.trailing.equalToSuperview()
+            $0.left.right.equalToSuperview()
                 .inset(padding.horizontal ?? 0)
                 .priority(isFullWidth ? .low : .required)
         }

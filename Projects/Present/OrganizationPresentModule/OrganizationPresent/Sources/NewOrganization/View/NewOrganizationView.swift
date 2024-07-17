@@ -29,7 +29,8 @@ public class NewOrganizationView: BaseView {
     
     public override func setupLayout() { 
         navigationBar.snp.makeConstraints {
-            $0.top.leading.trailing.equalTo(safeAreaLayoutGuide)
+            $0.top.equalTo(safeAreaLayoutGuide)
+            $0.left.right.equalToSuperview()
         }
     }
 }

@@ -7,6 +7,9 @@
 
 import UIKit
 
+import Router
+import SignupPresent
+
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
@@ -19,7 +22,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
         window = UIWindow(windowScene: windowScene)
-        window?.rootViewController = ViewController() // 초기 ViewController 설정
+        
+        window?.rootViewController = Router.shared.root
+        let viewController = SignupViewController()
+        Router.shared.push(viewController)
+        
+        window?.backgroundColor = .fullWhite
         window?.makeKeyAndVisible()
     }
 

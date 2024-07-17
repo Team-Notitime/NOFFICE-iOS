@@ -69,7 +69,7 @@ public class HomeTabView: BaseView {
         
         paginableView.snp.makeConstraints {
             $0.top.equalTo(topBarBackgroundView.snp.bottom)
-            $0.leading.trailing.bottom.equalToSuperview()
+            $0.left.right.bottom.equalToSuperview()
         }
     }
 }
@@ -102,9 +102,4 @@ public extension HomeTabView {
             }
         }
     }
-}
-
-// MARK: - Constant
-private extension HomeTabView {
-    
 }

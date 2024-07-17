@@ -29,7 +29,7 @@ public class OrganizationTabViewController: BaseViewController<OrganizationTabVi
             items: [
                 OrganizationItem(organizationName: "CMC 15th"),
                 OrganizationItem(organizationName: "즐거운 소모임"),
-                OrganizationItem(organizationName: "행복한 스터디"),
+                OrganizationItem(organizationName: "행복한 스터디")
             ]
         )
     ]
