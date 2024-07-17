@@ -7,6 +7,7 @@
 
 import UIKit
 
+import Router
 import HomePresent
 import Assets
 
@@ -23,12 +24,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         window = UIWindow(windowScene: windowScene)
         
-        let homeViewController = HomeTabViewController()
-        
-        let navigationController = UINavigationController(rootViewController: homeViewController)
-        navigationController.setNavigationBarHidden(true, animated: false)
-        
-        window?.rootViewController = navigationController
+        window?.rootViewController = Router.shared.root
+        let viewController = HomeTabViewController()
+        Router.shared.push(viewController)
         
         window?.backgroundColor = .fullWhite
         window?.makeKeyAndVisible()

@@ -7,6 +7,7 @@
 
 import UIKit
 
+import Router
 import OrganizationPresent
 import Assets
 
@@ -23,12 +24,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         window = UIWindow(windowScene: windowScene)
         
+        window?.rootViewController = Router.shared.root
         let viewController = OrganizationTabViewController()
-        
-        let navigationController = UINavigationController(rootViewController: viewController)
-        navigationController.setNavigationBarHidden(true, animated: false)
-        
-        window?.rootViewController = navigationController
+        Router.shared.push(viewController)
         
         window?.backgroundColor = .fullWhite
         window?.makeKeyAndVisible()

@@ -50,7 +50,8 @@ extension Project {
                     infoPlist: .default,
                     dependencies: [
                         .ui(.designSystem),
-                        .ui(.assets)
+                        .ui(.assets),
+                        .di(.router),
                     ] + dependencies + uiDependencies
                 ),
             ],
@@ -103,7 +104,9 @@ extension Project {
                     product: .app,
                     bundleId: "\(bundleId).\(target.bundleIdenifier).example",
                     infoPlist: .file(path: "\(target.name)Example/Sources/Info.plist"),
-                    dependencies: dependencies + uiDependencies
+                    dependencies: [
+                        .di(.router)
+                    ] + dependencies + uiDependencies
                 ),
             ],
             schemes: .base

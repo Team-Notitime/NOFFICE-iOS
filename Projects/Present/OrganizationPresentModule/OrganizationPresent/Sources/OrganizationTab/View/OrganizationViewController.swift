@@ -7,6 +7,7 @@
 
 import UIKit
 
+import Router
 import DesignSystem
 
 import RxSwift
@@ -37,9 +38,7 @@ public class OrganizationTabViewController: BaseViewController<OrganizationTabVi
         newOrganizationItem.onTapNewButton
             .withUnretained(self)
             .subscribe(onNext: { owner, _ in
-                let vc = UIViewController()
-                vc.view.backgroundColor = .white
-                owner.navigationController?.pushViewController(vc, animated: true)
+                Router.shared.push(NewOrganizationViewController())
             })
             .disposed(by: disposeBag)
     }
