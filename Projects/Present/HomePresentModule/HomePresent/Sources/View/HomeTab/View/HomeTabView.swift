@@ -13,7 +13,7 @@ import Assets
 import SnapKit
 import Then
 
-public class HomeView: BaseView {
+public class HomeTabView: BaseView {
     // MARK: UI component
     lazy var topBarBackgroundView = UIView().then {
         $0.backgroundColor = .white
@@ -92,7 +92,7 @@ public class HomeView: BaseView {
 }
 
 // MARK: - DisplayModel
-public extension HomeView {
+public extension HomeTabView {
     enum Page: CaseIterable, Identifiable, PageType {
         case announcement
         case todo
@@ -122,6 +122,6 @@ public extension HomeView {
 }
 
 // MARK: - Constant
-private extension HomeView {
+private extension HomeTabView {
     
 }

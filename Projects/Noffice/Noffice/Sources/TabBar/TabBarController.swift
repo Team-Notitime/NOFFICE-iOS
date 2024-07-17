@@ -8,6 +8,7 @@
 import UIKit
 
 import HomePresent
+import OrganizationPresent
 import DesignSystem
 import Assets
 
@@ -87,7 +88,10 @@ final class TabBarController: UITabBarController {
     
     /// Assign view controllers that are currently visible to the TabBar.
     private func setupTabBarControllers() {
-        let controllers: [UIViewController] = [HomeViewController(), TestCompositionalLayoutViewController()]
+        let controllers: [UIViewController] = [
+            HomeTabViewController(),
+            OrganizationTabViewController()
+        ]
         self.setViewControllers(controllers, animated: false)
     }
     

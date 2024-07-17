@@ -38,7 +38,7 @@ public class BaseButton: UIControl {
     public typealias ViewBuilder = () -> [UIView]
     
     // MARK: Event emitter
-    public var _onTap: PublishSubject<Void> = PublishSubject()
+    private var _onTap: PublishSubject<Void> = PublishSubject()
     public var onTap: Observable<Void> {
         return _onTap.asObservable()
     }

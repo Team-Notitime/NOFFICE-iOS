@@ -7,6 +7,9 @@
 
 import UIKit
 
+import OrganizationPresent
+import Assets
+
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
@@ -19,27 +22,21 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
         window = UIWindow(windowScene: windowScene)
-        window?.rootViewController = ViewController() // 초기 ViewController 설정
+        let viewController = OrganizationTabViewController()
+        let navigationController = UINavigationController(rootViewController: viewController)
+        window?.rootViewController = navigationController
+        
+        window?.backgroundColor = .fullWhite
         window?.makeKeyAndVisible()
     }
 
-    func sceneDidDisconnect(_ scene: UIScene) {
-        // 씬이 해제될 때 호출되는 메서드
-    }
+    func sceneDidDisconnect(_ scene: UIScene) { }
 
-    func sceneDidBecomeActive(_ scene: UIScene) {
-        // 씬이 활성화될 때 호출되는 메서드
-    }
+    func sceneDidBecomeActive(_ scene: UIScene) { }
 
-    func sceneWillResignActive(_ scene: UIScene) {
-        // 씬이 비활성화될 때 호출되는 메서드
-    }
+    func sceneWillResignActive(_ scene: UIScene) { }
 
-    func sceneWillEnterForeground(_ scene: UIScene) {
-        // 씬이 포그라운드로 들어올 때 호출되는 메서드
-    }
+    func sceneWillEnterForeground(_ scene: UIScene) { }
 
-    func sceneDidEnterBackground(_ scene: UIScene) {
-        // 씬이 백그라운드로 들어갈 때 호출되는 메서드
-    }
+    func sceneDidEnterBackground(_ scene: UIScene) { }
 }

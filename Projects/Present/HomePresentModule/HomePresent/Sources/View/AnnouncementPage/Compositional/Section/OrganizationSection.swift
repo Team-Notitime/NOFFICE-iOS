@@ -17,30 +17,32 @@ struct OrganizationSection: CompositionalSection {
     typealias Header = OrganizationSectionHeaderView
     
     // MARK: Compositional
-    var layout: CompositionalLayout = .init(
-        groupLayout: .init(
-            size: .init(
-                width: .fractionalWidth(0.8),
-                height: .estimated(GlobalViewConstant.organizationCardHeight)
-            ),
-            groupSpacing: 16,
-            items: [
-                .init(
-                    width: .fractionalWidth(1.0),
+    var layout: CompositionalLayout {
+        .init(
+            groupLayout: .init(
+                size: .init(
+                    width: .fractionalWidth(0.8),
                     height: .estimated(GlobalViewConstant.organizationCardHeight)
-                )
-            ],
-            itemSpacing: 0
-        ),
-        headerSize: .init(width: .fractionalWidth(1.0), height: .absolute(72)),
-        sectionInset: .init(top: 0, leading: 16, bottom: 0, trailing: 30),
-        scrollBehavior: .groupPaging
-    )
+                ),
+                groupSpacing: 16,
+                items: [
+                    .init(
+                        width: .fractionalWidth(1.0),
+                        height: .estimated(GlobalViewConstant.organizationCardHeight)
+                    )
+                ],
+                itemSpacing: 0
+            ),
+            headerSize: .init(width: .fractionalWidth(1.0), height: .absolute(72)),
+            sectionInset: .init(top: 0, leading: 16, bottom: 0, trailing: 30),
+            scrollBehavior: .groupPaging
+        )
+    }
     
     // MARK: Data
-    var identifier: String
+    let identifier: String
     let organizationName: String
-    var items: [any CompositionalItem]
+    let items: [any CompositionalItem]
     
     init(
         identifier: String,

@@ -41,7 +41,7 @@ public class AnnouncementPageViewController: BaseViewController<AnnouncementPage
         ),
         OrganizationSection(
             identifier: UUID().uuidString,
-            organizationName: "CMC 15th",
+            organizationName: "멋진 동아리",
             items: [
                 AnnouncementItem(state: .default, title: "5차 세션 : 최종 팀빌딩", date: "8월 27일 화요일", location: "ZEP"),
                 AnnouncementItem(state: .default, title: "5차 세션 : 최종 팀빌딩", date: "8월 27일 화요일", location: "ZEP"),
@@ -51,7 +51,7 @@ public class AnnouncementPageViewController: BaseViewController<AnnouncementPage
         ),
         OrganizationSection(
             identifier: UUID().uuidString,
-            organizationName: "CMC 15th",
+            organizationName: "즐거운 소모임",
             items: [
                 AnnouncementItem(state: .loading),
                 AnnouncementDummyItem()
@@ -59,7 +59,7 @@ public class AnnouncementPageViewController: BaseViewController<AnnouncementPage
         ),
         OrganizationSection(
             identifier: UUID().uuidString,
-            organizationName: "CMC 15th",
+            organizationName: "행복한 스터디",
             items: [
                 AnnouncementItem(state: .none),
                 AnnouncementDummyItem()
