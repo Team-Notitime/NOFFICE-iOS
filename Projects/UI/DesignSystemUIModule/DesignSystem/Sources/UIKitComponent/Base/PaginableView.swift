@@ -86,10 +86,11 @@ open class PaginableView<Page: PageType>: UIView, UIScrollViewDelegate {
         return _onMove.asObservable()
     }
     
-    public var selectedPage: Binder<Page> {
-        return Binder(self) { (pageView: PaginableView, page: Page) in
-            guard let pageIndex = pageView.pages.firstIndex(of: page) else { return }
-            pageView.moveToPage(at: pageIndex, animated: true)
+    public var selectedPage: Page? {
+        didSet {
+            guard let selectedPage = selectedPage,
+                  let pageIndex = pages.firstIndex(of: selectedPage) else { return }
+            moveToPage(at: pageIndex, animated: true)
         }
     }
     
@@ -104,7 +105,6 @@ open class PaginableView<Page: PageType>: UIView, UIScrollViewDelegate {
     private let gestureDisabled: Bool
     private var viewControllersDict: [Page: UIViewController] = [:]
     private var pageIndexDict: [Page: Int] = [:]
-    private var currentPage: Page?
     
     // MARK: UI component
     private let scrollView = UIScrollView()
@@ -219,7 +219,7 @@ open class PaginableView<Page: PageType>: UIView, UIScrollViewDelegate {
         guard let firstPageIndex = pageIndexDict[firstPage]
         else { return }
         
-        currentPage = firstPage
+        selectedPage = firstPage
         scrollView.contentOffset = CGPoint(
             x: scrollView.bounds.width * CGFloat(firstPageIndex),
             y: 0
@@ -265,20 +265,18 @@ open class PaginableView<Page: PageType>: UIView, UIScrollViewDelegate {
                 .multipliedBy(CGFloat(pages.count))
         }
         
-        // Ensure the scroll view is positioned correctly for the current page
-        guard let currentPage = currentPage,
-                let currentPageIndex = pageIndexDict[currentPage]
+        // Ensure the scroll view is positioned correctly for the selected page
+        guard let selectedPage = selectedPage,
+                let selectedPageIndex = pageIndexDict[selectedPage]
         else { return }
         
         scrollView.contentOffset = CGPoint(
-            x: scrollView.bounds.width * CGFloat(currentPageIndex),
+            x: scrollView.bounds.width * CGFloat(selectedPageIndex),
             y: 0
         )
     }
 
     private func moveToPage(at index: Int, animated: Bool) {
-        currentPage = pages[index]
-        
         scrollView.setContentOffset(
             CGPoint(
                 x: scrollView.bounds.width * CGFloat(index),
@@ -296,13 +294,13 @@ open class PaginableView<Page: PageType>: UIView, UIScrollViewDelegate {
     
     public func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         let pageIndex = Int(scrollView.contentOffset.x / scrollView.bounds.width)
-        currentPage = pages[pageIndex]
+        selectedPage = pages[pageIndex]
         _onMove.onNext(pages[pageIndex])
     }
     
     public func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
         let pageIndex = Int(scrollView.contentOffset.x / scrollView.bounds.width)
-        currentPage = pages[pageIndex]
+        selectedPage = pages[pageIndex]
         _onMove.onNext(pages[pageIndex])
     }
 }

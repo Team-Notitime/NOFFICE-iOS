@@ -242,7 +242,8 @@ extension Project {
         .thirdParty(.rxCocoa),
         .thirdParty(.rxGesture),
         .thirdParty(.snapKit),
-        .thirdParty(.then)
+        .thirdParty(.then),
+        .thirdParty(.reactorKit)
     ]
     
     static let dataDependencies: [TargetDependency] = [

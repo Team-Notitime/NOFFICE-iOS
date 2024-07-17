@@ -25,12 +25,12 @@ class NofficeGroupCardBookViewController: UIViewController {
     }
     
     private lazy var stateSegmentedControl = UISegmentedControl(
-        items: Array(NofficeGroupCard.State.allCases).map { $0.rawValue }
+        items: Array(NofficeOrganizationCard.State.allCases).map { $0.rawValue }
     ).then {
         $0.selectedSegmentIndex = 0
     }
     
-    private let groupCard = NofficeGroupCard()
+    private let groupCard = NofficeOrganizationCard()
     
     // MARK: DisposeBag
     private let disposeBag = DisposeBag()
@@ -79,14 +79,14 @@ class NofficeGroupCardBookViewController: UIViewController {
     
     private func setupBind() {
         stateSegmentedControl.rx.selectedSegmentIndex
-            .map { NofficeGroupCard.State.allCases[$0] }
+            .map { NofficeOrganizationCard.State.allCases[$0] }
             .subscribe(onNext: { [weak self] state in
                 self?.updateGroupCardState(state)
             })
             .disposed(by: disposeBag)
     }
 
-    private func updateGroupCardState(_ state: NofficeGroupCard.State) {
+    private func updateGroupCardState(_ state: NofficeOrganizationCard.State) {
         groupCard.state = state
     }
 }

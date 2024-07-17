@@ -57,9 +57,5 @@ final class CollectionViewItemCellContainer: UICollectionViewCell {
         }
         
         cell.configure(with: item)
-        
-        if let cell = cell as? T.Cell.Item.Cell {
-            item.bind(cell: cell)
-        }
     }
 }

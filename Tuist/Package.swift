@@ -33,6 +33,7 @@ let package = Package(
         .package(url: "https://github.com/RxSwiftCommunity/RxGesture.git", from: "4.0.0"),
         .package(url: "https://github.com/SnapKit/SnapKit.git", from: "5.7.0"),
         .package(url: "https://github.com/devxoul/Then.git", from: "3.0.0"),
+        .package(url: "https://github.com/ReactorKit/ReactorKit.git", from: "3.2.0"),
         .package(url: "https://github.com/Alamofire/Alamofire.git", from: "5.9.0")
     ],
     targets: []

@@ -24,12 +24,6 @@ public protocol CompositionalSection: Hashable {
     
     var headerType: Header.Type { get }
     var footerType: Footer.Type { get }
-    
-    var headerBinding: (Header) -> Void { get }
-    var footerBinding: (Footer) -> Void { get }
-    
-    func headerBind(view: Header)
-    func footerBind(view: Footer)
 }
 
 public extension CompositionalSection {
@@ -38,22 +32,6 @@ public extension CompositionalSection {
     
     static func == (lhs: Self, rhs: Self) -> Bool {
         return lhs.hashValue == rhs.hashValue
-    }
-    
-    var headerBinding: (Header) -> Void {
-        return { _ in }
-    }
-    
-    var footerBinding: (Footer) -> Void {
-        return { _ in }
-    }
-    
-    func headerBind(view: Header) {
-        headerBinding(view)
-    }
-    
-    func footerBind(view: Footer) {
-        footerBinding(view)
     }
 }
 

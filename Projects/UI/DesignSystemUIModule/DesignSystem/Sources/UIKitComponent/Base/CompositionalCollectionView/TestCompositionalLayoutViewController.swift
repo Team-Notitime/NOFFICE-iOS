@@ -27,12 +27,8 @@ public class TestCompositionalLayoutViewController: UIViewController {
         Section(
             identifier: UUID().uuidString,
             items: [
-                Item2(identifier: UUID().uuidString, value: "Item3", value2: "hihi") { _ in
-                    
-                },
-                Item2(identifier: UUID().uuidString, value: "Item4", value2: "메롱메롱") { _ in
-                    
-                }
+                Item2(identifier: UUID().uuidString, value: "Item3", value2: "hihi"),
+                Item2(identifier: UUID().uuidString, value: "Item4", value2: "메롱메롱")
             ]
         )
     ]
@@ -73,19 +69,8 @@ public class TestCompositionalLayoutViewController: UIViewController {
                     Section(
                         identifier: UUID().uuidString,
                         items: [
-                            Item(identifier: UUID().uuidString, value: "Additional Item") { cell in
-                                cell.button.rx.tap
-                                    .subscribe(onNext: { _ in
-                                        print("탭탭!q")
-                                    }).disposed(by: self.disposeBag)
-                            },
-                            Item(identifier: UUID().uuidString, value: "Additional Item") { cell in
-                                cell.button.rx.tap
-                                    .subscribe(onNext: { _ in
-                                        print("탭탭!w")
-                                        cell.label.text = "탭됨"
-                                    }).disposed(by: self.disposeBag)
-                            }
+                            Item(identifier: UUID().uuidString, value: "Additional Item"),
+                            Item(identifier: UUID().uuidString, value: "Additional Item")
                         ]
                     )
                 ]
@@ -130,7 +115,8 @@ extension TestCompositionalLayoutViewController {
     }
     
     final class Item: CompositionalItem {
-        let binding: (ItemCell) -> Void
+        typealias Cell = ItemCell
+        
         var identifier: String = UUID().uuidString
         var value: String = ""
 
@@ -140,10 +126,9 @@ extension TestCompositionalLayoutViewController {
         
         let disposeBag = DisposeBag()
         
-        init(identifier: String, value: String, _ binding: @escaping (ItemCell) -> Void) {
+        init(identifier: String, value: String) {
             self.identifier = identifier
             self.value = value
-            self.binding = binding
         }
         
         func hash(into hasher: inout Hasher) {
@@ -153,7 +138,7 @@ extension TestCompositionalLayoutViewController {
     }
     
     final class Item2: CompositionalItem {
-        let binding: (ItemCell2) -> Void
+        typealias Cell = ItemCell2
         
         var reusableIdentifier: String {
             return "ItemCell2"
@@ -163,11 +148,10 @@ extension TestCompositionalLayoutViewController {
         var value: String = ""
         var value2: String = ""
         
-        init(identifier: String, value: String, value2: String, _ binding: @escaping (ItemCell2) -> Void) {
+        init(identifier: String, value: String, value2: String) {
             self.identifier = identifier
             self.value = value
             self.value2 = value2
-            self.binding = binding
         }
         
         func hash(into hasher: inout Hasher) {
@@ -277,12 +261,6 @@ extension TestCompositionalLayoutViewController {
     }
     
     class SectionHeader: UIView, CompositionalReusableView {
-        var binding: (TestCompositionalLayoutViewController.Section) -> Void = { _ in }
-        
-        func bind(section: TestCompositionalLayoutViewController.Section) {
-            
-        }
-        
         typealias Section = TestCompositionalLayoutViewController.Section
         
         var reusableIdentifier: String = "SectionHeader"

@@ -73,11 +73,11 @@ public enum Typo {
     case heading3    
     /// Font size: 20, weight: bold
     case heading4
-    /// Font size: 22, weight: regular
+    /// Font size: 18, weight: regular
     case body0    
-    /// Font size: 22, weight: medium
+    /// Font size: 18, weight: medium
     case body0m
-    /// Font size: 22, weight: semibold
+    /// Font size: 18, weight: semibold
     case body0b
     /// Font size: 16, weight: regular
     case body1    
