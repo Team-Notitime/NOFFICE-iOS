@@ -67,7 +67,7 @@ public class NofficeOrganizationCard: UIView {
                 },
                 BaseHStack {[
                     BaseSpacer(size: 20, orientation: .horizontal),
-                    BaseVStack(spacing: 4) {[
+                    BaseVStack(spacing: 6) {[
                         BaseSpacer(size: 4, orientation: .vertical),
                         titleLabel,
                         BaseSpacer(size: 0),
@@ -75,14 +75,14 @@ public class NofficeOrganizationCard: UIView {
                         BaseSpacer(size: 2),
                         BaseHStack {[
                             UIImageView(image: .iconCalendar).then {
-                                $0.setSize(width: 24, height: 24)
+                                $0.setSize(width: 18, height: 18)
                                 $0.tintColor = .grey200
                             },
                             dateLabel
                         ]},
                         BaseHStack {[
                             UIImageView(image: .iconMappin).then {
-                                $0.setSize(width: 24, height: 24)
+                                $0.setSize(width: 18, height: 18)
                                 $0.tintColor = .grey200
                             },
                             locationLabel

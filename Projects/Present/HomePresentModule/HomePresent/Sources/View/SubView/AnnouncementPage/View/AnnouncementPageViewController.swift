@@ -33,20 +33,36 @@ public class AnnouncementPageViewController: BaseViewController<AnnouncementPage
             identifier: UUID().uuidString,
             organizationName: "CMC 15th",
             items: [
-                AnnouncementItem(title: "5차 세션 : 최종 팀빌딩", date: "8월 27일 화요일", location: "ZEP"),
-                AnnouncementItem(title: "5차 세션 : 최종 팀빌딩", date: "8월 27일 화요일", location: "ZEP"),
-                AnnouncementItem(title: "5차 세션 : 최종 팀빌딩", date: "8월 27일 화요일", location: "ZEP"),
-                AnnouncementItem(title: "5차 세션 : 최종 팀빌딩", date: "8월 27일 화요일", location: "ZEP")
+                AnnouncementItem(state: .default, title: "5차 세션 : 최종 팀빌딩", date: "8월 27일 화요일", location: "ZEP"),
+                AnnouncementItem(state: .default, title: "5차 세션 : 최종 팀빌딩", date: "8월 27일 화요일", location: "ZEP"),
+                AnnouncementItem(state: .default, title: "5차 세션 : 최종 팀빌딩", date: "8월 27일 화요일", location: "ZEP"),
+                AnnouncementItem(state: .default, title: "5차 세션 : 최종 팀빌딩", date: "8월 27일 화요일", location: "ZEP")
             ]
         ),
         OrganizationSection(
             identifier: UUID().uuidString,
             organizationName: "CMC 15th",
             items: [
-                AnnouncementItem(title: "5차 세션 : 최종 팀빌딩", date: "8월 27일 화요일", location: "ZEP"),
-                AnnouncementItem(title: "5차 세션 : 최종 팀빌딩", date: "8월 27일 화요일", location: "ZEP"),
-                AnnouncementItem(title: "5차 세션 : 최종 팀빌딩", date: "8월 27일 화요일", location: "ZEP"),
-                AnnouncementItem(title: "5차 세션 : 최종 팀빌딩", date: "8월 27일 화요일", location: "ZEP")
+                AnnouncementItem(state: .default, title: "5차 세션 : 최종 팀빌딩", date: "8월 27일 화요일", location: "ZEP"),
+                AnnouncementItem(state: .default, title: "5차 세션 : 최종 팀빌딩", date: "8월 27일 화요일", location: "ZEP"),
+                AnnouncementItem(state: .default, title: "5차 세션 : 최종 팀빌딩", date: "8월 27일 화요일", location: "ZEP"),
+                AnnouncementItem(state: .default, title: "5차 세션 : 최종 팀빌딩", date: "8월 27일 화요일", location: "ZEP")
+            ]
+        ),
+        OrganizationSection(
+            identifier: UUID().uuidString,
+            organizationName: "CMC 15th",
+            items: [
+                AnnouncementItem(state: .loading),
+                AnnouncementDummyItem()
+            ]
+        ),
+        OrganizationSection(
+            identifier: UUID().uuidString,
+            organizationName: "CMC 15th",
+            items: [
+                AnnouncementItem(state: .none),
+                AnnouncementDummyItem()
             ]
         )
     ]
