@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleExecutable</key>
+	<string>$(EXECUTABLE_NAME)</string>
+	<key>CFBundleIdentifier</key>
+	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+	<key>UIAppFonts</key>
+	<array>
+		<string>../Resources/Font/Pretendard-Black.otf</string>
+		<string>../Resources/Font/Pretendard-Bold.otf</string>
+		<string>../Resources/Font/Pretendard-ExtraBold.otf</string>
+		<string>../Resources/Font/Pretendard-ExtraLight.otf</string>
+		<string>../Resources/Font/Pretendard-Light.otf</string>
+		<string>../Resources/Font/Pretendard-Medium.otf</string>
+		<string>../Resources/Font/Pretendard-Regular.otf</string>
+		<string>../Resources/Font/Pretendard-SemiBold.otf</string>
+		<string>../Resources/Font/Pretendard-Thin.otf</string>
+	</array>
+</dict>
+</plist>
