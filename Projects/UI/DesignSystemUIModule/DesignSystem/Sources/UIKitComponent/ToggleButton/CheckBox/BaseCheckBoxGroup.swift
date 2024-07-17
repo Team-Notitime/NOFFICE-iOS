@@ -34,16 +34,11 @@ public class BaseCheckBoxGroup<Option>: UIView where Option: Equatable & Identif
         return _onChangeSelectedOptions.asObservable()
     }
     
-    public var changeSelectedOptions: Binder<[Option]> {
-        return Binder(self) { (checkBoxGroup: BaseCheckBoxGroup, selectedOptions: [Option]) in
-            checkBoxGroup.selectedOptions = selectedOptions
-        }
-    }
-    
     // MARK: Data
-    private var selectedOptions: [Option] = [] {
+    public var selectedOptions: [Option] = [] {
         didSet {
             _onChangeSelectedOptions.onNext(selectedOptions)
+            updateOptions()
         }
     }
     
@@ -147,6 +142,14 @@ public class BaseCheckBoxGroup<Option>: UIView where Option: Equatable & Identif
     private func updateLayout() {
         verticalStackView.snp.remakeConstraints {
             $0.edges.equalToSuperview()
+        }
+    }
+    
+    private func updateOptions() {
+        options.forEach { option in
+            if let value = option.value as? Option {
+                option.isSelected = selectedOptions.contains(value) // TODO: 시간복잡도 개선 필요
+            }
         }
     }
 }

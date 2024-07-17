@@ -178,9 +178,7 @@ open class PaginableView<Page: PageType>: UIView, UIScrollViewDelegate {
         scrollView.showsHorizontalScrollIndicator = false
         scrollView.bounces = false
         scrollView.alwaysBounceHorizontal = false
-        if gestureDisabled {
-            scrollView.panGestureRecognizer.isEnabled = false
-        }
+        scrollView.isScrollEnabled = !gestureDisabled
         
         addSubview(scrollView)
         

@@ -50,7 +50,7 @@ public class SignupTermsView: BaseView {
     }
     
     // - check box (all checked)
-    let allAgreeCheckBox = BaseToggleButton<TermOption>(
+    lazy var allAgreeCheckBox = BaseToggleButton<TermOption>(
         option: TermOption(
             text: "모두 동의",
             description: "서비스 이용을 위해 아래의 약관을 모두 동의합니다."
@@ -78,8 +78,43 @@ public class SignupTermsView: BaseView {
     }
     
     // - divider
+    lazy var divider = BaseDivider()
     
     // - check box group
+    lazy var termsOptonGroup = BaseCheckBoxGroup(
+        source: Array(TermOptionType.allCases.map { $0.termOption }),
+        itemBuilder: { option in
+            BaseToggleButton<TermOption>(
+                option: TermOption(
+                    text: option.text,
+                    description: option.description
+                ),
+                itemBuilder: { option in
+                    [
+                        BaseVStack(spacing: 6) {
+                            [
+                                UILabel().then {
+                                    $0.text = option.text
+                                    $0.setTypo(.body1m)
+                                    $0.textColor = .grey800
+                                },
+                                UILabel().then {
+                                    $0.text = option.description
+                                    $0.setTypo(.body3)
+                                    $0.textColor = .grey600
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ).then {
+                $0.styled(shape: .circle)
+            }
+            
+        }
+    ).then {
+        $0.gridStyled(verticalSpacing: 12)
+    }
     
     // MARK: Setup
     public override func setupHierarchy() {
@@ -89,6 +124,10 @@ public class SignupTermsView: BaseView {
         contentView.addSubview(termsDescriptionLabel)
         
         contentView.addSubview(allAgreeCheckBox)
+        
+        contentView.addSubview(divider)
+        
+        contentView.addSubview(termsOptonGroup)
         
         contentView.addSubview(nextButton)
     }
@@ -111,6 +150,16 @@ public class SignupTermsView: BaseView {
         
         allAgreeCheckBox.snp.makeConstraints {
             $0.top.equalTo(termsDescriptionLabel.snp.bottom).offset(sectionSpacingUnit * 4)
+            $0.left.right.equalToSuperview().inset(additionalPagePadding)
+        }
+        
+        divider.snp.makeConstraints {
+            $0.top.equalTo(allAgreeCheckBox.snp.bottom).offset(sectionSpacingUnit * 2)
+            $0.left.right.equalToSuperview().inset(additionalPagePadding)
+        }
+        
+        termsOptonGroup.snp.makeConstraints {
+            $0.top.equalTo(divider.snp.bottom).offset(sectionSpacingUnit * 2)
             $0.left.right.equalToSuperview().inset(additionalPagePadding)
         }
         
@@ -141,6 +190,26 @@ public extension SignupTermsView {
         
         public var id: String {
             return text
+        }
+    }
+    
+    enum TermOptionType: CaseIterable {
+        case age
+        case service
+        case personal
+        case marketing
+        
+        var termOption: TermOption {
+            switch self {
+            case .age:
+                return .init(text: "(필수) 만 14세 이상입니다.")
+            case .service:
+                return .init(text: "(필수) 서비스 이용약관 동의")
+            case .personal:
+                return .init(text: "(필수) 개인정보 처리방침 동의")
+            case .marketing:
+                return .init(text: "(선택) 마케팅 수신 동의")
+            }
         }
     }
 }

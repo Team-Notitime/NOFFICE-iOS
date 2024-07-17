@@ -70,7 +70,7 @@ public class BaseToggleButton<Option>: UIControl, ToggleButton where Option: Equ
     
     private lazy var  stackView = UIStackView().then {
         $0.axis = .horizontal
-        $0.alignment = .center
+        $0.alignment = .top
         $0.spacing = 8
     }
     
