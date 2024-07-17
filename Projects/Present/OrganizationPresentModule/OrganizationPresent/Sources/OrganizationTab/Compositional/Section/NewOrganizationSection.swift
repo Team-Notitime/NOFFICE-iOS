@@ -10,7 +10,7 @@ import UIKit
 import DesignSystem
 import Assets
 
-struct OrganizationAddSection: CompositionalSection {
+struct NewOrganizationSection: CompositionalSection {
     // MARK: Compositional
     var layout: CompositionalLayout {
         .init(

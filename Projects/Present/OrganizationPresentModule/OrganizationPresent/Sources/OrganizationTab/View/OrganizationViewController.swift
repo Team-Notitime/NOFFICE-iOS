@@ -13,28 +13,34 @@ import RxSwift
 import RxCocoa
 
 public class OrganizationTabViewController: BaseViewController<OrganizationTabView> {
-    // MARK: Life cycle
-    public override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        self.navigationController?.setNavigationBarHidden(true, animated: animated)
-    }
-    
     // MARK: Compositonal
     private lazy var sectionsSubject = BehaviorSubject<[any CompositionalSection]>(value: sections)
     
-    private let sections: [any CompositionalSection] = [
-        OrganizationAddSection(
+    private let newOrganizationItem = NewOrganizationItem()
+    
+    private lazy var sections: [any CompositionalSection] = [
+        NewOrganizationSection(
             items: [
-                OrganizationAddItem()
+                newOrganizationItem
             ]
         )
     ]
     
     // MARK: Setup
     public override func setupBind() { 
-        baseView.collectionView.bindSections(
+        baseView.collectionView
+            .bindSections(
             to: sectionsSubject.asObservable()
         )
         .disposed(by: disposeBag)
+        
+        newOrganizationItem.onTapNewButton
+            .withUnretained(self)
+            .subscribe(onNext: { owner, _ in
+                let vc = UIViewController()
+                vc.view.backgroundColor = .white
+                owner.navigationController?.pushViewController(vc, animated: true)
+            })
+            .disposed(by: disposeBag)
     }
 }

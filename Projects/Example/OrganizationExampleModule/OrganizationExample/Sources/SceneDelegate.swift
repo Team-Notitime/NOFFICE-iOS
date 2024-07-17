@@ -22,8 +22,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
         window = UIWindow(windowScene: windowScene)
+        
         let viewController = OrganizationTabViewController()
+        
         let navigationController = UINavigationController(rootViewController: viewController)
+        navigationController.setNavigationBarHidden(true, animated: false)
+        
         window?.rootViewController = navigationController
         
         window?.backgroundColor = .fullWhite

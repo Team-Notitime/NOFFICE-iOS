@@ -17,13 +17,18 @@ public class OrganizationTabView: BaseView {
     // MARK: UI Component
     lazy var topBarBackgroundView = BaseHStack(
         contents: [
-            BaseSpacer(size: GlobalViewConstant.pagePadding, orientation: .horizontal),
+            BaseSpacer(size: GlobalViewConstant.pagePadding / 2, orientation: .horizontal),
             segmentControl,
-            BaseSpacer(size: 1000),
-            notificationIcon,
-            mypageIcon,
-            BaseSpacer(size: GlobalViewConstant.pagePadding, orientation: .horizontal),
-            BaseSpacer(size: 1000)
+            BaseSpacer(),
+            UIImageView(image: .iconBell).then {
+                $0.tintColor = .grey500
+                $0.contentMode = .scaleAspectFit
+            },
+            UIImageView(image: .iconUser).then {
+                $0.tintColor = .grey500
+                $0.contentMode = .scaleAspectFit
+            },
+            BaseSpacer(size: GlobalViewConstant.pagePadding / 2, orientation: .horizontal)
         ]
     )
     
@@ -40,16 +45,6 @@ public class OrganizationTabView: BaseView {
         }
     ).then {
         $0.styled(variant: .underline)
-    }
-    
-    lazy var notificationIcon = UIImageView(image: .iconBell).then {
-        $0.tintColor = .grey500
-        $0.contentMode = .scaleAspectFit
-    }
-    
-    lazy var mypageIcon = UIImageView(image: .iconUser).then {
-        $0.tintColor = .grey500
-        $0.contentMode = .scaleAspectFit
     }
     
     let collectionView = CompositionalCollectionView()

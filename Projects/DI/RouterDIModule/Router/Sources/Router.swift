@@ -12,7 +12,9 @@ final public class Router {
     
     public var root = UINavigationController()
     
-    private init() {}
+    private init() {
+        root.setNavigationBarHidden(true, animated: false)
+    }
     
     public func push(_ destination: UIViewController) {
         root.pushViewController(destination, animated: true)

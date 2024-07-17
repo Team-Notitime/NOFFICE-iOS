@@ -15,9 +15,22 @@ import Then
 
 public class HomeTabView: BaseView {
     // MARK: UI component
-    lazy var topBarBackgroundView = UIView().then {
-        $0.backgroundColor = .white
-    }
+    lazy var topBarBackgroundView = BaseHStack(
+        contents: [
+            BaseSpacer(size: GlobalViewConstant.pagePadding, orientation: .horizontal),
+            segmentControl,
+            BaseSpacer(),
+            UIImageView(image: .iconBell).then {
+                $0.tintColor = .grey500
+                $0.contentMode = .scaleAspectFit
+            },
+            UIImageView(image: .iconUser).then {
+                $0.tintColor = .grey500
+                $0.contentMode = .scaleAspectFit
+            },
+            BaseSpacer(size: GlobalViewConstant.pagePadding, orientation: .horizontal)
+        ]
+    )
     
     lazy var segmentControl = BaseSegmentControl(
         source: Page.allCases,
@@ -34,14 +47,6 @@ public class HomeTabView: BaseView {
         $0.styled(variant: .underline)
     }
     
-    lazy var notificationIcon = UIImageView(image: .iconBell).then {
-        $0.tintColor = .grey500
-    }
-    
-    lazy var mypageIcon = UIImageView(image: .iconUser).then {
-        $0.tintColor = .grey500
-    }
-    
     lazy var paginableView = PaginableView<Page>(
         pages: Page.allCases,
         firstPage: Page.announcement
@@ -51,10 +56,6 @@ public class HomeTabView: BaseView {
     public override func setupHierarchy() {
         addSubview(topBarBackgroundView)
         
-        topBarBackgroundView.addSubview(segmentControl)
-        topBarBackgroundView.addSubview(notificationIcon)
-        topBarBackgroundView.addSubview(mypageIcon)
-        
         addSubview(paginableView)
     }
     
@@ -63,25 +64,6 @@ public class HomeTabView: BaseView {
             $0.top.equalTo(safeAreaLayoutGuide.snp.top)
             $0.leading.trailing.equalToSuperview()
             $0.height.equalTo(50)
-        }
-        
-        segmentControl.snp.makeConstraints {
-            $0.leading.equalToSuperview().offset(pagePadding)
-            $0.width.equalToSuperview().multipliedBy(0.36)
-            $0.height.equalToSuperview()
-            $0.centerY.equalToSuperview()
-        }
-        
-        mypageIcon.snp.makeConstraints {
-            $0.centerY.equalTo(segmentControl.snp.centerY)
-            $0.right.equalToSuperview().inset(GlobalViewConstant.pagePadding)
-            $0.centerY.equalToSuperview()
-        }
-        
-        notificationIcon.snp.makeConstraints {
-            $0.centerY.equalTo(segmentControl.snp.centerY)
-            $0.right.equalTo(mypageIcon.snp.left).offset(-16)
-            $0.centerY.equalToSuperview()
         }
         
         paginableView.snp.makeConstraints {

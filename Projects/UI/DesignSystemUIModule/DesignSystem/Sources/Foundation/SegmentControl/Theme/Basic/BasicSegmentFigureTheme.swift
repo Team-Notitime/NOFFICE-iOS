@@ -59,13 +59,17 @@ struct BasicSegmentFigureTheme: SegmentFigureTheme {
     
     func itemPadding() -> GapOffset {
         if variant == .underline {
-            return .init(8, 0)
+            return .init(8, 6)
         }
         
         return .init(8, 28)
     }
     
     func itemSpacing() -> GapOffset {
+        if variant == .underline {
+            return .init(all: 6)
+        }
+        
         return .init(all: 8)
     }
     

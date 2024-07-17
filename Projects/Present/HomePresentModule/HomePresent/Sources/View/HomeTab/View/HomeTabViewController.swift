@@ -11,12 +11,6 @@ import DesignSystem
 import Assets
 
 public final class HomeTabViewController: BaseViewController<HomeTabView> {
-    // MARK: Life cycle
-    public override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        self.navigationController?.setNavigationBarHidden(true, animated: animated)
-    }
-    
     // MARK: Setup
     public override func setupBind() {
         baseView.paginableView.onMove

@@ -12,11 +12,11 @@ import Assets
 
 import RxSwift
 
-final class OrganizationAddItem: CompositionalItem {
+final class NewOrganizationItem: CompositionalItem {
     typealias Cell = OrganizationAddItemCell
     
     // MARK: Event
-    let onTapAddButton = PublishSubject<Void>()
+    let onTapNewButton = PublishSubject<Void>()
 
     // MARK: DisposeBag
     let disposeBag = DisposeBag()
@@ -30,7 +30,7 @@ final class OrganizationAddItem: CompositionalItem {
 
 final class OrganizationAddItemCell: UIView, CompositionalItemCell {
     // MARK: UI Component
-    lazy var addButton = BaseButton(
+    lazy var newButton = BaseButton(
         contentsBuilder: {
             [
                 UILabel().then {
@@ -60,17 +60,17 @@ final class OrganizationAddItemCell: UIView, CompositionalItemCell {
     }
     
     private func setup() {
-        addSubview(addButton)
+        addSubview(newButton)
         
-        addButton.snp.makeConstraints {
+        newButton.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
     }
     
-    func configure(with item: OrganizationAddItem) {
+    func configure(with item: NewOrganizationItem) {
         // bind action
-        addButton.onTap
-            .bind(to: item.onTapAddButton)
+        newButton.onTap
+            .bind(to: item.onTapNewButton)
             .disposed(by: disposeBag)
     }
 }
