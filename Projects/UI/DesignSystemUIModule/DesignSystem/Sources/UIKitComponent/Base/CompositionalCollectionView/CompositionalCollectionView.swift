@@ -95,15 +95,14 @@ final public class CompositionalCollectionView: UIView, UICollectionViewDelegate
             let cell = cellType.init()
             
             containerCell.setContainedCell(cell)
-            containerCell.configure(with: itemWrapper.wrappee) // include bind
+            containerCell.configure(with: itemWrapper.wrappee)
             
             return containerCell
         }
         
         // Set the supplementary view provider
-        dataSource.supplementaryViewProvider = { [weak self] (
-            collectionView, kind, indexPath
-        ) -> UICollectionReusableView? in
+        dataSource.supplementaryViewProvider = { [weak self] (collectionView, kind, indexPath)
+            -> UICollectionReusableView? in
             guard let self = self else { return nil }
             
             let section = self.dataSource.snapshot().sectionIdentifiers[indexPath.section]
@@ -122,7 +121,7 @@ final public class CompositionalCollectionView: UIView, UICollectionViewDelegate
                 let view = headerType.init()
                 
                 headerView.setContainedView(view)
-                headerView.configure(with: section.wrappee, type: .header) // include bind
+                headerView.configure(with: section.wrappee, type: .header)
                 
                 return headerView
             } else if kind == UICollectionView.elementKindSectionFooter {
@@ -139,7 +138,7 @@ final public class CompositionalCollectionView: UIView, UICollectionViewDelegate
                 let view = footerType.init()
                 
                 footerView.setContainedView(view)
-                footerView.configure(with: section.wrappee, type: .footer) // include bind
+                footerView.configure(with: section.wrappee, type: .footer)
                 
                 return footerView
             }

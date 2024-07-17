@@ -70,6 +70,7 @@ public enum Module {
         case rxGesture = "RxGesture"
         case snapKit = "SnapKit"
         case then = "Then"
+        case reactorKit = "ReactorKit"
         case alamofire = "Alamofire"
         
         var name: String { rawValue }

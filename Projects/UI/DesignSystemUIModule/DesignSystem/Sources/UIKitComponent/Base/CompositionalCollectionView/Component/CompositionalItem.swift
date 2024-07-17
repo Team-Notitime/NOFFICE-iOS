@@ -11,32 +11,6 @@ import Foundation
 /// This is a data container for UICollectionViewCell and DiffableDataSource
 public protocol CompositionalItem: Hashable {
     associatedtype Cell: CompositionalItemCell
-    /**
-     This closure is used to propagate events from within the cell to the parent view.
-     Conversely, if you want to modify the cell's data from the parent view, change the sections value of the CompositionCollectionView.
-     The diffable data source will detect the changes and update the view accordingly.
-     
-     - Note: It will be automatically called. Just assign it.
-     
-     If you want to bind from outside, receive the binding closure in the initializer.
-     ```swift
-     struct Item: CompositionalItem {
-        let value: String
-        let binding: (Cell) -> Void
-     
-        init(value: String, binding: @escaping (Cell) -> Void) {
-            self.value = value
-            self.binding = binding
-        }
-     }
-     ```
-     */
-    var binding: (Cell) -> Void { get }
-    
-    /**
-     A method that binds data to the actual cell. It is implemented by default.
-     */
-    func bind(cell: Cell)
     
     /**
      Hash value for detecting changes in the diffable datasource.
@@ -65,10 +39,6 @@ public extension CompositionalItem {
     
     static func == (lhs: Self, rhs: Self) -> Bool {
         return lhs.hashValue == rhs.hashValue
-    }
-    
-    func bind(cell: Cell) {
-        binding(cell)
     }
     
     var reusableIdentifier: String {

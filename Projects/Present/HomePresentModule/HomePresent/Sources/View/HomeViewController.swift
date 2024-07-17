@@ -25,6 +25,15 @@ public final class HomeViewController: BaseViewController<HomeView> {
     
     // MARK: Setup
     public override func setupBind() {
-
+        baseView.paginableView.onMove
+            .bind(to: baseView.segmentControl.selectedOption)
+            .disposed(by: disposeBag)
+        
+        baseView.segmentControl.onChange
+            .withUnretained(self)
+            .subscribe(onNext: { owner, page in
+                owner.baseView.paginableView.selectedPage = page
+            })
+            .disposed(by: disposeBag)
     }
 }

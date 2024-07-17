@@ -43,8 +43,7 @@ struct BannerSection: CompositionalSection {
 }
 
 final class BannerItem: CompositionalItem {
-    // MARK: Compositional
-    let binding: (BannerItemCell) -> Void
+    typealias Cell = BannerItemCell
     
     // MARK: Data
     let userName: String
@@ -57,13 +56,11 @@ final class BannerItem: CompositionalItem {
     init(
         userName: String,
         todayPrefixText: String,
-        dateText: String,
-        _ binding: @escaping (BannerItemCell) -> Void = { _ in }
+        dateText: String
     ) {
         self.userName = userName
         self.todayPrefixText = todayPrefixText
         self.dateText = dateText
-        self.binding = binding
     }
     
     func hash(into hasher: inout Hasher) {
@@ -74,7 +71,6 @@ final class BannerItem: CompositionalItem {
 }
 
 final class BannerItemCell: UIView, CompositionalItemCell {
-    
     // MARK: UI Component
     lazy var banner = NofficeBanner()
     

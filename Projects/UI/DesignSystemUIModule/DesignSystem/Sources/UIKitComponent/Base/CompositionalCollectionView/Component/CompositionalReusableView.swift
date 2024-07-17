@@ -36,12 +36,6 @@ public class EmptyReusableView: UICollectionReusableView, CompositionalReusableV
     
     public var reusableIdentifier: String { return "EmptyReusableView" }
     
-    public var binding: (EmptyCompositionalSection) -> Void = { _ in }
-    
-    public func bind(section: EmptyCompositionalSection) {
-        // do nothing
-    }
-    
     public func configure(with section: EmptyCompositionalSection) { }
 }
 
@@ -82,10 +76,6 @@ final class CollectionViewResuableViewContainer: UICollectionReusableView {
             
             view.configure(with: section)
             
-            if let view = view as? S.Header.Section.Header {
-                section.headerBind(view: view)
-            }
-            
         case .footer:
             guard let view = currentView as? S.Footer else {
                 fatalError("""
@@ -100,10 +90,6 @@ final class CollectionViewResuableViewContainer: UICollectionReusableView {
             }
             
             view.configure(with: section)
-            
-            if let view = view as? S.Footer.Section.Footer {
-                section.footerBind(view: view)
-            }
         }
     }
 }

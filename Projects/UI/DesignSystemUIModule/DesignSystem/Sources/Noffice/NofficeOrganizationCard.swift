@@ -10,7 +10,7 @@ import UIKit
 import SnapKit
 import Then
 
-public class NofficeGroupCard: UIView {
+public class NofficeOrganizationCard: UIView {
     // MARK: Data source
     public var titleText: String = "" {
         didSet {
@@ -30,7 +30,7 @@ public class NofficeGroupCard: UIView {
         }
     }
     
-    public var state: NofficeGroupCard.State = .default {
+    public var state: NofficeOrganizationCard.State = .default {
         didSet {
             updateByState()
         }
@@ -39,7 +39,8 @@ public class NofficeGroupCard: UIView {
     // MARK: UI Component
     private lazy var titleLabel = UILabel().then {
         $0.text = ""
-        $0.setTypo(.heading3)
+        $0.setTypo(.body0b)
+//        $0.setContentCompressionResistancePriority(.required, for: .vertical)
     }
     
     private lazy var dateLabel = UILabel().then {
@@ -188,7 +189,7 @@ public class NofficeGroupCard: UIView {
 }
 
 // MARK: - Display model
-public extension NofficeGroupCard {
+public extension NofficeOrganizationCard {
     enum State: String, CaseIterable {
         case `default`, loading, none
     }

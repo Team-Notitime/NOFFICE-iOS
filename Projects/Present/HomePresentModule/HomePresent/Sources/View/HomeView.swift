@@ -15,11 +15,11 @@ import Then
 
 public class HomeView: BaseView {
     // MARK: UI component
-    private lazy var topBarBackgroundView = UIView().then {
-        $0.backgroundColor = .white // 원하는 배경색으로 설정
+    lazy var topBarBackgroundView = UIView().then {
+        $0.backgroundColor = .white
     }
     
-    private lazy var segmentControl = BaseSegmentControl(
+    lazy var segmentControl = BaseSegmentControl(
         source: Page.allCases,
         itemBuilder: { option in
             [
@@ -34,15 +34,15 @@ public class HomeView: BaseView {
         $0.styled(variant: .underline)
     }
     
-    private lazy var notificationIcon = UIImageView(image: .iconBell).then {
+    lazy var notificationIcon = UIImageView(image: .iconBell).then {
         $0.tintColor = .grey500
     }
     
-    private lazy var mypageIcon = UIImageView(image: .iconUser).then {
+    lazy var mypageIcon = UIImageView(image: .iconUser).then {
         $0.tintColor = .grey500
     }
     
-    private lazy var paginableView = PaginableView<Page>(
+    lazy var paginableView = PaginableView<Page>(
         pages: Page.allCases,
         firstPage: Page.announcement
     )
@@ -88,16 +88,6 @@ public class HomeView: BaseView {
             $0.top.equalTo(topBarBackgroundView.snp.bottom)
             $0.leading.trailing.bottom.equalToSuperview()
         }
-    }
-    
-    public override func setupBind() {
-        paginableView.onMove
-            .bind(to: self.segmentControl.selectedOption)
-            .disposed(by: disposeBag)
-        
-        segmentControl.onChange
-            .bind(to: self.paginableView.selectedPage)
-            .disposed(by: disposeBag)
     }
 }
 

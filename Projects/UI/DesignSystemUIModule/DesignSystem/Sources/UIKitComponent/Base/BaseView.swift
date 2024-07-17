@@ -14,7 +14,6 @@ import RxSwift
 public protocol BaseViewProtocol {
     func setupHierarchy()
     func setupLayout()
-    func setupBind()
 }
 
 open class BaseView: UIView, BaseViewProtocol {
@@ -31,12 +30,9 @@ open class BaseView: UIView, BaseViewProtocol {
 
         setupHierarchy()
         setupLayout()
-        setupBind()
     }
 
     open func setupHierarchy() { }
     
     open func setupLayout() { }
-    
-    open func setupBind() { }
 }
