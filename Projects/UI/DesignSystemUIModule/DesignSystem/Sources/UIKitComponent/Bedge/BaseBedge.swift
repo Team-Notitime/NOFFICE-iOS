@@ -58,7 +58,7 @@ public class BaseBadge: UIView {
     }
     
     // MARK: Build component
-    private var contents: [UIView] = []
+    private var contentComponents: [UIView] = []
     
     // MARK: DisposeBag
     private let disposeBag = DisposeBag()
@@ -87,7 +87,7 @@ public class BaseBadge: UIView {
     ) {
         super.init(frame: .zero)
         
-        contents.append(contentsOf: contentsBudiler())
+        contentComponents.append(contentsOf: contentsBudiler())
         
         setupHierarchy()
         setupBind()
@@ -108,7 +108,7 @@ public class BaseBadge: UIView {
         
         backgroundView.addSubview(contentsStack)
         
-        contents.forEach {
+        contentComponents.forEach {
             contentsStack.addArrangedSubview($0)
         }
     }

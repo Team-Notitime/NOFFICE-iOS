@@ -15,13 +15,13 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
 
 ## iOS
 
-### ios build_noffice_app
+### ios beta_noffice_app
 
 ```sh
-[bundle exec] fastlane ios build_noffice_app
+[bundle exec] fastlane ios beta_noffice_app
 ```
 
-Fetch development certificates and profiles for notitime.noffice.app and build the app
+Build and upload the main Notitime app to TestFlight
 
 ### ios development
 

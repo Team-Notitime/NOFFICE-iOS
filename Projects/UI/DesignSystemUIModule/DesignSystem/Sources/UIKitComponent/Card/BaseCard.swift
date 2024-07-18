@@ -81,11 +81,11 @@ public class BaseCard: UIView {
     }
     
     // MARK: Build component
-    private var headers: [UIView] = []
+    private var headerComponents: [UIView] = []
     
-    private var contents: [UIView] = []
+    private var contentComponents: [UIView] = []
     
-    private var footers: [UIView] = []
+    private var footerComponents: [UIView] = []
     
     // MARK: DisposeBag
     private let disposeBag = DisposeBag()
@@ -116,9 +116,9 @@ public class BaseCard: UIView {
     ) {
         super.init(frame: .zero)
         
-        headers.append(contentsOf: headerBuilder())
-        contents.append(contentsOf: contentsBuilder())
-        footers.append(contentsOf: footerBuilder())
+        headerComponents.append(contentsOf: headerBuilder())
+        contentComponents.append(contentsOf: contentsBuilder())
+        footerComponents.append(contentsOf: footerBuilder())
         
         setupHierarchy()
         setupBind()
@@ -137,15 +137,15 @@ public class BaseCard: UIView {
         backgroundView.addSubview(contentStackView)
         backgroundView.addSubview(footerStackView)
         
-        headers.forEach {
+        headerComponents.forEach {
             headerStackView.addArrangedSubview($0)
         }
         
-        contents.forEach {
+        contentComponents.forEach {
             contentStackView.addArrangedSubview($0)
         }
         
-        footers.forEach {
+        footerComponents.forEach {
             footerStackView.addArrangedSubview($0)
         }
     }
@@ -192,7 +192,7 @@ public class BaseCard: UIView {
         headerStackView.snp.remakeConstraints {
             $0.top.equalToSuperview().inset(padding.vertical ?? 0)
             $0.left.right.equalToSuperview().inset(padding.horizontal ?? 0)
-            if headers.isEmpty {
+            if headerComponents.isEmpty {
                 $0.height.equalTo(0)
             }
         }
@@ -206,7 +206,7 @@ public class BaseCard: UIView {
             $0.top.equalTo(headerStackView.snp.bottom).offset(stackViewSpacing)
             $0.left.right.equalToSuperview().inset(padding.horizontal ?? 0)
             
-            if contents.isEmpty {
+            if contentComponents.isEmpty {
                 $0.height.equalTo(0)
             }
         }
@@ -221,7 +221,7 @@ public class BaseCard: UIView {
             $0.left.right.equalToSuperview().inset(padding.horizontal ?? 0)
             $0.bottom.equalToSuperview().inset(padding.vertical ?? 0)
             
-            if footers.isEmpty {
+            if footerComponents.isEmpty {
                 $0.height.equalTo(0)
             }
         }

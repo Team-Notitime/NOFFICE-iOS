@@ -99,7 +99,7 @@ public class BaseDialog: UIView {
     }
     
     // MARK: Build component
-    private var contents: [UIView] = []
+    private var contentComponents: [UIView] = []
     
     // MARK: DisposeBag
     private let disposeBag = DisposeBag()
@@ -128,7 +128,7 @@ public class BaseDialog: UIView {
     ) {
         super.init(frame: .zero)
         
-        contents.append(contentsOf: contentsBuilder())
+        contentComponents.append(contentsOf: contentsBuilder())
         
         setupHierarchy()
         updateCornerRadius()
@@ -147,7 +147,7 @@ public class BaseDialog: UIView {
         
         backgroundView.addSubview(contentStackView)
         
-        contents.forEach {
+        contentComponents.forEach {
             contentStackView.addArrangedSubview($0)
         }
     }

@@ -58,14 +58,14 @@ public class BaseRadioGroup<Option>: UIView where Option: Equatable & Identifiab
     }
     
     // MARK: Build component
-    private let options: [any ToggleButton]
+    private let optionComponents: [any ToggleButton]
     
     // MARK: DisposeBag
     private let disposeBag = DisposeBag()
     
     // MARK: Initializer
     public override init(frame: CGRect) {
-        self.options = []
+        self.optionComponents = []
         super.init(frame: frame)
         setupHierarchy()
         setupBind()
@@ -73,7 +73,7 @@ public class BaseRadioGroup<Option>: UIView where Option: Equatable & Identifiab
     }
 
     public required init?(coder: NSCoder) {
-        self.options = []
+        self.optionComponents = []
         super.init(coder: coder)
         setupHierarchy()
         setupBind()
@@ -84,7 +84,7 @@ public class BaseRadioGroup<Option>: UIView where Option: Equatable & Identifiab
         source: [Option],
         itemBuilder: @escaping ViewBuilder
     ) {
-        self.options = source.map { itemBuilder($0) }
+        self.optionComponents = source.map { itemBuilder($0) }
         
         super.init(frame: .zero)
         
@@ -105,7 +105,7 @@ public class BaseRadioGroup<Option>: UIView where Option: Equatable & Identifiab
         var horizontalStackView = createHorizontalStackView()
         verticalStackView.addArrangedSubview(horizontalStackView)
         
-        for (index, option) in options.enumerated() {
+        for (index, option) in optionComponents.enumerated() {
             if index % columns == 0 && index != 0 {
                 horizontalStackView = createHorizontalStackView()
                 verticalStackView.addArrangedSubview(horizontalStackView)
@@ -124,7 +124,7 @@ public class BaseRadioGroup<Option>: UIView where Option: Equatable & Identifiab
     }
     
     private func setupBind() {
-        options.forEach { option in
+        optionComponents.forEach { option in
             option.onChangeSelected
                 .observe(on: MainScheduler.instance)
                 .subscribe(onNext: { [weak self] selected in
@@ -144,7 +144,7 @@ public class BaseRadioGroup<Option>: UIView where Option: Equatable & Identifiab
 
     private func selectOption(_ value: Option) {
         self.selectedOption = value
-        self.options.forEach { toggleButton in
+        self.optionComponents.forEach { toggleButton in
             if let toggleButtonValue = toggleButton.value as? Option,
                 toggleButtonValue != value {
                 toggleButton.isSelected = false

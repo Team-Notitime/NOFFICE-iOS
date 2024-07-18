@@ -77,7 +77,7 @@ public class BaseButton: UIControl {
     }
     
     // MARK: Build component
-    private var contents: [UIView] = []
+    private var contentComponents: [UIView] = []
     
     // MARK: DisposeBag
     private let disposeBag = DisposeBag()
@@ -106,7 +106,7 @@ public class BaseButton: UIControl {
     ) {
         super.init(frame: .zero)
         
-        contents.append(contentsOf: contentsBuilder())
+        contentComponents.append(contentsOf: contentsBuilder())
         
         setupHierarchy()
         setupBind()
@@ -125,7 +125,7 @@ public class BaseButton: UIControl {
     private func setupHierarchy() {
         addSubview(stackView)
         
-        contents.forEach {
+        contentComponents.forEach {
             stackView.addArrangedSubview($0)
         }
     }

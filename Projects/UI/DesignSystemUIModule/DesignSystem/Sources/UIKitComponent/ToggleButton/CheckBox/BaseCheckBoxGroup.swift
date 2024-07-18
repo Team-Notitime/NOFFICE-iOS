@@ -54,14 +54,14 @@ public class BaseCheckBoxGroup<Option>: UIView where Option: Equatable & Identif
     }
     
     // MARK: Build component
-    private let options: [any ToggleButton]
+    private let optionComponents: [any ToggleButton]
     
     // MARK: DisposeBag
     private let disposeBag = DisposeBag()
     
     // MARK: Initializer
     public override init(frame: CGRect) {
-        self.options = []
+        self.optionComponents = []
         super.init(frame: frame)
         setupHierarchy()
         setupBind()
@@ -69,7 +69,7 @@ public class BaseCheckBoxGroup<Option>: UIView where Option: Equatable & Identif
     }
 
     public required init?(coder: NSCoder) {
-        self.options = []
+        self.optionComponents = []
         super.init(coder: coder)
         setupHierarchy()
         setupBind()
@@ -80,7 +80,7 @@ public class BaseCheckBoxGroup<Option>: UIView where Option: Equatable & Identif
         source: [Option],
         itemBuilder: @escaping ViewBuilder
     ) {
-        self.options = source.map { itemBuilder($0) }
+        self.optionComponents = source.map { itemBuilder($0) }
         
         super.init(frame: .zero)
         
@@ -101,7 +101,7 @@ public class BaseCheckBoxGroup<Option>: UIView where Option: Equatable & Identif
         var horizontalStackView = createHorizontalStackView()
         verticalStackView.addArrangedSubview(horizontalStackView)
         
-        for (index, option) in options.enumerated() {
+        for (index, option) in optionComponents.enumerated() {
             if index % columns == 0 && index != 0 {
                 horizontalStackView = createHorizontalStackView()
                 verticalStackView.addArrangedSubview(horizontalStackView)
@@ -120,7 +120,7 @@ public class BaseCheckBoxGroup<Option>: UIView where Option: Equatable & Identif
     }
     
     private func setupBind() {
-        options.forEach { option in
+        optionComponents.forEach { option in
             option.onChangeSelected
                 .observe(on: MainScheduler.instance)
                 .subscribe(onNext: { [weak self] selected in
@@ -146,7 +146,7 @@ public class BaseCheckBoxGroup<Option>: UIView where Option: Equatable & Identif
     }
     
     private func updateOptions() {
-        options.forEach { option in
+        optionComponents.forEach { option in
             if let value = option.value as? Option {
                 option.isSelected = selectedOptions.contains(value) // TODO: 시간복잡도 개선 필요
             }

@@ -84,7 +84,7 @@ public class BaseSegmentControl<Option>: UIView where Option: Equatable & Identi
     private var indicatorLeadingOffset: CGFloat = 0
     
     // MARK: Build component
-    private var items: [UIView] = []
+    private var itemComponents: [UIView] = []
     
     // MARK: DisposeBag
     private let disposeBag = DisposeBag()
@@ -124,7 +124,7 @@ public class BaseSegmentControl<Option>: UIView where Option: Equatable & Identi
                 itemContainerView.addSubview(itemView)
             }
             
-            items.append(itemContainerView)
+            itemComponents.append(itemContainerView)
         }
         
         setupHierarchy()
@@ -149,7 +149,7 @@ public class BaseSegmentControl<Option>: UIView where Option: Equatable & Identi
         containerView.addSubview(indicator)
         containerView.addSubview(itemStack)
         
-        items.forEach {
+        itemComponents.forEach {
             itemStack.addArrangedSubview($0)
         }
     }

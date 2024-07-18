@@ -7,14 +7,16 @@
 
 import UIKit
 
+import Router
 import DesignSystem
 
 import RxSwift
 import RxCocoa
+import RxGesture
 
 public class SignupTermsViewController: BaseViewController<SignupTermsView> {
     // MARK: Setup
-    public override func setupBind() { 
+    public override func setupBind() {
         baseView.allAgreeCheckBox
             .onChangeSelected
             .withUnretained(self)
@@ -29,5 +31,19 @@ public class SignupTermsViewController: BaseViewController<SignupTermsView> {
                 }
             })
             .disposed(by: disposeBag)
+        
+//        baseView.termsOptonGroup.optionViews
+//            .compactMap {
+//                $0 as? BaseToggleButton<SignupTermsView.TermOption>
+//            }
+//            .forEach {
+//                $0.itemContainerView
+//                    .rx.tapGesture()
+//                    .when(.recognized)
+//                    .subscribe(onNext: { _ in
+//                        print("눌렸다앙")
+//                    })
+//                    .disposed(by: self.disposeBag)
+//            }
     }
 }

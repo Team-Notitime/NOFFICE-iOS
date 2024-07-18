@@ -124,13 +124,13 @@ public class BaseTextField: UIView {
     }
     
     // MARK: Build component
-    private var titles: [UIView] = []
+    private var titleComponents: [UIView] = []
     
-    private var prefixs: [UIView] = []
+    private var prefixComponents: [UIView] = []
     
-    private var suffixs: [UIView] = []
+    private var suffixComponents: [UIView] = []
     
-    private var descriptions: [UIView] = []
+    private var descriptionComponents: [UIView] = []
     
     // MARK: DisposeBag
     private let disposeBag = DisposeBag()
@@ -167,10 +167,10 @@ public class BaseTextField: UIView {
     ) {
         super.init(frame: .zero)
         
-        titles.append(contentsOf: titleBuilder())
-        prefixs.append(contentsOf: prefixBuilder())
-        suffixs.append(contentsOf: suffixBuilder())
-        descriptions.append(contentsOf: descriptionBuilder())
+        titleComponents.append(contentsOf: titleBuilder())
+        prefixComponents.append(contentsOf: prefixBuilder())
+        suffixComponents.append(contentsOf: suffixBuilder())
+        descriptionComponents.append(contentsOf: descriptionBuilder())
         
         setupHierarchy()
         setupBind()
@@ -181,25 +181,25 @@ public class BaseTextField: UIView {
     // MARK: Setup
     private func setupHierarchy() {
         addSubview(titleStack)
-        titles.forEach {
+        titleComponents.forEach {
             titleStack.addArrangedSubview($0)
         }
         
         addSubview(textFieldBackground)
         
         textFieldBackground.addSubview(textFieldStack)
-        prefixs.forEach {
+        prefixComponents.forEach {
             textFieldStack.addArrangedSubview($0)
         }
         textFieldStack.addArrangedSubview(textField)
-        suffixs.forEach {
+        suffixComponents.forEach {
             textFieldStack.addArrangedSubview($0)
         }
         
         addSubview(bottomBorder)
         
         addSubview(descriptionStack)
-        descriptions.forEach {
+        descriptionComponents.forEach {
             descriptionStack.addArrangedSubview($0)
         }
     }

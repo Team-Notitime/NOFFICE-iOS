@@ -65,10 +65,10 @@ public class BaseToggleButton<Option>: UIControl, ToggleButton where Option: Equ
     
     // MARK: UI Component
     private lazy var backgroundView = UIView().then {
-        $0.isUserInteractionEnabled = false
+        $0.isUserInteractionEnabled = true
     }
     
-    private lazy var  stackView = UIStackView().then {
+    private lazy var stackView = UIStackView().then {
         $0.axis = .horizontal
         $0.alignment = .top
         $0.spacing = 8
@@ -81,7 +81,7 @@ public class BaseToggleButton<Option>: UIControl, ToggleButton where Option: Equ
     }
     
     // MARK: Build component
-    private var items: [UIView] = []
+    private var itemComponents: [UIView] = []
     
     // MARK: DisposeBag
     private let disposeBag = DisposeBag()
@@ -122,7 +122,7 @@ public class BaseToggleButton<Option>: UIControl, ToggleButton where Option: Equ
         
         // add item
         itemBuilder(option).forEach {
-            items.append($0)
+            itemComponents.append($0)
         }
         
         // indicator setting
@@ -149,12 +149,21 @@ public class BaseToggleButton<Option>: UIControl, ToggleButton where Option: Equ
         stackView.addArrangedSubview(indicatorBackground)
         indicatorBackground.addSubview(indicatorIcon)
         
-        items.forEach {
+        itemComponents.forEach {
             stackView.addArrangedSubview($0)
         }
     }
     
-    private func setupBind() { }
+    private func setupBind() { 
+//        indicatorBackground.rx.tapGesture()
+//            .when(.recognized)
+//            .withUnretained(self)
+//            .subscribe(onNext: { owner, _ in
+//                owner.isSelected.toggle()
+//                owner._onChangeSelected.onNext(owner.isSelected)
+//            })
+//            .disposed(by: disposeBag)
+    }
     
     // MARK: Update
     private func updateCornerRadius() {
@@ -228,12 +237,5 @@ public class BaseToggleButton<Option>: UIControl, ToggleButton where Option: Equ
         stackView.snp.remakeConstraints {
             $0.edges.equalToSuperview()
         }
-    }
-    
-    // MARK: UIControl
-    public override func endTracking(_ touch: UITouch?, with event: UIEvent?) {
-        isSelected.toggle()
-        _onChangeSelected.onNext(isSelected)
-        sendActions(for: .touchUpInside)
     }
 }

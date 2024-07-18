@@ -52,6 +52,7 @@ public class SignupTermsView: BaseView {
     // - check box (all checked)
     lazy var allAgreeCheckBox = BaseToggleButton<TermOption>(
         option: TermOption(
+            order: -1,
             text: "모두 동의",
             description: "서비스 이용을 위해 아래의 약관을 모두 동의합니다."
         ),
@@ -86,24 +87,21 @@ public class SignupTermsView: BaseView {
         itemBuilder: { option in
             BaseToggleButton<TermOption>(
                 option: TermOption(
+                    order: option.order,
                     text: option.text,
                     description: option.description
                 ),
                 itemBuilder: { option in
                     [
-                        BaseVStack(spacing: 6) {
-                            [
-                                UILabel().then {
-                                    $0.text = option.text
-                                    $0.setTypo(.body1m)
-                                    $0.textColor = .grey800
-                                },
-                                UILabel().then {
-                                    $0.text = option.description
-                                    $0.setTypo(.body3)
-                                    $0.textColor = .grey600
-                                }
-                            ]
+                        UILabel().then {
+                            $0.text = option.text
+                            $0.setTypo(.body1m)
+                            $0.textColor = .grey800
+                        },
+                        UIImageView(image: .iconChevronRight).then {
+                            $0.contentMode = .scaleAspectFit
+                            $0.tintColor = .grey400
+                            $0.isUserInteractionEnabled = true
                         }
                     ]
                 }
@@ -113,7 +111,7 @@ public class SignupTermsView: BaseView {
             
         }
     ).then {
-        $0.gridStyled(verticalSpacing: 12)
+        $0.gridStyled(verticalSpacing: 16)
     }
     
     // MARK: Setup
@@ -154,12 +152,12 @@ public class SignupTermsView: BaseView {
         }
         
         divider.snp.makeConstraints {
-            $0.top.equalTo(allAgreeCheckBox.snp.bottom).offset(sectionSpacingUnit * 2)
+            $0.top.equalTo(allAgreeCheckBox.snp.bottom).offset(sectionSpacingUnit * 1.5)
             $0.left.right.equalToSuperview().inset(additionalPagePadding)
         }
         
         termsOptonGroup.snp.makeConstraints {
-            $0.top.equalTo(divider.snp.bottom).offset(sectionSpacingUnit * 2)
+            $0.top.equalTo(divider.snp.bottom).offset(sectionSpacingUnit * 1.5)
             $0.left.right.equalToSuperview().inset(additionalPagePadding)
         }
         
@@ -174,15 +172,18 @@ public class SignupTermsView: BaseView {
 // MARK: - DisplayModel
 public extension SignupTermsView {
     struct TermOption: Identifiable, Equatable {
+        let order: Int
         let text: String
         let description: String?
         let url: URL?
         
         init(
+            order: Int = -1,
             text: String,
             description: String? = nil,
             url: URL? = nil
         ) {
+            self.order = order
             self.text = text
             self.description = description
             self.url = url
@@ -193,22 +194,22 @@ public extension SignupTermsView {
         }
     }
     
-    enum TermOptionType: CaseIterable {
-        case age
-        case service
-        case personal
-        case marketing
+    enum TermOptionType: Int, CaseIterable {
+        case age = 0
+        case service = 1
+        case personal = 2
+        case marketing = 3
         
         var termOption: TermOption {
             switch self {
             case .age:
-                return .init(text: "(필수) 만 14세 이상입니다.")
+                return .init(order: rawValue, text: "(필수) 만 14세 이상입니다.")
             case .service:
-                return .init(text: "(필수) 서비스 이용약관 동의")
+                return .init(order: rawValue, text: "(필수) 서비스 이용약관 동의")
             case .personal:
-                return .init(text: "(필수) 개인정보 처리방침 동의")
+                return .init(order: rawValue, text: "(필수) 개인정보 처리방침 동의")
             case .marketing:
-                return .init(text: "(선택) 마케팅 수신 동의")
+                return .init(order: rawValue, text: "(선택) 마케팅 수신 동의")
             }
         }
     }

@@ -7,6 +7,8 @@
 
 import UIKit
 
+import Assets
+
 public final class BaseDivider: UIView {
     public enum Orientation {
         case vertical
@@ -14,7 +16,7 @@ public final class BaseDivider: UIView {
     }
     
     public init(
-        color: UIColor = .grey200,
+        color: UIColor = .grey100,
         thickness: CGFloat = 1,
         orientation: Orientation = .horizontal
     ) {
