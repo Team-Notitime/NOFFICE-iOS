@@ -13,7 +13,7 @@ import Assets
 import SnapKit
 import Then
 
-public class SignupTermsView: BaseView {
+public class SignupTermsPageView: BaseView {
     // MARK: UI Component
     // - Padding view
     lazy var contentView = UIView()

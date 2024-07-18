@@ -12,7 +12,7 @@ import DesignSystem
 import RxSwift
 import RxCocoa
 
-public class NewOrganizationNameViewController: BaseViewController<NewOrganizationNameView> {
+public class NewOrganizationNamePageViewController: BaseViewController<NewOrganizationNamePageView> {
     // MARK: Setup
     public override func setupViewBind() { }
     

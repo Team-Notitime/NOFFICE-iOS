@@ -58,9 +58,9 @@ extension SignupFunnelPage: PageType {
     public var viewController: UIViewController {
         switch self {
         case .terms:
-            return SignupTermsViewController()
+            return SignupTermsPageViewController()
         case .realName:
-            return SignupRealNameViewController()
+            return SignupRealNamePageViewController()
         }
     }
 }

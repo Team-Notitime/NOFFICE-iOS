@@ -1,8 +1,8 @@
 //
-//  NewOrganizationNameView.swift
-//  OrganizationPresent
+//  SignupRealNamePageView.swift
+//  SignupPresent
 //
-//  Created by DOYEON LEE on 7/19/24.
+//  Created by DOYEON LEE on 7/18/24.
 //
 
 import UIKit
@@ -13,32 +13,24 @@ import Assets
 import SnapKit
 import Then
 
-public class NewOrganizationNameView: BaseView {
-    // MARK: UI Constant
-    
+public class SignupRealNamePageView: BaseView {
     // MARK: UI Component
     // - Padding view
     lazy var contentView = UIView()
     
-    // - Funnel title
-    lazy var pageSubTitle = BaseHStack {
-        [
-            UIImageView(image: .iconGroup).then {
-                $0.tintColor = .green500
-            },
-            UILabel().then {
-                $0.text = "그룹 만들기"
-                $0.setTypo(.body1b)
-                $0.textColor = .grey500
-            }
-        ]
-    }
-    
     // - Page title
-    lazy var pageTitleLabel = UILabel().then {
-        $0.text = "약관에 동의해주세요"
+    lazy var pageTitleFirstLineLabel = UILabel().then {
+        $0.text = "가입을 환영해요!"
         $0.setTypo(.heading3)
         $0.textColor = .grey800
+        $0.numberOfLines = 0
+    }
+    
+    lazy var pageTitleSecondLineLabel = UILabel().then {
+        $0.text = "여러분의 이름을 알려주세요"
+        $0.setTypo(.heading3)
+        $0.textColor = .grey800
+        $0.numberOfLines = 0
     }
     
     // - Textfield
@@ -63,17 +55,19 @@ public class NewOrganizationNameView: BaseView {
     }
     
     // MARK: Setup
-    public override func setupHierarchy() { 
+    public override func setupHierarchy() {
         addSubview(contentView)
         
-        contentView.addSubview(pageTitleLabel)
+        contentView.addSubview(pageTitleFirstLineLabel)
+        
+        contentView.addSubview(pageTitleSecondLineLabel)
         
         contentView.addSubview(nameTextField)
         
         contentView.addSubview(completeButton)
     }
     
-    public override func setupLayout() {
+    public override func setupLayout() { 
         translatesAutoresizingMaskIntoConstraints = false
         
         contentView.snp.makeConstraints {
@@ -82,15 +76,22 @@ public class NewOrganizationNameView: BaseView {
                 .inset(GlobalViewConstant.pagePadding)
         }
         
-        pageTitleLabel.snp.makeConstraints {
+        pageTitleFirstLineLabel.snp.makeConstraints {
             $0.top.equalToSuperview()
                 .offset(FunnelConstant.spacingUnit * 2)
             $0.left.right.equalToSuperview()
                 .inset(FunnelConstant.additionalPadding)
         }
         
+        pageTitleSecondLineLabel.snp.makeConstraints {
+            $0.top.equalTo(pageTitleFirstLineLabel.snp.bottom)
+                .offset(FunnelConstant.spacingUnit / 2)
+            $0.left.right.equalToSuperview()
+                .inset(FunnelConstant.additionalPadding)
+        }
+        
         nameTextField.snp.makeConstraints {
-            $0.top.equalTo(pageTitleLabel.snp.bottom)
+            $0.top.equalTo(pageTitleSecondLineLabel.snp.bottom)
                 .offset(FunnelConstant.spacingUnit * 4)
             $0.left.right.equalToSuperview()
         }

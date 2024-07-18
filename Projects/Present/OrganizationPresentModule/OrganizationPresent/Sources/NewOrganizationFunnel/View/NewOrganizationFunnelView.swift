@@ -54,7 +54,7 @@ extension NewOrganizationFunnelPage: PageType {
     var viewController: UIViewController {
         switch self {
         case .name:
-            return NewOrganizationNameViewController()
+            return NewOrganizationNamePageViewController()
         case .category:
             let vc = UIViewController()
             vc.view.backgroundColor = .blue100

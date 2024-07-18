@@ -13,7 +13,7 @@ import Swinject
 import RxSwift
 import RxCocoa
 
-public class SignupRealNameViewController: BaseViewController<SignupRealNameView> {
+public class SignupRealNamePageViewController: BaseViewController<SignupRealNamePageView> {
     // MARK: Constant
     private let maxNameLength: Int = 15
     

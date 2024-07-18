@@ -16,7 +16,7 @@ import RxSwift
 import RxCocoa
 import RxGesture
 
-public class SignupTermsViewController: BaseViewController<SignupTermsView> {
+public class SignupTermsPageViewController: BaseViewController<SignupTermsPageView> {
     // MARK: Reactor
     private let reactor = Container.shared.resolve(SignupTermsReactor.self)!
     
