@@ -52,7 +52,7 @@ extension Project {
                         .ui(.designSystem),
                         .ui(.assets),
                         .di(.router),
-                    ] + dependencies + uiDependencies
+                    ] + dependencies + uiDependencies + presentDependencies
                 ),
             ],
             schemes: .base
@@ -241,13 +241,18 @@ extension Project {
 
 // MARK: - Dependencies {
 extension Project {
+    static let presentDependencies : [TargetDependency] = [
+        .thirdParty(.reactorKit),
+        .thirdParty(.swinject)
+    ]
+    
     static let uiDependencies: [TargetDependency] = [
         .thirdParty(.rxSwift),
         .thirdParty(.rxCocoa),
         .thirdParty(.rxGesture),
         .thirdParty(.snapKit),
         .thirdParty(.then),
-        .thirdParty(.reactorKit)
+        
     ]
     
     static let dataDependencies: [TargetDependency] = [
