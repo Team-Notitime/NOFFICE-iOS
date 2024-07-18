@@ -33,6 +33,9 @@ open class BaseViewController<View: BaseView>: UIViewController, BaseViewControl
     
     open override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // Enable swipe back gesture when navigation bar is hidden
+        navigationController?.interactivePopGestureRecognizer?.delegate = nil
 
         setupBind()
     }

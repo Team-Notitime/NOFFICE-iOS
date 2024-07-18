@@ -7,32 +7,46 @@
 
 import UIKit
 
-final public class Router {
+final public class Router: UINavigationController {
     public static let shared = Router()
     
-    public var root = UINavigationController()
-    
     private init() {
-        root.setNavigationBarHidden(true, animated: false)
+        super.init(nibName: nil, bundle: nil)
+        configure()
+    }
+    
+    override init(rootViewController: UIViewController) {
+        super.init(rootViewController: rootViewController)
+        configure()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func configure() {
+        setNavigationBarHidden(true, animated: false)
     }
     
     public func push(_ destination: UIViewController) {
-        root.pushViewController(destination, animated: true)
+        pushViewController(destination, animated: true)
     }
     
     public func back() {
-        root.popViewController(animated: true)
+        popViewController(animated: true)
     }
     
     public func backToRoot() {
-        root.popToRootViewController(animated: true)
+        popToRootViewController(animated: true)
     }
     
     public func present(_ viewController: UIViewController) {
-        root.present(viewController, animated: true, completion: nil)
+        present(viewController, animated: true, completion: nil)
     }
     
     public func dismiss() {
-        root.dismiss(animated: true, completion: nil)
+        if viewControllers.count > 0 {
+            dismiss(animated: true, completion: nil)
+        }
     }
 }
