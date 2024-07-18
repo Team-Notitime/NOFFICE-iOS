@@ -45,7 +45,7 @@ final public class Router: UINavigationController {
     }
     
     public func dismiss() {
-        if viewControllers.count > 0 {
+        if !viewControllers.isEmpty {
             dismiss(animated: true, completion: nil)
         }
     }

@@ -23,7 +23,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         window = UIWindow(windowScene: windowScene)
         
-        window?.rootViewController = Router.shared.root
+        window?.rootViewController = Router.shared
         let viewController = SignupViewController()
         Router.shared.push(viewController)
         

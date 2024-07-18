@@ -24,7 +24,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         window = UIWindow(windowScene: windowScene)
         
-        window?.rootViewController = Router.shared.root
+        window?.rootViewController = Router.shared
         let viewController = OrganizationTabViewController()
         Router.shared.push(viewController)
         

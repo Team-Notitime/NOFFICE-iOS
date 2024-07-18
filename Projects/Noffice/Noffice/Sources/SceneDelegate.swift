@@ -22,7 +22,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
         window = UIWindow(windowScene: windowScene)
-        window?.rootViewController = Router.shared.root
+        window?.rootViewController = Router.shared
         
         let tabBarController = TabBarController()
         Router.shared.push(tabBarController)
