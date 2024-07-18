@@ -60,7 +60,7 @@ public class SignupRealNameView: BaseView {
     }
     
     // MARK: Setup
-    public override func setupHierarchy() { 
+    public override func setupHierarchy() {
         addSubview(contentView)
         
         contentView.addSubview(pageTitleFirstLineLabel)

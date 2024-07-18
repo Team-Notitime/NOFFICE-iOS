@@ -83,6 +83,7 @@ public class SignupTermsView: BaseView {
                         $0.contentMode = .scaleAspectFit
                         $0.tintColor = .grey400
                         $0.isUserInteractionEnabled = true
+                        $0.setSize(width: 18, height: 18)
                     }
                     self.termsOptionIconViews.append(icon)
                     return [
