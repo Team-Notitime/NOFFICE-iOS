@@ -68,7 +68,7 @@ public class AnnouncementPageViewController: BaseViewController<AnnouncementPage
     ]
     
     // MARK: Setup
-    public override func setupBind() { 
+    public override func setupViewBind() {
         // segment and pagen
         baseView.collectionView.bindSections(
             to: sectionsSubject.asObservable()

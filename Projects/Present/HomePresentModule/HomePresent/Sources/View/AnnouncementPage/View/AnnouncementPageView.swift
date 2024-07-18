@@ -7,6 +7,7 @@
 import UIKit
 
 import DesignSystem
+import Assets
 
 import RxSwift
 import RxCocoa
