@@ -117,7 +117,7 @@ open class PaginableView<Page: PageType>: UIView, UIScrollViewDelegate {
     public init(
         pages: [Page],
         firstPage: Page,
-        gestureDisabled: Bool = true
+        gestureDisabled: Bool = false
     ) {
         self.firstPage = firstPage
         self.gestureDisabled = gestureDisabled
