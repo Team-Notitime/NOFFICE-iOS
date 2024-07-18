@@ -49,7 +49,7 @@ public class OrganizationTabViewController: BaseViewController<OrganizationTabVi
         newOrganizationItem.onTapNewButton
             .withUnretained(self)
             .subscribe(onNext: { _, _ in
-                Router.shared.push(NewOrganizationViewController())
+                Router.shared.push(NewOrganizationFunnelViewController())
             })
             .disposed(by: disposeBag)
     }

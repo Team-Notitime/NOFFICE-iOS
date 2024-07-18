@@ -9,4 +9,6 @@ import Foundation
 
 public enum FunnelConstant {
     public static let spacingUnit: CGFloat = 12
+    
+    public static let additionalPadding: CGFloat = 16
 }

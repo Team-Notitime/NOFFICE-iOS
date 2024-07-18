@@ -14,9 +14,6 @@ import SnapKit
 import Then
 
 public class SignupTermsView: BaseView {
-    // MARK: UI Constant
-    private let additionalPagePadding: CGFloat = 14
-
     // MARK: UI Component
     // - Padding view
     lazy var contentView = UIView()
@@ -143,35 +140,35 @@ public class SignupTermsView: BaseView {
             $0.top.equalToSuperview()
                 .offset(FunnelConstant.spacingUnit * 2)
             $0.left.right.equalToSuperview()
-                .inset(additionalPagePadding)
+                .inset(FunnelConstant.additionalPadding)
         }
         
         pageDescriptionLabel.snp.makeConstraints {
             $0.top.equalTo(pageTitleLabel.snp.bottom)
                 .offset(FunnelConstant.spacingUnit)
             $0.left.right.equalToSuperview()
-                .inset(additionalPagePadding)
+                .inset(FunnelConstant.additionalPadding)
         }
         
         allAgreeCheckBox.snp.makeConstraints {
             $0.top.equalTo(pageDescriptionLabel.snp.bottom)
                 .offset(FunnelConstant.spacingUnit * 4)
             $0.left.right.equalToSuperview()
-                .inset(additionalPagePadding)
+                .inset(FunnelConstant.additionalPadding)
         }
         
         divider.snp.makeConstraints {
             $0.top.equalTo(allAgreeCheckBox.snp.bottom)
                 .offset(FunnelConstant.spacingUnit * 1.5)
             $0.left.right.equalToSuperview()
-                .inset(additionalPagePadding)
+                .inset(FunnelConstant.additionalPadding)
         }
         
         termsOptonGroup.snp.makeConstraints {
             $0.top.equalTo(divider.snp.bottom)
                 .offset(FunnelConstant.spacingUnit * 1.5)
             $0.left.right.equalToSuperview()
-                .inset(additionalPagePadding)
+                .inset(FunnelConstant.additionalPadding)
         }
         
         nextButton.snp.makeConstraints {

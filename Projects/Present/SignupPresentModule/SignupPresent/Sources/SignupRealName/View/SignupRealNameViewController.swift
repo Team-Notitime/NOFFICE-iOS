@@ -20,13 +20,6 @@ public class SignupRealNameViewController: BaseViewController<SignupRealNameView
     // MARK: Reactor
     private let reactor: SignupRealNameReactor = Container.shared.resolve(SignupRealNameReactor.self)!
     
-    // MARK: Life cycle
-    public override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        view.translatesAutoresizingMaskIntoConstraints = false // warning
-    }
-    
     // MARK: Setup
     public override func setupViewBind() { }
     

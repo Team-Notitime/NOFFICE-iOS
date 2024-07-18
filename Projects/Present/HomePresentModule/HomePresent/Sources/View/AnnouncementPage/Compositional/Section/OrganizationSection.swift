@@ -22,13 +22,13 @@ struct OrganizationSection: CompositionalSection {
             groupLayout: .init(
                 size: .init(
                     width: .fractionalWidth(0.8),
-                    height: .estimated(GlobalViewConstant.organizationCardHeight)
+                    height: .estimated(ComponentConstant.organizationCardHeight)
                 ),
                 groupSpacing: 16,
                 items: [
                     .init(
                         width: .fractionalWidth(1.0),
-                        height: .estimated(GlobalViewConstant.organizationCardHeight)
+                        height: .estimated(ComponentConstant.organizationCardHeight)
                     )
                 ],
                 itemSpacing: 0

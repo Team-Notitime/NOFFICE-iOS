@@ -134,7 +134,7 @@ extension Project {
                     name: "\(target.name)Entity",
                     product: .framework,
                     bundleId: "\(bundleId).\(target.bundleIdenifier).entity",
-                    dependencies: dependencies
+                    dependencies: []
                 ),
             ],
             schemes: .base
