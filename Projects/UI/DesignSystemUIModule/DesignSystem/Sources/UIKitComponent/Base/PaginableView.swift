@@ -86,12 +86,18 @@ open class PaginableView<Page: PageType>: UIView, UIScrollViewDelegate {
         return _onMove.asObservable()
     }
     
-    public var selectedPage: Page? {
+    public var currentPage: Page? {
         didSet {
-            guard let selectedPage = selectedPage,
+            guard let selectedPage = currentPage,
                   let pageIndex = pages.firstIndex(of: selectedPage) else { return }
             moveToPage(at: pageIndex, animated: true)
         }
+    }
+    
+    /// Indicates whether the page can be moved using swipe gestures. The default is true.
+    public var gestureScrollEnabled: Bool {
+        get { scrollView.isScrollEnabled }
+        set { scrollView.isScrollEnabled = newValue }
     }
     
     private let _scrollOffset = PublishSubject<CGFloat>()
@@ -102,7 +108,6 @@ open class PaginableView<Page: PageType>: UIView, UIScrollViewDelegate {
     // MARK: Private property
     private var pages: [Page] = []
     private let firstPage: Page
-    private let gestureDisabled: Bool
     private var viewControllersDict: [Page: UIViewController] = [:]
     private var pageIndexDict: [Page: Int] = [:]
     
@@ -116,11 +121,9 @@ open class PaginableView<Page: PageType>: UIView, UIScrollViewDelegate {
     // MARK: Initializer
     public init(
         pages: [Page],
-        firstPage: Page,
-        gestureDisabled: Bool = false
+        firstPage: Page
     ) {
         self.firstPage = firstPage
-        self.gestureDisabled = gestureDisabled
         
         super.init(frame: .zero)
         
@@ -178,7 +181,6 @@ open class PaginableView<Page: PageType>: UIView, UIScrollViewDelegate {
         scrollView.showsHorizontalScrollIndicator = false
         scrollView.bounces = false
         scrollView.alwaysBounceHorizontal = false
-        scrollView.isScrollEnabled = !gestureDisabled
         
         addSubview(scrollView)
         
@@ -217,7 +219,7 @@ open class PaginableView<Page: PageType>: UIView, UIScrollViewDelegate {
         guard let firstPageIndex = pageIndexDict[firstPage]
         else { return }
         
-        selectedPage = firstPage
+        currentPage = firstPage
         scrollView.contentOffset = CGPoint(
             x: scrollView.bounds.width * CGFloat(firstPageIndex),
             y: 0
@@ -264,7 +266,7 @@ open class PaginableView<Page: PageType>: UIView, UIScrollViewDelegate {
         }
         
         // Ensure the scroll view is positioned correctly for the selected page
-        guard let selectedPage = selectedPage,
+        guard let selectedPage = currentPage,
                 let selectedPageIndex = pageIndexDict[selectedPage]
         else { return }
         
@@ -292,13 +294,13 @@ open class PaginableView<Page: PageType>: UIView, UIScrollViewDelegate {
     
     public func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         let pageIndex = Int(scrollView.contentOffset.x / scrollView.bounds.width)
-        selectedPage = pages[pageIndex]
+        currentPage = pages[pageIndex]
         _onMove.onNext(pages[pageIndex])
     }
     
     public func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
         let pageIndex = Int(scrollView.contentOffset.x / scrollView.bounds.width)
-        selectedPage = pages[pageIndex]
+        currentPage = pages[pageIndex]
         _onMove.onNext(pages[pageIndex])
     }
 }

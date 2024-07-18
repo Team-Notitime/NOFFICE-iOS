@@ -20,7 +20,7 @@ public final class HomeTabViewController: BaseViewController<HomeTabView> {
         baseView.segmentControl.onChange
             .withUnretained(self)
             .subscribe(onNext: { owner, page in
-                owner.baseView.paginableView.selectedPage = page
+                owner.baseView.paginableView.currentPage = page
             })
             .disposed(by: disposeBag)
     }

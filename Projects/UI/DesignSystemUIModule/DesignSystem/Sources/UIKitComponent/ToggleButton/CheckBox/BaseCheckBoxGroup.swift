@@ -42,6 +42,10 @@ public class BaseCheckBoxGroup<Option>: UIView where Option: Equatable & Identif
         }
     }
     
+    public var optionViews: [any ToggleButton] {
+        return optionComponents
+    }
+    
     // MARK: UI Constant
     private var columns: Int = 1
     

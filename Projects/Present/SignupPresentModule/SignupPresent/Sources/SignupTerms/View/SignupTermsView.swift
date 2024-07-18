@@ -19,23 +19,10 @@ public class SignupTermsView: BaseView {
     private let sectionSpacingUnit: CGFloat = 12
     
     // MARK: UI Component
-    // - padding view
+    // - Padding view
     lazy var contentView = UIView()
     
-    // - text section
-    lazy var nextButton = BaseButton(
-        contentsBuilder: {
-            [
-                UILabel().then {
-                    $0.text = "다음"
-                    $0.setTypo(.body1b)
-                }
-            ]
-        }
-    ).then {
-        $0.styled(variant: .fill, color: .green)
-    }
-    
+    // - Text section
     lazy var termsTitleLabel = UILabel().then {
         $0.text = "약관에 동의해주세요"
         $0.setTypo(.heading3)
@@ -49,9 +36,9 @@ public class SignupTermsView: BaseView {
         $0.numberOfLines = 0
     }
     
-    // - check box (all checked)
-    lazy var allAgreeCheckBox = BaseToggleButton<TermOption>(
-        option: TermOption(
+    // - Check box (all checked)
+    lazy var allAgreeCheckBox = BaseToggleButton<SignupTermsReactor.TermOption>(
+        option: SignupTermsReactor.TermOption(
             order: -1,
             text: "모두 동의",
             description: "서비스 이용을 위해 아래의 약관을 모두 동의합니다."
@@ -78,40 +65,54 @@ public class SignupTermsView: BaseView {
         $0.styled(shape: .circle)
     }
     
-    // - divider
+    // - Divider
     lazy var divider = BaseDivider()
     
-    // - check box group
+    // - Check box group
+    lazy var termsOptionIconViews: [UIView] = [] // for binding
+    
     lazy var termsOptonGroup = BaseCheckBoxGroup(
-        source: Array(TermOptionType.allCases.map { $0.termOption }),
+        source: Array(SignupTermsReactor.TermOptionType.allCases.map { $0.termOption }),
         itemBuilder: { option in
-            BaseToggleButton<TermOption>(
-                option: TermOption(
-                    order: option.order,
-                    text: option.text,
-                    description: option.description
-                ),
+            BaseToggleButton<SignupTermsReactor.TermOption>(
+                option: option,
                 itemBuilder: { option in
-                    [
+                    let icon = UIImageView(image: .iconChevronRight).then {
+                        $0.contentMode = .scaleAspectFit
+                        $0.tintColor = .grey400
+                        $0.isUserInteractionEnabled = true
+                    }
+                    self.termsOptionIconViews.append(icon)
+                    return [
                         UILabel().then {
                             $0.text = option.text
                             $0.setTypo(.body1m)
                             $0.textColor = .grey800
                         },
-                        UIImageView(image: .iconChevronRight).then {
-                            $0.contentMode = .scaleAspectFit
-                            $0.tintColor = .grey400
-                            $0.isUserInteractionEnabled = true
-                        }
+                        icon
                     ]
                 }
             ).then {
                 $0.styled(shape: .circle)
             }
-            
         }
     ).then {
         $0.gridStyled(verticalSpacing: 16)
+    }
+    
+    // - Next button
+    lazy var nextButton = BaseButton(
+        contentsBuilder: {
+            [
+                UILabel().then {
+                    $0.text = "다음"
+                    $0.setTypo(.body1b)
+                }
+            ]
+        }
+    ).then {
+        $0.styled(variant: .fill, color: .green)
+        $0.isEnabled = false
     }
     
     // MARK: Setup
@@ -165,52 +166,6 @@ public class SignupTermsView: BaseView {
             $0.left.equalToSuperview()
             $0.right.equalToSuperview()
             $0.bottom.equalTo(safeAreaLayoutGuide).inset(16)
-        }
-    }
-}
-
-// MARK: - DisplayModel
-public extension SignupTermsView {
-    struct TermOption: Identifiable, Equatable {
-        let order: Int
-        let text: String
-        let description: String?
-        let url: URL?
-        
-        init(
-            order: Int = -1,
-            text: String,
-            description: String? = nil,
-            url: URL? = nil
-        ) {
-            self.order = order
-            self.text = text
-            self.description = description
-            self.url = url
-        }
-        
-        public var id: String {
-            return text
-        }
-    }
-    
-    enum TermOptionType: Int, CaseIterable {
-        case age = 0
-        case service = 1
-        case personal = 2
-        case marketing = 3
-        
-        var termOption: TermOption {
-            switch self {
-            case .age:
-                return .init(order: rawValue, text: "(필수) 만 14세 이상입니다.")
-            case .service:
-                return .init(order: rawValue, text: "(필수) 서비스 이용약관 동의")
-            case .personal:
-                return .init(order: rawValue, text: "(필수) 개인정보 처리방침 동의")
-            case .marketing:
-                return .init(order: rawValue, text: "(선택) 마케팅 수신 동의")
-            }
         }
     }
 }

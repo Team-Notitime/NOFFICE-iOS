@@ -10,6 +10,7 @@ import UIKit
 import Assets
 
 import RxSwift
+import RxGesture
 import Then
 import SnapKit
 
@@ -155,14 +156,14 @@ public class BaseToggleButton<Option>: UIControl, ToggleButton where Option: Equ
     }
     
     private func setupBind() { 
-//        indicatorBackground.rx.tapGesture()
-//            .when(.recognized)
-//            .withUnretained(self)
-//            .subscribe(onNext: { owner, _ in
-//                owner.isSelected.toggle()
-//                owner._onChangeSelected.onNext(owner.isSelected)
-//            })
-//            .disposed(by: disposeBag)
+        self.rx.tapGesture()
+            .when(.recognized)
+            .withUnretained(self)
+            .subscribe(onNext: { owner, _ in
+                owner.isSelected.toggle()
+                owner._onChangeSelected.onNext(owner.isSelected)
+            })
+            .disposed(by: disposeBag)
     }
     
     // MARK: Update
@@ -237,5 +238,12 @@ public class BaseToggleButton<Option>: UIControl, ToggleButton where Option: Equ
         stackView.snp.remakeConstraints {
             $0.edges.equalToSuperview()
         }
+    }
+    
+    // MARK: UIControl
+    public override func endTracking(_ touch: UITouch?, with event: UIEvent?) {
+        isSelected.toggle()
+        _onChangeSelected.onNext(isSelected)
+        sendActions(for: .touchUpInside)
     }
 }

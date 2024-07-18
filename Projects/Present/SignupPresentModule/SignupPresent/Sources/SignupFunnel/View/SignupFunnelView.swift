@@ -11,23 +11,41 @@ import Router
 import DesignSystem
 import Assets
 
+import RxSwift
 import SnapKit
 import Then
 
 public class SignupFunnelView: BaseView {
+    // MARK: Data
+    private let pages = Array(SignupFunnelPage.allCases)
+    
     // MARK: UI Constant
     
     // MARK: UI Component
-    // - navigation bar
+    // - Navigation bar
     lazy var navigationBar = NofficeNavigationBar(
-        backButtonAction: { Router.shared.back() }
+        backButtonAction: { [weak self] in
+            guard let self = self else { return }
+            
+            guard let currentPage = self.paginableView.currentPage,
+                  let currentPageIndex = pages.firstIndex(where: { $0 == currentPage })
+            else { return }
+            
+            if currentPageIndex < 1 {
+                Router.shared.back()
+            } else {
+                paginableView.currentPage = self.pages[currentPageIndex - 1]
+            }
+        }
     )
     
-    lazy var paginableView = PaginableView<Page>(
-        pages: Page.allCases,
-        firstPage: Page.terms,
-        gestureDisabled: true
-    )
+    // - Paginable bar
+    lazy var paginableView = PaginableView(
+        pages: pages,
+        firstPage: .terms
+    ).then {
+        $0.gestureScrollEnabled = false
+    }
     
     // MARK: Setup
     public override func setupHierarchy() { 
@@ -50,21 +68,15 @@ public class SignupFunnelView: BaseView {
 }
 
 // MARK: - DisplayModel
-public extension SignupFunnelView { 
-    enum Page: String, CaseIterable, PageType {
-        case terms
-        case realMame
-        
-        public var viewController: UIViewController {
-            switch self {
-            case .terms:
-                return SignupTermsViewController()
-            case .realMame:
-                let vc = UIViewController()
-                vc.view.backgroundColor = .blue100
-                return vc
-            }
+extension SignupFunnelPage: PageType {
+    public var viewController: UIViewController {
+        switch self {
+        case .terms:
+            return SignupTermsViewController()
+        case .realName:
+            let vc = UIViewController()
+            vc.view.backgroundColor = .blue100
+            return vc
         }
-        
     }
 }

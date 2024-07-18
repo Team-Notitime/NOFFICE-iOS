@@ -16,7 +16,7 @@ import RxCocoa
 
 public class SignupViewController: BaseViewController<SignupView> {
     // MARK: Setup
-    public override func setupBind() {
+    public override func setupViewBind() {
         baseView.dummyButton
             .onTap
             .subscribe(onNext: {

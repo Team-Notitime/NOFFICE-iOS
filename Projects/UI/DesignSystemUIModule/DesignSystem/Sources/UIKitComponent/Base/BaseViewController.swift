@@ -9,7 +9,9 @@ import UIKit
 import RxSwift
 
 protocol BaseViewControllerProtocol: AnyObject {
-    func setupBind()
+    func setupViewBind()
+    func setupStateBind()
+    func setupActionBind()
 }
 
 open class BaseViewController<View: BaseView>: UIViewController, BaseViewControllerProtocol {
@@ -37,10 +39,16 @@ open class BaseViewController<View: BaseView>: UIViewController, BaseViewControl
         // Enable swipe back gesture when navigation bar is hidden
         navigationController?.interactivePopGestureRecognizer?.delegate = nil
 
-        setupBind()
+        setupViewBind()
+        setupStateBind()
+        setupActionBind()
     }
     
-    open func setupBind() { }
+    open func setupViewBind() { }
+    
+    open func setupStateBind() { }
+    
+    open func setupActionBind() { }
 }
 
 public extension BaseViewController {
