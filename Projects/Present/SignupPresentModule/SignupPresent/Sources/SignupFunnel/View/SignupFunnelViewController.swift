@@ -7,6 +7,7 @@
 
 import UIKit
 
+import Router
 import DesignSystem
 import Assets
 
@@ -24,14 +25,29 @@ public class SignupFunnelViewController: BaseViewController<SignupFunnelView> {
     
     public override func setupStateBind() { 
         reactor.state.map { $0.currentPage }
-            .withUnretained(self)
+            .withUnretained(self.baseView)
             .subscribe(onNext: { owner, page in
-                owner.baseView.paginableView.currentPage = page
+                owner.paginableView.currentPage = page
             })
           .disposed(by: self.disposeBag)
     }
     
     public override func setupActionBind() {
-        
+        baseView.navigationBar
+            .onTapBackButton
+            .withUnretained(self.baseView)
+            .subscribe(onNext: { owner, _ in
+
+                guard let currentPage = owner.paginableView.currentPage,
+                      let currentPageIndex = owner.pages.firstIndex(where: { $0 == currentPage })
+                else { return }
+                
+                if currentPageIndex < 1 {
+                    Router.shared.dismiss()
+                } else {
+                    owner.paginableView.currentPage = owner.pages[currentPageIndex - 1]
+                }
+            })
+            .disposed(by: disposeBag)
     }
 }

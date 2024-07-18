@@ -7,7 +7,6 @@
 
 import UIKit
 
-import Router
 import DesignSystem
 import Assets
 
@@ -18,9 +17,7 @@ public class NewOrganizationView: BaseView {
     // MARK: UI Constant
     
     // MARK: UI Component
-    lazy var navigationBar = NofficeNavigationBar(
-        backButtonAction: { Router.shared.back() }
-    )
+    lazy var navigationBar = NofficeNavigationBar()
     
     // MARK: Setup
     public override func setupHierarchy() { 

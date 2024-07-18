@@ -18,11 +18,14 @@ public class NofficeNavigationBar: UIView {
     
     // MARK: Event
     private let _onTapRightItem = PublishSubject<Void>()
-    private var onTapRightItem: Observable<Void> {
+    public var onTapRightItem: Observable<Void> {
         return _onTapRightItem.asObservable()
     }
     
-    private var backButtonAction: (() -> Void) = { }
+    private let _onTapBackButton = PublishSubject<Void>()
+    public var onTapBackButton: Observable<Void> {
+        return _onTapBackButton.asObservable()
+    }
     
     // MARK: UI Constant
     let height: CGFloat = 44
@@ -41,12 +44,10 @@ public class NofficeNavigationBar: UIView {
     
     // MARK: Initializer
     public init(
-        backButtonAction: @escaping () -> Void,
         rightItem: ViewBuilder = { UIView() }
     ) {
         super.init(frame: .zero)
         
-        self.backButtonAction = backButtonAction
         self.rightItem = rightItem()
         
         setupHierarchy()
@@ -90,7 +91,7 @@ public class NofficeNavigationBar: UIView {
         backIcon.rx.tapGesture()
             .when(.recognized)
             .subscribe(onNext: { [weak self] _ in
-                self?.backButtonAction()
+                self?._onTapBackButton.onNext(())
             })
             .disposed(by: disposeBag)
         

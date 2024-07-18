@@ -17,27 +17,13 @@ import Then
 
 public class SignupFunnelView: BaseView {
     // MARK: Data
-    private let pages = Array(SignupFunnelPage.allCases)
+    let pages = Array(SignupFunnelPage.allCases)
     
     // MARK: UI Constant
     
     // MARK: UI Component
     // - Navigation bar
-    lazy var navigationBar = NofficeNavigationBar(
-        backButtonAction: { [weak self] in
-            guard let self = self else { return }
-            
-            guard let currentPage = self.paginableView.currentPage,
-                  let currentPageIndex = pages.firstIndex(where: { $0 == currentPage })
-            else { return }
-            
-            if currentPageIndex < 1 {
-                Router.shared.dismiss()
-            } else {
-                paginableView.currentPage = self.pages[currentPageIndex - 1]
-            }
-        }
-    )
+    lazy var navigationBar = NofficeNavigationBar()
     
     // - Paginable bar
     lazy var paginableView = PaginableView(

@@ -7,6 +7,7 @@
 
 import UIKit
 
+import Router
 import DesignSystem
 
 import RxSwift
@@ -18,5 +19,12 @@ public class NewOrganizationViewController: BaseViewController<NewOrganizationVi
     
     public override func setupStateBind() { }
     
-    public override func setupActionBind() { }
+    public override func setupActionBind() { 
+        baseView.navigationBar
+            .onTapBackButton
+            .subscribe(onNext: {
+                Router.shared.back()
+            })
+            .disposed(by: disposeBag)
+    }
 }
