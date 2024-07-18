@@ -18,5 +18,9 @@
 		<string>../Resources/Font/Pretendard-SemiBold.otf</string>
 		<string>../Resources/Font/Pretendard-Thin.otf</string>
 	</array>
+	<key>CFBundleVersion</key>
+	<string>1.0.0</string>
+	<key>CFBundleShortVersionString</key>
+	<string>1.0</string>
 </dict>
 </plist>
