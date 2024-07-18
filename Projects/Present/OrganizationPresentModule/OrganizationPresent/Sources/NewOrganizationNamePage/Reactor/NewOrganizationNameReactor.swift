@@ -11,18 +11,22 @@ import ReactorKit
 
 class NewOrganizationNamePageReactor: Reactor {
     // MARK: Action
-    enum Action { }
+    enum Action { 
+        case changeName(String)
+        case tapNextPageButton
+    }
     
-    enum Mutation { }
+    enum Mutation { 
+        case setName(String)
+    }
     
     // MARK: State
-    struct State { }
+    struct State { 
+        var name: String = ""
+        var nextPageButtonActive: Bool = false
+    }
     
     let initialState: State = State()
-    
-    // MARK: ChildReactor
-    
-    // MARK: Dependency
     
     // MARK: DisposeBag
     private let disposeBag = DisposeBag()
@@ -32,19 +36,23 @@ class NewOrganizationNamePageReactor: Reactor {
     
     // MARK: Action operation
     func mutate(action: Action) -> Observable<Mutation> {
-        switch action { }
+        switch action { 
+        case let .changeName(name):
+            return .just(.setName(name))
+            
+        case .tapNextPageButton:
+            // pass to parent
+            return .empty()
+        }
     }
     
     func reduce(state: State, mutation: Mutation) -> State {
         var state = state
-        switch mutation { }
+        switch mutation {
+        case let .setName(name):
+            state.name = name
+            state.nextPageButtonActive = !name.isEmpty
+        }
         return state
     }
-    
-    // MARK: Child bind
-    private func setupChildBind() { }
-    
-    // MARK: Transform
-    
-    // MARK: Private method
 }

@@ -14,8 +14,6 @@ import SnapKit
 import Then
 
 public class NewOrganizationNamePageView: BaseView {
-    // MARK: UI Constant
-    
     // MARK: UI Component
     // - Padding view
     lazy var contentView = UIView()
@@ -23,36 +21,49 @@ public class NewOrganizationNamePageView: BaseView {
     // - Funnel title
     lazy var pageSubTitle = BaseHStack {
         [
-            UIImageView(image: .iconGroup).then {
+            UIImageView(image: .iconGrid).then {
                 $0.tintColor = .green500
+                $0.setSize(width: 18, height: 18)
             },
             UILabel().then {
                 $0.text = "그룹 만들기"
+                $0.textColor = .green500
                 $0.setTypo(.body1b)
-                $0.textColor = .grey500
             }
         ]
     }
     
     // - Page title
     lazy var pageTitleLabel = UILabel().then {
-        $0.text = "약관에 동의해주세요"
+        $0.text = "그룹의 이름이 무엇인가요?"
         $0.setTypo(.heading3)
         $0.textColor = .grey800
     }
     
     // - Textfield
-    lazy var nameTextField = BaseTextField().then {
-        $0.placeholder = "실명을 입력해주세요"
+    lazy var nameCountLabel = UILabel().then {
+        $0.text = "0/\(OrganizationConstant.maxOrganizationNameLength)"
+        $0.setTypo(.body3)
+    }
+
+    lazy var nameTextField = BaseTextField(
+        descriptionBuilder: {
+            [
+                BaseSpacer(),
+                nameCountLabel
+            ]
+        }
+    ).then {
+        $0.placeholder = "그룹명을 입력해주세요"
         $0.styled(variant: .outlined, shape: .round)
     }
     
     // - Complete button
-    lazy var completeButton = BaseButton(
+    lazy var nextPageButton = BaseButton(
         contentsBuilder: {
             [
                 UILabel().then {
-                    $0.text = "완료"
+                    $0.text = "다음"
                     $0.setTypo(.body1b)
                 }
             ]
@@ -66,11 +77,13 @@ public class NewOrganizationNamePageView: BaseView {
     public override func setupHierarchy() { 
         addSubview(contentView)
         
+        contentView.addSubview(pageSubTitle)
+        
         contentView.addSubview(pageTitleLabel)
         
         contentView.addSubview(nameTextField)
         
-        contentView.addSubview(completeButton)
+        contentView.addSubview(nextPageButton)
     }
     
     public override func setupLayout() {
@@ -82,20 +95,27 @@ public class NewOrganizationNamePageView: BaseView {
                 .inset(GlobalViewConstant.pagePadding)
         }
         
-        pageTitleLabel.snp.makeConstraints {
+        pageSubTitle.snp.makeConstraints {
             $0.top.equalToSuperview()
                 .offset(FunnelConstant.spacingUnit * 2)
             $0.left.right.equalToSuperview()
                 .inset(FunnelConstant.additionalPadding)
         }
         
+        pageTitleLabel.snp.makeConstraints {
+            $0.top.equalTo(pageSubTitle.snp.bottom)
+                .offset(FunnelConstant.spacingUnit / 2)
+            $0.left.right.equalToSuperview()
+                .inset(FunnelConstant.additionalPadding)
+        }
+        
         nameTextField.snp.makeConstraints {
             $0.top.equalTo(pageTitleLabel.snp.bottom)
-                .offset(FunnelConstant.spacingUnit * 4)
+                .offset(FunnelConstant.spacingUnit * 2)
             $0.left.right.equalToSuperview()
         }
         
-        completeButton.snp.makeConstraints {
+        nextPageButton.snp.makeConstraints {
             $0.left.right.equalToSuperview()
             $0.bottom.equalTo(keyboardLayoutGuide.snp.top)
                 .offset(-FunnelConstant.spacingUnit * 2)

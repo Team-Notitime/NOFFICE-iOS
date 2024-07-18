@@ -18,7 +18,6 @@ class SignupRealNamePageReactor: Reactor {
     
     enum Mutation {
         case setName(String)
-        case changecompleteButtonActive(String)
     }
     
     // MARK: State
@@ -28,8 +27,6 @@ class SignupRealNamePageReactor: Reactor {
     }
     
     let initialState: State = State()
-    
-    // MARK: Dependency
     
     // MARK: DisposeBag
     private let disposeBag = DisposeBag()
@@ -41,10 +38,7 @@ class SignupRealNamePageReactor: Reactor {
     func mutate(action: Action) -> Observable<Mutation> {
         switch action { 
         case let .changeName(name):
-            return .merge(
-                .just(.setName(name)),
-                .just(.changecompleteButtonActive(name))
-            )
+            return .just(.setName(name))
             
         case .tapCompleteButton:
             // pass to parent
@@ -54,17 +48,11 @@ class SignupRealNamePageReactor: Reactor {
     
     func reduce(state: State, mutation: Mutation) -> State {
         var state = state
-        switch mutation { 
+        switch mutation {
         case let .setName(name):
             state.name = name
-            
-        case let .changecompleteButtonActive(name):
             state.completeButtonActive = !name.isEmpty
         }
         return state
     }
-    
-    // MARK: Transform
-    
-    // MARK: Private method
 }
