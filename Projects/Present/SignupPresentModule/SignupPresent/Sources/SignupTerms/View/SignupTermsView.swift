@@ -16,9 +16,7 @@ import Then
 public class SignupTermsView: BaseView {
     // MARK: UI Constant
     private let additionalPagePadding: CGFloat = 14
-    
-    private let sectionSpacingUnit: CGFloat = 12
-    
+
     // MARK: UI Component
     // - Padding view
     lazy var contentView = UIView()
@@ -142,28 +140,38 @@ public class SignupTermsView: BaseView {
         }
         
         pageTitleLabel.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(sectionSpacingUnit * 2)
-            $0.left.right.equalToSuperview().inset(additionalPagePadding)
+            $0.top.equalToSuperview()
+                .offset(FunnelConstant.spacingUnit * 2)
+            $0.left.right.equalToSuperview()
+                .inset(additionalPagePadding)
         }
         
         pageDescriptionLabel.snp.makeConstraints {
-            $0.top.equalTo(pageTitleLabel.snp.bottom).offset(sectionSpacingUnit)
-            $0.left.right.equalToSuperview().inset(additionalPagePadding)
+            $0.top.equalTo(pageTitleLabel.snp.bottom)
+                .offset(FunnelConstant.spacingUnit)
+            $0.left.right.equalToSuperview()
+                .inset(additionalPagePadding)
         }
         
         allAgreeCheckBox.snp.makeConstraints {
-            $0.top.equalTo(pageDescriptionLabel.snp.bottom).offset(sectionSpacingUnit * 4)
-            $0.left.right.equalToSuperview().inset(additionalPagePadding)
+            $0.top.equalTo(pageDescriptionLabel.snp.bottom)
+                .offset(FunnelConstant.spacingUnit * 4)
+            $0.left.right.equalToSuperview()
+                .inset(additionalPagePadding)
         }
         
         divider.snp.makeConstraints {
-            $0.top.equalTo(allAgreeCheckBox.snp.bottom).offset(sectionSpacingUnit * 1.5)
-            $0.left.right.equalToSuperview().inset(additionalPagePadding)
+            $0.top.equalTo(allAgreeCheckBox.snp.bottom)
+                .offset(FunnelConstant.spacingUnit * 1.5)
+            $0.left.right.equalToSuperview()
+                .inset(additionalPagePadding)
         }
         
         termsOptonGroup.snp.makeConstraints {
-            $0.top.equalTo(divider.snp.bottom).offset(sectionSpacingUnit * 1.5)
-            $0.left.right.equalToSuperview().inset(additionalPagePadding)
+            $0.top.equalTo(divider.snp.bottom)
+                .offset(FunnelConstant.spacingUnit * 1.5)
+            $0.left.right.equalToSuperview()
+                .inset(additionalPagePadding)
         }
         
         nextButton.snp.makeConstraints {

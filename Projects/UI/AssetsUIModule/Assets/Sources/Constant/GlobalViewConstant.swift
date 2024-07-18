@@ -9,6 +9,4 @@ import Foundation
 
 public enum GlobalViewConstant {
     public static let pagePadding: CGFloat = 16
-    
-    public static let organizationCardHeight: CGFloat = 296
 }

@@ -188,7 +188,7 @@ public class NofficeOrganizationCard: UIView {
     
     private func setupLayout() {
         self.snp.makeConstraints {
-            $0.height.equalTo(GlobalViewConstant.organizationCardHeight)
+            $0.height.equalTo(ComponentConstant.organizationCardHeight)
         }
         
         defaultCard.snp.makeConstraints {

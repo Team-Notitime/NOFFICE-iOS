@@ -75,27 +75,34 @@ public class SignupRealNameView: BaseView {
     public override func setupLayout() { 
         contentView.snp.makeConstraints {
             $0.top.bottom.equalToSuperview()
-            $0.left.right.equalToSuperview().inset(GlobalViewConstant.pagePadding)
+            $0.left.right.equalToSuperview()
+                .inset(GlobalViewConstant.pagePadding)
         }
         
         pageTitleFirstLineLabel.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(sectionSpacingUnit * 2)
-            $0.left.right.equalToSuperview().inset(additionalPagePadding)
+            $0.top.equalToSuperview()
+                .offset(FunnelConstant.spacingUnit * 2)
+            $0.left.right.equalToSuperview()
+                .inset(additionalPagePadding)
         }
         
         pageTitleSecondLineLabel.snp.makeConstraints {
-            $0.top.equalTo(pageTitleFirstLineLabel.snp.bottom).offset(sectionSpacingUnit / 2)
-            $0.left.right.equalToSuperview().inset(additionalPagePadding)
+            $0.top.equalTo(pageTitleFirstLineLabel.snp.bottom)
+                .offset(FunnelConstant.spacingUnit / 2)
+            $0.left.right.equalToSuperview()
+                .inset(additionalPagePadding)
         }
         
         nameTextField.snp.makeConstraints {
-            $0.top.equalTo(pageTitleSecondLineLabel.snp.bottom).offset(sectionSpacingUnit * 4)
+            $0.top.equalTo(pageTitleSecondLineLabel.snp.bottom)
+                .offset(FunnelConstant.spacingUnit * 4)
             $0.left.right.equalToSuperview()
         }
         
         completeButton.snp.makeConstraints {
             $0.left.right.equalToSuperview()
-            $0.bottom.equalTo(keyboardLayoutGuide.snp.top).offset(-sectionSpacingUnit * 2)
+            $0.bottom.equalTo(keyboardLayoutGuide.snp.top)
+                .offset(-FunnelConstant.spacingUnit * 2)
         }
     }
 }
