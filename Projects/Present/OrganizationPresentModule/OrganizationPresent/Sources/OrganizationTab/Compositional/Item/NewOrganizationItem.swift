@@ -35,12 +35,12 @@ final class NewOrganizationAddItemCell: UIView, CompositionalItemCell {
             [
                 UILabel().then {
                     $0.text = "새로운 그룹"
+                    $0.setTypo(.body1b)
                 },
                 UIImageView(image: .iconPlus).then {
                     $0.contentMode = .scaleAspectFit
                 }
             ]
-            
         }
     ).then {
         $0.styled(variant: .translucent, color: .green, size: .medium)

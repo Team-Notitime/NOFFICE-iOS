@@ -35,13 +35,17 @@ public class OrganizationTabViewController: BaseViewController<OrganizationTabVi
     ]
     
     // MARK: Setup
-    public override func setupBind() { 
+    public override func setupViewBind() { }
+    
+    public override func setupStateBind() {
         baseView.collectionView
             .bindSections(
             to: sectionsSubject.asObservable()
         )
         .disposed(by: disposeBag)
-        
+    }
+    
+    public override func setupActionBind() {
         newOrganizationItem.onTapNewButton
             .withUnretained(self)
             .subscribe(onNext: { _, _ in

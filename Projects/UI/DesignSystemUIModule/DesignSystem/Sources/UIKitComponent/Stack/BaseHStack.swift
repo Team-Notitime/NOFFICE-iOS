@@ -9,9 +9,9 @@ import UIKit
 
 public class BaseHStack: UIStackView {
     public convenience init(
-        spacing: CGFloat = 8,
         alignment: UIStackView.Alignment = .fill,
         distribution: UIStackView.Distribution = .fill,
+        spacing: CGFloat = 8,
         contentBuilder: () -> [UIView]
     ) {
         self.init()
@@ -25,9 +25,9 @@ public class BaseHStack: UIStackView {
     
     public convenience init(
         contents: [UIView],
-        spacing: CGFloat = 8,
         alignment: UIStackView.Alignment = .fill,
-        distribution: UIStackView.Distribution = .fill
+        distribution: UIStackView.Distribution = .fill,
+        spacing: CGFloat = 8
     ) {
         self.init()
         self.axis = .horizontal

@@ -42,10 +42,8 @@ struct BasicButtonColorTheme: ButtonColorTheme {
     
     func borderColor(state: ButtonState) -> UniversalColor {
         switch variant {
-        case .fill, .transparent:
+        case .fill, .transparent, .translucent:
             return .init(.none)
-        case .translucent:
-            return transparentBorderColor(color: color, state: state)
         }
     }
 }
@@ -69,8 +67,8 @@ private extension BasicButtonColorTheme {
         state: ButtonState
     ) -> UniversalColor {
         switch (color, state) {
-        case (.green, .enabled): return .init(.green500.opacity(0.06))
-        case (.green, .pressed): return .init(.green600.opacity(0.06))
+        case (.green, .enabled): return .init(.green100)
+        case (.green, .pressed): return .init(.green200.opacity(0.5))
         case (.ghost, .pressed): return .init(.grey100.opacity(0.06))
         case (.ghost, .enabled): return .init(.grey100.opacity(0.06))
         case (_, .disabled): return .init(.grey100.opacity(0.06))
@@ -95,8 +93,8 @@ private extension BasicButtonColorTheme {
         state: ButtonState
     ) -> UniversalColor {
         switch (color, state) {
-        case (.green, .enabled): return .init(.green500)
-        case (.green, .pressed): return .init(.green600)
+        case (.green, .enabled): return .init(.green700)
+        case (.green, .pressed): return .init(.green800)
         case (.ghost, .pressed): return .init(.grey500)
         case (.ghost, .enabled): return .init(.grey500)
         case (_, .disabled): return .init(.grey500)

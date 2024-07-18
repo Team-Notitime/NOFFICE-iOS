@@ -14,5 +14,9 @@ import RxCocoa
 
 public class NewOrganizationViewController: BaseViewController<NewOrganizationView> {
     // MARK: Setup
-    public override func setupBind() { }
+    public override func setupViewBind() { }
+    
+    public override func setupStateBind() { }
+    
+    public override func setupActionBind() { }
 }
