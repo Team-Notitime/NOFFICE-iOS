@@ -10,7 +10,7 @@ import Foundation
 import RxSwift
 import ReactorKit
 
-class SignupTermsReactor: Reactor {
+class SignupTermsPageReactor: Reactor {
     // MARK: Action
     enum Action {
         case tapNextPageButton
@@ -80,7 +80,7 @@ class SignupTermsReactor: Reactor {
 }
 
 // MARK: - Display model
-extension SignupTermsReactor { 
+extension SignupTermsPageReactor { 
     enum TermOptionType: Int, CaseIterable {
         case age = 0
         case service = 1

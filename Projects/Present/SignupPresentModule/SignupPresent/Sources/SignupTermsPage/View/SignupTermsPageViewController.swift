@@ -18,7 +18,7 @@ import RxGesture
 
 public class SignupTermsPageViewController: BaseViewController<SignupTermsPageView> {
     // MARK: Reactor
-    private let reactor = Container.shared.resolve(SignupTermsReactor.self)!
+    private let reactor = Container.shared.resolve(SignupTermsPageReactor.self)!
     
     // MARK: Setup
     public override func setupViewBind() {
@@ -29,7 +29,7 @@ public class SignupTermsPageViewController: BaseViewController<SignupTermsPageVi
             .subscribe(onNext: { owner, selected in
                 if selected {
                     owner.baseView.termsOptonGroup
-                        .selectedOptions = SignupTermsReactor.TermOptionType.allCases
+                        .selectedOptions = SignupTermsPageReactor.TermOptionType.allCases
                         .map { $0.termOption }
                 } else {
                     owner.baseView.termsOptonGroup

@@ -34,8 +34,8 @@ public class SignupTermsPageView: BaseView {
     }
     
     // - Check box (all checked)
-    lazy var allAgreeCheckBox = BaseToggleButton<SignupTermsReactor.TermOption>(
-        option: SignupTermsReactor.TermOption(
+    lazy var allAgreeCheckBox = BaseToggleButton<SignupTermsPageReactor.TermOption>(
+        option: SignupTermsPageReactor.TermOption(
             order: -1,
             text: "모두 동의",
             description: "서비스 이용을 위해 아래의 약관을 모두 동의합니다."
@@ -69,9 +69,9 @@ public class SignupTermsPageView: BaseView {
     lazy var termsOptionIconViews: [UIView] = [] // for binding
     
     lazy var termsOptonGroup = BaseCheckBoxGroup(
-        source: Array(SignupTermsReactor.TermOptionType.allCases.map { $0.termOption }),
+        source: Array(SignupTermsPageReactor.TermOptionType.allCases.map { $0.termOption }),
         itemBuilder: { option in
-            BaseToggleButton<SignupTermsReactor.TermOption>(
+            BaseToggleButton<SignupTermsPageReactor.TermOption>(
                 option: option,
                 itemBuilder: { option in
                     let icon = UIImageView(image: .iconChevronRight).then {

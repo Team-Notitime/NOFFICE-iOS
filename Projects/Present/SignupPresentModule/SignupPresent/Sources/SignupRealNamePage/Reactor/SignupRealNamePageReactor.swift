@@ -9,7 +9,7 @@ import Foundation
 
 import ReactorKit
 
-class SignupRealNameReactor: Reactor {
+class SignupRealNamePageReactor: Reactor {
     // MARK: Action
     enum Action { 
         case changeName(String)

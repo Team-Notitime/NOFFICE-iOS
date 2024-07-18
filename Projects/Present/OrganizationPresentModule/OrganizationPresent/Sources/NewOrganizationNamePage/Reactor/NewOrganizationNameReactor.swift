@@ -9,7 +9,7 @@ import Foundation
 
 import ReactorKit
 
-class NewOrganizationNameReactor: Reactor {
+class NewOrganizationNamePageReactor: Reactor {
     // MARK: Action
     enum Action { }
     

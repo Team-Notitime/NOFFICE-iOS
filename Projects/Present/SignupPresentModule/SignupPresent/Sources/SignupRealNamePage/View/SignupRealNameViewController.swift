@@ -18,7 +18,7 @@ public class SignupRealNamePageViewController: BaseViewController<SignupRealName
     private let maxNameLength: Int = 15
     
     // MARK: Reactor
-    private let reactor: SignupRealNameReactor = Container.shared.resolve(SignupRealNameReactor.self)!
+    private let reactor: SignupRealNamePageReactor = Container.shared.resolve(SignupRealNamePageReactor.self)!
     
     // MARK: Setup
     public override func setupViewBind() { }
@@ -48,7 +48,7 @@ public class SignupRealNamePageViewController: BaseViewController<SignupRealName
                 }
                 return text
             }
-            .map { SignupRealNameReactor.Action.changeName($0) }
+            .map { SignupRealNamePageReactor.Action.changeName($0) }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         

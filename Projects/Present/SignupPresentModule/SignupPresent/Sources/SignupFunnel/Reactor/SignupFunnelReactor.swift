@@ -31,16 +31,16 @@ class SignupFunnelReactor: Reactor {
     let initialState: State = State()
     
     // MARK: Child Reactor
-    private let termsReactor: SignupTermsReactor
+    private let termsReactor: SignupTermsPageReactor
     
-    private let realNameReactor: SignupRealNameReactor
+    private let realNameReactor: SignupRealNamePageReactor
     
     // MARK: DisposeBag
     private let disposeBag = DisposeBag()
     
     init(
-        termsReactor: SignupTermsReactor,
-        realNameReactor: SignupRealNameReactor
+        termsReactor: SignupTermsPageReactor,
+        realNameReactor: SignupRealNamePageReactor
     ) {
         self.termsReactor = termsReactor
         self.realNameReactor = realNameReactor
