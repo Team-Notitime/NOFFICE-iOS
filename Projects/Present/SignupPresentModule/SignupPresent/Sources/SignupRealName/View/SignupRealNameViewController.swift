@@ -22,6 +22,8 @@ public class SignupRealNameViewController: BaseViewController<SignupRealNameView
     
     // MARK: Life cycle
     public override func viewDidLoad() {
+        super.viewDidLoad()
+        
         view.translatesAutoresizingMaskIntoConstraints = false // warning
     }
     
