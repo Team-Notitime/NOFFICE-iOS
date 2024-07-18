@@ -7,6 +7,8 @@
 
 import Foundation
 
+import Router
+
 import ReactorKit
 
 class SignupFunnelReactor: Reactor {
@@ -31,18 +33,19 @@ class SignupFunnelReactor: Reactor {
     // MARK: Child Reactor
     private let termsReactor: SignupTermsReactor
     
+    private let realNameReactor: SignupRealNameReactor
+    
     // MARK: DisposeBag
     private let disposeBag = DisposeBag()
     
-    init(termsReactor: SignupTermsReactor) {
+    init(
+        termsReactor: SignupTermsReactor,
+        realNameReactor: SignupRealNameReactor
+    ) {
         self.termsReactor = termsReactor
-        print("SignupFunnelReactor init")
+        self.realNameReactor = realNameReactor
         
         setupChildBind()
-    }
-    
-    deinit {
-        print("SignupFunnelReactor deinit")
     }
     
     // MARK: Action operation
@@ -75,6 +78,16 @@ class SignupFunnelReactor: Reactor {
                     self?.action.onNext(.moveNextPage)
                 case .tapBackButton:
                     self?.action.onNext(.movePreviousPage)
+                default: return
+                }
+            })
+            .disposed(by: disposeBag)
+        
+        realNameReactor.action
+            .subscribe(onNext: { [weak self] action in
+                switch action {
+                case .tapCompleteButton:
+                    Router.shared.dismiss()
                 default: return
                 }
             })

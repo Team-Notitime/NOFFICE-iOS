@@ -32,7 +32,7 @@ public class SignupFunnelView: BaseView {
             else { return }
             
             if currentPageIndex < 1 {
-                Router.shared.back()
+                Router.shared.dismiss()
             } else {
                 paginableView.currentPage = self.pages[currentPageIndex - 1]
             }
@@ -74,9 +74,7 @@ extension SignupFunnelPage: PageType {
         case .terms:
             return SignupTermsViewController()
         case .realName:
-            let vc = UIViewController()
-            vc.view.backgroundColor = .blue100
-            return vc
+            return SignupRealNameViewController()
         }
     }
 }

@@ -6,6 +6,7 @@
 //
 
 import UIKit
+
 import RxSwift
 
 protocol BaseViewControllerProtocol: AnyObject {
@@ -42,6 +43,7 @@ open class BaseViewController<View: BaseView>: UIViewController, BaseViewControl
         setupViewBind()
         setupStateBind()
         setupActionBind()
+        setupHideKeyboardOnTap()
     }
     
     open func setupViewBind() { }
@@ -49,23 +51,18 @@ open class BaseViewController<View: BaseView>: UIViewController, BaseViewControl
     open func setupStateBind() { }
     
     open func setupActionBind() { }
-}
-
-public extension BaseViewController {
-    func pushView(_ viewController: UIViewController, animated: Bool = true) {
-        self.navigationController?.pushViewController(
-            viewController,
-            animated: animated
+    
+    // MARK: - Keyboard event
+    private func setupHideKeyboardOnTap() {
+        let tapGesture = UITapGestureRecognizer(
+            target: self,
+            action: #selector(hideKeyboard)
         )
+        tapGesture.cancelsTouchesInView = false
+        view.addGestureRecognizer(tapGesture)
     }
     
-    func pushWebView(_ url: URL) {
-        let nextVC = WebViewController(url: url)
-        nextVC.hidesBottomBarWhenPushed = true
-        self.pushView(nextVC)
-    }
-    
-    func backView(animated: Bool = true) {
-        self.navigationController?.popViewController(animated: animated)
+    @objc private func hideKeyboard() {
+        view.endEditing(true)
     }
 }

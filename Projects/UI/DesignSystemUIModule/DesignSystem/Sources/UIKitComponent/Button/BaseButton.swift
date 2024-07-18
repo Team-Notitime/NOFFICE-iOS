@@ -145,10 +145,13 @@ public class BaseButton: UIControl {
         let borderWidth = figureTheme.borderWidth()
         
         // Background
-        self.backgroundColor = backgroundColor
-        clipsToBounds = true
-        layer.borderColor = borderColor
-        layer.borderWidth = borderWidth
+        UIView.animate(withDuration: 0.35) { [weak self] in
+            guard let self = self else { return }
+            
+            self.backgroundColor = backgroundColor
+            self.layer.borderColor = borderColor
+            self.layer.borderWidth = borderWidth
+        }
         
         // Stack (items)
         stackView.arrangedSubviews
@@ -175,6 +178,7 @@ public class BaseButton: UIControl {
         ? bounds.height / 2 : figureTheme.rounded().max
         
         layer.cornerRadius = rounded
+        clipsToBounds = true
     }
     
     private func updateLayout() {

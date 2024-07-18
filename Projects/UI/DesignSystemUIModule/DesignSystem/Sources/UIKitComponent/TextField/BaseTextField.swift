@@ -43,12 +43,21 @@ public class BaseTextField: UIView {
     
     // MARK: Event
     public let textFieldEvent = PublishSubject<UIControl.Event>()
-    public let onChange = PublishSubject<String?>()
+    
+    private let _onChange = PublishSubject<String?>()
+    public var onChange: Observable<String?> {
+        return _onChange.asObservable()
+    }
+    
     public var text: Binder<String?> {
         return Binder(self) { textField, text in
-            textField.textField.text = text
-            textField.onChange.onNext(text) 
+            textField.innerTextField.text = text
+            textField._onChange.onNext(text) 
         }
+    }
+    
+    public var textField: UITextField {
+        return innerTextField
     }
     
     // MARK: Theme
@@ -75,7 +84,7 @@ public class BaseTextField: UIView {
     
     public var disabled: Bool = false {
         didSet {
-            textField.isEnabled = !disabled
+            innerTextField.isEnabled = !disabled
             updateTheme()
             updateLayout()
         }
@@ -83,7 +92,7 @@ public class BaseTextField: UIView {
     
     public var placeholder: String? {
         didSet {
-            textField.placeholder = placeholder
+            innerTextField.placeholder = placeholder
         }
     }
     
@@ -117,7 +126,7 @@ public class BaseTextField: UIView {
         $0.distribution = .fill
     }
     
-    private let textField = UITextField().then {
+    private let innerTextField = UITextField().then {
         $0.textAlignment = .left
         $0.setContentHuggingPriority(.defaultLow, for: .horizontal)
         $0.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
@@ -155,7 +164,6 @@ public class BaseTextField: UIView {
     // MARK: Life cycle
     public override func layoutSubviews() {
         super.layoutSubviews()
-        updateLayout()
         updateCornerRadius()
     }
     
@@ -191,7 +199,7 @@ public class BaseTextField: UIView {
         prefixComponents.forEach {
             textFieldStack.addArrangedSubview($0)
         }
-        textFieldStack.addArrangedSubview(textField)
+        textFieldStack.addArrangedSubview(innerTextField)
         suffixComponents.forEach {
             textFieldStack.addArrangedSubview($0)
         }
@@ -206,39 +214,39 @@ public class BaseTextField: UIView {
     
     private func setupBind() {
         // Binding textfield event
-        textField.rx.controlEvent(.editingDidBegin)
+        innerTextField.rx.controlEvent(.editingDidBegin)
             .map { UIControl.Event.editingDidBegin }
             .bind(to: textFieldEvent)
             .disposed(by: disposeBag)
         
-        textField.rx.controlEvent(.editingChanged)
+        innerTextField.rx.controlEvent(.editingChanged)
             .map { UIControl.Event.editingChanged }
             .bind(to: textFieldEvent)
             .disposed(by: disposeBag)
         
-        textField.rx.controlEvent(.editingChanged)
-            .map { [weak self] in self?.textField.text }
-            .bind(to: onChange)
+        innerTextField.rx.controlEvent(.editingChanged)
+            .map { [weak self] in self?.innerTextField.text }
+            .bind(to: _onChange)
             .disposed(by: disposeBag)
         
-        textField.rx.controlEvent(.editingDidEnd)
+        innerTextField.rx.controlEvent(.editingDidEnd)
             .map { UIControl.Event.editingDidEnd }
             .bind(to: textFieldEvent)
             .disposed(by: disposeBag)
         
-        textField.rx.controlEvent(.editingDidEndOnExit)
+        innerTextField.rx.controlEvent(.editingDidEndOnExit)
             .map { UIControl.Event.editingDidEndOnExit }
             .bind(to: textFieldEvent)
             .disposed(by: disposeBag)
         
         // Update focus / unfocus theme
-        textField.rx.controlEvent(.editingDidBegin)
+        innerTextField.rx.controlEvent(.editingDidBegin)
             .subscribe(onNext: { [weak self] in
                 self?.updateTheme()
             })
             .disposed(by: disposeBag)
         
-        textField.rx.controlEvent(.editingDidEnd)
+        innerTextField.rx.controlEvent(.editingDidEnd)
             .subscribe(onNext: { [weak self] in
                 self?.updateTheme()
             })
@@ -250,7 +258,7 @@ public class BaseTextField: UIView {
         
         textFieldPaddingTapGesture.rx.event
             .bind { [weak self] _ in
-                self?.textField.becomeFirstResponder()
+                self?.innerTextField.becomeFirstResponder()
             }
             .disposed(by: disposeBag)
     }
@@ -284,9 +292,9 @@ public class BaseTextField: UIView {
             self.textFieldBackground.layer.borderWidth = borderWidth
             
             // TextField
-            self.textField.textColor = foregroundColor
-            self.textField.setTypo(typo)
-            self.textField.attributedPlaceholder = NSAttributedString(
+            self.innerTextField.textColor = foregroundColor
+            self.innerTextField.setTypo(typo)
+            self.innerTextField.attributedPlaceholder = NSAttributedString(
                 string: placeholder ?? "",
                 attributes: [.foregroundColor: placeholderColor]
             )
@@ -377,7 +385,7 @@ public class BaseTextField: UIView {
     
     // MARK: Delegate
     private func focusTextField() {
-        textField.becomeFirstResponder()
+        innerTextField.becomeFirstResponder()
     }
     
     // MARK: Inner token
@@ -394,7 +402,7 @@ public class BaseTextField: UIView {
             return .disabled
         }
         
-        if textField.isEditing {
+        if innerTextField.isEditing {
             return .focused
         } else {
             return .normal
@@ -403,5 +411,12 @@ public class BaseTextField: UIView {
     
     private var isFullWidth: Bool {
         figureTheme?.frame().width == .infinity
+    }
+}
+
+// MARK: - Rx extension
+public extension Reactive where Base: BaseTextField {
+    var text: ControlProperty<String?> {
+        return base.textField.rx.text
     }
 }

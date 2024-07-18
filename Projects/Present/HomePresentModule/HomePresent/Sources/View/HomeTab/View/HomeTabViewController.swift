@@ -12,7 +12,7 @@ import Assets
 
 public final class HomeTabViewController: BaseViewController<HomeTabView> {
     // MARK: Setup
-    public override func setupBind() {
+    public override func setupViewBind() {
         baseView.paginableView.onMove
             .bind(to: baseView.segmentControl.selectedOption)
             .disposed(by: disposeBag)

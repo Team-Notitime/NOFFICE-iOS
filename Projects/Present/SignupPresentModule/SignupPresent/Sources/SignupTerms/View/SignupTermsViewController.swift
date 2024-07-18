@@ -51,6 +51,7 @@ public class SignupTermsViewController: BaseViewController<SignupTermsView> {
     }
     
     public override func setupStateBind() {
+        // - Next button active state
         reactor.state.map { $0.nextButtonActive }
             .withUnretained(self)
             .subscribe(onNext: { owner, active in
@@ -60,13 +61,6 @@ public class SignupTermsViewController: BaseViewController<SignupTermsView> {
     }
     
     public override func setupActionBind() {
-        // - Tap next page button
-        baseView.nextButton
-            .onTap
-            .map { _ in .tapNextPageButton }
-            .bind(to: reactor.action)
-            .disposed(by: self.disposeBag)
-        
         // - Select term option
         baseView.termsOptonGroup
             .onChangeSelectedOptions
@@ -78,5 +72,11 @@ public class SignupTermsViewController: BaseViewController<SignupTermsView> {
             .bind(to: reactor.action)
             .disposed(by: self.disposeBag)
         
+        // - Tap next page button
+        baseView.nextButton
+            .onTap
+            .map { _ in .tapNextPageButton }
+            .bind(to: reactor.action)
+            .disposed(by: self.disposeBag)
     }
 }

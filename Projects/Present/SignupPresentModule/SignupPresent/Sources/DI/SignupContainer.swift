@@ -13,13 +13,19 @@ extension Container {
         
         container.register(SignupFunnelReactor.self) { resolver in
             SignupFunnelReactor(
-                termsReactor: resolver.resolve(SignupTermsReactor.self)!
+                termsReactor: resolver.resolve(SignupTermsReactor.self)!,
+                realNameReactor: resolver.resolve(SignupRealNameReactor.self)!
             )
         }
         .inObjectScope(.weak)
         
         container.register(SignupTermsReactor.self) { _ in
             SignupTermsReactor()
+        }
+        .inObjectScope(.weak)
+        
+        container.register(SignupRealNameReactor.self) { _ in
+            SignupRealNameReactor()
         }
         .inObjectScope(.weak)
 

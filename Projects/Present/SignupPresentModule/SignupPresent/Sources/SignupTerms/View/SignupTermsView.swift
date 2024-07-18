@@ -16,20 +16,22 @@ import Then
 public class SignupTermsView: BaseView {
     // MARK: UI Constant
     private let additionalPagePadding: CGFloat = 14
+    
     private let sectionSpacingUnit: CGFloat = 12
     
     // MARK: UI Component
     // - Padding view
     lazy var contentView = UIView()
     
-    // - Text section
-    lazy var termsTitleLabel = UILabel().then {
+    // - Page title
+    lazy var pageTitleLabel = UILabel().then {
         $0.text = "약관에 동의해주세요"
         $0.setTypo(.heading3)
         $0.textColor = .grey800
     }
     
-    lazy var termsDescriptionLabel = UILabel().then {
+    // - Page description
+    lazy var pageDescriptionLabel = UILabel().then {
         $0.text = "여러분의 개인정보와 서비스 이용 권리를 잘 지켜드릴게요."
         $0.setTypo(.body1m)
         $0.textColor = .grey600
@@ -119,8 +121,9 @@ public class SignupTermsView: BaseView {
     public override func setupHierarchy() {
         addSubview(contentView)
         
-        contentView.addSubview(termsTitleLabel)
-        contentView.addSubview(termsDescriptionLabel)
+        contentView.addSubview(pageTitleLabel)
+        
+        contentView.addSubview(pageDescriptionLabel)
         
         contentView.addSubview(allAgreeCheckBox)
         
@@ -137,18 +140,18 @@ public class SignupTermsView: BaseView {
             $0.left.right.equalToSuperview().inset(GlobalViewConstant.pagePadding)
         }
         
-        termsTitleLabel.snp.makeConstraints {
+        pageTitleLabel.snp.makeConstraints {
             $0.top.equalToSuperview().offset(sectionSpacingUnit * 2)
             $0.left.right.equalToSuperview().inset(additionalPagePadding)
         }
         
-        termsDescriptionLabel.snp.makeConstraints {
-            $0.top.equalTo(termsTitleLabel.snp.bottom).offset(sectionSpacingUnit)
+        pageDescriptionLabel.snp.makeConstraints {
+            $0.top.equalTo(pageTitleLabel.snp.bottom).offset(sectionSpacingUnit)
             $0.left.right.equalToSuperview().inset(additionalPagePadding)
         }
         
         allAgreeCheckBox.snp.makeConstraints {
-            $0.top.equalTo(termsDescriptionLabel.snp.bottom).offset(sectionSpacingUnit * 4)
+            $0.top.equalTo(pageDescriptionLabel.snp.bottom).offset(sectionSpacingUnit * 4)
             $0.left.right.equalToSuperview().inset(additionalPagePadding)
         }
         
@@ -163,8 +166,7 @@ public class SignupTermsView: BaseView {
         }
         
         nextButton.snp.makeConstraints {
-            $0.left.equalToSuperview()
-            $0.right.equalToSuperview()
+            $0.left.right.equalToSuperview()
             $0.bottom.equalTo(safeAreaLayoutGuide).inset(16)
         }
     }

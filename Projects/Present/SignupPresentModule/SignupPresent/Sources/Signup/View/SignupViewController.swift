@@ -20,7 +20,7 @@ public class SignupViewController: BaseViewController<SignupView> {
         baseView.dummyButton
             .onTap
             .subscribe(onNext: {
-                Router.shared.push(SignupFunnelViewController())
+                Router.shared.presentFullScreen(SignupFunnelViewController())
             })
             .disposed(by: disposeBag)
     }

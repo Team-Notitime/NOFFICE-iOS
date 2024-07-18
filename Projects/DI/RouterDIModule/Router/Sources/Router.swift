@@ -33,7 +33,9 @@ final public class Router: UINavigationController {
     }
     
     public func back() {
-        popViewController(animated: true)
+        if !viewControllers.isEmpty {
+            popViewController(animated: true)
+        }
     }
     
     public func backToRoot() {
@@ -41,6 +43,20 @@ final public class Router: UINavigationController {
     }
     
     public func present(_ viewController: UIViewController) {
+        present(viewController, animated: true, completion: nil)
+    }
+    
+    public func presentFullScreen(_ viewController: UIViewController) {
+        viewController.modalPresentationStyle = .fullScreen
+        present(viewController, animated: true, completion: nil)
+    }
+    
+    public func bottomSheet(_ viewController: UIViewController) {
+        if #available(iOS 15.0, *) {
+            viewController.modalPresentationStyle = .pageSheet
+        } else {
+            viewController.modalPresentationStyle = .formSheet
+        }
         present(viewController, animated: true, completion: nil)
     }
     
