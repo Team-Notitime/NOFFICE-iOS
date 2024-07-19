@@ -35,8 +35,15 @@ class NofficeListBookViewController: UIViewController {
         $0.selectedSegmentIndex = 0
     }
 
-    private lazy var listView = NofficeList(option: listModel).then {
-        $0.text = listModel.text
+    private lazy var listView = NofficeList(option: listModel) {_ in 
+        [
+            UILabel().then {
+                $0.text = "Noffice List"
+                $0.setTypo(.body1b)
+            },
+            BaseSpacer(),
+            UIImageView(image: .iconChevronRight)
+        ]
     }
     
     private lazy var radioGroupLabel = UILabel().then {
@@ -48,8 +55,15 @@ class NofficeListBookViewController: UIViewController {
     private lazy var listGroup = BaseRadioGroup(
         source: ListModel.factory(Array(0...3))
     ) { option in
-        NofficeList(option: option).then {
-            $0.text = "\(option.text) \(option.id)"
+        NofficeList(option: option) { _ in
+            [
+                UILabel().then {
+                    $0.text = "\(option.text) \(option.id)"
+                    $0.setTypo(.body2b)
+                },
+                BaseSpacer(),
+                UIImageView(image: .iconChevronRight)
+            ]
         }
     }.then {
         $0.gridStyled(columns: 2, verticalSpacing: 16, horizontalSpacing: 16)

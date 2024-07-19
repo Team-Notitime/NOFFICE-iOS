@@ -76,7 +76,7 @@ import RxCocoa
  ```
  */
 @available(*, deprecated, message: "Use this instead: ``PageniableView.``")
-open class RxPageViewController<Page: PageType>: UIPageViewController, UIPageViewControllerDataSource {
+open class RxPageViewController<Page: Paginable>: UIPageViewController, UIPageViewControllerDataSource {
     // MARK: Event
     private let _onMove = PublishSubject<Page>()
     /// Subject that emits the current page after the page change is completed

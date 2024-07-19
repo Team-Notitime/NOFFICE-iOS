@@ -76,7 +76,7 @@ public class HomeTabView: BaseView {
 
 // MARK: - DisplayModel
 public extension HomeTabView {
-    enum Page: CaseIterable, Identifiable, PageType {
+    enum Page: CaseIterable, Identifiable, Paginable {
         case announcement
         case todo
         

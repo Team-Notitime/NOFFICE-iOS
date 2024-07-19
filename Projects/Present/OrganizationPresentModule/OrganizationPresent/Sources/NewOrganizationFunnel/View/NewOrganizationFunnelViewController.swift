@@ -33,17 +33,15 @@ public class NewOrganizationFunnelViewController: BaseViewController<NewOrganiza
     public override func setupActionBind() { 
         baseView.navigationBar
             .onTapBackButton
-            .withUnretained(self.baseView)
+            .withUnretained(self)
             .subscribe(onNext: { owner, _ in
-
-                guard let currentPage = owner.paginableView.currentPage,
-                      let currentPageIndex = owner.pages.firstIndex(where: { $0 == currentPage })
+                guard let currentPage = owner.baseView.paginableView.currentPage
                 else { return }
                 
-                if currentPageIndex < 1 {
+                if currentPage == .name {
                     Router.shared.back()
                 } else {
-                    owner.paginableView.currentPage = owner.pages[currentPageIndex - 1]
+                    owner.reactor.action.onNext(.movePreviousPage)
                 }
             })
             .disposed(by: disposeBag)

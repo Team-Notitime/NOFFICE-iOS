@@ -11,7 +11,7 @@ import RxSwift
 import RxCocoa
 import SnapKit
 
-public protocol PageType: Hashable {
+public protocol Paginable: Hashable {
     var viewController: UIViewController { get }
 }
 
@@ -21,7 +21,7 @@ public protocol PageType: Hashable {
  First, define the types of pages to be displayed as an enumeration.
  This enumeration is also used to determine which page to move to in a clear way, not by index.
  ```swift
- enum TestViewPage: PageType {
+ enum TestViewPage: Paginable {
      case first
      case second
      case third
@@ -79,7 +79,7 @@ public protocol PageType: Hashable {
  paginableView.updatePages([.first, .second])
  ```
  */
-open class PaginableView<Page: PageType>: UIView, UIScrollViewDelegate {
+open class PaginableView<Page: Paginable>: UIView, UIScrollViewDelegate {
     // MARK: Event
     private let _onMove = PublishSubject<Page>()
     public var onMove: Observable<Page> {
@@ -138,6 +138,7 @@ open class PaginableView<Page: PageType>: UIView, UIScrollViewDelegate {
         if pages.count != Set(pages).count {
             fatalError("There are duplicate pages.")
         }
+        
         setupPages(pages)
         setupScrollView()
         setupContentView()
@@ -152,7 +153,6 @@ open class PaginableView<Page: PageType>: UIView, UIScrollViewDelegate {
     public override func layoutSubviews() {
         super.layoutSubviews()
         setupPageLayout()
-        setupFirstPage()
     }
     
     // MARK: Public method

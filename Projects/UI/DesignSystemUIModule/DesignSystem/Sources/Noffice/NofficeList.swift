@@ -15,6 +15,8 @@ import SnapKit
 import Then
 
 public class NofficeList<Option>: UIControl, ToggleButton where Option: Equatable & Identifiable {
+    public typealias ViewBuilder = (Option) -> [UIView]
+    
     // MARK: Event
     private let _onChangeSelected: PublishSubject<Bool> = PublishSubject()
     /// Emits a Bool when the isSelected property of the UIControl subclass NofficeList changes.
@@ -30,12 +32,6 @@ public class NofficeList<Option>: UIControl, ToggleButton where Option: Equatabl
     
     // MARK: Data
     public var value: Option?
-    
-    public var text: String = "" {
-        didSet {
-            label.text = text
-        }
-    }
     
     public var status: Status = .unselected {
         didSet {
@@ -54,7 +50,7 @@ public class NofficeList<Option>: UIControl, ToggleButton where Option: Equatabl
     }
     
     // MARK: UI Constant
-    private let verticalPadding = 12
+    private let verticalPadding = 14
     private let horizontalPadding = 16
     
     // MARK: UI Component
@@ -64,27 +60,25 @@ public class NofficeList<Option>: UIControl, ToggleButton where Option: Equatabl
         $0.isUserInteractionEnabled = false
     }
     
-    private lazy var stackView = UIStackView(arrangedSubviews: [label, icon]).then {
+    private lazy var stackView = UIStackView().then {
         $0.axis = .horizontal
         $0.spacing = 8
         $0.alignment = .center
+        $0.distribution = .fill
     }
     
-    private lazy var label = UILabel().then {
-        $0.text = ""
-        $0.setTypo(.body2b)
-        $0.numberOfLines = 10
-    }
-    
-    private lazy var icon = UIImageView(image: .iconCheck).then {
-        $0.tintColor = .grey300
-        $0.setSize(width: 16, height: 16)
-    }
+    // MARK: Build component
+    private var contentComponents: [UIView] = []
     
     // MARK: Initializer
-    public init(option: Option) {
+    public init(
+        option: Option,
+        content: ViewBuilder
+    ) {
         value = option
+        contentComponents = content(option)
         super.init(frame: .zero)
+        
         setupHierarchy()
         setupLayout()
         setupBind()
@@ -108,7 +102,12 @@ public class NofficeList<Option>: UIControl, ToggleButton where Option: Equatabl
     // MARK: Setup
     private func setupHierarchy() {
         addSubview(backgroundView)
+        
         backgroundView.addSubview(stackView)
+        
+        contentComponents.forEach {
+            stackView.addArrangedSubview($0)
+        }
     }
     
     private func setupLayout() {
@@ -136,8 +135,14 @@ public class NofficeList<Option>: UIControl, ToggleButton where Option: Equatabl
                 guard let self = self else { return }
                 
                 self.backgroundView.backgroundColor = .green100
-                self.label.textColor = .green500
-                self.icon.tintColor = .green500
+                
+                self.stackView.arrangedSubviews.forEach {
+                    if let label = $0 as? UILabel {
+                        label.textColor = .green700
+                    } else if let icon = $0 as? UIImageView {
+                        icon.tintColor = .green700
+                    }
+                }
             }
         case .unselected:
             UIView.transition(
@@ -148,8 +153,13 @@ public class NofficeList<Option>: UIControl, ToggleButton where Option: Equatabl
                 guard let self = self else { return }
                 
                 self.backgroundView.backgroundColor = .grey100
-                self.label.textColor = .grey400
-                self.icon.tintColor = .grey400
+                self.stackView.arrangedSubviews.forEach {
+                    if let label = $0 as? UILabel {
+                        label.textColor = .grey600
+                    } else if let icon = $0 as? UIImageView {
+                        icon.tintColor = .grey600
+                    }
+                }
             }
         }
     }

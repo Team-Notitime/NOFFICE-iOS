@@ -29,6 +29,8 @@ class NewOrganizationFunnelReactor: Reactor {
     // MARK: ChildReactor
     private let nameReactor: NewOrganizationNamePageReactor
     
+    private let categoryReactor: NewOrganizationCategoryPageReactor
+    
     // MARK: Dependency
     
     // MARK: DisposeBag
@@ -36,9 +38,11 @@ class NewOrganizationFunnelReactor: Reactor {
     
     // MARK: Initializer
     init(
-        nameReactor: NewOrganizationNamePageReactor
-    ) { 
+        nameReactor: NewOrganizationNamePageReactor,
+        categoryReactor: NewOrganizationCategoryPageReactor
+    ) {
         self.nameReactor = nameReactor
+        self.categoryReactor = categoryReactor
         
         setupChildBind()
     }
@@ -67,6 +71,16 @@ class NewOrganizationFunnelReactor: Reactor {
     // MARK: Child bind
     private func setupChildBind() { 
         nameReactor.action
+            .subscribe(onNext: { [weak self] action in
+                switch action {
+                case .tapNextPageButton:
+                    self?.action.onNext(.moveNextPage)
+                default: return
+                }
+            })
+            .disposed(by: disposeBag)
+        
+        categoryReactor.action
             .subscribe(onNext: { [weak self] action in
                 switch action {
                 case .tapNextPageButton:

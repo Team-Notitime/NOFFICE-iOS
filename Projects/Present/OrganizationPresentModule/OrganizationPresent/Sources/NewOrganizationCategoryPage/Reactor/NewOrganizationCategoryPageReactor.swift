@@ -1,26 +1,28 @@
 //
-//  NewOrganizationNameReactor.swift
+//  NewOrganizationCategoryPageReactor.swift
 //  OrganizationPresent
 //
 //  Created by DOYEON LEE on 7/19/24.
 //
 
+import OrganizationEntity
+
 import ReactorKit
 
-class NewOrganizationNamePageReactor: Reactor {
+class NewOrganizationCategoryPageReactor: Reactor {
     // MARK: Action
-    enum Action { 
-        case changeName(String)
+    enum Action {
+        case changeSelectedCateogries([OrganizationCategoryEntity])
         case tapNextPageButton
     }
     
-    enum Mutation { 
-        case setName(String)
+    enum Mutation {
+        case setSelectedCateogries([OrganizationCategoryEntity])
     }
     
     // MARK: State
-    struct State { 
-        var name: String = ""
+    struct State {
+        var selectedCateogries: [OrganizationCategoryEntity] = []
         var nextPageButtonActive: Bool = false
     }
     
@@ -34,9 +36,9 @@ class NewOrganizationNamePageReactor: Reactor {
     
     // MARK: Action operation
     func mutate(action: Action) -> Observable<Mutation> {
-        switch action { 
-        case let .changeName(name):
-            return .just(.setName(name))
+        switch action {
+        case let .changeSelectedCateogries(categories):
+            return .just(.setSelectedCateogries(categories))
             
         case .tapNextPageButton:
             // pass to parent
@@ -47,9 +49,9 @@ class NewOrganizationNamePageReactor: Reactor {
     func reduce(state: State, mutation: Mutation) -> State {
         var state = state
         switch mutation {
-        case let .setName(name):
-            state.name = name
-            state.nextPageButtonActive = !name.isEmpty
+        case let .setSelectedCateogries(categories):
+            state.selectedCateogries = categories
+            state.nextPageButtonActive = !categories.isEmpty
         }
         return state
     }

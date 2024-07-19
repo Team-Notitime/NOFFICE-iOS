@@ -13,13 +13,19 @@ extension Container {
         
         container.register(NewOrganizationFunnelReactor.self) { resolver in
             NewOrganizationFunnelReactor(
-                nameReactor: resolver.resolve(NewOrganizationNamePageReactor.self)!
+                nameReactor: resolver.resolve(NewOrganizationNamePageReactor.self)!,
+                categoryReactor: resolver.resolve(NewOrganizationCategoryPageReactor.self)!
             )
         }
         .inObjectScope(.weak)
         
         container.register(NewOrganizationNamePageReactor.self) { _ in
             NewOrganizationNamePageReactor()
+        }
+        .inObjectScope(.weak)
+        
+        container.register(NewOrganizationCategoryPageReactor.self) { _ in
+            NewOrganizationCategoryPageReactor()
         }
         .inObjectScope(.weak)
 

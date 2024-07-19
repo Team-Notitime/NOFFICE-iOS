@@ -54,7 +54,7 @@ public class SignupFunnelView: BaseView {
 }
 
 // MARK: - DisplayModel
-extension SignupFunnelPage: PageType {
+extension SignupFunnelPage: Paginable {
     public var viewController: UIViewController {
         switch self {
         case .terms:

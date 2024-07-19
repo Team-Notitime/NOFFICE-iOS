@@ -50,15 +50,13 @@ public class NewOrganizationFunnelView: BaseView {
 }
 
 // MARK: - DisplayModel
-extension NewOrganizationFunnelPage: PageType {
+extension NewOrganizationFunnelPage: Paginable {
     var viewController: UIViewController {
         switch self {
         case .name:
             return NewOrganizationNamePageViewController()
         case .category:
-            let vc = UIViewController()
-            vc.view.backgroundColor = .blue100
-            return vc
+            return NewOrganizationCategoryPageViewController()
         case .image:
             let vc = UIViewController()
             vc.view.backgroundColor = .blue200
