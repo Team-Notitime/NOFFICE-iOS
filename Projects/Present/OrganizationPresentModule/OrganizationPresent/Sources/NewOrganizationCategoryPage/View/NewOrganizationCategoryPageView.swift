@@ -39,6 +39,7 @@ class NewOrganizationCategoryPageView: BaseView {
         $0.text = "그룹의 카테고리를 모두 선택해주세요"
         $0.setTypo(.heading3)
         $0.textColor = .grey800
+        $0.numberOfLines = 0
     }
     
     // - Category list

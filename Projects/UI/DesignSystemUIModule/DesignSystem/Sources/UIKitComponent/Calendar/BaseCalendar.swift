@@ -32,8 +32,10 @@ public class BaseCalendar: UIView {
     }
     
     // MARK: State
+    private var previousDateDisabled: Bool = false
+    
     private var currentMonth = Date()
-
+    
     private var selectedDay: CalendarDay?
     
     // MARK: Data
@@ -104,6 +106,19 @@ public class BaseCalendar: UIView {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    public init(
+        previousDateDisabled: Bool = false
+    ) {
+        super.init(frame: .zero)
+        
+        self.previousDateDisabled = previousDateDisabled
+        
+        setupHierarchy()
+        setupLayout()
+        setupBind()
+        updateCalendar()
     }
     
     // MARK: Setup
@@ -214,13 +229,21 @@ public class BaseCalendar: UIView {
         var days: [CalendarDay] = []
         var currentDate = startDate
         let monthRange = calendar.dateInterval(of: .month, for: self.currentMonth)!
+        let today = Date()
         
         while currentDate <= endDate {
             let isCurrentMonth = monthRange.contains(currentDate)
             let weekday = calendar.component(.weekday, from: currentDate)
             let type: CalendarCellType = (weekday == 1) ? .sun : (weekday == 7) ? .sat : .weekday
+            let isPreviousDate = currentDate >= calendar.startOfDay(for: today)
             
-            days.append(CalendarDay(date: currentDate, isCurrentMonth: isCurrentMonth, type: type))
+            let day = CalendarDay(
+                type: type,
+                date: currentDate,
+                isCurrentMonth: isCurrentMonth,
+                isPreviousDate: isPreviousDate
+            )
+            days.append(day)
             currentDate = calendar.date(byAdding: .day, value: 1, to: currentDate)!
         }
         
@@ -258,7 +281,13 @@ extension BaseCalendar: UICollectionViewDataSource, UICollectionViewDelegateFlow
             shape: cellShape
         )
         
-        cell.isEnabled = day.isCurrentMonth
+        cell.isEnabled = day.isCurrentMonth && day.isPreviousDate
+        
+        if previousDateDisabled {
+            cell.isEnabled = day.isPreviousDate
+        } else {
+            cell.isEnabled = day.isCurrentMonth
+        }
 
         if day == selectedDay {
             collectionView.selectItem(
@@ -311,9 +340,10 @@ extension BaseCalendar: UICollectionViewDataSource, UICollectionViewDelegateFlow
 // MARK: - Display model
 extension BaseCalendar {
     struct CalendarDay: Equatable {
+        let type: CalendarCellType
         let date: Date
         let isCurrentMonth: Bool
-        let type: CalendarCellType
+        let isPreviousDate: Bool
         
         static func == (lhs: CalendarDay, rhs: CalendarDay) -> Bool {
             return lhs.date == rhs.date

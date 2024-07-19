@@ -51,6 +51,7 @@ class NewOrganizationImagePageView: BaseView {
         $0.backgroundColor = .grey50
         $0.layer.cornerRadius = 24
         $0.layer.masksToBounds = true
+        $0.contentMode = .scaleAspectFill
     }
 
     lazy var nameTextField = BaseTextField(

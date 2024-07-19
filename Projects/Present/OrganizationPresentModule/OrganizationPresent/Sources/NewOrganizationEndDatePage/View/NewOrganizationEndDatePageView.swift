@@ -42,7 +42,7 @@ class NewOrganizationEndDatePageView: BaseView {
     }
     
     // - Calendar
-    lazy var calendar = BaseCalendar()
+    lazy var calendar = BaseCalendar(previousDateDisabled: true)
     
     // - Selecte date label
     lazy var selectedDateLabel = UILabel().then {
