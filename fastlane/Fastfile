@@ -40,7 +40,40 @@ platform :ios do
     build_app(
       scheme: "Noffice",
       workspace: "./Noffice-Workspace.xcworkspace",
-      configuration: "dev",
+      configuration: "prod",
+      clean: true,
+      export_method: "app-store"
+    )
+    
+    upload_to_testflight(
+      skip_waiting_for_build_processing: true
+    )
+  end
+
+  lane :beta_designsystem_app do
+    app_identifier = "notitime.noffice.design-system.app"
+    
+    match(
+      type: "appstore",
+      app_identifier: app_identifier,
+      keychain_password: ENV["MATCH_KEYCHAIN_PASSWORD"],
+      readonly: true
+    )
+
+    last_testflight_build_number = latest_testflight_build_number(
+      app_identifier: "notitime.noffice.design-system.app",
+      version: "1.0.0" # 현재 버전 입력
+    )
+    
+    increment_build_number(
+      xcodeproj: "./Projects/UI/DesignSystemUIModule/DesignSystemModule.xcodeproj",
+      build_number: (last_testflight_build_number.to_i + 1).to_s
+    )
+    
+    build_app(
+      scheme: "DesignSystem",
+      workspace: "./Noffice-Workspace.xcworkspace",
+      configuration: "prod",
       clean: true,
       export_method: "app-store"
     )

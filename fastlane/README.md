@@ -23,6 +23,14 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
 
 Build and upload the main Notitime app to TestFlight
 
+### ios beta_design_system_app
+
+```sh
+[bundle exec] fastlane ios beta_designsystem_app
+```
+
+
+
 ### ios development
 
 ```sh
