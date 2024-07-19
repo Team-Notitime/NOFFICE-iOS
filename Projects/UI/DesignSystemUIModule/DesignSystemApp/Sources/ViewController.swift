@@ -124,6 +124,18 @@ class ViewController: UIViewController {
             ]
         ),
         Section(
+            title: "Calendar",
+            examples: [
+                Example(
+                    button: UIButton().then {
+                        $0.setTitle("Basic calendar example", for: .normal)
+                        $0.setTitleColor(.systemBlue, for: .normal)
+                    },
+                    viewController: CalendarBookViewController.self
+                )
+            ]
+        ),
+        Section(
             title: "Noffice",
             examples: [
                 Example(

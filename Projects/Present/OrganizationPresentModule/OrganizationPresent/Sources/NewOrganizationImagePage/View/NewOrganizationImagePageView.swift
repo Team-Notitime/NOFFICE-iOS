@@ -47,7 +47,7 @@ public class NewOrganizationImagePageView: BaseView {
         $0.setTypo(.body3)
     }
     
-    lazy var imageView = UIView().then {
+    lazy var imageView = UIImageView().then {
         $0.backgroundColor = .grey50
         $0.layer.cornerRadius = 24
         $0.layer.masksToBounds = true

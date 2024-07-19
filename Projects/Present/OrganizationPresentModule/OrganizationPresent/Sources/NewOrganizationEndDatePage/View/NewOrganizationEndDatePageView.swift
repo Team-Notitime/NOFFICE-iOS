@@ -41,28 +41,29 @@ public class NewOrganizationEndDatePageView: BaseView {
         $0.textColor = .grey800
     }
     
-    // - Category list
-    lazy var nameCountLabel = UILabel().then {
-        $0.text = "0/\(OrganizationConstant.maxOrganizationNameLength)"
-        $0.setTypo(.body3)
+    // - Calendar
+    lazy var calendar = BaseCalendar()
+    
+    // - Selecte date label
+    lazy var selectedDateLabel = UILabel().then {
+        $0.text = ""
+        $0.setTypo(.body1b)
+        $0.textColor = .green800
     }
     
-    lazy var imageView = UIView().then {
-        $0.backgroundColor = .grey50
-        $0.layer.cornerRadius = 24
-        $0.layer.masksToBounds = true
+    lazy var selectedDescriptionLabel = UILabel().then {
+        $0.text = "에 활동을 종료할 예정이에요!"
+        $0.setTypo(.body1b)
+        $0.textColor = .grey400
     }
-
-    lazy var nameTextField = BaseTextField(
-        descriptionBuilder: {
-            [
-                BaseSpacer(),
-                nameCountLabel
-            ]
-        }
-    ).then {
-        $0.placeholder = "그룹명을 입력해주세요"
-        $0.styled(variant: .outlined, shape: .round)
+    
+    lazy var selectedDateLabelStackView = BaseHStack(spacing: 0) {
+        [
+            selectedDateLabel,
+            selectedDescriptionLabel
+        ]
+    }.then {
+        $0.alpha = 0.0
     }
     
     // - Complete button
@@ -88,9 +89,11 @@ public class NewOrganizationEndDatePageView: BaseView {
         
         contentView.addSubview(pageTitleLabel)
         
-        contentView.addSubview(imageView)
+        contentView.addSubview(calendar)
         
         contentView.addSubview(nextPageButton)
+        
+        contentView.addSubview(selectedDateLabelStackView)
     }
     
     public override func setupLayout() {
@@ -116,11 +119,12 @@ public class NewOrganizationEndDatePageView: BaseView {
                 .inset(FunnelConstant.additionalPadding)
         }
         
-        imageView.snp.makeConstraints {
+        calendar.snp.makeConstraints {
             $0.top.equalTo(pageTitleLabel.snp.bottom)
                 .offset(FunnelConstant.spacingUnit * 2)
-            $0.centerX.equalToSuperview()
-            $0.width.height.equalTo(280)
+            $0.left.right.equalToSuperview()
+                .inset(FunnelConstant.additionalPadding / 2)
+            $0.bottom.equalToSuperview()
         }
         
         nextPageButton.snp.makeConstraints {
@@ -128,6 +132,10 @@ public class NewOrganizationEndDatePageView: BaseView {
             $0.bottom.equalTo(keyboardLayoutGuide.snp.top)
                 .offset(-FunnelConstant.spacingUnit * 2)
         }
+        
+        selectedDateLabelStackView.snp.makeConstraints {
+            $0.bottom.equalTo(nextPageButton.snp.top).offset(-16)
+            $0.centerX.equalToSuperview()
+        }
     }
 }
-

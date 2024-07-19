@@ -34,7 +34,7 @@ public class BaseCheckBoxGroup<Option>: UIView where Option: Equatable & Identif
         return _onChangeSelectedOptions.asObservable()
     }
     
-    // MARK: Data
+    // MARK: State
     public var selectedOptions: [Option] = [] {
         didSet {
             _onChangeSelectedOptions.onNext(selectedOptions)

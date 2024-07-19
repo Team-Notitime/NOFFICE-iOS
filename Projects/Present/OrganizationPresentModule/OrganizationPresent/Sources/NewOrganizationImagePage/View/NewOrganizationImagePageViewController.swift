@@ -17,8 +17,13 @@ public class NewOrganizationImagePageViewController: BaseViewController<NewOrgan
     // MARK: Reactor
     private let reactor = Container.shared.resolve(NewOrganizationCategoryPageReactor.self)!
     
+    // MARK: Image Picker
+    private let imagePicker = UIImagePickerController()
+    
     // MARK: Setup
-    public override func setupViewBind() { }
+    public override func setupViewBind() { 
+        imagePicker.delegate = self
+    }
     
     public override func setupStateBind() {
         // - Next page button active state
@@ -31,12 +36,13 @@ public class NewOrganizationImagePageViewController: BaseViewController<NewOrgan
     }
     
     public override func setupActionBind() {
-        // - Select category
-//        baseView.categoryGroup
-//            .onChangeSelectedOptions
-//            .map { .changeSelectedCateogries($0)}
-//            .bind(to: reactor.action)
-//            .disposed(by: self.disposeBag)
+        // - Select image
+        baseView.imageView.rx.tapGesture()
+            .when(.recognized)
+            .subscribe(onNext: { [weak self] _ in
+                 self?.presentImagePicker()
+             })
+            .disposed(by: self.disposeBag)
             
         // - Tap next page button
         baseView.nextPageButton
@@ -44,5 +50,34 @@ public class NewOrganizationImagePageViewController: BaseViewController<NewOrgan
             .map { _ in .tapNextPageButton }
             .bind(to: reactor.action)
             .disposed(by: self.disposeBag)
+    }
+    
+    // MARK: Private Method
+    private func presentImagePicker() {
+        imagePicker.sourceType = .photoLibrary
+        imagePicker.allowsEditing = false
+        
+        present(imagePicker, animated: true, completion: nil)
+    }
+}
+
+// MARK: - UIImagePickerControllerDelegate & UINavigationControllerDelegate
+extension NewOrganizationImagePageViewController:
+    UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    public func imagePickerController(
+        _ picker: UIImagePickerController,
+        didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]
+    ) {
+        picker.dismiss(animated: true, completion: nil)
+        
+        if let selectedImage = info[.originalImage] as? UIImage {
+            baseView.imageView.image = selectedImage
+        }
+    }
+    
+    public func imagePickerControllerDidCancel(
+        _ picker: UIImagePickerController
+    ) {
+        picker.dismiss(animated: true, completion: nil)
     }
 }

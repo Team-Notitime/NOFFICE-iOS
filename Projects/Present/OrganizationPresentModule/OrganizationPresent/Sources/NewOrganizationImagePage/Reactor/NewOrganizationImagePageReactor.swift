@@ -5,6 +5,8 @@
 //  Created by DOYEON LEE on 7/19/24.
 //
 
+import UIKit
+
 import OrganizationEntity
 
 import ReactorKit
@@ -12,17 +14,17 @@ import ReactorKit
 class NewOrganizationImagePageReactor: Reactor {
     // MARK: Action
     enum Action {
-        case changeSelectedCateogries([OrganizationCategoryEntity])
+        case changeSelectedImage(UIImage?)
         case tapNextPageButton
     }
     
     enum Mutation {
-        case setSelectedCateogries([OrganizationCategoryEntity])
+        case setSelectedImage(UIImage?)
     }
     
     // MARK: State
     struct State {
-        var selectedCateogries: [OrganizationCategoryEntity] = []
+        var selectedImage: UIImage?
         var nextPageButtonActive: Bool = false
     }
     
@@ -37,8 +39,8 @@ class NewOrganizationImagePageReactor: Reactor {
     // MARK: Action operation
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
-        case let .changeSelectedCateogries(categories):
-            return .just(.setSelectedCateogries(categories))
+        case let .changeSelectedImage(image):
+            return .just(.setSelectedImage(image))
             
         case .tapNextPageButton:
             // pass to parent
@@ -49,9 +51,9 @@ class NewOrganizationImagePageReactor: Reactor {
     func reduce(state: State, mutation: Mutation) -> State {
         var state = state
         switch mutation {
-        case let .setSelectedCateogries(categories):
-            state.selectedCateogries = categories
-            state.nextPageButtonActive = !categories.isEmpty
+        case let .setSelectedImage(image):
+            state.selectedImage = image
+            state.nextPageButtonActive = image != nil
         }
         return state
     }

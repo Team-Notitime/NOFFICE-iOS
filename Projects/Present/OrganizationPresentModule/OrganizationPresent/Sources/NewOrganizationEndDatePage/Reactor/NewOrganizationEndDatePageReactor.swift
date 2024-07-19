@@ -5,6 +5,8 @@
 //  Created by DOYEON LEE on 7/19/24.
 //
 
+import Foundation
+
 import OrganizationEntity
 
 import ReactorKit
@@ -12,17 +14,17 @@ import ReactorKit
 class NewOrganizationEndDatePageReactor: Reactor {
     // MARK: Action
     enum Action {
-        case changeSelectedCateogries([OrganizationCategoryEntity])
+        case changeSelectedDate(Date?)
         case tapNextPageButton
     }
     
     enum Mutation {
-        case setSelectedCateogries([OrganizationCategoryEntity])
+        case setSelectedDate(Date?)
     }
     
     // MARK: State
     struct State {
-        var selectedCateogries: [OrganizationCategoryEntity] = []
+        var selectedDate: Date?
         var nextPageButtonActive: Bool = false
     }
     
@@ -37,8 +39,8 @@ class NewOrganizationEndDatePageReactor: Reactor {
     // MARK: Action operation
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
-        case let .changeSelectedCateogries(categories):
-            return .just(.setSelectedCateogries(categories))
+        case let .changeSelectedDate(date):
+            return .just(.setSelectedDate(date))
             
         case .tapNextPageButton:
             // pass to parent
@@ -49,9 +51,9 @@ class NewOrganizationEndDatePageReactor: Reactor {
     func reduce(state: State, mutation: Mutation) -> State {
         var state = state
         switch mutation {
-        case let .setSelectedCateogries(categories):
-            state.selectedCateogries = categories
-            state.nextPageButtonActive = !categories.isEmpty
+        case let .setSelectedDate(date):
+            state.selectedDate = date
+            state.nextPageButtonActive = date != nil
         }
         return state
     }

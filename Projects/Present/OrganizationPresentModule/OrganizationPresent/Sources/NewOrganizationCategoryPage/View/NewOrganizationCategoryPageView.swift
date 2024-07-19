@@ -61,7 +61,7 @@ public class NewOrganizationCategoryPageView: BaseView {
             }
         }
     ).then {
-        $0.gridStyled(columns: 2, verticalSpacing: 10, horizontalSpacing:10)
+        $0.gridStyled(columns: 2, verticalSpacing: 10, horizontalSpacing: 10)
     }
 
     lazy var nameTextField = BaseTextField(

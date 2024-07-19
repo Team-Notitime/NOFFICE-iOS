@@ -13,7 +13,7 @@ import SnapKit
 import Then
 
 public class NofficeOrganizationCard: UIView {
-    // MARK: Data source
+    // MARK: State
     public var titleText: String = "" {
         didSet {
             titleLabel.text = titleText

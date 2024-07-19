@@ -13,7 +13,7 @@ import SnapKit
 import Then
 
 public class NofficeBanner: UIView {
-    // MARK: Data source
+    // MARK: State
     private var _userName: String = ""
     public var userName: String {
         get { _userName }

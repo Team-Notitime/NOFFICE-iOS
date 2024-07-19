@@ -40,7 +40,7 @@ public class BaseRadioGroup<Option>: UIView where Option: Equatable & Identifiab
         }
     }
     
-    // MARK: Data
+    // MARK: State
     private var selectedOption: Option? {
         didSet {
             _onChangeSelectedOption.onNext(selectedOption)
