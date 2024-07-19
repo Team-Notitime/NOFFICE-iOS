@@ -13,14 +13,14 @@ import Swinject
 import RxSwift
 import RxCocoa
 
-public class NewOrganizationEndDatePageViewController: BaseViewController<NewOrganizationEndDatePageView> {
+class NewOrganizationEndDatePageViewController: BaseViewController<NewOrganizationEndDatePageView> {
     // MARK: ReactorNewOrganizationEndDatePageViewController
     private let reactor = Container.shared.resolve(NewOrganizationEndDatePageReactor.self)!
     
     // MARK: Setup
-    public override func setupViewBind() { }
+    override func setupViewBind() { }
     
-    public override func setupStateBind() {
+    override func setupStateBind() {
         // - Next page button active state
         reactor.state.map { $0.nextPageButtonActive }
             .withUnretained(self)
@@ -33,7 +33,8 @@ public class NewOrganizationEndDatePageViewController: BaseViewController<NewOrg
         reactor.state.map { $0.selectedDate }
             .withUnretained(self)
             .subscribe(onNext: { owner, date in
-                owner.baseView.selectedDateLabel.text = date?.toString(format: "yyyy-MM-dd")
+                owner.baseView.selectedDateLabel.text = date?
+                    .toString(format: "yyyy-MM-dd")
                 
                 UIView.animate(withDuration: 0.3) {
                     let opacity: CGFloat = date == nil ? 0 : 1
@@ -43,7 +44,7 @@ public class NewOrganizationEndDatePageViewController: BaseViewController<NewOrg
             .disposed(by: self.disposeBag)
     }
     
-    public override func setupActionBind() {
+    override func setupActionBind() {
         // - Select date
         baseView.calendar
             .onChangeSelectedDate

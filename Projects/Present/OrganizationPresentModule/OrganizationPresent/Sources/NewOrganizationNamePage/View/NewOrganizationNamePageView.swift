@@ -13,7 +13,7 @@ import Assets
 import SnapKit
 import Then
 
-public class NewOrganizationNamePageView: BaseView {
+class NewOrganizationNamePageView: BaseView {
     // MARK: UI Component
     // - Padding view
     lazy var contentView = UIView()
@@ -58,7 +58,7 @@ public class NewOrganizationNamePageView: BaseView {
         $0.styled(variant: .outlined, shape: .round)
     }
     
-    // - Complete button
+    // - Next page button
     lazy var nextPageButton = BaseButton(
         contentsBuilder: {
             [
@@ -74,7 +74,7 @@ public class NewOrganizationNamePageView: BaseView {
     }
     
     // MARK: Setup
-    public override func setupHierarchy() {
+    override func setupHierarchy() {
         addSubview(contentView)
         
         contentView.addSubview(pageSubTitle)
@@ -86,7 +86,7 @@ public class NewOrganizationNamePageView: BaseView {
         contentView.addSubview(nextPageButton)
     }
     
-    public override func setupLayout() {
+    override func setupLayout() {
         translatesAutoresizingMaskIntoConstraints = false
         
         contentView.snp.makeConstraints {

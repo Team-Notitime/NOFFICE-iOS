@@ -14,7 +14,7 @@ import OrganizationEntity
 import SnapKit
 import Then
 
-public class NewOrganizationEndDatePageView: BaseView {
+class NewOrganizationEndDatePageView: BaseView {
     // MARK: UI Component
     // - Padding view
     lazy var contentView = UIView()
@@ -66,7 +66,7 @@ public class NewOrganizationEndDatePageView: BaseView {
         $0.alpha = 0.0
     }
     
-    // - Complete button
+    // - Next page button
     lazy var nextPageButton = BaseButton(
         contentsBuilder: {
             [
@@ -82,7 +82,7 @@ public class NewOrganizationEndDatePageView: BaseView {
     }
     
     // MARK: Setup
-    public override func setupHierarchy() {
+    override func setupHierarchy() {
         addSubview(contentView)
         
         contentView.addSubview(pageSubTitle)
@@ -96,7 +96,7 @@ public class NewOrganizationEndDatePageView: BaseView {
         contentView.addSubview(selectedDateLabelStackView)
     }
     
-    public override func setupLayout() {
+    override func setupLayout() {
         translatesAutoresizingMaskIntoConstraints = false
         
         contentView.snp.makeConstraints {

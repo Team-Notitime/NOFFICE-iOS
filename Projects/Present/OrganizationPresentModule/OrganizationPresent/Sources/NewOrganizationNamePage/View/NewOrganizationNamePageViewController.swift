@@ -13,14 +13,14 @@ import Swinject
 import RxSwift
 import RxCocoa
 
-public class NewOrganizationNamePageViewController: BaseViewController<NewOrganizationNamePageView> {
+class NewOrganizationNamePageViewController: BaseViewController<NewOrganizationNamePageView> {
     // MARK: Reactor
     private let reactor = Container.shared.resolve(NewOrganizationNamePageReactor.self)!
     
     // MARK: Setup
-    public override func setupViewBind() { }
+    override func setupViewBind() { }
     
-    public override func setupStateBind() { 
+    override func setupStateBind() {
         // - Next page button active state
         reactor.state.map { $0.nextPageButtonActive }
             .withUnretained(self)
@@ -41,7 +41,7 @@ public class NewOrganizationNamePageViewController: BaseViewController<NewOrgani
             .disposed(by: disposeBag)
     }
     
-    public override func setupActionBind() { 
+    override func setupActionBind() { 
         // - Text field
         baseView.nameTextField.rx.text
             .orEmpty

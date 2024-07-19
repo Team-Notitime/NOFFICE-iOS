@@ -13,4 +13,5 @@ enum NewOrganizationFunnelPage: CaseIterable {
     case image
     case endDate
     case promotion
+    case complete
 }

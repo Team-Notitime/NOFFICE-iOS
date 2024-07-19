@@ -1,20 +1,19 @@
 //
-//  NewOrganizationImagePageView.swift
+//  NewOrganizationPromotionPageView.swift
 //  OrganizationPresent
 //
-//  Created by DOYEON LEE on 7/19/24.
+//  Created by DOYEON LEE on 7/20/24.
 //
 
 import UIKit
 
 import DesignSystem
 import Assets
-import OrganizationEntity
 
 import SnapKit
 import Then
 
-class NewOrganizationImagePageView: BaseView {
+class NewOrganizationPromotionPageView: BaseView {
     // MARK: UI Component
     // - Padding view
     lazy var contentView = UIView()
@@ -36,37 +35,19 @@ class NewOrganizationImagePageView: BaseView {
     
     // - Page title
     lazy var pageTitleLabel = UILabel().then {
-        $0.text = "대표 이미지를 설정해주세요"
+        $0.text = "프로모션 코드를 입력해주세요"
         $0.setTypo(.heading3)
         $0.textColor = .grey800
     }
     
-    // - Category list
-    lazy var nameCountLabel = UILabel().then {
-        $0.text = "0/\(OrganizationConstant.maxOrganizationNameLength)"
-        $0.setTypo(.body3)
-    }
-    
-    lazy var imageView = UIImageView().then {
-        $0.backgroundColor = .grey50
-        $0.layer.cornerRadius = 24
-        $0.layer.masksToBounds = true
-    }
-
-    lazy var nameTextField = BaseTextField(
-        descriptionBuilder: {
-            [
-                BaseSpacer(),
-                nameCountLabel
-            ]
-        }
-    ).then {
-        $0.placeholder = "그룹명을 입력해주세요"
+    // - Textfield
+    lazy var promotionTextField = BaseTextField().then {
+        $0.placeholder = "코드를 입력해주세요"
         $0.styled(variant: .outlined, shape: .round)
     }
     
-    // - Next page button
-    lazy var nextPageButton = BaseButton(
+    // - Complete button
+    lazy var completeButton = BaseButton(
         contentsBuilder: {
             [
                 UILabel().then {
@@ -88,9 +69,9 @@ class NewOrganizationImagePageView: BaseView {
         
         contentView.addSubview(pageTitleLabel)
         
-        contentView.addSubview(imageView)
+        contentView.addSubview(promotionTextField)
         
-        contentView.addSubview(nextPageButton)
+        contentView.addSubview(completeButton)
     }
     
     override func setupLayout() {
@@ -116,14 +97,13 @@ class NewOrganizationImagePageView: BaseView {
                 .inset(FunnelConstant.additionalPadding)
         }
         
-        imageView.snp.makeConstraints {
+        promotionTextField.snp.makeConstraints {
             $0.top.equalTo(pageTitleLabel.snp.bottom)
                 .offset(FunnelConstant.spacingUnit * 2)
-            $0.centerX.equalToSuperview()
-            $0.width.height.equalTo(280)
+            $0.left.right.equalToSuperview()
         }
         
-        nextPageButton.snp.makeConstraints {
+        completeButton.snp.makeConstraints {
             $0.left.right.equalToSuperview()
             $0.bottom.equalTo(keyboardLayoutGuide.snp.top)
                 .offset(-FunnelConstant.spacingUnit * 2)

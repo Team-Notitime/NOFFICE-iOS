@@ -14,7 +14,7 @@ import OrganizationEntity
 import SnapKit
 import Then
 
-public class NewOrganizationCategoryPageView: BaseView {
+class NewOrganizationCategoryPageView: BaseView {
     // MARK: UI Component
     // - Padding view
     lazy var contentView = UIView()
@@ -76,7 +76,7 @@ public class NewOrganizationCategoryPageView: BaseView {
         $0.styled(variant: .outlined, shape: .round)
     }
     
-    // - Complete button
+    // - Next page button
     lazy var nextPageButton = BaseButton(
         contentsBuilder: {
             [
@@ -92,7 +92,7 @@ public class NewOrganizationCategoryPageView: BaseView {
     }
     
     // MARK: Setup
-    public override func setupHierarchy() {
+    override func setupHierarchy() {
         addSubview(contentView)
         
         contentView.addSubview(pageSubTitle)
@@ -104,7 +104,7 @@ public class NewOrganizationCategoryPageView: BaseView {
         contentView.addSubview(nextPageButton)
     }
     
-    public override func setupLayout() {
+    override func setupLayout() {
         translatesAutoresizingMaskIntoConstraints = false
         
         contentView.snp.makeConstraints {

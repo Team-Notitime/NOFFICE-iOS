@@ -13,7 +13,7 @@ import Swinject
 import RxSwift
 import RxCocoa
 
-public class NewOrganizationImagePageViewController: BaseViewController<NewOrganizationImagePageView> {
+class NewOrganizationImagePageViewController: BaseViewController<NewOrganizationImagePageView> {
     // MARK: Reactor
     private let reactor = Container.shared.resolve(NewOrganizationCategoryPageReactor.self)!
     
@@ -21,11 +21,11 @@ public class NewOrganizationImagePageViewController: BaseViewController<NewOrgan
     private let imagePicker = UIImagePickerController()
     
     // MARK: Setup
-    public override func setupViewBind() { 
+    override func setupViewBind() {
         imagePicker.delegate = self
     }
     
-    public override func setupStateBind() {
+    override func setupStateBind() {
         // - Next page button active state
         reactor.state.map { $0.nextPageButtonActive }
             .withUnretained(self)
@@ -35,7 +35,7 @@ public class NewOrganizationImagePageViewController: BaseViewController<NewOrgan
             .disposed(by: self.disposeBag)
     }
     
-    public override func setupActionBind() {
+    override func setupActionBind() {
         // - Select image
         baseView.imageView.rx.tapGesture()
             .when(.recognized)
@@ -64,7 +64,7 @@ public class NewOrganizationImagePageViewController: BaseViewController<NewOrgan
 // MARK: - UIImagePickerControllerDelegate & UINavigationControllerDelegate
 extension NewOrganizationImagePageViewController:
     UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    public func imagePickerController(
+    func imagePickerController(
         _ picker: UIImagePickerController,
         didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]
     ) {
@@ -75,7 +75,7 @@ extension NewOrganizationImagePageViewController:
         }
     }
     
-    public func imagePickerControllerDidCancel(
+    func imagePickerControllerDidCancel(
         _ picker: UIImagePickerController
     ) {
         picker.dismiss(animated: true, completion: nil)

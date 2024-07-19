@@ -13,7 +13,7 @@ import Assets
 import SnapKit
 import Then
 
-public class NewOrganizationFunnelView: BaseView {
+class NewOrganizationFunnelView: BaseView {
     // MARK: Data
     let pages = Array(NewOrganizationFunnelPage.allCases)
     
@@ -30,13 +30,13 @@ public class NewOrganizationFunnelView: BaseView {
     }
     
     // MARK: Setup
-    public override func setupHierarchy() { 
+    override func setupHierarchy() {
         addSubview(navigationBar)
         
         addSubview(paginableView)
     }
     
-    public override func setupLayout() { 
+    override func setupLayout() { 
         navigationBar.snp.makeConstraints {
             $0.top.equalTo(safeAreaLayoutGuide)
             $0.left.right.equalToSuperview()
@@ -62,9 +62,9 @@ extension NewOrganizationFunnelPage: Paginable {
         case .endDate:
             return NewOrganizationEndDatePageViewController()
         case .promotion:
-            let vc = UIViewController()
-            vc.view.backgroundColor = .blue400
-            return vc
+            return NewOrganizationPromotionPageViewController()
+        case .complete:
+            return NewOrganizationCompletePageViewController()
         }
     }
 }

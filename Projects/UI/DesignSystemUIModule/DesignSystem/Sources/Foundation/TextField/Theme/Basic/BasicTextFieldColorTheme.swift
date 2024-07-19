@@ -14,7 +14,7 @@ struct BasicTextFieldColorTheme: TextFieldColorTheme {
     func foregroundColor(state: TextFieldAllState) -> UniversalColor {
         switch state {
         case .disabled:
-            return .init(.grey400)
+            return .init(.grey500)
         case .normal:
             return .init(.grey800)
         case .focused:

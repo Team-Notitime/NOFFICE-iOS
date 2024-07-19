@@ -7,6 +7,8 @@
 
 import ReactorKit
 
+import Router
+
 class NewOrganizationFunnelReactor: Reactor {
     // MARK: Action
     enum Action { 
@@ -35,6 +37,10 @@ class NewOrganizationFunnelReactor: Reactor {
     
     private let endDateReactor: NewOrganizationEndDatePageReactor
     
+    private let promotionReactor: NewOrganizationPromotionPageReactor
+    
+    private let completeReactor: NewOrganizationCompletePageReactor
+    
     // MARK: Dependency
     
     // MARK: DisposeBag
@@ -45,12 +51,16 @@ class NewOrganizationFunnelReactor: Reactor {
         nameReactor: NewOrganizationNamePageReactor,
         categoryReactor: NewOrganizationCategoryPageReactor,
         imageReactor: NewOrganizationImagePageReactor,
-        endDateReactor: NewOrganizationEndDatePageReactor
+        endDateReactor: NewOrganizationEndDatePageReactor,
+        promotionReactor: NewOrganizationPromotionPageReactor,
+        completeReactor: NewOrganizationCompletePageReactor
     ) {
         self.nameReactor = nameReactor
         self.categoryReactor = categoryReactor
         self.imageReactor = imageReactor
         self.endDateReactor = endDateReactor
+        self.promotionReactor = promotionReactor
+        self.completeReactor = completeReactor
         
         setupChildBind()
     }
@@ -113,6 +123,26 @@ class NewOrganizationFunnelReactor: Reactor {
                 switch action {
                 case .tapNextPageButton:
                     self?.action.onNext(.moveNextPage)
+                default: return
+                }
+            })
+            .disposed(by: disposeBag)
+        
+        promotionReactor.action
+            .subscribe(onNext: { [weak self] action in
+                switch action {
+                case .tapCompleteButton:
+                    self?.action.onNext(.moveNextPage)
+                default: return
+                }
+            })
+            .disposed(by: disposeBag)
+        
+        completeReactor.action
+            .subscribe(onNext: { action in
+                switch action {
+                case .tapGoHomeButton:
+                    Router.shared.back()
                 default: return
                 }
             })

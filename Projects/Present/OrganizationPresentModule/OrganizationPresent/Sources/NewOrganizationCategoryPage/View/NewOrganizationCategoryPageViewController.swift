@@ -13,14 +13,14 @@ import Swinject
 import RxSwift
 import RxCocoa
 
-public class NewOrganizationCategoryPageViewController: BaseViewController<NewOrganizationCategoryPageView> {
+class NewOrganizationCategoryPageViewController: BaseViewController<NewOrganizationCategoryPageView> {
     // MARK: Reactor
     private let reactor = Container.shared.resolve(NewOrganizationCategoryPageReactor.self)!
     
     // MARK: Setup
-    public override func setupViewBind() { }
+    override func setupViewBind() { }
     
-    public override func setupStateBind() {
+    override func setupStateBind() {
         // - Next page button active state
         reactor.state.map { $0.nextPageButtonActive }
             .withUnretained(self)
@@ -30,11 +30,11 @@ public class NewOrganizationCategoryPageViewController: BaseViewController<NewOr
             .disposed(by: self.disposeBag)
     }
     
-    public override func setupActionBind() {
+    override func setupActionBind() {
         // - Select category
         baseView.categoryGroup
             .onChangeSelectedOptions
-            .map { .changeSelectedCateogries($0)}
+            .map { .changeSelectedCateogries($0) }
             .bind(to: reactor.action)
             .disposed(by: self.disposeBag)
             
