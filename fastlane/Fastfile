@@ -29,7 +29,7 @@ platform :ios do
 
     last_testflight_build_number = latest_testflight_build_number(
       app_identifier: "notitime.noffice.app",
-      version: "1.0.0" # 현재 버전 입력
+      version: ENV["APP_VERSION"] # 현재 버전 입력
     )
     
     increment_build_number(
@@ -62,7 +62,7 @@ platform :ios do
 
     last_testflight_build_number = latest_testflight_build_number(
       app_identifier: "notitime.noffice.design-system.app",
-      version: "1.0.0" # 현재 버전 입력
+      version: ENV["APP_VERSION"] # 현재 버전 입력
     )
     
     increment_build_number(
