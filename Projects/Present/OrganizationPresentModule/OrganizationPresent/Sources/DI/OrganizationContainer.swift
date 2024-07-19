@@ -14,7 +14,9 @@ extension Container {
         container.register(NewOrganizationFunnelReactor.self) { resolver in
             NewOrganizationFunnelReactor(
                 nameReactor: resolver.resolve(NewOrganizationNamePageReactor.self)!,
-                categoryReactor: resolver.resolve(NewOrganizationCategoryPageReactor.self)!
+                categoryReactor: resolver.resolve(NewOrganizationCategoryPageReactor.self)!,
+                imageReactor: resolver.resolve(NewOrganizationImagePageReactor.self)!,
+                endDateReactor: resolver.resolve(NewOrganizationEndDatePageReactor.self)!
             )
         }
         .inObjectScope(.weak)
@@ -26,6 +28,16 @@ extension Container {
         
         container.register(NewOrganizationCategoryPageReactor.self) { _ in
             NewOrganizationCategoryPageReactor()
+        }
+        .inObjectScope(.weak)
+        
+        container.register(NewOrganizationImagePageReactor.self) { _ in
+            NewOrganizationImagePageReactor()
+        }
+        .inObjectScope(.weak)        
+        
+        container.register(NewOrganizationEndDatePageReactor.self) { _ in
+            NewOrganizationEndDatePageReactor()
         }
         .inObjectScope(.weak)
 

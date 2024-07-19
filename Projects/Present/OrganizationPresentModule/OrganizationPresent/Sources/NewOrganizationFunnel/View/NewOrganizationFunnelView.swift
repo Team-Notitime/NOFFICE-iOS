@@ -58,13 +58,9 @@ extension NewOrganizationFunnelPage: Paginable {
         case .category:
             return NewOrganizationCategoryPageViewController()
         case .image:
-            let vc = UIViewController()
-            vc.view.backgroundColor = .blue200
-            return vc
+            return NewOrganizationImagePageViewController()
         case .endDate:
-            let vc = UIViewController()
-            vc.view.backgroundColor = .blue300
-            return vc
+            return NewOrganizationEndDatePageViewController()
         case .promotion:
             let vc = UIViewController()
             vc.view.backgroundColor = .blue400

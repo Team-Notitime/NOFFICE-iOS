@@ -36,7 +36,7 @@ public class NewOrganizationCategoryPageView: BaseView {
     
     // - Page title
     lazy var pageTitleLabel = UILabel().then {
-        $0.text = "그룹의 카테고리를 모두 선택해주세요."
+        $0.text = "그룹의 카테고리를 모두 선택해주세요"
         $0.setTypo(.heading3)
         $0.textColor = .grey800
     }

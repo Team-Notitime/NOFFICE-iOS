@@ -31,6 +31,10 @@ class NewOrganizationFunnelReactor: Reactor {
     
     private let categoryReactor: NewOrganizationCategoryPageReactor
     
+    private let imageReactor: NewOrganizationImagePageReactor
+    
+    private let endDateReactor: NewOrganizationEndDatePageReactor
+    
     // MARK: Dependency
     
     // MARK: DisposeBag
@@ -39,10 +43,14 @@ class NewOrganizationFunnelReactor: Reactor {
     // MARK: Initializer
     init(
         nameReactor: NewOrganizationNamePageReactor,
-        categoryReactor: NewOrganizationCategoryPageReactor
+        categoryReactor: NewOrganizationCategoryPageReactor,
+        imageReactor: NewOrganizationImagePageReactor,
+        endDateReactor: NewOrganizationEndDatePageReactor
     ) {
         self.nameReactor = nameReactor
         self.categoryReactor = categoryReactor
+        self.imageReactor = imageReactor
+        self.endDateReactor = endDateReactor
         
         setupChildBind()
     }
@@ -81,6 +89,26 @@ class NewOrganizationFunnelReactor: Reactor {
             .disposed(by: disposeBag)
         
         categoryReactor.action
+            .subscribe(onNext: { [weak self] action in
+                switch action {
+                case .tapNextPageButton:
+                    self?.action.onNext(.moveNextPage)
+                default: return
+                }
+            })
+            .disposed(by: disposeBag)
+        
+        imageReactor.action
+            .subscribe(onNext: { [weak self] action in
+                switch action {
+                case .tapNextPageButton:
+                    self?.action.onNext(.moveNextPage)
+                default: return
+                }
+            })
+            .disposed(by: disposeBag)
+        
+        endDateReactor.action
             .subscribe(onNext: { [weak self] action in
                 switch action {
                 case .tapNextPageButton:

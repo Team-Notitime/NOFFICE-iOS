@@ -1,5 +1,5 @@
 //
-//  NewOrganizationNameView.swift
+//  NewOrganizationEndDatePageView.swift
 //  OrganizationPresent
 //
 //  Created by DOYEON LEE on 7/19/24.
@@ -9,11 +9,12 @@ import UIKit
 
 import DesignSystem
 import Assets
+import OrganizationEntity
 
 import SnapKit
 import Then
 
-public class NewOrganizationNamePageView: BaseView {
+public class NewOrganizationEndDatePageView: BaseView {
     // MARK: UI Component
     // - Padding view
     lazy var contentView = UIView()
@@ -35,15 +36,21 @@ public class NewOrganizationNamePageView: BaseView {
     
     // - Page title
     lazy var pageTitleLabel = UILabel().then {
-        $0.text = "그룹의 이름이 무엇인가요?"
+        $0.text = "활동 종료 날짜가 언제인가요?"
         $0.setTypo(.heading3)
         $0.textColor = .grey800
     }
     
-    // - Textfield
+    // - Category list
     lazy var nameCountLabel = UILabel().then {
         $0.text = "0/\(OrganizationConstant.maxOrganizationNameLength)"
         $0.setTypo(.body3)
+    }
+    
+    lazy var imageView = UIView().then {
+        $0.backgroundColor = .grey50
+        $0.layer.cornerRadius = 24
+        $0.layer.masksToBounds = true
     }
 
     lazy var nameTextField = BaseTextField(
@@ -81,7 +88,7 @@ public class NewOrganizationNamePageView: BaseView {
         
         contentView.addSubview(pageTitleLabel)
         
-        contentView.addSubview(nameTextField)
+        contentView.addSubview(imageView)
         
         contentView.addSubview(nextPageButton)
     }
@@ -109,10 +116,11 @@ public class NewOrganizationNamePageView: BaseView {
                 .inset(FunnelConstant.additionalPadding)
         }
         
-        nameTextField.snp.makeConstraints {
+        imageView.snp.makeConstraints {
             $0.top.equalTo(pageTitleLabel.snp.bottom)
                 .offset(FunnelConstant.spacingUnit * 2)
-            $0.left.right.equalToSuperview()
+            $0.centerX.equalToSuperview()
+            $0.width.height.equalTo(280)
         }
         
         nextPageButton.snp.makeConstraints {
@@ -122,3 +130,4 @@ public class NewOrganizationNamePageView: BaseView {
         }
     }
 }
+
