@@ -144,6 +144,10 @@ public class BaseButton: UIControl {
         // figure
         let borderWidth = figureTheme.borderWidth()
         
+        // For color overlaps during the animation
+        layer.backgroundColor = .none
+        layer.borderColor = .none
+        
         // Background
         UIView.animate(withDuration: 0.35) { [weak self] in
             guard let self = self else { return }
