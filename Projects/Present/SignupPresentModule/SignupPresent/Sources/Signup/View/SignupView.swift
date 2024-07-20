@@ -17,6 +17,11 @@ public class SignupView: BaseView {
     // MARK: UI Constant
     
     // MARK: UI Component
+    lazy var backgroundLogo = UIImageView(image: .iconBackgroundLogo).then {
+        $0.tintColor = .green500
+        $0.contentMode = .scaleAspectFit
+    }
+    
     lazy var logo = UIImageView(image: .logoHorizontal).then {
         $0.contentMode = .scaleAspectFit
     }
@@ -34,22 +39,41 @@ public class SignupView: BaseView {
         $0.styled(variant: .fill, color: .ghost, size: .medium)
     }
     
+    lazy var appleSigninButton = AppleSignInButton()
+    
     // MARK: Setup
     public override func setupHierarchy() { 
-        addSubview(dummyButton)
+        addSubview(backgroundLogo)
+        
         addSubview(logo)
+        
+        addSubview(dummyButton)
+        
+        addSubview(appleSigninButton)
     }
     
     public override func setupLayout() { 
+        backgroundLogo.snp.makeConstraints {
+            $0.top.bottom.equalToSuperview().inset(100)
+            $0.left.right.equalToSuperview()
+        }
+        
         logo.snp.makeConstraints {
             $0.centerX.equalToSuperview()
-            $0.centerY.equalToSuperview().multipliedBy(0.7)
+            $0.centerY.equalToSuperview().multipliedBy(0.5)
+            $0.width.equalTo(200)
         }
         
         dummyButton.snp.makeConstraints {
             $0.left.right.equalToSuperview().inset(GlobalViewConstant.pagePadding)
             $0.centerX.equalToSuperview()
             $0.centerY.equalToSuperview().multipliedBy(1.5)
+        }
+        
+        appleSigninButton.snp.makeConstraints {
+            $0.left.right.equalToSuperview().inset(GlobalViewConstant.pagePadding)
+            $0.top.equalTo(dummyButton.snp.bottom).offset(16)
+            $0.height.equalTo(50)
         }
     }
 }
