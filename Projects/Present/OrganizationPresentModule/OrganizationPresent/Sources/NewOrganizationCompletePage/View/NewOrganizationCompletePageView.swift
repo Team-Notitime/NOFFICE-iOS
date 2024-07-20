@@ -20,7 +20,7 @@ class NewOrganizationCompletePageView: BaseView {
     
     // MARK: UI Component
     // - Group image
-    lazy var groupImageView: UIImageView = UIImageView().then {
+    lazy var groupImageView: UIImageView = UIImageView(image: .imgProfileGroup).then {
         $0.backgroundColor = .grey200
         $0.layer.cornerRadius = groupImageSize / 2
         $0.setSize(width: groupImageSize, height: groupImageSize)
@@ -95,7 +95,7 @@ class NewOrganizationCompletePageView: BaseView {
     override func setupLayout() {
         groupImageView.snp.makeConstraints {
             $0.top.equalTo(safeAreaLayoutGuide)
-                .offset(FunnelConstant.spacingUnit * 6)
+                .offset(FunnelConstant.spacingUnit * 10)
             $0.centerX.equalToSuperview()
         }
         

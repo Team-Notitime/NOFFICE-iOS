@@ -71,6 +71,7 @@ public class BaseCalendar: UIView {
     private lazy var weekdayStackView = UIStackView().then { stackView in
         stackView.axis = .horizontal
         stackView.distribution = .fillEqually
+        stackView.spacing = cellspacing
         let weekdays = ["일", "월", "화", "수", "목", "금", "토"]
         weekdays.forEach { day in
             let label = UILabel().then {
@@ -114,6 +115,10 @@ public class BaseCalendar: UIView {
         super.init(frame: .zero)
         
         self.previousDateDisabled = previousDateDisabled
+        
+        if previousDateDisabled {
+            previousButton.isHidden = true
+        }
         
         setupHierarchy()
         setupLayout()
@@ -186,9 +191,21 @@ public class BaseCalendar: UIView {
     }
     
     // MARK: Update
+    private func changeMonth(by value: Int) {
+        guard let newDate = Calendar.current
+            .date(byAdding: .month, value: value, to: currentMonth)
+        else { return }
+        
+        currentMonth = newDate
+        
+        changePreviousButtonVisibleIfNeeded(newDate)
+        
+        updateCalendar()
+    }
+    
     private func updateCalendar() {
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy.M"
+        dateFormatter.dateFormat = "yyyy.MM"
         monthLabel.text = dateFormatter.string(from: currentMonth)
         
         days = getDaysInMonth(for: currentMonth)
@@ -196,13 +213,19 @@ public class BaseCalendar: UIView {
         calendarCollectionView.reloadData()
     }
     
-    private func changeMonth(by value: Int) {
-        guard let newDate = Calendar.current
-            .date(byAdding: .month, value: value, to: currentMonth)
-        else { return }
-        
-        currentMonth = newDate
-        updateCalendar()
+    private func changePreviousButtonVisibleIfNeeded(_ newDate: Date) {
+        if previousDateDisabled {
+            // 새로운 달이 현재 달인지 확인
+               let calendar = Calendar.current
+               let currentDateComponents = calendar.dateComponents([.year, .month], from: Date())
+               let newDateComponents = calendar.dateComponents([.year, .month], from: newDate)
+               
+            if currentDateComponents == newDateComponents {
+                previousButton.isHidden = true
+            } else {
+                previousButton.isHidden = false
+            }
+        }
     }
     
     private func getDaysInMonth(for date: Date) -> [CalendarDay] {

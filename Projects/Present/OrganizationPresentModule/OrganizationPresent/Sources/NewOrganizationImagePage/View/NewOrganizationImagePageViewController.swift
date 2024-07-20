@@ -15,7 +15,7 @@ import RxCocoa
 
 class NewOrganizationImagePageViewController: BaseViewController<NewOrganizationImagePageView> {
     // MARK: Reactor
-    private let reactor = Container.shared.resolve(NewOrganizationCategoryPageReactor.self)!
+    private let reactor = Container.shared.resolve(NewOrganizationImagePageReactor.self)!
     
     // MARK: Image Picker
     private let imagePicker = UIImagePickerController()
@@ -32,6 +32,11 @@ class NewOrganizationImagePageViewController: BaseViewController<NewOrganization
             .subscribe(onNext: { owner, active in
                 owner.baseView.nextPageButton.isEnabled = active
             })
+            .disposed(by: self.disposeBag)
+        
+        // Selected image
+        reactor.state.map { $0.selectedImage }
+            .bind(to: baseView.imageView.rx.image)
             .disposed(by: self.disposeBag)
     }
     
@@ -71,7 +76,7 @@ extension NewOrganizationImagePageViewController:
         picker.dismiss(animated: true, completion: nil)
         
         if let selectedImage = info[.originalImage] as? UIImage {
-            baseView.imageView.image = selectedImage
+            reactor.action.onNext(.changeSelectedImage(selectedImage))
         }
     }
     
