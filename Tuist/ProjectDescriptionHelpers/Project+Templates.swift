@@ -4,7 +4,10 @@ extension Project {
     public static let deployTarget = 16.0
     public static let bundleId = "notitime.noffice"
     
-    public static func makeMainApp( _ target: Module.MainApp) -> Project {
+    public static func makeMainApp(
+        _ target: Module.MainApp,
+        dependencies: [TargetDependency] = []
+    ) -> Project {
         return Project(
             name: "\(target.name)",
             settings: .settings(.base),
@@ -14,15 +17,7 @@ extension Project {
                     product: .app,
                     bundleId: "\(bundleId).app",
                     infoPlist: .file(path: "\(target.rawValue)/Sources/Info.plist"),
-                    dependencies: [
-                        .ui(.designSystem),
-                        .ui(.assets),
-                        .present(.home),
-                        .present(.organization),
-                        .present(.mypage),
-                        .present(.signup),
-                        .di(.router),
-                    ] + uiDependencies
+                    dependencies: dependencies + uiDependencies
                 ),
                 makeTarget(
                     name: "\(target.rawValue)Tests",

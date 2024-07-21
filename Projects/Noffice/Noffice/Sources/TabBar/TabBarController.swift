@@ -7,8 +7,10 @@
 
 import UIKit
 
+import Router
 import HomePresent
 import OrganizationPresent
+import NewAnnouncementPresent
 import DesignSystem
 import Assets
 
@@ -159,8 +161,10 @@ final class TabBarController: UITabBarController {
         announceTabItem.addGestureRecognizer(announceTapGesture)
 
         announceTapGesture.rx.event
-            .bind { [weak self] _ in
-                // TODO
+            .bind { _ in
+                Router.shared.presentFullScreen(
+                    NewAnnouncementFunnelViewController()
+                )
             }
             .disposed(by: disposeBag)
         

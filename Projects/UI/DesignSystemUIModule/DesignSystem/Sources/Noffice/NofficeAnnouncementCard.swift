@@ -43,6 +43,7 @@ public final class NofficeAnnouncementCard: UIView {
     private lazy var titleLabel = UILabel().then {
         $0.text = ""
         $0.setTypo(.body0b)
+        $0.tintColor = .grey800
         $0.setContentCompressionResistancePriority(.required, for: .vertical)
     }
     
@@ -68,8 +69,8 @@ public final class NofficeAnnouncementCard: UIView {
                 },
                 BaseHStack {[
                     BaseSpacer(size: 20, orientation: .horizontal),
-                    BaseVStack(spacing: 6) {[
-                        BaseSpacer(size: 4, orientation: .vertical),
+                    BaseVStack(spacing: 8) {[
+                        BaseSpacer(size: 2, orientation: .vertical),
                         titleLabel,
                         BaseSpacer(size: 0),
                         BaseDivider(),

@@ -45,5 +45,4 @@ class AnnouncementPageViewController: BaseViewController<AnnouncementPageView> {
             .bind(to: baseView.collectionView.sectionBinder)
             .disposed(by: disposeBag)
     }
-
 }
