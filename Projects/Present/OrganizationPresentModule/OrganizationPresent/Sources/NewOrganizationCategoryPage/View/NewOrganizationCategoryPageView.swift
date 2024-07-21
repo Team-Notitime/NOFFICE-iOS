@@ -43,11 +43,6 @@ class NewOrganizationCategoryPageView: BaseView {
     }
     
     // - Category list
-    lazy var nameCountLabel = UILabel().then {
-        $0.text = "0/\(OrganizationConstant.maxOrganizationNameLength)"
-        $0.setTypo(.body3)
-    }
-    
     lazy var categoryGroup = BaseCheckBoxGroup(
         source: OrganizationCategoryType.allCases.map { $0.toEntity() },
         itemBuilder: { option in
@@ -63,18 +58,6 @@ class NewOrganizationCategoryPageView: BaseView {
         }
     ).then {
         $0.gridStyled(columns: 2, verticalSpacing: 10, horizontalSpacing: 10)
-    }
-
-    lazy var nameTextField = BaseTextField(
-        descriptionBuilder: {
-            [
-                BaseSpacer(),
-                nameCountLabel
-            ]
-        }
-    ).then {
-        $0.placeholder = "그룹명을 입력해주세요"
-        $0.styled(variant: .outlined, shape: .round)
     }
     
     // - Next page button

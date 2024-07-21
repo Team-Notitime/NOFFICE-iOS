@@ -69,9 +69,9 @@ public enum Typo {
     case heading1
     /// Font size: 28, weight: bold
     case heading2
-    /// Font size: 22, weight: bold
-    case heading3    
-    /// Font size: 20, weight: bold
+    /// Font size: 22, weight: semibold
+    case heading3
+    /// Font size: 20, weight: semibold
     case heading4
     /// Font size: 18, weight: regular
     case body0    
@@ -169,9 +169,9 @@ public extension UILabel {
         case .heading2:
             self.setDefaultFont(size: 28, weight: .bold)
         case .heading3:
-            self.setDefaultFont(size: 22, weight: .bold)
+            self.setDefaultFont(size: 22, weight: .semibold)
         case .heading4:
-            self.setDefaultFont(size: 20, weight: .bold)
+            self.setDefaultFont(size: 20, weight: .semibold)
         case .body0:
             self.setDefaultFont(size: 18, weight: .regular)        
         case .body0m:
@@ -268,9 +268,9 @@ public extension UITextField {
         case .heading2:
             self.setDefaultFont(size: 28, weight: .bold)
         case .heading3:
-            self.setDefaultFont(size: 22, weight: .bold)
+            self.setDefaultFont(size: 22, weight: .semibold)
         case .heading4:
-            self.setDefaultFont(size: 20, weight: .bold)
+            self.setDefaultFont(size: 20, weight: .semibold)
         case .body0:
             self.setDefaultFont(size: 18, weight: .regular)        
         case .body0m:
@@ -325,9 +325,9 @@ public extension View {
         case .heading2:
             return self.defaultFont(size: 28, weight: .bold)
         case .heading3:
-            return self.defaultFont(size: 22, weight: .bold)
+            return self.defaultFont(size: 22, weight: .semibold)
         case .heading4:
-            return self.defaultFont(size: 20, weight: .bold)
+            return self.defaultFont(size: 20, weight: .semibold)
         case .body0:
             return self.defaultFont(size: 18, weight: .regular)        
         case .body0m:

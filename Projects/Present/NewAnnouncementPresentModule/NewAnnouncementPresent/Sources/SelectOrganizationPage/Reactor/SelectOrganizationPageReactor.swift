@@ -7,24 +7,33 @@
 
 import Foundation
 
+import OrganizationUsecase
+import OrganizationEntity
+
 import ReactorKit
 
 class SelectOrganizationPageReactor: Reactor {
     // MARK: Action
     enum Action { 
+        case viewDidLoad
         case tapNextPageButton
     }
     
-    enum Mutation { }
+    enum Mutation { 
+        case setMyOrganizations([OrganizationEntity])
+    }
     
     // MARK: State
-    struct State { }
+    struct State { 
+        var myOrganizations: [OrganizationEntity] = []
+    }
     
     let initialState: State = State()
     
     // MARK: ChildReactor
     
     // MARK: Dependency
+    private let fetchMyOrganizations = FetchMyOrganizations()
     
     // MARK: DisposeBag
     private let disposeBag = DisposeBag()
@@ -35,6 +44,11 @@ class SelectOrganizationPageReactor: Reactor {
     // MARK: Action operation
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
+        case .viewDidLoad:
+            return fetchMyOrganizations.execute()
+                .map { organizations in
+                    return .setMyOrganizations(organizations)
+                }
         case .tapNextPageButton:
             // pass to parent
             return .empty()
@@ -43,7 +57,10 @@ class SelectOrganizationPageReactor: Reactor {
     
     func reduce(state: State, mutation: Mutation) -> State {
         var state = state
-        switch mutation { }
+        switch mutation { 
+        case let .setMyOrganizations(organizations):
+            state.myOrganizations = organizations
+        }
         return state
     }
     

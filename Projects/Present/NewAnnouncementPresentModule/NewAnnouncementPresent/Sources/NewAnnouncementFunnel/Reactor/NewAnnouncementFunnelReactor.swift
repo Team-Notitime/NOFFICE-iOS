@@ -115,4 +115,3 @@ class NewAnnouncementFunnelReactor: Reactor {
         return page
     }
 }
-

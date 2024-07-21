@@ -57,24 +57,27 @@ public class BaseRadioGroup<Option>: UIView where Option: Equatable & Identifiab
         $0.spacing = 8
     }
     
+    // MARK: Builder
+    private var optionBuilder: ViewBuilder?
+    
     // MARK: Build component
-    private let optionComponents: [any ToggleButton]
+    private var optionComponents: [any ToggleButton] = []
     
     // MARK: DisposeBag
     private let disposeBag = DisposeBag()
     
     // MARK: Initializer
     public override init(frame: CGRect) {
-        self.optionComponents = []
         super.init(frame: frame)
+        
         setupHierarchy()
         setupBind()
         updateLayout()
     }
 
     public required init?(coder: NSCoder) {
-        self.optionComponents = []
         super.init(coder: coder)
+        
         setupHierarchy()
         setupBind()
         updateLayout()
@@ -82,11 +85,23 @@ public class BaseRadioGroup<Option>: UIView where Option: Equatable & Identifiab
 
     public init(
         source: [Option],
-        itemBuilder: @escaping ViewBuilder
+        optionBuilder: ViewBuilder
     ) {
-        self.optionComponents = source.map { itemBuilder($0) }
+        self.optionComponents = source.map { optionBuilder($0) }
         
         super.init(frame: .zero)
+        
+        setupHierarchy()
+        setupBind()
+        updateLayout()
+    }
+    
+    public init(
+        optionBuilder: @escaping ViewBuilder
+    ) {
+        super.init(frame: .zero)
+        
+        self.optionBuilder = optionBuilder
         
         setupHierarchy()
         setupBind()
@@ -102,6 +117,11 @@ public class BaseRadioGroup<Option>: UIView where Option: Equatable & Identifiab
         
         addSubview(verticalStackView)
         
+        // Initial opacity set to 0
+        optionComponents.forEach {
+            $0.layer.opacity = 0.0
+        }
+        
         var horizontalStackView = createHorizontalStackView()
         verticalStackView.addArrangedSubview(horizontalStackView)
         
@@ -111,6 +131,18 @@ public class BaseRadioGroup<Option>: UIView where Option: Equatable & Identifiab
                 verticalStackView.addArrangedSubview(horizontalStackView)
             }
             horizontalStackView.addArrangedSubview(option)
+            
+            // Add opacity animation
+            let delay = 0.1 * Double(index)
+            UIView.animate(
+                withDuration: 0.5,
+                delay: delay,
+                options: [],
+                animations: {
+                    option.layer.opacity = 1.0
+                },
+                completion: nil
+            )
         }
     }
     
@@ -159,6 +191,18 @@ public class BaseRadioGroup<Option>: UIView where Option: Equatable & Identifiab
     }
     
     // MARK: Update
+    public func updateSource(_ source: [Option]) {
+        guard let optionBuilder = optionBuilder else {
+            fatalError("Option builder is not set")
+        }
+        
+        self.optionComponents = source.map { optionBuilder($0) }
+        
+        setupHierarchy()
+        setupBind()
+        updateLayout()
+    }
+    
     private func updateLayout() {
         verticalStackView.snp.remakeConstraints {
             $0.edges.equalToSuperview()
