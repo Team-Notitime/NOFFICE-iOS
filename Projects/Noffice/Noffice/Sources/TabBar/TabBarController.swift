@@ -196,7 +196,7 @@ final class TabBarController: UITabBarController {
     // MARK: Helper method
     /// Find and return the UIView that matches the TabBarItem.
     private func findTabBarItemView(at index: Int) -> UIView? {
-        let tabBarButtons = self.tabBar.subviews.filter { $0 is UIView }
+        let tabBarButtons = self.tabBar.subviews
         if index < tabBarButtons.count {
             return tabBarButtons.sorted {
                 $0.frame.minX < $1.frame.minX
@@ -209,7 +209,8 @@ final class TabBarController: UITabBarController {
 extension TabBarController: UIPopoverPresentationControllerDelegate {
     public func adaptivePresentationStyle(
         for controller: UIPresentationController,
-        traitCollection: UITraitCollection) -> UIModalPresentationStyle {
+        traitCollection: UITraitCollection
+    ) -> UIModalPresentationStyle {
             return .none
     }
 }

@@ -39,22 +39,22 @@ class SelectOrganizationPageView: BaseView {
     
     // - Organization list
     lazy var organizationGroup = BaseRadioGroup<OrganizationEntity>( // TODO: 추후 스크롤뷰로 변경..
-        optionBuilder: { option in
-            NofficeList(option: option) { _ in
-                [
-                    UILabel().then {
-                        $0.text = "\(option.name)"
-                        $0.setTypo(.body2b)
-                        $0.textAlignment = .center
-                    },
-                    BaseSpacer(),
-                    UIImageView(image: .iconCheck).then {
-                        $0.setSize(width: 18, height: 18)
-                    }
-                ]
-            }
+        animation: true
+    ) { option in
+        NofficeList(option: option) { _ in
+            [
+                UILabel().then {
+                    $0.text = "\(option.name)"
+                    $0.setTypo(.body2b)
+                    $0.textAlignment = .center
+                },
+                BaseSpacer(),
+                UIImageView(image: .iconCheck).then {
+                    $0.setSize(width: 18, height: 18)
+                }
+            ]
         }
-    ).then {
+    }.then {
         $0.gridStyled(columns: 1, verticalSpacing: 10, horizontalSpacing: 10)
     }
     

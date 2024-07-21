@@ -297,59 +297,101 @@ public extension UITextField {
     }
 }
 
-public extension View {
+public extension UITextView {
     /// Set the default font of the text.
     ///
     /// ```swift
-    /// Text("Hello, SwiftUI!")
-    ///    .defaultFont(size: 24, weight: .bold)
+    /// let textView = UITextView()
+    /// textView.setDefaultFont(size: 18, weight: .bold)
     /// ```
-    func defaultFont(size: CGFloat = 16, weight: FontWeight = .regular) -> some View {
-        return self.font(.system(size: size, weight: weight.swiftuiWeight))
-            .lineSpacing(size * lineSpacingMultiplier)
-            .asAnyView()
+    ///
+    func setDefaultFont(
+        size: CGFloat = 16,
+        weight: FontWeight = .regular
+    ) {
+        switch weight {
+        case .thin:
+            self.font = UIFont(name: "Pretendard-Thin", size: size)
+        case .extraLight:
+            self.font = UIFont(name: "Pretendard-ExtraLight", size: size)
+        case .light:
+            self.font = UIFont(name: "Pretendard-Light", size: size)
+        case .regular:
+            self.font = UIFont(name: "Pretendard-Regular", size: size)
+        case .medium:
+            self.font = UIFont(name: "Pretendard-Medium", size: size)
+        case .semibold:
+            self.font = UIFont(name: "Pretendard-SemiBold", size: size)
+        case .bold:
+            self.font = UIFont(name: "Pretendard-Bold", size: size)
+        case .extraBold:
+            self.font = UIFont(name: "Pretendard-ExtraBold", size: size)
+        case .black:
+            self.font = UIFont(name: "Pretendard-Black", size: size)
+        }
+        
+        self.setLineHeight(multiplier: lineSpacingMultiplier)
     }
     
-    // swiftlint:disable:next orphaned_doc_comment
+    func setLineHeight(multiplier: CGFloat) {
+        guard let text = self.text else { return }
+        
+        let fontSize = self.font?.pointSize ?? 16
+        let lineHeight = fontSize * multiplier
+        let lineSpacing = lineHeight - fontSize
+        let baselineOffset = (lineHeight - fontSize) / 4
+        
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineSpacing = lineSpacing
+        
+        let attributedString = NSMutableAttributedString(string: text)
+        attributedString.addAttribute(
+            .paragraphStyle,
+            value: paragraphStyle,
+            range: NSRange(location: 0, length: attributedString.length)
+        )
+        self.attributedText = attributedString
+    }
+
     /// Set the typography of the text.
     ///
     /// ```swift
-    /// Text("Hello, SwiftUI!")
-    ///    .typo(.heading1)
+    /// let textView = UITextView()
+    /// textView.setTypo(.heading1)
     /// ```
-    // swiftlint:disable:next cyclomatic_complexity
-    func typo(_ typo: Typo) -> some View {
+    ///
+    func setTypo(_ typo: Typo) {
         switch typo {
         case .heading1:
-            return self.defaultFont(size: 32, weight: .bold)
+            self.setDefaultFont(size: 32, weight: .bold)
         case .heading2:
-            return self.defaultFont(size: 28, weight: .bold)
+            self.setDefaultFont(size: 28, weight: .bold)
         case .heading3:
-            return self.defaultFont(size: 22, weight: .semibold)
+            self.setDefaultFont(size: 22, weight: .semibold)
         case .heading4:
-            return self.defaultFont(size: 20, weight: .semibold)
+            self.setDefaultFont(size: 20, weight: .semibold)
         case .body0:
-            return self.defaultFont(size: 18, weight: .regular)        
+            self.setDefaultFont(size: 18, weight: .regular)
         case .body0m:
-            return self.defaultFont(size: 18, weight: .medium)
+            self.setDefaultFont(size: 18, weight: .medium)
         case .body0b:
-            return self.defaultFont(size: 18, weight: .semibold)
+            self.setDefaultFont(size: 18, weight: .semibold)
         case .body1:
-            return self.defaultFont(size: 16, weight: .regular)        
+            self.setDefaultFont(size: 16, weight: .regular)
         case .body1m:
-            return self.defaultFont(size: 16, weight: .medium)
+            self.setDefaultFont(size: 16, weight: .medium)
         case .body1b:
-            return self.defaultFont(size: 16, weight: .semibold)
+            self.setDefaultFont(size: 16, weight: .semibold)
         case .body2:
-            return self.defaultFont(size: 14, weight: .regular)
+            self.setDefaultFont(size: 14, weight: .regular)
         case .body2b:
-            return self.defaultFont(size: 14, weight: .semibold)
+            self.setDefaultFont(size: 14, weight: .semibold)
         case .body3:
-            return self.defaultFont(size: 12, weight: .regular)
+            self.setDefaultFont(size: 12, weight: .regular)
         case .body3b:
-            return self.defaultFont(size: 12, weight: .semibold)
+            self.setDefaultFont(size: 12, weight: .semibold)
         case .detail:
-            return self.defaultFont(size: 10, weight: .regular)
+            self.setDefaultFont(size: 10, weight: .regular)
         }
     }
 }

@@ -27,6 +27,13 @@ public final class NofficeNavigationBar: UIView {
         return _onTapBackButton.asObservable()
     }
     
+    // MARK: State
+    public var title: String? {
+        didSet {
+            titleLabel.text = title
+        }
+    }
+    
     // MARK: UI Constant
     let height: CGFloat = 44
     
@@ -37,7 +44,12 @@ public final class NofficeNavigationBar: UIView {
     }
     
     // MARK: Build component
-    private var rightItem: UIView = UIView()
+    private lazy var titleLabel = UILabel().then {
+        $0.textColor = .grey800
+        $0.setTypo(.body1)
+    }
+    
+    private lazy var rightItem: UIView = UIView()
     
     // MARK: DisposeBag
     private let disposeBag = DisposeBag()
@@ -68,22 +80,30 @@ public final class NofficeNavigationBar: UIView {
     // MARK: Setup
     private func setupHierarchy() { 
         addSubview(backIcon)
+        
+        addSubview(titleLabel)
+        
         addSubview(rightItem)
     }
     
     private func setupLayout() { 
-        self.snp.makeConstraints { make in
-            make.height.equalTo(height)
+        self.snp.makeConstraints {
+            $0.height.equalTo(height)
         }
         
-        backIcon.snp.makeConstraints { make in
-            make.left.equalToSuperview().inset(16)
-            make.centerY.equalToSuperview()
+        backIcon.snp.makeConstraints {
+            $0.left.equalToSuperview().inset(16)
+            $0.centerY.equalToSuperview()
         }
         
-        rightItem.snp.makeConstraints { make in
-            make.right.equalToSuperview().inset(16)
-            make.centerY.equalToSuperview()
+        titleLabel.snp.makeConstraints {
+            $0.centerX.equalToSuperview()
+            $0.centerY.equalToSuperview()
+        }
+        
+        rightItem.snp.makeConstraints {
+            $0.right.equalToSuperview().inset(16)
+            $0.centerY.equalToSuperview()
         }
     }
     
@@ -102,6 +122,4 @@ public final class NofficeNavigationBar: UIView {
             })
             .disposed(by: disposeBag)
     }
-    
-    // MARK: Update
 }

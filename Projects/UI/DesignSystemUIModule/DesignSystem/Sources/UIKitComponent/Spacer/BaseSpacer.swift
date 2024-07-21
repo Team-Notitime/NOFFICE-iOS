@@ -33,7 +33,8 @@ public final class BaseSpacer: UIView {
     /**
      When used with the StackView’s distribution = .fill property, it occupies an appropriate amount of space.
      
-     - Important: A spacer occupies the maximum size only when there is a single spacer in the stack view. If there are two or more spacers, you need to specify their sizes directly using init(size:orientation:).
+     - Important: A spacer occupies the maximum size only when there is a single spacer in the stack view. 
+     If there are two or more spacers, you need to specify their sizes directly using init(size:orientation:).
      */
     public init() {
         super.init(frame: .zero)

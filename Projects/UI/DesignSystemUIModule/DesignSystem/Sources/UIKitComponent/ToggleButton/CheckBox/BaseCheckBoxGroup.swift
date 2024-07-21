@@ -46,7 +46,8 @@ public class BaseCheckBoxGroup<Option>: UIView where Option: Equatable & Identif
         return optionComponents
     }
     
-    // MARK: UI Constant
+    private var animation: Bool = false
+    
     private var columns: Int = 1
     
     private var horizontalSpacing: CGFloat = 8
@@ -83,8 +84,10 @@ public class BaseCheckBoxGroup<Option>: UIView where Option: Equatable & Identif
 
     public init(
         source: [Option],
+        animation: Bool = false,
         optionBuilder: ViewBuilder
     ) {
+        self.animation = animation
         self.optionComponents = source.map { optionBuilder($0) }
         
         super.init(frame: .zero)
@@ -98,10 +101,12 @@ public class BaseCheckBoxGroup<Option>: UIView where Option: Equatable & Identif
     ///
     /// - See also: ``updateSource(_:)``
     public init(
+        animation: Bool = false,
         optionBuilder: @escaping ViewBuilder
     ) {
         super.init(frame: .zero)
         
+        self.animation = animation
         self.optionBuilder = optionBuilder
     }
     
@@ -115,8 +120,10 @@ public class BaseCheckBoxGroup<Option>: UIView where Option: Equatable & Identif
         addSubview(verticalStackView)
         
         // Initial opacity set to 0
-        optionComponents.forEach {
-            $0.layer.opacity = 0.0
+        if animation {
+            optionComponents.forEach {
+                $0.layer.opacity = 0.0
+            }
         }
         
         var horizontalStackView = createHorizontalStackView()
@@ -130,16 +137,18 @@ public class BaseCheckBoxGroup<Option>: UIView where Option: Equatable & Identif
             horizontalStackView.addArrangedSubview(option)
             
             // Add opacity animation
-            let delay = 0.15 * Double(index)
-            UIView.animate(
-                withDuration: 1.0,
-                delay: delay,
-                options: [],
-                animations: {
-                    option.layer.opacity = 1.0
-                },
-                completion: nil
-            )
+            if animation {
+                let delay = 0.15 * Double(index)
+                UIView.animate(
+                    withDuration: 1.0,
+                    delay: delay,
+                    options: [],
+                    animations: {
+                        option.layer.opacity = 1.0
+                    },
+                    completion: nil
+                )
+            }
         }
     }
     

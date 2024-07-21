@@ -47,8 +47,10 @@ public class BaseRadioGroup<Option>: UIView where Option: Equatable & Identifiab
         }
     }
     
-    // MARK: UI Constant
+    private var animation: Bool = false
+    
     private var columns: Int = 1
+    
     private var horizontalSpacing: CGFloat = 8
     
     // MARK: UI Component
@@ -85,8 +87,10 @@ public class BaseRadioGroup<Option>: UIView where Option: Equatable & Identifiab
 
     public init(
         source: [Option],
+        animation: Bool = false,
         optionBuilder: ViewBuilder
     ) {
+        self.animation = animation
         self.optionComponents = source.map { optionBuilder($0) }
         
         super.init(frame: .zero)
@@ -96,16 +100,17 @@ public class BaseRadioGroup<Option>: UIView where Option: Equatable & Identifiab
         updateLayout()
     }
     
+    /// Used for injecting the source later due to asynchronous processing.
+    ///
+    /// - See also: ``updateSource(_:)``
     public init(
+        animation: Bool = false,
         optionBuilder: @escaping ViewBuilder
     ) {
         super.init(frame: .zero)
         
+        self.animation = animation
         self.optionBuilder = optionBuilder
-        
-        setupHierarchy()
-        setupBind()
-        updateLayout()
     }
     
     // MARK: Life cycle
@@ -118,8 +123,10 @@ public class BaseRadioGroup<Option>: UIView where Option: Equatable & Identifiab
         addSubview(verticalStackView)
         
         // Initial opacity set to 0
-        optionComponents.forEach {
-            $0.layer.opacity = 0.0
+        if animation {
+            optionComponents.forEach {
+                $0.layer.opacity = 0.0
+            }
         }
         
         var horizontalStackView = createHorizontalStackView()
@@ -133,16 +140,18 @@ public class BaseRadioGroup<Option>: UIView where Option: Equatable & Identifiab
             horizontalStackView.addArrangedSubview(option)
             
             // Add opacity animation
-            let delay = 0.15 * Double(index)
-            UIView.animate(
-                withDuration: 1.0,
-                delay: delay,
-                options: [],
-                animations: {
-                    option.layer.opacity = 1.0
-                },
-                completion: nil
-            )
+            if animation {
+                let delay = 0.15 * Double(index)
+                UIView.animate(
+                    withDuration: 1.0,
+                    delay: delay,
+                    options: [],
+                    animations: {
+                        option.layer.opacity = 1.0
+                    },
+                    completion: nil
+                )
+            }
         }
     }
     

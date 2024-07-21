@@ -19,7 +19,9 @@ public class NewAnnouncementFunnelView: BaseView {
     
     // MARK: UI Component
     // - Navigation bar
-    lazy var navigationBar = NofficeNavigationBar()
+    lazy var navigationBar = NofficeNavigationBar().then {
+        $0.title = "노티 등록"
+    }
     
     // - Paginable bar
     lazy var paginableView = PaginableView(

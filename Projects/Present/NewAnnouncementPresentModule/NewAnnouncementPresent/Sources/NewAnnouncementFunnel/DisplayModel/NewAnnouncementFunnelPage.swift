@@ -8,6 +8,6 @@
 import Foundation
 
 enum NewAnnouncementFunnelPage: CaseIterable {
-    case editContents
     case selectOrganization
+    case editContents
 }
