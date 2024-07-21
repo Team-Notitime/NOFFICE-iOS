@@ -37,26 +37,8 @@ final class OrganizationItem: CompositionalItem {
 }
 
 final class OrganizationItemCell: UIView, CompositionalItemCell {
-    // MARK: UIConstant
-    private let padding: CGFloat = 16
-    private let imageSize: CGFloat = 48
-    
     // MARK: UI Component
-    lazy var organizationImage = UIImageView(image: .imgProfileGroup).then {
-        $0.setSize(width: imageSize, height: imageSize)
-        $0.contentMode = .scaleToFill
-        $0.clipsToBounds = true
-    }
-    
-    lazy var organizationNameLabel = UILabel().then {
-        $0.setTypo(.body1b)
-        $0.textColor = .grey800
-    }
-    
-    lazy var moreIcon = UIImageView(image: .iconChevronRight).then {
-        $0.tintColor = .grey400
-        $0.contentMode = .scaleAspectFit
-    }
+    lazy var organizationRow = OrganizationRow()
     
     // MARK: DisposeBag
     private let disposeBag = DisposeBag()
@@ -72,33 +54,19 @@ final class OrganizationItemCell: UIView, CompositionalItemCell {
     }
     
     private func setup() {
-        addSubview(organizationImage)
-        addSubview(organizationNameLabel)
-        addSubview(moreIcon)
+        addSubview(organizationRow)
         
-        organizationImage.snp.makeConstraints {
-            $0.top.bottom.left.equalToSuperview().inset(padding)
-        }
-        
-        organizationNameLabel.snp.makeConstraints {
-            $0.left.equalTo(organizationImage.snp.right).offset(padding)
-            $0.centerY.equalTo(organizationImage.snp.centerY)
-        }
-        
-        moreIcon.snp.makeConstraints {
-            $0.right.equalToSuperview().inset(padding)
-            $0.centerY.equalTo(organizationImage.snp.centerY)
+        organizationRow.snp.makeConstraints {
+            $0.edges.equalToSuperview()
         }
     }
     
     func configure(with item: OrganizationItem) {
-        // data binding
-        organizationNameLabel.text = item.organizationName
+        // - Binding data
+        organizationRow.organizationName = item.organizationName
                 
-        // action binding
-        self.rx.tapGesture()
-            .when(.recognized)
-            .map { _ in }
+        // - Binding action
+        self.organizationRow.onTap
             .bind(to: item.onTap)
             .disposed(by: disposeBag)
     }

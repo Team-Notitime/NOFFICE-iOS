@@ -12,7 +12,7 @@ import Assets
 import SnapKit
 import Then
 
-public class NofficeOrganizationCard: UIView {
+public class NofficeAnnouncementCard: UIView {
     // MARK: State
     public var titleText: String = "" {
         didSet {
@@ -32,7 +32,7 @@ public class NofficeOrganizationCard: UIView {
         }
     }
     
-    public var state: NofficeOrganizationCard.State = .default {
+    public var state: NofficeAnnouncementCard.State = .default {
         didSet {
             updateByState()
         }
@@ -215,7 +215,7 @@ public class NofficeOrganizationCard: UIView {
 }
 
 // MARK: - Display model
-public extension NofficeOrganizationCard {
+public extension NofficeAnnouncementCard {
     enum State: String, CaseIterable {
         case `default`, loading, none
     }

@@ -19,7 +19,7 @@ final class AnnouncementItem: CompositionalItem {
     
     // MARK: Data
     let identifier: String = UUID().uuidString
-    let state: NofficeOrganizationCard.State
+    let state: NofficeAnnouncementCard.State
     let title: String?
     let date: String?
     let location: String?
@@ -31,7 +31,7 @@ final class AnnouncementItem: CompositionalItem {
     
     // MARK: Initializer
     init(
-        state: NofficeOrganizationCard.State,
+        state: NofficeAnnouncementCard.State,
         title: String? = nil,
         date: String? = nil,
         location: String? = nil
@@ -50,7 +50,7 @@ final class AnnouncementItem: CompositionalItem {
 
 final class AnnouncementItemCell: UIView, CompositionalItemCell {
     // MARK: UI Component
-    lazy var organizationCard = NofficeOrganizationCard()
+    lazy var organizationCard = NofficeAnnouncementCard()
     
     // MARK: DisposeBag
     private var disposeBag = DisposeBag()
