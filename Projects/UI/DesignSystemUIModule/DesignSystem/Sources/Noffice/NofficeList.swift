@@ -14,7 +14,7 @@ import RxCocoa
 import SnapKit
 import Then
 
-public class NofficeList<Option>: UIControl, ToggleButton where Option: Equatable & Identifiable {
+public final class NofficeList<Option>: UIControl, ToggleButton where Option: Equatable & Identifiable {
     public typealias ViewBuilder = (Option) -> [UIView]
     
     // MARK: Event

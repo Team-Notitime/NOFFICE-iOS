@@ -14,7 +14,7 @@ import RxCocoa
 import SnapKit
 import Then
 
-public class NofficeTodo<Option>: UIControl, ToggleButton where Option: Equatable & Identifiable {
+public final class NofficeTodo<Option>: UIControl, ToggleButton where Option: Equatable & Identifiable {
     // MARK: Event
     private let _onChangeSelected: PublishSubject<Bool> = PublishSubject()
     /// Emits a Bool when the isSelected property of the UIControl subclass NofficeTodo changes.

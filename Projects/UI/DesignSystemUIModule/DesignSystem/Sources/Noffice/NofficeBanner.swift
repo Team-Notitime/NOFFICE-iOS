@@ -12,7 +12,7 @@ import RxCocoa
 import SnapKit
 import Then
 
-public class NofficeBanner: UIView {
+public final class NofficeBanner: UIView {
     // MARK: State
     private var _userName: String = ""
     public var userName: String {

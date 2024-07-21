@@ -13,7 +13,7 @@ import RxSwift
 import SnapKit
 import Then
 
-final class NofficeOrganizationRow: UIControl {
+public final class NofficeOrganizationRow: UIControl {
     // MARK: Event
     private var _onTap: PublishSubject<Void> = PublishSubject()
     public var onTap: Observable<Void> {
@@ -86,7 +86,6 @@ final class NofficeOrganizationRow: UIControl {
     
     // MARK: UIControl handling
     override public func beginTracking(_ touch: UITouch, with event: UIEvent?) -> Bool {
-        print("start tap")
         UIView.transition(
             with: self,
             duration: 0.2,
@@ -102,7 +101,6 @@ final class NofficeOrganizationRow: UIControl {
     }
     
     override public func endTracking(_ touch: UITouch?, with event: UIEvent?) {
-        print("end tap")
         UIView.transition(
             with: self,
             duration: 0.2,

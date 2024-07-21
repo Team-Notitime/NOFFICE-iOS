@@ -13,7 +13,7 @@ import RxGesture
 import SnapKit
 import Then
 
-public class NofficeNavigationBar: UIView {
+public final class NofficeNavigationBar: UIView {
     public typealias ViewBuilder = () -> UIView
     
     // MARK: Event

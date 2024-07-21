@@ -12,7 +12,7 @@ import Assets
 import SnapKit
 import Then
 
-public class NofficeAnnouncementCard: UIView {
+public final class NofficeAnnouncementCard: UIView {
     // MARK: State
     public var titleText: String = "" {
         didSet {

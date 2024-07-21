@@ -38,7 +38,7 @@ final class OrganizationItem: CompositionalItem {
 
 final class OrganizationItemCell: UIView, CompositionalItemCell {
     // MARK: UI Component
-    lazy var organizationRow = OrganizationRow()
+    lazy var organizationRow = NofficeOrganizationRow()
     
     // MARK: DisposeBag
     private let disposeBag = DisposeBag()
