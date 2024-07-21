@@ -7,6 +7,7 @@
 
 import UIKit
 
+import Router
 import DesignSystem
 
 import RxSwift
@@ -14,7 +15,7 @@ import RxCocoa
 
 public class AnnouncementPageViewController: BaseViewController<AnnouncementPageView> {
     
-    private let reactor = AnnouncementReactor()
+    private let reactor = AnnouncementPageReactor()
     
     private lazy var sectionsSubject = BehaviorSubject<[any CompositionalSection]>(value: sections)
     
@@ -69,7 +70,6 @@ public class AnnouncementPageViewController: BaseViewController<AnnouncementPage
     
     // MARK: Setup
     public override func setupViewBind() {
-        // segment and pagen
         baseView.collectionView.bindSections(
             to: sectionsSubject.asObservable()
         )
@@ -78,7 +78,24 @@ public class AnnouncementPageViewController: BaseViewController<AnnouncementPage
         if let item = sections[1].items[0] as? AnnouncementItem {
             item.onTapAnnouncementCard
                 .subscribe(onNext: {
-                    print("a먕!!!")
+//                    let viewcontroller = UIViewController()
+//                    viewcontroller.view.backgroundColor = .fullWhite
+//                    Router.shared.push(viewcontroller)
+                    
+                    print("::: 첫번째 셀 탭탭")
+                    
+                    let newSection = OrganizationSection(
+                        identifier: UUID().uuidString,
+                        organizationName: "CMC 15th",
+                        items: [
+                            AnnouncementItem(state: .default, title: "5차 세션 : 최종 팀빌딩", date: "8월 27일 화요일", location: "ZEP"),
+                            AnnouncementItem(state: .default, title: "5차 세션 : 최종 팀빌딩", date: "8월 27일 화요일", location: "ZEP"),
+                            AnnouncementItem(state: .default, title: "5차 세션 : 최종 팀빌딩", date: "8월 27일 화요일", location: "ZEP"),
+                            AnnouncementItem(state: .default, title: "5차 세션 : 최종 팀빌딩", date: "8월 27일 화요일", location: "ZEP")
+                        ]
+                    )
+                    self.sections.append(newSection)
+                    self.sectionsSubject.onNext(self.sections)
                 })
                 .disposed(by: disposeBag)
         }

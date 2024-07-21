@@ -29,5 +29,13 @@ public class AnnouncementPageView: BaseView {
         collectionView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
+        
+        // bottom margin
+        collectionView.collectionView.contentInset = UIEdgeInsets(
+            top: 0,
+            left: 0,
+            bottom: 32,
+            right: 0
+        )
     }
 }

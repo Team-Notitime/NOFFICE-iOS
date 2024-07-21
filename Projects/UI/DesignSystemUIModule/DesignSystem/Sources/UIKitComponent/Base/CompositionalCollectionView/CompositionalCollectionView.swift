@@ -16,7 +16,7 @@ final public class CompositionalCollectionView: UIView, UICollectionViewDelegate
     private let reusableViewIdentifier = CollectionViewResuableViewContainer.reusableIdentifier
     
     // MARK: CollectionView & DataSource
-    private var collectionView: UICollectionView!
+    public var collectionView: UICollectionView!
     private var dataSource: UICollectionViewDiffableDataSource<
         CompositionalSectionWrapper, CollectionViewItemWrapper
     >!

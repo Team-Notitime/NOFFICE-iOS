@@ -136,6 +136,18 @@ class ViewController: UIViewController {
             ]
         ),
         Section(
+            title: "Toast",
+            examples: [
+                Example(
+                    button: UIButton().then {
+                        $0.setTitle("Basic toast example", for: .normal)
+                        $0.setTitleColor(.systemBlue, for: .normal)
+                    },
+                    viewController: ToastBookViewController.self
+                )
+            ]
+        ),
+        Section(
             title: "Noffice",
             examples: [
                 Example(

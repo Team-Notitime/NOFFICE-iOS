@@ -7,7 +7,7 @@
 
 import ReactorKit
 
-class AnnouncementReactor: Reactor {
+class AnnouncementPageReactor: Reactor {
 
     enum Action {
         case viewWillAppear
@@ -24,7 +24,7 @@ class AnnouncementReactor: Reactor {
     let initialState: State = State()
 }
 
-extension AnnouncementReactor {
+extension AnnouncementPageReactor {
     
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {

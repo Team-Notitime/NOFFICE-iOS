@@ -11,12 +11,14 @@ import DesignSystem
 import Assets
 
 import RxSwift
+import RxCocoa
+import RxGesture
 
 final class AnnouncementItem: CompositionalItem {
     typealias Cell = AnnouncementItemCell
     
     // MARK: Data
-    let identifier: String = UUID().uuidString // TODO: Server id로 교체
+    let identifier: String = UUID().uuidString
     let state: NofficeOrganizationCard.State
     let title: String?
     let date: String?
@@ -89,7 +91,9 @@ final class AnnouncementItemCell: UIView, CompositionalItemCell {
         organizationCard.rx.tapGesture()
             .when(.recognized)
             .map { _ in }
-            .bind(to: item.onTapAnnouncementCard)
+            .subscribe(onNext: {
+                item.onTapAnnouncementCard.onNext(())
+            })
             .disposed(by: disposeBag)
     }
 }
