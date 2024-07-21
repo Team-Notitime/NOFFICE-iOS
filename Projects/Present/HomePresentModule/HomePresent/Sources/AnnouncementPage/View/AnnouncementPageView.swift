@@ -14,18 +14,18 @@ import RxCocoa
 import SnapKit
 import Then
 
-public class AnnouncementPageView: BaseView {
+class AnnouncementPageView: BaseView {
     // MARK: Data source
     
     // MARK: UI Component
     let collectionView = CompositionalCollectionView()
     
     // MARK: Setup
-    public override func setupHierarchy() {
+    override func setupHierarchy() {
         addSubview(collectionView)
     }
     
-    public override func setupLayout() {
+    override func setupLayout() {
         collectionView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }

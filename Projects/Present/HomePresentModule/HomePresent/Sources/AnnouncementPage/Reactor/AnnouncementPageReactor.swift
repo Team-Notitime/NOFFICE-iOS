@@ -7,6 +7,9 @@
 
 import ReactorKit
 
+import AnnouncementUsecase
+import AnnouncementEntity
+
 class AnnouncementPageReactor: Reactor {
 
     enum Action {
@@ -14,12 +17,15 @@ class AnnouncementPageReactor: Reactor {
     }
     
     enum Mutation {
-        
+        case setOrganizations([AnnouncementOrganizationEntity])
     }
     
     struct State {
-        
+        var organizations: [AnnouncementOrganizationEntity] = []
     }
+    
+    // MARK: Dependency
+    let fetchAllAnnouncementUsecase = FetchAllAnnouncementUsecase()
     
     let initialState: State = State()
 }
@@ -29,14 +35,19 @@ extension AnnouncementPageReactor {
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .viewWillAppear:
-
-            return Observable.merge([])
+            return fetchAllAnnouncementUsecase.execute()
+                .map { organizations in
+                    return .setOrganizations(organizations)
+                }
         }
     }
     
     func reduce(state: State, mutation: Mutation) -> State {
         var state = state
         switch mutation {
+        case let .setOrganizations(organizations):
+            state.organizations = organizations
         }
+        return state
     }
 }

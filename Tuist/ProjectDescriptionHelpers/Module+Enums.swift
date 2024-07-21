@@ -38,6 +38,7 @@ public enum Module {
         case common = "Common"
         case organization = "Organization"
         case todo = "Todo"
+        case announcement = "Announcement"
         
         var name: String { rawValue }
         var bundleIdenifier: String { rawValue.toBundleIdentifier() }

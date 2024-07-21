@@ -19,6 +19,8 @@ class TodoPageViewController: BaseViewController<TodoPageView> {
     
     // MARK: Life Cycle
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
         reactor.action.onNext(.viewWillAppear)
     }
     
