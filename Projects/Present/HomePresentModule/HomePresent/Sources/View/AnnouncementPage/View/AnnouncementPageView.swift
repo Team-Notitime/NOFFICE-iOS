@@ -31,7 +31,7 @@ public class AnnouncementPageView: BaseView {
         }
         
         // bottom margin
-        collectionView.collectionView.contentInset = UIEdgeInsets(
+        collectionView.contentInset = UIEdgeInsets(
             top: 0,
             left: 0,
             bottom: 32,

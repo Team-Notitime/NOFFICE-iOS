@@ -15,8 +15,16 @@ final public class CompositionalCollectionView: UIView, UICollectionViewDelegate
     private let itemCellIdentifier = CollectionViewItemCellContainer.reusableIdentifier
     private let reusableViewIdentifier = CollectionViewResuableViewContainer.reusableIdentifier
     
+    // MARK: Public
+    public var contentInset: UIEdgeInsets = .zero {
+        didSet {
+            collectionView.contentInset = contentInset
+        }
+    }
+    
     // MARK: CollectionView & DataSource
-    public var collectionView: UICollectionView!
+    private var collectionView: UICollectionView!
+    
     private var dataSource: UICollectionViewDiffableDataSource<
         CompositionalSectionWrapper, CollectionViewItemWrapper
     >!
