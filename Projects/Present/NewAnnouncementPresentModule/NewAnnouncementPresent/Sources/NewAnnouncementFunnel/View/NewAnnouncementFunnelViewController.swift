@@ -23,7 +23,14 @@ public class NewAnnouncementFunnelViewController: BaseViewController<NewAnnounce
     // MARK: Setup
     public override func setupViewBind() { }
     
-    public override func setupStateBind() { }
+    public override func setupStateBind() { 
+        reactor.state.map { $0.currentPage }
+            .withUnretained(self.baseView)
+            .subscribe(onNext: { owner, page in
+                owner.paginableView.currentPage = page
+            })
+          .disposed(by: self.disposeBag)
+    }
     
     public override func setupActionBind() { 
         baseView.navigationBar

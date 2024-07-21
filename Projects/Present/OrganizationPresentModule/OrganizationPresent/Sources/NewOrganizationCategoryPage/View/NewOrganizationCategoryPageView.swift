@@ -45,7 +45,7 @@ class NewOrganizationCategoryPageView: BaseView {
     // - Category list
     lazy var categoryGroup = BaseCheckBoxGroup(
         source: OrganizationCategoryType.allCases.map { $0.toEntity() },
-        itemBuilder: { option in
+        optionBuilder: { option in
             NofficeList(option: option) { _ in
                 [
                     UILabel().then {

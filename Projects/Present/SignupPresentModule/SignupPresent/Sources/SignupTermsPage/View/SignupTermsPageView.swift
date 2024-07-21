@@ -70,7 +70,7 @@ public class SignupTermsPageView: BaseView {
     
     lazy var termsOptonGroup = BaseCheckBoxGroup(
         source: Array(SignupTermsPageReactor.TermOptionType.allCases.map { $0.termOption }),
-        itemBuilder: { option in
+        optionBuilder: { option in
             BaseToggleButton<SignupTermsPageReactor.TermOption>(
                 option: option,
                 itemBuilder: { option in

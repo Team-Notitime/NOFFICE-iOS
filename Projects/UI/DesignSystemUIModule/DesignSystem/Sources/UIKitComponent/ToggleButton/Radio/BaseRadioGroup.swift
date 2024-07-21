@@ -133,9 +133,9 @@ public class BaseRadioGroup<Option>: UIView where Option: Equatable & Identifiab
             horizontalStackView.addArrangedSubview(option)
             
             // Add opacity animation
-            let delay = 0.1 * Double(index)
+            let delay = 0.15 * Double(index)
             UIView.animate(
-                withDuration: 0.5,
+                withDuration: 1.0,
                 delay: delay,
                 options: [],
                 animations: {

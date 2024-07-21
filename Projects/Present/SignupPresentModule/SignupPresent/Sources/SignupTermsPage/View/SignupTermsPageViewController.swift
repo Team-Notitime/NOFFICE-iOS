@@ -25,6 +25,7 @@ public class SignupTermsPageViewController: BaseViewController<SignupTermsPageVi
         // - All agree check
         baseView.allAgreeCheckBox
             .onChangeSelected
+            .distinctUntilChanged()
             .withUnretained(self)
             .subscribe(onNext: { owner, selected in
                 if selected {
@@ -53,6 +54,7 @@ public class SignupTermsPageViewController: BaseViewController<SignupTermsPageVi
     public override func setupStateBind() {
         // - Next button active state
         reactor.state.map { $0.nextButtonActive }
+            .distinctUntilChanged()
             .withUnretained(self)
             .subscribe(onNext: { owner, active in
                 owner.baseView.nextButton.isEnabled = active
@@ -64,8 +66,9 @@ public class SignupTermsPageViewController: BaseViewController<SignupTermsPageVi
         // - Select term option
         baseView.termsOptonGroup
             .onChangeSelectedOptions
+            .distinctUntilChanged()
             .map { options in
-                    .changeSelectedTermOptions(
+                SignupTermsPageReactor.Action.changeSelectedTermOptions(
                         options.map { $0.type }.compactMap { $0 }
                     )
             }

@@ -12,6 +12,7 @@ import UIKit
 import DesignSystem
 import Assets
 import AnnouncementEntity
+import OrganizationEntity
 
 import SnapKit
 import Then
@@ -37,29 +38,52 @@ class SelectOrganizationPageView: BaseView {
     }
     
     // - Organization list
-//    lazy var categoryGroup = BaseCheckBoxGroup(
-//        source: OrganizationCategoryType.allCases.map { $0.toEntity() },
-//        itemBuilder: { option in
-//            NofficeList(option: option) { _ in
-//                [
-//                    UILabel().then {
-//                        $0.text = "\(option.name)"
-//                        $0.setTypo(.body2b)
-//                        $0.textAlignment = .center
-//                    }
-//                ]
-//            }
-//        }
-//    ).then {
-//        $0.gridStyled(columns: 2, verticalSpacing: 10, horizontalSpacing: 10)
-//    }
+    lazy var organizationGroup = BaseRadioGroup<OrganizationEntity>( // TODO: 추후 스크롤뷰로 변경..
+        optionBuilder: { option in
+            NofficeList(option: option) { _ in
+                [
+                    UILabel().then {
+                        $0.text = "\(option.name)"
+                        $0.setTypo(.body2b)
+                        $0.textAlignment = .center
+                    },
+                    BaseSpacer(),
+                    UIImageView(image: .iconCheck).then {
+                        $0.setSize(width: 18, height: 18)
+                    }
+                ]
+            }
+        }
+    ).then {
+        $0.gridStyled(columns: 1, verticalSpacing: 10, horizontalSpacing: 10)
+    }
+    
+    // - Next button
+    lazy var nextButton = BaseButton(
+        contentsBuilder: {
+            [
+                UILabel().then {
+                    $0.text = "다음"
+                    $0.setTypo(.body1b)
+                }
+            ]
+        }
+    ).then {
+        $0.styled(variant: .fill, color: .green)
+        $0.isEnabled = false
+    }
     
     // MARK: Setup
     override func setupHierarchy() { 
         addSubview(backgroundView)
         
         backgroundView.addSubview(titleFirstlabel)
+        
         backgroundView.addSubview(titleSecondlabel)
+        
+        backgroundView.addSubview(organizationGroup)
+        
+        backgroundView.addSubview(nextButton)
     }
     
     override func setupLayout() { 
@@ -82,9 +106,17 @@ class SelectOrganizationPageView: BaseView {
             $0.left.right.equalToSuperview()
                 .inset(FunnelConstant.additionalPadding)
         }
-    }
-    
-    func setupMyOrganization() {
         
+        organizationGroup.snp.makeConstraints {
+            $0.top.equalTo(titleSecondlabel.snp.bottom)
+                .offset(FunnelConstant.spacingUnit * 2)
+            $0.left.right.equalToSuperview()
+            
+        }
+        
+        nextButton.snp.makeConstraints {
+            $0.left.right.equalToSuperview()
+            $0.bottom.equalTo(safeAreaLayoutGuide).inset(16)
+        }
     }
 }

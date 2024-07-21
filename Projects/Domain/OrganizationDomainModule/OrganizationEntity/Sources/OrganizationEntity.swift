@@ -10,7 +10,7 @@ import Foundation
 /**
  Represents an organization with various attributes.
  */
-public struct OrganizationEntity {
+public struct OrganizationEntity: Identifiable, Equatable {
     /// Unique identifier for the organization.
     public let id: Int
     /// Name of the organization.
