@@ -1,9 +1,8 @@
 import ProjectDescription
 import ProjectDescriptionHelpers
 
-let project = Project.makePresentModule(
-    .home,
+let project = Project.makeDomainModule(
+    .todo,
     dependencies: [
-        .entity(.todo)
     ]
 )

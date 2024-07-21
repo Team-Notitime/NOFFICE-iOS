@@ -37,6 +37,7 @@ public enum Module {
     public enum Domain: String, CaseIterable {
         case common = "Common"
         case organization = "Organization"
+        case todo = "Todo"
         
         var name: String { rawValue }
         var bundleIdenifier: String { rawValue.toBundleIdentifier() }

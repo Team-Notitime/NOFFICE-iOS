@@ -96,9 +96,7 @@ public extension HomeTabView {
             case .announcement:
                 return AnnouncementPageViewController()
             case .todo:
-                let vc = UIViewController()
-                vc.view.backgroundColor = .yellow100
-                return vc
+                return TodoPageViewController()
             }
         }
     }

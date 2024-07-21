@@ -5,7 +5,7 @@
 //  Created by DOYEON LEE on 6/19/24.
 //
 
-import Foundation
+import Assets
 
 struct BasicToastColorTheme: ToastColorTheme {
     private let variant: BasicToastVariant

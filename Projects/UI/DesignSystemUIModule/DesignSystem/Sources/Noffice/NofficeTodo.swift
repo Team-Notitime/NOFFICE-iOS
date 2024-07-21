@@ -14,7 +14,8 @@ import RxCocoa
 import SnapKit
 import Then
 
-public final class NofficeTodo<Option>: UIControl, ToggleButton where Option: Equatable & Identifiable {
+public final class NofficeTodo<Option>: UIControl, ToggleButton 
+where Option: Equatable & Identifiable {
     // MARK: Event
     private let _onChangeSelected: PublishSubject<Bool> = PublishSubject()
     /// Emits a Bool when the isSelected property of the UIControl subclass NofficeTodo changes.
@@ -73,7 +74,7 @@ public final class NofficeTodo<Option>: UIControl, ToggleButton where Option: Eq
     private lazy var label = UILabel().then {
         $0.text = ""
         $0.setTypo(.body2b)
-        $0.textColor = .blue500
+        $0.textColor = .blue700
         $0.numberOfLines = 10
     }
     
@@ -83,6 +84,15 @@ public final class NofficeTodo<Option>: UIControl, ToggleButton where Option: Eq
     }
     
     // MARK: Initializer
+    public init() {
+        super.init(frame: .zero)
+        
+        setupHierarchy()
+        setupLayout()
+        setupBind()
+        updateByStatus()
+    }
+    
     public init(option: Option) {
         value = option
         
@@ -97,9 +107,7 @@ public final class NofficeTodo<Option>: UIControl, ToggleButton where Option: Eq
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         
-        setupHierarchy()
-        setupLayout()
-        setupBind()
+        fatalError("")
     }
     
     // MARK: Public
@@ -139,7 +147,7 @@ public final class NofficeTodo<Option>: UIControl, ToggleButton where Option: Eq
                 
                 self.icon.alpha = 0.0
                 self.backgroundView.backgroundColor = .blue100
-                self.label.textColor = .blue500
+                self.label.textColor = .blue700
             } completion: { [weak self] _ in
                 self?.icon.isHidden = true
             }

@@ -53,6 +53,14 @@ final public class CompositionalCollectionView: UIView, UICollectionViewDelegate
     }
     
     // MARK: Public interface for RxSwift
+    public var sectionBinder: Binder<[any CompositionalSection]> {
+        return Binder(self) { compositionalView, newSections in
+            compositionalView.sections = newSections.map {
+                CompositionalSectionWrapper(wrappee: $0)
+            }
+        }
+    }
+    
     public func bindSections(
         to sectionsObservable: Observable<[any CompositionalSection]>
     ) -> Disposable {

@@ -6,19 +6,19 @@
 //
 
 import UIKit
-import Combine
+import RxSwift
 import SnapKit
 import Then
 
 public class ComponentContainerCell<Wrapped: Component>: ItemModelBindable {
     private var content: Wrapped.Content? // view
     private var context: Wrapped? // component
-    private var cancellable = Set<AnyCancellable>()
+    private var disposeBag = DisposeBag()
     
     public override func prepareForReuse() {
         super.prepareForReuse()
         
-        cancellable = Set<AnyCancellable>()
+        disposeBag = DisposeBag()
         
         if let content = content {
             context?.prepareForReuse(content: content)
@@ -30,7 +30,7 @@ public class ComponentContainerCell<Wrapped: Component>: ItemModelBindable {
         context = component
     
         bindContent(with: component)
-        componentRedering(with: component)
+        componentRendering(with: component)
     }
 }
 
@@ -48,11 +48,11 @@ extension ComponentContainerCell {
         }
     }
     
-    private func componentRedering(with component: Wrapped) {
+    private func componentRendering(with component: Wrapped) {
         if let content = content, let context = component as? Wrapped.Context {
             component.render(content: content,
                              context: context,
-                             cancellable: &cancellable)
+                             disposeBag: &disposeBag)
         }
     }
 }
