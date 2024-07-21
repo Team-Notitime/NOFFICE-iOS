@@ -107,8 +107,14 @@ final public class CompositionalCollectionView: UIView, UICollectionViewDelegate
             
             return containerCell
         }
+
+        configureDatasourceSupplementary()
         
-        // Set the supplementary view provider
+        applySnapshot()
+    }
+    
+    /// Set the supplementary view provider
+    private func configureDatasourceSupplementary() {
         dataSource.supplementaryViewProvider = { [weak self] (collectionView, kind, indexPath)
             -> UICollectionReusableView? in
             guard let self = self else { return nil }
@@ -153,8 +159,6 @@ final public class CompositionalCollectionView: UIView, UICollectionViewDelegate
             
             return nil
         }
-        
-        applySnapshot()
     }
     
     /// Set the collection view layout (relative to the parent view) and delegate
