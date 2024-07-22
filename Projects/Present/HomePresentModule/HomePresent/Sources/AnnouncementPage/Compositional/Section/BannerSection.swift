@@ -18,7 +18,12 @@ struct BannerSection: CompositionalSection {
             size: .init(width: .fractionalWidth(1.0), height: .absolute(100)),
             groupSpacing: 16,
             items: [
-                .init(width: .fractionalWidth(1.0), height: .absolute(100))
+                .item(
+                    size: .init(
+                        width: .fractionalWidth(1.0),
+                        height: .absolute(100)
+                    )
+                )
             ],
             itemSpacing: 0
         ),

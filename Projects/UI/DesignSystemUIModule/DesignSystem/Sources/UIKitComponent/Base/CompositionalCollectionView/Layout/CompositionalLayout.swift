@@ -15,10 +15,10 @@ import UIKit
  struct Section: CompositionalSection {
      var layout: CompositionalLayout = .init(
          groupLayout: .init(
-             size: .init(width: .fractionalWidth(1.0), height: .absolute(100)),
+             size: .init(width: .fractionalWidth(1.0), height: .absolute(100))),
              items: [
-                 .init(width: .fractionalWidth(0.7), height: .absolute(100)),
-                 .init(width: .fractionalWidth(0.3), height: .absolute(100))
+                 .item(size: .init(width: .fractionalWidth(0.7), height: .absolute(100)),
+                 .item(size: .init(width: .fractionalWidth(0.3), height: .absolute(100)))
              ],
              spacing: 8
          ),
@@ -27,6 +27,7 @@ import UIKit
  // ...
  ```
  */
+
 public struct CompositionalLayout {
     let groupLayout: CompositionalGroupLayout
     
@@ -35,14 +36,14 @@ public struct CompositionalLayout {
     
     let sectionInset: NSDirectionalEdgeInsets
     
-    var scrollBehavior: UICollectionLayoutSectionOrthogonalScrollingBehavior = .continuous
+    var scrollBehavior: UICollectionLayoutSectionOrthogonalScrollingBehavior
     
     public init(
         groupLayout: CompositionalGroupLayout,
         headerSize: CompositionalSize? = nil,
         footerSize: CompositionalSize? = nil,
         sectionInset: NSDirectionalEdgeInsets,
-        scrollBehavior: UICollectionLayoutSectionOrthogonalScrollingBehavior
+        scrollBehavior: UICollectionLayoutSectionOrthogonalScrollingBehavior = .continuous
     ) {
         self.groupLayout = groupLayout
         self.headerSize = headerSize
@@ -56,13 +57,13 @@ public struct CompositionalGroupLayout {
     let size: CompositionalSize
     let groupSpacing: CGFloat
     
-    let items: [CompositionalSize]
+    let items: [CompositionalItemLayout]
     let itemSpacing: CGFloat
 
     public init(
         size: CompositionalSize,
         groupSpacing: CGFloat,
-        items: [CompositionalSize],
+        items: [CompositionalItemLayout],
         itemSpacing: CGFloat
     ) {
         self.size = size
@@ -83,4 +84,9 @@ public struct CompositionalSize {
         self.width = width
         self.height = height
     }
+}
+
+public enum CompositionalItemLayout {
+    case item(size: CompositionalSize)
+    case group(layout: CompositionalGroupLayout)
 }

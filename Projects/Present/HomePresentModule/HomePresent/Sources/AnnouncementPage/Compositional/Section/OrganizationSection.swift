@@ -26,9 +26,11 @@ struct OrganizationSection: CompositionalSection {
                 ),
                 groupSpacing: 16,
                 items: [
-                    .init(
-                        width: .fractionalWidth(1.0),
-                        height: .estimated(ComponentConstant.organizationCardHeight)
+                    .item(
+                        size: .init(
+                            width: .fractionalWidth(1.0),
+                            height: .estimated(ComponentConstant.organizationCardHeight)
+                        )
                     )
                 ],
                 itemSpacing: 0
