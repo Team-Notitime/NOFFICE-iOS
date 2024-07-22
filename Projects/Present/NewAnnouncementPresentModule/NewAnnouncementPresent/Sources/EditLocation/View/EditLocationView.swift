@@ -40,7 +40,7 @@ class EditLocationView: BaseView {
                 UILabel().then {
                     $0.text = option.title
                     $0.textAlignment = .center
-                    $0.setTypo(.body0b)
+                    $0.setTypo(.body1b)
                 }
             ]
         }
@@ -60,6 +60,7 @@ class EditLocationView: BaseView {
         $0.setSize(width: 20, height: 20)
         $0.layer.cornerRadius = 10
         $0.isUserInteractionEnabled = true
+        $0.isHidden = true
     }
     
     lazy var locationNameTextField = BaseTextField(
@@ -86,6 +87,7 @@ class EditLocationView: BaseView {
         $0.setSize(width: 20, height: 20)
         $0.layer.cornerRadius = 10
         $0.isUserInteractionEnabled = true
+        $0.isHidden = true
     }
     
     lazy var locationLinkTextField = BaseTextField(
@@ -187,6 +189,7 @@ class EditLocationView: BaseView {
             $0.top.equalTo(segment.snp.bottom)
                 .offset(FunnelConstant.spacingUnit * 4)
             $0.left.equalToSuperview()
+            $0.width.equalTo(30)
         }
         
         locationNameTextField.snp.makeConstraints {
@@ -200,6 +203,7 @@ class EditLocationView: BaseView {
             $0.top.equalTo(locationNameTextField.snp.bottom)
                 .offset(FunnelConstant.spacingUnit * 2)
             $0.left.equalToSuperview()
+            $0.width.equalTo(30)
         }
         
         locationLinkTextField.snp.makeConstraints {

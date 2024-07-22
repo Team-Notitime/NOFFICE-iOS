@@ -10,7 +10,7 @@ import Foundation
 /**
  Represents a todo item categorized by group.
  */
-public struct AnnouncementItemEntity: Codable, Identifiable, Equatable {
+public struct AnnouncementItemEntity: Identifiable, Equatable {
     /// Unique identifier for the todo item
     public let id: Int
     /// Image URL for the announcement illustration. (optional)
@@ -24,7 +24,7 @@ public struct AnnouncementItemEntity: Codable, Identifiable, Equatable {
     /// Location of the announcement (optional)
     public let location: AnnouncementLocationEntity?
     /// List of todo items (optional)
-    public let todos: [String]?
+    public let todos: [AnnouncementTodoEntity]?
     /// Types of reminder notifications (optional)
     public let remindNotification: [AnnouncementRemindNotification]?
     
@@ -35,7 +35,7 @@ public struct AnnouncementItemEntity: Codable, Identifiable, Equatable {
         body: String,
         date: Date? = nil,
         location: AnnouncementLocationEntity? = nil,
-        todos: [String]? = nil,
+        todos: [AnnouncementTodoEntity]? = nil,
         remindNotification: [AnnouncementRemindNotification]? = nil
     ) {
         self.id = id

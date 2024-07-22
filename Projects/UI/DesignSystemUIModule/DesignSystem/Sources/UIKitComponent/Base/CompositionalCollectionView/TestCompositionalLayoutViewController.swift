@@ -90,8 +90,8 @@ extension TestCompositionalLayoutViewController {
                 size: .init(width: .fractionalWidth(1.0), height: .absolute(100)),
                 groupSpacing: 8,
                 items: [
-                    .init(width: .fractionalWidth(0.3), height: .absolute(100)),
-                    .init(width: .fractionalWidth(0.7), height: .absolute(100))
+                    .item(size: .init(width: .fractionalWidth(0.3), height: .absolute(100))),
+                    .item(size: .init(width: .fractionalWidth(0.7), height: .absolute(100)))
                 ],
                 itemSpacing: 8
             ),

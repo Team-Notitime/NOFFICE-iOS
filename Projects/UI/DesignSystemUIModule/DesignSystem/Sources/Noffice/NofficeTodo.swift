@@ -32,6 +32,8 @@ where Option: Equatable & Identifiable {
     // MARK: Data
     public var value: Option?
     
+    public var automaticToggle: Bool = false
+    
     public var text: String = "" {
         didSet {
             label.text = text
@@ -74,7 +76,7 @@ where Option: Equatable & Identifiable {
     private lazy var label = UILabel().then {
         $0.text = ""
         $0.setTypo(.body2b)
-        $0.textColor = .blue700
+        $0.textColor = .blue600
         $0.numberOfLines = 10
     }
     
@@ -113,6 +115,9 @@ where Option: Equatable & Identifiable {
     // MARK: Public
     public func statusToggle() {
         status = status == .none ? .done : .none
+        
+        _onChangeStatus.onNext(status)
+        _onChangeSelected.onNext(isSelected)
     }
     
     // MARK: Setup
@@ -147,7 +152,7 @@ where Option: Equatable & Identifiable {
                 
                 self.icon.alpha = 0.0
                 self.backgroundView.backgroundColor = .blue100
-                self.label.textColor = .blue700
+                self.label.textColor = .blue600
             } completion: { [weak self] _ in
                 self?.icon.isHidden = true
             }
@@ -171,9 +176,10 @@ where Option: Equatable & Identifiable {
     
     // MARK: UIControl
     public override func endTracking(_ touch: UITouch?, with event: UIEvent?) {
-        statusToggle()
-        _onChangeStatus.onNext(status)
-        _onChangeSelected.onNext(isSelected)
+        if automaticToggle {
+            statusToggle()
+        }
+        
         sendActions(for: .touchUpInside)
     }
 }

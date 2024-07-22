@@ -7,6 +7,7 @@
 
 import UIKit
 
+import Router
 import DesignSystem
 
 import RxSwift
@@ -18,5 +19,13 @@ class EditDateTimeViewController: BaseViewController<EditDateTimeView> {
     
     override func setupStateBind() { }
     
-    override func setupActionBind() { }
+    override func setupActionBind() { 
+        // - Tap back button
+        baseView.navigationBar
+            .onTapBackButton
+            .subscribe(onNext: {
+                Router.shared.backToPresented()
+            })
+            .disposed(by: disposeBag)
+    }
 }

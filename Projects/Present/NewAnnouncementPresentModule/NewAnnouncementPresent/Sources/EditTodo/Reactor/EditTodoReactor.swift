@@ -7,14 +7,28 @@
 
 import ReactorKit
 
+import AnnouncementEntity
+
 class EditTodoReactor: Reactor {
     // MARK: Action
-    enum Action { }
+    enum Action {
+        case pressEnter
+        case changeTodoContent(String)
+        case deleteTodo(AnnouncementTodoEntity)
+    }
     
-    enum Mutation { }
+    // MARK: Mutation
+    enum Mutation {
+        case addTodo
+        case setTodoContent(String)
+        case deleteTodo(AnnouncementTodoEntity)
+    }
     
     // MARK: State
-    struct State { }
+    struct State {
+        var todoContent: String = ""
+        var todos: [AnnouncementTodoEntity] = []
+    }
     
     let initialState: State = State()
     
@@ -30,12 +44,34 @@ class EditTodoReactor: Reactor {
     
     // MARK: Action operation
     func mutate(action: Action) -> Observable<Mutation> {
-        switch action { }
+        switch action {
+        case .pressEnter:
+            return Observable.just(.addTodo)
+
+        case let .changeTodoContent(content):
+            return .just(.setTodoContent(content))
+            
+        case .deleteTodo(let todo):
+            return Observable.just(.deleteTodo(todo))
+        }
     }
     
     func reduce(state: State, mutation: Mutation) -> State {
         var state = state
-        switch mutation { }
+        switch mutation {
+        case .addTodo:
+            let entity: AnnouncementTodoEntity = .init(
+                content: state.todoContent
+            )
+            state.todos.append(entity)
+            state.todoContent = ""
+            
+        case let .setTodoContent(content):
+            state.todoContent = content
+            
+        case .deleteTodo(let todo):
+            state.todos.removeAll { $0 == todo }
+        }
         return state
     }
     

@@ -35,13 +35,40 @@ class EditLocationViewController: BaseViewController<EditLocationView> {
             .map { _ in "" }
             .bind(to: baseView.locationLinkTextField.text)
             .disposed(by: disposeBag)
+        
+        // - Name delete button visibility
+        baseView.locationNameTextField
+            .onChange
+            .distinctUntilChanged()
+            .compactMap { $0 }
+            .map { !$0.isEmpty }
+            .withUnretained(self)
+            .observe(on: MainScheduler.instance)
+            .subscribe(onNext: { owner, isHidden in
+                owner.baseView.locationNameDeleteButton.isHidden = !isHidden
+            })
+            .disposed(by: disposeBag)
+        
+        // - Link delete button visibility
+        baseView.locationLinkTextField
+            .onChange
+            .distinctUntilChanged()
+            .compactMap { $0 }
+            .map { !$0.isEmpty }
+            .withUnretained(self)
+            .observe(on: MainScheduler.instance)
+            .subscribe(onNext: { owner, isHidden in
+                owner.baseView.locationLinkDeleteButton.isHidden = !isHidden
+            })
+            .disposed(by: disposeBag)
     }
     
     override func setupStateBind() { 
         // - Open graph card visibility
         reactor.state.map { $0.locationLink }
-            .distinctUntilChanged()
             .map { $0.trimmingCharacters(in: .whitespaces) }
+            .compactMap { URL(string: $0) != nil ? $0 : "" }
+            .distinctUntilChanged()
             .withUnretained(self)
             .observe(on: MainScheduler.instance)
             .subscribe(onNext: { owner, link in

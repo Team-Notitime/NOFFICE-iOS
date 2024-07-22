@@ -69,8 +69,7 @@ class EditContentsPageView: BaseView {
     ])
     
     lazy var editDateTime = NofficeList(
-        option: AnnouncementTemplateType.date,
-        automaticToggle: false
+        option: AnnouncementTemplateType.date
     ) { option in
         [
             UILabel().then {
@@ -83,11 +82,12 @@ class EditContentsPageView: BaseView {
                 $0.setSize(width: 18, height: 18)
             }
         ]
+    }.then {
+        $0.automaticToggle = false
     }
     
     lazy var editLocation = NofficeList(
-        option: AnnouncementTemplateType.location,
-        automaticToggle: false
+        option: AnnouncementTemplateType.location
     ) { option in
         [
             UILabel().then {
@@ -100,11 +100,12 @@ class EditContentsPageView: BaseView {
                 $0.setSize(width: 18, height: 18)
             }
         ]
+    }.then {
+        $0.automaticToggle = false
     }
     
     lazy var editTodo = NofficeList(
-        option: AnnouncementTemplateType.todo,
-        automaticToggle: false
+        option: AnnouncementTemplateType.todo
     ) { option in
         [
             UILabel().then {
@@ -117,12 +118,12 @@ class EditContentsPageView: BaseView {
                 $0.setSize(width: 18, height: 18)
             }
         ]
+    }.then {
+        $0.automaticToggle = false
     }
     
     lazy var editNotification = NofficeList(
-        option: AnnouncementTemplateType.notification,
-        automaticToggle: false
-    ) { option in
+        option: AnnouncementTemplateType.notification) { option in
         [
             UILabel().then {
                 $0.text = "\(option.title)"
@@ -134,6 +135,8 @@ class EditContentsPageView: BaseView {
                 $0.setSize(width: 18, height: 18)
             }
         ]
+    }.then {
+        $0.automaticToggle = false
     }
     
     // - Complete button

@@ -80,7 +80,8 @@ class EditDateTimeView: BaseView {
             $0.top.equalTo(header.snp.bottom)
                 .offset(FunnelConstant.spacingUnit * 2)
             $0.left.right.equalToSuperview()
-//            $0.height.equalTo(360)
+                .inset(FunnelConstant.additionalPadding * 2)
+            $0.height.equalTo(CGFloat.infinityWidth * 1.2)
         }
     }
 }

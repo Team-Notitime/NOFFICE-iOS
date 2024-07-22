@@ -33,7 +33,7 @@ public final class NofficeList<Option>: UIControl, ToggleButton where Option: Eq
     // MARK: Data
     public var value: Option?
     
-    public var automaticToggle: Bool
+    public var automaticToggle: Bool = true
     
     public var status: Status = .unselected {
         didSet {
@@ -75,11 +75,9 @@ public final class NofficeList<Option>: UIControl, ToggleButton where Option: Eq
     // MARK: Initializer
     public init(
         option: Option,
-        automaticToggle: Bool = true,
         content: ViewBuilder
     ) {
         value = option
-        self.automaticToggle = automaticToggle
         contentComponents = content(option)
         
         super.init(frame: .zero)
@@ -92,7 +90,6 @@ public final class NofficeList<Option>: UIControl, ToggleButton where Option: Eq
     
     required init?(coder: NSCoder) {
         value = nil
-        automaticToggle = true
         
         super.init(coder: coder)
         
@@ -105,6 +102,9 @@ public final class NofficeList<Option>: UIControl, ToggleButton where Option: Eq
     // MARK: Public
     public func statusToggle() {
         status = status == .selected ? .unselected : .selected
+        
+        _onChangeStatus.onNext(status)
+        _onChangeSelected.onNext(isSelected)
     }
     
     // MARK: Setup
@@ -176,10 +176,8 @@ public final class NofficeList<Option>: UIControl, ToggleButton where Option: Eq
     public override func endTracking(_ touch: UITouch?, with event: UIEvent?) {
         if automaticToggle {
             statusToggle()
-            _onChangeStatus.onNext(status)
-            _onChangeSelected.onNext(isSelected)
-            sendActions(for: .touchUpInside)
         }
+        sendActions(for: .touchUpInside)
     }
 }
 

@@ -117,7 +117,7 @@ public class BaseCalendar: UIView {
         self.previousDateDisabled = previousDateDisabled
         
         if previousDateDisabled {
-            previousButton.isHidden = true
+            previousButton.isEnabled = false
         }
         
         setupHierarchy()
@@ -221,9 +221,9 @@ public class BaseCalendar: UIView {
                let newDateComponents = calendar.dateComponents([.year, .month], from: newDate)
                
             if currentDateComponents == newDateComponents {
-                previousButton.isHidden = true
+                previousButton.isEnabled = false
             } else {
-                previousButton.isHidden = false
+                previousButton.isEnabled = true
             }
         }
     }

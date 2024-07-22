@@ -7,8 +7,8 @@
 
 import ReactorKit
 
-import AnnouncementUsecase
-import AnnouncementEntity
+import CommonUsecase
+import CommonEntity
 
 class EditLocationReactor: Reactor {
     // MARK: Action

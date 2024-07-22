@@ -10,7 +10,7 @@ import Foundation
 /**
  Represents the location information of an announcement.
  */
-public struct AnnouncementLocationEntity: Codable, Equatable {
+public struct AnnouncementLocationEntity: Equatable {
     /// Type of the announcement location (offline or online)
     public let type: AnnouncementLocationType
     /// Name of the location
@@ -32,7 +32,7 @@ public struct AnnouncementLocationEntity: Codable, Equatable {
 /**
  Enum representing the type of announcement location.
  */
-public enum AnnouncementLocationType: String, Codable, Equatable, CaseIterable, Identifiable {
+public enum AnnouncementLocationType: String, Equatable, CaseIterable, Identifiable {
     /// Online location
     case online
     /// Offline location

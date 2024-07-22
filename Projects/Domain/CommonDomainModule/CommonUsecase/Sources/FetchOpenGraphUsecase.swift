@@ -7,7 +7,7 @@
 
 import Foundation
 
-import AnnouncementEntity
+import CommonEntity
 
 import RxSwift
 import OpenGraph
