@@ -23,14 +23,47 @@ class EditContentsPageViewController: BaseViewController<EditContentsPageView> {
     override func setupStateBind() { }
     
     override func setupActionBind() { 
-        baseView.dateTemplateButton
+        baseView.editDateTime
             .rx.tapGesture()
             .when(.recognized)
             .withUnretained(self.baseView)
             .subscribe(onNext: { owner, _ in
-                owner.dateTemplateButton.status = .selected
+                owner.editDateTime.status = .selected
                 
-                Router.shared.pushToPresent(UIViewController())
+                Router.shared.pushToPresent(EditDateTimeViewController())
+            })
+            .disposed(by: disposeBag)
+        
+        baseView.editLocation
+            .rx.tapGesture()
+            .when(.recognized)
+            .withUnretained(self.baseView)
+            .subscribe(onNext: { owner, _ in
+                owner.editDateTime.status = .selected
+                
+                Router.shared.pushToPresent(EditLocationViewController())
+            })
+            .disposed(by: disposeBag)
+        
+        baseView.editTodo
+            .rx.tapGesture()
+            .when(.recognized)
+            .withUnretained(self.baseView)
+            .subscribe(onNext: { owner, _ in
+                owner.editDateTime.status = .selected
+                
+                Router.shared.pushToPresent(EditTodoViewController())
+            })
+            .disposed(by: disposeBag)
+        
+        baseView.editNotification
+            .rx.tapGesture()
+            .when(.recognized)
+            .withUnretained(self.baseView)
+            .subscribe(onNext: { owner, _ in
+                owner.editDateTime.status = .selected
+                
+                Router.shared.pushToPresent(EditNotificationViewController())
             })
             .disposed(by: disposeBag)
     }

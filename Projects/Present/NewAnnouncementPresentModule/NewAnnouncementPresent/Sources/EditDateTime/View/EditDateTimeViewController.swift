@@ -12,7 +12,7 @@ import DesignSystem
 import RxSwift
 import RxCocoa
 
-class EditDateTimeViewViewController: BaseViewController<EditDateTimeViewView> {
+class EditDateTimeViewController: BaseViewController<EditDateTimeView> {
     // MARK: Setup
     override func setupViewBind() { }
     

@@ -60,15 +60,15 @@ class EditContentsPageView: BaseView {
         $0.styled(variant: .outlined)
     }
     
-    // - Templates
+    // - Go edit page buttons
     lazy var templateStack = BaseVStack(contents: [
-        dateTemplateButton,
-        locationTemplateButton,
-        todoTemplateButton,
-        notificationTemplateButton
+        editDateTime,
+        editLocation,
+        editTodo,
+        editNotification
     ])
     
-    lazy var dateTemplateButton = NofficeList(
+    lazy var editDateTime = NofficeList(
         option: AnnouncementTemplateType.date,
         automaticToggle: false
     ) { option in
@@ -85,7 +85,7 @@ class EditContentsPageView: BaseView {
         ]
     }
     
-    lazy var locationTemplateButton = NofficeList(
+    lazy var editLocation = NofficeList(
         option: AnnouncementTemplateType.location,
         automaticToggle: false
     ) { option in
@@ -102,7 +102,7 @@ class EditContentsPageView: BaseView {
         ]
     }
     
-    lazy var todoTemplateButton = NofficeList(
+    lazy var editTodo = NofficeList(
         option: AnnouncementTemplateType.todo,
         automaticToggle: false
     ) { option in
@@ -119,7 +119,7 @@ class EditContentsPageView: BaseView {
         ]
     }
     
-    lazy var notificationTemplateButton = NofficeList(
+    lazy var editNotification = NofficeList(
         option: AnnouncementTemplateType.notification,
         automaticToggle: false
     ) { option in
