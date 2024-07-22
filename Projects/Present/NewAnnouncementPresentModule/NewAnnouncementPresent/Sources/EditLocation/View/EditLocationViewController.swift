@@ -144,7 +144,6 @@ class EditLocationViewController: BaseViewController<EditLocationView> {
             .onChange
             .distinctUntilChanged()
             .compactMap { $0 }
-            .debug()
             .map { .changeLocationLink($0) }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)

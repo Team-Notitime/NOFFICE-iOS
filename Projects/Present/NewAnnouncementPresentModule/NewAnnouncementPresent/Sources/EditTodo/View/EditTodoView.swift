@@ -32,7 +32,9 @@ class EditTodoView: BaseView {
     }
     
     // - Todo collection view
-    lazy var collectionView = CompositionalCollectionView()
+    lazy var collectionView = CompositionalCollectionView().then {
+        $0.horizontalBouncy = false
+    }
     
     // - New todo text field
     lazy var newTodoTextField = BaseTextField().then {
@@ -104,8 +106,7 @@ class EditTodoView: BaseView {
         header.snp.makeConstraints {
             $0.top.equalToSuperview()
             $0.left.right.equalToSuperview()
-                .inset(GlobalViewConstant.pagePadding)
-                
+                .inset(GlobalViewConstant.pagePadding)     
         }
         
         nextButton.snp.makeConstraints {

@@ -7,6 +7,8 @@
 
 import ReactorKit
 
+import AnnouncementEntity
+
 class EditNotificationReactor: Reactor {
     // MARK: Action
     enum Action { }
@@ -14,7 +16,9 @@ class EditNotificationReactor: Reactor {
     enum Mutation { }
     
     // MARK: State
-    struct State { }
+    struct State { 
+        var selectedTimeOptions: [AnnouncementRemindNotification] = AnnouncementRemindNotification.defaultBefore
+    }
     
     let initialState: State = State()
     

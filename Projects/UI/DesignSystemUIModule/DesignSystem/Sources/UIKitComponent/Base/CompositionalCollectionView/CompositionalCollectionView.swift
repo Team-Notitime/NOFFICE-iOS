@@ -22,6 +22,24 @@ final public class CompositionalCollectionView: UIView, UICollectionViewDelegate
         }
     }
     
+    public var verticalBouncy: Bool = true {
+        didSet {
+            collectionView.bounces = verticalBouncy
+        }
+    }
+    
+    public var horizontalBouncy: Bool = true {
+        didSet {
+            collectionView.alwaysBounceHorizontal = horizontalBouncy
+        }
+    }
+    
+    public var isScrollEnabled: Bool = true {
+        didSet {
+            collectionView.isScrollEnabled = isScrollEnabled
+        }
+    }
+    
     // MARK: CollectionView & DataSource
     private var collectionView: UICollectionView!
     

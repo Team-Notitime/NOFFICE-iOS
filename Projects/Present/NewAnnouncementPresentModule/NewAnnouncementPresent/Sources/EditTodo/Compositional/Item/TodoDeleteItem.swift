@@ -60,7 +60,6 @@ final class TodoDeleteItemCell: UIView, CompositionalItemCell {
         trashIcon.snp.makeConstraints {
             $0.center.equalToSuperview()
         }
-
     }
     
     override func layoutSubviews() {

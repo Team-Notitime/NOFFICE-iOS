@@ -49,12 +49,3 @@ public struct AnnouncementItemEntity: Identifiable, Equatable {
     }
 }
 
-/**
- Enum representing the types of reminder notifications for an announcement.
- */
-public enum AnnouncementRemindNotification: Codable, Equatable {
-    /// Notification to remind before a specified time interval
-    case before(TimeInterval)
-    /// Custom notification date
-    case custom(Date)
-}
