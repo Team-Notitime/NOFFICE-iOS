@@ -238,7 +238,8 @@ extension Project {
 extension Project {
     static let presentDependencies : [TargetDependency] = [
         .thirdParty(.reactorKit),
-        .thirdParty(.swinject)
+        .thirdParty(.swinject),
+        .thirdParty(.kingfisher)
     ]
     
     static let uiDependencies: [TargetDependency] = [

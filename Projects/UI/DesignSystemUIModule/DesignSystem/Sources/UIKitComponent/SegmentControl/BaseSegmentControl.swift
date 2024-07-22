@@ -247,6 +247,7 @@ public class BaseSegmentControl<Option>: UIView where Option: Equatable & Identi
                         
                         if let label = $0 as? UILabel {
                             label.textColor = foregroundColor
+                            label.textAlignment = .center
                         }
                         
                         $0.tintColor = foregroundColor

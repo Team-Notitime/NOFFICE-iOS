@@ -77,6 +77,8 @@ public enum Module {
         case then = "Then"
         case reactorKit = "ReactorKit"
         case alamofire = "Alamofire"
+        case kingfisher = "Kingfisher"
+        case openGraph = "OpenGraph"
         
         var name: String { rawValue }
     }

@@ -29,10 +29,9 @@ class EditDateTimeView: BaseView {
     lazy var contentView = UIView()
     
     // - Title
-    lazy var titleLabel = UILabel().then {
-        $0.text = "이벤트 일시를 선택해주세요"
-        $0.textColor = .grey800
-        $0.setTypo(.heading3)
+    lazy var header = NofficeFunnelHeader().then {
+        $0.funnelType = .newAnnouncement
+        $0.title = "이벤트 일시를 선택해주세요"
     }
     
     // - Calendar
@@ -46,7 +45,7 @@ class EditDateTimeView: BaseView {
         
         scrollView.addSubview(contentView)
         
-        contentView.addSubview(titleLabel)
+        contentView.addSubview(header)
         
         contentView.addSubview(calendarView)
     }
@@ -72,17 +71,16 @@ class EditDateTimeView: BaseView {
             
         }
         
-        titleLabel.snp.makeConstraints {
+        header.snp.makeConstraints {
             $0.top.equalToSuperview()
-                .offset(FunnelConstant.spacingUnit * 2)
             $0.left.right.equalToSuperview()
         }
         
         calendarView.snp.makeConstraints {
-            $0.top.equalTo(titleLabel.snp.bottom)
+            $0.top.equalTo(header.snp.bottom)
                 .offset(FunnelConstant.spacingUnit * 2)
             $0.left.right.equalToSuperview()
-            $0.height.equalTo(360)
+//            $0.height.equalTo(360)
         }
     }
 }

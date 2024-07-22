@@ -32,9 +32,22 @@ public struct AnnouncementLocationEntity: Codable, Equatable {
 /**
  Enum representing the type of announcement location.
  */
-public enum AnnouncementLocationType: String, Codable, Equatable {
-    /// Offline location
-    case offline
+public enum AnnouncementLocationType: String, Codable, Equatable, CaseIterable, Identifiable {
     /// Online location
     case online
+    /// Offline location
+    case offline
+    
+    public var title: String {
+        switch self {
+        case .online:
+            return "대면"
+        case .offline:
+            return "비대면"
+        }
+    }
+    
+    public var id: String {
+        return self.title
+    }
 }

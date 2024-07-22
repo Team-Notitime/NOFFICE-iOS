@@ -85,6 +85,7 @@ public final class NofficeFunnelHeader: UIView {
         setupHierarchy()
         setupLayout()
         setupBind()
+        updateSubTitle()
     }
     
     required init?(coder: NSCoder) {
@@ -93,6 +94,7 @@ public final class NofficeFunnelHeader: UIView {
         setupHierarchy()
         setupLayout()
         setupBind()
+        updateSubTitle()
     }
     
     // MARK: Setup
@@ -127,6 +129,7 @@ public final class NofficeFunnelHeader: UIView {
         case .none:
             subTitleStack.isHidden = true
         case .newGroup:
+            subTitleStack.isHidden = false
             subTitleIcon.image = .iconGrid
             subTitleLabel.text = "그룹 만들기"
         case .newAnnouncement:
