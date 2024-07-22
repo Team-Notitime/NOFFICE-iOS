@@ -38,7 +38,7 @@ class NewOrganizationEndDatePageViewController: BaseViewController<NewOrganizati
                 
                 UIView.animate(withDuration: 0.3) {
                     let opacity: CGFloat = date == nil ? 0 : 1
-                    owner.baseView.selectedDateLabelStackView.alpha = opacity
+                    owner.baseView.selectedDateLabelBackgroundView.alpha = opacity
                 }
             })
             .disposed(by: self.disposeBag)
