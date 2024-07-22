@@ -33,6 +33,10 @@ class NewOrganizationCompletePageViewController: BaseViewController<NewOrganizat
             .disposed(by: disposeBag)
         
         baseView.copyLinkButton.onTap
+            .map {
+                let toast = BaseToast()
+                toast.show(in: self.view, message: "링크가 복사되었습니다")
+            }
             .map { _ in .tapCopyLinkButton }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)

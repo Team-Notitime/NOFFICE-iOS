@@ -48,7 +48,7 @@ public struct FetchAllAnnouncementUsecase {
             ),
             .init(
                 id: 2,
-                name: "CMC 15th",
+                name: "멋진 동아리",
                 status: .join,
                 announcements: [
                     .init(
@@ -77,13 +77,13 @@ public struct FetchAllAnnouncementUsecase {
             ),
             .init(
                 id: 3,
-                name: "CMC 15th",
+                name: "즐거운 소모임",
                 status: .join,
                 announcements: []
             ),
             .init(
                 id: 4,
-                name: "CMC 15th",
+                name: "행복한 스터디",
                 status: .pending,
                 announcements: []
             )

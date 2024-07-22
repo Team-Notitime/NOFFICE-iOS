@@ -87,6 +87,8 @@ class SelectOrganizationPageView: BaseView {
     }
     
     override func setupLayout() { 
+        translatesAutoresizingMaskIntoConstraints = false
+        
         backgroundView.snp.makeConstraints {
             $0.top.bottom.equalToSuperview()
             $0.left.right.equalToSuperview()

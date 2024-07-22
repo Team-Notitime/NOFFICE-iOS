@@ -46,7 +46,7 @@ public final class NofficeNavigationBar: UIView {
     // MARK: Build component
     private lazy var titleLabel = UILabel().then {
         $0.textColor = .grey800
-        $0.setTypo(.body1)
+        $0.setTypo(.body1m)
     }
     
     private lazy var rightItem: UIView = UIView()

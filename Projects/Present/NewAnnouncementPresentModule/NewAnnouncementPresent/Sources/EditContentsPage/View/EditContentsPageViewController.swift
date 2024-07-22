@@ -9,10 +9,12 @@ import Foundation
 
 import UIKit
 
+import Router
 import DesignSystem
 
 import RxSwift
 import RxCocoa
+import RxGesture
 
 class EditContentsPageViewController: BaseViewController<EditContentsPageView> {
     // MARK: Setup
@@ -20,5 +22,16 @@ class EditContentsPageViewController: BaseViewController<EditContentsPageView> {
     
     override func setupStateBind() { }
     
-    override func setupActionBind() { }
+    override func setupActionBind() { 
+        baseView.dateTemplateButton
+            .rx.tapGesture()
+            .when(.recognized)
+            .withUnretained(self.baseView)
+            .subscribe(onNext: { owner, _ in
+                owner.dateTemplateButton.status = .selected
+                
+                Router.shared.pushToPresent(UIViewController())
+            })
+            .disposed(by: disposeBag)
+    }
 }

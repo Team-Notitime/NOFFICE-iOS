@@ -17,8 +17,6 @@ import SnapKit
 import Then
 
 class EditContentsPageView: BaseView {
-    // MARK: UI Constant
-    
     // MARK: UI Component
     // - Scroll view
     lazy var scrollView = UIScrollView().then {
@@ -62,25 +60,81 @@ class EditContentsPageView: BaseView {
         $0.styled(variant: .outlined)
     }
     
-    // - Options
-    lazy var templates = BaseCheckBoxGroup(
-        source: AnnouncementTemplateType.allCases,
-        optionBuilder: { option in
-            NofficeList(option: option, automaticToggle: false) { _ in
-                [
-                    UILabel().then {
-                        $0.text = "\(option.title)"
-                        $0.setTypo(.body2b)
-                        $0.textAlignment = .center
-                    },
-                    BaseSpacer(),
-                    UIImageView(image: .iconChevronRight).then {
-                        $0.setSize(width: 18, height: 18)
-                    }
-                ]
+    // - Templates
+    lazy var templateStack = BaseVStack(contents: [
+        dateTemplateButton,
+        locationTemplateButton,
+        todoTemplateButton,
+        notificationTemplateButton
+    ])
+    
+    lazy var dateTemplateButton = NofficeList(
+        option: AnnouncementTemplateType.date,
+        automaticToggle: false
+    ) { option in
+        [
+            UILabel().then {
+                $0.text = "\(option.title)"
+                $0.setTypo(.body2b)
+                $0.textAlignment = .center
+            },
+            BaseSpacer(),
+            UIImageView(image: .iconChevronRight).then {
+                $0.setSize(width: 18, height: 18)
             }
-        }
-    )
+        ]
+    }
+    
+    lazy var locationTemplateButton = NofficeList(
+        option: AnnouncementTemplateType.location,
+        automaticToggle: false
+    ) { option in
+        [
+            UILabel().then {
+                $0.text = "\(option.title)"
+                $0.setTypo(.body2b)
+                $0.textAlignment = .center
+            },
+            BaseSpacer(),
+            UIImageView(image: .iconChevronRight).then {
+                $0.setSize(width: 18, height: 18)
+            }
+        ]
+    }
+    
+    lazy var todoTemplateButton = NofficeList(
+        option: AnnouncementTemplateType.todo,
+        automaticToggle: false
+    ) { option in
+        [
+            UILabel().then {
+                $0.text = "\(option.title)"
+                $0.setTypo(.body2b)
+                $0.textAlignment = .center
+            },
+            BaseSpacer(),
+            UIImageView(image: .iconChevronRight).then {
+                $0.setSize(width: 18, height: 18)
+            }
+        ]
+    }
+    
+    lazy var notificationTemplateButton = NofficeList(
+        option: AnnouncementTemplateType.notification,
+        automaticToggle: false
+    ) { option in
+        [
+            UILabel().then {
+                $0.text = "\(option.title)"
+                $0.setTypo(.body2b)
+                $0.textAlignment = .center
+            },
+            BaseSpacer(),
+            UIImageView(image: .iconChevronRight).then {
+                $0.setSize(width: 18, height: 18)
+            }
+        ]
+    }
     
     // - Complete button
     lazy var completeButton = BaseButton(
@@ -98,7 +152,7 @@ class EditContentsPageView: BaseView {
     }
     
     // MARK: Setup
-    override func setupHierarchy() { 
+    override func setupHierarchy() {
         addSubview(scrollView)
         
         scrollView.addSubview(contentView)
@@ -107,12 +161,14 @@ class EditContentsPageView: BaseView {
         
         contentView.addSubview(bodyTextView)
         
-        contentView.addSubview(templates)
+        contentView.addSubview(templateStack)
         
         contentView.addSubview(completeButton)
     }
     
     override func setupLayout() { 
+        translatesAutoresizingMaskIntoConstraints = false
+        
         scrollView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
@@ -120,7 +176,6 @@ class EditContentsPageView: BaseView {
         contentView.snp.makeConstraints {
             $0.top.bottom.equalToSuperview()
             $0.width.equalTo(scrollView.snp.width)
-//            $0.height.equalTo(1000)
         }
         
         titleTextField.snp.makeConstraints {
@@ -137,14 +192,7 @@ class EditContentsPageView: BaseView {
                 .inset(GlobalViewConstant.pagePadding)
         }
         
-        templates.snp.makeConstraints {
-            $0.top.equalTo(bodyTextView.snp.bottom)
-                .offset(FunnelConstant.spacingUnit)
-            $0.left.right.equalToSuperview()
-                .inset(GlobalViewConstant.pagePadding)
-        }
-        
-        templates.snp.makeConstraints {
+        templateStack.snp.makeConstraints {
             $0.top.equalTo(bodyTextView.snp.bottom)
                 .offset(FunnelConstant.spacingUnit)
             $0.left.right.equalToSuperview()

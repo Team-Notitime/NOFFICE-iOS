@@ -34,9 +34,7 @@ class SelectOrganizationPageReactor: Reactor {
     }
     
     let initialState: State = State()
-    
-    // MARK: ChildReactor
-    
+
     // MARK: Dependency
     private let fetchMyOrganizations = FetchMyOrganizations()
     
@@ -80,11 +78,4 @@ class SelectOrganizationPageReactor: Reactor {
         }
         return state
     }
-    
-    // MARK: Child bind
-    private func setupChildBind() { }
-    
-    // MARK: Transform
-    
-    // MARK: Private method
 }

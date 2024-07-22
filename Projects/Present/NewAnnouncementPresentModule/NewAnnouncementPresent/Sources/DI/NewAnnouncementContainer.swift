@@ -28,6 +28,26 @@ extension Container {
             EditContentsPageReactor()
         }
         .inObjectScope(.weak)
+        
+        container.register(EditDateTimeReactor.self) { _ in
+            EditDateTimeReactor()
+        }
+        .inObjectScope(.weak)
+        
+        container.register(EditLocationReactor.self) { _ in
+            EditLocationReactor()
+        }
+        .inObjectScope(.weak)
+        
+        container.register(EditTodoReactor.self) { _ in
+            EditTodoReactor()
+        }
+        .inObjectScope(.weak)
+        
+        container.register(EditNotificationReactor.self) { _ in
+            EditNotificationReactor()
+        }
+        .inObjectScope(.weak)
 
         return container
     }()
