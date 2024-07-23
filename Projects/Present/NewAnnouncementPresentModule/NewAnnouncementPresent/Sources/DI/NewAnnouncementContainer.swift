@@ -24,8 +24,13 @@ extension Container {
         }
         .inObjectScope(.weak)
         
-        container.register(EditContentsPageReactor.self) { _ in
-            EditContentsPageReactor()
+        container.register(EditContentsPageReactor.self) { resolver in
+            EditContentsPageReactor(
+                editDateTimeReactor: resolver.resolve(EditDateTimeReactor.self)!,
+                editLocationReactor: resolver.resolve(EditLocationReactor.self)!,
+                editTodoReactor: resolver.resolve(EditTodoReactor.self)!,
+                editNotificationReactor: resolver.resolve(EditNotificationReactor.self)!
+            )
         }
         .inObjectScope(.weak)
         

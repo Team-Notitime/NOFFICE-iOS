@@ -142,13 +142,15 @@ public final class NofficeList<Option>: UIControl, ToggleButton where Option: Eq
             ) { [weak self] in
                 guard let self = self else { return }
                 
-                self.backgroundView.backgroundColor = .green100
-                
-                self.stackView.arrangedSubviews.forEach {
-                    if let label = $0 as? UILabel {
-                        label.textColor = .green700
-                    } else if let icon = $0 as? UIImageView {
-                        icon.tintColor = .green700
+                DispatchQueue.main.async {
+                    self.backgroundView.backgroundColor = .green100
+                    
+                    self.stackView.arrangedSubviews.forEach {
+                        if let label = $0 as? UILabel {
+                            label.textColor = .green700
+                        } else if let icon = $0 as? UIImageView {
+                            icon.tintColor = .green700
+                        }
                     }
                 }
             }
@@ -160,12 +162,15 @@ public final class NofficeList<Option>: UIControl, ToggleButton where Option: Eq
             ) { [weak self] in
                 guard let self = self else { return }
                 
-                self.backgroundView.backgroundColor = .grey100
-                self.stackView.arrangedSubviews.forEach {
-                    if let label = $0 as? UILabel {
-                        label.textColor = .grey600
-                    } else if let icon = $0 as? UIImageView {
-                        icon.tintColor = .grey600
+                DispatchQueue.main.async {
+                    self.backgroundView.backgroundColor = .grey100
+                    
+                    self.stackView.arrangedSubviews.forEach {
+                        if let label = $0 as? UILabel {
+                            label.textColor = .grey600
+                        } else if let icon = $0 as? UIImageView {
+                            icon.tintColor = .grey600
+                        }
                     }
                 }
             }
