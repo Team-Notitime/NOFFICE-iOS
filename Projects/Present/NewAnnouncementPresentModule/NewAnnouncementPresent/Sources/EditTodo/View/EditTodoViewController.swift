@@ -32,8 +32,15 @@ class EditTodoViewController: BaseViewController<EditTodoView>, UITextFieldDeleg
                     TodoSection(
                         todoId: index,
                         items: [
-                            TodoItem(id: index, content: todo.content),
-                            TodoDeleteItem(id: index+1000, content: todo.content)
+                            TodoItem(content: todo.content),
+                            TodoDeleteItem(
+                                id: index+1000,
+                                content: todo.content
+                            ) { [weak self] in
+                                guard let self = self else { return }
+                                
+                                self.reactor.action.onNext(.deleteTodo(todo))
+                            }
                         ]
                     )
                 }

@@ -16,6 +16,9 @@ import RxSwift
 final class TodoDeleteItem: CompositionalItem {
     typealias Cell = TodoDeleteItemCell
     
+    // MARK: Event
+    let delete: () -> Void
+    
     // MARK: Data
     let id: Int
     let content: String
@@ -25,10 +28,12 @@ final class TodoDeleteItem: CompositionalItem {
     
     init(
         id: Int,
-        content: String
+        content: String,
+        delete: @escaping () -> Void
     ) {
         self.id = id
         self.content = content
+        self.delete = delete
     }
     
     func hash(into hasher: inout Hasher) {
@@ -39,10 +44,17 @@ final class TodoDeleteItem: CompositionalItem {
 
 final class TodoDeleteItemCell: UIView, CompositionalItemCell {
     // MARK: UI Component
-    let trashIcon = UIImageView(image: .iconBell).then {
+    let trashIcon = UIImageView(image: .iconTrash).then {
         $0.setSize(width: 22, height: 22)
         $0.tintColor = .red500
     }
+    
+    lazy var rightBackgroundView = UIView().then {
+        $0.backgroundColor = .red500.withAlphaComponent(0.2)
+    }
+    
+    // MARK: DisposeBag
+    let disposeBag = DisposeBag()
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
@@ -57,8 +69,16 @@ final class TodoDeleteItemCell: UIView, CompositionalItemCell {
     private func setup() {
         addSubview(trashIcon)
         
+        addSubview(rightBackgroundView)
+        
         trashIcon.snp.makeConstraints {
             $0.center.equalToSuperview()
+        }
+        
+        rightBackgroundView.snp.makeConstraints {
+            $0.left.equalTo(self.snp.left)
+            $0.width.equalTo(400)
+            $0.height.equalTo(self.snp.height)
         }
     }
     
@@ -69,17 +89,22 @@ final class TodoDeleteItemCell: UIView, CompositionalItemCell {
     
     private func applyRoundedCorners() {
         let path = UIBezierPath(
-            roundedRect: bounds,
+            roundedRect: rightBackgroundView.bounds,
             byRoundingCorners: [.topLeft, .bottomLeft],
             cornerRadii: CGSize(width: 8, height: 8)
         )
         
         let mask = CAShapeLayer()
         mask.path = path.cgPath
-        layer.mask = mask
+        rightBackgroundView.layer.mask = mask
     }
     
     func configure(with item: TodoDeleteItem) {
-        backgroundColor = .red500.withAlphaComponent(0.2)
+        self.rx.tapGesture()
+            .when(.recognized)
+            .subscribe(onNext: { _ in
+                item.delete()
+            })
+            .disposed(by: disposeBag)
     }
 }

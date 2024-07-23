@@ -11,6 +11,8 @@ import Foundation
  Represents a todo item in an announcement.
  */
 public struct AnnouncementTodoEntity: Equatable {
+    /// Unique identifier
+    public let id: UUID = UUID()
     /// Content of the todo
     public let content: String
     

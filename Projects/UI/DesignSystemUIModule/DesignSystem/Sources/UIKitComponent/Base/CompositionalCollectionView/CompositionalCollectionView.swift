@@ -28,12 +28,6 @@ final public class CompositionalCollectionView: UIView, UICollectionViewDelegate
         }
     }
     
-    public var horizontalBouncy: Bool = true {
-        didSet {
-            collectionView.alwaysBounceHorizontal = horizontalBouncy
-        }
-    }
-    
     public var isScrollEnabled: Bool = true {
         didSet {
             collectionView.isScrollEnabled = isScrollEnabled
@@ -209,7 +203,10 @@ final public class CompositionalCollectionView: UIView, UICollectionViewDelegate
             )
         }
         
-        dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
+        dataSource.apply(
+            snapshot,
+            animatingDifferences: animatingDifferences
+        )
     }
     
     // MARK: Collection view Delegate

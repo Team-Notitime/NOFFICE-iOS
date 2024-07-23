@@ -17,7 +17,10 @@ struct TodoSection: CompositionalSection {
     var layout: CompositionalLayout {
         .init(
             groupLayout: .init(
-                size: .init(width: .fractionalWidth(1.2), height: .estimated(42)),
+                size: .init(
+                    width: .fractionalWidth(1.2),
+                    height: .estimated(42)
+                ),
                 groupSpacing: 0,
                 items: [
                     .item(

@@ -40,13 +40,11 @@ final class SelectedReminderItemCell: UIView, CompositionalItemCell {
         $0.setTypo(.body2b)
     }
     
-    lazy var badge = BaseBadge(
-        contentsBudiler: {
-            [
-                badgeLabel
-            ]
-        }
-    ).then {
+    lazy var badge = BaseBadge {
+        [
+            badgeLabel
+        ]
+    }.then {
         $0.styled(color: .blue, variant: .weak)
     }
     

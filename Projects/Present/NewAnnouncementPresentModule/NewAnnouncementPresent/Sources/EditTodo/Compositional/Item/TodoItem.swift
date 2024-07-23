@@ -17,17 +17,15 @@ final class TodoItem: CompositionalItem {
     typealias Cell = TodoItemCell
     
     // MARK: Data
-    let id: Int
+    let id: UUID = UUID()
     let content: String
     
     // MARK: DisposeBag
     let disposeBag = DisposeBag()
     
     init(
-        id: Int,
         content: String
     ) {
-        self.id = id
         self.content = content
     }
     

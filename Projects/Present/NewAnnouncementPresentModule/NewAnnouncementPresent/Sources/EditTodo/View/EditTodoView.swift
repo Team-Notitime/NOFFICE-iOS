@@ -32,9 +32,7 @@ class EditTodoView: BaseView {
     }
     
     // - Todo collection view
-    lazy var collectionView = CompositionalCollectionView().then {
-        $0.horizontalBouncy = false
-    }
+    lazy var collectionView = CompositionalCollectionView()
     
     // - New todo text field
     lazy var newTodoTextField = BaseTextField().then {

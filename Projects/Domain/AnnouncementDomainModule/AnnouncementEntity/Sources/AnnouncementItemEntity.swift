@@ -48,4 +48,3 @@ public struct AnnouncementItemEntity: Identifiable, Equatable {
         self.remindNotification = remindNotification
     }
 }
-
