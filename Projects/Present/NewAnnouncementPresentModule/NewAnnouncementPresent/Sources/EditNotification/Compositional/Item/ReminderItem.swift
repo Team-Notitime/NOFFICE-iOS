@@ -12,7 +12,7 @@ import Assets
 
 import RxSwift
 
-final class SelectedReminderItem: CompositionalItem {
+final class ReminderItem: CompositionalItem {
     typealias Cell = SelectedReminderItemCell
     
     // MARK: Data
@@ -66,7 +66,7 @@ final class SelectedReminderItemCell: UIView, CompositionalItemCell {
         }
     }
     
-    func configure(with item: SelectedReminderItem) {
+    func configure(with item: ReminderItem) {
         badgeLabel.text = item.timeText
     }
 }

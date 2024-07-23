@@ -10,7 +10,7 @@ import Foundation
 /**
  Enum representing the types of reminder notifications for an announcement.
  */
-public enum AnnouncementRemindNotification: Codable, Equatable {
+public enum AnnouncementRemindNotification: Codable, Equatable, Hashable {
     /// Notification to remind before a specified time interval
     case before(TimeInterval)
     /// Custom notification date
@@ -63,6 +63,16 @@ public enum AnnouncementRemindNotification: Codable, Equatable {
             formatter.timeStyle = .short
             formatter.locale = Locale(identifier: "ko_KR")
             return formatter.string(from: date)
+        }
+    }
+    
+    /// Returns the time interval in seconds for sorting purposes
+    public var timeInterval: TimeInterval {
+        switch self {
+        case .before(let interval):
+            return interval
+        case .custom(let date):
+            return date.timeIntervalSince1970
         }
     }
 }

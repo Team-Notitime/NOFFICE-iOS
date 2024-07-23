@@ -12,7 +12,7 @@ import Assets
 
 import RxSwift
 
-final class SelectedReminderDescriptionItem: CompositionalItem {
+final class ReminderDescriptionItem: CompositionalItem {
     typealias Cell = SelectedReminderDescriptionItemCell
     
     // MARK: Data
@@ -55,5 +55,5 @@ final class SelectedReminderDescriptionItemCell: UIView, CompositionalItemCell {
         }
     }
     
-    func configure(with item: SelectedReminderDescriptionItem) { }
+    func configure(with item: ReminderDescriptionItem) { }
 }

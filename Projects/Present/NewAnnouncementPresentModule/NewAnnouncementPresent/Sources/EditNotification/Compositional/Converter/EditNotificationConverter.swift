@@ -9,19 +9,39 @@ import DesignSystem
 import AnnouncementEntity
 
 struct EditNotificationConverter {
-    static func convert(
+    static func convertToReminder(
         options: [AnnouncementRemindNotification]
-    ) -> [SelectedReminderSection] {
+    ) -> [ReminderSection] {
         var optionItems: [any CompositionalItem] = options.map { option in
-            SelectedReminderItem(
+            ReminderItem(
                 timeText: option.toKoreanString()
             )
         }
         
-        optionItems.append(SelectedReminderDescriptionItem())
+        optionItems.append(ReminderDescriptionItem())
         
         return [
-            SelectedReminderSection(
+            ReminderSection(
+                items: optionItems
+            )
+        ]
+    }
+    
+    static func convertToTimeOption(
+        options: [AnnouncementRemindNotification],
+        onSelect: @escaping (AnnouncementRemindNotification) -> Bool
+    ) -> [TimeOptionSection] {
+        let optionItems: [any CompositionalItem] = options.map { option in
+            TimeOptionItem(
+                timeText: option.toKoreanString(),
+                onSelect: {
+                    return onSelect(option)
+                }
+            )
+        }
+        
+        return [
+            TimeOptionSection(
                 items: optionItems
             )
         ]

@@ -10,7 +10,7 @@ import Foundation
 import DesignSystem
 import Assets
 
-struct SelectedReminderSection: CompositionalSection {
+struct ReminderSection: CompositionalSection {
     var layout: CompositionalLayout {
         .init(
             groupLayout: .init(

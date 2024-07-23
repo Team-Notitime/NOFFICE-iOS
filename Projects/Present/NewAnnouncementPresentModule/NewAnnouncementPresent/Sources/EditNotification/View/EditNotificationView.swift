@@ -19,7 +19,7 @@ class EditNotificationView: BaseView {
     // MARK: UI Component
     // - Navigation bar
     lazy var navigationBar = NofficeNavigationBar().then {
-        $0.title = "리마인더 추가"
+        $0.title = "알림"
     }
     
     // - Content view
@@ -31,9 +31,26 @@ class EditNotificationView: BaseView {
         $0.title = "멤버에게 전달될\n리마인드 알림을 설정할까요?"
     }
     
-    // - Selected reminder collection view
-    lazy var selectedReminderCollectionView = CompositionalCollectionView().then {
+    // - Selected reminder time collection view
+    lazy var reminderCollectionView = CompositionalCollectionView().then {
         $0.isScrollEnabled = false
+    }
+    
+    // - Reminder time option collection view
+    lazy var timeOptionCollectionView = CompositionalCollectionView()
+    
+    // - Save button
+    lazy var saveButton = BaseButton(
+        contentsBuilder: {
+            [
+                UILabel().then {
+                    $0.text = "저장"
+                    $0.setTypo(.body1b)
+                }
+            ]
+        }
+    ).then {
+        $0.styled(variant: .fill, color: .green)
     }
     
     // MARK: Setup
@@ -44,7 +61,11 @@ class EditNotificationView: BaseView {
         
         contentView.addSubview(header)
         
-        contentView.addSubview(selectedReminderCollectionView)
+        contentView.addSubview(reminderCollectionView)
+        
+        contentView.addSubview(timeOptionCollectionView)
+        
+        contentView.addSubview(saveButton)
     }
     
     override func setupLayout() { 
@@ -65,10 +86,23 @@ class EditNotificationView: BaseView {
                 .inset(GlobalViewConstant.pagePadding)
         }
         
-        selectedReminderCollectionView.snp.makeConstraints {
+        reminderCollectionView.snp.makeConstraints {
             $0.top.equalTo(header.snp.bottom)
             $0.left.right.equalToSuperview()
-            $0.height.equalTo(300)
+            $0.height.equalTo(100)
+        }
+        
+        saveButton.snp.makeConstraints {
+            $0.left.right.equalToSuperview()
+                .inset(GlobalViewConstant.pagePadding)
+            $0.bottom.equalToSuperview()
+                .inset(FunnelConstant.spacingUnit * 3)
+        }
+        
+        timeOptionCollectionView.snp.makeConstraints {
+            $0.top.equalTo(reminderCollectionView.snp.bottom)
+            $0.left.right.equalToSuperview()
+            $0.bottom.equalTo(saveButton.snp.top)
         }
     }
 }
