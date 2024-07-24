@@ -139,7 +139,6 @@ public extension UILabel {
         let fontSize = self.font.pointSize
         let lineHeight = fontSize * multiplier
         let lineSpacing = lineHeight - fontSize
-        let baselineOffset = (lineHeight - fontSize) / 4
         
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineSpacing = lineSpacing
@@ -240,7 +239,6 @@ public extension UITextField {
         let fontSize = self.font?.pointSize ?? 16
         let lineHeight = fontSize * multiplier
         let lineSpacing = lineHeight - fontSize
-        let baselineOffset = (lineHeight - fontSize) / 4
         
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineSpacing = lineSpacing
@@ -329,28 +327,6 @@ public extension UITextView {
         case .black:
             self.font = UIFont(name: "Pretendard-Black", size: size)
         }
-        
-        self.setLineHeight(multiplier: lineSpacingMultiplier)
-    }
-    
-    func setLineHeight(multiplier: CGFloat) {
-        guard let text = self.text else { return }
-        
-        let fontSize = self.font?.pointSize ?? 16
-        let lineHeight = fontSize * multiplier
-        let lineSpacing = lineHeight - fontSize
-        let baselineOffset = (lineHeight - fontSize) / 4
-        
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineSpacing = lineSpacing
-        
-        let attributedString = NSMutableAttributedString(string: text)
-        attributedString.addAttribute(
-            .paragraphStyle,
-            value: paragraphStyle,
-            range: NSRange(location: 0, length: attributedString.length)
-        )
-        self.attributedText = attributedString
     }
 
     /// Set the typography of the text.
