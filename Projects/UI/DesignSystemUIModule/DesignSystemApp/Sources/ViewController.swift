@@ -124,6 +124,18 @@ class ViewController: UIViewController {
             ]
         ),
         Section(
+            title: "Time picker",
+            examples: [
+                Example(
+                    button: UIButton().then {
+                        $0.setTitle("Basic time picker example", for: .normal)
+                        $0.setTitleColor(.systemBlue, for: .normal)
+                    },
+                    viewController: TimePickerBookViewController.self
+                )
+            ]
+        ),
+        Section(
             title: "Calendar",
             examples: [
                 Example(
