@@ -105,6 +105,7 @@ class EditContentsPageReactor: Reactor {
     // MARK: Child bind
     private func setupChildBind() {
         editDateTimeReactor.state
+            .debug("edit date state")
             .map { $0.selectedDate != nil || $0.selectedTime != nil }
             .map { .changeDateTimeActive($0) }
             .bind(to: self.action)

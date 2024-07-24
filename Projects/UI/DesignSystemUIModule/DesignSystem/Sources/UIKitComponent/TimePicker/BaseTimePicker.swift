@@ -14,9 +14,11 @@ import SnapKit
 /// Extension for setting the initial time
 public extension BaseTimePicker {
     func updateTime(hour: Int, minute: Int, isPM: Bool) {
-        self.selectedHour = hour
-        self.selectedMinute = minute
-        self.isPM = isPM
+        self.selectedDateComponent = DateComponents(
+            hour: hour + (isPM ? 12 : 0),
+            minute: minute
+        )
+        
         updateTimePicker()
     }
 }
@@ -30,32 +32,20 @@ public class BaseTimePicker: UIView {
     
     public var selectedTime: Binder<DateComponents?> {
         return Binder(self) { timePicker, timeComponents in
-            guard let timeComponents = timeComponents,
-                  let hour = timeComponents.hour,
-                  let minute = timeComponents.minute else {
-                
-                timePicker.selectedHour = 0
-                timePicker.selectedMinute = 0
-                timePicker.isPM = false
-                
+            guard let timeComponents = timeComponents
+            else {
+                timePicker.selectedDateComponent = nil
                 timePicker.updateTimePicker()
                 return
             }
             
-            let isPM = hour >= 12
-            let adjustedHour = hour % 12
-            timePicker.selectedHour = adjustedHour == 0 ? 12 : adjustedHour
-            timePicker.selectedMinute = minute
-            timePicker.isPM = isPM
-            
+            timePicker.selectedDateComponent = timeComponents
             timePicker.updateTimePicker()
         }
     }
     
     // MARK: State
-    private var selectedHour: Int = 0
-    
-    private var selectedMinute: Int = 0
+    private var selectedDateComponent: DateComponents?
     
     private var isPM: Bool = false
     
@@ -234,41 +224,60 @@ public class BaseTimePicker: UIView {
     }
     
     // MARK: Update
-    
     private func incrementHour() {
-        selectedHour = (selectedHour % 12) + 1
+        var components = selectedDateComponent ?? DateComponents(hour: 0, minute: 0)
+        components.hour = ((components.hour ?? 0) % 12) + 1
+        selectedDateComponent = components
         updateTimePicker()
     }
-    
+
     private func decrementHour() {
-        selectedHour = (selectedHour - 1 + 12) % 12
-        if selectedHour == 0 {
-            selectedHour = 12
-        }
+        var components = selectedDateComponent ?? DateComponents(hour: 0, minute: 0)
+        components.hour = (((components.hour ?? 0) - 1 + 12) % 12)
+        selectedDateComponent = components
         updateTimePicker()
     }
-    
+
     private func incrementMinute() {
-        selectedMinute = (selectedMinute + 1) % 60
+        var components = selectedDateComponent ?? DateComponents(hour: 0, minute: 0)
+        components.minute = ((components.minute ?? 0) + 1) % 60
+        selectedDateComponent = components
         updateTimePicker()
     }
-    
+
     private func decrementMinute() {
-        selectedMinute = (selectedMinute - 1 + 60) % 60
+        var components = selectedDateComponent ?? DateComponents(hour: 0, minute: 0)
+        components.minute = (((components.minute ?? 0) - 1 + 60) % 60)
+        selectedDateComponent = components
         updateTimePicker()
     }
-    
+
     private func toggleAmPm() {
-        isPM.toggle()
+        var components = selectedDateComponent ?? DateComponents(hour: 0, minute: 0)
+        let hour = components.hour ?? 0
+        if isPM {
+            components.hour = hour % 12
+        } else {
+            components.hour = (hour % 12) + 12
+        }
+        selectedDateComponent = components
         updateTimePicker()
     }
     
     private func updateTimePicker() {
-        hourLabel.text = String(format: "%d", selectedHour)
-        minuteLabel.text = String(format: "%02d", selectedMinute)
+        let hour = selectedDateComponent?.hour ?? 0
+        let minute = selectedDateComponent?.minute ?? 0
+        let isPM = hour >= 12
+        let adjustedHour = hour % 12 == 0 ? 12 : hour % 12
+
+        // Update the labels (UI logic, for reference only)
+        hourLabel.text = String(format: "%d", adjustedHour)
+        minuteLabel.text = String(format: "%02d", minute)
         amPmLabel.text = isPM ? "PM" : "AM"
         
-        let components = DateComponents(hour: selectedHour + (isPM ? 12 : 0), minute: selectedMinute)
-        _onChangeSelectedTime.onNext(components)
+        // Notify the observers
+        if let selectedDateComponent = selectedDateComponent {
+            _onChangeSelectedTime.onNext(selectedDateComponent)
+        }
     }
 }

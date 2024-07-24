@@ -67,7 +67,6 @@ class EditDateTimeViewController: BaseViewController<EditDateTimeView> {
         // - Tap reset button
         baseView.resetButton
             .onTap
-            .debug()
             .map { _ in .reset }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
