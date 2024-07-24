@@ -33,7 +33,7 @@ class EditPlaceView: BaseView {
     }
     
     // - Segment
-    lazy var segment = BaseSegmentControl(
+    lazy var placeTypeSegmentControl = BaseSegmentControl(
         source: AnnouncementPlaceType.allCases,
         itemBuilder: { option in
             [
@@ -48,14 +48,25 @@ class EditPlaceView: BaseView {
         $0.styled(variant: .flat, color: .green)
     }
     
-    // - Location name text field
-    lazy var locationNameLabel = UILabel().then {
+    // - Place name text field
+    lazy var placeNameLabel = UILabel().then {
         $0.text = "이름"
         $0.setTypo(.body2b)
         $0.textColor = .grey500
     }
     
-    lazy var locationNameDeleteButton = UIImageView(image: .imgXCircle).then {
+    lazy var placeNameTextField = BaseTextField(
+        suffixBuilder: { [weak self] in
+            guard let self = self else { return [] }
+            
+            return [placeNameDeleteButton]
+        }
+    ).then {
+        $0.placeholder = "입력해주세요"
+        $0.styled(variant: .outlined)
+    }
+    
+    lazy var placeNameDeleteButton = UIImageView(image: .imgXCircle).then {
         $0.contentMode = .scaleAspectFit
         $0.setSize(width: 20, height: 20)
         $0.layer.cornerRadius = 10
@@ -63,42 +74,31 @@ class EditPlaceView: BaseView {
         $0.isHidden = true
     }
     
-    lazy var locationNameTextField = BaseTextField(
-        suffixBuilder: { [weak self] in
-            guard let self = self else { return [] }
-            
-            return [locationNameDeleteButton]
-        }
-    ).then {
-        $0.placeholder = "입력해주세요"
-        $0.styled(variant: .outlined)
-    }
-    
-    // - Location link text field
-    lazy var locationLinkLabel = UILabel().then {
+    // - Place link text field
+    lazy var placeLinkLabel = UILabel().then {
         $0.text = "장소\n링크"
         $0.setTypo(.body2b)
         $0.textColor = .grey500
         $0.numberOfLines = 2
     }
     
-    lazy var locationLinkDeleteButton = UIImageView(image: .imgXCircle).then {
+    lazy var placeLinkTextField = BaseTextField(
+        suffixBuilder: { [weak self] in
+            guard let self = self else { return [] }
+            
+            return [placeLinkDeleteButton]
+        }
+    ).then {
+        $0.placeholder = "입력해주세요"
+        $0.styled(variant: .outlined)
+    }
+    
+    lazy var placeLinkDeleteButton = UIImageView(image: .imgXCircle).then {
         $0.contentMode = .scaleAspectFit
         $0.setSize(width: 20, height: 20)
         $0.layer.cornerRadius = 10
         $0.isUserInteractionEnabled = true
         $0.isHidden = true
-    }
-    
-    lazy var locationLinkTextField = BaseTextField(
-        suffixBuilder: { [weak self] in
-            guard let self = self else { return [] }
-            
-            return [locationLinkDeleteButton]
-        }
-    ).then {
-        $0.placeholder = "입력해주세요"
-        $0.styled(variant: .outlined)
     }
     
     // - Open graph card
@@ -141,6 +141,20 @@ class EditPlaceView: BaseView {
         $0.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
     }
     
+    // - Save button
+    lazy var saveButton = BaseButton(
+        contentsBuilder: {
+            [
+                UILabel().then {
+                    $0.text = "저장"
+                    $0.setTypo(.body1b)
+                }
+            ]
+        }
+    ).then {
+        $0.styled(variant: .fill, color: .green, size: .medium)
+    }
+    
     // MARK: Setup
     override func setupHierarchy() {
         addSubview(navigationBar)
@@ -149,17 +163,19 @@ class EditPlaceView: BaseView {
         
         contentView.addSubview(header)
         
-        contentView.addSubview(segment)
+        contentView.addSubview(placeTypeSegmentControl)
         
-        contentView.addSubview(locationNameLabel)
+        contentView.addSubview(placeNameLabel)
         
-        contentView.addSubview(locationNameTextField)
+        contentView.addSubview(placeNameTextField)
         
-        contentView.addSubview(locationLinkLabel)
+        contentView.addSubview(placeLinkLabel)
         
-        contentView.addSubview(locationLinkTextField)
+        contentView.addSubview(placeLinkTextField)
         
         contentView.addSubview(openGraphCard)
+        
+        contentView.addSubview(saveButton)
     }
     
     override func setupLayout() {
@@ -180,45 +196,52 @@ class EditPlaceView: BaseView {
             $0.left.right.equalToSuperview()
         }
         
-        segment.snp.makeConstraints {
+        placeTypeSegmentControl.snp.makeConstraints {
             $0.top.equalTo(header.snp.bottom)
             $0.left.right.equalToSuperview()
         }
         
-        locationNameLabel.snp.makeConstraints {
-            $0.top.equalTo(segment.snp.bottom)
+        placeNameLabel.snp.makeConstraints {
+            $0.top.equalTo(placeTypeSegmentControl.snp.bottom)
                 .offset(FunnelConstant.spacingUnit * 4)
             $0.left.equalToSuperview()
             $0.width.equalTo(30)
         }
         
-        locationNameTextField.snp.makeConstraints {
-            $0.centerY.equalTo(locationNameLabel.snp.centerY)
-            $0.left.equalTo(locationNameLabel.snp.right)
+        placeNameTextField.snp.makeConstraints {
+            $0.centerY.equalTo(placeNameLabel.snp.centerY)
+            $0.left.equalTo(placeNameLabel.snp.right)
                 .offset(8)
             $0.right.equalToSuperview()
         }
         
-        locationLinkLabel.snp.makeConstraints {
-            $0.top.equalTo(locationNameTextField.snp.bottom)
+        placeLinkLabel.snp.makeConstraints {
+            $0.top.equalTo(placeNameTextField.snp.bottom)
                 .offset(FunnelConstant.spacingUnit * 2)
             $0.left.equalToSuperview()
             $0.width.equalTo(30)
         }
         
-        locationLinkTextField.snp.makeConstraints {
-            $0.centerY.equalTo(locationLinkLabel.snp.centerY)
-            $0.left.equalTo(locationLinkLabel.snp.right)
+        placeLinkTextField.snp.makeConstraints {
+            $0.centerY.equalTo(placeLinkLabel.snp.centerY)
+            $0.left.equalTo(placeLinkLabel.snp.right)
                 .offset(8)
             $0.right.equalToSuperview()
         }
         
         openGraphCard.snp.makeConstraints {
-            $0.top.equalTo(locationLinkTextField.snp.bottom)
+            $0.top.equalTo(placeLinkTextField.snp.bottom)
                 .offset(FunnelConstant.spacingUnit)
             $0.left.equalToSuperview()
                 .inset(32)
             $0.right.equalToSuperview()
+        }
+        
+        saveButton.snp.makeConstraints {
+            $0.left.right.equalToSuperview()
+                .inset(GlobalViewConstant.pagePadding)
+            $0.bottom.equalTo(safeAreaLayoutGuide.snp.bottom)
+                .inset(FunnelConstant.spacingUnit)
         }
     }
 }

@@ -5,28 +5,32 @@
 //  Created by DOYEON LEE on 7/22/24.
 //
 
-import ReactorKit
-
+import AnnouncementEntity
 import CommonUsecase
 import CommonEntity
+
+import ReactorKit
 
 class EditPlaceReactor: Reactor {
     // MARK: Action
     enum Action { 
-        case changeLocationName(String)
-        case changeLocationLink(String)
+        case changePlaceType(AnnouncementPlaceType)
+        case changePlaceName(String)
+        case changePlaceLink(String)
     }
     
     enum Mutation { 
-        case setLocationName(String)
-        case setLocationLink(String)
+        case setPlaceType(AnnouncementPlaceType)
+        case setPlaceName(String)
+        case setPlaceLink(String)
         case setOpenGraph(OpenGraphEntity?)
     }
     
     // MARK: State
     struct State { 
-        var locationName: String = ""
-        var locationLink: String = ""
+        var placeType: AnnouncementPlaceType = .offline
+        var placeName: String = ""
+        var placeLink: String = ""
         var openGraph: OpenGraphEntity?
     }
     
@@ -46,11 +50,14 @@ class EditPlaceReactor: Reactor {
     // MARK: Action operation
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
-        case let .changeLocationName(name):
-            return .just(.setLocationName(name))
+        case let .changePlaceType(place):
+            return .just(.setPlaceType(place))
             
-        case let .changeLocationLink(link):
-            let setLocationLinkMutation = Observable.just(Mutation.setLocationLink(link))
+        case let .changePlaceName(name):
+            return .just(.setPlaceName(name))
+            
+        case let .changePlaceLink(link):
+            let setLocationLinkMutation = Observable.just(Mutation.setPlaceLink(link))
             
             let fetchOpenGraphMutation = fetchOpenGraphUsecase.execute(url: link)
                 .map { Mutation.setOpenGraph($0) }
@@ -60,7 +67,7 @@ class EditPlaceReactor: Reactor {
                 setLocationLinkMutation,
                 .just(Mutation.setOpenGraph(nil)), // Clear previous OpenGraph while fetching new one
                 fetchOpenGraphMutation
-                    .debounce(.milliseconds(300), scheduler: MainScheduler.instance) // Adjust debounce duration as needed
+                    .debounce(.milliseconds(300), scheduler: MainScheduler.instance)
             ])
         }
     }
@@ -68,11 +75,14 @@ class EditPlaceReactor: Reactor {
     func reduce(state: State, mutation: Mutation) -> State {
         var state = state
         switch mutation {
-        case let .setLocationName(name):
-            state.locationName = name
+        case let .setPlaceType(place):
+            state.placeType = place
             
-        case let .setLocationLink(link):
-            state.locationLink = link
+        case let .setPlaceName(name):
+            state.placeName = name
+            
+        case let .setPlaceLink(link):
+            state.placeLink = link
             
         case let .setOpenGraph(openGraph):
             state.openGraph = openGraph

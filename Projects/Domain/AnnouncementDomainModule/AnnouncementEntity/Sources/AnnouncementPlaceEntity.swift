@@ -41,9 +41,9 @@ public enum AnnouncementPlaceType: String, Equatable, CaseIterable, Identifiable
     public var title: String {
         switch self {
         case .online:
-            return "대면"
-        case .offline:
             return "비대면"
+        case .offline:
+            return "대면"
         }
     }
     

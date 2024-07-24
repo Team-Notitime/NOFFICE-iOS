@@ -23,21 +23,21 @@ class EditPlaceViewController: BaseViewController<EditPlaceView> {
     // MARK: Setup
     override func setupViewBind() { 
         // - Delete name text field text
-        baseView.locationNameDeleteButton
+        baseView.placeNameDeleteButton
             .rx.tapGesture()
             .map { _ in "" }
-            .bind(to: baseView.locationNameTextField.text)
+            .bind(to: baseView.placeNameTextField.text)
             .disposed(by: disposeBag)
         
         // - Delete link text field text
-        baseView.locationLinkDeleteButton
+        baseView.placeLinkDeleteButton
             .rx.tapGesture()
             .map { _ in "" }
-            .bind(to: baseView.locationLinkTextField.text)
+            .bind(to: baseView.placeLinkTextField.text)
             .disposed(by: disposeBag)
         
         // - Name delete button visibility
-        baseView.locationNameTextField
+        baseView.placeNameTextField
             .onChange
             .distinctUntilChanged()
             .compactMap { $0 }
@@ -45,12 +45,12 @@ class EditPlaceViewController: BaseViewController<EditPlaceView> {
             .withUnretained(self)
             .observe(on: MainScheduler.instance)
             .subscribe(onNext: { owner, isHidden in
-                owner.baseView.locationNameDeleteButton.isHidden = !isHidden
+                owner.baseView.placeNameDeleteButton.isHidden = !isHidden
             })
             .disposed(by: disposeBag)
         
         // - Link delete button visibility
-        baseView.locationLinkTextField
+        baseView.placeLinkTextField
             .onChange
             .distinctUntilChanged()
             .compactMap { $0 }
@@ -58,19 +58,40 @@ class EditPlaceViewController: BaseViewController<EditPlaceView> {
             .withUnretained(self)
             .observe(on: MainScheduler.instance)
             .subscribe(onNext: { owner, isHidden in
-                owner.baseView.locationLinkDeleteButton.isHidden = !isHidden
+                owner.baseView.placeLinkDeleteButton.isHidden = !isHidden
             })
             .disposed(by: disposeBag)
     }
     
-    override func setupStateBind() { 
+    override func setupStateBind() {
+        // - Bind place type
+        reactor.state.map { $0.placeType }
+            .distinctUntilChanged()
+            .observe(on: MainScheduler.asyncInstance)
+            .bind(to: baseView.placeTypeSegmentControl.selectedOption)
+            .disposed(by: disposeBag)
+        
+        // - Bind place name
+        reactor.state.map { $0.placeName }
+            .distinctUntilChanged()
+            .observe(on: MainScheduler.asyncInstance)
+            .bind(to: baseView.placeNameTextField.text)
+            .disposed(by: disposeBag)
+        
+        // - Bind place link
+        reactor.state.map { $0.placeLink }
+            .distinctUntilChanged()
+            .observe(on: MainScheduler.asyncInstance)
+            .bind(to: baseView.placeLinkTextField.text)
+            .disposed(by: disposeBag)
+        
         // - Open graph card visibility
-        reactor.state.map { $0.locationLink }
+        reactor.state.map { $0.placeLink }
             .map { $0.trimmingCharacters(in: .whitespaces) }
             .compactMap { URL(string: $0) != nil ? $0 : "" }
             .distinctUntilChanged()
             .withUnretained(self)
-            .observe(on: MainScheduler.instance)
+            .observe(on: MainScheduler.asyncInstance)
             .subscribe(onNext: { owner, link in
                 owner.baseView.openGraphCard.isHidden = link.isEmpty
                 
@@ -87,7 +108,7 @@ class EditPlaceViewController: BaseViewController<EditPlaceView> {
             .compactMap { $0 }
             .compactMap { URL(string: $0) }
             .withUnretained(self)
-            .observe(on: MainScheduler.instance)
+            .observe(on: MainScheduler.asyncInstance)
             .subscribe(onNext: { owner, imageURL in
                 owner.baseView.openGraphImageView.kf.indicatorType = .activity
                 owner.baseView.openGraphImageView.kf.setImage(
@@ -104,7 +125,7 @@ class EditPlaceViewController: BaseViewController<EditPlaceView> {
         reactor.state.map { $0.openGraph?.title }
             .compactMap { $0 }
             .withUnretained(self)
-            .observe(on: MainScheduler.instance)
+            .observe(on: MainScheduler.asyncInstance)
             .subscribe(onNext: { owner, title in
                 owner.baseView.openGraphTitleLabel.text = title
             })
@@ -114,7 +135,7 @@ class EditPlaceViewController: BaseViewController<EditPlaceView> {
         reactor.state.map { $0.openGraph?.url }
             .compactMap { $0 }
             .withUnretained(self)
-            .observe(on: MainScheduler.instance)
+            .observe(on: MainScheduler.asyncInstance)
             .subscribe(onNext: { owner, link in
                 owner.baseView.openGraphLinkLabel.text = link
             })
@@ -130,22 +151,38 @@ class EditPlaceViewController: BaseViewController<EditPlaceView> {
             })
             .disposed(by: disposeBag)
         
+        // - Change place type
+        baseView.placeTypeSegmentControl
+            .onChange
+            .distinctUntilChanged()
+            .map { .changePlaceType($0) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
         // - Edit name text field
-        baseView.locationNameTextField
+        baseView.placeNameTextField
             .onChange
             .distinctUntilChanged()
             .compactMap { $0 }
-            .map { .changeLocationName($0) }
+            .map { .changePlaceName($0) }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
         // - Edit link text field
-        baseView.locationLinkTextField
+        baseView.placeLinkTextField
             .onChange
             .distinctUntilChanged()
             .compactMap { $0 }
-            .map { .changeLocationLink($0) }
+            .map { .changePlaceLink($0) }
             .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        // - Tap save button
+        baseView.saveButton
+            .onTap
+            .subscribe(onNext: {
+                Router.shared.backToPresented()
+            })
             .disposed(by: disposeBag)
     }
 }

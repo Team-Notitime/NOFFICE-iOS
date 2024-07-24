@@ -112,7 +112,7 @@ class EditContentsPageReactor: Reactor {
             .disposed(by: disposeBag)
 
         editPlaceReactor.state
-            .map { !$0.locationName.isEmpty || !$0.locationLink.isEmpty }
+            .map { !$0.placeName.isEmpty || !$0.placeLink.isEmpty }
             .map { .changeLocationActive($0) }
             .bind(to: self.action)
             .disposed(by: disposeBag)

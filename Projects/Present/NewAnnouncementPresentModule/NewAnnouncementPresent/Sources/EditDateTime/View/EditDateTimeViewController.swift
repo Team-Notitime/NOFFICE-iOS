@@ -70,5 +70,13 @@ class EditDateTimeViewController: BaseViewController<EditDateTimeView> {
             .map { _ in .reset }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
+        
+        // - Tap save button
+        baseView.saveButton
+            .onTap
+            .subscribe(onNext: {
+                Router.shared.backToPresented()
+            })
+            .disposed(by: disposeBag)
     }
 }

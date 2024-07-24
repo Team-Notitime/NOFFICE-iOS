@@ -35,7 +35,7 @@ public class BaseSegmentControl<Option>: UIView where Option: Equatable & Identi
     
     // MARK: Event
     public var _onChange: PublishSubject<Option> = PublishSubject()
-    public var onChange: Observable<Option> {
+    public var onChange: Observable<Option> { // TODO: rename to onchangeselectedoption
         return _onChange.asObservable()
     }
     
