@@ -16,18 +16,18 @@ struct TimeOptionSection: CompositionalSection {
             groupLayout: .init(
                 size: .init(
                     width: .fractionalWidth(1.0),
-                    height: .estimated(1.0)
+                    height: .estimated(54)
                 ),
-                groupSpacing: GlobalViewConstant.pagePadding / 2,
+                groupSpacing: 0,
                 items: [
                     .item(
                         size: .init(
                             width: .fractionalWidth(1.0),
-                            height: .estimated(1.0)
+                            height: .estimated(54)
                         )
                     )
                 ],
-                itemSpacing: GlobalViewConstant.pagePadding / 2
+                itemSpacing: 0
             ),
             sectionInset: .init(
                 top: 0,

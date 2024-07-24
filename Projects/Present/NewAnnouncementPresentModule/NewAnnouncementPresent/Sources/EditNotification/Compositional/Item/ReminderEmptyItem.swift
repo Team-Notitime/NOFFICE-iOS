@@ -1,8 +1,8 @@
 //
-//  SelectedReminderDescriptionItem.swift
+//  ReminderEmptyItem.swift
 //  NewAnnouncementPresent
 //
-//  Created by DOYEON LEE on 7/23/24.
+//  Created by DOYEON LEE on 7/25/24.
 //
 
 import UIKit
@@ -12,8 +12,8 @@ import Assets
 
 import RxSwift
 
-final class ReminderDescriptionItem: CompositionalItem {
-    typealias Cell = ReminderDescriptionItemCell
+final class ReminderEmptyItem: CompositionalItem {
+    typealias Cell = ReminderEmptyItemCell
     
     // MARK: Data
     let id: String = "\(String(describing: ReminderEmptyItem.self))))"
@@ -28,11 +28,11 @@ final class ReminderDescriptionItem: CompositionalItem {
     }
 }
 
-final class ReminderDescriptionItemCell: UIView, CompositionalItemCell {
+final class ReminderEmptyItemCell: UIView, CompositionalItemCell {
     // MARK: UI Component
     lazy var label = UILabel().then {
-        $0.text = "에 알림을 보낼래요"
-        $0.textColor = .grey700
+        $0.text = "알림은 필요 없어요"
+        $0.textColor = .grey400
         $0.setTypo(.body1b)
     }
     
@@ -53,7 +53,12 @@ final class ReminderDescriptionItemCell: UIView, CompositionalItemCell {
             $0.edges.equalToSuperview()
                 .inset(4)
         }
+        
+        backgroundColor = .grey50
+        layer.cornerRadius = bounds.height / 2
+        layer.masksToBounds = true
+        
     }
     
-    func configure(with item: ReminderDescriptionItem) { }
+    func configure(with item: ReminderEmptyItem) { }
 }

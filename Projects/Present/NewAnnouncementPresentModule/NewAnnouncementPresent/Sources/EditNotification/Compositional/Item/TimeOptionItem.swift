@@ -52,10 +52,12 @@ final class TimeOptionItemCell: UIView, CompositionalItemCell {
     }
     
     lazy var checkIcon = UIImageView(image: .iconCheck).then {
-        $0.setSize(width: 24, height: 24)
+        $0.setSize(width: 20, height: 20)
         $0.tintColor = .blue500
         $0.layer.opacity = 0.0
     }
+    
+    lazy var divider = BaseDivider()
     
     // MARK: DisposeBag
     private let disposeBag = DisposeBag()
@@ -75,14 +77,22 @@ final class TimeOptionItemCell: UIView, CompositionalItemCell {
         
         addSubview(checkIcon)
         
+        addSubview(divider)
+        
         timeLabel.snp.makeConstraints {
-            $0.top.bottom.equalToSuperview().inset(8)
+            $0.centerY.equalToSuperview()
             $0.left.equalToSuperview()
         }
         
         checkIcon.snp.makeConstraints {
-            $0.top.bottom.equalToSuperview().inset(8)
+            $0.centerY.equalToSuperview()
             $0.right.equalToSuperview()
+        }
+        
+        divider.snp.makeConstraints {
+            $0.bottom.equalToSuperview()
+            $0.left.right.equalToSuperview()
+            $0.height.equalTo(1)
         }
     }
     
@@ -99,7 +109,9 @@ final class TimeOptionItemCell: UIView, CompositionalItemCell {
                 let isSelected = item.onSelect()
                 
                 // Update UI
-                owner.checkIcon.layer.opacity = isSelected ? 1.0 : 0.0
+                UIView.animate(withDuration: 0.2) {
+                    owner.checkIcon.layer.opacity = isSelected ? 1.0 : 0.0
+                }
             })
             .disposed(by: disposeBag)
     }

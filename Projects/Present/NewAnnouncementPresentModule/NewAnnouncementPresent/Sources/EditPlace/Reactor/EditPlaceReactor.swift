@@ -28,7 +28,7 @@ class EditPlaceReactor: Reactor {
     
     // MARK: State
     struct State { 
-        var placeType: AnnouncementPlaceType = .offline
+        var placeType: AnnouncementPlaceType = .online
         var placeName: String = ""
         var placeLink: String = ""
         var openGraph: OpenGraphEntity?

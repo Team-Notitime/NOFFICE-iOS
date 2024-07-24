@@ -17,6 +17,7 @@ final class ReminderItem: CompositionalItem {
     
     // MARK: Data
     let id: UUID = UUID()
+    
     let timeText: String
     
     // MARK: DisposeBag

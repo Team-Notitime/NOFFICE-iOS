@@ -16,14 +16,14 @@ struct ReminderSection: CompositionalSection {
             groupLayout: .init(
                 size: .init(
                     width: .fractionalWidth(1.0),
-                    height: .estimated(1.0)
+                    height: .estimated(29)
                 ),
                 groupSpacing: GlobalViewConstant.pagePadding / 2,
                 items: [
                     .item(
                         size: .init(
                             width: .estimated(70),
-                            height: .estimated(1.0)
+                            height: .estimated(29)
                         )
                     )
                 ],

@@ -12,19 +12,16 @@ struct EditNotificationConverter {
     static func convertToReminder(
         options: [AnnouncementRemindNotification]
     ) -> [ReminderSection] {
-        var optionItems: [any CompositionalItem] = options.map { option in
-            ReminderItem(
-                timeText: option.toKoreanString()
-            )
+        if options.isEmpty {
+            let emptyItem: any CompositionalItem = ReminderEmptyItem()
+            return [ReminderSection(items: [emptyItem])]
         }
         
-        optionItems.append(ReminderDescriptionItem())
+        let optionItems: [any CompositionalItem] = options.map { option in
+            ReminderItem(timeText: option.toKoreanString())
+        } + [ReminderDescriptionItem()]
         
-        return [
-            ReminderSection(
-                items: optionItems
-            )
-        ]
+        return [ReminderSection(items: optionItems)]
     }
     
     static func convertToTimeOption(

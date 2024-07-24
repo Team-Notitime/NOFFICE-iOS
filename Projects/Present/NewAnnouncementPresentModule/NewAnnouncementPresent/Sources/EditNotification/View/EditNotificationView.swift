@@ -14,8 +14,6 @@ import SnapKit
 import Then
 
 class EditNotificationView: BaseView {
-    // MARK: UI Constant
-    
     // MARK: UI Component
     // - Navigation bar
     lazy var navigationBar = NofficeNavigationBar().then {
@@ -89,20 +87,20 @@ class EditNotificationView: BaseView {
         reminderCollectionView.snp.makeConstraints {
             $0.top.equalTo(header.snp.bottom)
             $0.left.right.equalToSuperview()
-            $0.height.equalTo(100)
-        }
-        
-        saveButton.snp.makeConstraints {
-            $0.left.right.equalToSuperview()
-                .inset(GlobalViewConstant.pagePadding)
-            $0.bottom.equalToSuperview()
-                .inset(FunnelConstant.spacingUnit * 3)
+            $0.height.equalTo(32)
         }
         
         timeOptionCollectionView.snp.makeConstraints {
             $0.top.equalTo(reminderCollectionView.snp.bottom)
             $0.left.right.equalToSuperview()
             $0.bottom.equalTo(saveButton.snp.top)
+        }
+        
+        saveButton.snp.makeConstraints {
+            $0.left.right.equalToSuperview()
+                .inset(GlobalViewConstant.pagePadding)
+            $0.bottom.equalTo(safeAreaLayoutGuide.snp.bottom)
+                .inset(FunnelConstant.spacingUnit)
         }
     }
 }

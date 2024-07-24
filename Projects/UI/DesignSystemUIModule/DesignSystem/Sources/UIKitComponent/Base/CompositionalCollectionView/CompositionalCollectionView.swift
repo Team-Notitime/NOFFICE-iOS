@@ -10,9 +10,11 @@ import UIKit
 
 import RxSwift
 
-final public class CompositionalCollectionView: UIView, UICollectionViewDelegate {
+final public class CompositionalCollectionView: 
+    UIView, UICollectionViewDelegate {
     // MARK: Identifier
     private let itemCellIdentifier = CollectionViewItemCellContainer.reusableIdentifier
+    
     private let reusableViewIdentifier = CollectionViewResuableViewContainer.reusableIdentifier
     
     // MARK: Public
@@ -32,6 +34,17 @@ final public class CompositionalCollectionView: UIView, UICollectionViewDelegate
         didSet {
             collectionView.isScrollEnabled = isScrollEnabled
         }
+    }
+    
+    public var contentSize: CGSize? {
+        didSet {
+            _onChangeContentSize.onNext(contentSize)
+        }
+    }
+    
+    private let _onChangeContentSize = PublishSubject<CGSize?>()
+    public var onChangeContentSize: Observable<CGSize?> {
+        return _onChangeContentSize.asObservable()
     }
     
     // MARK: CollectionView & DataSource
@@ -57,6 +70,7 @@ final public class CompositionalCollectionView: UIView, UICollectionViewDelegate
         configureCompositionalLayout()
         configureDatasource()
         configureCollectionView()
+        setupBind()
         registerCell()
     }
     
@@ -209,10 +223,13 @@ final public class CompositionalCollectionView: UIView, UICollectionViewDelegate
         )
     }
     
-    // MARK: Collection view Delegate
-    /// 필요한가?
-    public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        collectionView.deselectItem(at: indexPath, animated: true)
+    // MARK: Setup
+    private func setupBind() {
+        collectionView.rx.observe(CGSize.self, "contentSize")
+            .distinctUntilChanged()
+            .compactMap { $0 }
+            .bind(to: _onChangeContentSize)
+            .disposed(by: disposeBag)
     }
     
     // MARK: Register cell

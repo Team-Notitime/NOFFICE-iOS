@@ -19,7 +19,19 @@ class EditNotificationViewController: BaseViewController<EditNotificationView> {
     private let reactor = Container.shared.resolve(EditNotificationReactor.self)!
     
     // MARK: Setup
-    override func setupViewBind() { }
+    override func setupViewBind() { 
+        baseView.reminderCollectionView
+            .onChangeContentSize
+            .withUnretained(self.baseView)
+            .subscribe(onNext: { owner, size in
+                guard let size = size else { return }
+                
+                owner.reminderCollectionView.snp.updateConstraints {
+                    $0.height.equalTo(size.height)
+                }
+            })
+            .disposed(by: disposeBag)
+    }
     
     override func setupStateBind() { 
         reactor.state.map { $0.selectedTimeOptions }
@@ -63,6 +75,14 @@ class EditNotificationViewController: BaseViewController<EditNotificationView> {
         // - Tap back button
         baseView.navigationBar
             .onTapBackButton
+            .subscribe(onNext: {
+                Router.shared.backToPresented()
+            })
+            .disposed(by: disposeBag)
+        
+        // - Tap back button
+        baseView.saveButton
+            .onTap
             .subscribe(onNext: {
                 Router.shared.backToPresented()
             })
