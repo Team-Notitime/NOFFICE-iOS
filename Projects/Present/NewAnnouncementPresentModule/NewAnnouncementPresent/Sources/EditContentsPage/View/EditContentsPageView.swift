@@ -23,8 +23,13 @@ class EditContentsPageView: BaseView {
         $0.showsVerticalScrollIndicator = true
     }
     
-    // - Content view
-    lazy var contentView = UIView()
+    // - Stack view
+    lazy var stackView = UIStackView().then {
+        $0.axis = .vertical
+        $0.spacing = FunnelConstant.spacingUnit
+        $0.alignment = .fill
+        $0.distribution = .equalSpacing
+    }
     
     // - Title text field
     lazy var titleTextField = BaseTextField(
@@ -152,57 +157,38 @@ class EditContentsPageView: BaseView {
         }
     ).then {
         $0.styled(variant: .fill, color: .green)
-        $0.isEnabled = false
     }
     
     // MARK: Setup
     override func setupHierarchy() {
         addSubview(scrollView)
         
-        scrollView.addSubview(contentView)
+        scrollView.addSubview(stackView)
         
-        contentView.addSubview(titleTextField)
+        stackView.addArrangedSubview(titleTextField)
         
-        contentView.addSubview(bodyTextView)
+        stackView.addArrangedSubview(bodyTextView)
         
-        contentView.addSubview(templateStack)
+        stackView.addArrangedSubview(templateStack)
         
-        contentView.addSubview(completeButton)
+        addSubview(completeButton)
     }
     
-    override func setupLayout() { 
+    override func setupLayout() {
         translatesAutoresizingMaskIntoConstraints = false
         
         scrollView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
         
-        contentView.snp.makeConstraints {
-            $0.top.bottom.equalToSuperview()
-            $0.width.equalTo(scrollView.snp.width)
-        }
-        
-        titleTextField.snp.makeConstraints {
-            $0.top.equalToSuperview()
-                .offset(FunnelConstant.spacingUnit)
-            $0.left.right.equalToSuperview()
+        stackView.snp.makeConstraints {
+            $0.top.equalTo(scrollView.contentLayoutGuide)
                 .inset(GlobalViewConstant.pagePadding)
-        }
-        
-        bodyTextView.snp.makeConstraints {
-            $0.top.equalTo(titleTextField.snp.bottom)
-                .offset(FunnelConstant.spacingUnit)
-            $0.left.right.equalToSuperview()
+            $0.bottom.equalTo(scrollView.contentLayoutGuide)
+                .inset(FunnelConstant.spacingUnit * 6)
+            $0.width.equalTo(scrollView.frameLayoutGuide)
                 .inset(GlobalViewConstant.pagePadding)
-        }
-        
-        templateStack.snp.makeConstraints {
-            $0.top.equalTo(bodyTextView.snp.bottom)
-                .offset(FunnelConstant.spacingUnit)
-            $0.left.right.equalToSuperview()
-                .inset(GlobalViewConstant.pagePadding)
-            $0.bottom.equalToSuperview()
-                .inset(FunnelConstant.spacingUnit * 8)
+            $0.centerX.equalToSuperview()
         }
         
         completeButton.snp.makeConstraints {

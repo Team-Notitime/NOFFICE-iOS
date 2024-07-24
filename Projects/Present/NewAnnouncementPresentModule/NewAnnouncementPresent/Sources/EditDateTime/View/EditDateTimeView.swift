@@ -102,7 +102,7 @@ class EditDateTimeView: BaseView {
             $0.top.bottom.equalToSuperview()
             $0.left.right.equalToSuperview()
                 .inset(GlobalViewConstant.pagePadding)
-            $0.width.equalTo(scrollView.snp.width)
+            $0.width.equalTo(scrollView.frameLayoutGuide)
                 .inset(GlobalViewConstant.pagePadding)
         }
         

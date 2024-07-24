@@ -92,5 +92,13 @@ class EditContentsPageViewController: BaseViewController<EditContentsPageView> {
                 Router.shared.pushToPresent(EditNotificationViewController())
             })
             .disposed(by: disposeBag)
+        
+        // - Tap to complete
+        baseView.completeButton
+            .onTap
+            .subscribe(onNext: { _ in
+                Router.shared.dismiss()
+            })
+            .disposed(by: disposeBag)
     }
 }
