@@ -364,16 +364,26 @@ public class BaseTextView: UIView {
         }
         
         textViewBackground.snp.remakeConstraints {
-            $0.top.equalTo(titleStack.snp.bottom).offset(8)
+            $0.top.equalTo(titleStack.snp.bottom)
+                .offset(8)
             $0.left.right.equalToSuperview()
         }
         
         textViewStack.snp.remakeConstraints {
-            $0.edges.equalToSuperview().inset(padding.vertical ?? 0)
+            $0.edges.equalToSuperview()
         }
         
+        let inset = UIEdgeInsets(
+            top: padding.vertical ?? 0,
+            left: padding.horizontal ?? 0,
+            bottom: padding.vertical ?? 0,
+            right: padding.horizontal ?? 0
+        )
+        textView.contentInset = inset
+        
         placeholderLabel.snp.remakeConstraints {
-            $0.top.left.right.equalTo(innerTextView).inset(5)
+            $0.top.left.right.equalTo(innerTextView)
+                .inset(5)
         }
         
         bottomBorder.snp.remakeConstraints {
@@ -383,7 +393,8 @@ public class BaseTextView: UIView {
         }
         
         descriptionStack.snp.remakeConstraints {
-            $0.top.equalTo(textViewBackground.snp.bottom).offset(4)
+            $0.top.equalTo(textViewBackground.snp.bottom)
+                .offset(4)
             $0.left.right.equalToSuperview()
             $0.bottom.equalToSuperview()
         }
