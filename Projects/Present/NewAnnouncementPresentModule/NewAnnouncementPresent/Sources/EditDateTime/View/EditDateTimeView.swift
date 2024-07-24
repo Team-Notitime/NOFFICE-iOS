@@ -37,6 +37,37 @@ class EditDateTimeView: BaseView {
     // - Calendar
     lazy var calendarView = BaseCalendar(previousDateDisabled: true)
     
+    // - Time picker
+    lazy var timePicker = BaseTimePicker()
+    
+    // - Reset button
+    lazy var resetButton = BaseButton(
+        contentsBuilder: {
+            [
+                UILabel().then {
+                    $0.text = "초기화"
+                    $0.setTypo(.body1b)
+                }
+            ]
+        }
+    ).then {
+        $0.styled(variant: .fill, color: .ghost, size: .small)
+    }
+    
+    // - Save button
+    lazy var saveButton = BaseButton(
+        contentsBuilder: {
+            [
+                UILabel().then {
+                    $0.text = "저장"
+                    $0.setTypo(.body1b)
+                }
+            ]
+        }
+    ).then {
+        $0.styled(variant: .fill, color: .green, size: .medium)
+    }
+    
     // MARK: Setup
     override func setupHierarchy() { 
         addSubview(navigationBar)
@@ -48,6 +79,12 @@ class EditDateTimeView: BaseView {
         contentView.addSubview(header)
         
         contentView.addSubview(calendarView)
+        
+        contentView.addSubview(timePicker)
+        
+        contentView.addSubview(resetButton)
+        
+        addSubview(saveButton)
     }
     
     override func setupLayout() { 
@@ -67,8 +104,6 @@ class EditDateTimeView: BaseView {
                 .inset(GlobalViewConstant.pagePadding)
             $0.width.equalTo(scrollView.snp.width)
                 .inset(GlobalViewConstant.pagePadding)
-            $0.height.equalTo(1000)
-            
         }
         
         header.snp.makeConstraints {
@@ -80,8 +115,31 @@ class EditDateTimeView: BaseView {
             $0.top.equalTo(header.snp.bottom)
                 .offset(FunnelConstant.spacingUnit * 2)
             $0.left.right.equalToSuperview()
-                .inset(FunnelConstant.additionalPadding * 2)
-            $0.height.equalTo(CGFloat.infinityWidth * 1.2)
+                .inset(FunnelConstant.additionalPadding)
+            $0.height.equalTo(CGFloat.infinityWidth*0.8)
+        }
+        
+        timePicker.snp.makeConstraints {
+            $0.centerX.equalToSuperview()
+            $0.left.right.equalToSuperview()
+                .inset(FunnelConstant.additionalPadding)
+            $0.top.equalTo(calendarView.snp.bottom)
+                .offset(FunnelConstant.spacingUnit)
+        }
+        
+        resetButton.snp.makeConstraints {
+            $0.top.equalTo(timePicker.snp.bottom)
+                .offset(FunnelConstant.spacingUnit * 2)
+            $0.centerX.equalToSuperview()
+            $0.bottom.equalTo(contentView.snp.bottom)
+                .offset(-FunnelConstant.spacingUnit * 8)
+        }
+        
+        saveButton.snp.makeConstraints {
+            $0.left.right.equalToSuperview()
+                .inset(GlobalViewConstant.pagePadding)
+            $0.bottom.equalTo(safeAreaLayoutGuide.snp.bottom)
+                .inset(FunnelConstant.spacingUnit)
         }
     }
 }

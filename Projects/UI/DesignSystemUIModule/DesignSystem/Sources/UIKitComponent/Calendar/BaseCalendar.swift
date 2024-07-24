@@ -24,12 +24,44 @@ public extension BaseCalendar {
     }
 }
 
+public extension BaseCalendar {
+    var onChangeSelectedDate: Observable<Date> {
+        return _onChangeSelectedDate.asObservable()
+    }
+    
+    var selectedDate: Binder<Date?> {
+        return Binder(self) { calendar, date in
+            guard let date = date else {
+                calendar.selectedDay = nil
+
+                calendar.updateSelectedDay()
+                return
+            }
+            
+            let calendarInstance = Calendar.current
+            let selectedMonth = calendarInstance.dateComponents([.year, .month], from: date)
+            let currentMonthComponents = calendarInstance.dateComponents(
+                [.year, .month],
+                from: calendar.currentMonth
+            )
+            
+            // If the selected date is not in the current month, change the month
+            if selectedMonth != currentMonthComponents {
+                calendar.currentMonth = calendarInstance
+                    .date(from: selectedMonth) ?? calendar.currentMonth
+                calendar.updateCalendar()
+            }
+            
+            calendar.selectedDay = calendar.days.first { $0.date == date }
+            
+            calendar.updateSelectedDay()
+        }
+    }
+}
+
 public class BaseCalendar: UIView {
     // MARK: Event
     private let _onChangeSelectedDate = PublishSubject<Date>()
-    public var onChangeSelectedDate: Observable<Date> {
-        return _onChangeSelectedDate.asObservable()
-    }
     
     // MARK: State
     private var previousDateDisabled: Bool = false
@@ -191,6 +223,39 @@ public class BaseCalendar: UIView {
     }
     
     // MARK: Update
+    private func updateSelectedDay() {
+        guard let selectedDay = selectedDay else {
+            // If selectedDay is nil, set it to today's date
+            let today = Date()
+            currentMonth = today
+
+            updateCalendar()
+            return
+        }
+
+        let calendar = Calendar.current
+        let selectedMonth = calendar.dateComponents([.year, .month], from: selectedDay.date)
+        let currentMonthComponents = calendar.dateComponents([.year, .month], from: currentMonth)
+
+        // Check if the selected day is in the current month
+        if selectedMonth != currentMonthComponents {
+            // Change to the month of the selected day
+            currentMonth = calendar.date(from: selectedMonth) ?? currentMonth
+            updateCalendar()
+        }
+
+        // Find the index of the selected day
+        if let index = days.firstIndex(where: { $0.date == selectedDay.date }) {
+            // Update the collection view to reflect the selection
+            calendarCollectionView.reloadData()
+            calendarCollectionView.selectItem(
+                at: IndexPath(item: index, section: 0),
+                animated: true,
+                scrollPosition: .centeredVertically
+            )
+        }
+    }
+    
     private func changeMonth(by value: Int) {
         guard let newDate = Calendar.current
             .date(byAdding: .month, value: value, to: currentMonth)

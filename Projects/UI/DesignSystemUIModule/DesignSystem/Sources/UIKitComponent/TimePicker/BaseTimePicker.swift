@@ -13,7 +13,7 @@ import SnapKit
 
 /// Extension for setting the initial time
 public extension BaseTimePicker {
-    func setTime(hour: Int, minute: Int, isPM: Bool) {
+    func updateTime(hour: Int, minute: Int, isPM: Bool) {
         self.selectedHour = hour
         self.selectedMinute = minute
         self.isPM = isPM
@@ -28,9 +28,35 @@ public class BaseTimePicker: UIView {
         return _onChangeSelectedTime.asObservable()
     }
     
+    public var selectedTime: Binder<DateComponents?> {
+        return Binder(self) { timePicker, timeComponents in
+            guard let timeComponents = timeComponents,
+                  let hour = timeComponents.hour,
+                  let minute = timeComponents.minute else {
+                
+                timePicker.selectedHour = 0
+                timePicker.selectedMinute = 0
+                timePicker.isPM = false
+                
+                timePicker.updateTimePicker()
+                return
+            }
+            
+            let isPM = hour >= 12
+            let adjustedHour = hour % 12
+            timePicker.selectedHour = adjustedHour == 0 ? 12 : adjustedHour
+            timePicker.selectedMinute = minute
+            timePicker.isPM = isPM
+            
+            timePicker.updateTimePicker()
+        }
+    }
+    
     // MARK: State
     private var selectedHour: Int = 0
+    
     private var selectedMinute: Int = 0
+    
     private var isPM: Bool = false
     
     // MARK: UI Component
@@ -208,6 +234,7 @@ public class BaseTimePicker: UIView {
     }
     
     // MARK: Update
+    
     private func incrementHour() {
         selectedHour = (selectedHour % 12) + 1
         updateTimePicker()

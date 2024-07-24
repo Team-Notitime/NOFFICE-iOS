@@ -59,7 +59,7 @@ class EditTodoView: BaseView {
     }
     
     // - Save button
-    lazy var nextButton = BaseButton(
+    lazy var saveButton = BaseButton(
         contentsBuilder: {
             [
                 UILabel().then {
@@ -84,7 +84,7 @@ class EditTodoView: BaseView {
         
         contentView.addSubview(addTodoButton)
         
-        contentView.addSubview(nextButton)
+        contentView.addSubview(saveButton)
         
         contentView.addSubview(newTodoTextField)
     }
@@ -107,7 +107,7 @@ class EditTodoView: BaseView {
                 .inset(GlobalViewConstant.pagePadding)     
         }
         
-        nextButton.snp.makeConstraints {
+        saveButton.snp.makeConstraints {
             $0.left.right.equalToSuperview()
                 .inset(GlobalViewConstant.pagePadding)
             $0.bottom.equalToSuperview()
@@ -117,7 +117,7 @@ class EditTodoView: BaseView {
         addTodoButton.snp.makeConstraints {
             $0.left.right.equalToSuperview()
                 .inset(GlobalViewConstant.pagePadding)
-            $0.bottom.equalTo(nextButton.snp.top)
+            $0.bottom.equalTo(saveButton.snp.top)
                 .inset(-FunnelConstant.spacingUnit)
         }
         

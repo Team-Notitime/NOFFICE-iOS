@@ -104,11 +104,11 @@ class EditContentsPageReactor: Reactor {
 
     // MARK: Child bind
     private func setupChildBind() {
-//        editDateTimeReactor.state
-//            .map { $0.dateTime != nil } // Assuming dateTime is an optional property in the state
-//            .map
-//            .bind(to: self.action)
-//            .disposed(by: disposeBag)
+        editDateTimeReactor.state
+            .map { $0.selectedDate != nil || $0.selectedTime != nil }
+            .map { .changeDateTimeActive($0) }
+            .bind(to: self.action)
+            .disposed(by: disposeBag)
 
         editLocationReactor.state
             .map { !$0.locationName.isEmpty || !$0.locationLink.isEmpty }
@@ -117,13 +117,13 @@ class EditContentsPageReactor: Reactor {
             .disposed(by: disposeBag)
 
         editTodoReactor.state
-            .map { !$0.todos.isEmpty } // Assuming todoItems is a collection property in the state
+            .map { !$0.todos.isEmpty }
             .map { .changeTodoActive($0) }
             .bind(to: self.action)
             .disposed(by: disposeBag)
 
         editNotificationReactor.state
-            .map { !$0.selectedTimeOptions.isEmpty } // Assuming selectedTimeOptions is a collection property in the state
+            .map { !$0.selectedTimeOptions.isEmpty }
             .map { .changeNotificationActive($0) }
             .bind(to: self.action)
             .disposed(by: disposeBag)

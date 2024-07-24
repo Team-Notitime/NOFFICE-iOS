@@ -93,7 +93,7 @@ class EditTodoViewController: BaseViewController<EditTodoView>, UITextFieldDeleg
             .disposed(by: disposeBag)
         
         // Tap save button
-        baseView.nextButton.onTap
+        baseView.saveButton.onTap
             .subscribe(onNext: {
                 Router.shared.backToPresented()
             })
