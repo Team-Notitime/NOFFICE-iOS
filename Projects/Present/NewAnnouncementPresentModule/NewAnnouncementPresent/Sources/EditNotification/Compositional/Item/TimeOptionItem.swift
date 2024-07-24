@@ -13,7 +13,7 @@ import Assets
 import RxSwift
 import RxGesture
 
-final class TimeOptionItem: CompositionalItem {
+struct TimeOptionItem: CompositionalItem {
     typealias Cell = TimeOptionItemCell
     
     // MARK: Event
@@ -22,16 +22,18 @@ final class TimeOptionItem: CompositionalItem {
     
     // MARK: Data
     let timeText: String
-    var isSelected: Bool = false
+    let isSelected: Bool
     
     // MARK: DisposeBag
     let disposeBag = DisposeBag()
     
     init(
         timeText: String,
+        isSelected: Bool,
         onSelect: @escaping () -> Bool
     ) {
         self.timeText = timeText
+        self.isSelected = isSelected
         self.onSelect = onSelect
     }
     
@@ -95,9 +97,6 @@ final class TimeOptionItemCell: UIView, CompositionalItemCell {
             .subscribe(onNext: { owner, _ in
                 // Call onSelect and get reactor result
                 let isSelected = item.onSelect()
-                
-                // Update item
-                item.isSelected = isSelected
                 
                 // Update UI
                 owner.checkIcon.layer.opacity = isSelected ? 1.0 : 0.0

@@ -102,7 +102,6 @@ class EditContentsPageReactor: Reactor {
         return state
     }
 
-
     // MARK: Child bind
     private func setupChildBind() {
 //        editDateTimeReactor.state
@@ -129,7 +128,6 @@ class EditContentsPageReactor: Reactor {
             .bind(to: self.action)
             .disposed(by: disposeBag)
     }
-
     
     // MARK: Transform
     

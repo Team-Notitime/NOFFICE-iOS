@@ -38,6 +38,8 @@ class EditNotificationViewController: BaseViewController<EditNotificationView> {
             .map { owner, options in
                 EditNotificationConverter.convertToTimeOption(
                     options: options,
+                    selectedOptions: owner.reactor.currentState
+                        .selectedTimeOptions,
                     onSelect: { option in
                         let isOptionAlreadySelected = owner.reactor.currentState
                             .selectedTimeOptions

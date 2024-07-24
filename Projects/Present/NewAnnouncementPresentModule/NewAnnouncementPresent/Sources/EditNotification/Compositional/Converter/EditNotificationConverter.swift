@@ -29,11 +29,13 @@ struct EditNotificationConverter {
     
     static func convertToTimeOption(
         options: [AnnouncementRemindNotification],
+        selectedOptions: Set<AnnouncementRemindNotification>,
         onSelect: @escaping (AnnouncementRemindNotification) -> Bool
     ) -> [TimeOptionSection] {
         let optionItems: [any CompositionalItem] = options.map { option in
-            TimeOptionItem(
+            return TimeOptionItem(
                 timeText: option.toKoreanString(),
+                isSelected: selectedOptions.contains(option),
                 onSelect: {
                     return onSelect(option)
                 }
