@@ -52,7 +52,9 @@ class EditNotificationViewController: BaseViewController<EditNotificationView> {
                     options: options,
                     selectedOptions: owner.reactor.currentState
                         .selectedTimeOptions,
-                    onSelect: { option in
+                    onSelect: { [weak owner] option in
+                        guard let owner = owner else { return false}
+                        
                         let isOptionAlreadySelected = owner.reactor.currentState
                             .selectedTimeOptions
                             .contains(option)

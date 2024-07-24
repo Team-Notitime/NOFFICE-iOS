@@ -19,24 +19,25 @@ class EditTodoViewController: BaseViewController<EditTodoView>, UITextFieldDeleg
     private let reactor = Container.shared.resolve(EditTodoReactor.self)!
     
     // MARK: Setup
-    override func setupViewBind() { 
+    override func setupViewBind() {
         baseView.newTodoTextField.textField.delegate = self
     }
     
     override func setupStateBind() {
-        // Todo state
+        // - Todo state
         reactor.state.map { $0.todos }
             .distinctUntilChanged()
             .withUnretained(self)
             .map { owner, todos in
-                EditTodoConverter.convertToTodo(todos: todos) { todo in
-                    owner.reactor.action.onNext(.deleteTodo(todo))
-                }
+                EditTodoConverter
+                    .convertToTodo(todos: todos) { [weak owner] todo in
+                        owner?.reactor.action.onNext(.deleteTodo(todo))
+                    }
             }
             .bind(to: baseView.collectionView.sectionBinder)
             .disposed(by: disposeBag)
-
         
+        // - Todo contents
         reactor.state.map { $0.todoContent }
             .distinctUntilChanged()
             .bind(to: baseView.newTodoTextField.text)
@@ -71,13 +72,13 @@ class EditTodoViewController: BaseViewController<EditTodoView>, UITextFieldDeleg
         
         // - Add todo button
         baseView.addTodoButton.onTap
-            .withUnretained(self.baseView)
+            .withUnretained(self)
             .subscribe(onNext: { owner, _ in
-                UIView.animate(withDuration: 0.25) {
-                    owner.newTodoTextField.layer.opacity = 1.0
+                UIView.animate(withDuration: 0.25) { [weak owner] in
+                    owner?.baseView.newTodoTextField.layer.opacity = 1.0
                 }
                 
-                owner.newTodoTextField.textField.becomeFirstResponder()
+                owner.baseView.newTodoTextField.textField.becomeFirstResponder()
             })
             .disposed(by: disposeBag)
         
