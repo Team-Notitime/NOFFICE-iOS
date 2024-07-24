@@ -58,7 +58,7 @@ struct AnnouncementPageConverter {
         _ announcementEntity: AnnouncementItemEntity
     ) -> AnnouncementItem {
         let dateString = announcementEntity.date?.toString(format: "yyyy.MM.dd(EEE) HH:mm") ?? "-"
-        let location = announcementEntity.location?.name ?? "-"
+        let location = announcementEntity.place?.name ?? "-"
         
         return AnnouncementItem(
             state: .default,

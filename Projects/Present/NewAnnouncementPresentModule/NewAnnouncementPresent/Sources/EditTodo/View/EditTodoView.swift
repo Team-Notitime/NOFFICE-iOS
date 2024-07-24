@@ -37,7 +37,7 @@ class EditTodoView: BaseView {
     // - New todo text field
     lazy var newTodoTextField = BaseTextField().then {
         $0.placeholder = "할 일을 입력해주세요"
-        $0.styled(variant: .plain)
+        $0.styled(variant: .plain, color: .blue)
         $0.layer.opacity = 0.0
     }
     
