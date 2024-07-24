@@ -16,7 +16,7 @@ import AnnouncementEntity
 import SnapKit
 import Then
 
-class EditLocationView: BaseView {
+class EditPlaceView: BaseView {
     // MARK: UI Component
     // - Navigation bar
     lazy var navigationBar = NofficeNavigationBar().then {
@@ -34,7 +34,7 @@ class EditLocationView: BaseView {
     
     // - Segment
     lazy var segment = BaseSegmentControl(
-        source: AnnouncementLocationType.allCases,
+        source: AnnouncementPlaceType.allCases,
         itemBuilder: { option in
             [
                 UILabel().then {

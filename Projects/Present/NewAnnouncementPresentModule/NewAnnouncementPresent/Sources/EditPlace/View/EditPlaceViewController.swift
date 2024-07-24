@@ -16,9 +16,9 @@ import RxCocoa
 import RxGesture
 import Kingfisher
 
-class EditLocationViewController: BaseViewController<EditLocationView> {
+class EditPlaceViewController: BaseViewController<EditPlaceView> {
     // MARK: Reactor
-    private let reactor = Container.shared.resolve(EditLocationReactor.self)!
+    private let reactor = Container.shared.resolve(EditPlaceReactor.self)!
     
     // MARK: Setup
     override func setupViewBind() { 

@@ -21,8 +21,8 @@ public struct AnnouncementItemEntity: Identifiable, Equatable {
     public let body: String
     /// Event date or deadline (optional)
     public let date: Date?
-    /// Location of the announcement (optional)
-    public let location: AnnouncementLocationEntity?
+    /// Place of the announcement (optional)
+    public let place: AnnouncementPlaceEntity?
     /// List of todo items (optional)
     public let todos: [AnnouncementTodoEntity]?
     /// Types of reminder notifications (optional)
@@ -34,7 +34,7 @@ public struct AnnouncementItemEntity: Identifiable, Equatable {
         title: String,
         body: String,
         date: Date? = nil,
-        location: AnnouncementLocationEntity? = nil,
+        place: AnnouncementPlaceEntity? = nil,
         todos: [AnnouncementTodoEntity]? = nil,
         remindNotification: [AnnouncementRemindNotification]? = nil
     ) {
@@ -43,7 +43,7 @@ public struct AnnouncementItemEntity: Identifiable, Equatable {
         self.title = title
         self.body = body
         self.date = date
-        self.location = location
+        self.place = place
         self.todos = todos
         self.remindNotification = remindNotification
     }

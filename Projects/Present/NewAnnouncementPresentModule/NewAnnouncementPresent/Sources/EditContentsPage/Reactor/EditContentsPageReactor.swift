@@ -39,7 +39,7 @@ class EditContentsPageReactor: Reactor {
     // MARK: ChildReactor
 
     private let editDateTimeReactor: EditDateTimeReactor
-    private let editLocationReactor: EditLocationReactor
+    private let editPlaceReactor: EditPlaceReactor
     private let editTodoReactor: EditTodoReactor
     private let editNotificationReactor: EditNotificationReactor
 
@@ -51,12 +51,12 @@ class EditContentsPageReactor: Reactor {
     // MARK: Initializer
     init(
         editDateTimeReactor: EditDateTimeReactor,
-        editLocationReactor: EditLocationReactor,
+        editPlaceReactor: EditPlaceReactor,
         editTodoReactor: EditTodoReactor,
         editNotificationReactor: EditNotificationReactor
     ) {
         self.editDateTimeReactor = editDateTimeReactor
-        self.editLocationReactor = editLocationReactor
+        self.editPlaceReactor = editPlaceReactor
         self.editTodoReactor = editTodoReactor
         self.editNotificationReactor = editNotificationReactor
 
@@ -111,7 +111,7 @@ class EditContentsPageReactor: Reactor {
             .bind(to: self.action)
             .disposed(by: disposeBag)
 
-        editLocationReactor.state
+        editPlaceReactor.state
             .map { !$0.locationName.isEmpty || !$0.locationLink.isEmpty }
             .map { .changeLocationActive($0) }
             .bind(to: self.action)

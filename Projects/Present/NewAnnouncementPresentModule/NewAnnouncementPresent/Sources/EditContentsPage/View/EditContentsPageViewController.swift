@@ -71,7 +71,7 @@ class EditContentsPageViewController: BaseViewController<EditContentsPageView> {
             .rx.tapGesture()
             .when(.recognized)
             .subscribe(onNext: { _ in
-                Router.shared.pushToPresent(EditLocationViewController())
+                Router.shared.pushToPresent(EditPlaceViewController())
             })
             .disposed(by: disposeBag)
         

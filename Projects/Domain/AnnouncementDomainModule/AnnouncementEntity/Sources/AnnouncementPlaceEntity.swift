@@ -10,16 +10,16 @@ import Foundation
 /**
  Represents the location information of an announcement.
  */
-public struct AnnouncementLocationEntity: Equatable {
-    /// Type of the announcement location (offline or online)
-    public let type: AnnouncementLocationType
-    /// Name of the location
+public struct AnnouncementPlaceEntity: Equatable {
+    /// Type of the announcement place (offline or online)
+    public let type: AnnouncementPlaceType
+    /// Name of the place
     public let name: String?
-    /// Link to the location (e.g., URL for online location)
+    /// Link to the place
     public let link: String
     
     public init(
-        type: AnnouncementLocationType,
+        type: AnnouncementPlaceType,
         name: String? = nil,
         link: String
     ) {
@@ -30,9 +30,9 @@ public struct AnnouncementLocationEntity: Equatable {
 }
 
 /**
- Enum representing the type of announcement location.
+ Enum representing the type of announcement place.
  */
-public enum AnnouncementLocationType: String, Equatable, CaseIterable, Identifiable {
+public enum AnnouncementPlaceType: String, Equatable, CaseIterable, Identifiable {
     /// Online location
     case online
     /// Offline location

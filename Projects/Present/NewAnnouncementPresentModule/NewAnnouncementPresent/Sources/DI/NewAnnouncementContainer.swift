@@ -27,7 +27,7 @@ extension Container {
         container.register(EditContentsPageReactor.self) { resolver in
             EditContentsPageReactor(
                 editDateTimeReactor: resolver.resolve(EditDateTimeReactor.self)!,
-                editLocationReactor: resolver.resolve(EditLocationReactor.self)!,
+                editPlaceReactor: resolver.resolve(EditPlaceReactor.self)!,
                 editTodoReactor: resolver.resolve(EditTodoReactor.self)!,
                 editNotificationReactor: resolver.resolve(EditNotificationReactor.self)!
             )
@@ -39,8 +39,8 @@ extension Container {
         }
         .inObjectScope(.weak)
         
-        container.register(EditLocationReactor.self) { _ in
-            EditLocationReactor()
+        container.register(EditPlaceReactor.self) { _ in
+            EditPlaceReactor()
         }
         .inObjectScope(.weak)
         

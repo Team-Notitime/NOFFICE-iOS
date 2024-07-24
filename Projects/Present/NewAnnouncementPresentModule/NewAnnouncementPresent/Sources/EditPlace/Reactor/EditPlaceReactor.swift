@@ -10,7 +10,7 @@ import ReactorKit
 import CommonUsecase
 import CommonEntity
 
-class EditLocationReactor: Reactor {
+class EditPlaceReactor: Reactor {
     // MARK: Action
     enum Action { 
         case changeLocationName(String)

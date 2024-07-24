@@ -27,7 +27,7 @@ public struct FetchAllAnnouncementUsecase {
                         title: "1차 모임 공지",
                         body: "팀 멘토와 친해지길 바라!",
                         date: Date.now,
-                        location: .init(
+                        place: .init(
                             type: .offline,
                             name: "강남역",
                             link: "https://naver.com"
@@ -38,7 +38,7 @@ public struct FetchAllAnnouncementUsecase {
                         title: "5차 세션 : 최종 팀빌딩",
                         body: "5차 세션 : 최종 팀빌딩",
                         date: Date.now,
-                        location: .init(
+                        place: .init(
                             type: .online,
                             name: "ZEP",
                             link: "https://naver.com"
@@ -56,7 +56,7 @@ public struct FetchAllAnnouncementUsecase {
                         title: "1차 모임 공지",
                         body: "팀 멘토와 친해지길 바라!",
                         date: Date.now,
-                        location: .init(
+                        place: .init(
                             type: .offline,
                             name: "강남역",
                             link: "https://naver.com"
@@ -67,7 +67,7 @@ public struct FetchAllAnnouncementUsecase {
                         title: "5차 세션 : 최종 팀빌딩",
                         body: "5차 세션 : 최종 팀빌딩",
                         date: Date.now,
-                        location: .init(
+                        place: .init(
                             type: .online,
                             name: "ZEP",
                             link: "https://naver.com"
