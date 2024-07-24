@@ -1,8 +1,8 @@
 //
-//  NewOrganizationCompletePageView.swift
-//  OrganizationPresent
+//  NewAnnouncementCompleteView.swift
+//  NewAnnouncementPresent
 //
-//  Created by DOYEON LEE on 7/20/24.
+//  Created by DOYEON LEE on 7/25/24.
 //
 
 import UIKit
@@ -10,39 +10,31 @@ import UIKit
 import DesignSystem
 import Assets
 
-import RxSwift
 import SnapKit
 import Then
 
-class NewOrganizationCompletePageView: BaseView {
+class CompletePageView: BaseView {
     // MARK: UI Constant
-    private let groupImageSize: CGFloat = 120
+    private let groupImageSize: CGFloat = 140
     
     // MARK: UI Component
     // - Group image
-    lazy var groupImageView: UIImageView = UIImageView(image: .imgProfileGroup).then {
-        $0.backgroundColor = .grey200
-        $0.layer.cornerRadius = groupImageSize / 2
+    lazy var completeImageView: UIImageView = UIImageView(image: .imgNottiBell).then {
         $0.setSize(width: groupImageSize, height: groupImageSize)
+        $0.contentMode = .scaleAspectFit
     }
     
     // - Text section
     lazy var titleLabel = UILabel().then {
-        $0.text = "그룹을 만들었어요!"
+        $0.text = "노티가 등록되었어요"
         $0.setTypo(.heading4)
         $0.textColor = .grey800
     }
 
     lazy var subTitleLabel = UILabel().then {
-        $0.text = "링크를 통해 멤버들을 초대해보세요."
+        $0.text = "등록된 노티를 확인하러 갈까요?"
         $0.setTypo(.body2)
         $0.textColor = .grey600
-    }
-    
-    // - Link
-    lazy var linkTextField = BaseTextField().then {
-        $0.styled(variant: .outlined, shape: .round)
-        $0.disabled = true
     }
     
     // - Buttons
@@ -63,7 +55,7 @@ class NewOrganizationCompletePageView: BaseView {
         contentsBuilder: {
             [
                 UILabel().then {
-                    $0.text = "초대 링크 복사"
+                    $0.text = "확인하러 가기"
                     $0.setTypo(.body1b)
                 }
             ]
@@ -81,26 +73,24 @@ class NewOrganizationCompletePageView: BaseView {
 
     // MARK: Setup
     override func setupHierarchy() {
-        addSubview(groupImageView)
+        addSubview(completeImageView)
         
         addSubview(titleLabel)
         
         addSubview(subTitleLabel)
         
-        addSubview(linkTextField)
-        
         addSubview(buttonStack)
     }
     
     override func setupLayout() {
-        groupImageView.snp.makeConstraints {
+        completeImageView.snp.makeConstraints {
             $0.centerY.equalToSuperview()
                 .offset(-groupImageSize * 0.8)
             $0.centerX.equalToSuperview()
         }
         
         titleLabel.snp.makeConstraints {
-            $0.top.equalTo(groupImageView.snp.bottom)
+            $0.top.equalTo(completeImageView.snp.bottom)
                 .offset(24)
             $0.centerX.equalToSuperview()
         }
@@ -110,14 +100,7 @@ class NewOrganizationCompletePageView: BaseView {
                 .offset(8)
             $0.centerX.equalToSuperview()
         }
-        
-        linkTextField.snp.makeConstraints {
-            $0.top.equalTo(subTitleLabel.snp.bottom)
-                .offset(24)
-            $0.centerX.equalToSuperview()
-            $0.width.equalTo(240)
-        }
-        
+
         buttonStack.snp.makeConstraints {
             $0.left.right.equalToSuperview()
                 .inset(GlobalViewConstant.pagePadding)

@@ -10,4 +10,5 @@ import Foundation
 enum NewAnnouncementFunnelPage: CaseIterable {
     case selectOrganization
     case editContents
+    case complete
 }

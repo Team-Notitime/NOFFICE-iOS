@@ -96,9 +96,8 @@ class EditContentsPageViewController: BaseViewController<EditContentsPageView> {
         // - Tap to complete
         baseView.completeButton
             .onTap
-            .subscribe(onNext: { _ in
-                Router.shared.dismiss()
-            })
+            .map { .tapCompleteButton }
+            .bind(to: reactor.action)
             .disposed(by: disposeBag)
     }
 }

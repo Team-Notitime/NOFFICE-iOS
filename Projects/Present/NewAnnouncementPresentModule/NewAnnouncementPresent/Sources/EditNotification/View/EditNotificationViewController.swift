@@ -73,7 +73,7 @@ class EditNotificationViewController: BaseViewController<EditNotificationView> {
             .disposed(by: disposeBag)
     }
     
-    override func setupActionBind() { 
+    override func setupActionBind() {
         // - Tap back button
         baseView.navigationBar
             .onTapBackButton

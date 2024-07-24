@@ -40,7 +40,8 @@ public class NewAnnouncementFunnelViewController: BaseViewController<NewAnnounce
                 guard let currentPage = owner.baseView.paginableView.currentPage
                 else { return }
                 
-                if currentPage == .selectOrganization {
+                if currentPage == .selectOrganization 
+                    || currentPage == .complete {
                     Router.shared.dismiss()
                 } else {
                     owner.reactor.action.onNext(.movePreviousPage)

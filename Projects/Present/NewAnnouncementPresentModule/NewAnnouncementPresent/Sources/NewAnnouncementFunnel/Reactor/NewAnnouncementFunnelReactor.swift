@@ -87,7 +87,7 @@ class NewAnnouncementFunnelReactor: Reactor {
             .subscribe(onNext: { [weak self] action in
                 switch action {
                 case .tapCompleteButton:
-                    Router.shared.dismiss()
+                    self?.action.onNext(.moveNextPage)
                 default: return
                 }
             })
