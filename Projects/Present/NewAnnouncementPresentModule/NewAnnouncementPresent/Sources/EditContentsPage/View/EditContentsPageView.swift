@@ -123,7 +123,8 @@ class EditContentsPageView: BaseView {
     }
     
     lazy var editNotification = NofficeList(
-        option: AnnouncementTemplateType.notification) { option in
+        option: AnnouncementTemplateType.notification
+    ) { option in
         [
             UILabel().then {
                 $0.text = "\(option.title)"

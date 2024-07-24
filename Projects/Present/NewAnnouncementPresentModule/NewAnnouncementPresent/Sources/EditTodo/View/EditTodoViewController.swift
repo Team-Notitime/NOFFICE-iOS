@@ -27,26 +27,15 @@ class EditTodoViewController: BaseViewController<EditTodoView>, UITextFieldDeleg
         // Todo state
         reactor.state.map { $0.todos }
             .distinctUntilChanged()
-            .map { todos in
-                todos.enumerated().map { index, todo in
-                    TodoSection(
-                        todoId: index,
-                        items: [
-                            TodoItem(content: todo.content),
-                            TodoDeleteItem(
-                                id: index+1000,
-                                content: todo.content
-                            ) { [weak self] in
-                                guard let self = self else { return }
-                                
-                                self.reactor.action.onNext(.deleteTodo(todo))
-                            }
-                        ]
-                    )
+            .withUnretained(self)
+            .map { owner, todos in
+                EditTodoConverter.convertToTodo(todos: todos) { todo in
+                    owner.reactor.action.onNext(.deleteTodo(todo))
                 }
             }
             .bind(to: baseView.collectionView.sectionBinder)
             .disposed(by: disposeBag)
+
         
         reactor.state.map { $0.todoContent }
             .distinctUntilChanged()
