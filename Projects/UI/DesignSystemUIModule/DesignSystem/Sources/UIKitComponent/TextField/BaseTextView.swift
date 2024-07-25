@@ -109,37 +109,40 @@ public class BaseTextView: UIView {
         }
     }
     
+    // MARK: UI Constant
+    private let additionalPaddingForAdjustPlaceholder: CGFloat = 4
+    
     // MARK: UI Component
-    private let titleStack = UIStackView().then {
+    private lazy var titleStack = UIStackView().then {
         $0.axis = .horizontal
         $0.spacing = 4
         $0.alignment = .center
         $0.distribution = .fill
     }
     
-    private let descriptionStack = UIStackView().then {
+    private lazy var descriptionStack = UIStackView().then {
         $0.axis = .horizontal
         $0.spacing = 4
         $0.alignment = .center
         $0.distribution = .fill
     }
     
-    private let textViewBackground = UIView()
+    private lazy var textViewBackground = UIView()
     
-    private let bottomBorder = UIView().then {
+    private lazy var bottomBorder = UIView().then {
         $0.snp.makeConstraints {
             $0.height.equalTo(1)
         }
     }
     
-    private let textViewStack = UIStackView().then {
+    private lazy var textViewStack = UIStackView().then {
         $0.axis = .horizontal
         $0.spacing = 4
         $0.alignment = .center
         $0.distribution = .fill
     }
     
-    private let innerTextView = UITextView().then {
+    private lazy var innerTextView = UITextView().then {
         $0.textAlignment = .left
         $0.isScrollEnabled = false
         $0.setContentHuggingPriority(.defaultLow, for: .horizontal)
@@ -266,6 +269,22 @@ public class BaseTextView: UIView {
                 self?.updateTheme()
             })
             .disposed(by: disposeBag)
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTapGesture(_:)))
+        tapGesture.cancelsTouchesInView = false
+        innerTextView.addGestureRecognizer(tapGesture)
+    }
+    
+    // MARK: UITextViewDelegate
+    public var location: CGPoint = .zero
+    @objc private func handleTapGesture(_ gesture: UITapGestureRecognizer) {
+        let location = gesture.location(in: innerTextView)
+        self.location = location
+        if let position = innerTextView.closestPosition(to: location) {
+            innerTextView.selectedTextRange = innerTextView
+                .textRange(from: position, to: position)
+        }
+        innerTextView.becomeFirstResponder()
     }
     
     // MARK: Update
@@ -296,13 +315,13 @@ public class BaseTextView: UIView {
             self.textViewBackground.layer.borderColor = borderColor
             self.textViewBackground.layer.borderWidth = borderWidth
             
-            // TextView
+            // - TextView
             self.innerTextView.textColor = foregroundColor
             self.innerTextView.setTypo(typo)
             self.placeholderLabel.textColor = placeholderColor
             self.placeholderLabel.setTypo(typo)
             
-            // Title stack
+            // - Title stack
             self.titleStack.arrangedSubviews.forEach {
                 if let label = $0 as? UILabel {
                     label.textColor = foregroundColor
@@ -311,7 +330,7 @@ public class BaseTextView: UIView {
                 }
             }
             
-            // TextView stack
+            // - TextView stack
             self.textViewStack.arrangedSubviews.forEach {
                 if let label = $0 as? UILabel {
                     label.textColor = foregroundColor.withAlphaComponent(0.6)
@@ -320,11 +339,11 @@ public class BaseTextView: UIView {
                 }
             }
             
-            // Bottom border
+            // - Bottom border
             self.bottomBorder.backgroundColor = colorTheme
                 .bottomBorderColor(state: allState).uiColor
             
-            // Description stack
+            // - Description stack
             self.descriptionStack.arrangedSubviews.forEach {
                 if let label = $0 as? UILabel {
                     label.textColor = descriptionColor
@@ -375,15 +394,19 @@ public class BaseTextView: UIView {
         
         let inset = UIEdgeInsets(
             top: padding.vertical ?? 0,
-            left: padding.horizontal ?? 0,
+            left: (padding.horizontal ?? 0) - additionalPaddingForAdjustPlaceholder,
             bottom: padding.vertical ?? 0,
-            right: padding.horizontal ?? 0
+            right: (padding.horizontal ?? 0) - additionalPaddingForAdjustPlaceholder
         )
-        textView.contentInset = inset
+        
+        textView.textContainerInset = inset
+        textView.contentInset = .zero
         
         placeholderLabel.snp.remakeConstraints {
-            $0.top.left.right.equalTo(innerTextView)
-                .inset(5)
+            $0.top.equalToSuperview()
+                .inset(padding.vertical ?? 0)
+            $0.left.right.equalToSuperview()
+                .inset(padding.horizontal ?? 0)
         }
         
         bottomBorder.snp.remakeConstraints {

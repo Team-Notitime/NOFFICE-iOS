@@ -16,7 +16,7 @@ import AnnouncementEntity
 import SnapKit
 import Then
 
-class EditContentsPageView: BaseView {
+class EditContentsPageView: BaseView, UIScrollViewDelegate {
     // MARK: UI Component
     // - Scroll view
     lazy var scrollView = UIScrollView().then {
@@ -61,7 +61,7 @@ class EditContentsPageView: BaseView {
     ).then {
         $0.placeholder = "내용을 입력해주세요"
         $0.minimumHeight = 200
-        $0.maximumHeight = 400
+//        $0.maximumHeight = 400
         $0.styled(variant: .outlined)
     }
     
@@ -178,7 +178,8 @@ class EditContentsPageView: BaseView {
         translatesAutoresizingMaskIntoConstraints = false
         
         scrollView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
+            $0.top.left.right.equalToSuperview()
+            $0.bottom.equalTo(keyboardLayoutGuide.snp.top)
         }
         
         stackView.snp.makeConstraints {

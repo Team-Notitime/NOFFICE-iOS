@@ -16,11 +16,39 @@ import RxCocoa
 import RxGesture
 
 class EditContentsPageViewController: BaseViewController<EditContentsPageView> {
+    // MARK: State
+    private var keyboardSize: CGRect = .zero
+    
     // MARK: Reactor
     private let reactor = Container.shared.resolve(EditContentsPageReactor.self)!
     
     // MARK: Setup
-    override func setupViewBind() { }
+    override func setupViewBind() {
+        // - 텍스트 뷰가 늘어날때 스크롤 위치 조정
+        baseView.bodyTextView
+            .onChange
+            .withUnretained(self)
+            .subscribe(onNext: { owner, _ in
+                owner.adjustScrollForTextViewChange(
+                    activeField: owner.baseView.bodyTextView
+                )
+            })
+            .disposed(by: disposeBag)
+        
+        // - 텍스트 뷰에서 터치한 위치로 스크롤 위치 조정
+        RxKeyboard.shared.keyboardSize
+            .withUnretained(self)
+            .subscribe(onNext: { owner, size in
+                if size != .zero {
+                    owner.keyboardSize = size
+                }
+                
+                owner.adjustScrollForBeginEdit(
+                    activeField: owner.baseView.bodyTextView
+                )
+            })
+            .disposed(by: disposeBag)
+    }
     
     override func setupStateBind() {
         // - Whether date and time are used
@@ -99,5 +127,37 @@ class EditContentsPageViewController: BaseViewController<EditContentsPageView> {
             .map { .tapCompleteButton }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
+    }
+    
+    // MARK: Adjust scroll offset for text view
+    func adjustScrollForBeginEdit(activeField: UIView) {
+        let activeFieldFrame = activeField.convert(
+            activeField.bounds,
+            to: baseView.scrollView
+        )
+        
+        let cursorAbsolutPostionY = activeFieldFrame.minY
+            + baseView.bodyTextView.location.y
+        
+        let offsetY = max(0, cursorAbsolutPostionY - keyboardSize.height)
+
+        baseView.scrollView.setContentOffset(
+            CGPoint(x: 0, y: offsetY),
+            animated: true
+        )
+    }
+    
+    func adjustScrollForTextViewChange(activeField: UIView) {
+        let activeFieldFrame = activeField.convert(
+            activeField.bounds,
+            to: baseView.scrollView
+        )
+        
+        let offsetY = max(0, activeFieldFrame.maxY - keyboardSize.height - 42)
+
+        baseView.scrollView.setContentOffset(
+            CGPoint(x: 0, y: offsetY),
+            animated: false
+        )
     }
 }
