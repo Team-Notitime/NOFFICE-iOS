@@ -28,6 +28,7 @@ class EditTodoViewController: BaseViewController<EditTodoView>, UITextFieldDeleg
         reactor.state.map { $0.todos }
             .distinctUntilChanged()
             .withUnretained(self)
+            .observe(on: MainScheduler.asyncInstance)
             .map { owner, todos in
                 EditTodoConverter
                     .convertToTodo(todos: todos) { [weak owner] todo in
@@ -40,6 +41,7 @@ class EditTodoViewController: BaseViewController<EditTodoView>, UITextFieldDeleg
         // - Todo contents
         reactor.state.map { $0.todoContent }
             .distinctUntilChanged()
+            .observe(on: MainScheduler.asyncInstance)
             .bind(to: baseView.newTodoTextField.text)
             .disposed(by: disposeBag)
     }
@@ -73,6 +75,7 @@ class EditTodoViewController: BaseViewController<EditTodoView>, UITextFieldDeleg
         // - Add todo button
         baseView.addTodoButton.onTap
             .withUnretained(self)
+            .observe(on: MainScheduler.asyncInstance)
             .subscribe(onNext: { owner, _ in
                 UIView.animate(withDuration: 0.25) { [weak owner] in
                     owner?.baseView.newTodoTextField.layer.opacity = 1.0
