@@ -32,7 +32,12 @@ extension Settings {
             )
         case .view:
             var viewSettings: SettingsDictionary = [
-                "OTHER_LDFLAGS": ["-ObjC", "-Xlinker", "-interposable"]
+                "OTHER_LDFLAGS": [
+                    "-ObjC",
+                    "-Xlinker",
+                    "-interposable",
+                    "$(inherited) -ObjC"
+                ]
             ]
             viewSettings.merge(baseSettings) { (_, new) in new } // Merge base settings
             

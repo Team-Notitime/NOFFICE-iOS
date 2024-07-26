@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 
 import Router
-import NewAnnouncementPresent
+import AnnouncementPresent
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
@@ -25,8 +25,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window = UIWindow(windowScene: windowScene)
         
         window?.rootViewController = Router.shared
-        let viewController = NewAnnouncementFunnelViewController()
-        Router.shared.push(UIViewController())
+        let viewController = AnnouncementDetailViewController()
+        Router.shared.push(viewController, animated: false)
         
         window?.backgroundColor = .fullWhite
         window?.makeKeyAndVisible()

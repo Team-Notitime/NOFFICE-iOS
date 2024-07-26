@@ -26,6 +26,7 @@ struct BasicCardColorTheme: CardColorTheme {
         case (.translucent, .blue): return .init(.blue100)
         case (.translucent, .yellow): return .init(.yellow100)
         case (.translucent, .gray): return .init(.grey100)
+        case (.translucent, .background): return .init(.fullWhite)
         }
     }
     
@@ -35,6 +36,7 @@ struct BasicCardColorTheme: CardColorTheme {
         case (.outline, .blue): return .init(.blue500.opacity(0.5))
         case (.outline, .yellow): return .init(.yellow500.opacity(0.5))
         case (.outline, .gray): return .init(.grey200)
+        case (.outline, .background): return .init(.grey200)
         case (.translucent, _): return .init(.none)
         }
     }

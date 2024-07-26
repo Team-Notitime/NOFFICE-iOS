@@ -8,5 +8,5 @@
 import Foundation
 
 public enum BasicCardColor: String, CaseIterable {
-    case green, blue, yellow, gray
+    case green, blue, yellow, gray, background
 }

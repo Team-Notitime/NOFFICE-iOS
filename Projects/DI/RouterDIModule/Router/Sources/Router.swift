@@ -32,7 +32,10 @@ final public class Router: UINavigationController {
     
     // MARK: Push
     /// Pushes a view from right to left
-    public func push(_ destination: UIViewController) {
+    public func push(
+        _ destination: UIViewController,
+        animated: Bool = true
+    ) {
         pushViewController(destination, animated: true)
     }
     

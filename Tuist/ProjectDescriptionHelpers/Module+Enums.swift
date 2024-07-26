@@ -80,6 +80,7 @@ public enum Module {
         case alamofire = "Alamofire"
         case kingfisher = "Kingfisher"
         case openGraph = "OpenGraph"
+        case skeletonView = "SkeletonView"
         
         var name: String { rawValue }
     }

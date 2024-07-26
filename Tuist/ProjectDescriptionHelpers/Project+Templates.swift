@@ -36,7 +36,7 @@ extension Project {
     ) -> Project {
         return Project(
             name: "\(target.rawValue)PresentModule",
-            settings: .settings(.base),
+            settings: .settings(.view),
             targets: [
                 makeTarget(
                     name: "\(target.rawValue)Present",
@@ -239,7 +239,8 @@ extension Project {
     static let presentDependencies : [TargetDependency] = [
         .thirdParty(.reactorKit),
         .thirdParty(.swinject),
-        .thirdParty(.kingfisher)
+        .thirdParty(.kingfisher),
+        .thirdParty(.skeletonView)
     ]
     
     static let uiDependencies: [TargetDependency] = [

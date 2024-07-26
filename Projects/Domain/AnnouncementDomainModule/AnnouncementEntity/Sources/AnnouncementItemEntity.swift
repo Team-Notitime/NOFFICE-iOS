@@ -13,6 +13,8 @@ import Foundation
 public struct AnnouncementItemEntity: Identifiable, Equatable {
     /// Unique identifier for the todo item
     public let id: Int
+    /// Announcement creation date
+    public let createdAt: Date?
     /// Image URL for the announcement illustration. (optional)
     public let imageURL: String?
     /// Title of the announcement
@@ -31,6 +33,7 @@ public struct AnnouncementItemEntity: Identifiable, Equatable {
     public init(
         id: Int,
         imageURL: String? = nil,
+        createdAt: Date? = nil,
         title: String,
         body: String,
         date: Date? = nil,
@@ -39,6 +42,7 @@ public struct AnnouncementItemEntity: Identifiable, Equatable {
         remindNotification: [AnnouncementRemindNotification]? = nil
     ) {
         self.id = id
+        self.createdAt = createdAt
         self.imageURL = imageURL
         self.title = title
         self.body = body

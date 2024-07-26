@@ -9,7 +9,7 @@ import UIKit
 import SwiftUI
 
 /// System default is 0.0
-let lineSpacingMultiplier: CGFloat = 0.2
+let defualtLineSpacingMultiplier: CGFloat = 1.2
 
 public enum FontWeight: String {
     case thin, extraLight, light, regular, medium
@@ -129,8 +129,6 @@ public extension UILabel {
         case .black:
             self.font = UIFont(name: "Pretendard-Black", size: size)
         }
-        
-        self.setLineHeight(multiplier: lineSpacingMultiplier)
     }
     
     func setLineHeight(multiplier: CGFloat) {
@@ -141,14 +139,26 @@ public extension UILabel {
         let lineSpacing = lineHeight - fontSize
         
         let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.minimumLineHeight = lineHeight
+        paragraphStyle.maximumLineHeight = lineHeight
         paragraphStyle.lineSpacing = lineSpacing
         
         let attributedString = NSMutableAttributedString(string: labelText)
+        
+        // Set line height
         attributedString.addAttribute(
             .paragraphStyle,
             value: paragraphStyle,
             range: NSRange(location: 0, length: attributedString.length)
         )
+        
+        // Set text position center
+        attributedString.addAttribute(
+            .baselineOffset,
+            value: (lineHeight - font.lineHeight) / 2,
+            range: NSRange(location: 0, length: attributedString.length)
+        )
+        
         self.attributedText = attributedString
     }
 
@@ -229,27 +239,6 @@ public extension UITextField {
         case .black:
             self.font = UIFont(name: "Pretendard-Black", size: size)
         }
-        
-        self.setLineHeight(multiplier: lineSpacingMultiplier)
-    }
-    
-    func setLineHeight(multiplier: CGFloat) {
-        guard let text = self.text else { return }
-        
-        let fontSize = self.font?.pointSize ?? 16
-        let lineHeight = fontSize * multiplier
-        let lineSpacing = lineHeight - fontSize
-        
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineSpacing = lineSpacing
-        
-        let attributedString = NSMutableAttributedString(string: text)
-        attributedString.addAttribute(
-            .paragraphStyle,
-            value: paragraphStyle,
-            range: NSRange(location: 0, length: attributedString.length)
-        )
-        self.attributedText = attributedString
     }
 
     /// Set the typography of the text.
