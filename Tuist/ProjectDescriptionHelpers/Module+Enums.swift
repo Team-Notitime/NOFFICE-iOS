@@ -12,6 +12,7 @@ public enum Module {
         case mypage = "Mypage"
         case signup = "Signup"
         case newAnnouncement = "NewAnnouncement"
+        case announcement = "Announcement"
         
         var name: String { rawValue }
         var bundleIdenifier: String { rawValue.toBundleIdentifier() }

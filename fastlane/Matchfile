@@ -12,7 +12,9 @@ app_identifier([
   "notitime.noffice.home.example",
   "notitime.noffice.organization.example",
   "notitime.noffice.mypage.example",
-  "notitime.noffice.signup.example"
+  "notitime.noffice.signup.example",
+  "notitime.noffice.new-announcement.example",
+  "notitime.noffice.announcement.example"
 ])
 username("do83430208@gmail.com") # Your Apple Developer Portal username
 
