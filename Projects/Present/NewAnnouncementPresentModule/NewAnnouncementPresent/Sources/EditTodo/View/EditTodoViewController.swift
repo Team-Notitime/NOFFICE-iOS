@@ -31,7 +31,7 @@ class EditTodoViewController: BaseViewController<EditTodoView>, UITextFieldDeleg
             .observe(on: MainScheduler.asyncInstance)
             .map { owner, todos in
                 EditTodoConverter
-                    .convertToTodo(todos: todos) { [weak owner] todo in
+                    .convertToTodoSections(todos: todos) { [weak owner] todo in
                         owner?.reactor.action.onNext(.deleteTodo(todo))
                     }
             }

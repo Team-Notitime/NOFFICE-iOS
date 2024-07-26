@@ -37,7 +37,7 @@ class EditNotificationViewController: BaseViewController<EditNotificationView> {
         reactor.state.map { $0.selectedTimeOptions }
             .distinctUntilChanged()
             .map {
-                EditNotificationConverter.convertToReminder(
+                EditNotificationConverter.convertToReminderSections(
                     options: Array($0)
                         .sorted { $0.timeInterval < $1.timeInterval }
                 )
@@ -48,7 +48,7 @@ class EditNotificationViewController: BaseViewController<EditNotificationView> {
         reactor.state.map { $0.timeOptions }
             .withUnretained(self)
             .map { owner, options in
-                EditNotificationConverter.convertToTimeOption(
+                EditNotificationConverter.convertToTimeOptionSections(
                     options: options,
                     selectedOptions: owner.reactor.currentState
                         .selectedTimeOptions,

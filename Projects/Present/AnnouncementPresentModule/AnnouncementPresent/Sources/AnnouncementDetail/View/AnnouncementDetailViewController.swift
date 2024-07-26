@@ -35,7 +35,6 @@ public class AnnouncementDetailViewController: BaseViewController<AnnouncementDe
     public override func setupViewBind() { 
         setupSkeleton()
         startSkeleton()
-        
     }
     
     public override func setupStateBind() {
@@ -61,6 +60,37 @@ public class AnnouncementDetailViewController: BaseViewController<AnnouncementDe
                 }
             )
             .disposed(by: disposeBag)
+        
+        // Bind todo item
+        reactor.state.map { $0.todoItems }
+            .compactMap { $0 }
+            .map { Array($0) }
+            .withUnretained(self)
+            .map { owner, todos in
+                AnnouncementDetailConverter.convertToTodoSections(
+                    todos: todos,
+                    onTapTodoItem: { [weak owner] todo in
+                        guard let weakOwner = owner
+                        else { return }
+                        
+                        weakOwner.reactor.action.onNext(.toggleTodoStatus(todo))
+                    }
+                )
+            }
+            .observe(on: MainScheduler.asyncInstance)
+            .bind(to: baseView.todoListCollectionView.sectionBinder)
+            .disposed(by: disposeBag)
+        
+        reactor.state.map { $0.announcementItem }
+            .compactMap { $0 }
+            .map { $0.todos ?? [] }
+            .subscribe(with: self, onNext: { owner, todos in
+                owner.baseView.todoListCollectionView.snp.updateConstraints {
+                    $0.height.equalTo(todos.count * 50)
+                }
+            })
+            .disposed(by: disposeBag)
+        
     }
     
     public override func setupActionBind() { 

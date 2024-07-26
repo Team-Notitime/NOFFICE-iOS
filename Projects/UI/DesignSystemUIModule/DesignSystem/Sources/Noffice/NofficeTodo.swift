@@ -40,7 +40,7 @@ where Option: Equatable & Identifiable {
         }
     }
     
-    public var status: NofficeTodo.Status = .none {
+    public var status: NofficeTodo.Status = .pending {
         didSet {
             updateByStatus()
         }
@@ -51,7 +51,7 @@ where Option: Equatable & Identifiable {
             return status == .done
         }
         set {
-            status = newValue ? .done : .none
+            status = newValue ? .done : .pending
         }
     }
     
@@ -114,7 +114,7 @@ where Option: Equatable & Identifiable {
     
     // MARK: Public
     public func statusToggle() {
-        status = status == .none ? .done : .none
+        status = status == .pending ? .done : .pending
         
         _onChangeStatus.onNext(status)
         _onChangeSelected.onNext(isSelected)
@@ -142,7 +142,7 @@ where Option: Equatable & Identifiable {
     // MARK: Update
     private func updateByStatus() {
         switch status {
-        case .none:
+        case .pending:
             UIView.transition(
                 with: self,
                 duration: 0.2,
@@ -187,6 +187,6 @@ where Option: Equatable & Identifiable {
 // MARK: - Display model
 public extension NofficeTodo {
     enum Status: String, CaseIterable {
-        case none, done
+        case pending, done
     }
 }

@@ -40,7 +40,7 @@ class AnnouncementPageViewController: BaseViewController<AnnouncementPageView> {
                             )
                         ]
                     )
-                ] + AnnouncementPageConverter.convertToSections(entities)
+                ] + AnnouncementPageConverter.convertToOrganizationSections(entities)
             }
             .bind(to: baseView.collectionView.sectionBinder)
             .disposed(by: disposeBag)

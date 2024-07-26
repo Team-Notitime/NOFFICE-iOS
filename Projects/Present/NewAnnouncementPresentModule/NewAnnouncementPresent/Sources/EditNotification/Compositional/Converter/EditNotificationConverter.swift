@@ -9,7 +9,7 @@ import DesignSystem
 import AnnouncementEntity
 
 struct EditNotificationConverter {
-    static func convertToReminder(
+    static func convertToReminderSections(
         options: [AnnouncementRemindNotification]
     ) -> [ReminderSection] {
         if options.isEmpty {
@@ -24,7 +24,7 @@ struct EditNotificationConverter {
         return [ReminderSection(items: optionItems)]
     }
     
-    static func convertToTimeOption(
+    static func convertToTimeOptionSections(
         options: [AnnouncementRemindNotification],
         selectedOptions: Set<AnnouncementRemindNotification>,
         onSelect: @escaping (AnnouncementRemindNotification) -> Bool

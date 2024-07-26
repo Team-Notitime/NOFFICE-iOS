@@ -5,9 +5,11 @@
 //  Created by DOYEON LEE on 7/22/24.
 //
 
-import ReactorKit
+import Foundation
 
 import AnnouncementEntity
+
+import ReactorKit
 
 class EditTodoReactor: Reactor {
     // MARK: Action
@@ -61,6 +63,7 @@ class EditTodoReactor: Reactor {
         switch mutation {
         case .addTodo:
             let entity: AnnouncementTodoEntity = .init(
+                id: UUID().uuidString.hashValue,
                 content: state.todoContent
             )
             state.todos.append(entity)

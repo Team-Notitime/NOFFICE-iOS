@@ -8,7 +8,7 @@
 import AnnouncementEntity
 
 struct EditTodoConverter {
-    static func convertToTodo(
+    static func convertToTodoSections(
         todos: [AnnouncementTodoEntity],
         action: @escaping (AnnouncementTodoEntity) -> Void
     ) -> [TodoSection] {

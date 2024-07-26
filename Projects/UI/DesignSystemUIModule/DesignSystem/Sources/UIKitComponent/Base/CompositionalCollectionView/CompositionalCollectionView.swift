@@ -203,6 +203,7 @@ final public class CompositionalCollectionView:
         }
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         collectionView.delegate = self
+        collectionView.backgroundColor = .clear
     }
     
     // MARK: Snapshot

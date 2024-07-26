@@ -31,40 +31,22 @@ class TodoPageViewController: BaseViewController<TodoPageView> {
         reactor.state.map { $0.organizations }
             .withUnretained(self)
             .map { owner, entities in
-                owner.convertToSection(entities)
+                TodoPageConverter.convertToTodoSections(
+                    entities,
+                    onTodoItemTap: { [weak owner] todoEntity in
+                        owner?.reactor.action.onNext(
+                            .tapTodoItem(todoEntity)
+                        )
+                        
+                        return owner?.reactor.currentState.organizations
+                            .flatMap { $0.todos }
+                            .first { $0.id == todoEntity.id }?.status == .done
+                    }
+                )
             }
             .bind(to: baseView.collectionView.sectionBinder)
             .disposed(by: disposeBag)
     }
     
     override func setupActionBind() { }
-    
-    // MARK: Private
-    /// Convert entity to compositional section
-    private func convertToSection(
-        _ entities: [TodoOrganizationEntity]
-    ) -> [any CompositionalSection] {
-        return entities.map { organizationEntity in
-            TodoSection(
-                organizationId: organizationEntity.id,
-                organizationName: organizationEntity.name, 
-                items: organizationEntity.todos.map { todoEntity in
-                    TodoItem(
-                        id: todoEntity.id,
-                        contents: todoEntity.contents,
-                        onTap: { [weak self] in
-                            self?.reactor.action.onNext(
-                                .tapTodoItem(todoEntity)
-                            )
-                            
-                            return self?.reactor.currentState
-                                .organizations
-                                .first { $0.id == organizationEntity.id }?
-                                .todos.first { $0.id == todoEntity.id }?.status == .done
-                        }
-                    )
-                }
-            )
-        }
-    }
 }

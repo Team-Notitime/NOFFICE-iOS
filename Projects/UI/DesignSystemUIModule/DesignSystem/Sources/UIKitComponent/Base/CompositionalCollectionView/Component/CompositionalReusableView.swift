@@ -61,8 +61,6 @@ final class CollectionViewResuableViewContainer: UICollectionReusableView {
     }
     
     func configure<S: CompositionalSection>(with section: S, type: ResuableViewType) {
-        guard !(currentView is EmptyReusableView) else { return }
-        
         switch type {
         case .header:
             guard let view = currentView as? S.Header else {

@@ -11,7 +11,7 @@ import AnnouncementEntity
 import DesignSystem
 
 struct AnnouncementPageConverter {
-    static func convertToSections(
+    static func convertToOrganizationSections(
         _ entities: [AnnouncementOrganizationEntity]
     ) -> [OrganizationSection] {
         return entities.map { organizationEntity in
@@ -57,7 +57,8 @@ struct AnnouncementPageConverter {
     private static func convertToAnnouncementItem(
         _ announcementEntity: AnnouncementItemEntity
     ) -> AnnouncementItem {
-        let dateString = announcementEntity.date?.toString(format: "yyyy.MM.dd(EEE) HH:mm") ?? "-"
+        let dateString = announcementEntity.date?
+            .toString(format: "yyyy.MM.dd(EEE) HH:mm") ?? "-"
         let location = announcementEntity.place?.name ?? "-"
         
         return AnnouncementItem(

@@ -269,7 +269,6 @@ public class AnnouncementDetailView: BaseView {
             $0.left.right.equalToSuperview()
                 .inset(GlobalViewConstant.pagePaddingLarge)
             $0.bottom.equalToSuperview()
-                .inset(GlobalViewConstant.spacingUnit * 2)
         }
     }
 }

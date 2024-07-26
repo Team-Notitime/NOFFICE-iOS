@@ -30,7 +30,11 @@ public struct FetchAnnouncementDetailUsecase {
                 type: .offline,
                 name: "서울 창업 허브 : 장소 이름이름이름이름..",
                 link: "https://naver.com"
-            )
+            ),
+            todos: [
+                .init(id: 1, content: "과제 제출", status: .pending),
+                .init(id: 2, content: "과제 제출 2", status: .pending)
+            ]
         )
         
         return .just(mock)
