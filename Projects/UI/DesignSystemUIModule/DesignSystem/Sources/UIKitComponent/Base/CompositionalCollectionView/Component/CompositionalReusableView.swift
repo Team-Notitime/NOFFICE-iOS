@@ -6,6 +6,7 @@
 //  Refer to MUMU
 //
 
+import Foundation
 import UIKit
 
 import SnapKit
@@ -64,14 +65,16 @@ final class CollectionViewResuableViewContainer: UICollectionReusableView {
         case .header:
             guard let view = currentView as? S.Header else {
                 fatalError("""
-                            Failed to cast currentView to expected header type: \(S.Header.self).
-                            """)
+                           Failed to cast currentView to expected header type: \(S.Header.self).
+                           Actual type: \(String(describing: currentView.self)).
+                           """)
             }
             
             guard let section = section as? S.Header.Section else {
                 fatalError("""
-                            Failed to cast section to expected header section type: \(S.Header.Section.self).
-                            """)
+                           Failed to cast section to expected header section type: \(S.Header.Section.self).
+                           Actual type: \(section.self).
+                           """)
             }
             
             view.configure(with: section)
@@ -79,17 +82,20 @@ final class CollectionViewResuableViewContainer: UICollectionReusableView {
         case .footer:
             guard let view = currentView as? S.Footer else {
                 fatalError("""
-                            Failed to cast currentView to expected footer type: \(S.Footer.self).
-                            """)
+                           Failed to cast currentView to expected footer type: \(S.Footer.self).
+                           Actual type: \(String(describing: currentView.self)).
+                           """)
             }
             
             guard let section = section as? S.Footer.Section else {
                 fatalError("""
-                            Failed to cast section to expected footer section type: \(S.Footer.Section.self).
-                            """)
+                           Failed to cast section to expected footer section type: \(S.Footer.Section.self).
+                           Actual type: \(section.self).
+                           """)
             }
             
             view.configure(with: section)
         }
     }
+
 }
