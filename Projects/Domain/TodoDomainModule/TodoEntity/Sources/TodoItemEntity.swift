@@ -16,7 +16,7 @@ public struct TodoItemEntity: Codable, Identifiable, Equatable {
     /// Contents of the todo item
     public let contents: String
     /// Status of the todo item
-    public let status: TodoItemStatus
+    public var status: TodoItemStatus
     
     public init(
         id: Int,

@@ -51,7 +51,17 @@ class TodoPageViewController: BaseViewController<TodoPageView> {
                 items: organizationEntity.todos.map { todoEntity in
                     TodoItem(
                         id: todoEntity.id,
-                        contents: todoEntity.contents
+                        contents: todoEntity.contents,
+                        onTap: { [weak self] in
+                            self?.reactor.action.onNext(
+                                .tapTodoItem(todoEntity)
+                            )
+                            
+                            return self?.reactor.currentState
+                                .organizations
+                                .first { $0.id == organizationEntity.id }?
+                                .todos.first { $0.id == todoEntity.id }?.status == .done
+                        }
                     )
                 }
             )

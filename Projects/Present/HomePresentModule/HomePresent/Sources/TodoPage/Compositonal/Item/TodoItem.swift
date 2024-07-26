@@ -16,6 +16,9 @@ import RxSwift
 final class TodoItem: CompositionalItem {
     typealias Cell = TodoItemCell
     
+    // MARK: Event
+    let onTap: () -> Bool
+    
     // MARK: Data
     let id: Int
     let contents: String
@@ -25,10 +28,12 @@ final class TodoItem: CompositionalItem {
     
     init(
         id: Int,
-        contents: String
+        contents: String,
+        onTap: @escaping () -> Bool
     ) {
         self.id = id
         self.contents = contents
+        self.onTap = onTap
     }
     
     func hash(into hasher: inout Hasher) {
@@ -39,7 +44,12 @@ final class TodoItem: CompositionalItem {
 
 final class TodoItemCell: UIView, CompositionalItemCell {
     // MARK: UI Component
-    lazy var todo = NofficeTodo<TodoItemEntity>()
+    lazy var todo = NofficeTodo<TodoItemEntity>().then {
+        $0.automaticToggle = false
+    }
+    
+    // MARK: DisposeBag
+    private let disposeBag = DisposeBag()
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
@@ -61,5 +71,15 @@ final class TodoItemCell: UIView, CompositionalItemCell {
     
     func configure(with item: TodoItem) {
         todo.text = item.contents
+        
+        todo.rx.tapGesture()
+            .subscribe(onNext: { [weak self] _ in
+                let result = item.onTap()
+                
+                print(result)
+                
+                self?.todo.status = result ? .done : .none
+            })
+            .disposed(by: disposeBag)
     }
 }

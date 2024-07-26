@@ -32,7 +32,7 @@ where Option: Equatable & Identifiable {
     // MARK: Data
     public var value: Option?
     
-    public var automaticToggle: Bool = false
+    public var automaticToggle: Bool = true
     
     public var text: String = "" {
         didSet {

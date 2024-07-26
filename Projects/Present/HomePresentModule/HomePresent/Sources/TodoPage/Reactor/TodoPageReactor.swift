@@ -13,6 +13,7 @@ class TodoPageReactor: Reactor {
     // MARK: Action
     enum Action { 
         case viewWillAppear
+        case tapTodoItem(TodoItemEntity)
     }
     
     enum Mutation { 
@@ -40,7 +41,35 @@ class TodoPageReactor: Reactor {
     func mutate(action: Action) -> Observable<Mutation> {
         switch action { 
         case .viewWillAppear:
-            let temp = TodoOrganizationEntity.mock
+            var temp = TodoOrganizationEntity.mock
+            temp = temp.map { organization in
+                let newTodos = organization.todos.sorted { $0.status == .pending && $1.status == .done }
+                return TodoOrganizationEntity(
+                    id: organization.id,
+                    name: organization.name,
+                    todos: newTodos
+                )
+            }
+            return .just(.setOrganizations(temp))
+            
+        case let .tapTodoItem(todo):
+            var temp = TodoOrganizationEntity.mock
+            temp = temp.map { organization in
+                var newTodos = organization.todos.map { todoEntity -> TodoItemEntity in
+                    if todoEntity.id == todo.id {
+                        var updatedTodo = todoEntity
+                        updatedTodo.status = todoEntity.status == .done ? .pending : .done
+                        return updatedTodo
+                    }
+                    return todoEntity
+                }
+                newTodos.sort { $0.status == .pending && $1.status == .done }
+                return TodoOrganizationEntity(
+                    id: organization.id,
+                    name: organization.name,
+                    todos: newTodos
+                )
+            }
             return .just(.setOrganizations(temp))
         }
     }
