@@ -78,7 +78,7 @@ final class TodoItemCell: UIView, CompositionalItemCell {
                 
                 print(result)
                 
-                self?.todo.status = result ? .done : .none
+                self?.todo.status = result ? .done : .pending
             })
             .disposed(by: disposeBag)
     }

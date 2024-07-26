@@ -9,6 +9,9 @@ import UIKit
 
 import DesignSystem
 import Assets
+import Router
+import AnnouncementUsecase
+import AnnouncementEntity
 
 import Swinject
 import RxSwift
@@ -22,12 +25,33 @@ public class AnnouncementDetailViewController: BaseViewController<AnnouncementDe
     // MARK: DI
     private let reactor = Container.shared.resolve(AnnouncementDetailReactor.self)!
     
+    // MARK: Data
+    private let announcement: AnnouncementItemEntity
+    
+    // MARK: Initialzier
+    // example app 때문에 임시로 optional 처리
+    public init(announcement: AnnouncementItemEntity? = nil) {
+        if let announcement = announcement {
+            self.announcement = announcement
+        } else {
+            self.announcement = FetchAnnouncementDetailUsecase.mock
+        }
+        
+        super.init()
+    }
+    
+    public required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     // MARK: Life cycle
     public override func viewDidLoad() {
         super.viewDidLoad()
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-            self.reactor.action.onNext(.viewDidLoad)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) { [weak self] in
+            guard let self = self else { return }
+            
+            self.reactor.action.onNext(.viewDidLoad(self.announcement))
         }
     }
     
@@ -94,7 +118,13 @@ public class AnnouncementDetailViewController: BaseViewController<AnnouncementDe
     }
     
     public override func setupActionBind() { 
-        
+        // - Bind navigation bar
+        baseView.navigationBar
+            .onTapBackButton
+            .subscribe(onNext: {
+                Router.shared.back()
+            })
+            .disposed(by: disposeBag)
     }
     
     // MARK: Private

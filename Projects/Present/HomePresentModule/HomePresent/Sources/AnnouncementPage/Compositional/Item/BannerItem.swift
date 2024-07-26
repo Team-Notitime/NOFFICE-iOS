@@ -17,7 +17,9 @@ final class BannerItem: CompositionalItem {
     
     // MARK: Data
     let userName: String
+    
     let todayPrefixText: String
+    
     let dateText: String
     
     // MARK: DisposeBag

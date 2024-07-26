@@ -17,14 +17,19 @@ import RxGesture
 final class AnnouncementItem: CompositionalItem {
     typealias Cell = AnnouncementItemCell
     
+    // MARK: Event
+    let onTap: () -> Void
+    
     // MARK: Data
     let identifier: String = UUID().uuidString
-    let state: NofficeAnnouncementCard.State
-    let title: String?
-    let date: String?
-    let location: String?
     
-    let onTapAnnouncementCard = PublishSubject<Void>()
+    let state: NofficeAnnouncementCard.State
+    
+    let title: String?
+    
+    let date: String?
+    
+    let location: String?
     
     // MARK: DisposeBag
     let disposeBag = DisposeBag()
@@ -34,12 +39,14 @@ final class AnnouncementItem: CompositionalItem {
         state: NofficeAnnouncementCard.State,
         title: String? = nil,
         date: String? = nil,
-        location: String? = nil
+        location: String? = nil,
+        onTap: @escaping () -> Void = { }
     ) {
         self.state = state
         self.title = title
         self.date = date
         self.location = location
+        self.onTap = onTap
     }
     
     // MARK: Hasher
@@ -92,7 +99,7 @@ final class AnnouncementItemCell: UIView, CompositionalItemCell {
             .when(.recognized)
             .map { _ in }
             .subscribe(onNext: {
-                item.onTapAnnouncementCard.onNext(())
+                item.onTap()
             })
             .disposed(by: disposeBag)
     }

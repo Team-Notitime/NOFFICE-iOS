@@ -9,6 +9,7 @@ import UIKit
 
 import Router
 import DesignSystem
+import AnnouncementPresent
 import AnnouncementEntity
 
 import RxSwift
@@ -28,7 +29,7 @@ class AnnouncementPageViewController: BaseViewController<AnnouncementPageView> {
     // MARK: Setup
     override func setupStateBind() {
         reactor.state.map { $0.organizations }
-            .map { entities in
+            .map { organizations in
                 [
                     BannerSection(
                         identifier: UUID().uuidString,
@@ -40,7 +41,15 @@ class AnnouncementPageViewController: BaseViewController<AnnouncementPageView> {
                             )
                         ]
                     )
-                ] + AnnouncementPageConverter.convertToOrganizationSections(entities)
+                ] + AnnouncementPageConverter
+                    .convertToOrganizationSections(
+                        organizations
+                    ) { announcement in
+                        let detailViewController = AnnouncementDetailViewController(
+                            announcement: announcement
+                        )
+                        Router.shared.push(detailViewController)
+                    }
             }
             .bind(to: baseView.collectionView.sectionBinder)
             .disposed(by: disposeBag)
