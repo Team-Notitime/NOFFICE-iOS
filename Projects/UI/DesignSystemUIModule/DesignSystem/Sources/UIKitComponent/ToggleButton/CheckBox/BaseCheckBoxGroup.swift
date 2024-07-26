@@ -140,7 +140,7 @@ public class BaseCheckBoxGroup<Option>: UIView where Option: Equatable & Identif
             if animation {
                 let delay = 0.15 * Double(index)
                 UIView.animate(
-                    withDuration: 1.0,
+                    withDuration: 0.6,
                     delay: delay,
                     options: [],
                     animations: {
