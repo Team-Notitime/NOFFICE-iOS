@@ -58,35 +58,16 @@ public struct EmptyCompositionalSection: CompositionalSection {
 
 /**
  A wrapper class for adding various sections to a single collection view.
- 
-```swift
- let collectionView = CompositionalCollectionView()
- 
- let sectionsSubject = BehaviorSubject<[AnyCompositionalSection]>(value: sections)
- 
- collectionView.bindSections(
-     by: sectionsSubject.asObservable()
- )
- .disposed(by: disposeBag)
- 
- let sections = [
-    Section(
-         items: [ ... ]
-     ).asAnySection()
- ]
-
- self.sectionsSubject.onNext(sections)
- ```
 */
 
-public struct CompositionalSectionWrapper: Hashable {
+struct CompositionalSectionWrapper: Hashable {
     let wrappee: any CompositionalSection
     
-    public static func == (lhs: CompositionalSectionWrapper, rhs: CompositionalSectionWrapper) -> Bool {
+    static func == (lhs: CompositionalSectionWrapper, rhs: CompositionalSectionWrapper) -> Bool {
         lhs.wrappee.hashValue == rhs.wrappee.hashValue
     }
     
-    public func hash(into hasher: inout Hasher) {
+    func hash(into hasher: inout Hasher) {
         hasher.combine(wrappee.hashValue)
     }
 }

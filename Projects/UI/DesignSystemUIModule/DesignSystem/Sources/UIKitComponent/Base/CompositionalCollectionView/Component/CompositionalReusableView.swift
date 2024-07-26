@@ -61,9 +61,12 @@ final class CollectionViewResuableViewContainer: UICollectionReusableView {
     }
     
     func configure<S: CompositionalSection>(with section: S, type: ResuableViewType) {
+        guard !(currentView is EmptyReusableView) else { return }
+        
         switch type {
         case .header:
             guard let view = currentView as? S.Header else {
+                
                 fatalError("""
                            Failed to cast currentView to expected header type: \(S.Header.self).
                            Actual type: \(String(describing: currentView.self)).
@@ -81,6 +84,7 @@ final class CollectionViewResuableViewContainer: UICollectionReusableView {
             
         case .footer:
             guard let view = currentView as? S.Footer else {
+
                 fatalError("""
                            Failed to cast currentView to expected footer type: \(S.Footer.self).
                            Actual type: \(String(describing: currentView.self)).
