@@ -11,44 +11,123 @@ import ReactorKit
 
 class EditContentsPageReactor: Reactor {
     // MARK: Action
-    enum Action { 
+    enum Action {
         case tapCompleteButton
+        case changeDateTimeActive(Bool)
+        case changeLocationActive(Bool)
+        case changeTodoActive(Bool)
+        case changeNotificationActive(Bool)
     }
-    
-    enum Mutation { }
-    
+
+    enum Mutation {
+        case setDateTimeActive(Bool)
+        case setLocationActive(Bool)
+        case setTodoActive(Bool)
+        case setNotificationActive(Bool)
+    }
+
     // MARK: State
-    struct State { }
-    
+    struct State {
+        var dateActive: Bool = false
+        var locationActive: Bool = false
+        var todoActive: Bool = false
+        var notificationActive: Bool = false
+    }
+
     let initialState: State = State()
-    
+
     // MARK: ChildReactor
-    
+
+    private let editDateTimeReactor: EditDateTimeReactor
+    private let editPlaceReactor: EditPlaceReactor
+    private let editTodoReactor: EditTodoReactor
+    private let editNotificationReactor: EditNotificationReactor
+
     // MARK: Dependency
-    
+
     // MARK: DisposeBag
     private let disposeBag = DisposeBag()
-    
+
     // MARK: Initializer
-    init() { }
-    
+    init(
+        editDateTimeReactor: EditDateTimeReactor,
+        editPlaceReactor: EditPlaceReactor,
+        editTodoReactor: EditTodoReactor,
+        editNotificationReactor: EditNotificationReactor
+    ) {
+        self.editDateTimeReactor = editDateTimeReactor
+        self.editPlaceReactor = editPlaceReactor
+        self.editTodoReactor = editTodoReactor
+        self.editNotificationReactor = editNotificationReactor
+
+        setupChildBind()
+    }
+
     // MARK: Action operation
     func mutate(action: Action) -> Observable<Mutation> {
-        switch action { 
+        switch action {
         case .tapCompleteButton:
             // pass to parent
             return .empty()
+            
+        case let .changeDateTimeActive(isActive):
+            return .just(.setDateTimeActive(isActive))
+
+        case let .changeLocationActive(isActive):
+            return .just(.setLocationActive(isActive))
+
+        case let .changeTodoActive(isActive):
+            return .just(.setTodoActive(isActive))
+
+        case let .changeNotificationActive(isActive):
+            return .just(.setNotificationActive(isActive))
         }
     }
-    
+
     func reduce(state: State, mutation: Mutation) -> State {
         var state = state
-        switch mutation { }
+        switch mutation {
+        case let .setDateTimeActive(isActive):
+            state.dateActive = isActive
+            
+        case let .setLocationActive(isActive):
+            state.locationActive = isActive
+            
+        case let .setTodoActive(isActive):
+            state.todoActive = isActive
+            
+        case let .setNotificationActive(isActive):
+            state.notificationActive = isActive
+        }
         return state
     }
-    
+
     // MARK: Child bind
-    private func setupChildBind() { }
+    private func setupChildBind() {
+        editDateTimeReactor.state
+            .map { $0.selectedDate != nil || $0.selectedTime != nil }
+            .map { .changeDateTimeActive($0) }
+            .bind(to: self.action)
+            .disposed(by: disposeBag)
+
+        editPlaceReactor.state
+            .map { !$0.placeName.isEmpty || !$0.placeLink.isEmpty }
+            .map { .changeLocationActive($0) }
+            .bind(to: self.action)
+            .disposed(by: disposeBag)
+
+        editTodoReactor.state
+            .map { !$0.todos.isEmpty }
+            .map { .changeTodoActive($0) }
+            .bind(to: self.action)
+            .disposed(by: disposeBag)
+
+        editNotificationReactor.state
+            .map { !$0.selectedTimeOptions.isEmpty }
+            .map { .changeNotificationActive($0) }
+            .bind(to: self.action)
+            .disposed(by: disposeBag)
+    }
     
     // MARK: Transform
     

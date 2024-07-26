@@ -10,7 +10,7 @@ import Foundation
 /**
  Represents an organization containing a list of todos.
 */
-public struct AnnouncementOrganizationEntity: Codable, Identifiable, Equatable {
+public struct AnnouncementOrganizationEntity: Identifiable, Equatable {
     /// Unique identifier for the organization.
     public let id: Int
     /// Name of the organization in Korean.

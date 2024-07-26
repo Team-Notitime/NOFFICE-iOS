@@ -118,7 +118,8 @@ class SelectOrganizationPageView: BaseView {
         
         nextButton.snp.makeConstraints {
             $0.left.right.equalToSuperview()
-            $0.bottom.equalTo(safeAreaLayoutGuide).inset(16)
+            $0.bottom.equalTo(keyboardLayoutGuide.snp.top)
+                .offset(-FunnelConstant.spacingUnit)
         }
     }
 }

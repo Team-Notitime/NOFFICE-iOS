@@ -15,7 +15,8 @@ protocol BaseViewControllerProtocol: AnyObject {
     func setupActionBind()
 }
 
-open class BaseViewController<View: BaseView>: UIViewController, BaseViewControllerProtocol {
+open class BaseViewController<View: BaseView>: 
+    UIViewController, BaseViewControllerProtocol, UIScrollViewDelegate {
     public var disposeBag = DisposeBag()
     
     public var baseView: View {
@@ -38,7 +39,10 @@ open class BaseViewController<View: BaseView>: UIViewController, BaseViewControl
         super.viewDidLoad()
         
         // Enable swipe back gesture when navigation bar is hidden
-        navigationController?.interactivePopGestureRecognizer?.delegate = nil
+        enableSwipeBackGesture()
+        
+        // Set up scroll view delegate for keyboard dismissal when dragging
+        setupScrollViewDelegates(in: view)
 
         setupViewBind()
         setupStateBind()
@@ -65,4 +69,25 @@ open class BaseViewController<View: BaseView>: UIViewController, BaseViewControl
     @objc private func hideKeyboard() {
         view.endEditing(true)
     }
+    
+    // MARK: - Scroll view delegate
+    public func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        self.view.endEditing(true)
+    }
+    
+    private func setupScrollViewDelegates(in view: UIView) {
+        for subview in view.subviews {
+            if let scrollView = subview as? UIScrollView {
+                scrollView.delegate = self
+            } else {
+                setupScrollViewDelegates(in: subview)
+            }
+        }
+    }
+    
+    // MARK: - Navigation
+    private func enableSwipeBackGesture() {
+        navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+    }
+    
 }

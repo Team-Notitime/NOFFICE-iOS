@@ -18,7 +18,7 @@ struct BasicTextFieldColorTheme: TextFieldColorTheme {
         case .normal:
             return .init(.grey800)
         case .focused:
-            return .init(.grey800)
+            return focusForegroundColor(color: color)
         default:
             return .init(.grey800)
         }
@@ -61,6 +61,17 @@ struct BasicTextFieldColorTheme: TextFieldColorTheme {
 }
 
 extension BasicTextFieldColorTheme {
+    func focusForegroundColor(
+        color: BasicTextFieldColor
+    ) -> UniversalColor {
+        switch color {
+        case .gray:
+            return .init(.grey800)
+        case .blue:
+            return .init(.blue600)
+        }
+    }
+    
     func plainBackgroundColor(
         color: BasicTextFieldColor,
         state: TextFieldAllState
@@ -68,9 +79,11 @@ extension BasicTextFieldColorTheme {
         switch (color, state) {
         case (.gray, .normal): return .init(.grey100)
         case (.gray, .focused): return .init(.grey100)
-        case (.gray, .disabled): return .init(.grey50)
-        case (.gray, .error): return .init(.grey100) // TODO
-        case (.gray, .success): return .init(.grey100) // TODO
+        case (.blue, .normal): return .init(.blue100)
+        case (.blue, .focused): return .init(.blue100)
+        case (_, .disabled): return .init(.grey50)
+        case (_, .error): return .init(.grey100) // TODO
+        case (_, .success): return .init(.grey100) // TODO
         }
     }
     
@@ -81,9 +94,11 @@ extension BasicTextFieldColorTheme {
         switch (color, state) {
         case (.gray, .normal): return .init(.grey100)
         case (.gray, .focused): return .init(.grey200)
-        case (.gray, .disabled): return .init(.grey100)
-        case (.gray, .error): return .init(.grey100) // TODO
-        case (.gray, .success): return .init(.grey100) // TODO
+        case (.blue, .normal): return .init(.blue100)
+        case (.blue, .focused): return .init(.blue200)
+        case (_, .disabled): return .init(.grey100)
+        case (_, .error): return .init(.grey100) // TODO
+        case (_, .success): return .init(.grey100) // TODO
         }
     }
 }

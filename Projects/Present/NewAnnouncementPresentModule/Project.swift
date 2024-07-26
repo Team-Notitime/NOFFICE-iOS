@@ -7,6 +7,8 @@ let project = Project.makePresentModule(
         .usecase(.announcement),
         .entity(.announcement),
         .usecase(.organization),
-        .entity(.organization)
+        .entity(.organization),
+        .usecase(.common),
+        .entity(.common)
     ]
 )

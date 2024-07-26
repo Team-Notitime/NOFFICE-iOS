@@ -361,13 +361,16 @@ public class BaseTextField: UIView {
         }
         
         textFieldBackground.snp.remakeConstraints {
-            $0.top.equalTo(titleStack.snp.bottom).offset(8)
+            $0.top.equalTo(titleStack.snp.bottom)
+                .offset(8)
             $0.left.right.equalToSuperview()
         }
         
         textFieldStack.snp.remakeConstraints {
-            $0.top.bottom.equalToSuperview().inset(padding.vertical ?? 0)
-            $0.left.right.equalToSuperview().inset(padding.horizontal ?? 0)
+            $0.top.bottom.equalToSuperview()
+                .inset(padding.vertical ?? 0)
+            $0.left.right.equalToSuperview()
+                .inset(padding.horizontal ?? 0)
         }
         
         bottomBorder.snp.remakeConstraints {
@@ -377,7 +380,8 @@ public class BaseTextField: UIView {
         }
         
         descriptionStack.snp.remakeConstraints {
-            $0.top.equalTo(textFieldBackground.snp.bottom).offset(4)
+            $0.top.equalTo(textFieldBackground.snp.bottom)
+                .offset(4)
             $0.left.right.equalToSuperview()
             $0.bottom.equalToSuperview()
         }

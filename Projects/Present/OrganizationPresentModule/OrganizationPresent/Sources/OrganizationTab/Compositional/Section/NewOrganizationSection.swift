@@ -21,9 +21,11 @@ struct NewOrganizationSection: CompositionalSection {
                 ),
                 groupSpacing: 16,
                 items: [
-                    .init(
-                        width: .fractionalWidth(1.0),
-                        height: .estimated(40)
+                    .item(
+                        size: .init(
+                            width: .fractionalWidth(1.0),
+                            height: .estimated(40)
+                        )
                     )
                 ],
                 itemSpacing: 0

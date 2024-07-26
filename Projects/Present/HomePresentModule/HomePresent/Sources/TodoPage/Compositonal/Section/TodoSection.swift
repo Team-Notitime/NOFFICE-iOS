@@ -22,7 +22,7 @@ struct TodoSection: CompositionalSection {
                 size: .init(width: .fractionalWidth(1.0), height: .estimated(42)),
                 groupSpacing: 8,
                 items: [
-                    .init(width: .fractionalWidth(1.0), height: .estimated(42))
+                    .item(size: .init(width: .fractionalWidth(1.0), height: .estimated(42)))
                 ],
                 itemSpacing: 0
             ),

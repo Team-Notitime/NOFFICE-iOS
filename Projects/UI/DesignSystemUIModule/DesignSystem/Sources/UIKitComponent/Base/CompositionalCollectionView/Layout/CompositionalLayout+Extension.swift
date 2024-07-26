@@ -8,28 +8,9 @@
 import UIKit
 
 extension CompositionalLayout {
-    /// Make  the `NSCollectionLayoutSection`
+    /// Make the `NSCollectionLayoutSection`
     func makeSectionLayout() -> NSCollectionLayoutSection {
-        // Create the item sizes and items
-        let items: [NSCollectionLayoutItem] = groupLayout.items.map { itemSize in
-            let layoutSize = NSCollectionLayoutSize(
-                widthDimension: itemSize.width,
-                heightDimension: itemSize.height
-            )
-            let item = NSCollectionLayoutItem(layoutSize: layoutSize)
-            return item
-        }
-
-        // Create the group size and group
-        let groupSize = NSCollectionLayoutSize(
-            widthDimension: groupLayout.size.width,
-            heightDimension: groupLayout.size.height
-        )
-        let group = NSCollectionLayoutGroup.horizontal(
-            layoutSize: groupSize,
-            subitems: items
-        )
-        group.interItemSpacing = .fixed(groupLayout.itemSpacing)
+        let group = createGroup(from: groupLayout)
 
         // Create the section and configure its properties
         let section = NSCollectionLayoutSection(group: group)
@@ -66,5 +47,33 @@ extension CompositionalLayout {
         }
 
         return section
+    }
+    
+    private func createGroup(from layout: CompositionalGroupLayout) -> NSCollectionLayoutGroup {
+        let items: [NSCollectionLayoutItem] = layout.items.map { item in
+            switch item {
+            case .item(let size):
+                let layoutSize = NSCollectionLayoutSize(
+                    widthDimension: size.width,
+                    heightDimension: size.height
+                )
+                return NSCollectionLayoutItem(layoutSize: layoutSize)
+                
+            case .group(let groupLayout):
+                return createGroup(from: groupLayout)
+            }
+        }
+        
+        let groupSize = NSCollectionLayoutSize(
+            widthDimension: layout.size.width,
+            heightDimension: layout.size.height
+        )
+        let group = NSCollectionLayoutGroup.horizontal(
+            layoutSize: groupSize,
+            subitems: items
+        )
+        group.interItemSpacing = .fixed(layout.itemSpacing)
+        
+        return group
     }
 }

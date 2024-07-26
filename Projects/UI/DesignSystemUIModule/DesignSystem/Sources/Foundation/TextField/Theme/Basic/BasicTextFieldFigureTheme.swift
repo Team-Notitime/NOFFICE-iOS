@@ -32,7 +32,7 @@ struct BasicTextFieldFigureTheme: TextFieldFigureTheme {
         }
         
         switch size {
-        case .textLarge, .large: return .init(16, 24)
+        case .textLarge, .large: return .init(16, 20)
         case .medium: return .init(10, 20)
         case .small: return .init(8, 16)
         }

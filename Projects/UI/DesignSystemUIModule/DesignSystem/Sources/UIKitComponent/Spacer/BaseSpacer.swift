@@ -7,6 +7,8 @@
 
 import UIKit
 
+import SnapKit
+
 public final class BaseSpacer: UIView {
     public enum Orientation {
         case vertical
@@ -15,7 +17,8 @@ public final class BaseSpacer: UIView {
     
     public init(
         size: CGFloat = 0,
-        orientation: Orientation = .vertical
+        orientation: Orientation = .vertical,
+        fixedSize: Bool = false
     ) {
         super.init(frame: .zero)
         self.backgroundColor = .clear
@@ -23,9 +26,17 @@ public final class BaseSpacer: UIView {
         self.snp.makeConstraints { make in
             switch orientation {
             case .vertical:
-                make.height.lessThanOrEqualTo(size)
+                if fixedSize {
+                    make.height.equalTo(size)
+                } else {
+                    make.height.lessThanOrEqualTo(size)
+                }
             case .horizontal:
-                make.width.lessThanOrEqualTo(size)
+                if fixedSize {
+                    make.width.equalTo(size)
+                } else {
+                    make.width.lessThanOrEqualTo(size)
+                }
             }
         }
     }

@@ -19,26 +19,20 @@ class NewOrganizationImagePageView: BaseView {
     // - Padding view
     lazy var contentView = UIView()
     
-    // - Funnel title
-    lazy var pageSubTitle = BaseHStack {
-        [
-            UIImageView(image: .iconGrid).then {
-                $0.tintColor = .green500
-                $0.setSize(width: 18, height: 18)
-            },
-            UILabel().then {
-                $0.text = "그룹 만들기"
-                $0.textColor = .green500
-                $0.setTypo(.body1b)
-            }
-        ]
-    }
-    
-    // - Page title
-    lazy var pageTitleLabel = UILabel().then {
-        $0.text = "대표 이미지를 설정해주세요"
-        $0.setTypo(.heading3)
-        $0.textColor = .grey800
+    // - Funnel header
+    lazy var funnelHeader = NofficeFunnelHeader(
+        descriptionBuilder: {
+            [
+                UILabel().then {
+                    $0.text = "선택 사항"
+                    $0.setTypo(.body2b)
+                    $0.textColor = .grey400
+                }
+            ]
+        }
+    ).then {
+        $0.funnelType = .newGroup
+        $0.title = "대표 이미지를 설정해주세요"
     }
     
     // - Category list
@@ -85,9 +79,7 @@ class NewOrganizationImagePageView: BaseView {
     override func setupHierarchy() {
         addSubview(contentView)
         
-        contentView.addSubview(pageSubTitle)
-        
-        contentView.addSubview(pageTitleLabel)
+        contentView.addSubview(funnelHeader)
         
         contentView.addSubview(imageView)
         
@@ -103,23 +95,12 @@ class NewOrganizationImagePageView: BaseView {
                 .inset(GlobalViewConstant.pagePadding)
         }
         
-        pageSubTitle.snp.makeConstraints {
-            $0.top.equalToSuperview()
-                .offset(FunnelConstant.spacingUnit * 2)
-            $0.left.right.equalToSuperview()
-                .inset(FunnelConstant.additionalPadding)
-        }
-        
-        pageTitleLabel.snp.makeConstraints {
-            $0.top.equalTo(pageSubTitle.snp.bottom)
-                .offset(FunnelConstant.spacingUnit / 2)
-            $0.left.right.equalToSuperview()
-                .inset(FunnelConstant.additionalPadding)
+        funnelHeader.snp.makeConstraints {
+            $0.top.left.right.equalToSuperview()
         }
         
         imageView.snp.makeConstraints {
-            $0.top.equalTo(pageTitleLabel.snp.bottom)
-                .offset(FunnelConstant.spacingUnit * 2)
+            $0.top.equalTo(funnelHeader.snp.bottom)
             $0.centerX.equalToSuperview()
             $0.width.height.equalTo(280)
         }

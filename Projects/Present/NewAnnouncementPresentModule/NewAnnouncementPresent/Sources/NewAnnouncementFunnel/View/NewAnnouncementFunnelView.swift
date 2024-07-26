@@ -58,6 +58,8 @@ extension NewAnnouncementFunnelPage: Paginable {
             return SelectOrganizationPageViewController()
         case .editContents:
             return EditContentsPageViewController()
+        case .complete:
+            return CompletePageViewController()
         }
     }
 }

@@ -18,26 +18,20 @@ class NewOrganizationNamePageView: BaseView {
     // - Padding view
     lazy var contentView = UIView()
     
-    // - Funnel title
-    lazy var pageSubTitle = BaseHStack {
-        [
-            UIImageView(image: .iconGrid).then {
-                $0.tintColor = .green500
-                $0.setSize(width: 18, height: 18)
-            },
-            UILabel().then {
-                $0.text = "그룹 만들기"
-                $0.textColor = .green500
-                $0.setTypo(.body1b)
-            }
-        ]
-    }
-    
-    // - Page title
-    lazy var pageTitleLabel = UILabel().then {
-        $0.text = "그룹의 이름이 무엇인가요?"
-        $0.setTypo(.heading3)
-        $0.textColor = .grey800
+    // - Funnel header
+    lazy var funnelHeader = NofficeFunnelHeader(
+        descriptionBuilder: {
+            [
+                UILabel().then {
+                    $0.text = "필수 사항"
+                    $0.setTypo(.body2b)
+                    $0.textColor = .green500
+                }
+            ]
+        }
+    ).then {
+        $0.funnelType = .newGroup
+        $0.title = "그룹의 이름이 무엇인가요?"
     }
     
     // - Textfield
@@ -77,9 +71,7 @@ class NewOrganizationNamePageView: BaseView {
     override func setupHierarchy() {
         addSubview(contentView)
         
-        contentView.addSubview(pageSubTitle)
-        
-        contentView.addSubview(pageTitleLabel)
+        contentView.addSubview(funnelHeader)
         
         contentView.addSubview(nameTextField)
         
@@ -95,23 +87,12 @@ class NewOrganizationNamePageView: BaseView {
                 .inset(GlobalViewConstant.pagePadding)
         }
         
-        pageSubTitle.snp.makeConstraints {
-            $0.top.equalToSuperview()
-                .offset(FunnelConstant.spacingUnit * 2)
-            $0.left.right.equalToSuperview()
-                .inset(FunnelConstant.additionalPadding)
-        }
-        
-        pageTitleLabel.snp.makeConstraints {
-            $0.top.equalTo(pageSubTitle.snp.bottom)
-                .offset(FunnelConstant.spacingUnit / 2)
-            $0.left.right.equalToSuperview()
-                .inset(FunnelConstant.additionalPadding)
+        funnelHeader.snp.makeConstraints {
+            $0.top.left.right.equalToSuperview()
         }
         
         nameTextField.snp.makeConstraints {
-            $0.top.equalTo(pageTitleLabel.snp.bottom)
-                .offset(FunnelConstant.spacingUnit * 2)
+            $0.top.equalTo(funnelHeader.snp.bottom)
             $0.left.right.equalToSuperview()
         }
         

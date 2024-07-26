@@ -30,6 +30,7 @@ public enum Module {
         case organization = "Organization"
         case mypage = "Mypage"
         case signup = "Signup"
+        case newAnnouncement = "NewAnnouncement"
         
         var name: String { rawValue }
         var bundleIdenifier: String { rawValue.toBundleIdentifier() }
@@ -76,6 +77,8 @@ public enum Module {
         case then = "Then"
         case reactorKit = "ReactorKit"
         case alamofire = "Alamofire"
+        case kingfisher = "Kingfisher"
+        case openGraph = "OpenGraph"
         
         var name: String { rawValue }
     }

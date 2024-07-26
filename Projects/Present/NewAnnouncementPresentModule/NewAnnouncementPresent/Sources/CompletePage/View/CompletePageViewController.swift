@@ -1,11 +1,9 @@
 //
-//  EditLocationViewController.swift
+//  NewAnnouncementCompleteViewController.swift
 //  NewAnnouncementPresent
 //
-//  Created by DOYEON LEE on 7/22/24.
+//  Created by DOYEON LEE on 7/25/24.
 //
-
-import Foundation
 
 import UIKit
 
@@ -14,7 +12,7 @@ import DesignSystem
 import RxSwift
 import RxCocoa
 
-class EditLocationViewController: BaseViewController<EditLocationView> {
+class CompletePageViewController: BaseViewController<CompletePageView> {
     // MARK: Setup
     override func setupViewBind() { }
     

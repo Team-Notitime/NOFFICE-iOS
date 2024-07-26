@@ -38,6 +38,7 @@ class NewAnnouncementFunnelReactor: Reactor {
     // MARK: DisposeBag
     private let disposeBag = DisposeBag()
     
+    // MARK: Initializer
     init(
         selectOrganizationReactor: SelectOrganizationPageReactor,
         editContentsReactor: EditContentsPageReactor
@@ -54,6 +55,7 @@ class NewAnnouncementFunnelReactor: Reactor {
         case .moveNextPage:
             let nextPage = nextPage(after: currentState.currentPage)
             return Observable.just(.setCurrentPage(nextPage))
+            
         case .movePreviousPage:
             let previousPage = previousPage(before: currentState.currentPage)
             return Observable.just(.setCurrentPage(previousPage))
@@ -85,7 +87,7 @@ class NewAnnouncementFunnelReactor: Reactor {
             .subscribe(onNext: { [weak self] action in
                 switch action {
                 case .tapCompleteButton:
-                    Router.shared.dismiss()
+                    self?.action.onNext(.moveNextPage)
                 default: return
                 }
             })

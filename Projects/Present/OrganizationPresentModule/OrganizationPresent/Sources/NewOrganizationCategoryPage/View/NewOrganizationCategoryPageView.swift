@@ -19,27 +19,20 @@ class NewOrganizationCategoryPageView: BaseView {
     // - Padding view
     lazy var contentView = UIView()
     
-    // - Funnel title
-    lazy var pageSubTitle = BaseHStack {
-        [
-            UIImageView(image: .iconGrid).then {
-                $0.tintColor = .green500
-                $0.setSize(width: 18, height: 18)
-            },
-            UILabel().then {
-                $0.text = "그룹 만들기"
-                $0.textColor = .green500
-                $0.setTypo(.body1b)
-            }
-        ]
-    }
-    
-    // - Page title
-    lazy var pageTitleLabel = UILabel().then {
-        $0.text = "그룹의 카테고리를 모두 선택해주세요"
-        $0.setTypo(.heading3)
-        $0.textColor = .grey800
-        $0.numberOfLines = 0
+    // - Funnel header
+    lazy var funnelHeader = NofficeFunnelHeader(
+        descriptionBuilder: {
+            [
+                UILabel().then {
+                    $0.text = "필수 사항"
+                    $0.setTypo(.body2b)
+                    $0.textColor = .green500
+                }
+            ]
+        }
+    ).then {
+        $0.funnelType = .newGroup
+        $0.title = "활동 종료 날짜가 언제인가요?"
     }
     
     // - Category list
@@ -79,9 +72,7 @@ class NewOrganizationCategoryPageView: BaseView {
     override func setupHierarchy() {
         addSubview(contentView)
         
-        contentView.addSubview(pageSubTitle)
-        
-        contentView.addSubview(pageTitleLabel)
+        contentView.addSubview(funnelHeader)
         
         contentView.addSubview(categoryGroup)
         
@@ -97,23 +88,12 @@ class NewOrganizationCategoryPageView: BaseView {
                 .inset(GlobalViewConstant.pagePadding)
         }
         
-        pageSubTitle.snp.makeConstraints {
-            $0.top.equalToSuperview()
-                .offset(FunnelConstant.spacingUnit * 2)
-            $0.left.right.equalToSuperview()
-                .inset(FunnelConstant.additionalPadding)
+        funnelHeader.snp.makeConstraints {
+            $0.top.left.right.equalToSuperview()
         }
-        
-        pageTitleLabel.snp.makeConstraints {
-            $0.top.equalTo(pageSubTitle.snp.bottom)
-                .offset(FunnelConstant.spacingUnit / 2)
-            $0.left.right.equalToSuperview()
-                .inset(FunnelConstant.additionalPadding)
-        }
-        
+
         categoryGroup.snp.makeConstraints {
-            $0.top.equalTo(pageTitleLabel.snp.bottom)
-                .offset(FunnelConstant.spacingUnit * 2)
+            $0.top.equalTo(funnelHeader.snp.bottom)
             $0.left.right.equalToSuperview()
         }
         
