@@ -76,8 +76,6 @@ final class TodoItemCell: UIView, CompositionalItemCell {
             .subscribe(onNext: { [weak self] _ in
                 let result = item.onTap()
                 
-                print(result)
-                
                 self?.todo.status = result ? .done : .pending
             })
             .disposed(by: disposeBag)

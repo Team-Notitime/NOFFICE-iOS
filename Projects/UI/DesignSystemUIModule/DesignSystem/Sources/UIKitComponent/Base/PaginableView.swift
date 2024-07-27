@@ -47,7 +47,7 @@ public protocol Paginable: Hashable {
  
  Create an RxPageViewController using the defined enumeration
  and inject the pages to be displayed into the initializer.
- - Important: The elements of the page array must not be duplicated. 
+ - Important: The elements of the page array must not be duplicated.
  The recommended approach is to use allCases.
  ```swift
  // 1. Create a PageView with pages.
@@ -107,13 +107,17 @@ open class PaginableView<Page: Paginable>: UIView, UIScrollViewDelegate {
     
     // MARK: Private property
     private var pages: [Page] = []
+    
     private let firstPage: Page
+    
     private var viewControllersDict: [Page: UIViewController] = [:]
+    
     private var pageIndexDict: [Page: Int] = [:]
     
     // MARK: UI component
-    private let scrollView = UIScrollView()
-    private let contentView = UIView()
+    private lazy var scrollView = UIScrollView()
+    
+    private lazy var contentView = UIView()
     
     // MARK: DisposeBag
     private let disposeBag = DisposeBag()

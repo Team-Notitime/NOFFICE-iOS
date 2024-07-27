@@ -40,9 +40,6 @@ open class BaseViewController<View: BaseView>:
         
         // Enable swipe back gesture when navigation bar is hidden
         enableSwipeBackGesture()
-        
-        // Set up scroll view delegate for keyboard dismissal when dragging
-        setupScrollViewDelegates(in: view)
 
         setupViewBind()
         setupStateBind()
@@ -71,18 +68,14 @@ open class BaseViewController<View: BaseView>:
     }
     
     // MARK: - Scroll view delegate
-    public func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
-        self.view.endEditing(true)
+    /// Set up keyboard dismissal when scrolling
+    public func setupDismissKeyboardOnScroll(in scrollView: UIScrollView) {
+        scrollView.delegate = self
     }
     
-    private func setupScrollViewDelegates(in view: UIView) {
-        for subview in view.subviews {
-            if let scrollView = subview as? UIScrollView {
-                scrollView.delegate = self
-            } else {
-                setupScrollViewDelegates(in: subview)
-            }
-        }
+    /// Set up scroll view delegate for keyboard dismissal when scrolling
+    public func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        self.view.endEditing(true)
     }
     
     // MARK: - Navigation

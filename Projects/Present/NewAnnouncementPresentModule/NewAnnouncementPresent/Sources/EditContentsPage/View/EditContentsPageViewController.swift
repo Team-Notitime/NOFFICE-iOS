@@ -24,6 +24,9 @@ class EditContentsPageViewController: BaseViewController<EditContentsPageView> {
     
     // MARK: Setup
     override func setupViewBind() {
+        // - Add keyboard dismissal event when scrolling
+        setupDismissKeyboardOnScroll(in: baseView.scrollView)
+        
         // - 텍스트 뷰가 늘어날때 스크롤 위치 조정
         baseView.bodyTextView
             .onChange
