@@ -33,18 +33,28 @@ extension Settings {
         case .view:
             var viewSettings: SettingsDictionary = [
                 "OTHER_LDFLAGS": [
-                    "-Xlinker",
-                    "-interposable",
-                    "$(inherited) -ObjC"
+                    "-Xlinker", // For InjectIII
+                    "-interposable", // For InjectIII
+                    "$(inherited) -ObjC" // For InjectIII, SkeletonView
                 ]
             ]
-            viewSettings.merge(baseSettings) { (_, new) in new } // Merge base settings
+            
+            // Merge base settings
+            viewSettings.merge(baseSettings) { (_, new) in new }
+            
+            var prodViewSettings: SettingsDictionary = [
+                "OTHER_LDFLAGS": [
+                    "$(inherited) -ObjC" // For SkeletonView
+                ]
+            ]
+            // Merge base settings
+            prodViewSettings.merge(baseSettings) { (_, new) in new }
             
             return .settings(
-                base: viewSettings,
+                base: prodViewSettings,
                 configurations: [
                     .debug(name: Scheme.SchemeType.dev.name, settings: viewSettings),
-                    .release(name: Scheme.SchemeType.prod.name, settings: baseSettings)
+                    .release(name: Scheme.SchemeType.prod.name, settings: prodViewSettings)
                 ],
                 defaultSettings: .recommended
             )

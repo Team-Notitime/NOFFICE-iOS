@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Photos
 
 import DesignSystem
 
@@ -34,7 +35,7 @@ class NewOrganizationImagePageViewController: BaseViewController<NewOrganization
             })
             .disposed(by: self.disposeBag)
         
-        // Selected image
+        // - Selected image
         reactor.state.map { $0.selectedImage }
             .bind(to: baseView.imageView.rx.image)
             .disposed(by: self.disposeBag)
@@ -59,10 +60,42 @@ class NewOrganizationImagePageViewController: BaseViewController<NewOrganization
     
     // MARK: Private Method
     private func presentImagePicker() {
+        let status = PHPhotoLibrary.authorizationStatus()
+        switch status {
+        case .authorized:
+            showImagePicker()
+        case .denied, .restricted:
+            // 권한 거부 또는 제한된 경우 알림 등을 표시할 수 있습니다.
+            showPermissionDeniedAlert()
+        case .notDetermined:
+            PHPhotoLibrary.requestAuthorization { [weak self] status in
+                DispatchQueue.main.async {
+                    if status == .authorized {
+                        self?.showImagePicker()
+                    } else {
+                        self?.showPermissionDeniedAlert()
+                    }
+                }
+            }
+        @unknown default:
+            break
+        }
+    }
+    
+    private func showImagePicker() {
         imagePicker.sourceType = .photoLibrary
         imagePicker.allowsEditing = false
-        
         present(imagePicker, animated: true, completion: nil)
+    }
+    
+    private func showPermissionDeniedAlert() {
+        let alert = UIAlertController(
+            title: "권한 필요",
+            message: "사진 라이브러리에 접근하기 위해 권한이 필요합니다. 설정에서 권한을 허용해주세요.",
+            preferredStyle: .alert
+        )
+        alert.addAction(UIAlertAction(title: "확인", style: .default, handler: nil))
+        present(alert, animated: true, completion: nil)
     }
 }
 

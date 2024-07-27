@@ -220,7 +220,31 @@ extension Project {
             deploymentTargets: .iOS("\(Project.deployTarget)"),
             infoPlist: infoPlist,
             sources: ["\(name)/Sources/**"],
-            resources: ["\(name)/Resources/**"],
+            resources: .resources(
+                ["\(name)/Resources/**"],
+                privacyManifest: .privacyManifest(
+                    tracking: false,
+                    trackingDomains: [],
+                    collectedDataTypes: [
+                        [
+                            "NSPrivacyCollectedDataType": "NSPrivacyCollectedDataTypeName",
+                            "NSPrivacyCollectedDataTypeLinked": false,
+                            "NSPrivacyCollectedDataTypeTracking": false,
+                            "NSPrivacyCollectedDataTypePurposes": [
+                                "NSPrivacyCollectedDataTypePurposeAppFunctionality",
+                            ],
+                        ],
+                    ],
+                    accessedApiTypes: [
+                        [
+                            "NSPrivacyAccessedAPIType": "NSPrivacyAccessedAPICategoryUserDefaults",
+                            "NSPrivacyAccessedAPITypeReasons": [
+                                "CA92.1",
+                            ],
+                        ],
+                    ]
+                )
+            ),
             scripts: [.swiftlint],
             dependencies: dependencies
         )
