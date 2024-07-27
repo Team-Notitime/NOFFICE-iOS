@@ -169,7 +169,7 @@ public class AnnouncementDetailView: BaseView {
     }
     
     lazy var eventBodyLabel = UILabel().then {
-        $0.text = "Skeleton dummy"
+        $0.text = "Skeleton dummy \n \n"
         $0.tintColor = .grey800
         $0.setTypo(.body2)
         $0.setLineHeight(multiplier: 1.5)

@@ -110,9 +110,10 @@ class NewOrganizationEndDatePageView: BaseView {
         
         calendar.snp.makeConstraints {
             $0.top.equalTo(funnelHeader.snp.bottom)
+                .offset(FunnelConstant.spacingUnit * 2)
             $0.left.right.equalToSuperview()
-                .inset(FunnelConstant.additionalPadding / 2)
-            $0.bottom.equalToSuperview()
+                .inset(FunnelConstant.additionalPadding)
+            $0.height.equalTo(400)
         }
         
         nextPageButton.snp.makeConstraints {

@@ -22,7 +22,9 @@ extension Array where Element == Scheme {
                     preActions: [swiftlintAction]
                 )
             ),
-            .scheme(name: "\(Scheme.SchemeType.prod.rawValue)")
+            .scheme(
+                name: "\(Scheme.SchemeType.prod.rawValue)"
+            )
         ]
     }
     

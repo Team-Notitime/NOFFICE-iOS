@@ -11,9 +11,14 @@ let packageSettings = PackageSettings(
     productTypes: [
         "Swinject": .framework,
         "RxSwift": .framework,
+        "RxGesture": .framework,
         "SnapKit": .framework,
         "Then": .framework,
+        "ReactorKit": .framework,
         "Alamofire": .framework,
+        "Kingfisher": .framework,
+        "OpenGraph": .framework,
+        "SkeletonView": .framework,
     ], 
     baseSettings: .settings(
         configurations: [

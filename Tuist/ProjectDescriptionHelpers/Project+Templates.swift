@@ -122,7 +122,8 @@ extension Project {
                     bundleId: "\(bundleId).\(target.bundleIdenifier).domain",
                     dependencies: [
                         .di(.container),
-                        .target(name: "\(target.name)Entity")
+                        .target(name: "\(target.name)Entity"),
+                        .thirdParty(.rxSwift)
                     ] + dependencies
                 ),
                 makeTarget(

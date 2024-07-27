@@ -33,7 +33,6 @@ extension Settings {
         case .view:
             var viewSettings: SettingsDictionary = [
                 "OTHER_LDFLAGS": [
-                    "-ObjC",
                     "-Xlinker",
                     "-interposable",
                     "$(inherited) -ObjC"

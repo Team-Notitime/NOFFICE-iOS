@@ -88,6 +88,7 @@ open class BaseViewController<View: BaseView>:
     // MARK: - Navigation
     private func enableSwipeBackGesture() {
         navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+        navigationController?.interactivePopGestureRecognizer?.delegate = nil
     }
     
 }

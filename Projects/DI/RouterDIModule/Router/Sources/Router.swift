@@ -36,7 +36,7 @@ final public class Router: UINavigationController {
         _ destination: UIViewController,
         animated: Bool = true
     ) {
-        pushViewController(destination, animated: true)
+        pushViewController(destination, animated: animated)
     }
     
     /// Pops the top view controller from the navigation stack

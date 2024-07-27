@@ -62,9 +62,10 @@ class EditTodoReactor: Reactor {
         var state = state
         switch mutation {
         case .addTodo:
-            let entity: AnnouncementTodoEntity = .init(
+            let entity: AnnouncementTodoEntity = .init( // TODO: Add 용 Entity 분리해야겠다
                 id: UUID().uuidString.hashValue,
-                content: state.todoContent
+                content: state.todoContent, 
+                status: .pending
             )
             state.todos.append(entity)
             state.todoContent = ""
