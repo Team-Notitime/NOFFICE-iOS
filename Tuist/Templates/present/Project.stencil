@@ -1,0 +1,3 @@
+import ProjectDescriptionHelpers
+
+let project = Project.makePresentModule(.{{ name | lowercase }})

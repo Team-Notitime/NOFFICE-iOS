@@ -170,14 +170,7 @@ extension Project {
                     bundleId: "\(bundleId).\(target.bundleIdenifier).data",
                     infoPlist: .extendingDefault(with: dataInfoPlist),
                     dependencies: dependencies
-                ),
-                makeTarget(
-                    name: "\(target.name)DataMock",
-                    product: .framework,
-                    bundleId: "\(bundleId).\(target.bundleIdenifier).data.mock",
-                    infoPlist: .extendingDefault(with: dataInfoPlist),
-                    dependencies: dependencies
-                ),
+                )
             ],
             schemes: .base
         )
