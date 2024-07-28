@@ -18,42 +18,68 @@ struct OrganizationSection: CompositionalSection {
     
     // MARK: Compositional
     var layout: CompositionalLayout {
-        .init(
+        let scrollItemLayout: [CompositionalItemLayout]  =
+        [
+            .item(
+                size: .init(
+                    width: .fractionalWidth(1.0),
+                    height: .estimated(ComponentConstant.organizationCardHeight)
+                )
+            )
+        ]
+        
+        let nonScrollItemLayout: [CompositionalItemLayout] = [
+            .item(
+                size: .init(
+                    width: .fractionalWidth(0.84),
+                    height: .estimated(ComponentConstant.organizationCardHeight)
+                )
+            ),
+            .item(
+                size: .init(
+                    width: .fractionalWidth(0.16),
+                    height: .estimated(ComponentConstant.organizationCardHeight)
+                )
+            )
+        ]
+        
+        return .init(
             groupLayout: .init(
                 size: .init(
-                    width: .fractionalWidth(0.8),
+                    width: scrollDisabled ? .fractionalWidth(1.0) : .fractionalWidth(0.8),
                     height: .estimated(ComponentConstant.organizationCardHeight)
                 ),
-                groupSpacing: 16,
-                items: [
-                    .item(
-                        size: .init(
-                            width: .fractionalWidth(1.0),
-                            height: .estimated(ComponentConstant.organizationCardHeight)
-                        )
-                    )
-                ],
-                itemSpacing: 0
+                groupSpacing: GlobalViewConstant.pagePadding,
+                items: scrollDisabled ? nonScrollItemLayout : scrollItemLayout,
+                itemSpacing: GlobalViewConstant.pagePadding
             ),
             headerSize: .init(width: .fractionalWidth(1.0), height: .absolute(72)),
-            sectionInset: .init(top: 0, leading: 16, bottom: 0, trailing: 30),
-            scrollBehavior: .groupPaging
+            sectionInset: .init(
+                top: 0,
+                leading: GlobalViewConstant.pagePadding,
+                bottom: 0,
+                trailing: scrollDisabled ? 0 : GlobalViewConstant.pagePadding
+            ),
+            scrollBehavior: scrollDisabled ? .none : .groupPaging
         )
     }
     
     // MARK: Data
     let identifier: String
     let organizationName: String
+    let scrollDisabled: Bool
     let items: [any CompositionalItem]
     
     init(
         identifier: String,
         organizationName: String,
+        scrollDisabled: Bool = false,
         items: [any CompositionalItem]
     ) {
-        self.items = items
         self.identifier = identifier
         self.organizationName = organizationName
+        self.scrollDisabled = scrollDisabled
+        self.items = items
     }
     
     func hash(into hasher: inout Hasher) {

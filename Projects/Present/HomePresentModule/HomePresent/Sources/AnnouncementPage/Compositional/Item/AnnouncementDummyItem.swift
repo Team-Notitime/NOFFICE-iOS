@@ -28,7 +28,6 @@ final class AnnouncementDummyItem: CompositionalItem {
 }
 
 final class AnnouncementDummyItemCell: UIView, CompositionalItemCell {
-    
     // MARK: DisposeBag
     private var disposeBag = DisposeBag()
     
@@ -46,8 +45,23 @@ final class AnnouncementDummyItemCell: UIView, CompositionalItemCell {
     // MARK: Setup
     private func setup() {
         self.backgroundColor = .grey50
-        
-        self.layer.cornerRadius = 16
+        self.layer.mask = createRoundedCornerLayer()
+    }
+    
+    private func createRoundedCornerLayer() -> CAShapeLayer {
+        let path = UIBezierPath(
+            roundedRect: self.bounds,
+            byRoundingCorners: [.topLeft, .bottomLeft],
+            cornerRadii: CGSize(width: 16, height: 16)
+        )
+        let shape = CAShapeLayer()
+        shape.path = path.cgPath
+        return shape
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        self.layer.mask = createRoundedCornerLayer()
     }
     
     func configure(with item: AnnouncementDummyItem) { }

@@ -129,7 +129,6 @@ public class AnnouncementDetailViewController: BaseViewController<AnnouncementDe
         // - Tap event place card
         baseView.eventPlaceCard
             .rx.tapGesture()
-            .debug()
             .when(.recognized)
             .subscribe(
                 with: self,

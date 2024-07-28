@@ -16,7 +16,7 @@ struct AnnouncementPageConverter {
         onTapAnnouncementCard: @escaping (AnnouncementItemEntity) -> Void
     ) -> [OrganizationSection] {
         // - Convert to join pending card
-        var convertPendingItems: () -> [any CompositionalItem] = {
+        let convertPendingItems: () -> [any CompositionalItem] = {
             return [
                 AnnouncementItem(state: .loading),
                 AnnouncementDummyItem()
@@ -24,7 +24,7 @@ struct AnnouncementPageConverter {
         }
         
         // - Convert to default announcement card
-        var convertToAnnouncementItem: (
+        let convertToAnnouncementItem: (
             AnnouncementItemEntity
         ) -> AnnouncementItem = { announcementEntity in
             let dateString = announcementEntity.date?
@@ -36,14 +36,12 @@ struct AnnouncementPageConverter {
                 title: announcementEntity.title,
                 date: dateString,
                 location: location,
-                onTap: {
-                    onTapAnnouncementCard(announcementEntity)
-                }
+                onTap: { onTapAnnouncementCard(announcementEntity) }
             )
         }
         
         // - Convert to join card or empty card
-        var convertJoinItems: (
+        let convertJoinItems: (
             AnnouncementOrganizationEntity
         ) -> [any CompositionalItem] = { organizationEntity in
             if organizationEntity.announcements.isEmpty {
@@ -57,21 +55,23 @@ struct AnnouncementPageConverter {
         }
         
         // - Convert to cards
-        var convertToItems: (
+        let convertToItems: (
             AnnouncementOrganizationEntity
         ) -> [any CompositionalItem] = { organizationEntity in
             switch organizationEntity.status {
-            case .join:
-                return convertJoinItems(organizationEntity)
-            case .pending:
-                return convertPendingItems()
+            case .join: return convertJoinItems(organizationEntity)
+            case .pending: return convertPendingItems()
             }
         }
         
         return entities.map { organizationEntity in
-            OrganizationSection(
+            let scrollDisabled = organizationEntity.status == .pending
+                || organizationEntity.announcements.isEmpty
+            
+            return OrganizationSection(
                 identifier: "\(organizationEntity.id)",
                 organizationName: organizationEntity.name,
+                scrollDisabled: scrollDisabled,
                 items: convertToItems(organizationEntity)
             )
         }

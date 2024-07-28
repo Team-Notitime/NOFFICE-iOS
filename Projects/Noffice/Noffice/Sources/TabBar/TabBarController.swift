@@ -21,11 +21,11 @@ import SnapKit
 
 final class TabBarController: UITabBarController {
     var isHidden: Bool = false {
-        didSet { self.announceTabItem.isHidden = tabBar.isHidden }
+        didSet { self.announcementTabItem.isHidden = tabBar.isHidden }
     }
     
     // MARK: UI Constant
-    private lazy var announcementButtonSize: CGFloat = view.frame.width / 7
+    private lazy var announcementButtonSize: CGFloat = view.frame.width / 6.5
     
     // MARK: UI Component
     private lazy var homeTabImage = UIImageView(image: .iconHome).then {
@@ -36,7 +36,7 @@ final class TabBarController: UITabBarController {
         $0.backgroundColor = .clear
     }
     
-    private lazy var announceTabItem = UIView().then {
+    private lazy var announcementTabItem = UIView().then {
         $0.backgroundColor = .green500
         $0.layer.cornerRadius = announcementButtonSize / 2
         $0.clipsToBounds = true
@@ -119,9 +119,9 @@ final class TabBarController: UITabBarController {
             }
         }
         
-        announceTabItem.tag = TabBarItem.announce.tag
-        self.view.addSubview(announceTabItem)
-        announceTabItem.snp.makeConstraints { make in
+        announcementTabItem.tag = TabBarItem.announce.tag
+        self.view.addSubview(announcementTabItem)
+        announcementTabItem.snp.makeConstraints { make in
             make.centerY.equalTo(tabBar.snp.top)
             make.centerX.equalToSuperview()
             make.height.width.equalTo(announcementButtonSize)
@@ -158,7 +158,7 @@ final class TabBarController: UITabBarController {
             .disposed(by: disposeBag)
         
         let announceTapGesture = UITapGestureRecognizer()
-        announceTabItem.addGestureRecognizer(announceTapGesture)
+        announcementTabItem.addGestureRecognizer(announceTapGesture)
 
         announceTapGesture.rx.event
             .bind { _ in
