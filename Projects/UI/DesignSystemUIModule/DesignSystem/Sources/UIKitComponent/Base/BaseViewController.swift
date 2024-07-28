@@ -15,7 +15,7 @@ protocol BaseViewControllerProtocol: AnyObject {
     func setupActionBind()
 }
 
-open class BaseViewController<View: BaseView>: 
+open class BaseViewController<View: BaseView>:
     UIViewController, BaseViewControllerProtocol, UIScrollViewDelegate {
     public var disposeBag = DisposeBag()
     
@@ -83,5 +83,4 @@ open class BaseViewController<View: BaseView>:
         navigationController?.interactivePopGestureRecognizer?.isEnabled = true
         navigationController?.interactivePopGestureRecognizer?.delegate = nil
     }
-    
 }

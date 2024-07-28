@@ -47,7 +47,7 @@ public struct FetchAllAnnouncementUsecase {
                         place: .init(
                             type: .offline,
                             name: "강남역",
-                            link: "https://naver.com"
+                            link: "https://search.naver.com/search.naver?where=nexearch&sm=top_hty&fbm=0&ie=utf8&query=강남역"
                         ),
                         todos: [
                             .init(id: 1, content: "즐거운 마음 준비!", status: .pending),
@@ -73,7 +73,7 @@ public struct FetchAllAnnouncementUsecase {
                         place: .init(
                             type: .online,
                             name: "ZEP",
-                            link: "https://naver.com"
+                            link: "https://zep.us/en"
                         ),
                         todos: [
                             .init(id: 1, content: "📄 과제 제출", status: .pending),

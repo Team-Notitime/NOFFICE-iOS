@@ -5,6 +5,7 @@
 //  Created by DOYEON LEE on 7/2/24.
 //
 
+import Foundation
 import UIKit
 
 final public class Router: UINavigationController {
@@ -94,6 +95,13 @@ final public class Router: UINavigationController {
         } else {
             viewController.modalPresentationStyle = .formSheet
         }
+        present(viewController, animated: true, completion: nil)
+    }
+    
+    // MARK: Web view
+    /// Presents a web view
+    public func presentWebView(_ url: URL) {
+        let viewController = WebViewController(url: url)
         present(viewController, animated: true, completion: nil)
     }
 }

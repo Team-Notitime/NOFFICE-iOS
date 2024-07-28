@@ -125,6 +125,22 @@ public class AnnouncementDetailViewController: BaseViewController<AnnouncementDe
                 Router.shared.back()
             })
             .disposed(by: disposeBag)
+        
+        // - Tap event place card
+        baseView.eventPlaceCard
+            .rx.tapGesture()
+            .debug()
+            .when(.recognized)
+            .subscribe(
+                with: self,
+                onNext: { owner, _ in
+                    if let placeURLString = owner.reactor.currentState.announcementItem?.place?.link,
+                       let placeURL = URL(string: placeURLString) {
+                        Router.shared.presentWebView(placeURL)
+                    }
+                }
+            )
+            .disposed(by: disposeBag)
     }
     
     // MARK: Private
