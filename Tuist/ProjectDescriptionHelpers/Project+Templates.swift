@@ -169,7 +169,7 @@ extension Project {
                     product: .framework,
                     bundleId: "\(bundleId).\(target.bundleIdenifier).data",
                     infoPlist: .extendingDefault(with: dataInfoPlist),
-                    dependencies: dependencies
+                    dependencies: dependencies + dataDependencies
                 )
             ],
             schemes: .base
@@ -271,7 +271,8 @@ extension Project {
     ]
     
     static let dataDependencies: [TargetDependency] = [
-        .thirdParty(.alamofire),
-        .thirdParty(.rxSwift)
+        .thirdParty(.rxSwift),
+        .thirdParty(.moya),
+        .thirdParty(.rxMoya)
     ]
 }

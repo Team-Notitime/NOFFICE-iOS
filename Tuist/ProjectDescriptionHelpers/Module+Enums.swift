@@ -56,7 +56,7 @@ public enum Module {
     }
 
     public enum Data: String, CaseIterable {
-        case sample = "Sample"
+        case common = "Common"
         case organization = "Organization"
         
         var name: String { rawValue }
@@ -79,10 +79,11 @@ public enum Module {
         case snapKit = "SnapKit"
         case then = "Then"
         case reactorKit = "ReactorKit"
-        case alamofire = "Alamofire"
         case kingfisher = "Kingfisher"
         case openGraph = "OpenGraph"
         case skeletonView = "SkeletonView"
+        case moya = "Moya"
+        case rxMoya = "RxMoya"
         
         var name: String { rawValue }
     }

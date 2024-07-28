@@ -15,7 +15,7 @@ let template = Template(
         ),
         .string(
             path: "Projects/Data/{{ name }}DataModule/{{name}}Data/Sources/Sample.swift",
-            contents: ""
+            contents: "// sample.swift"
         ),
         .string(
             path: "Projects/Data/{{ name }}DataModule/{{name}}Data/Resources/Empty.swift",
@@ -28,7 +28,7 @@ let template = Template(
         ),
         .string(
             path: "Projects/DataInterface/{{ name }}DataInterfaceModule/{{name}}DataInterface/Sources/Sample.swift",
-            contents: ""
+            contents: "// sample.swift"
         ),
         .string(
             path: "Projects/DataInterface/{{ name }}DataInterfaceModule/{{name}}DataInterface/Resources/Empty.swift",

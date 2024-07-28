@@ -14,7 +14,7 @@ let template = Template(
         ),
         .string(
             path: "Projects/Present/{{ name }}PresentModule/{{name}}Present/Sources/Sample.swift",
-            contents: ""
+            contents: "// sample.swift"
         ),
         .string(
             path: "Projects/Present/{{ name }}PresentModule/{{name}}Present/Resources/Empty.swift",

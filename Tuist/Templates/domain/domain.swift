@@ -15,7 +15,7 @@ let template = Template(
         // usecase
         .string(
             path: "Projects/Domain/{{ name }}DomainModule/{{name}}DomainUsecase/Sources/Sample.swift",
-            contents: ""
+            contents: "// sample.swift"
         ),
         .string(
             path: "Projects/Domain/{{ name }}DomainModule/{{name}}DomainUsecase/Resources/Empty.swift",
@@ -24,7 +24,7 @@ let template = Template(
         // entity
         .string(
             path: "Projects/Domain/{{ name }}DomainModule/{{name}}DomainEntity/Sources/Sample.swift",
-            contents: ""
+            contents: "// sample.swift"
         ),
         .string(
             path: "Projects/Domain/{{ name }}DomainModule/{{name}}DomainEntity/Resources/Empty.swift",

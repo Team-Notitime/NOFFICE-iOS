@@ -39,10 +39,10 @@ let package = Package(
         .package(url: "https://github.com/SnapKit/SnapKit.git", from: "5.7.0"),
         .package(url: "https://github.com/devxoul/Then.git", from: "3.0.0"),
         .package(url: "https://github.com/ReactorKit/ReactorKit.git", from: "3.2.0"),
-        .package(url: "https://github.com/Alamofire/Alamofire.git", from: "5.9.0"),
         .package(url: "https://github.com/onevcat/Kingfisher.git", from: "7.0.0"),
         .package(url: "https://github.com/satoshi-takano/OpenGraph.git", from: "1.4.0"),
-        .package(url: "https://github.com/Juanpe/SkeletonView.git", from: "1.3.0")
+        .package(url: "https://github.com/Juanpe/SkeletonView.git", from: "1.3.0"),
+        .package(url: "https://github.com/Moya/Moya.git", from: "15.0.0")
     ],
     targets: []
 )

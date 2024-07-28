@@ -1,4 +1,9 @@
 import ProjectDescription
 import ProjectDescriptionHelpers
 
-let project = Project.makeDataModule(.{{ name | lowercase }})
+let project = Project.makeDataModule(
+    .{{ name | lowercase }},
+    dependencies: [
+        .dataInterface(.{{ name | lowercase }})
+    ]
+)
