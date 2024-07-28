@@ -42,7 +42,7 @@ struct BasicSegmentFigureTheme: SegmentFigureTheme {
             return .init(0, 8)
         }
         
-        return .init(8, 8)
+        return .init(4, 4)
     }
     
     func itemRounded() -> RoundedOffset {

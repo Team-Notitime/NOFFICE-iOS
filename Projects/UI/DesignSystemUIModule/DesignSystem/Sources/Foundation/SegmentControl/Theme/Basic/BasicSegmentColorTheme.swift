@@ -33,7 +33,7 @@ struct BasicSegmentColorTheme: SegmentColorTheme {
         // for flat, shadow
         switch (color, state) {
         case (.green, .unselected): return .init(.grey400)
-        case (.green, .selected): return .init(.green500)
+        case (.green, .selected): return .init(.fullWhite)
         case (.stone, .unselected): return .init(.grey400)
         case (.stone, .selected): return .init(.fullWhite)
         }
@@ -43,7 +43,7 @@ struct BasicSegmentColorTheme: SegmentColorTheme {
         switch (variant, color) {
         case (.underline, .green): return .init(.green500)
         case (.underline, .stone): return .init(.grey800)
-        case (_, .green): return .init(.fullWhite)
+        case (_, .green): return .init(.green500)
         case (_, .stone): return .init(.grey800)
         }
     }
