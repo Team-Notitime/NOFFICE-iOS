@@ -39,23 +39,23 @@ public final class NofficeAnnouncementCard: UIView {
     }
     
     // MARK: UI Component
-    // - default card
+    // - Card for dafualt status
     private lazy var titleLabel = UILabel().then {
         $0.text = ""
-        $0.setTypo(.body0b)
+        $0.setTypo(.body1m)
         $0.tintColor = .grey800
         $0.setContentCompressionResistancePriority(.required, for: .vertical)
     }
     
     private lazy var dateLabel = UILabel().then {
         $0.text = ""
-        $0.setTypo(.body2b)
+        $0.setDefaultFont(size: 13, weight: .semibold)
         $0.textColor = .grey600
     }
     
     private lazy var locationLabel = UILabel().then {
         $0.text = ""
-        $0.setTypo(.body2b)
+        $0.setDefaultFont(size: 13, weight: .semibold)
         $0.textColor = .grey600
     }
     
@@ -63,35 +63,35 @@ public final class NofficeAnnouncementCard: UIView {
         contentsBuilder: {
             [
                 UIImageView(image: .imgNottiLetter).then {
-                    $0.setSize(height: 160)
+                    $0.setSize(height: 120)
                     $0.contentMode = .scaleAspectFill
                     $0.clipsToBounds = true
                 },
                 BaseHStack {[
-                    BaseSpacer(size: 20, orientation: .horizontal),
-                    BaseVStack(spacing: 8) {[
-                        BaseSpacer(size: 2, orientation: .vertical),
-                        titleLabel,
+                    BaseSpacer(size: 16, orientation: .horizontal),
+                    BaseVStack(spacing: 10) {[
                         BaseSpacer(size: 0),
+                        titleLabel,
                         BaseDivider(),
-                        BaseSpacer(size: 2),
-                        BaseHStack {[
-                            UIImageView(image: .iconCalendar).then {
-                                $0.setSize(width: 18, height: 18)
-                                $0.tintColor = .grey200
-                            },
-                            dateLabel
+                        BaseVStack(spacing: 6) {[
+                            BaseHStack {[
+                                UIImageView(image: .iconCalendar).then {
+                                    $0.setSize(width: 18, height: 18)
+                                    $0.tintColor = .grey200
+                                },
+                                dateLabel
+                            ]},
+                            BaseHStack {[
+                                UIImageView(image: .iconMappin).then {
+                                    $0.setSize(width: 18, height: 18)
+                                    $0.tintColor = .grey200
+                                },
+                                locationLabel
+                            ]}
                         ]},
-                        BaseHStack {[
-                            UIImageView(image: .iconMappin).then {
-                                $0.setSize(width: 18, height: 18)
-                                $0.tintColor = .grey200
-                            },
-                            locationLabel
-                        ]},
-                        BaseSpacer(size: 12, orientation: .vertical)
+                        BaseSpacer(size: 4, fixedSize: true)
                     ]},
-                    BaseSpacer(size: 20, orientation: .horizontal)
+                    BaseSpacer(size: 16, orientation: .horizontal)
                 ]}
             ]
         }
@@ -99,68 +99,72 @@ public final class NofficeAnnouncementCard: UIView {
         $0.styled(variant: .outline, color: .gray, padding: .none)
     }
     
-    // - loading card
+    // - Card for loading status (pending join)
     private lazy var loadingCard = BaseCard(
         contentsBuilder: {
             [
-                BaseSpacer(size: 44),
-                UIImageView(image: .imgNottiLoading).then {
-                    $0.setSize(height: 130)
-                    $0.contentMode = .scaleAspectFit
-                },
-                BaseSpacer(size: 10),
-                UILabel().then {
-                    $0.text = "수락을 기다리고 있어요"
-                    $0.setTypo(.body1m)
-                    $0.textColor = .grey600
-                    $0.numberOfLines = 2
-                    $0.textAlignment = .center
-                },
-                UILabel().then {
-                    $0.text = "리더가 확인하고 있으니 조금만 기다려주세요!"
-                    $0.setTypo(.body3)
-                    $0.textColor = .grey400
-                    $0.numberOfLines = 2
-                    $0.textAlignment = .center
-                },
-                BaseSpacer(size: 44)
+                BaseHStack(alignment: .center) {[
+                    BaseVStack {[
+                        UIImageView(image: .imgNottiLoading).then {
+                            $0.setSize(height: 90)
+                            $0.contentMode = .scaleAspectFit
+                        },
+                        BaseSpacer(size: 10),
+                        UILabel().then {
+                            $0.text = "수락을 기다리고 있어요"
+                            $0.setTypo(.body1m)
+                            $0.textColor = .grey600
+                            $0.numberOfLines = 2
+                            $0.textAlignment = .center
+                        },
+                        UILabel().then {
+                            $0.text = "리더가 확인하고 있으니 조금만 기다려주세요!"
+                            $0.setTypo(.body3)
+                            $0.textColor = .grey400
+                            $0.numberOfLines = 2
+                            $0.textAlignment = .center
+                        }
+                    ]}
+                ]}
             ]
         }
     ).then {
         $0.styled(variant: .outline, color: .gray, padding: .none)
     }
     
-    // - none card
+    // - Card for none status (empty announcement)
     private lazy var noneCard = BaseCard(
         contentsBuilder: {
             [
-                BaseSpacer(size: 54),
-                UIImageView(image: .imgNottiX).then {
-                    $0.setSize(height: 100)
-                    $0.contentMode = .scaleAspectFit
-                },
-                BaseSpacer(size: 10),
-                UILabel().then {
-                    $0.text = "아직 등록된 노티가 없어요"
-                    $0.setTypo(.body1m)
-                    $0.textColor = .grey600
-                    $0.numberOfLines = 2
-                    $0.textAlignment = .center
-                },
-                UILabel().then {
-                    $0.text = "앞으로 어떤 즐거운 이벤트가 있을까요?"
-                    $0.setTypo(.body3)
-                    $0.textColor = .grey400
-                    $0.numberOfLines = 2
-                    $0.textAlignment = .center
-                },
-                BaseSpacer(size: 54)
+                BaseHStack(alignment: .center) {[
+                    BaseVStack {[
+                        UIImageView(image: .imgNottiX).then {
+                            $0.setSize(height: 70)
+                            $0.contentMode = .scaleAspectFit
+                        },
+                        BaseSpacer(size: 10),
+                        UILabel().then {
+                            $0.text = "아직 등록된 노티가 없어요"
+                            $0.setTypo(.body1m)
+                            $0.textColor = .grey600
+                            $0.numberOfLines = 2
+                            $0.textAlignment = .center
+                        },
+                        UILabel().then {
+                            $0.text = "앞으로 어떤 즐거운 이벤트가 있을까요?"
+                            $0.setTypo(.body3)
+                            $0.textColor = .grey400
+                            $0.numberOfLines = 2
+                            $0.textAlignment = .center
+                        }
+                    ]}
+                ]}
             ]
         }
     ).then {
         $0.styled(variant: .outline, color: .gray, padding: .none)
     }
-
+    
     // MARK: Initializer
     public init() {
         super.init(frame: .zero)

@@ -8,5 +8,5 @@
 import Foundation
 
 public enum ComponentConstant {
-    public static let organizationCardHeight: CGFloat = 296
+    public static let organizationCardHeight: CGFloat = 229
 }

@@ -14,7 +14,7 @@ struct AnnouncementPageConverter {
     static func convertToOrganizationSections(
         _ entities: [AnnouncementOrganizationEntity],
         onTapAnnouncementCard: @escaping (AnnouncementItemEntity) -> Void
-    ) -> [OrganizationSection] {
+    ) -> [AnnouncementSection] {
         // - Convert to join pending card
         let convertPendingItems: () -> [any CompositionalItem] = {
             return [
@@ -68,7 +68,7 @@ struct AnnouncementPageConverter {
             let scrollDisabled = organizationEntity.status == .pending
                 || organizationEntity.announcements.isEmpty
             
-            return OrganizationSection(
+            return AnnouncementSection(
                 identifier: "\(organizationEntity.id)",
                 organizationName: organizationEntity.name,
                 scrollDisabled: scrollDisabled,

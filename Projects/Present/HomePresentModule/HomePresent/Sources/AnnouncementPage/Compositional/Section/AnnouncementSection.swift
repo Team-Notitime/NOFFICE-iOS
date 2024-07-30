@@ -1,5 +1,5 @@
 //
-//  HomeAnnouncementSection.swift
+//  AnnouncementSection.swift
 //  HomePresent
 //
 //  Created by DOYEON LEE on 7/17/24.
@@ -13,7 +13,7 @@ import Assets
 import RxSwift
 import RxGesture
 
-struct OrganizationSection: CompositionalSection {
+struct AnnouncementSection: CompositionalSection {
     typealias Header = OrganizationSectionHeaderView
     
     // MARK: Compositional
@@ -31,13 +31,13 @@ struct OrganizationSection: CompositionalSection {
         let nonScrollItemLayout: [CompositionalItemLayout] = [
             .item(
                 size: .init(
-                    width: .fractionalWidth(0.84),
+                    width: .fractionalWidth(0.75),
                     height: .estimated(ComponentConstant.organizationCardHeight)
                 )
             ),
             .item(
                 size: .init(
-                    width: .fractionalWidth(0.16),
+                    width: .fractionalWidth(0.25),
                     height: .estimated(ComponentConstant.organizationCardHeight)
                 )
             )
@@ -46,7 +46,7 @@ struct OrganizationSection: CompositionalSection {
         return .init(
             groupLayout: .init(
                 size: .init(
-                    width: scrollDisabled ? .fractionalWidth(1.0) : .fractionalWidth(0.8),
+                    width: scrollDisabled ? .fractionalWidth(1.0) : .fractionalWidth(0.7),
                     height: .estimated(ComponentConstant.organizationCardHeight)
                 ),
                 groupSpacing: GlobalViewConstant.pagePadding,
@@ -89,15 +89,17 @@ struct OrganizationSection: CompositionalSection {
 }
 
 class OrganizationSectionHeaderView: UIView, CompositionalReusableView {
-    typealias Section = OrganizationSection
+    typealias Section = AnnouncementSection
     
     // MARK: UI Component
+    /// - Organization name label
     private lazy var label = UILabel().then {
         $0.textColor = .grey800
         $0.textAlignment = .left
         $0.setTypo(.heading4)
     }
     
+    /// - Right arrow icon
     private lazy var icon = UIImageView(image: .iconChevronRight).then {
         $0.tintColor = .grey800
         $0.contentMode = .scaleAspectFit

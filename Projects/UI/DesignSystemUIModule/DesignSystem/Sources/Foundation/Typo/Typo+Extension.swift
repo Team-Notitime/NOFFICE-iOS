@@ -205,6 +205,37 @@ public extension UILabel {
             self.setDefaultFont(size: 10, weight: .regular)
         }
     }
+    
+    // A property to store the lineHeight multiplier
+    private struct AssociatedKeys {
+        static var lineHeightMultiplier: UInt8 = 0
+    }
+
+    // A computed property to store / get the lineHeight multiplier
+    private var lineHeightMultiplier: CGFloat? {
+        get {
+            return objc_getAssociatedObject(
+                self,
+                &AssociatedKeys.lineHeightMultiplier
+            ) as? CGFloat
+        }
+        set {
+            objc_setAssociatedObject(
+                self,
+                &AssociatedKeys.lineHeightMultiplier,
+                newValue,
+                .OBJC_ASSOCIATION_RETAIN_NONATOMIC
+            )
+        }
+    }
+
+    // 텍스트를 설정하고 lineHeight를 유지하는 새로운 메서드
+    func setText(_ text: String?, maintainingLineHeight: Bool = true) {
+        self.text = text
+        if maintainingLineHeight, let multiplier = lineHeightMultiplier {
+            setLineHeight(multiplier: multiplier)
+        }
+    }
 }
 
 public extension UITextField {

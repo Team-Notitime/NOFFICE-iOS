@@ -44,6 +44,7 @@ final class BannerItem: CompositionalItem {
 
 final class BannerItemCell: UIView, CompositionalItemCell {
     // MARK: UI Component
+    /// - Banner component
     lazy var banner = NofficeBanner()
     
     required init?(coder: NSCoder) {

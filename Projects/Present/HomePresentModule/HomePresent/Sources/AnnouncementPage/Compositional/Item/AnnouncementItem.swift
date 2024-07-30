@@ -57,6 +57,7 @@ final class AnnouncementItem: CompositionalItem {
 
 final class AnnouncementItemCell: UIView, CompositionalItemCell {
     // MARK: UI Component
+    /// - Organization Card component
     lazy var organizationCard = NofficeAnnouncementCard()
     
     // MARK: DisposeBag
