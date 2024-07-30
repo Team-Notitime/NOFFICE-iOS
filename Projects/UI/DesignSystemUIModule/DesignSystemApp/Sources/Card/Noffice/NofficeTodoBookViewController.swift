@@ -59,6 +59,7 @@ class NofficeTodoBookViewController: UIViewController {
     ) { option in
         NofficeTodo<TodoModel>(option: option).then {
             $0.text = "\(option.text) \(option.id)"
+            $0.automaticToggle = true
         }
     }.then {
         $0.gridStyled(columns: 1, verticalSpacing: 16, horizontalSpacing: 16)
@@ -108,6 +109,7 @@ class NofficeTodoBookViewController: UIViewController {
     private func setupBind() {
         stateSegmentedControl.rx.selectedSegmentIndex
             .map { NofficeTodo.Status.allCases[$0] }
+            .observe(on: MainScheduler.asyncInstance)
             .subscribe(onNext: { [weak self] state in
                 self?.todoView.status = state
             })
@@ -115,20 +117,9 @@ class NofficeTodoBookViewController: UIViewController {
         
         stateSegmentedControl.rx.selectedSegmentIndex
             .map { NofficeTodo.Status.allCases[$0] }
+            .observe(on: MainScheduler.asyncInstance)
             .subscribe(onNext: { [weak self] state in
                 self?.longTodoView.status = state
-            })
-            .disposed(by: disposeBag)
-        
-        todoView.onChangeStatus
-            .subscribe(onNext: { [weak self] _ in
-                self?.todoView.statusToggle()
-            })
-            .disposed(by: disposeBag)
-        
-        longTodoView.onChangeStatus
-            .subscribe(onNext: { [weak self] _ in
-                self?.longTodoView.statusToggle()
             })
             .disposed(by: disposeBag)
     }

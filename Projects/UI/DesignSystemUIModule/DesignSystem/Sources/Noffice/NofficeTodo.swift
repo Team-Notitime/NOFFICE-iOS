@@ -56,23 +56,26 @@ where Option: Equatable & Identifiable {
     }
     
     // MARK: UI Constant
-    private let verticalPadding = 12
+    private let verticalPadding: CGFloat = 12
     
-    private let horizontalPadding = 16
+    private let horizontalPadding: CGFloat = 16
+    
+    private let checkIconBackgroundSize: CGFloat = 24
+    
+    private let checkIconSize: CGFloat = 16
     
     // MARK: UI Component
-    private lazy var backgroundView = UIView().then {
-        $0.layer.cornerRadius = RoundedOffset.medium.same
-        $0.clipsToBounds = true
-        $0.isUserInteractionEnabled = false
-    }
-    
-    private lazy var stackView = UIStackView(arrangedSubviews: [label, icon]).then {
+    // - Container view
+    private lazy var stackView = UIStackView(
+        arrangedSubviews: [iconBackground, label]
+    ).then {
         $0.axis = .horizontal
         $0.spacing = 8
         $0.alignment = .center
+        $0.isUserInteractionEnabled = false
     }
     
+    // - Todo content text
     private lazy var label = UILabel().then {
         $0.text = ""
         $0.setTypo(.body2b)
@@ -80,9 +83,16 @@ where Option: Equatable & Identifiable {
         $0.numberOfLines = 10
     }
     
+    // - Check icon
+    private lazy var iconBackground = UIView().then {
+        $0.backgroundColor = .blue100
+        $0.layer.cornerRadius = checkIconBackgroundSize / 2
+    }
+    
     private lazy var icon = UIImageView(image: .iconCheck).then {
-        $0.tintColor = .grey300
-        $0.setSize(width: 16, height: 16)
+        $0.tintColor = .fullWhite
+        $0.setSize(width: checkIconSize, height: checkIconSize)
+        $0.contentMode = .scaleAspectFit
     }
     
     // MARK: Initializer
@@ -122,18 +132,25 @@ where Option: Equatable & Identifiable {
     
     // MARK: Setup
     private func setupHierarchy() {
-        addSubview(backgroundView)
-        backgroundView.addSubview(stackView)
+        addSubview(stackView)
+        
+        iconBackground.addSubview(icon)
     }
     
     private func setupLayout() {
-        backgroundView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
+        stackView.snp.makeConstraints {
+            $0.top.bottom.equalToSuperview()
+                .inset(verticalPadding)
+            $0.leading.trailing.equalToSuperview()
+                .inset(horizontalPadding)
         }
         
-        stackView.snp.makeConstraints {
-            $0.top.bottom.equalToSuperview().inset(verticalPadding)
-            $0.leading.trailing.equalToSuperview().inset(horizontalPadding)
+        iconBackground.snp.makeConstraints {
+            $0.width.height.equalTo(checkIconBackgroundSize)
+        }
+        
+        icon.snp.makeConstraints {
+            $0.center.equalToSuperview()
         }
     }
     
@@ -151,8 +168,7 @@ where Option: Equatable & Identifiable {
                 guard let self = self else { return }
                 
                 self.icon.alpha = 0.0
-                self.backgroundView.backgroundColor = .blue100
-                self.label.textColor = .blue600
+                self.iconBackground.backgroundColor = .blue100
             } completion: { [weak self] _ in
                 self?.icon.isHidden = true
             }
@@ -166,8 +182,7 @@ where Option: Equatable & Identifiable {
                 guard let self = self else { return }
                 
                 self.icon.alpha = 1.0
-                self.backgroundView.backgroundColor = .grey100
-                self.label.textColor = .grey400
+                self.iconBackground.backgroundColor = .blue600
             } completion: { [weak self] _ in
                 self?.icon.isHidden = false
             }
@@ -176,6 +191,8 @@ where Option: Equatable & Identifiable {
     
     // MARK: UIControl
     public override func endTracking(_ touch: UITouch?, with event: UIEvent?) {
+        print("왱앙댐")
+        
         if automaticToggle {
             statusToggle()
         }
