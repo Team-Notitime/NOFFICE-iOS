@@ -8,12 +8,6 @@
 import UIKit
 import WebKit
 
-import Assets
-
-import SnapKit
-import Then
-import RxSwift
-
 class WebViewController: UIViewController, WKNavigationDelegate {
 
     var webView: WKWebView!
@@ -52,21 +46,21 @@ class WebViewController: UIViewController, WKNavigationDelegate {
         webView.load(request)
         
         // 사파리로 연결될 버튼 추가
-        let safariButton = UIButton(type: .system)
-        safariButton.setTitle("Open in Safari", for: .normal)
-        safariButton.addTarget(self, action: #selector(openInSafari), for: .touchUpInside)
-        safariButton.backgroundColor = .fullWhite
-        view.addSubview(safariButton)
-        
-        // 버튼 제약 조건 설정
-        safariButton.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            safariButton.bottomAnchor.constraint(
-                equalTo: view.safeAreaLayoutGuide.bottomAnchor,
-                constant: -20
-            ),
-            safariButton.centerXAnchor.constraint(equalTo: view.centerXAnchor)
-        ])
+//        let safariButton = UIButton(type: .system)
+//        safariButton.setTitle("Open in Safari", for: .normal)
+//        safariButton.addTarget(self, action: #selector(openInSafari), for: .touchUpInside)
+//        safariButton.backgroundColor = .fullWhite
+//        view.addSubview(safariButton)
+//        
+//        // 버튼 제약 조건 설정
+//        safariButton.translatesAutoresizingMaskIntoConstraints = false
+//        NSLayoutConstraint.activate([
+//            safariButton.bottomAnchor.constraint(
+//                equalTo: view.safeAreaLayoutGuide.bottomAnchor,
+//                constant: -20
+//            ),
+//            safariButton.centerXAnchor.constraint(equalTo: view.centerXAnchor)
+//        ])
     }
     
     @objc func openInSafari() {
