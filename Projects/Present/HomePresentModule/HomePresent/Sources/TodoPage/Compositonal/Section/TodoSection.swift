@@ -30,7 +30,7 @@ struct TodoSection: CompositionalSection {
             sectionInset: .init(
                 top: 0,
                 leading: GlobalViewConstant.pagePadding,
-                bottom:  GlobalViewConstant.pagePadding * 2,
+                bottom: GlobalViewConstant.pagePadding * 2,
                 trailing: GlobalViewConstant.pagePadding
             ),
             scrollBehavior: .none

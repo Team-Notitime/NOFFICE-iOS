@@ -47,8 +47,14 @@ public final class NofficeBanner: UIView {
         }
     }
     
+    // MARK: UI Constant
+    private let bannerHeight: CGFloat = 105
+    private let textLeftPadding: CGFloat = 16
+    private let textBottomPadding: CGFloat = 8
+    private let textSize: CGFloat = 24
+    
     // MARK: UI Component
-    private lazy var bannerImage = UIImageView(image: .imgBanner).then {
+    private lazy var bannerImage = UIImageView(image: .imgBannerBackground).then {
         $0.contentMode = .scaleAspectFill
         $0.clipsToBounds = true
     }
@@ -84,12 +90,12 @@ public final class NofficeBanner: UIView {
     private func setupLayout() {
         bannerImage.snp.makeConstraints {
             $0.top.left.right.equalToSuperview()
-            $0.height.equalTo(Self.bannerHeight)
+            $0.height.equalTo(bannerHeight)
         }
         
         textLabel.snp.makeConstraints {
-            $0.left.equalToSuperview().inset(Self.textLeftPadding)
-            $0.bottom.equalToSuperview().inset(Self.textBottomPadding)
+            $0.left.equalToSuperview().inset(textLeftPadding)
+            $0.bottom.equalToSuperview().inset(textBottomPadding)
         }
     }
     
@@ -107,7 +113,7 @@ public final class NofficeBanner: UIView {
         // 전체 텍스트의 스타일
         attributedString.addAttribute(
             .font,
-            value: UIFont.systemFont(ofSize: Self.textSize),
+            value: UIFont.systemFont(ofSize: textSize),
             range: NSRange(location: 0, length: fullText.count)
         )
         attributedString.addAttribute(
@@ -126,7 +132,7 @@ public final class NofficeBanner: UIView {
             let nsRange = NSRange(userNameRange, in: fullText)
             attributedString.addAttribute(
                 .font,
-                value: UIFont.boldSystemFont(ofSize: Self.textSize),
+                value: UIFont.boldSystemFont(ofSize: textSize),
                 range: nsRange
             )
         }
@@ -136,22 +142,11 @@ public final class NofficeBanner: UIView {
             let nsRange = NSRange(dateTextRange, in: fullText)
             attributedString.addAttribute(
                 .font,
-                value: UIFont.boldSystemFont(ofSize: Self.textSize),
+                value: UIFont.boldSystemFont(ofSize: textSize),
                 range: nsRange
             )
         }
         
         textLabel.attributedText = attributedString
     }
-}
-
-// MARK: - DisplayModel
-public extension NofficeBanner { }
-
-// MARK: - Constant
-private extension NofficeBanner { 
-    static let bannerHeight: CGFloat = 100
-    static let textLeftPadding: CGFloat = 16
-    static let textBottomPadding: CGFloat = 20
-    static let textSize: CGFloat = 24
 }

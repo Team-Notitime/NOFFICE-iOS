@@ -15,13 +15,13 @@ import RxSwift
 struct BannerSection: CompositionalSection {
     var layout: CompositionalLayout = .init(
         groupLayout: .init(
-            size: .init(width: .fractionalWidth(1.0), height: .absolute(100)),
+            size: .init(width: .fractionalWidth(1.0), height: .absolute(105)),
             groupSpacing: 16,
             items: [
                 .item(
                     size: .init(
                         width: .fractionalWidth(1.0),
-                        height: .absolute(100)
+                        height: .fractionalHeight(1.0)
                     )
                 )
             ],
