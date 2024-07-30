@@ -7,6 +7,8 @@
 
 import UIKit
 
+import Assets
+
 import RxSwift
 import RxCocoa
 import RxGesture
@@ -37,7 +39,14 @@ public final class NofficeNavigationBar: UIView {
     // MARK: UI Constant
     let height: CGFloat = 44
     
+    let backIconSize: CGFloat = 24
+    
     // MARK: UI Component
+    ///  - Back icon (Back button)
+    private lazy var backIconBackground = UIView().then { // for touch target
+        $0.isUserInteractionEnabled = true
+    }
+    
     private lazy var backIcon = UIImageView(image: .iconChevronLeft).then {
         $0.tintColor = .grey400
         $0.contentMode = .scaleAspectFit
@@ -75,11 +84,11 @@ public final class NofficeNavigationBar: UIView {
         setupBind()
     }
     
-    // MARK: Public
-    
     // MARK: Setup
     private func setupHierarchy() { 
-        addSubview(backIcon)
+        addSubview(backIconBackground)
+        
+        backIconBackground.addSubview(backIcon)
         
         addSubview(titleLabel)
         
@@ -91,8 +100,17 @@ public final class NofficeNavigationBar: UIView {
             $0.height.equalTo(height)
         }
         
+        backIconBackground.snp.makeConstraints {
+            $0.left.equalToSuperview()
+                .inset(GlobalViewConstant.pagePadding)
+            $0.height.equalTo(backIconSize)
+            $0.width.equalTo(backIconSize * 2)
+            $0.centerY.equalToSuperview()
+        }
+        
         backIcon.snp.makeConstraints {
-            $0.left.equalToSuperview().inset(16)
+            $0.left.equalToSuperview()
+            $0.width.height.equalTo(backIconSize)
             $0.centerY.equalToSuperview()
         }
         
@@ -108,7 +126,7 @@ public final class NofficeNavigationBar: UIView {
     }
     
     private func setupBind() { 
-        backIcon.rx.tapGesture()
+        backIconBackground.rx.tapGesture()
             .when(.recognized)
             .subscribe(onNext: { [weak self] _ in
                 self?._onTapBackButton.onNext(())

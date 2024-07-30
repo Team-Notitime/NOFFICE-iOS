@@ -67,7 +67,7 @@ public final class NofficeAnnouncementCard: UIView {
                     $0.contentMode = .scaleAspectFill
                     $0.clipsToBounds = true
                 },
-                BaseHStack {[
+                BaseHStack(spacing: 0) {[
                     BaseSpacer(size: 16, orientation: .horizontal),
                     BaseVStack(spacing: 10) {[
                         BaseSpacer(size: 0),
