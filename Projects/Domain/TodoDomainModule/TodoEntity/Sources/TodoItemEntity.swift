@@ -16,12 +16,12 @@ public struct TodoItemEntity: Codable, Identifiable, Equatable {
     /// Contents of the todo item
     public let contents: String
     /// Status of the todo item
-    public var status: TodoItemStatus
+    public var status: Status
     
     public init(
         id: Int,
         contents: String,
-        status: TodoItemStatus
+        status: Status
     ) {
         self.id = id
         self.contents = contents
@@ -29,7 +29,9 @@ public struct TodoItemEntity: Codable, Identifiable, Equatable {
     }
 }
 
-public enum TodoItemStatus: String, Codable {
-    case done
-    case pending
+public extension TodoItemEntity {
+    enum Status: String, Codable {
+        case done
+        case pending
+    }
 }

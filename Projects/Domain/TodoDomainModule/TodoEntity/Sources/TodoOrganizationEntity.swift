@@ -42,8 +42,8 @@ public struct TodoOrganizationEntity: Codable, Identifiable, Equatable {
             id: 2,
             name: "즐거운 동아리",
             todos: [
-                .init(id: 4, contents: "4차 세션 사전 과제", status: .pending),
-                .init(id: 5, contents: "노션 이메일 제출", status: .pending),
+                .init(id: 3, contents: "4차 세션 사전 과제", status: .pending),
+                .init(id: 4, contents: "노션 이메일 제출", status: .pending),
                 .init(id: 5, contents: "뒷풀이 참석 여부 투표 뒷풀이 참석 여부 투표 뒷풀이 참석 여부 투표 뒷풀이 참석 여부 투표 뒷풀이 참석 여부 투표 뒷풀이 참석 여부 투표 뒷풀이 참석 여부 투표 뒷풀이 참석 여부 투표", status: .pending),
                 .init(id: 6, contents: "7월 회비 납부", status: .pending)
             ]

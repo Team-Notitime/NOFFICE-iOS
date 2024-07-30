@@ -17,10 +17,11 @@ final class TodoItem: CompositionalItem {
     typealias Cell = TodoItemCell
     
     // MARK: Event
-    let onTap: () -> Bool
+    let onTap: () -> Void
     
     // MARK: Data
     let id: Int
+    let status: TodoItemEntity.Status
     let contents: String
     
     // MARK: DisposeBag
@@ -28,16 +29,19 @@ final class TodoItem: CompositionalItem {
     
     init(
         id: Int,
+        status: TodoItemEntity.Status,
         contents: String,
-        onTap: @escaping () -> Bool
+        onTap: @escaping () -> Void
     ) {
         self.id = id
+        self.status = status
         self.contents = contents
         self.onTap = onTap
     }
     
     func hash(into hasher: inout Hasher) {
         hasher.combine(id)
+        hasher.combine(status)
         hasher.combine(contents)
     }
 }
@@ -72,11 +76,12 @@ final class TodoItemCell: UIView, CompositionalItemCell {
     func configure(with item: TodoItem) {
         todo.text = item.contents
         
+        todo.status = item.status == .pending ? .pending : .done
+        
         todo.rx.tapGesture()
-            .subscribe(onNext: { [weak self] _ in
-                let result = item.onTap()
-                
-                self?.todo.status = result ? .done : .pending
+            .when(.recognized)
+            .subscribe(onNext: { _ in
+                item.onTap()
             })
             .disposed(by: disposeBag)
     }
