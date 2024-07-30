@@ -26,11 +26,11 @@ struct TodoSection: CompositionalSection {
                 ],
                 itemSpacing: 0
             ),
-            headerSize: .init(width: .fractionalWidth(1.0), height: .absolute(72)),
+            headerSize: .init(width: .fractionalWidth(1.0), height: .absolute(48)),
             sectionInset: .init(
                 top: 0,
                 leading: GlobalViewConstant.pagePadding,
-                bottom: 0,
+                bottom:  GlobalViewConstant.pagePadding * 2,
                 trailing: GlobalViewConstant.pagePadding
             ),
             scrollBehavior: .none
@@ -58,17 +58,27 @@ struct TodoSection: CompositionalSection {
 
 class TodoSectionHeaderView: UIView, CompositionalReusableView {
     // MARK: UI Component
+    // - Background
+    private lazy var backgroundView = UIView().then {
+        $0.backgroundColor = .grey50
+        $0.layer.cornerRadius = 8
+        $0.layer.masksToBounds = true
+    }
+    
+    // - Organization name label
     private lazy var label = UILabel().then {
         $0.textColor = .grey800
         $0.textAlignment = .left
         $0.setTypo(.heading4)
     }
     
+    // - Right arrow icon
     private lazy var icon = UIImageView(image: .iconChevronRight).then {
         $0.tintColor = .grey800
         $0.contentMode = .scaleAspectFit
     }
     
+    // MARK: Initializer
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         setup()
@@ -81,16 +91,24 @@ class TodoSectionHeaderView: UIView, CompositionalReusableView {
     
     // MARK: Setup
     private func setup() {
-        addSubview(label)
-        addSubview(icon)
+        addSubview(backgroundView)
+        backgroundView.addSubview(label)
+        backgroundView.addSubview(icon)
+        
+        backgroundView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
         
         label.snp.makeConstraints {
             $0.top.bottom.equalToSuperview()
-            $0.left.equalToSuperview().inset(14)
+            $0.left.equalToSuperview()
+                .inset(18)
         }
         
         icon.snp.makeConstraints {
-            $0.top.right.bottom.equalToSuperview()
+            $0.top.bottom.equalToSuperview()
+            $0.right.equalToSuperview()
+                .inset(18)
         }
     }
     

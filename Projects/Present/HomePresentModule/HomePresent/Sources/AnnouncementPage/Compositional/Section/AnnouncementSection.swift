@@ -14,7 +14,7 @@ import RxSwift
 import RxGesture
 
 struct AnnouncementSection: CompositionalSection {
-    typealias Header = OrganizationSectionHeaderView
+    typealias Header = AnnouncementSectionHeaderView
     
     // MARK: Compositional
     var layout: CompositionalLayout {
@@ -66,8 +66,11 @@ struct AnnouncementSection: CompositionalSection {
     
     // MARK: Data
     let identifier: String
+    
     let organizationName: String
+    
     let scrollDisabled: Bool
+    
     let items: [any CompositionalItem]
     
     init(
@@ -88,18 +91,18 @@ struct AnnouncementSection: CompositionalSection {
     }
 }
 
-class OrganizationSectionHeaderView: UIView, CompositionalReusableView {
+class AnnouncementSectionHeaderView: UIView, CompositionalReusableView {
     typealias Section = AnnouncementSection
     
     // MARK: UI Component
-    /// - Organization name label
+    // - Organization name label
     private lazy var label = UILabel().then {
         $0.textColor = .grey800
         $0.textAlignment = .left
         $0.setTypo(.heading4)
     }
     
-    /// - Right arrow icon
+    // - Right arrow icon
     private lazy var icon = UIImageView(image: .iconChevronRight).then {
         $0.tintColor = .grey800
         $0.contentMode = .scaleAspectFit
