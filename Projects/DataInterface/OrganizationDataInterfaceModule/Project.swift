@@ -1,4 +1,9 @@
 import ProjectDescription
 import ProjectDescriptionHelpers
 
-let project = Project.makeDataInterfaceModule(.organization)
+let project = Project.makeDataInterfaceModule(
+    .organization,
+    dependencies: [
+        .entity(.organization)
+    ]
+)

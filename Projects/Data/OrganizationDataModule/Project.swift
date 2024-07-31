@@ -4,6 +4,7 @@ import ProjectDescriptionHelpers
 let project = Project.makeDataModule(
     .organization,
     dependencies: [
-        .data(.common)
+        .data(.common),
+        .entity(.organization)
     ]
 )
