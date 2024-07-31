@@ -165,7 +165,7 @@ public class AnnouncementDetailView: BaseView {
             ]
         }
     ).then {
-        $0.styled(variant: .translucent, color: .background)
+        $0.styled(variant: .translucent, color: .background, padding: .medium)
     }
     
     lazy var eventBodyLabel = UILabel().then {
@@ -176,7 +176,18 @@ public class AnnouncementDetailView: BaseView {
         $0.numberOfLines = 0
     }
     
-    // - Todo title
+    // - Todo list collection view
+    lazy var todoListCard = BaseCard(
+        contentsBuilder: {
+            [
+                todoTitleStack,
+                todoListCollectionView
+            ]
+        }
+    ).then {
+        $0.styled(variant: .translucent, color: .background, padding: .medium)
+    }
+    
     lazy var todoTitleStack = BaseHStack {
         [
             todoTitleLabel,
@@ -195,7 +206,6 @@ public class AnnouncementDetailView: BaseView {
         $0.textColor = .grey800
     }
     
-    // - Todo list collection view
     lazy var todoListCollectionView = CompositionalCollectionView().then {
         $0.isScrollEnabled = false
     }
@@ -242,9 +252,7 @@ public class AnnouncementDetailView: BaseView {
             BaseSpacer(size: GlobalViewConstant.spacingUnit * 2)
         )
         
-        stackView.addArrangedSubview(todoTitleStack)
-        
-        stackView.addArrangedSubview(todoListCollectionView)
+        stackView.addArrangedSubview(todoListCard)
     }
     
     public override func setupLayout() {

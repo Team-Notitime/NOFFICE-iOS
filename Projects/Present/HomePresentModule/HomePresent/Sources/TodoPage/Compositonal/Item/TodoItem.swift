@@ -69,7 +69,9 @@ final class TodoItemCell: UIView, CompositionalItemCell {
         addSubview(todo)
         
         todo.snp.makeConstraints {
-            $0.edges.equalToSuperview()
+            $0.top.bottom.equalToSuperview()
+            $0.left.right.equalToSuperview()
+                .inset(GlobalViewConstant.pagePadding)
         }
     }
     

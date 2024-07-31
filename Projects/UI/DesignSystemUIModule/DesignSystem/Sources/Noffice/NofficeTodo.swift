@@ -142,7 +142,6 @@ where Option: Equatable & Identifiable {
             $0.top.bottom.equalToSuperview()
                 .inset(verticalPadding)
             $0.leading.trailing.equalToSuperview()
-                .inset(horizontalPadding)
         }
         
         iconBackground.snp.makeConstraints {
@@ -191,8 +190,6 @@ where Option: Equatable & Identifiable {
     
     // MARK: UIControl
     public override func endTracking(_ touch: UITouch?, with event: UIEvent?) {
-        print("왱앙댐")
-        
         if automaticToggle {
             statusToggle()
         }
