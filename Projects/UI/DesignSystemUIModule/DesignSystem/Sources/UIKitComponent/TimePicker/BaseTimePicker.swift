@@ -260,14 +260,12 @@ public class BaseTimePicker: UIView {
         } else {
             components.hour = (hour % 12) + 12
         }
-//        print(components)
         selectedDateComponent = components
         updateTimePicker()
     }
     
     private func updateTimePicker() {
         let hour = selectedDateComponent?.hour ?? 0
-        print(hour)
         let minute = selectedDateComponent?.minute ?? 0
         let adjustedHour = hour % 12 == 0 ? 12 : hour % 12
         isPM = hour >= 12
