@@ -1,5 +1,5 @@
 //
-//  FetchMyOrganizations.swift
+//  GetMyOrganizationsUsecase.swift
 //  OrganizationUsecase
 //
 //  Created by DOYEON LEE on 7/22/24.
@@ -9,7 +9,7 @@ import OrganizationEntity
 
 import RxSwift
 
-public struct FetchMyOrganizations {
+public struct GetMyOrganizationsUsecase {
     
     public init() { }
     

@@ -12,14 +12,16 @@ import OrganizationEntity
 
 import RxSwift
 import RxCocoa
+import Swinject
 
 class OrganizationDetailViewController: BaseViewController<OrganizationDetailView> {
+    // MARK: Reactor
+    private let reactor = Container.shared.resolve(OrganizationDetailReactor.self)!
     
     // MARK: Data
     private let organization: OrganizationEntity
     
     // MARK: Initialzier
-    // example app 때문에 임시로 optional 처리
     public init(organization: OrganizationEntity) {
         self.organization = organization
         

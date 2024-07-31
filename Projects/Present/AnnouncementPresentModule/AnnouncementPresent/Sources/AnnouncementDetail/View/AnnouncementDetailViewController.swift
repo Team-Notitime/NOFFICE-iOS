@@ -34,7 +34,7 @@ public class AnnouncementDetailViewController: BaseViewController<AnnouncementDe
         if let announcement = announcement {
             self.announcement = announcement
         } else {
-            self.announcement = FetchAnnouncementDetailUsecase.mock
+            self.announcement = GetAnnouncementDetailUsecase.mock
         }
         
         super.init()

@@ -17,7 +17,7 @@ final class OrganizationItem: CompositionalItem {
     typealias Cell = OrganizationItemCell
     
     // MARK: Event
-    let onTap = PublishSubject<Void>()
+    let onTap: () -> Void
     
     // MARK: Data
     let organizationName: String
@@ -26,8 +26,12 @@ final class OrganizationItem: CompositionalItem {
     let disposeBag = DisposeBag()
     
     // MARK: Initializer
-    init(organizationName: String) {
+    init(
+        organizationName: String,
+        onTap: @escaping () -> Void
+    ) {
         self.organizationName = organizationName
+        self.onTap = onTap
     }
     
     func hash(into hasher: inout Hasher) {
@@ -66,8 +70,10 @@ final class OrganizationItemCell: UIView, CompositionalItemCell {
         organizationRow.organizationName = item.organizationName
                 
         // - Binding action
-        self.organizationRow.onTap
-            .bind(to: item.onTap)
+        organizationRow.onTap
+            .subscribe(onNext: {
+                item.onTap()
+            })
             .disposed(by: disposeBag)
     }
 }

@@ -11,6 +11,7 @@ extension Container {
     static let shared: Container = {
         let container = Container()
         
+        // - New organization funnel
         container.register(NewOrganizationFunnelReactor.self) { resolver in
             NewOrganizationFunnelReactor(
                 nameReactor: resolver.resolve(NewOrganizationNamePageReactor.self)!,
@@ -52,6 +53,18 @@ extension Container {
             NewOrganizationCompletePageReactor()
         }
         .inObjectScope(.weak)
+        
+        // - Organization tab
+        container.register(OrganizationTabReactor.self) { _ in
+            OrganizationTabReactor()
+        }
+        .inObjectScope(.transient)
+        
+        // - Organization detail
+        container.register(OrganizationDetailReactor.self) { _ in
+            OrganizationDetailReactor()
+        }
+        .inObjectScope(.transient)
 
         return container
     }()

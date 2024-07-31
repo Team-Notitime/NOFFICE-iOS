@@ -19,7 +19,7 @@ public struct BaseResponse<T: Codable>: Codable {
         httpStatus: Int,
         code: String,
         message: String,
-        data: Codable
+        data: T
     ) {
         self.timestamp = timestamp
         self.httpStatus = httpStatus

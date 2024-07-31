@@ -27,7 +27,7 @@ extension AnnouncementTarget: TargetType {
 
     var path: String {
         switch self {
-        case .createOrganization:
+        case .createAnnouncement:
             return "/organization"
             
         case let .getOrganization(id):
@@ -43,7 +43,7 @@ extension AnnouncementTarget: TargetType {
 
     var method: Moya.Method {
         switch self {
-        case .createOrganization, .joinOrganization:
+        case .createAnnouncement, .joinOrganization:
             return .post
             
         case .getOrganization, .getOrganizationList:
@@ -57,8 +57,8 @@ extension AnnouncementTarget: TargetType {
 
     var task: Task {
         switch self {
-        case .createOrganization(let dto):
-            return .requestJSONEncodable(dto)
+        case .createAnnouncement:
+            return .requestPlain
             
         case .joinOrganization(_, let userId):
             return .requestParameters(
@@ -75,4 +75,3 @@ extension AnnouncementTarget: TargetType {
         return ["Content-type": "application/json"]
     }
 }
-

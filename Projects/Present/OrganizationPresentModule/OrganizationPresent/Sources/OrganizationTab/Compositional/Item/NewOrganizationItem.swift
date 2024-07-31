@@ -16,12 +16,16 @@ final class NewOrganizationItem: CompositionalItem {
     typealias Cell = NewOrganizationAddItemCell
     
     // MARK: Event
-    let onTapNewButton = PublishSubject<Void>()
+    let onTap: () -> Void
 
     // MARK: DisposeBag
     let disposeBag = DisposeBag()
     
-    init() { }
+    init(
+        onTapNewButton: @escaping () -> Void
+    ) {
+        self.onTap = onTapNewButton
+    }
     
     func hash(into hasher: inout Hasher) {
         hasher.combine(String(describing: type(of: self)))
@@ -49,6 +53,7 @@ final class NewOrganizationAddItemCell: UIView, CompositionalItemCell {
     // MARK: DisposeBag
     private let disposeBag = DisposeBag()
     
+    // MARK: Initializer
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         setup()
@@ -70,7 +75,9 @@ final class NewOrganizationAddItemCell: UIView, CompositionalItemCell {
     func configure(with item: NewOrganizationItem) {
         // action binding
         newButton.onTap
-            .bind(to: item.onTapNewButton)
+            .subscribe(onNext: {
+                item.onTap()
+            })
             .disposed(by: disposeBag)
     }
 }

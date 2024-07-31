@@ -25,7 +25,7 @@ class AnnouncementPageReactor: Reactor {
     }
     
     // MARK: Dependency
-    let fetchAllAnnouncementUsecase = FetchAllAnnouncementUsecase()
+    let fetchAllAnnouncementUsecase = GetAllAnnouncementUsecase()
     
     let initialState: State = State()
 }

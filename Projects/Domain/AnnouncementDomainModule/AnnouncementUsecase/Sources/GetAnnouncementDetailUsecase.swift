@@ -1,5 +1,5 @@
 //
-//  FetchAnnouncementDetailUsecase.swift
+//  GetAnnouncementDetailUsecase.swift
 //  AnnouncementUsecase
 //
 //  Created by DOYEON LEE on 7/26/24.
@@ -11,7 +11,7 @@ import AnnouncementEntity
 
 import RxSwift
 
-public struct FetchAnnouncementDetailUsecase {
+public struct GetAnnouncementDetailUsecase {
     
     public init() { }
     

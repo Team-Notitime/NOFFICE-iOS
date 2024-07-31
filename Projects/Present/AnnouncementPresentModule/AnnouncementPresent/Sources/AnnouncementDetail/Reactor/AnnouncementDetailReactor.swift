@@ -32,7 +32,7 @@ class AnnouncementDetailReactor: Reactor {
     let initialState: State = State()
     
     // MARK: Dependency
-    private let fetchAnnouncementDetailUsecase = FetchAnnouncementDetailUsecase()
+    private let fetchAnnouncementDetailUsecase = GetAnnouncementDetailUsecase()
     
     // MARK: DisposeBag
     private let disposeBag = DisposeBag()
