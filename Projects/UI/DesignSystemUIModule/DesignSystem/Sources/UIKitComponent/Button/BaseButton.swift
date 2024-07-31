@@ -207,14 +207,9 @@ public class BaseButton: UIControl {
                 .priority(isFullWidth ? .low : .required)
         }
         
-        let size = figureTheme.iconSize()
         stackView.arrangedSubviews
             .filter { $0 is UIImageView }
             .forEach { image in
-                image.snp.remakeConstraints {
-                    $0.width.equalTo(size.width ?? 0)
-                    $0.height.equalTo(size.height ?? 0)
-                }
                 image.setContentHuggingPriority(.defaultLow, for: .horizontal)
             }
     }

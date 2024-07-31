@@ -89,7 +89,6 @@ final class AnnouncementItemCell: UIView, CompositionalItemCell {
         $0.textColor = .grey400
     }
     
-    
     // MARK: DisposeBag
     private let disposeBag = DisposeBag()
     
@@ -124,7 +123,6 @@ final class AnnouncementItemCell: UIView, CompositionalItemCell {
             $0.left.right.equalToSuperview()
                 .inset(10)
         }
-        
         
     }
     

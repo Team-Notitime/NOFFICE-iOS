@@ -18,20 +18,14 @@ struct TodoSection: CompositionalSection {
         .init(
             groupLayout: .init(
                 size: .init(
-                    width: .fractionalWidth(1.2),
+                    width: .fractionalWidth(1.0),
                     height: .estimated(42)
                 ),
                 groupSpacing: 0,
                 items: [
                     .item(
                         size: .init(
-                            width: .fractionalWidth(0.8),
-                            height: .estimated(42)
-                        )
-                    ),
-                    .item(
-                        size: .init(
-                            width: .fractionalWidth(0.2),
+                            width: .fractionalWidth(1.0),
                             height: .estimated(42)
                         )
                     )
@@ -44,7 +38,7 @@ struct TodoSection: CompositionalSection {
                 bottom: 8,
                 trailing: 0
             ),
-            scrollBehavior: .groupPaging
+            scrollBehavior: .none
         )
     }
     

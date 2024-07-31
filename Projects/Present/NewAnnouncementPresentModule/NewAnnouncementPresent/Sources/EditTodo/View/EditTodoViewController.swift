@@ -32,7 +32,28 @@ class EditTodoViewController: BaseViewController<EditTodoView>, UITextFieldDeleg
             .map { owner, todos in
                 EditTodoConverter
                     .convertToTodoSections(todos: todos) { [weak owner] todo in
-                        owner?.reactor.action.onNext(.deleteTodo(todo))
+                        let actionSheet = UIAlertController(
+                            title: "투두 삭제",
+                            message: "삭제하시겠습니까?",
+                            preferredStyle: .actionSheet
+                        )
+                        
+                        // 액션 추가
+                        let action1 = UIAlertAction(
+                            title: "삭제",
+                            style: .destructive,
+                            handler: { [weak owner]_ in
+                            owner?.reactor.action.onNext(.deleteTodo(todo))
+                        }
+                        )
+                        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+                        
+                        // 액션 시트에 액션들 추가
+                        actionSheet.addAction(action1)
+                        actionSheet.addAction(cancelAction)
+                        
+                        // 액션 시트 표시
+                        owner?.present(actionSheet, animated: true, completion: nil)
                     }
             }
             .bind(to: baseView.collectionView.sectionBinder)
@@ -56,10 +77,12 @@ class EditTodoViewController: BaseViewController<EditTodoView>, UITextFieldDeleg
             .disposed(by: disposeBag)
         
         // - Add todo
-        baseView.newTodoTextField
-            .textFieldEvent
-            .filter { $0 == .editingDidEndOnExit }
-            .map { _ in .pressEnter }
+        baseView.newTodoCompleteButton
+            .onTap
+            .withUnretained(self)
+            .filter { !$0.0.reactor.currentState.todoContent.isEmpty }
+            .compactMap { $0 }
+            .map { _ in .tapCompleteButton }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
@@ -77,10 +100,6 @@ class EditTodoViewController: BaseViewController<EditTodoView>, UITextFieldDeleg
             .withUnretained(self)
             .observe(on: MainScheduler.asyncInstance)
             .subscribe(onNext: { owner, _ in
-                UIView.animate(withDuration: 0.25) { [weak owner] in
-                    owner?.baseView.newTodoTextField.layer.opacity = 1.0
-                }
-                
                 owner.baseView.newTodoTextField.textField.becomeFirstResponder()
             })
             .disposed(by: disposeBag)
@@ -94,11 +113,21 @@ class EditTodoViewController: BaseViewController<EditTodoView>, UITextFieldDeleg
         
     }
     
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        UIView.animate(withDuration: 0.25) { [weak self] in
+            guard let self = self else { return }
+            
+            self.baseView.newTodoTextField.layer.opacity = 1.0
+            self.baseView.newTodoCompleteButton.layer.opacity = 1.0
+        }
+    }
+    
     func textFieldDidEndEditing(_ textField: UITextField) {
         UIView.animate(withDuration: 0.25) { [weak self] in
             guard let self = self else { return }
             
             self.baseView.newTodoTextField.layer.opacity = 0.0
+            self.baseView.newTodoCompleteButton.layer.opacity = 0.0
         }
     }
 }

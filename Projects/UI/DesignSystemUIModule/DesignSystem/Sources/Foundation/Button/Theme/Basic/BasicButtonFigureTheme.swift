@@ -90,17 +90,4 @@ struct BasicButtonFigureTheme: ButtonFigureTheme {
             return Capsule().asAnyShape()
         }
     }
-    
-    func iconSize() -> FrameOffset {
-        switch size {
-        case .large:
-            return .init(22, 22)
-        case .medium:
-            return .init(18, 18)
-        case .small:
-            return .init(16, 16)
-        case .xsmall:
-            return .init(16, 16)
-        }
-    }
 }

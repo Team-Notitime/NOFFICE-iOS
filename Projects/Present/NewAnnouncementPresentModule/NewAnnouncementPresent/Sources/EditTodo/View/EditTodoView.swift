@@ -41,6 +41,20 @@ class EditTodoView: BaseView {
         $0.layer.opacity = 0.0
     }
     
+    // - New todo complete button
+    lazy var newTodoCompleteButton = BaseButton {
+        [
+            UIImageView(image: .iconSend).then {
+                $0.setSize(width: 28, height: 32)
+                $0.contentMode = .scaleAspectFill
+                $0.tintColor = .grey300
+            }
+        ]
+    }.then {
+        $0.styled(variant: .transparent, color: .ghost, size: .small)
+        $0.layer.opacity = 0.0
+    }
+    
     // - Add todo button
     lazy var addTodoButton = BaseButton(
         contentsBuilder: {
@@ -87,6 +101,8 @@ class EditTodoView: BaseView {
         contentView.addSubview(saveButton)
         
         contentView.addSubview(newTodoTextField)
+        
+        contentView.addSubview(newTodoCompleteButton)
     }
     
     override func setupLayout() { 
@@ -125,13 +141,22 @@ class EditTodoView: BaseView {
             $0.top.equalTo(header.snp.bottom)
             $0.bottom.equalTo(addTodoButton.snp.top)
             $0.left.right.equalToSuperview()
+                .inset(FunnelConstant.additionalPadding)
+        }
+        
+        newTodoCompleteButton.snp.makeConstraints {
+            $0.bottom.equalTo(keyboardLayoutGuide.snp.top)
+                .inset(-FunnelConstant.spacingUnit * 1.2)
+            $0.right.equalToSuperview()
+                .inset(GlobalViewConstant.pagePadding / 2)
         }
         
         newTodoTextField.snp.makeConstraints {
             $0.bottom.equalTo(keyboardLayoutGuide.snp.top)
                 .inset(-FunnelConstant.spacingUnit)
-            $0.left.right.equalToSuperview()
+            $0.left.equalToSuperview()
                 .inset(GlobalViewConstant.pagePadding)
+            $0.right.equalTo(newTodoCompleteButton.snp.left)
         }
     }
 }

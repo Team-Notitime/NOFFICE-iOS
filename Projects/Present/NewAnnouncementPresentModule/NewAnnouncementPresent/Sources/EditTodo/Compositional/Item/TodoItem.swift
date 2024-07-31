@@ -16,6 +16,9 @@ import RxSwift
 final class TodoItem: CompositionalItem {
     typealias Cell = TodoItemCell
     
+    // MARK: Event
+    let onLongPress: () -> Void
+    
     // MARK: Data
     let id: UUID = UUID()
     let content: String
@@ -24,9 +27,11 @@ final class TodoItem: CompositionalItem {
     let disposeBag = DisposeBag()
     
     init(
-        content: String
+        content: String,
+        onLongPress: @escaping () -> Void
     ) {
         self.content = content
+        self.onLongPress = onLongPress
     }
     
     func hash(into hasher: inout Hasher) {
@@ -40,6 +45,9 @@ final class TodoItemCell: UIView, CompositionalItemCell {
     lazy var todo = NofficeTodo<TodoItemEntity>().then {
         $0.automaticToggle = false
     }
+    
+    // MARK: DisposeBag
+    private let disposeBag = DisposeBag()
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
@@ -61,5 +69,38 @@ final class TodoItemCell: UIView, CompositionalItemCell {
     
     func configure(with item: TodoItem) {
         todo.text = item.content
+        
+        todo.rx.longPressGesture(
+            configuration: { gestureRecognizer, _ in
+                gestureRecognizer.minimumPressDuration = 0.2
+            }
+        )
+        .when(.began)
+        .subscribe(onNext: { [weak self] _ in
+            guard let self = self else { return }
+            
+            self.animatePressDown()
+            item.onLongPress()
+        })
+        .disposed(by: disposeBag)
+        
+        todo.rx.longPressGesture()
+            .when(.ended, .cancelled)
+            .subscribe(onNext: { [weak self] _ in
+                self?.animatePressUp()
+            })
+            .disposed(by: disposeBag)
+    }
+    
+    private func animatePressDown() {
+        UIView.animate(withDuration: 0.1) {
+            self.todo.transform = CGAffineTransform(scaleX: 0.95, y: 0.95)
+        }
+    }
+    
+    private func animatePressUp() {
+        UIView.animate(withDuration: 0.1) {
+            self.todo.transform = .identity
+        }
     }
 }

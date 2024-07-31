@@ -14,7 +14,7 @@ import ReactorKit
 class EditTodoReactor: Reactor {
     // MARK: Action
     enum Action {
-        case pressEnter
+        case tapCompleteButton
         case changeTodoContent(String)
         case deleteTodo(AnnouncementTodoEntity)
     }
@@ -47,7 +47,7 @@ class EditTodoReactor: Reactor {
     // MARK: Action operation
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
-        case .pressEnter:
+        case .tapCompleteButton:
             return Observable.just(.addTodo)
 
         case let .changeTodoContent(content):
@@ -62,13 +62,15 @@ class EditTodoReactor: Reactor {
         var state = state
         switch mutation {
         case .addTodo:
-            let entity: AnnouncementTodoEntity = .init( // TODO: Add 용 Entity 분리해야겠다
-                id: UUID().uuidString.hashValue,
-                content: state.todoContent, 
-                status: .pending
-            )
-            state.todos.append(entity)
-            state.todoContent = ""
+            if !state.todoContent.isEmpty {
+                let entity: AnnouncementTodoEntity = .init( // TODO: Add 용 Entity 분리해야겠다
+                    id: UUID().uuidString.hashValue,
+                    content: state.todoContent, 
+                    status: .pending
+                )
+                state.todos.append(entity)
+                state.todoContent = ""
+            }
             
         case let .setTodoContent(content):
             state.todoContent = content

@@ -114,8 +114,7 @@ class EditPlaceViewController: BaseViewController<EditPlaceView> {
                 owner.baseView.openGraphImageView.kf.setImage(
                     with: imageURL,
                     options: [
-                        .transition(.fade(0.5)),
-                        .forceRefresh
+                        .transition(.fade(0.5))
                     ]
                 )
             })

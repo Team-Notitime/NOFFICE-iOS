@@ -14,6 +14,4 @@ protocol ButtonFigureTheme {
     func borderWidth() -> CGFloat
     func frame() -> FrameOffset
     func shape() -> AnyShape
-    // for uikit
-    func iconSize() -> FrameOffset
 }
