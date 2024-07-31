@@ -13,6 +13,7 @@ import Foundation
 public enum AnnouncementRemindNotification: Codable, Equatable, Hashable {
     /// Notification to remind before a specified time interval
     case before(TimeInterval)
+    
     /// Custom notification date
     case custom(Date)
     

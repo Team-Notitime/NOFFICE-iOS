@@ -13,8 +13,10 @@ import Foundation
 public struct TodoItemEntity: Codable, Identifiable, Equatable {
     /// Unique identifier for the todo item
     public let id: Int
+    
     /// Contents of the todo item
     public let contents: String
+    
     /// Status of the todo item
     public var status: Status
     

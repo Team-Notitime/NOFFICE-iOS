@@ -13,20 +13,28 @@ import Foundation
 public struct AnnouncementItemEntity: Identifiable, Equatable {
     /// Unique identifier for the todo item
     public let id: Int
+    
     /// Announcement creation date
     public let createdAt: Date?
+    
     /// Image URL for the announcement illustration. (optional)
     public let imageURL: String?
+    
     /// Title of the announcement
     public let title: String
+    
     /// Body text of the announcement
     public let body: String
+    
     /// Event date or deadline (optional)
     public let date: Date?
+    
     /// Place of the announcement (optional)
     public let place: AnnouncementPlaceEntity?
+    
     /// List of todo items (optional)
     public let todos: [AnnouncementTodoEntity]?
+    
     /// Types of reminder notifications (optional)
     public let remindNotification: [AnnouncementRemindNotification]?
     

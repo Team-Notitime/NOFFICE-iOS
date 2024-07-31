@@ -13,8 +13,10 @@ import Foundation
 public struct TodoOrganizationEntity: Codable, Identifiable, Equatable {
     /// Unique identifier for the organization.
     public let id: Int
+    
     /// Name of the organization in Korean.
     public let name: String
+    
     /// List of todos associated with the organization.
     public let todos: [TodoItemEntity]
     

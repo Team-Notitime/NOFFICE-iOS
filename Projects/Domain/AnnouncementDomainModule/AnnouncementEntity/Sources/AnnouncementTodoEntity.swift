@@ -13,8 +13,10 @@ import Foundation
 public struct AnnouncementTodoEntity: Equatable, Identifiable, Hashable {
     /// Unique identifier
     public let id: Int
+    
     /// Content of the todo
     public let content: String
+    
     /// Status of the todo
     public var status: Status
     

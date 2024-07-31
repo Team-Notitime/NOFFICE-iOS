@@ -8,9 +8,16 @@
 import Foundation
 
 public enum AnnouncementTemplateType: CaseIterable, Identifiable, Equatable {
+    /// A page that sets an end date and time.
     case date
+    
+    /// A page that specifies the event location.
     case location
+    
+    /// A page that lists todos that members need to complete by the end date.
     case todo
+    
+    /// A page that configures when to receive reminder push notifications.
     case notification
     
     public var id: Int {

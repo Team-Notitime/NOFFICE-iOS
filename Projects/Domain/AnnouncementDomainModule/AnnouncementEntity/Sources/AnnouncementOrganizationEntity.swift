@@ -13,10 +13,13 @@ import Foundation
 public struct AnnouncementOrganizationEntity: Identifiable, Equatable {
     /// Unique identifier for the organization.
     public let id: Int
+    
     /// Name of the organization in Korean.
     public let name: String
+    
     /// Status of the organization.
     public let status: OrganizationStatus
+    
     /// List of todos associated with the organization.
     public let announcements: [AnnouncementItemEntity]
     

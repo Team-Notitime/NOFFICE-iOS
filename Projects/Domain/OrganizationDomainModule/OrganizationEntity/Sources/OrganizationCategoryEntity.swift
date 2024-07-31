@@ -15,6 +15,7 @@ import Foundation
 public struct OrganizationCategoryEntity: Codable, Identifiable, Equatable {
     /// Category unique ID
     public let id: Int
+    
     /// Category kr name
     public let name: String
     

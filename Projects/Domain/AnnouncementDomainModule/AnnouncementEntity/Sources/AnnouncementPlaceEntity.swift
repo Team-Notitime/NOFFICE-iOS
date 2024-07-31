@@ -13,8 +13,10 @@ import Foundation
 public struct AnnouncementPlaceEntity: Equatable {
     /// Type of the announcement place (offline or online)
     public let type: AnnouncementPlaceType
+    
     /// Name of the place
     public let name: String?
+    
     /// Link to the place
     public let link: String
     

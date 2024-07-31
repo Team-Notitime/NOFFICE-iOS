@@ -13,18 +13,25 @@ import Foundation
 public struct OrganizationEntity: Identifiable, Equatable {
     /// Unique identifier for the organization.
     public let id: Int
+    
     /// Name of the organization.
     public let name: String
+    
     /// List of category IDs associated with the organization.
     public let categories: [Int]
+    
     /// URL of the image associated with the organization (optional).
     public let imageURL: String?
+    
     /// End date of the group's activities (optional).
     public let endDate: Date?
+    
     /// Promotion code for the organization (optional).
     public let promotionCode: String?
+    
     /// Number of leaders participating in the organization.
     public let leader: Int
+    
     /// Number of members participating in the organization.
     public let member: Int
     
