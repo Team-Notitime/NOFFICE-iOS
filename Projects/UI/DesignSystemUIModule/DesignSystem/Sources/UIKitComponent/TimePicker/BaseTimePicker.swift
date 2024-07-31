@@ -226,14 +226,14 @@ public class BaseTimePicker: UIView {
     // MARK: Update
     private func incrementHour() {
         var components = selectedDateComponent ?? DateComponents(hour: 0, minute: 0)
-        components.hour = ((components.hour ?? 0) % 12) + 1
+        components.hour = ((components.hour ?? 0) + 1) % 24
         selectedDateComponent = components
         updateTimePicker()
     }
 
     private func decrementHour() {
         var components = selectedDateComponent ?? DateComponents(hour: 0, minute: 0)
-        components.hour = (((components.hour ?? 0) - 1 + 12) % 12)
+        components.hour = ((components.hour ?? 0) - 1 + 24) % 24
         selectedDateComponent = components
         updateTimePicker()
     }
@@ -260,15 +260,17 @@ public class BaseTimePicker: UIView {
         } else {
             components.hour = (hour % 12) + 12
         }
+//        print(components)
         selectedDateComponent = components
         updateTimePicker()
     }
     
     private func updateTimePicker() {
         let hour = selectedDateComponent?.hour ?? 0
+        print(hour)
         let minute = selectedDateComponent?.minute ?? 0
-        let isPM = hour >= 12
         let adjustedHour = hour % 12 == 0 ? 12 : hour % 12
+        isPM = hour >= 12
 
         // Update the labels (UI logic, for reference only)
         hourLabel.text = String(format: "%d", adjustedHour)

@@ -124,7 +124,7 @@ class ViewController: UIViewController {
             ]
         ),
         Section(
-            title: "Time picker",
+            title: "TimePicker",
             examples: [
                 Example(
                     button: UIButton().then {
