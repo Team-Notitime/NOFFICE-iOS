@@ -14,6 +14,7 @@ struct GetOrganizationListDTO {
         let organizations: [Organization]
     }
     
+    // MARK: Nested DTO
     struct Organization: Codable {
         let id: Int
         let name: String

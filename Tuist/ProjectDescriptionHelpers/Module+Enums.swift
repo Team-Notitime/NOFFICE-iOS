@@ -50,6 +50,7 @@ public enum Module {
     public enum DataInterface: String, CaseIterable {
         case sample = "Sample"
         case organization = "Organization"
+        case announcement = "Announcement"
         
         var name: String { rawValue }
         var bundleIdenifier: String { rawValue.toBundleIdentifier() }
@@ -58,6 +59,7 @@ public enum Module {
     public enum Data: String, CaseIterable {
         case common = "Common"
         case organization = "Organization"
+        case announcement = "Announcement"
         
         var name: String { rawValue }
         var bundleIdenifier: String { rawValue.toBundleIdentifier() }
