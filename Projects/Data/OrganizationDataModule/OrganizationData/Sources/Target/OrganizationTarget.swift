@@ -10,7 +10,7 @@ import Foundation
 import Moya
 
 enum OrganizationTarget {
-    case createOrganization(name: String)
+    case createOrganization(CreateOrganizationDTO.Request)
     case getOrganization(id: Int)
     case joinOrganization(organizationId: Int, userId: Int)
     case getOrganizationList
@@ -29,10 +29,13 @@ extension OrganizationTarget: TargetType {
         switch self {
         case .createOrganization:
             return "/organization"
+            
         case let .getOrganization(id):
             return "/organization/\(id)"
+            
         case let .joinOrganization(organizationId, _):
             return "/organization/\(organizationId)/join"
+            
         case .getOrganizationList:
             return "/organization/list"
         }
@@ -42,6 +45,7 @@ extension OrganizationTarget: TargetType {
         switch self {
         case .createOrganization, .joinOrganization:
             return .post
+            
         case .getOrganization, .getOrganizationList:
             return .get
         }
@@ -53,16 +57,15 @@ extension OrganizationTarget: TargetType {
 
     var task: Task {
         switch self {
-        case .createOrganization(let name):
-            return .requestParameters(
-                parameters: ["name": name],
-                encoding: JSONEncoding.default
-            )
+        case .createOrganization(let dto):
+            return .requestJSONEncodable(dto)
+            
         case .joinOrganization(_, let userId):
             return .requestParameters(
                 parameters: ["userId": userId],
                 encoding: JSONEncoding.default
             )
+            
         case .getOrganization, .getOrganizationList:
             return .requestPlain
         }
