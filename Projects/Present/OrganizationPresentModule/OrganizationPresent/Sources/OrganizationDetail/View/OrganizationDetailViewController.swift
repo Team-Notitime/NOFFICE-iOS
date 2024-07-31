@@ -33,6 +33,13 @@ class OrganizationDetailViewController: BaseViewController<OrganizationDetailVie
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: Life cycle
+    public override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        reactor.action.onNext(.viewDidLoad(organization))
+    }
+    
     // MARK: Setup
     override func setupViewBind() { 
         // - Perform JoinWaitlistButton appearance animation
@@ -41,9 +48,32 @@ class OrganizationDetailViewController: BaseViewController<OrganizationDetailVie
         }
     }
     
-    override func setupStateBind() { }
+    override func setupStateBind() { 
+        // - Bind organization name
+        reactor.state.map { $0.organization?.name }
+            .asDriver(onErrorJustReturn: "")
+            .drive(baseView.organizationNameLabel.rx.text)
+            .disposed(by: disposeBag)
+        
+        // - Bind leader count
+        reactor.state.map { $0.organization?.leader }
+            .compactMap { $0 }
+            .map { "\($0)" }
+            .asDriver(onErrorJustReturn: "")
+            .drive(baseView.leaderCountLabel.rx.text)
+            .disposed(by: disposeBag)
+        
+        // - Bind member count
+        reactor.state.map { $0.organization?.member }
+            .compactMap { $0 }
+            .map { "\($0)" }
+            .asDriver(onErrorJustReturn: "")
+            .drive(baseView.memberCountLabel.rx.text)
+            .disposed(by: disposeBag)
+    }
     
     override func setupActionBind() { 
+        // - Tap navgation bar back button
         baseView.navigationBar
             .onTapBackButton
             .subscribe(onNext: { _ in

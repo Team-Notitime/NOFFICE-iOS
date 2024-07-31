@@ -5,16 +5,24 @@
 //  Created by DOYEON LEE on 7/31/24.
 //
 
+import OrganizationEntity
+
 import ReactorKit
 
 class OrganizationDetailReactor: Reactor {
     // MARK: Action
-    enum Action { }
+    enum Action { 
+        case viewDidLoad(OrganizationEntity)
+    }
     
-    enum Mutation { }
+    enum Mutation { 
+        case setOrganization(OrganizationEntity)
+    }
     
     // MARK: State
-    struct State { }
+    struct State { 
+        var organization: OrganizationEntity?
+    }
     
     let initialState: State = State()
     
@@ -30,12 +38,19 @@ class OrganizationDetailReactor: Reactor {
     
     // MARK: Action operation
     func mutate(action: Action) -> Observable<Mutation> {
-        switch action { }
+        switch action { 
+        case let .viewDidLoad(organization):
+            return .just(.setOrganization(organization))
+        }
     }
     
     func reduce(state: State, mutation: Mutation) -> State {
         var state = state
-        switch mutation { }
+        switch mutation { 
+        case let .setOrganization(organization):
+            state.organization = organization
+            
+        }
         return state
     }
     

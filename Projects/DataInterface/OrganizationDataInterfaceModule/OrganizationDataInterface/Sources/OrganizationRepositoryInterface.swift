@@ -16,7 +16,9 @@ public protocol OrganizationRepositoryInterface {
     /// - Parameter organization: The organization entity containing the details of the organization to be created.
     /// - Returns: An Observable that emits the created OrganizationEntity upon successful creation. 
     /// If the request fails, it emits an ``OrganizationError``.
-    func createOrganization(organization: OrganizationEntity) -> Observable<OrganizationEntity>
+    func createOrganization(
+        organization: NewOrganizationEntity
+    ) -> Observable<OrganizationEntity>
     
     /// Retrieves the details of a specific organization.
     ///

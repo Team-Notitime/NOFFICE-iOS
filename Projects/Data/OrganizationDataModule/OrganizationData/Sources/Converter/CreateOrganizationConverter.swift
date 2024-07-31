@@ -15,12 +15,14 @@ struct CreateOrganizationConverter {
         return OrganizationEntity(
             id: response.data.id,
             name: response.data.name,
-            categories: []
+            categories: [],
+            leader: 1,
+            member: 0
         )
     }
     
     static func convert(
-        from entity: OrganizationEntity
+        from entity: NewOrganizationEntity
     ) -> CreateOrganizationDTO.Request {
         return .init(
             name: entity.name,

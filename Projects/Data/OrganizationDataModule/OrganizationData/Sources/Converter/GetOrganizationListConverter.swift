@@ -19,7 +19,9 @@ struct GetOrganizationListConverter {
                 categories: $0.categories,
                 imageURL: $0.profileImage,
                 endDate: $0.organizationEndAt?.toDate(),
-                promotionCode: $0.promotionCode
+                promotionCode: $0.promotionCode,
+                leader: $0.leader,
+                member: $0.member
             )
         }
     }

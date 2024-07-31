@@ -17,5 +17,7 @@ struct GetOrganizationDTO {
         let profileImage: String?
         let organizationEndAt: String?
         let promotionCode: String?
+        let leader: Int
+        let member: Int
     }
 }

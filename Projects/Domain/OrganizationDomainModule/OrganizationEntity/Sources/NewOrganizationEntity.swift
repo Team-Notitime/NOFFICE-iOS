@@ -1,17 +1,19 @@
 //
-//  OrganizationEntity.swift
+//  NewOrganizationEntity.swift
 //  OrganizationEntity
 //
-//  Created by DOYEON LEE on 7/22/24.
+//  Created by DOYEON LEE on 8/1/24.
 //
 
 import Foundation
 
 /**
- Represents an organization with various attributes.
+ Represents the information of a new organization to be created.
  */
-public struct OrganizationEntity: Identifiable, Equatable {
+public struct NewOrganizationEntity: Identifiable, Equatable {
     /// Unique identifier for the organization.
+    ///
+    /// - Note: that this is not a globally unique value among all organizations, but just a distinguishing identifier.
     public let id: Int
     /// Name of the organization.
     public let name: String
@@ -23,10 +25,6 @@ public struct OrganizationEntity: Identifiable, Equatable {
     public let endDate: Date?
     /// Promotion code for the organization (optional).
     public let promotionCode: String?
-    /// Number of leaders participating in the organization.
-    public let leader: Int
-    /// Number of members participating in the organization.
-    public let member: Int
     
     public init(
         id: Int,
@@ -34,9 +32,7 @@ public struct OrganizationEntity: Identifiable, Equatable {
         categories: [Int],
         imageURL: String? = nil,
         endDate: Date? = nil,
-        promotionCode: String? = nil,
-        leader: Int,
-        member: Int
+        promotionCode: String? = nil
     ) {
         self.id = id
         self.name = name
@@ -44,7 +40,5 @@ public struct OrganizationEntity: Identifiable, Equatable {
         self.imageURL = imageURL
         self.endDate = endDate
         self.promotionCode = promotionCode
-        self.leader = leader
-        self.member = member
     }
 }

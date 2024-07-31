@@ -18,7 +18,7 @@ public struct OrganizationRepository: OrganizationRepositoryInterface {
     private let provider = MoyaProvider<OrganizationTarget>()
 
     public func createOrganization(
-        organization: OrganizationEntity
+        organization: NewOrganizationEntity
     ) -> Observable<OrganizationEntity> {
         let requestDTO = CreateOrganizationConverter.convert(from: organization)
         

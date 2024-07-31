@@ -43,14 +43,12 @@ class OrganizationDetailView: BaseView {
     ) {
         [
             organizationImageView,
-            BaseVStack(spacing: 0) {
+            BaseVStack(spacing: 10) {
                 [
+                    BaseSpacer(),
                     organizationNameLabel,
-                    organizationCategoryLabel,
-                    BaseSpacer(
-                        size: GlobalViewConstant.spacingUnit * 2,
-                        fixedSize: true
-                    )
+                    organizationCategoryBadges,
+                    BaseSpacer()
                 ]
             }
         ]
@@ -71,10 +69,30 @@ class OrganizationDetailView: BaseView {
         $0.textColor = .grey800
     }
     
-    lazy var organizationCategoryLabel = UILabel().then {
-        $0.text = "Skeleton dummy"
-        $0.setTypo(.body2)
-        $0.textColor = .grey700
+    lazy var organizationCategoryBadges = BaseHStack {
+        [
+            BaseBadge(contentsBudiler: {
+                [
+                    UILabel().then {
+                        $0.text = "IT"
+                        $0.setTypo(.body3b)
+                    }
+                ]
+            }).then {
+                $0.styled(color: .green, variant: .weak)
+            },
+            BaseBadge(contentsBudiler: {
+                [
+                    UILabel().then {
+                        $0.text = "창업"
+                        $0.setTypo(.body3b)
+                    }
+                ]
+            }).then {
+                $0.styled(color: .green, variant: .weak)
+            },
+            BaseSpacer()
+        ]
     }
     
     // - Organization participant description
@@ -154,10 +172,6 @@ class OrganizationDetailView: BaseView {
         scrollView.addSubview(stackView)
         
         stackView.addArrangedSubview(organizationProfile)
-        
-        stackView.addArrangedSubview(
-            BaseSpacer(size: GlobalViewConstant.spacingUnit * 3)
-        )
         
         stackView.addArrangedSubview(BaseDivider(color: .grey200))
         

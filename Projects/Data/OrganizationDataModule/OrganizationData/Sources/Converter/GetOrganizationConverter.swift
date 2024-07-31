@@ -18,7 +18,9 @@ struct GetOrganizationConverter {
             categories: response.data.categories,
             imageURL: response.data.profileImage,
             endDate: response.data.organizationEndAt?.toDate(),
-            promotionCode: response.data.promotionCode
+            promotionCode: response.data.promotionCode,
+            leader: response.data.leader,
+            member: response.data.member
         )
     }
 }
