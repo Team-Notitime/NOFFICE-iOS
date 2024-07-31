@@ -7,6 +7,7 @@
 
 import UIKit
 
+import Router
 import DesignSystem
 import OrganizationEntity
 
@@ -33,9 +34,45 @@ class OrganizationDetailViewController: BaseViewController<OrganizationDetailVie
     }
     
     // MARK: Setup
-    override func setupViewBind() { }
+    override func setupViewBind() { 
+        // - Perform JoinWaitlistButton appearance animation
+        DispatchQueue.main.async {
+            self.animateJoinWaitlistButton()
+        }
+    }
     
     override func setupStateBind() { }
     
-    override func setupActionBind() { }
+    override func setupActionBind() { 
+        baseView.navigationBar
+            .onTapBackButton
+            .subscribe(onNext: { _ in
+                Router.shared.back()
+            })
+            .disposed(by: disposeBag)
+    }
+    
+    // MARK: Private
+    /// Button appearance animation with scaling effect
+    private func animateJoinWaitlistButton() {
+        // Initial state
+        baseView.joinWaitlistButton.transform = CGAffineTransform(scaleX: 0.1, y: 0.1)
+        baseView.joinWaitlistButton.alpha = 0.0
+        
+        // Animation
+        UIView.animate(
+            withDuration: 0.7,
+            delay: 1,
+            usingSpringWithDamping: 0.6,
+            initialSpringVelocity: 0.8,
+            options: [.curveEaseInOut],
+            animations: { [weak self] in
+                guard let self = self else { return }
+                
+                baseView.joinWaitlistButton.isHidden = false
+                self.baseView.joinWaitlistButton.transform = CGAffineTransform.identity
+                self.baseView.joinWaitlistButton.alpha = 1.0
+            }, completion: nil
+        )
+    }
 }

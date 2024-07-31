@@ -17,7 +17,7 @@ struct OrganizationTabConverter {
         let sections: [any CompositionalSection] = [
             NewOrganizationSection(
                 items: [
-                    NewOrganizationItem() {
+                    NewOrganizationItem {
                         onTapNewButton()
                     }
                 ]
