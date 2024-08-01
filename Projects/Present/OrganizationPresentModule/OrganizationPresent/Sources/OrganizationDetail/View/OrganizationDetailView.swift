@@ -98,7 +98,7 @@ class OrganizationDetailView: BaseView {
     // - Organization participant description
     lazy var organizationParticipantDescription = BaseHStack(
         alignment: .center,
-        distribution: .equalSpacing
+        distribution: .equalCentering
     ) {
         [
             BaseSpacer(),
