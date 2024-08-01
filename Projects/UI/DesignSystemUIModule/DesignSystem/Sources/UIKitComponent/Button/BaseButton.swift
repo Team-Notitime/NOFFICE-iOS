@@ -16,7 +16,7 @@ public extension BaseButton {
     func styled(
         variant: BasicButtonVariant = .fill,
         color: BasicButtonColor = .green,
-        size: BasicButtonSize = .medium,
+        size: BasicButtonSize = .large,
         shape: BasicButtonShape = .round
     ) {
         let colorTheme = BasicButtonColorTheme(

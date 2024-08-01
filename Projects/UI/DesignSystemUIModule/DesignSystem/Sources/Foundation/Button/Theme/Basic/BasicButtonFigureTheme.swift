@@ -18,8 +18,8 @@ struct BasicButtonFigureTheme: ButtonFigureTheme {
     
     func padding() -> GapOffset {
         switch size {
-        case .large: .init(22, 32)
-        case .medium: .init(16, 24)
+        case .large: .init(18, 32)
+        case .medium: .init(12, 24)
         case .small: .init(10, 16)
         case .xsmall: .init(6, 8)
         }
