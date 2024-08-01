@@ -50,6 +50,7 @@ class OrganizationDetailReactor: Reactor {
             
             let setAnnouncements = getAnnouncementsByGroupUseCase
                 .execute(groupId: organization.id)
+                .delay(.seconds(2), scheduler: MainScheduler.instance)
                 .map { Mutation.setAnnouncements($0) }
             
             return .merge(

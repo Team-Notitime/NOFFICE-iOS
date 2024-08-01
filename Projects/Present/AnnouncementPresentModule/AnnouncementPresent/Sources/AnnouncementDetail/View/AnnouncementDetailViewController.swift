@@ -164,8 +164,6 @@ public class AnnouncementDetailViewController: BaseViewController<AnnouncementDe
         baseView.titleLabel.linesCornerRadius = SkeletonConstant.LineCornerRadius
         
         baseView.createdDateLabel.skeletonTextLineHeight = .relativeToFont
-        baseView.createdDateLabel.skeletonCornerRadius = 12
-        baseView.createdDateLabel.skeletonCornerRadius = 12
         baseView.createdDateLabel.linesCornerRadius = SkeletonConstant.LineCornerRadius
 
         baseView.eventDateLabel.skeletonTextNumberOfLines = 1

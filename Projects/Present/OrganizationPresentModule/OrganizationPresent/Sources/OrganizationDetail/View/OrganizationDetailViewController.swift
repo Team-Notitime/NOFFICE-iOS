@@ -16,6 +16,9 @@ import RxCocoa
 import Swinject
 
 class OrganizationDetailViewController: BaseViewController<OrganizationDetailView> {
+    // MARK: Constant
+    private static let AnnouncementSkeletonItemCount = 3
+    
     // MARK: Reactor
     private let reactor = Container.shared.resolve(OrganizationDetailReactor.self)!
     
@@ -46,6 +49,27 @@ class OrganizationDetailViewController: BaseViewController<OrganizationDetailVie
         DispatchQueue.main.async {
             self.animateJoinWaitlistButton()
         }
+        
+        // - Add collection view skeleton
+        baseView.announcementsCollectionView.snp.updateConstraints {
+            $0.height.equalTo(
+                CGFloat(Self.AnnouncementSkeletonItemCount)
+                * (AnnouncementSection.ItemHeight
+                   + AnnouncementSection.GroupSpacing)
+            )
+        }
+        
+        Observable.just(
+            [
+                AnnouncementSection(
+                    items: (0...Self.AnnouncementSkeletonItemCount)
+                        .map { _ in AnnouncementSkeletonItem() }
+                )
+            ]
+        )
+        .debug()
+        .bind(to: baseView.announcementsCollectionView.sectionBinder)
+        .disposed(by: disposeBag)
     }
     
     override func setupStateBind() { 
@@ -73,6 +97,7 @@ class OrganizationDetailViewController: BaseViewController<OrganizationDetailVie
         
         // - Bind announcement
         reactor.state.map { $0.announcements }
+            .filter { !$0.isEmpty }
             .withUnretained(self)
             .map { owner, announcements in
                 // Adjust announcement collection view height

@@ -166,6 +166,8 @@ final class AnnouncementItemCell: UIView, CompositionalItemCell {
     
     private func setup() {
         backgroundColor = .fullWhite
+        layer.cornerRadius = RoundedConstant.Xlarge
+        layer.masksToBounds = true
         
         addSubview(stackView)
         
