@@ -50,15 +50,7 @@ class OrganizationDetailViewController: BaseViewController<OrganizationDetailVie
             self.animateJoinWaitlistButton()
         }
         
-        // - Add collection view skeleton
-        baseView.announcementsCollectionView.snp.updateConstraints {
-            $0.height.equalTo(
-                CGFloat(Self.AnnouncementSkeletonItemCount)
-                * (AnnouncementSection.ItemHeight
-                   + AnnouncementSection.GroupSpacing)
-            )
-        }
-        
+        // - Add collection view skeleton        
         Observable.just(
             [
                 AnnouncementSection(
@@ -98,18 +90,6 @@ class OrganizationDetailViewController: BaseViewController<OrganizationDetailVie
         // - Bind announcement
         reactor.state.map { $0.announcements }
             .filter { !$0.isEmpty }
-            .withUnretained(self)
-            .map { owner, announcements in
-                // Adjust announcement collection view height
-                owner.baseView.announcementsCollectionView.snp.updateConstraints {
-                    $0.height.equalTo(
-                        CGFloat(announcements.count) 
-                        * (AnnouncementSection.ItemHeight
-                           + AnnouncementSection.GroupSpacing)
-                    )
-                }
-                return announcements
-            }
             .map(OrganizationDetailConverter.convert)
             .bind(to: baseView.announcementsCollectionView.sectionBinder)
             .disposed(by: disposeBag)

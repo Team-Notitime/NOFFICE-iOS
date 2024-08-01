@@ -30,9 +30,16 @@ final public class CompositionalCollectionView:
         }
     }
     
+    /// Indicates whether the collection view can scroll. If false, the collection view will not scroll.
+    /// - Note: When scrolling is disabled, the height of the collection view is automatically calculated and applied.
     public var isScrollEnabled: Bool = true {
         didSet {
             collectionView.isScrollEnabled = isScrollEnabled
+            
+            // Calculate and set height when scrolling is disabled
+            if !isScrollEnabled {
+                setCollectionViewHeightToSelf()
+            }
         }
     }
     
@@ -222,6 +229,11 @@ final public class CompositionalCollectionView:
             snapshot,
             animatingDifferences: animatingDifferences
         )
+        
+        // Calculate and set height when scrolling is disabled
+        if !isScrollEnabled {
+            setCollectionViewHeightToSelf()
+        }
     }
     
     // MARK: Setup
@@ -254,4 +266,94 @@ final public class CompositionalCollectionView:
             withReuseIdentifier: self.reusableViewIdentifier
         )
     }
+    
+    // MARK: Calculate height when scroll disabled
+    private func setCollectionViewHeightToSelf() {
+        guard let collectionView = collectionView else { return }
+        
+        var totalHeight: CGFloat = 0
+        
+        for sectionIndex in sections.indices {
+            let layout = collectionView.collectionViewLayout as? UICollectionViewCompositionalLayout
+            let section = sections[sectionIndex]
+            
+            let sectionLayout = section.wrappee.layout
+            
+            // Assuming layout's height can be calculated from sectionLayout
+            let sectionHeight = calculateSectionHeight(
+                for: sectionLayout,
+                itemCount: section.wrappee.items.count
+            )
+            totalHeight += sectionHeight
+        }
+        
+        self.snp.remakeConstraints {
+            $0.height.equalTo(totalHeight)
+        }
+        
+        self.layoutIfNeeded()
+    }
+
+    private func calculateSectionHeight(
+        for layout: CompositionalLayout,
+        itemCount: Int
+    ) -> CGFloat {
+        var sectionHeight: CGFloat = 0
+
+        let groupLayout = layout.groupLayout
+
+        // Track the maximum item height in the group
+        var maxItemHeight: CGFloat = 0
+
+        // Calculate height for each group in the section
+        for itemLayout in groupLayout.items {
+            switch itemLayout {
+            case .item(let size):
+                // Track the maximum item height
+                maxItemHeight = max(maxItemHeight, size.height.dimension)
+            case .group(let nestedGroupLayout):
+                // Recursively calculate height for nested groups
+                sectionHeight += calculateSectionHeight(
+                    for: CompositionalLayout(
+                        groupLayout: nestedGroupLayout,
+                        headerSize: nil,
+                        footerSize: nil,
+                        sectionInset: layout.sectionInset,
+                        scrollBehavior: layout.scrollBehavior
+                    ),
+                    itemCount: itemCount
+                )
+            }
+        }
+
+        // Decide on item height to add based on scrollBehavior
+        if layout.scrollBehavior == .none {
+            // Add height of all items
+            sectionHeight += maxItemHeight * CGFloat(itemCount)
+        } else {
+            // Add height of only the maximum item
+            sectionHeight += maxItemHeight
+        }
+
+        // Add group spacing (if there's more than one item)
+        if itemCount > 1 {
+            sectionHeight += groupLayout.groupSpacing * CGFloat(itemCount - 1)
+        }
+
+        // Add section inset
+        sectionHeight += layout.sectionInset.top + layout.sectionInset.bottom
+
+        // Add header height if present
+        if let headerSize = layout.headerSize {
+            sectionHeight += headerSize.height.dimension
+        }
+
+        // Add footer height if present
+        if let footerSize = layout.footerSize {
+            sectionHeight += footerSize.height.dimension
+        }
+
+        return sectionHeight
+    }
+
 }

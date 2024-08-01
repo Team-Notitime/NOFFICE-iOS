@@ -104,17 +104,6 @@ public class AnnouncementDetailViewController: BaseViewController<AnnouncementDe
             .observe(on: MainScheduler.asyncInstance)
             .bind(to: baseView.todoListCollectionView.sectionBinder)
             .disposed(by: disposeBag)
-        
-        reactor.state.map { $0.announcementItem }
-            .compactMap { $0 }
-            .map { $0.todos ?? [] }
-            .subscribe(with: self, onNext: { owner, todos in
-                owner.baseView.todoListCollectionView.snp.updateConstraints {
-                    $0.height.equalTo(todos.count * 50)
-                }
-            })
-            .disposed(by: disposeBag)
-        
     }
     
     public override func setupActionBind() { 
