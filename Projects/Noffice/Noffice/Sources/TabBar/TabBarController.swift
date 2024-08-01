@@ -162,9 +162,7 @@ final class TabBarController: UITabBarController {
 
         announceTapGesture.rx.event
             .bind { _ in
-                Router.shared.presentFullScreen(
-                    NewAnnouncementFunnelViewController()
-                )
+                Router.shared.presentFullScreen(.newAnnouncement)
             }
             .disposed(by: disposeBag)
         

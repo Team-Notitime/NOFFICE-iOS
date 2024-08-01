@@ -137,6 +137,7 @@ class OrganizationDetailView: BaseView {
             UILabel().then {
                 $0.text = "가입을 대기 중인 멤버가 있어요!"
                 $0.setTypo(.body1b)
+                $0.textAlignment = .center
             }
         ]
     }.then {

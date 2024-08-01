@@ -18,6 +18,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     ) -> Bool {
         InjectIIIConfig.setup()
         FontConfig.setup()
+        RouterConfig.setup()
         
         return true
     }

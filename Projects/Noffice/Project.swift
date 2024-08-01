@@ -6,11 +6,8 @@ let project = Project.makeMainApp(
     dependencies: [
         .ui(.designSystem),
         .ui(.assets),
-        .present(.home),
-        .present(.organization),
-        .present(.mypage),
-        .present(.signup),
-        .present(.newAnnouncement),
         .di(.router)
-    ]
+    ] + Module.Present.allCases.map {
+        .present($0)
+    }
 )

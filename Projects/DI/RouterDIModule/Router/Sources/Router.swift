@@ -11,7 +11,14 @@ import UIKit
 final public class Router: UINavigationController {
     public static let shared = Router()
     
-    private var presentNavigationController: UINavigationController?
+    var presentNavigationController: UINavigationController?
+    
+    public var resolvePresentable: (Presentable) -> UIViewController = { _ in
+        fatalError("""
+                    `resolvePresentable` must be set before using Router.
+                    Check the RouterConfig in main app target.
+                    """)
+    }
     
     private init() {
         super.init(nibName: nil, bundle: nil)
@@ -41,43 +48,50 @@ final public class Router: UINavigationController {
     }
     
     /// Pops the top view controller from the navigation stack
-    public func back() {
+    public func back(animated: Bool = true) {
         if !viewControllers.isEmpty {
-            popViewController(animated: true)
+            popViewController(animated: animated)
         }
     }
     
     /// Pops all the view controllers on the stack except the root view controller
-    public func backToRoot() {
-        popToRootViewController(animated: true)
+    public func backToRoot(animated: Bool = true) {
+        popToRootViewController(animated: animated)
     }
     
     // MARK: Present
     /// Presents a view from bottom to top
-    public func present(_ viewController: UIViewController) {
-        present(viewController, animated: true, completion: nil)
+    public func present(
+        _ viewController: UIViewController,
+        animated: Bool = true
+    ) {
+        present(viewController, animated: animated, completion: nil)
     }
     
     /// Presents a view in full screen mode from bottom to top
-    public func presentFullScreen(_ viewController: UIViewController) {
-        let navigationController = UINavigationController(rootViewController: viewController)
+    public func presentFullScreen(
+        _ destination: UIViewController,
+        animated: Bool = true
+    ) {
+        let navigationController = UINavigationController(rootViewController: destination)
         navigationController.modalPresentationStyle = .fullScreen
         navigationController.navigationBar.isHidden = true
-        present(navigationController, animated: true, completion: nil)
+        present(navigationController, animated: animated, completion: nil)
         presentNavigationController = navigationController
     }
     
     /// Pushes a view controller on the stack when in a presented state (right to left)
     public func pushToPresent(
-        _ viewController: UIViewController
+        _ destination: UIViewController,
+        animated: Bool = true
     ) {
-        presentNavigationController?.pushViewController(viewController, animated: true)
+        presentNavigationController?.pushViewController(destination, animated: animated)
     }
     
     /// Dismisses the presented view
-    public func dismiss() {
+    public func dismiss(animated: Bool = true) {
         if !viewControllers.isEmpty {
-            dismiss(animated: true, completion: nil)
+            dismiss(animated: animated, completion: nil)
         }
         
         presentNavigationController = nil
@@ -89,13 +103,16 @@ final public class Router: UINavigationController {
     }
     
     /// Presents a bottom sheet
-    public func bottomSheet(_ viewController: UIViewController) {
+    public func bottomSheet(
+        _ destination: UIViewController,
+        animated: Bool = true
+    ) {
         if #available(iOS 15.0, *) {
-            viewController.modalPresentationStyle = .pageSheet
+            destination.modalPresentationStyle = .pageSheet
         } else {
-            viewController.modalPresentationStyle = .formSheet
+            destination.modalPresentationStyle = .formSheet
         }
-        present(viewController, animated: true, completion: nil)
+        present(destination, animated: animated, completion: nil)
     }
     
     // MARK: Web view

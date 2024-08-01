@@ -17,7 +17,7 @@ import Swinject
 
 class OrganizationDetailViewController: BaseViewController<OrganizationDetailView> {
     // MARK: Constant
-    private static let AnnouncementSkeletonItemCount = 3
+    private static let AnnouncementSkeletonItemCount = 2
     
     // MARK: Reactor
     private let reactor = Container.shared.resolve(OrganizationDetailReactor.self)!
@@ -54,7 +54,7 @@ class OrganizationDetailViewController: BaseViewController<OrganizationDetailVie
         Observable.just(
             [
                 AnnouncementSection(
-                    items: (0...Self.AnnouncementSkeletonItemCount)
+                    items: (0..<Self.AnnouncementSkeletonItemCount)
                         .map { _ in AnnouncementSkeletonItem() }
                 )
             ]

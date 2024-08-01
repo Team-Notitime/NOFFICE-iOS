@@ -9,7 +9,6 @@ import UIKit
 
 import Router
 import DesignSystem
-import AnnouncementPresent
 import AnnouncementEntity
 
 import RxSwift
@@ -45,10 +44,11 @@ class AnnouncementPageViewController: BaseViewController<AnnouncementPageView> {
                     .convertToOrganizationSections(
                         organizations
                     ) { announcement in
-                        let detailViewController = AnnouncementDetailViewController(
-                            announcement: announcement
+                        Router.shared.push(
+                            .announcementDetail(
+                                announcementEntity: announcement
+                            )
                         )
-                        Router.shared.push(detailViewController)
                     }
             }
             .bind(to: baseView.collectionView.sectionBinder)
