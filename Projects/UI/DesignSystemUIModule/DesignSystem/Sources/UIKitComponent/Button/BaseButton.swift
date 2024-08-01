@@ -231,9 +231,11 @@ public class BaseButton: UIControl {
     }
     
     override public func endTracking(_ touch: UITouch?, with event: UIEvent?) {
-        UIView.transition(
-            with: self,
-            duration: 0.2,
+        UIView.animate(
+            withDuration: 0.2,
+            delay: 0,
+            usingSpringWithDamping: 0.7,
+            initialSpringVelocity: 0.9,
             options: [.curveEaseInOut],
             animations: { [weak self] in
                 guard let self = self else { return }
