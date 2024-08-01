@@ -16,10 +16,10 @@ struct TodoSection: CompositionalSection {
     var layout: CompositionalLayout {
         .init(
             groupLayout: .init(
-                size: .init(width: .fractionalWidth(1.0), height: .estimated(42)),
+                size: .init(width: .fractionalWidth(1.0), height: .estimated(48)),
                 groupSpacing: 8,
                 items: [
-                    .item(size: .init(width: .fractionalWidth(1.0), height: .estimated(42)))
+                    .item(size: .init(width: .fractionalWidth(1.0), height: .estimated(48)))
                 ],
                 itemSpacing: 0
             ),

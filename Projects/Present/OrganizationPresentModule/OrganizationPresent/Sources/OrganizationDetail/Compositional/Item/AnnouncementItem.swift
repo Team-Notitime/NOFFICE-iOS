@@ -189,6 +189,7 @@ final class AnnouncementItemCell: UIView, CompositionalItemCell {
     }
     
     func configure(with item: AnnouncementItem) {
+        // - Bind data
         titleLabel.text = item.title
         
         bodyLabel.text = item.body
@@ -216,5 +217,11 @@ final class AnnouncementItemCell: UIView, CompositionalItemCell {
         
         createdDateLabel.text = item.createdDate
             .toString(format: "yyyy.MM.dd(EE) HH:mm")
+        
+        // - Bind action
+        self.rx.tapGesture()
+            .when(.recognized)
+            .bind { _ in item.onTap() }
+            .disposed(by: disposeBag)
     }
 }

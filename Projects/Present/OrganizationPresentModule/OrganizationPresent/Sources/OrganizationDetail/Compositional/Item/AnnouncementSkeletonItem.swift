@@ -40,6 +40,7 @@ final class AnnouncementSkeletonItemCell: UIView, CompositionalItemCell {
     
     // - Title
     private lazy var titleLabel = UILabel().then {
+        $0.text = " " // for skeleton size
         $0.setTypo(.body0b)
         $0.numberOfLines = 1
         $0.textColor = .grey800
@@ -48,18 +49,38 @@ final class AnnouncementSkeletonItemCell: UIView, CompositionalItemCell {
     // - Badge stack view
     private lazy var badgeStackView = BaseHStack(alignment: .leading) {
         [
-            BaseSpacer()
+            dummyBadge
         ]
+    }
+    
+    // - Place badge
+    private lazy var dummyBadge = BaseBadge {
+        [
+            UIImageView(image: .iconCalendar).then {
+                $0.setSize(width: Self.BadgeIconSize, height: Self.BadgeIconSize)
+            },
+            dummyBadgeLabel
+        ]
+    }.then {
+        $0.styled(color: .yellow, variant: .weak)
+        $0.layer.opacity = 0.01
+    }
+    
+    private lazy var dummyBadgeLabel = UILabel().then {
+        $0.text = " " // for skeleton size
+        $0.setTypo(Self.BadgeLabelTypo)
     }
     
     // - Body
     private lazy var bodyLabel = UILabel().then {
+        $0.text = " \n  " // for skeleton size
         $0.setTypo(.body2)
         $0.numberOfLines = 2
         $0.textColor = .grey600
     }
     
     private lazy var createdDateLabel = UILabel().then {
+        $0.text = " " // for skeleton size
         $0.setTypo(.body3)
         $0.textColor = .grey400
     }
@@ -118,6 +139,8 @@ final class AnnouncementSkeletonItemCell: UIView, CompositionalItemCell {
         bodyLabel.isSkeletonable = true
         bodyLabel.skeletonTextLineHeight = .relativeToFont
         bodyLabel.linesCornerRadius = SkeletonConstant.LineCornerRadius
+        bodyLabel.skeletonTextNumberOfLines = 2
+        bodyLabel.lastLineFillPercent = 80
         
         createdDateLabel.isSkeletonable = true
         createdDateLabel.skeletonTextLineHeight = .relativeToFont
@@ -126,12 +149,6 @@ final class AnnouncementSkeletonItemCell: UIView, CompositionalItemCell {
         // Start skeleton animation
         DispatchQueue.main.async { [weak self] in
             self?.stackView.showAnimatedGradientSkeleton()
-            
-            self?.titleLabel.text = "Skeleton dummy"
-            
-            self?.bodyLabel.text = "Skeleton dummy \n \n"
-            
-            self?.createdDateLabel.text = "Skeleton dummy"
         }
     }
 }

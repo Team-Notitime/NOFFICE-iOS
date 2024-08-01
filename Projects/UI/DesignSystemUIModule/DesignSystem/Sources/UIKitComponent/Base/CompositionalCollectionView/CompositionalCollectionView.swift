@@ -271,20 +271,15 @@ final public class CompositionalCollectionView:
     private func setCollectionViewHeightToSelf() {
         guard let collectionView = collectionView else { return }
         
-        var totalHeight: CGFloat = 0
-        
-        for sectionIndex in sections.indices {
-            let layout = collectionView.collectionViewLayout as? UICollectionViewCompositionalLayout
-            let section = sections[sectionIndex]
-            
+        let totalHeight = sections.enumerated().reduce(0) { totalHeight, sectionInfo in
+            let (sectionIndex, section) = sectionInfo
             let sectionLayout = section.wrappee.layout
-            
-            // Assuming layout's height can be calculated from sectionLayout
             let sectionHeight = calculateSectionHeight(
                 for: sectionLayout,
-                itemCount: section.wrappee.items.count
+                items: section.wrappee.items,
+                sectionIndex: sectionIndex
             )
-            totalHeight += sectionHeight
+            return totalHeight + sectionHeight
         }
         
         self.snp.remakeConstraints {
@@ -296,64 +291,81 @@ final public class CompositionalCollectionView:
 
     private func calculateSectionHeight(
         for layout: CompositionalLayout,
-        itemCount: Int
+        items: [any CompositionalItem],
+        sectionIndex: Int
     ) -> CGFloat {
-        var sectionHeight: CGFloat = 0
-
-        let groupLayout = layout.groupLayout
-
-        // Track the maximum item height in the group
-        var maxItemHeight: CGFloat = 0
-
-        // Calculate height for each group in the section
-        for itemLayout in groupLayout.items {
-            switch itemLayout {
-            case .item(let size):
-                // Track the maximum item height
-                maxItemHeight = max(maxItemHeight, size.height.dimension)
-            case .group(let nestedGroupLayout):
-                // Recursively calculate height for nested groups
-                sectionHeight += calculateSectionHeight(
-                    for: CompositionalLayout(
-                        groupLayout: nestedGroupLayout,
-                        headerSize: nil,
-                        footerSize: nil,
-                        sectionInset: layout.sectionInset,
-                        scrollBehavior: layout.scrollBehavior
-                    ),
-                    itemCount: itemCount
-                )
-            }
-        }
-
-        // Decide on item height to add based on scrollBehavior
-        if layout.scrollBehavior == .none {
-            // Add height of all items
-            sectionHeight += maxItemHeight * CGFloat(itemCount)
-        } else {
-            // Add height of only the maximum item
-            sectionHeight += maxItemHeight
-        }
-
-        // Add group spacing (if there's more than one item)
-        if itemCount > 1 {
-            sectionHeight += groupLayout.groupSpacing * CGFloat(itemCount - 1)
-        }
-
-        // Add section inset
-        sectionHeight += layout.sectionInset.top + layout.sectionInset.bottom
-
-        // Add header height if present
-        if let headerSize = layout.headerSize {
-            sectionHeight += headerSize.height.dimension
-        }
-
-        // Add footer height if present
-        if let footerSize = layout.footerSize {
-            sectionHeight += footerSize.height.dimension
-        }
-
-        return sectionHeight
+        let groupHeight = calculateGroupHeight(
+            groupLayout: layout.groupLayout,
+            items: items,
+            sectionIndex: sectionIndex,
+            scrollBehavior: layout.scrollBehavior
+        )
+        
+        let insetHeight = layout.sectionInset.top + layout.sectionInset.bottom
+        let headerHeight = layout.headerSize?.height.dimension ?? 0
+        let footerHeight = layout.footerSize?.height.dimension ?? 0
+        
+        return groupHeight + insetHeight + headerHeight + footerHeight
     }
 
+    private func calculateGroupHeight(
+        groupLayout: CompositionalGroupLayout,
+        items: [any CompositionalItem],
+        sectionIndex: Int,
+        scrollBehavior: UICollectionLayoutSectionOrthogonalScrollingBehavior
+    ) -> CGFloat {
+        let itemSizes = items.indices.map { itemIndex in
+            let indexPath = IndexPath(item: itemIndex, section: sectionIndex)
+            return calculateContentBasedSize(for: indexPath)
+        }
+        
+        var totalHeight: CGFloat
+        
+        if scrollBehavior == .none {
+            // Sum all item heights when scrolling is disabled
+            totalHeight = itemSizes.reduce(0) { $0 + $1.height }
+            
+            // Add item spacing
+            if items.count > 1 {
+                totalHeight += groupLayout.itemSpacing * CGFloat(items.count - 1)
+            }
+        } else {
+            // Use the height of the tallest item when horizontal scrolling is enabled
+            totalHeight = itemSizes.map { $0.height }.max() ?? 0
+        }
+        
+        // Add group spacing if there are multiple items and scrolling is disabled
+        if scrollBehavior == .none && items.count > 1 {
+            totalHeight += groupLayout.groupSpacing * CGFloat(items.count - 1)
+        }
+        
+        return totalHeight
+    }
+
+    private func calculateContentBasedSize(for indexPath: IndexPath) -> CGSize {
+        guard let section = sections[safe: indexPath.section],
+              let item = section.wrappee.items[safe: indexPath.item] else {
+            return .zero
+        }
+        
+        let containerCell = CollectionViewItemCellContainer()
+        let cellType = item.cellType
+        let cell = cellType.init()
+        containerCell.setContainedCell(cell)
+        containerCell.configure(with: item)
+        
+        containerCell.contentView.setNeedsLayout()
+        containerCell.contentView.layoutIfNeeded()
+        
+        let size = containerCell.contentView.systemLayoutSizeFitting(
+            CGSize(
+                width: collectionView.bounds.width,
+                height: UIView.layoutFittingCompressedSize.height
+            ),
+            withHorizontalFittingPriority: .required,
+            verticalFittingPriority: .fittingSizeLevel
+        )
+        
+        return size
+    }
 }

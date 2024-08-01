@@ -56,7 +56,9 @@ public struct GetAnnouncementsByGroup {
             todos: [
                 .init(id: 1, content: "프레젠테이션 자료 준비", status: .pending),
                 .init(id: 2, content: "팀 미팅 진행", status: .done),
-                .init(id: 3, content: "팀 미팅 진생상황 보고", status: .done)
+                .init(id: 3, content: "팀 미팅 진행상황 보고", status: .done),
+                .init(id: 4, content: "피드백 문서 정리", status: .pending),
+                .init(id: 5, content: "테스터 모집 테스터 모집 테스터 모집 테스터 모집 테스터 모집 테스터 모집 테스터 모집 테스터 모집 테스터 모집 테스터 모집 테스터 모집 테스터 모집 테스터 모집 테스터 모집 테스터 모집 테스터 모집", status: .done)
             ]
         ),
 

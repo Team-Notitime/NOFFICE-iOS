@@ -87,10 +87,18 @@ class OrganizationDetailViewController: BaseViewController<OrganizationDetailVie
             .drive(baseView.memberCountLabel.rx.text)
             .disposed(by: disposeBag)
         
-        // - Bind announcement
+        // - Bind announcement list
         reactor.state.map { $0.announcements }
             .filter { !$0.isEmpty }
-            .map(OrganizationDetailConverter.convert)
+            .map {
+                OrganizationDetailConverter.convert(from: $0) { announcement in
+                    Router.shared.push(
+                        .announcementDetail(
+                            announcementEntity: announcement
+                        )
+                    )
+                }
+            }
             .bind(to: baseView.announcementsCollectionView.sectionBinder)
             .disposed(by: disposeBag)
     }
