@@ -20,7 +20,13 @@ open class BaseViewController<View: BaseView>:
     public var disposeBag = DisposeBag()
     
     public var baseView: View {
-        return view as! View
+        guard let view = view as? View else {
+            fatalError("""
+                        Expected view to be of type \(View.self), 
+                        but got \(String(describing: type(of: view))) instead.
+                        """)
+        }
+        return view
     }
     
     public init() {

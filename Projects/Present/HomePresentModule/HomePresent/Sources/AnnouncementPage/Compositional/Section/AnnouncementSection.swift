@@ -23,7 +23,7 @@ struct AnnouncementSection: CompositionalSection {
             .item(
                 size: .init(
                     width: .fractionalWidth(1.0),
-                    height: .estimated(ComponentConstant.organizationCardHeight)
+                    height: .estimated(ComponentConstant.OrganizationCardHeight)
                 )
             )
         ]
@@ -32,13 +32,13 @@ struct AnnouncementSection: CompositionalSection {
             .item(
                 size: .init(
                     width: .fractionalWidth(0.75),
-                    height: .estimated(ComponentConstant.organizationCardHeight)
+                    height: .estimated(ComponentConstant.OrganizationCardHeight)
                 )
             ),
             .item(
                 size: .init(
                     width: .fractionalWidth(0.25),
-                    height: .estimated(ComponentConstant.organizationCardHeight)
+                    height: .estimated(ComponentConstant.OrganizationCardHeight)
                 )
             )
         ]
@@ -47,18 +47,18 @@ struct AnnouncementSection: CompositionalSection {
             groupLayout: .init(
                 size: .init(
                     width: scrollDisabled ? .fractionalWidth(1.0) : .fractionalWidth(0.7),
-                    height: .estimated(ComponentConstant.organizationCardHeight)
+                    height: .estimated(ComponentConstant.OrganizationCardHeight)
                 ),
-                groupSpacing: GlobalViewConstant.pagePadding,
+                groupSpacing: GlobalViewConstant.PagePadding,
                 items: scrollDisabled ? nonScrollItemLayout : scrollItemLayout,
-                itemSpacing: GlobalViewConstant.pagePadding
+                itemSpacing: GlobalViewConstant.PagePadding
             ),
             headerSize: .init(width: .fractionalWidth(1.0), height: .absolute(72)),
             sectionInset: .init(
                 top: 0,
-                leading: GlobalViewConstant.pagePadding,
+                leading: GlobalViewConstant.PagePadding,
                 bottom: 0,
-                trailing: scrollDisabled ? 0 : GlobalViewConstant.pagePadding
+                trailing: scrollDisabled ? 0 : GlobalViewConstant.PagePadding
             ),
             scrollBehavior: scrollDisabled ? .none : .groupPaging
         )

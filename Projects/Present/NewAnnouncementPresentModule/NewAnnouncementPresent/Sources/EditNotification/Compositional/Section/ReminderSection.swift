@@ -18,7 +18,7 @@ struct ReminderSection: CompositionalSection {
                     width: .fractionalWidth(1.0),
                     height: .estimated(29)
                 ),
-                groupSpacing: GlobalViewConstant.pagePadding / 2,
+                groupSpacing: GlobalViewConstant.PagePadding / 2,
                 items: [
                     .item(
                         size: .init(
@@ -27,13 +27,13 @@ struct ReminderSection: CompositionalSection {
                         )
                     )
                 ],
-                itemSpacing: GlobalViewConstant.pagePadding / 2
+                itemSpacing: GlobalViewConstant.PagePadding / 2
             ),
             sectionInset: .init(
                 top: 0,
-                leading: GlobalViewConstant.pagePadding,
+                leading: GlobalViewConstant.PagePadding,
                 bottom: 8,
-                trailing: GlobalViewConstant.pagePadding
+                trailing: GlobalViewConstant.PagePadding
             ),
             scrollBehavior: .none
         )

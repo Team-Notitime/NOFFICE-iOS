@@ -81,7 +81,7 @@ class EditNotificationView: BaseView {
         header.snp.makeConstraints {
             $0.top.equalToSuperview()
             $0.left.right.equalToSuperview()
-                .inset(GlobalViewConstant.pagePadding)
+                .inset(GlobalViewConstant.PagePadding)
         }
         
         reminderCollectionView.snp.makeConstraints {
@@ -98,9 +98,9 @@ class EditNotificationView: BaseView {
         
         saveButton.snp.makeConstraints {
             $0.left.right.equalToSuperview()
-                .inset(GlobalViewConstant.pagePadding)
+                .inset(GlobalViewConstant.PagePadding)
             $0.bottom.equalTo(safeAreaLayoutGuide.snp.bottom)
-                .inset(FunnelConstant.spacingUnit)
+                .inset(FunnelConstant.SpacingUnit)
         }
     }
 }

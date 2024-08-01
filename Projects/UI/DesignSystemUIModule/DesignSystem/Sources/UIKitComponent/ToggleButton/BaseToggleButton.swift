@@ -62,8 +62,6 @@ public class BaseToggleButton<Option>: UIControl, ToggleButton where Option: Equ
         }
     }
     
-    // MARK: UI Constant
-    
     // MARK: UI Component
     private lazy var backgroundView = UIView().then {
         $0.isUserInteractionEnabled = true

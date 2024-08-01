@@ -188,7 +188,7 @@ class EditPlaceView: BaseView {
             $0.top.equalTo(navigationBar.snp.bottom)
             $0.bottom.equalToSuperview()
             $0.left.right.equalToSuperview()
-                .inset(GlobalViewConstant.pagePadding)
+                .inset(GlobalViewConstant.PagePadding)
         }
         
         header.snp.makeConstraints {
@@ -203,7 +203,7 @@ class EditPlaceView: BaseView {
         
         placeNameLabel.snp.makeConstraints {
             $0.top.equalTo(placeTypeSegmentControl.snp.bottom)
-                .offset(FunnelConstant.spacingUnit * 4)
+                .offset(FunnelConstant.SpacingUnit * 4)
             $0.left.equalToSuperview()
             $0.width.equalTo(30)
         }
@@ -217,7 +217,7 @@ class EditPlaceView: BaseView {
         
         placeLinkLabel.snp.makeConstraints {
             $0.top.equalTo(placeNameTextField.snp.bottom)
-                .offset(FunnelConstant.spacingUnit * 2)
+                .offset(FunnelConstant.SpacingUnit * 2)
             $0.left.equalToSuperview()
             $0.width.equalTo(30)
         }
@@ -231,7 +231,7 @@ class EditPlaceView: BaseView {
         
         openGraphCard.snp.makeConstraints {
             $0.top.equalTo(placeLinkTextField.snp.bottom)
-                .offset(FunnelConstant.spacingUnit)
+                .offset(FunnelConstant.SpacingUnit)
             $0.left.equalToSuperview()
                 .inset(32)
             $0.right.equalToSuperview()
@@ -239,9 +239,9 @@ class EditPlaceView: BaseView {
         
         saveButton.snp.makeConstraints {
             $0.left.right.equalToSuperview()
-                .inset(GlobalViewConstant.pagePadding)
+                .inset(GlobalViewConstant.PagePadding)
             $0.bottom.equalTo(safeAreaLayoutGuide.snp.bottom)
-                .inset(FunnelConstant.spacingUnit)
+                .inset(FunnelConstant.SpacingUnit)
         }
     }
 }

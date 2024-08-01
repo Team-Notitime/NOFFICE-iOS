@@ -73,33 +73,33 @@ public class SignupRealNamePageView: BaseView {
         contentView.snp.makeConstraints {
             $0.top.bottom.equalToSuperview()
             $0.left.right.equalToSuperview()
-                .inset(GlobalViewConstant.pagePadding)
+                .inset(GlobalViewConstant.PagePadding)
         }
         
         pageTitleFirstLineLabel.snp.makeConstraints {
             $0.top.equalToSuperview()
-                .offset(FunnelConstant.spacingUnit * 2)
+                .offset(FunnelConstant.SpacingUnit * 2)
             $0.left.right.equalToSuperview()
-                .inset(FunnelConstant.additionalPadding)
+                .inset(FunnelConstant.AdditionalPadding)
         }
         
         pageTitleSecondLineLabel.snp.makeConstraints {
             $0.top.equalTo(pageTitleFirstLineLabel.snp.bottom)
-                .offset(FunnelConstant.spacingUnit / 2)
+                .offset(FunnelConstant.SpacingUnit / 2)
             $0.left.right.equalToSuperview()
-                .inset(FunnelConstant.additionalPadding)
+                .inset(FunnelConstant.AdditionalPadding)
         }
         
         nameTextField.snp.makeConstraints {
             $0.top.equalTo(pageTitleSecondLineLabel.snp.bottom)
-                .offset(FunnelConstant.spacingUnit * 4)
+                .offset(FunnelConstant.SpacingUnit * 4)
             $0.left.right.equalToSuperview()
         }
         
         completeButton.snp.makeConstraints {
             $0.left.right.equalToSuperview()
             $0.bottom.equalTo(keyboardLayoutGuide.snp.top)
-                .offset(-FunnelConstant.spacingUnit * 2)
+                .offset(-FunnelConstant.SpacingUnit * 2)
         }
     }
 }

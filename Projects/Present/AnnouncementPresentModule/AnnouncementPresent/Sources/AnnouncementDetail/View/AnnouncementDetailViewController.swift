@@ -161,24 +161,24 @@ public class AnnouncementDetailViewController: BaseViewController<AnnouncementDe
         
         // Set up skeleton style
         baseView.titleLabel.skeletonTextLineHeight = .relativeToFont
-        baseView.titleLabel.linesCornerRadius = SkeletonConstant.lineCornerRadius
+        baseView.titleLabel.linesCornerRadius = SkeletonConstant.LineCornerRadius
         
         baseView.createdDateLabel.skeletonTextLineHeight = .relativeToFont
         baseView.createdDateLabel.skeletonCornerRadius = 12
         baseView.createdDateLabel.skeletonCornerRadius = 12
-        baseView.createdDateLabel.linesCornerRadius = SkeletonConstant.lineCornerRadius
+        baseView.createdDateLabel.linesCornerRadius = SkeletonConstant.LineCornerRadius
 
         baseView.eventDateLabel.skeletonTextNumberOfLines = 1
         baseView.eventDateLabel.skeletonTextLineHeight = .relativeToFont
-        baseView.eventDateLabel.linesCornerRadius = SkeletonConstant.lineCornerRadius
+        baseView.eventDateLabel.linesCornerRadius = SkeletonConstant.LineCornerRadius
 
         baseView.eventPlaceLabel.skeletonTextNumberOfLines = 1
         baseView.eventPlaceLabel.skeletonTextLineHeight = .relativeToFont
-        baseView.eventPlaceLabel.linesCornerRadius = SkeletonConstant.lineCornerRadius
+        baseView.eventPlaceLabel.linesCornerRadius = SkeletonConstant.LineCornerRadius
         
         baseView.eventBodyLabel.skeletonTextNumberOfLines = 3
         baseView.eventBodyLabel.skeletonTextLineHeight = .relativeToFont
-        baseView.eventBodyLabel.linesCornerRadius = SkeletonConstant.lineCornerRadius
+        baseView.eventBodyLabel.linesCornerRadius = SkeletonConstant.LineCornerRadius
     }
     
     private func startSkeleton() {

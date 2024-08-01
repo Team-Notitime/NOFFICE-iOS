@@ -14,8 +14,6 @@ import SnapKit
 import Then
 
 class EditTodoView: BaseView {
-    // MARK: UI Constant
-    
     // MARK: UI Component
     // - Navigation bar
     lazy var navigationBar = NofficeNavigationBar().then {
@@ -120,42 +118,42 @@ class EditTodoView: BaseView {
         header.snp.makeConstraints {
             $0.top.equalToSuperview()
             $0.left.right.equalToSuperview()
-                .inset(GlobalViewConstant.pagePadding)     
+                .inset(GlobalViewConstant.PagePadding)     
         }
         
         saveButton.snp.makeConstraints {
             $0.left.right.equalToSuperview()
-                .inset(GlobalViewConstant.pagePadding)
+                .inset(GlobalViewConstant.PagePadding)
             $0.bottom.equalToSuperview()
-                .inset(FunnelConstant.spacingUnit * 3)
+                .inset(FunnelConstant.SpacingUnit * 3)
         }
         
         addTodoButton.snp.makeConstraints {
             $0.left.right.equalToSuperview()
-                .inset(GlobalViewConstant.pagePadding)
+                .inset(GlobalViewConstant.PagePadding)
             $0.bottom.equalTo(saveButton.snp.top)
-                .inset(-FunnelConstant.spacingUnit)
+                .inset(-FunnelConstant.SpacingUnit)
         }
         
         collectionView.snp.makeConstraints {
             $0.top.equalTo(header.snp.bottom)
             $0.bottom.equalTo(addTodoButton.snp.top)
             $0.left.right.equalToSuperview()
-                .inset(FunnelConstant.additionalPadding)
+                .inset(FunnelConstant.AdditionalPadding)
         }
         
         newTodoCompleteButton.snp.makeConstraints {
             $0.bottom.equalTo(keyboardLayoutGuide.snp.top)
-                .inset(-FunnelConstant.spacingUnit * 1.2)
+                .inset(-FunnelConstant.SpacingUnit * 1.2)
             $0.right.equalToSuperview()
-                .inset(GlobalViewConstant.pagePadding / 2)
+                .inset(GlobalViewConstant.PagePadding / 2)
         }
         
         newTodoTextField.snp.makeConstraints {
             $0.bottom.equalTo(keyboardLayoutGuide.snp.top)
-                .inset(-FunnelConstant.spacingUnit)
+                .inset(-FunnelConstant.SpacingUnit)
             $0.left.equalToSuperview()
-                .inset(GlobalViewConstant.pagePadding)
+                .inset(GlobalViewConstant.PagePadding)
             $0.right.equalTo(newTodoCompleteButton.snp.left)
         }
     }

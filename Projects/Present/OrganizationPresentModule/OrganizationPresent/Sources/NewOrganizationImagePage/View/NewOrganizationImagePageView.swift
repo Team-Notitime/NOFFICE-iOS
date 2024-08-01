@@ -92,7 +92,7 @@ class NewOrganizationImagePageView: BaseView {
         contentView.snp.makeConstraints {
             $0.top.bottom.equalToSuperview()
             $0.left.right.equalToSuperview()
-                .inset(GlobalViewConstant.pagePadding)
+                .inset(GlobalViewConstant.PagePadding)
         }
         
         funnelHeader.snp.makeConstraints {
@@ -108,7 +108,7 @@ class NewOrganizationImagePageView: BaseView {
         nextPageButton.snp.makeConstraints {
             $0.left.right.equalToSuperview()
             $0.bottom.equalTo(keyboardLayoutGuide.snp.top)
-                .offset(-FunnelConstant.spacingUnit * 2)
+                .offset(-FunnelConstant.SpacingUnit * 2)
         }
     }
 }

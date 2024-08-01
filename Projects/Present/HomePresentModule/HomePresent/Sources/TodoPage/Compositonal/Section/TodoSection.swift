@@ -29,9 +29,9 @@ struct TodoSection: CompositionalSection {
             headerSize: .init(width: .fractionalWidth(1.0), height: .absolute(48)),
             sectionInset: .init(
                 top: 0,
-                leading: GlobalViewConstant.pagePadding,
-                bottom: GlobalViewConstant.pagePadding * 2,
-                trailing: GlobalViewConstant.pagePadding
+                leading: GlobalViewConstant.PagePadding,
+                bottom: GlobalViewConstant.PagePadding * 2,
+                trailing: GlobalViewConstant.PagePadding
             ),
             scrollBehavior: .none
         )

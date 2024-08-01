@@ -110,7 +110,7 @@ public class BaseTextView: UIView {
     }
     
     // MARK: UI Constant
-    private let additionalPaddingForAdjustPlaceholder: CGFloat = 4
+    private static let AdditionalPaddingForAdjustPlaceholder: CGFloat = 4
     
     // MARK: UI Component
     private lazy var titleStack = UIStackView().then {
@@ -394,9 +394,9 @@ public class BaseTextView: UIView {
         
         let inset = UIEdgeInsets(
             top: padding.vertical ?? 0,
-            left: (padding.horizontal ?? 0) - additionalPaddingForAdjustPlaceholder,
+            left: (padding.horizontal ?? 0) - Self.AdditionalPaddingForAdjustPlaceholder,
             bottom: padding.vertical ?? 0,
-            right: (padding.horizontal ?? 0) - additionalPaddingForAdjustPlaceholder
+            right: (padding.horizontal ?? 0) - Self.AdditionalPaddingForAdjustPlaceholder
         )
         
         textView.textContainerInset = inset

@@ -14,15 +14,12 @@ import SnapKit
 import Then
 
 class TodoPageView: BaseView {
-
-    // MARK: UI Constant
-    
     // MARK: UI Component
     lazy var collectionView = CompositionalCollectionView().then {
         $0.contentInset = .init(
-            top: GlobalViewConstant.pagePadding,
+            top: GlobalViewConstant.PagePadding,
             left: 0,
-            bottom: GlobalViewConstant.pagePadding,
+            bottom: GlobalViewConstant.PagePadding,
             right: 0
         )
     }

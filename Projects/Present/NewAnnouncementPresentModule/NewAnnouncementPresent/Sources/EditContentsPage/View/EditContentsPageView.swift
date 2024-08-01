@@ -26,7 +26,7 @@ class EditContentsPageView: BaseView, UIScrollViewDelegate {
     // - Stack view
     lazy var stackView = UIStackView().then {
         $0.axis = .vertical
-        $0.spacing = FunnelConstant.spacingUnit
+        $0.spacing = FunnelConstant.SpacingUnit
         $0.alignment = .fill
         $0.distribution = .equalSpacing
     }
@@ -184,19 +184,19 @@ class EditContentsPageView: BaseView, UIScrollViewDelegate {
         
         stackView.snp.makeConstraints {
             $0.top.equalTo(scrollView.contentLayoutGuide)
-                .inset(GlobalViewConstant.pagePadding)
+                .inset(GlobalViewConstant.PagePadding)
             $0.bottom.equalTo(scrollView.contentLayoutGuide)
-                .inset(FunnelConstant.spacingUnit * 6)
+                .inset(FunnelConstant.SpacingUnit * 6)
             $0.width.equalTo(scrollView.frameLayoutGuide)
-                .inset(GlobalViewConstant.pagePadding)
+                .inset(GlobalViewConstant.PagePadding)
             $0.centerX.equalToSuperview()
         }
         
         completeButton.snp.makeConstraints {
             $0.left.right.equalToSuperview()
-                .inset(GlobalViewConstant.pagePadding)
+                .inset(GlobalViewConstant.PagePadding)
             $0.bottom.equalTo(keyboardLayoutGuide.snp.top)
-                .offset(-FunnelConstant.spacingUnit)
+                .offset(-FunnelConstant.SpacingUnit)
         }
     }
 }

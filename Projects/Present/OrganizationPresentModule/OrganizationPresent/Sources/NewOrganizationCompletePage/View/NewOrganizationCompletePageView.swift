@@ -16,14 +16,14 @@ import Then
 
 class NewOrganizationCompletePageView: BaseView {
     // MARK: UI Constant
-    private let groupImageSize: CGFloat = 120
+    private static let GroupImageSize: CGFloat = 120
     
     // MARK: UI Component
     // - Group image
     lazy var groupImageView: UIImageView = UIImageView(image: .imgProfileGroup).then {
         $0.backgroundColor = .grey200
-        $0.layer.cornerRadius = groupImageSize / 2
-        $0.setSize(width: groupImageSize, height: groupImageSize)
+        $0.layer.cornerRadius = Self.GroupImageSize / 2
+        $0.setSize(width: Self.GroupImageSize, height: Self.GroupImageSize)
     }
     
     // - Text section
@@ -95,7 +95,7 @@ class NewOrganizationCompletePageView: BaseView {
     override func setupLayout() {
         groupImageView.snp.makeConstraints {
             $0.centerY.equalToSuperview()
-                .offset(-groupImageSize * 0.8)
+                .offset(-Self.GroupImageSize * 0.8)
             $0.centerX.equalToSuperview()
         }
         
@@ -120,9 +120,9 @@ class NewOrganizationCompletePageView: BaseView {
         
         buttonStack.snp.makeConstraints {
             $0.left.right.equalToSuperview()
-                .inset(GlobalViewConstant.pagePadding)
+                .inset(GlobalViewConstant.PagePadding)
             $0.bottom.equalTo(safeAreaLayoutGuide)
-                .inset(FunnelConstant.spacingUnit * 2)
+                .inset(FunnelConstant.SpacingUnit * 2)
         }
     }
 }

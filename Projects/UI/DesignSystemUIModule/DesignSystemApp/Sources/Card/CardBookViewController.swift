@@ -79,9 +79,10 @@ final class CardBookViewController: UIViewController {
                     $0.setTypo(.body2)
                 }
             ]
-        }).then {
-            $0.styled(color: .green)
         }
+    ).then {
+        $0.styled(color: .green)
+    }
     
     private lazy var cancelButton = BaseButton(
         contentsBuilder: {
@@ -91,9 +92,10 @@ final class CardBookViewController: UIViewController {
                     $0.setTypo(.body2)
                 }
             ]
-        }).then {
-            $0.styled(color: .ghost)
         }
+    ).then {
+        $0.styled(color: .ghost)
+    }
     
     private lazy var card = BaseCard(
         headerBuilder: {

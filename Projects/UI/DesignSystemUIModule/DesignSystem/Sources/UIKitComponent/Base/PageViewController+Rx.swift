@@ -315,7 +315,9 @@ extension Reactive where Base: UIPageViewController {
 }
 
 // MARK: - Delegate Proxy
-final class RxPageViewControllerProxy: DelegateProxy<UIPageViewController, UIPageViewControllerDelegate>, DelegateProxyType, UIPageViewControllerDelegate {
+final class RxPageViewControllerProxy: 
+    DelegateProxy<UIPageViewController, UIPageViewControllerDelegate>,
+    DelegateProxyType, UIPageViewControllerDelegate {
 
     static func registerKnownImplementations() {
         self.register { (pageViewContoller) -> RxPageViewControllerProxy in

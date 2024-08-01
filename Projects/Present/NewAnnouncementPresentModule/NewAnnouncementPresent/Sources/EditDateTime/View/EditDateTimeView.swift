@@ -101,9 +101,9 @@ class EditDateTimeView: BaseView {
         contentView.snp.makeConstraints {
             $0.top.bottom.equalToSuperview()
             $0.left.right.equalToSuperview()
-                .inset(GlobalViewConstant.pagePadding)
+                .inset(GlobalViewConstant.PagePadding)
             $0.width.equalTo(scrollView.frameLayoutGuide)
-                .inset(GlobalViewConstant.pagePadding)
+                .inset(GlobalViewConstant.PagePadding)
         }
         
         header.snp.makeConstraints {
@@ -113,33 +113,33 @@ class EditDateTimeView: BaseView {
         
         calendarView.snp.makeConstraints {
             $0.top.equalTo(header.snp.bottom)
-                .offset(FunnelConstant.spacingUnit * 2)
+                .offset(FunnelConstant.SpacingUnit * 2)
             $0.left.right.equalToSuperview()
-                .inset(FunnelConstant.additionalPadding)
+                .inset(FunnelConstant.AdditionalPadding)
             $0.height.equalTo(CGFloat.infinityWidth*0.8)
         }
         
         timePicker.snp.makeConstraints {
             $0.centerX.equalToSuperview()
             $0.left.right.equalToSuperview()
-                .inset(FunnelConstant.additionalPadding)
+                .inset(FunnelConstant.AdditionalPadding)
             $0.top.equalTo(calendarView.snp.bottom)
-                .offset(FunnelConstant.spacingUnit)
+                .offset(FunnelConstant.SpacingUnit)
         }
         
         resetButton.snp.makeConstraints {
             $0.top.equalTo(timePicker.snp.bottom)
-                .offset(FunnelConstant.spacingUnit * 2)
+                .offset(FunnelConstant.SpacingUnit * 2)
             $0.centerX.equalToSuperview()
             $0.bottom.equalTo(contentView.snp.bottom)
-                .offset(-FunnelConstant.spacingUnit * 8)
+                .offset(-FunnelConstant.SpacingUnit * 8)
         }
         
         saveButton.snp.makeConstraints {
             $0.left.right.equalToSuperview()
-                .inset(GlobalViewConstant.pagePadding)
+                .inset(GlobalViewConstant.PagePadding)
             $0.bottom.equalTo(safeAreaLayoutGuide.snp.bottom)
-                .inset(FunnelConstant.spacingUnit)
+                .inset(FunnelConstant.SpacingUnit)
         }
     }
 }

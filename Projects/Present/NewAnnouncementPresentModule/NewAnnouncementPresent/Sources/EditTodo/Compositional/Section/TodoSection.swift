@@ -30,11 +30,11 @@ struct TodoSection: CompositionalSection {
                         )
                     )
                 ],
-                itemSpacing: GlobalViewConstant.pagePadding
+                itemSpacing: GlobalViewConstant.PagePadding
             ),
             sectionInset: .init(
                 top: 0,
-                leading: GlobalViewConstant.pagePadding,
+                leading: GlobalViewConstant.PagePadding,
                 bottom: 8,
                 trailing: 0
             ),

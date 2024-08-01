@@ -82,8 +82,6 @@ public class BaseCalendarCell: UICollectionViewCell {
         }
     }
     
-    // MARK: UI Constant
-    
     // MARK: UI Component
     private var dayLabel = UILabel().then {
         $0.setTypo(.body2b)

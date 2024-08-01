@@ -193,7 +193,7 @@ public final class NofficeAnnouncementCard: UIView {
     
     private func setupLayout() {
         self.snp.makeConstraints {
-            $0.height.equalTo(ComponentConstant.organizationCardHeight)
+            $0.height.equalTo(ComponentConstant.OrganizationCardHeight)
         }
         
         defaultCard.snp.makeConstraints {

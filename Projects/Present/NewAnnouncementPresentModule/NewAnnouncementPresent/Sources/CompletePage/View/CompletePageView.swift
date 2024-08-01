@@ -15,12 +15,12 @@ import Then
 
 class CompletePageView: BaseView {
     // MARK: UI Constant
-    private let groupImageSize: CGFloat = 140
+    private static let GroupImageSize: CGFloat = 140
     
     // MARK: UI Component
     // - Group image
     lazy var completeImageView: UIImageView = UIImageView(image: .imgNottiBell).then {
-        $0.setSize(width: groupImageSize, height: groupImageSize)
+        $0.setSize(width: Self.GroupImageSize, height: Self.GroupImageSize)
         $0.contentMode = .scaleAspectFit
     }
     
@@ -85,7 +85,7 @@ class CompletePageView: BaseView {
     override func setupLayout() {
         completeImageView.snp.makeConstraints {
             $0.centerY.equalToSuperview()
-                .offset(-groupImageSize * 0.8)
+                .offset(-Self.GroupImageSize * 0.8)
             $0.centerX.equalToSuperview()
         }
         
@@ -103,9 +103,9 @@ class CompletePageView: BaseView {
 
         buttonStack.snp.makeConstraints {
             $0.left.right.equalToSuperview()
-                .inset(GlobalViewConstant.pagePadding)
+                .inset(GlobalViewConstant.PagePadding)
             $0.bottom.equalTo(safeAreaLayoutGuide)
-                .inset(FunnelConstant.spacingUnit * 2)
+                .inset(FunnelConstant.SpacingUnit * 2)
         }
     }
 }

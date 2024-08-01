@@ -31,9 +31,9 @@ struct TimeOptionSection: CompositionalSection {
             ),
             sectionInset: .init(
                 top: 0,
-                leading: GlobalViewConstant.pagePadding,
+                leading: GlobalViewConstant.PagePadding,
                 bottom: 8,
-                trailing: GlobalViewConstant.pagePadding
+                trailing: GlobalViewConstant.PagePadding
             ),
             scrollBehavior: .none
         )

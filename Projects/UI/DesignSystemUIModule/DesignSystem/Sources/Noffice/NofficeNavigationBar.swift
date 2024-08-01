@@ -37,9 +37,9 @@ public final class NofficeNavigationBar: UIView {
     }
     
     // MARK: UI Constant
-    let height: CGFloat = 44
+    static let Height: CGFloat = 44
     
-    let backIconSize: CGFloat = 24
+    static let BackIconSize: CGFloat = 24
     
     // MARK: UI Component
     ///  - Back icon (Back button)
@@ -97,20 +97,20 @@ public final class NofficeNavigationBar: UIView {
     
     private func setupLayout() { 
         self.snp.makeConstraints {
-            $0.height.equalTo(height)
+            $0.height.equalTo(Self.Height)
         }
         
         backIconBackground.snp.makeConstraints {
             $0.left.equalToSuperview()
-                .inset(GlobalViewConstant.pagePadding)
-            $0.height.equalTo(backIconSize)
-            $0.width.equalTo(backIconSize * 2)
+                .inset(GlobalViewConstant.PagePadding)
+            $0.height.equalTo(Self.BackIconSize)
+            $0.width.equalTo(Self.BackIconSize * 2)
             $0.centerY.equalToSuperview()
         }
         
         backIcon.snp.makeConstraints {
             $0.left.equalToSuperview()
-            $0.width.height.equalTo(backIconSize)
+            $0.width.height.equalTo(Self.BackIconSize)
             $0.centerY.equalToSuperview()
         }
         
@@ -120,7 +120,8 @@ public final class NofficeNavigationBar: UIView {
         }
         
         rightItem.snp.makeConstraints {
-            $0.right.equalToSuperview().inset(16)
+            $0.right.equalToSuperview()
+                .inset(16)
             $0.centerY.equalToSuperview()
         }
     }

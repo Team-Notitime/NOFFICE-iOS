@@ -66,7 +66,11 @@ class ViewController: UIViewController {
                     let email = appleIDCredential.email
                     
                     // For the purpose of this demo app, store the `userIdentifier` in the keychain.
-                    print("userIdentifier: \(userIdentifier), fullName: \(fullName), email: \(String(describing: email))")
+                    print("""
+                            userIdentifier: \(userIdentifier),
+                            fullName: \(String(describing: fullName)),
+                            email: \(String(describing: email))
+                            """)
                     
                     if  let authorizationCode = appleIDCredential.authorizationCode,
                         let identityToken = appleIDCredential.identityToken,

@@ -15,7 +15,7 @@ import Then
 
 class OrganizationDetailView: BaseView {
     // MARK: UI Constant
-    private let organizationProfileCardSize: CGFloat = 86
+    private static let OrganizationProfileCardSize: CGFloat = 86
     
     // MARK: UI Component
     // - Navigation bar
@@ -34,12 +34,12 @@ class OrganizationDetailView: BaseView {
     // - Stack view
     lazy var stackView = UIStackView().then {
         $0.axis = .vertical
-        $0.spacing = GlobalViewConstant.spacingUnit * 3
+        $0.spacing = GlobalViewConstant.SpacingUnit * 3
     }
     
     // - Organization profile
     lazy var organizationProfile = BaseHStack(
-        spacing: GlobalViewConstant.spacingUnit * 3
+        spacing: GlobalViewConstant.SpacingUnit * 3
     ) {
         [
             organizationImageView,
@@ -56,10 +56,10 @@ class OrganizationDetailView: BaseView {
     
     lazy var organizationImageView = UIImageView(image: .imgProfileGroup).then {
         $0.setSize(
-            width: organizationProfileCardSize,
-            height: organizationProfileCardSize
+            width: Self.OrganizationProfileCardSize,
+            height: Self.OrganizationProfileCardSize
         )
-        $0.layer.cornerRadius = organizationProfileCardSize / 2
+        $0.layer.cornerRadius = Self.OrganizationProfileCardSize / 2
         $0.layer.masksToBounds = true
     }
     
@@ -166,19 +166,19 @@ class OrganizationDetailView: BaseView {
         stackView.addArrangedSubview(BaseDivider(color: .grey200))
         
         stackView.addArrangedSubview(
-            BaseSpacer(size: GlobalViewConstant.spacingUnit * 3)
+            BaseSpacer(size: GlobalViewConstant.SpacingUnit * 3)
         )
         
         stackView.addArrangedSubview(organizationParticipantDescription)
         
         stackView.addArrangedSubview(
-            BaseSpacer(size: GlobalViewConstant.spacingUnit * 2)
+            BaseSpacer(size: GlobalViewConstant.SpacingUnit * 2)
         )
         
         stackView.addArrangedSubview(joinWaitlistButton)
         
         stackView.addArrangedSubview(
-            BaseSpacer(size: GlobalViewConstant.spacingUnit * 2)
+            BaseSpacer(size: GlobalViewConstant.SpacingUnit * 2)
         )
 
         stackView.addArrangedSubview(announcementsCollectionView)
@@ -202,9 +202,9 @@ class OrganizationDetailView: BaseView {
         
         stackView.snp.makeConstraints {
             $0.top.equalToSuperview()
-                .offset(GlobalViewConstant.spacingUnit * 2)
+                .offset(GlobalViewConstant.SpacingUnit * 2)
             $0.left.right.equalToSuperview()
-                .inset(GlobalViewConstant.pagePaddingLarge)
+                .inset(GlobalViewConstant.PagePaddingLarge)
             $0.bottom.equalToSuperview()
         }
     }

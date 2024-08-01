@@ -17,7 +17,7 @@ public class HomeTabView: BaseView {
     // MARK: UI component
     lazy var topBarBackgroundView = BaseHStack(
         contents: [
-            BaseSpacer(size: GlobalViewConstant.pagePadding / 2, orientation: .horizontal),
+            BaseSpacer(size: GlobalViewConstant.PagePadding / 2, orientation: .horizontal),
             segmentControl,
             BaseSpacer(),
             UIImageView(image: .iconBell).then {
@@ -29,7 +29,7 @@ public class HomeTabView: BaseView {
                 $0.tintColor = .grey500
                 $0.contentMode = .scaleAspectFit
             },
-            BaseSpacer(size: GlobalViewConstant.pagePadding / 2, orientation: .horizontal)
+            BaseSpacer(size: GlobalViewConstant.PagePadding / 2, orientation: .horizontal)
         ]
     )
     

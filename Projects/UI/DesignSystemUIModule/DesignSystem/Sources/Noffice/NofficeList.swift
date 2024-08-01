@@ -52,8 +52,9 @@ public final class NofficeList<Option>: UIControl, ToggleButton where Option: Eq
     }
     
     // MARK: UI Constant
-    private let verticalPadding = 14
-    private let horizontalPadding = 16
+    private let VerticalPadding = 14
+    
+    private let HorizontalPadding = 16
     
     // MARK: UI Component
     private lazy var backgroundView = UIView().then {
@@ -124,8 +125,10 @@ public final class NofficeList<Option>: UIControl, ToggleButton where Option: Eq
         }
         
         stackView.snp.makeConstraints {
-            $0.top.bottom.equalToSuperview().inset(verticalPadding)
-            $0.leading.trailing.equalToSuperview().inset(horizontalPadding)
+            $0.top.bottom.equalToSuperview()
+                .inset(VerticalPadding)
+            $0.leading.trailing.equalToSuperview()
+                .inset(HorizontalPadding)
         }
     }
     

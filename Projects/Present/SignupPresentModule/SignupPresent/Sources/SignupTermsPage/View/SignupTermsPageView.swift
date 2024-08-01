@@ -34,7 +34,9 @@ public class SignupTermsPageView: BaseView {
     }
     
     // - Check box (all checked)
-    lazy var allAgreeCheckBox = BaseToggleButton<SignupTermsPageReactor.TermOption>(
+    lazy var allAgreeCheckBox = BaseToggleButton<
+        SignupTermsPageReactor.TermOption
+    >(
         option: SignupTermsPageReactor.TermOption(
             order: -1,
             text: "모두 동의",
@@ -58,7 +60,8 @@ public class SignupTermsPageView: BaseView {
                 }
             ]
         }
-    ).then {
+    )
+    .then {
         $0.styled(shape: .circle)
     }
     
@@ -90,9 +93,8 @@ public class SignupTermsPageView: BaseView {
                         icon
                     ]
                 }
-            ).then {
-                $0.styled(shape: .circle)
-            }
+            )
+            .then { $0.styled(shape: .circle) }
         }
     ).then {
         $0.gridStyled(verticalSpacing: 16)
@@ -133,42 +135,42 @@ public class SignupTermsPageView: BaseView {
     public override func setupLayout() {
         contentView.snp.makeConstraints {
             $0.top.bottom.equalToSuperview()
-            $0.left.right.equalToSuperview().inset(GlobalViewConstant.pagePadding)
+            $0.left.right.equalToSuperview().inset(GlobalViewConstant.PagePadding)
         }
         
         pageTitleLabel.snp.makeConstraints {
             $0.top.equalToSuperview()
-                .offset(FunnelConstant.spacingUnit * 2)
+                .offset(FunnelConstant.SpacingUnit * 2)
             $0.left.right.equalToSuperview()
-                .inset(FunnelConstant.additionalPadding)
+                .inset(FunnelConstant.AdditionalPadding)
         }
         
         pageDescriptionLabel.snp.makeConstraints {
             $0.top.equalTo(pageTitleLabel.snp.bottom)
-                .offset(FunnelConstant.spacingUnit)
+                .offset(FunnelConstant.SpacingUnit)
             $0.left.right.equalToSuperview()
-                .inset(FunnelConstant.additionalPadding)
+                .inset(FunnelConstant.AdditionalPadding)
         }
         
         allAgreeCheckBox.snp.makeConstraints {
             $0.top.equalTo(pageDescriptionLabel.snp.bottom)
-                .offset(FunnelConstant.spacingUnit * 4)
+                .offset(FunnelConstant.SpacingUnit * 4)
             $0.left.right.equalToSuperview()
-                .inset(FunnelConstant.additionalPadding)
+                .inset(FunnelConstant.AdditionalPadding)
         }
         
         divider.snp.makeConstraints {
             $0.top.equalTo(allAgreeCheckBox.snp.bottom)
-                .offset(FunnelConstant.spacingUnit * 1.5)
+                .offset(FunnelConstant.SpacingUnit * 1.5)
             $0.left.right.equalToSuperview()
-                .inset(FunnelConstant.additionalPadding)
+                .inset(FunnelConstant.AdditionalPadding)
         }
         
         termsOptonGroup.snp.makeConstraints {
             $0.top.equalTo(divider.snp.bottom)
-                .offset(FunnelConstant.spacingUnit * 1.5)
+                .offset(FunnelConstant.SpacingUnit * 1.5)
             $0.left.right.equalToSuperview()
-                .inset(FunnelConstant.additionalPadding)
+                .inset(FunnelConstant.AdditionalPadding)
         }
         
         nextButton.snp.makeConstraints {

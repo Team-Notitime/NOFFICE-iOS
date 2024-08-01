@@ -62,16 +62,15 @@ final class AnnouncementItem: CompositionalItem {
 }
 
 final class AnnouncementItemCell: UIView, CompositionalItemCell {
-    // MARK: UI Constant
-    private let badgeIconSize: CGFloat = 15
+    private static let BadgeIconSize: CGFloat = 15
     
-    private let badgeLabelTypo: Typo = .body2b
+    private static let BadgeLabelTypo: Typo = .body2b
     
     // MARK: UI Component
     // - Stack view
     lazy var stackView = UIStackView().then {
         $0.axis = .vertical
-        $0.spacing = GlobalViewConstant.spacingUnit * 2
+        $0.spacing = GlobalViewConstant.SpacingUnit * 2
     }
     
     // - Title
@@ -104,7 +103,7 @@ final class AnnouncementItemCell: UIView, CompositionalItemCell {
     }
     
     private lazy var dateLabel = UILabel().then {
-        $0.setTypo(badgeLabelTypo)
+        $0.setTypo(Self.BadgeLabelTypo)
         $0.setContentCompressionResistancePriority(.required, for: .horizontal)
     }
     
@@ -112,7 +111,7 @@ final class AnnouncementItemCell: UIView, CompositionalItemCell {
     private lazy var placeBadge = BaseBadge {
         [
             UIImageView(image: .iconCalendar).then {
-                $0.setSize(width: badgeIconSize, height: badgeIconSize)
+                $0.setSize(width: Self.BadgeIconSize, height: Self.BadgeIconSize)
             },
             placeLabel
         ]
@@ -121,14 +120,14 @@ final class AnnouncementItemCell: UIView, CompositionalItemCell {
     }
     
     private lazy var placeLabel = UILabel().then {
-        $0.setTypo(badgeLabelTypo)
+        $0.setTypo(Self.BadgeLabelTypo)
     }
     
     // - Todo badge
     private lazy var todoBadge = BaseBadge {
         [
             UIImageView(image: .iconCheck).then {
-                $0.setSize(width: badgeIconSize, height: badgeIconSize)
+                $0.setSize(width: Self.BadgeIconSize, height: Self.BadgeIconSize)
             },
             todoBadgeLabel
         ]
@@ -137,7 +136,7 @@ final class AnnouncementItemCell: UIView, CompositionalItemCell {
     }
     
     private lazy var todoBadgeLabel = UILabel().then {
-        $0.setTypo(badgeLabelTypo)
+        $0.setTypo(Self.BadgeLabelTypo)
     }
     
     // - Body

@@ -14,8 +14,6 @@ import SnapKit
 import Then
 
 public class AnnouncementDetailView: BaseView {
-    // MARK: UI Constant
-    
     // MARK: UI Component
     // - Navigation bar
     lazy var navigationBar = NofficeNavigationBar()
@@ -33,7 +31,7 @@ public class AnnouncementDetailView: BaseView {
     // - Stack view
     lazy var stackView = UIStackView().then {
         $0.axis = .vertical
-        $0.spacing = GlobalViewConstant.spacingUnit * 3
+        $0.spacing = GlobalViewConstant.SpacingUnit * 3
     }
     
     // - Title label
@@ -227,19 +225,19 @@ public class AnnouncementDetailView: BaseView {
         stackView.addArrangedSubview(createdDateLabel)
         
         stackView.addArrangedSubview(
-            BaseSpacer(size: GlobalViewConstant.spacingUnit * 6)
+            BaseSpacer(size: GlobalViewConstant.SpacingUnit * 6)
         )
         
         stackView.addArrangedSubview(BaseDivider(color: .grey200))
         
         stackView.addArrangedSubview(
-            BaseSpacer(size: GlobalViewConstant.spacingUnit * 6)
+            BaseSpacer(size: GlobalViewConstant.SpacingUnit * 6)
         )
         
         stackView.addArrangedSubview(organizationProfile)
         
         stackView.addArrangedSubview(
-            BaseSpacer(size: GlobalViewConstant.spacingUnit * 2)
+            BaseSpacer(size: GlobalViewConstant.SpacingUnit * 2)
         )
         
         stackView.addArrangedSubview(eventDateCard)
@@ -249,7 +247,7 @@ public class AnnouncementDetailView: BaseView {
         stackView.addArrangedSubview(eventBodyCard)
         
         stackView.addArrangedSubview(
-            BaseSpacer(size: GlobalViewConstant.spacingUnit * 2)
+            BaseSpacer(size: GlobalViewConstant.SpacingUnit * 2)
         )
         
         stackView.addArrangedSubview(todoListCard)
@@ -273,9 +271,9 @@ public class AnnouncementDetailView: BaseView {
         
         stackView.snp.makeConstraints {
             $0.top.equalToSuperview()
-                .offset(GlobalViewConstant.spacingUnit * 2)
+                .offset(GlobalViewConstant.SpacingUnit * 2)
             $0.left.right.equalToSuperview()
-                .inset(GlobalViewConstant.pagePaddingLarge)
+                .inset(GlobalViewConstant.PagePaddingLarge)
             $0.bottom.equalToSuperview()
         }
     }

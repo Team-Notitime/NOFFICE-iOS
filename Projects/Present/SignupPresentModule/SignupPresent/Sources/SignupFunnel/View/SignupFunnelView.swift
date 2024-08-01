@@ -19,8 +19,6 @@ public class SignupFunnelView: BaseView {
     // MARK: Data
     let pages = Array(SignupFunnelPage.allCases)
     
-    // MARK: UI Constant
-    
     // MARK: UI Component
     // - Navigation bar
     lazy var navigationBar = NofficeNavigationBar()

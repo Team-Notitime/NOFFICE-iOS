@@ -14,8 +14,6 @@ import SnapKit
 import Then
 
 public class SignupView: BaseView {
-    // MARK: UI Constant
-    
     // MARK: UI Component
     lazy var backgroundLogo = UIImageView(image: .iconBackgroundLogo).then {
         $0.tintColor = .green500
@@ -65,13 +63,13 @@ public class SignupView: BaseView {
         }
         
         dummyButton.snp.makeConstraints {
-            $0.left.right.equalToSuperview().inset(GlobalViewConstant.pagePadding)
+            $0.left.right.equalToSuperview().inset(GlobalViewConstant.PagePadding)
             $0.centerX.equalToSuperview()
             $0.centerY.equalToSuperview().multipliedBy(1.5)
         }
         
         appleSigninButton.snp.makeConstraints {
-            $0.left.right.equalToSuperview().inset(GlobalViewConstant.pagePadding)
+            $0.left.right.equalToSuperview().inset(GlobalViewConstant.PagePadding)
             $0.top.equalTo(dummyButton.snp.bottom).offset(16)
             $0.height.equalTo(50)
         }

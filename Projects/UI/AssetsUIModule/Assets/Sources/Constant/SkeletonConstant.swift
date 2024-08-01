@@ -8,5 +8,6 @@
 import Foundation
 
 public enum SkeletonConstant {
-    public static let lineCornerRadius: Int = 4
+    /// 4
+    public static let LineCornerRadius: Int = 4
 }

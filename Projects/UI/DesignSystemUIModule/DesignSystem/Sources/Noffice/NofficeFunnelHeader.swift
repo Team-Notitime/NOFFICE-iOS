@@ -113,11 +113,11 @@ public final class NofficeFunnelHeader: UIView {
     private func setupLayout() {
         stackView.snp.makeConstraints {
             $0.top.equalToSuperview()
-                .inset(FunnelConstant.spacingUnit * 2)
+                .inset(FunnelConstant.SpacingUnit * 2)
             $0.left.right.equalToSuperview()
-                .inset(FunnelConstant.additionalPadding)
+                .inset(FunnelConstant.AdditionalPadding)
             $0.bottom.equalToSuperview()
-                .inset(FunnelConstant.spacingUnit * 2)
+                .inset(FunnelConstant.SpacingUnit * 2)
         }
     }
     

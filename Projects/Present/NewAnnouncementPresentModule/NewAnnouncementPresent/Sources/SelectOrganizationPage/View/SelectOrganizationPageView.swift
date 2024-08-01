@@ -18,8 +18,6 @@ import SnapKit
 import Then
 
 class SelectOrganizationPageView: BaseView {
-    // MARK: UI Constant
-    
     // MARK: UI Component
     // - Background view
     lazy var backgroundView = UIView()
@@ -92,26 +90,26 @@ class SelectOrganizationPageView: BaseView {
         backgroundView.snp.makeConstraints {
             $0.top.bottom.equalToSuperview()
             $0.left.right.equalToSuperview()
-                .inset(GlobalViewConstant.pagePadding)
+                .inset(GlobalViewConstant.PagePadding)
         }
         
         titleFirstlabel.snp.makeConstraints {
             $0.top.equalToSuperview()
-                .inset(FunnelConstant.spacingUnit * 2)
+                .inset(FunnelConstant.SpacingUnit * 2)
             $0.left.right.equalToSuperview()
-                .inset(FunnelConstant.additionalPadding)
+                .inset(FunnelConstant.AdditionalPadding)
         }
         
         titleSecondlabel.snp.makeConstraints {
             $0.top.equalTo(titleFirstlabel.snp.bottom)
-                .offset(FunnelConstant.spacingUnit / 2)
+                .offset(FunnelConstant.SpacingUnit / 2)
             $0.left.right.equalToSuperview()
-                .inset(FunnelConstant.additionalPadding)
+                .inset(FunnelConstant.AdditionalPadding)
         }
         
         organizationGroup.snp.makeConstraints {
             $0.top.equalTo(titleSecondlabel.snp.bottom)
-                .offset(FunnelConstant.spacingUnit * 2)
+                .offset(FunnelConstant.SpacingUnit * 2)
             $0.left.right.equalToSuperview()
             
         }
@@ -119,7 +117,7 @@ class SelectOrganizationPageView: BaseView {
         nextButton.snp.makeConstraints {
             $0.left.right.equalToSuperview()
             $0.bottom.equalTo(keyboardLayoutGuide.snp.top)
-                .offset(-FunnelConstant.spacingUnit)
+                .offset(-FunnelConstant.SpacingUnit)
         }
     }
 }

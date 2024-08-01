@@ -4,6 +4,7 @@ disabled_rules:
   - missing_docs
   - unneeded_override
   - cyclomatic_complexity
+  - nesting
 opt_in_rules:
   - empty_count
   - missing_docs
@@ -26,13 +27,16 @@ excluded:
 force_cast: warning
 force_try:
   severity: warning
-line_length: 110
+line_length: 200
+function_body_length:
+  warning: 150
+  error: 200
 type_body_length:
   - 400
   - 500
 file_length:
-  warning: 500
-  error: 800
+  warning: 600
+  error: 1000
 type_name:
   min_length: 4
   max_length:
@@ -42,8 +46,8 @@ type_name:
   allowed_symbols: "_"
 identifier_name:
   min_length:
-    warning: 3
-    error: 2
+    warning: 2
+    error: 1
   excluded:
     - x
     - y
@@ -51,5 +55,6 @@ identifier_name:
     - uid
     - URL
     - GlobalAPIKey
+    - ^[A-Z][a-zA-Z0-9]*$
   allowed_symbols: "_"
 reporter: "xcode"

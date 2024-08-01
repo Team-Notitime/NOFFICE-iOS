@@ -56,13 +56,13 @@ where Option: Equatable & Identifiable {
     }
     
     // MARK: UI Constant
-    private let verticalPadding: CGFloat = 12
+    private let VerticalPadding: CGFloat = 12
     
-    private let horizontalPadding: CGFloat = 16
+    private let HorizontalPadding: CGFloat = 16
     
-    private let checkIconBackgroundSize: CGFloat = 24
+    private let CheckIconBackgroundSize: CGFloat = 24
     
-    private let checkIconSize: CGFloat = 16
+    private let CheckIconSize: CGFloat = 16
     
     // MARK: UI Component
     // - Container view
@@ -86,12 +86,12 @@ where Option: Equatable & Identifiable {
     // - Check icon
     private lazy var iconBackground = UIView().then {
         $0.backgroundColor = .blue100
-        $0.layer.cornerRadius = checkIconBackgroundSize / 2
+        $0.layer.cornerRadius = CheckIconBackgroundSize / 2
     }
     
     private lazy var icon = UIImageView(image: .iconCheck).then {
         $0.tintColor = .fullWhite
-        $0.setSize(width: checkIconSize, height: checkIconSize)
+        $0.setSize(width: CheckIconSize, height: CheckIconSize)
         $0.contentMode = .scaleAspectFit
     }
     
@@ -140,12 +140,12 @@ where Option: Equatable & Identifiable {
     private func setupLayout() {
         stackView.snp.makeConstraints {
             $0.top.bottom.equalToSuperview()
-                .inset(verticalPadding)
+                .inset(VerticalPadding)
             $0.leading.trailing.equalToSuperview()
         }
         
         iconBackground.snp.makeConstraints {
-            $0.width.height.equalTo(checkIconBackgroundSize)
+            $0.width.height.equalTo(CheckIconBackgroundSize)
         }
         
         icon.snp.makeConstraints {

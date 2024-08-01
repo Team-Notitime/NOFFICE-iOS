@@ -79,7 +79,7 @@ public class BaseCalendar: UIView {
     private var cellShape: BasicCalendarCellShape = .round
     
     // MARK: UI Constant
-    private let cellspacing: CGFloat = 8
+    private static let Cellspacing: CGFloat = 8
     
     // MARK: UI Component
     private lazy var headerView = UIView()
@@ -103,7 +103,7 @@ public class BaseCalendar: UIView {
     private lazy var weekdayStackView = UIStackView().then { stackView in
         stackView.axis = .horizontal
         stackView.distribution = .fillEqually
-        stackView.spacing = cellspacing
+        stackView.spacing = Self.Cellspacing
         let weekdays = ["일", "월", "화", "수", "목", "금", "토"]
         weekdays.forEach { day in
             let label = UILabel().then {
@@ -393,7 +393,7 @@ extension BaseCalendar: UICollectionViewDataSource, UICollectionViewDelegateFlow
         layout collectionViewLayout: UICollectionViewLayout,
         sizeForItemAt indexPath: IndexPath
     ) -> CGSize {
-        let width = collectionView.frame.width / 7 - cellspacing
+        let width = collectionView.frame.width / 7 - Self.Cellspacing
         return CGSize(width: width, height: width)
     }
     
@@ -402,7 +402,7 @@ extension BaseCalendar: UICollectionViewDataSource, UICollectionViewDelegateFlow
         layout collectionViewLayout: UICollectionViewLayout,
         minimumLineSpacingForSectionAt section: Int
     ) -> CGFloat {
-        return cellspacing
+        return Self.Cellspacing
     }
     
     public func collectionView(
@@ -410,7 +410,7 @@ extension BaseCalendar: UICollectionViewDataSource, UICollectionViewDelegateFlow
         layout collectionViewLayout: UICollectionViewLayout,
         minimumInteritemSpacingForSectionAt section: Int
     ) -> CGFloat {
-        return cellspacing
+        return Self.Cellspacing
     }
     
     public func collectionView(

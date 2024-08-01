@@ -32,7 +32,8 @@ public protocol OrganizationRepositoryInterface {
     /// - Parameters:
     ///   - organizationId: The unique identifier of the organization the user wants to join.
     ///   - userId: The unique identifier of the user who wants to join the organization.
-    /// - Returns: An Observable that emits a Boolean value indicating whether the join operation was successful. If the request fails, it emits an ``OrganizationError``.
+    /// - Returns: An Observable that emits a Boolean value indicating whether the join operation was successful. 
+    /// If the request fails, it emits an ``OrganizationError``.
     func joinOrganization(organizationId: Int, userId: Int) -> Observable<Bool>
     
     /// Retrieves a list of all organizations.

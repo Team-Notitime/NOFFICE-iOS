@@ -40,8 +40,8 @@ public class SignupTermsPageViewController: BaseViewController<SignupTermsPageVi
             .disposed(by: disposeBag)
         
         // - Tap url icon
-        baseView.termsOptionIconViews.enumerated()
-            .forEach { _, icon in
+        baseView.termsOptionIconViews
+            .forEach { icon in
                 icon.rx.tapGesture()
                     .when(.recognized)
                     .subscribe(onNext: { _ in
