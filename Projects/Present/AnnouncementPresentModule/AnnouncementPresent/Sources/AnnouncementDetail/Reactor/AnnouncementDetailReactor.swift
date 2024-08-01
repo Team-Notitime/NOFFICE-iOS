@@ -13,19 +13,19 @@ import ReactorKit
 class AnnouncementDetailReactor: Reactor {
     // MARK: Action
     enum Action { 
-        case viewDidLoad(AnnouncementItemEntity)
+        case viewDidLoad(AnnouncementEntity)
         case toggleTodoStatus(AnnouncementTodoEntity)
     }
     
     enum Mutation { 
-        case setAnnouncementItem(AnnouncementItemEntity)
+        case setAnnouncementItem(AnnouncementEntity)
         case setTodoItems(Set<AnnouncementTodoEntity>)
         case updateTodoStatus(AnnouncementTodoEntity)
     }
     
     // MARK: State
     struct State { 
-        var announcementItem: AnnouncementItemEntity?
+        var announcementItem: AnnouncementEntity?
         var todoItems: Set<AnnouncementTodoEntity>?
     }
     
@@ -45,7 +45,7 @@ class AnnouncementDetailReactor: Reactor {
         switch action {
         case let .viewDidLoad(announcement):
 //            let detailObserver = fetchAnnouncementDetailUsecase.execute()
-            let detailObserver = Observable<AnnouncementItemEntity>.create { observer in
+            let detailObserver = Observable<AnnouncementEntity>.create { observer in
                 observer.onNext(announcement)
                 
                 return Disposables.create()

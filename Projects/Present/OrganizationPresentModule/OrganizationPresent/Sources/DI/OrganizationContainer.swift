@@ -17,7 +17,7 @@ extension Container {
                 nameReactor: resolver.resolve(NewOrganizationNamePageReactor.self)!,
                 categoryReactor: resolver.resolve(NewOrganizationCategoryPageReactor.self)!,
                 imageReactor: resolver.resolve(NewOrganizationImagePageReactor.self)!,
-                endDateReactor: resolver.resolve(NewOrganizationEndDatePageReactor.self)!,
+                endDateReactor: resolver.resolve(NewOrganizationDatePageReactor.self)!,
                 promotionReactor: resolver.resolve(NewOrganizationPromotionPageReactor.self)!,
                 completeReactor: resolver.resolve(NewOrganizationCompletePageReactor.self)!
             )
@@ -39,8 +39,8 @@ extension Container {
         }
         .inObjectScope(.weak)        
         
-        container.register(NewOrganizationEndDatePageReactor.self) { _ in
-            NewOrganizationEndDatePageReactor()
+        container.register(NewOrganizationDatePageReactor.self) { _ in
+            NewOrganizationDatePageReactor()
         }
         .inObjectScope(.weak)
         

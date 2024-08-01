@@ -8,10 +8,10 @@
 import Foundation
 
 /**
- Represents a todo item categorized by group.
+ Represents a announcement in group(organization).
  */
-public struct AnnouncementItemEntity: Identifiable, Equatable {
-    /// Unique identifier for the todo item
+public struct AnnouncementEntity: Identifiable, Equatable {
+    /// Unique identifier for the announcement item
     public let id: Int
     
     /// Announcement creation date

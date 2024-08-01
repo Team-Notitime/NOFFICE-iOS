@@ -15,11 +15,11 @@ public struct GetAnnouncementDetailUsecase {
     
     public init() { }
     
-    public func execute() -> Observable<AnnouncementItemEntity> {
+    public func execute() -> Observable<AnnouncementEntity> {
         return .just(Self.mock)
     }
     
-    public static let mock = AnnouncementItemEntity(
+    public static let mock = AnnouncementEntity(
         id: 11412312,
         createdAt: Date.now,
         title: "5차 세션 : 최종 팀 빌딩 ~ 제목이 두 줄 일 때",

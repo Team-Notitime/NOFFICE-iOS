@@ -70,6 +70,24 @@ class OrganizationDetailViewController: BaseViewController<OrganizationDetailVie
             .asDriver(onErrorJustReturn: "")
             .drive(baseView.memberCountLabel.rx.text)
             .disposed(by: disposeBag)
+        
+        // - Bind announcement
+        reactor.state.map { $0.announcements }
+            .withUnretained(self)
+            .map { owner, announcements in
+                // Adjust announcement collection view height
+                owner.baseView.announcementsCollectionView.snp.updateConstraints {
+                    $0.height.equalTo(
+                        CGFloat(announcements.count) 
+                        * (AnnouncementSection.ItemHeight
+                           + AnnouncementSection.GroupSpacing)
+                    )
+                }
+                return announcements
+            }
+            .map(OrganizationDetailConverter.convert)
+            .bind(to: baseView.announcementsCollectionView.sectionBinder)
+            .disposed(by: disposeBag)
     }
     
     override func setupActionBind() { 

@@ -35,7 +35,7 @@ class NewOrganizationFunnelReactor: Reactor {
     
     private let imageReactor: NewOrganizationImagePageReactor
     
-    private let endDateReactor: NewOrganizationEndDatePageReactor
+    private let endDateReactor: NewOrganizationDatePageReactor
     
     private let promotionReactor: NewOrganizationPromotionPageReactor
     
@@ -51,7 +51,7 @@ class NewOrganizationFunnelReactor: Reactor {
         nameReactor: NewOrganizationNamePageReactor,
         categoryReactor: NewOrganizationCategoryPageReactor,
         imageReactor: NewOrganizationImagePageReactor,
-        endDateReactor: NewOrganizationEndDatePageReactor,
+        endDateReactor: NewOrganizationDatePageReactor,
         promotionReactor: NewOrganizationPromotionPageReactor,
         completeReactor: NewOrganizationCompletePageReactor
     ) {

@@ -55,9 +55,8 @@ final class ReminderEmptyItemCell: UIView, CompositionalItemCell {
         }
         
         backgroundColor = .grey50
-        layer.cornerRadius = bounds.height / 2
+        layer.cornerRadius = 10
         layer.masksToBounds = true
-        
     }
     
     func configure(with item: ReminderEmptyItem) { }

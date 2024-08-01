@@ -5,16 +5,32 @@
 //  Created by DOYEON LEE on 8/1/24.
 //
 
+import Foundation
+
 import DesignSystem
 
 struct AnnouncementSection: CompositionalSection {
+    // MARK: Constant
+    static let ItemHeight: CGFloat = 166
+    
+    static let GroupSpacing: CGFloat = 8
+    
+    // MARK: Compositonal
     var layout: CompositionalLayout {
         .init(
             groupLayout: .init(
-                size: .init(width: .fractionalWidth(1.0), height: .estimated(42)),
-                groupSpacing: 8,
+                size: .init(
+                    width: .fractionalWidth(1.0),
+                    height: .estimated(Self.ItemHeight)
+                ),
+                groupSpacing: Self.GroupSpacing,
                 items: [
-                    .item(size: .init(width: .fractionalWidth(1.0), height: .estimated(42)))
+                    .item(
+                        size: .init(
+                            width: .fractionalWidth(1.0),
+                            height: .estimated(Self.ItemHeight)
+                        )
+                    )
                 ],
                 itemSpacing: 0
             ),
@@ -28,12 +44,14 @@ struct AnnouncementSection: CompositionalSection {
         )
     }
     
+    // MARK: Data
     private var identifier: String {
         String(describing: self)
     }
     
     let items: [any CompositionalItem]
     
+    // MARK: Initializer
     init(
         items: [any CompositionalItem]
     ) {

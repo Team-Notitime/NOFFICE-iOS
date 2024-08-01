@@ -11,7 +11,7 @@ import OrganizationEntity
 
 import ReactorKit
 
-class NewOrganizationEndDatePageReactor: Reactor {
+class NewOrganizationDatePageReactor: Reactor {
     // MARK: Action
     enum Action {
         case changeSelectedDate(Date?)

@@ -25,7 +25,7 @@ public struct BasicBadgeColorTheme: BadgeColorTheme {
         switch (color, variant) {
         case (.green, .weak): return .init(.green800)
         case (.blue, .weak): return .init(.blue800)
-        case (.yellow, .weak): return .init(.yellow800)
+        case (.yellow, .weak): return .init(.yellow900)
         case (_, .on): return .init(.fullWhite)
         case (_, .off): return .init(.grey500)
         }
@@ -44,6 +44,12 @@ public struct BasicBadgeColorTheme: BadgeColorTheme {
     }
     
     func iconForegroundColor() -> UniversalColor {
-        return .init(foregroundColor().color.opacity(0.5))
+        switch (color, variant) {
+        case (.green, .weak): return .init(.green500)
+        case (.blue, .weak): return .init(.blue500)
+        case (.yellow, .weak): return .init(.yellow500)
+        case (_, .on): return .init(.fullWhite)
+        case (_, .off): return .init(.grey500)
+        }
     }
 }

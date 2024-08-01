@@ -13,9 +13,9 @@ import Swinject
 import RxSwift
 import RxCocoa
 
-class NewOrganizationEndDatePageViewController: BaseViewController<NewOrganizationEndDatePageView> {
+class NewOrganizationDatePageViewController: BaseViewController<NewOrganizationDatePageView> {
     // MARK: ReactorNewOrganizationEndDatePageViewController
-    private let reactor = Container.shared.resolve(NewOrganizationEndDatePageReactor.self)!
+    private let reactor = Container.shared.resolve(NewOrganizationDatePageReactor.self)!
     
     // MARK: Setup
     override func setupViewBind() { }

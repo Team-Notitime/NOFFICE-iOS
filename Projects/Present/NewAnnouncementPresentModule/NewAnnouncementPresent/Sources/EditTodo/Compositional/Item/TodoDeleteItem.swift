@@ -13,6 +13,7 @@ import Assets
 
 import RxSwift
 
+@available(*, deprecated, message: "Use long press instead.")
 final class TodoDeleteItem: CompositionalItem {
     typealias Cell = TodoDeleteItemCell
     
@@ -42,6 +43,7 @@ final class TodoDeleteItem: CompositionalItem {
     }
 }
 
+@available(*, deprecated, message: "Use long press instead.")
 final class TodoDeleteItemCell: UIView, CompositionalItemCell {
     // MARK: UI Component
     let trashIcon = UIImageView(image: .iconTrash).then {

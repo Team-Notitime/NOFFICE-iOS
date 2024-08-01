@@ -26,11 +26,11 @@ public class AnnouncementDetailViewController: BaseViewController<AnnouncementDe
     private let reactor = Container.shared.resolve(AnnouncementDetailReactor.self)!
     
     // MARK: Data
-    private let announcement: AnnouncementItemEntity
+    private let announcement: AnnouncementEntity
     
     // MARK: Initialzier
     // example app 때문에 임시로 optional 처리
-    public init(announcement: AnnouncementItemEntity? = nil) {
+    public init(announcement: AnnouncementEntity? = nil) {
         if let announcement = announcement {
             self.announcement = announcement
         } else {

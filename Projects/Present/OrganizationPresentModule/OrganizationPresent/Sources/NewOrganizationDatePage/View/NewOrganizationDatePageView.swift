@@ -14,7 +14,7 @@ import OrganizationEntity
 import SnapKit
 import Then
 
-class NewOrganizationEndDatePageView: BaseView {
+class NewOrganizationDatePageView: BaseView {
     // MARK: UI Component
     // - Padding view
     lazy var contentView = UIView()

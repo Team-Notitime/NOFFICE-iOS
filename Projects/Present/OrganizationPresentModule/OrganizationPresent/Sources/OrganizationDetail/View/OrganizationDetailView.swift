@@ -145,16 +145,6 @@ class OrganizationDetailView: BaseView {
     }
     
     // - Announcement list collection view
-    lazy var announcementsCard = BaseCard(
-        contentsBuilder: {
-            [
-                announcementsCollectionView
-            ]
-        }
-    ).then {
-        $0.styled(variant: .translucent, color: .background, padding: .medium)
-    }
-    
     lazy var announcementsCollectionView = CompositionalCollectionView().then {
         $0.isScrollEnabled = false
     }
@@ -190,8 +180,8 @@ class OrganizationDetailView: BaseView {
         stackView.addArrangedSubview(
             BaseSpacer(size: GlobalViewConstant.spacingUnit * 2)
         )
-        
-        stackView.addArrangedSubview(announcementsCard)
+
+        stackView.addArrangedSubview(announcementsCollectionView)
     }
     
     public override func setupLayout() {

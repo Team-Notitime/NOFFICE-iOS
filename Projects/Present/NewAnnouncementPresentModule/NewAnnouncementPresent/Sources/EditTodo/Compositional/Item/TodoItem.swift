@@ -93,13 +93,13 @@ final class TodoItemCell: UIView, CompositionalItemCell {
     }
     
     private func animatePressDown() {
-        UIView.animate(withDuration: 0.1) {
+        UIView.animate(withDuration: 0.1, delay: 0, options: [.curveEaseInOut]) {
             self.todo.transform = CGAffineTransform(scaleX: 0.95, y: 0.95)
         }
     }
     
     private func animatePressUp() {
-        UIView.animate(withDuration: 0.1) {
+        UIView.animate(withDuration: 0.1, delay: 0, options: [.curveEaseInOut]) {
             self.todo.transform = .identity
         }
     }

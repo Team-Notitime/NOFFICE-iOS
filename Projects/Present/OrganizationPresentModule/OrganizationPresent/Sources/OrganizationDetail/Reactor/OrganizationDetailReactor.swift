@@ -5,6 +5,8 @@
 //  Created by DOYEON LEE on 7/31/24.
 //
 
+import AnnouncementUsecase
+import AnnouncementEntity
 import OrganizationEntity
 
 import ReactorKit
@@ -17,11 +19,13 @@ class OrganizationDetailReactor: Reactor {
     
     enum Mutation { 
         case setOrganization(OrganizationEntity)
+        case setAnnouncements([AnnouncementEntity])
     }
     
     // MARK: State
     struct State { 
         var organization: OrganizationEntity?
+        var announcements: [AnnouncementEntity] = []
     }
     
     let initialState: State = State()
@@ -29,6 +33,7 @@ class OrganizationDetailReactor: Reactor {
     // MARK: ChildReactor
     
     // MARK: Dependency
+    private let getAnnouncementsByGroupUseCase = GetAnnouncementsByGroup()
     
     // MARK: DisposeBag
     private let disposeBag = DisposeBag()
@@ -40,7 +45,17 @@ class OrganizationDetailReactor: Reactor {
     func mutate(action: Action) -> Observable<Mutation> {
         switch action { 
         case let .viewDidLoad(organization):
-            return .just(.setOrganization(organization))
+            let setOrganization = Observable
+                .just(Mutation.setOrganization(organization))
+            
+            let setAnnouncements = getAnnouncementsByGroupUseCase
+                .execute(groupId: organization.id)
+                .map { Mutation.setAnnouncements($0) }
+            
+            return .merge(
+                setOrganization,
+                setAnnouncements
+            )
         }
     }
     
@@ -50,6 +65,8 @@ class OrganizationDetailReactor: Reactor {
         case let .setOrganization(organization):
             state.organization = organization
             
+        case let .setAnnouncements(announcements):
+            state.announcements = announcements
         }
         return state
     }
