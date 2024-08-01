@@ -8,5 +8,5 @@
 import Foundation
 
 public enum BasicBadgeColor: String, CaseIterable {
-    case green, blue
+    case green, blue, yellow
 }
