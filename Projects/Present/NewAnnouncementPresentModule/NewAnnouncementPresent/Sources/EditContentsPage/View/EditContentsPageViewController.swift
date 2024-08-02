@@ -22,6 +22,15 @@ class EditContentsPageViewController: BaseViewController<EditContentsPageView> {
     // MARK: Reactor
     private let reactor = Container.shared.resolve(EditContentsPageReactor.self)!
     
+    // MARK: Sub view controller
+    private let editDateTimeViewController = EditDateTimeViewController()
+    
+    private let editPlaceViewController = EditPlaceViewController()
+    
+    private let editTodoViewController = EditTodoViewController()
+    
+    private let editNotificationViewController = EditNotificationViewController()
+    
     // MARK: Setup
     override func setupViewBind() {
         // - Add keyboard dismissal event when scrolling
@@ -81,9 +90,9 @@ class EditContentsPageViewController: BaseViewController<EditContentsPageView> {
         // - Whether notification is used
         reactor.state.map { $0.notificationActive }
             .withUnretained(self.baseView)
-            .subscribe(onNext: { owner, active in
+            .bind { owner, active in
                 owner.editNotification.status = active ? .selected : .unselected
-            })
+            }
             .disposed(by: disposeBag)
     }
     
@@ -92,36 +101,40 @@ class EditContentsPageViewController: BaseViewController<EditContentsPageView> {
         baseView.editDateTime
             .rx.tapGesture()
             .when(.recognized)
-            .subscribe(onNext: { _ in
-                Router.shared.pushToPresent(EditDateTimeViewController())
-            })
+            .withUnretained(self)
+            .bind { owner, _ in
+                Router.shared.pushToPresent(owner.editDateTimeViewController)
+            }
             .disposed(by: disposeBag)
         
         // - Tap to edit location
         baseView.editLocation
             .rx.tapGesture()
             .when(.recognized)
-            .subscribe(onNext: { _ in
-                Router.shared.pushToPresent(EditPlaceViewController())
-            })
+            .withUnretained(self)
+            .bind { owner, _ in
+                Router.shared.pushToPresent(owner.editPlaceViewController)
+            }
             .disposed(by: disposeBag)
         
         // - Tap to edit to-do
         baseView.editTodo
             .rx.tapGesture()
             .when(.recognized)
-            .subscribe(onNext: { _ in
-                Router.shared.pushToPresent(EditTodoViewController())
-            })
+            .withUnretained(self)
+            .bind { owner, _ in
+                Router.shared.pushToPresent(owner.editTodoViewController)
+            }
             .disposed(by: disposeBag)
         
         // - Tap to edit notification
         baseView.editNotification
             .rx.tapGesture()
             .when(.recognized)
-            .subscribe(onNext: { _ in
-                Router.shared.pushToPresent(EditNotificationViewController())
-            })
+            .withUnretained(self)
+            .bind { owner, _ in
+                Router.shared.pushToPresent(owner.editNotificationViewController)
+            }
             .disposed(by: disposeBag)
         
         // - Tap to complete

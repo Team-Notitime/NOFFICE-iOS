@@ -103,26 +103,10 @@ class EditPlaceViewController: BaseViewController<EditPlaceView> {
             .distinctUntilChanged()
             .withUnretained(self)
             .observe(on: MainScheduler.asyncInstance)
-            .bind{ owner, isVisible in
+            .bind { owner, isVisible in
                 owner.baseView.openGraphCard.isHidden = !isVisible
             }
             .disposed(by: disposeBag)
-//        reactor.state.map { $0.placeLink }
-//            .map { $0.trimmingCharacters(in: .whitespaces) }
-//            .compactMap { URL(string: $0) != nil ? $0 : "" }
-//            .distinctUntilChanged()
-//            .withUnretained(self)
-//            .observe(on: MainScheduler.asyncInstance)
-//            .subscribe(onNext: { owner, link in
-//                owner.baseView.openGraphCard.isHidden = link.isEmpty
-//                
-//                if link.isEmpty {
-//                    owner.baseView.openGraphImageView.image = nil
-//                    owner.baseView.openGraphTitleLabel.text = ""
-//                    owner.baseView.openGraphLinkLabel.text = ""
-//                }
-//            })
-//            .disposed(by: disposeBag)
         
         // - Open graph image
         reactor.state.map { $0.openGraph?.imageURL }
