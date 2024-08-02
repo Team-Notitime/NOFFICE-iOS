@@ -60,6 +60,13 @@ public class BaseTextField: UIView {
         return innerTextField
     }
     
+    public var state: TextFieldState = .normal {
+        didSet {
+            updateTheme()
+            updateLayout()
+        }
+    }
+    
     // MARK: Theme
     private var colorTheme: TextFieldColorTheme? {
         didSet {
@@ -69,13 +76,6 @@ public class BaseTextField: UIView {
     }
     
     private var figureTheme: TextFieldFigureTheme? {
-        didSet {
-            updateTheme()
-            updateLayout()
-        }
-    }
-    
-    private var state: TextFieldState = .normal {
         didSet {
             updateTheme()
             updateLayout()
@@ -347,7 +347,7 @@ public class BaseTextField: UIView {
         guard let figureTheme = figureTheme
         else { return }
         
-        if superview != nil {
+        if superview != nil, isFullWidth {
             self.snp.remakeConstraints {
                 $0.left.right.equalToSuperview()
             }
