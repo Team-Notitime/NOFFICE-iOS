@@ -8,6 +8,7 @@
 import Router
 import AnnouncementPresent
 import NewAnnouncementPresent
+import MypagePresent
 
 struct RouterConfig {
     static func setup() {
@@ -20,6 +21,9 @@ struct RouterConfig {
                 return AnnouncementDetailViewController(
                     announcement: announcementEntity
                 )
+                
+            case .mypage:
+                return MypageViewController()
             }
         }
     }

@@ -8,21 +8,8 @@
 import AnnouncementEntity
 
 /// Define the types of views that can be navigated between using a router
-public enum Presentable: Hashable {
+public enum Presentable {
     case newAnnouncement
     case announcementDetail(announcementEntity: AnnouncementEntity)
-    
-    public func hash(into hasher: inout Hasher) {
-        hasher.combine(caseName)
-    }
-
-    /// Case name excluding associated values
-    private var caseName: String {
-        let mirror = Mirror(reflecting: self)
-        return String(describing: mirror.children.first?.label ?? "")
-    }
-
-    public static func == (lhs: Presentable, rhs: Presentable) -> Bool {
-        return lhs.hashValue == rhs.hashValue
-    }
+    case mypage
 }

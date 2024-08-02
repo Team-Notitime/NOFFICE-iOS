@@ -104,8 +104,8 @@ class EditPlaceReactor: Reactor {
             state.placeLink = link
             
         case let .setOpenGraph(openGraph):
-            print("setOpenGraph \(openGraph)")
             state.openGraph = openGraph
+            
             if let openGraph = openGraph {
                 state.placeName = openGraph.title
             }
