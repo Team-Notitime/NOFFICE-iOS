@@ -56,7 +56,11 @@ struct BasicTextFieldColorTheme: TextFieldColorTheme {
     }
     
     func descriptionColor(state: TextFieldAllState) -> UniversalColor {
-        return .init(.grey400)
+        switch state {
+        case .error: return .init(.red500)
+        case .success: return .init(.green600)
+        default: return .init(.grey400)
+        }
     }
 }
 

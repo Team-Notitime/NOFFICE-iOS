@@ -85,23 +85,44 @@ class EditPlaceViewController: BaseViewController<EditPlaceView> {
             .bind(to: baseView.placeLinkTextField.text)
             .disposed(by: disposeBag)
         
+        // - Bind place link error state (url validation)
+        reactor.state.map { $0.isURLError }
+            .distinctUntilChanged()
+            .withUnretained(self)
+            .bind { owner, isURLError in
+                owner.baseView.placeLinkTextField
+                    .state = isURLError ? .error : .normal
+                owner.baseView.placeLinkErrorMessage.layer
+                    .opacity = isURLError ? 1.0 : 0.0
+            }
+            .disposed(by: disposeBag)
+        
         // - Open graph card visibility
-        reactor.state.map { $0.placeLink }
-            .map { $0.trimmingCharacters(in: .whitespaces) }
-            .compactMap { URL(string: $0) != nil ? $0 : "" }
+        reactor.state.map { $0.openGraph }
+            .map { $0 != nil }
             .distinctUntilChanged()
             .withUnretained(self)
             .observe(on: MainScheduler.asyncInstance)
-            .subscribe(onNext: { owner, link in
-                owner.baseView.openGraphCard.isHidden = link.isEmpty
-                
-                if link.isEmpty {
-                    owner.baseView.openGraphImageView.image = nil
-                    owner.baseView.openGraphTitleLabel.text = ""
-                    owner.baseView.openGraphLinkLabel.text = ""
-                }
-            })
+            .bind{ owner, isVisible in
+                owner.baseView.openGraphCard.isHidden = !isVisible
+            }
             .disposed(by: disposeBag)
+//        reactor.state.map { $0.placeLink }
+//            .map { $0.trimmingCharacters(in: .whitespaces) }
+//            .compactMap { URL(string: $0) != nil ? $0 : "" }
+//            .distinctUntilChanged()
+//            .withUnretained(self)
+//            .observe(on: MainScheduler.asyncInstance)
+//            .subscribe(onNext: { owner, link in
+//                owner.baseView.openGraphCard.isHidden = link.isEmpty
+//                
+//                if link.isEmpty {
+//                    owner.baseView.openGraphImageView.image = nil
+//                    owner.baseView.openGraphTitleLabel.text = ""
+//                    owner.baseView.openGraphLinkLabel.text = ""
+//                }
+//            })
+//            .disposed(by: disposeBag)
         
         // - Open graph image
         reactor.state.map { $0.openGraph?.imageURL }

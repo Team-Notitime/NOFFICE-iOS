@@ -24,7 +24,12 @@ class EditPlaceView: BaseView {
     }
     
     // - Content view
-    lazy var contentView = UIView()
+    lazy var stackView = UIStackView().then {
+        $0.axis = .vertical
+        $0.alignment = .fill
+        $0.distribution = .fill
+        $0.spacing = GlobalViewConstant.SpacingUnit * 2
+    }
     
     // - Title
     lazy var header = NofficeFunnelHeader().then {
@@ -49,17 +54,31 @@ class EditPlaceView: BaseView {
     }
     
     // - Place name text field
+    lazy var placeNameStackView = BaseHStack(
+        distribution: .fill
+    ) {
+        [
+            placeNameLabel,
+            BaseHStack {
+                [
+                    placeNameTextField
+                ]
+            }
+        ]
+    }
+    
     lazy var placeNameLabel = UILabel().then {
         $0.text = "이름"
         $0.setTypo(.body2b)
         $0.textColor = .grey500
+        $0.numberOfLines = 2
     }
     
     lazy var placeNameTextField = BaseTextField(
-        suffixBuilder: { [weak self] in
-            guard let self = self else { return [] }
-            
-            return [placeNameDeleteButton]
+        suffixBuilder: { 
+            [
+                placeNameDeleteButton
+            ]
         }
     ).then {
         $0.placeholder = "입력해주세요"
@@ -75,6 +94,19 @@ class EditPlaceView: BaseView {
     }
     
     // - Place link text field
+    lazy var placeLinkStackView = BaseHStack(
+        distribution: .fill
+    ) {
+        [
+            placeLinkLabel,
+            BaseHStack {
+                [
+                    placeLinkTextField
+                ]
+            }
+        ]
+    }
+    
     lazy var placeLinkLabel = UILabel().then {
         $0.text = "장소\n링크"
         $0.setTypo(.body2b)
@@ -83,10 +115,16 @@ class EditPlaceView: BaseView {
     }
     
     lazy var placeLinkTextField = BaseTextField(
-        suffixBuilder: { [weak self] in
-            guard let self = self else { return [] }
-            
-            return [placeLinkDeleteButton]
+        suffixBuilder: {
+            [
+                placeLinkDeleteButton
+            ]
+        },
+        descriptionBuilder: {
+            [
+                BaseSpacer(),
+                placeLinkErrorMessage
+            ]
         }
     ).then {
         $0.placeholder = "입력해주세요"
@@ -99,6 +137,13 @@ class EditPlaceView: BaseView {
         $0.layer.cornerRadius = 10
         $0.isUserInteractionEnabled = true
         $0.isHidden = true
+    }
+    
+    lazy var placeLinkErrorMessage = UILabel().then {
+        $0.text = "올바른 URL 형식이 아닙니다"
+        $0.setTypo(.detail)
+        $0.numberOfLines = 1
+        $0.layer.opacity = 0.0
     }
     
     // - Open graph card
@@ -152,30 +197,26 @@ class EditPlaceView: BaseView {
             ]
         }
     ).then {
-        $0.styled(variant: .fill, color: .green, size: .medium)
+        $0.styled(variant: .fill, color: .green, size: .large)
     }
     
     // MARK: Setup
     override func setupHierarchy() {
         addSubview(navigationBar)
         
-        addSubview(contentView)
+        addSubview(stackView)
         
-        contentView.addSubview(header)
+        stackView.addArrangedSubview(header)
         
-        contentView.addSubview(placeTypeSegmentControl)
+        stackView.addArrangedSubview(placeTypeSegmentControl)
         
-        contentView.addSubview(placeNameLabel)
+        stackView.addArrangedSubview(placeNameStackView)
         
-        contentView.addSubview(placeNameTextField)
+        stackView.addArrangedSubview(placeLinkStackView)
         
-        contentView.addSubview(placeLinkLabel)
+        stackView.addArrangedSubview(openGraphCard)
         
-        contentView.addSubview(placeLinkTextField)
-        
-        contentView.addSubview(openGraphCard)
-        
-        contentView.addSubview(saveButton)
+        addSubview(saveButton)
     }
     
     override func setupLayout() {
@@ -184,57 +225,11 @@ class EditPlaceView: BaseView {
             $0.left.right.equalToSuperview()
         }
         
-        contentView.snp.makeConstraints {
+        stackView.snp.makeConstraints {
             $0.top.equalTo(navigationBar.snp.bottom)
-            $0.bottom.equalToSuperview()
             $0.left.right.equalToSuperview()
                 .inset(GlobalViewConstant.PagePadding)
-        }
-        
-        header.snp.makeConstraints {
-            $0.top.equalToSuperview()
-            $0.left.right.equalToSuperview()
-        }
-        
-        placeTypeSegmentControl.snp.makeConstraints {
-            $0.top.equalTo(header.snp.bottom)
-            $0.left.right.equalToSuperview()
-        }
-        
-        placeNameLabel.snp.makeConstraints {
-            $0.top.equalTo(placeTypeSegmentControl.snp.bottom)
-                .offset(FunnelConstant.SpacingUnit * 4)
-            $0.left.equalToSuperview()
-            $0.width.equalTo(30)
-        }
-        
-        placeNameTextField.snp.makeConstraints {
-            $0.centerY.equalTo(placeNameLabel.snp.centerY)
-            $0.left.equalTo(placeNameLabel.snp.right)
-                .offset(8)
-            $0.right.equalToSuperview()
-        }
-        
-        placeLinkLabel.snp.makeConstraints {
-            $0.top.equalTo(placeNameTextField.snp.bottom)
-                .offset(FunnelConstant.SpacingUnit * 2)
-            $0.left.equalToSuperview()
-            $0.width.equalTo(30)
-        }
-        
-        placeLinkTextField.snp.makeConstraints {
-            $0.centerY.equalTo(placeLinkLabel.snp.centerY)
-            $0.left.equalTo(placeLinkLabel.snp.right)
-                .offset(8)
-            $0.right.equalToSuperview()
-        }
-        
-        openGraphCard.snp.makeConstraints {
-            $0.top.equalTo(placeLinkTextField.snp.bottom)
-                .offset(FunnelConstant.SpacingUnit)
-            $0.left.equalToSuperview()
-                .inset(32)
-            $0.right.equalToSuperview()
+    
         }
         
         saveButton.snp.makeConstraints {

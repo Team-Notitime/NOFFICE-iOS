@@ -24,6 +24,7 @@ class EditPlaceReactor: Reactor {
         case setPlaceName(String)
         case setPlaceLink(String)
         case setOpenGraph(OpenGraphEntity?)
+        case setisURLError(Bool)
     }
     
     // MARK: State
@@ -32,6 +33,7 @@ class EditPlaceReactor: Reactor {
         var placeName: String = ""
         var placeLink: String = ""
         var openGraph: OpenGraphEntity?
+        var isURLError: Bool = false
     }
     
     let initialState: State = State()
@@ -40,6 +42,8 @@ class EditPlaceReactor: Reactor {
     
     // MARK: Dependency
     private let fetchOpenGraphUsecase = FetchOpenGraphUsecase()
+    
+    private let validateURLUsecase = ValidateURLUsecase()
     
     // MARK: DisposeBag
     private let disposeBag = DisposeBag()
@@ -57,14 +61,29 @@ class EditPlaceReactor: Reactor {
             return .just(.setPlaceName(name))
             
         case let .changePlaceLink(link):
-            let setLocationLinkMutation = Observable.just(Mutation.setPlaceLink(link))
+            if link.isEmpty {
+                return .merge(
+                    .just(.setOpenGraph(nil)),
+                    .just(.setisURLError(false))
+                )
+            }
+            
+            if !validateURLUsecase.execute(url: link) {
+                return .merge(
+                    .just(.setOpenGraph(nil)),
+                    .just(.setisURLError(true))
+                )
+            }
+            
+            let setPlaceLinkMutation = Observable.just(Mutation.setPlaceLink(link))
             
             let fetchOpenGraphMutation = fetchOpenGraphUsecase.execute(url: link)
                 .map { Mutation.setOpenGraph($0) }
                 .catchAndReturn(.setOpenGraph(nil))
             
             return .concat([
-                setLocationLinkMutation,
+                .just(.setisURLError(false)),
+                setPlaceLinkMutation,
                 .just(Mutation.setOpenGraph(nil)), // Clear previous OpenGraph while fetching new one
                 fetchOpenGraphMutation
                     .debounce(.milliseconds(300), scheduler: MainScheduler.instance)
@@ -86,6 +105,9 @@ class EditPlaceReactor: Reactor {
             
         case let .setOpenGraph(openGraph):
             state.openGraph = openGraph
+            
+        case let .setisURLError(isError):
+            state.isURLError = isError
         }
         return state
     }
@@ -96,4 +118,5 @@ class EditPlaceReactor: Reactor {
     // MARK: Transform
     
     // MARK: Private method
+
 }
