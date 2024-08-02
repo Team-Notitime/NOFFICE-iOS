@@ -14,20 +14,20 @@ let template = Template(
         ),
         // usecase
         .string(
-            path: "Projects/Domain/{{ name }}DomainModule/{{name}}DomainUsecase/Sources/Sample.swift",
+            path: "Projects/Domain/{{ name }}DomainModule/{{name}}Usecase/Sources/Sample.swift",
             contents: "// sample.swift"
         ),
         .string(
-            path: "Projects/Domain/{{ name }}DomainModule/{{name}}DomainUsecase/Resources/Empty.swift",
+            path: "Projects/Domain/{{ name }}DomainModule/{{name}}Usecase/Resources/Empty.swift",
             contents: "// This file is used to generate the TuistBundle file."
         ),
         // entity
         .string(
-            path: "Projects/Domain/{{ name }}DomainModule/{{name}}DomainEntity/Sources/Sample.swift",
+            path: "Projects/Domain/{{ name }}DomainModule/{{name}}Entity/Sources/Sample.swift",
             contents: "// sample.swift"
         ),
         .string(
-            path: "Projects/Domain/{{ name }}DomainModule/{{name}}DomainEntity/Resources/Empty.swift",
+            path: "Projects/Domain/{{ name }}DomainModule/{{name}}Entity/Resources/Empty.swift",
             contents: "// This file is used to generate the TuistBundle file."
         )
     ]

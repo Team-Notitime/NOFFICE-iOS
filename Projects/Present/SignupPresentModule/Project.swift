@@ -2,5 +2,9 @@ import ProjectDescription
 import ProjectDescriptionHelpers
 
 let project = Project.makePresentModule(
-    .signup
+    .signup,
+    dependencies: [
+        .usecase(.member),
+        .entity(.member)
+    ]
 )

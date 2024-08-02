@@ -42,6 +42,7 @@ public enum Module {
         case organization = "Organization"
         case todo = "Todo"
         case announcement = "Announcement"
+        case member = "Member"
         
         var name: String { rawValue }
         var bundleIdenifier: String { rawValue.toBundleIdentifier() }
