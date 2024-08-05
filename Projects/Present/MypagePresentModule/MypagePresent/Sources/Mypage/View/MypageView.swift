@@ -15,7 +15,7 @@ import Then
 
 public class MypageView: BaseView {
     // MARK: UI Constant
-    private static let OrganizationProfileCardSize: CGFloat = 86
+    private static let UserProfileCardSize: CGFloat = 76
     
     // MARK: UI Component
     // - Navigation bar
@@ -37,62 +37,52 @@ public class MypageView: BaseView {
         $0.spacing = GlobalViewConstant.SpacingUnit * 3
     }
     
-    // - Organization profile
-    lazy var organizationProfile = BaseHStack(
+    // - Profile
+    lazy var userProfile = BaseHStack(
         spacing: GlobalViewConstant.SpacingUnit * 3
     ) {
         [
-            organizationImageView,
+            userImageView,
             BaseVStack(spacing: 10) {
                 [
                     BaseSpacer(),
-                    organizationNameLabel,
-                    organizationCategoryBadges,
+                    BaseHStack {
+                        [
+                            userNameLabel,
+                            UIImageView(image: .iconEdit).then {
+                                $0.contentMode = .scaleAspectFit
+                                $0.setSize(width: 22, height: 22)
+                                $0.tintColor = .green600
+                            },
+                            BaseSpacer()
+                        ]
+                    },
+                    emailLabel,
                     BaseSpacer()
                 ]
             }
         ]
     }
     
-    lazy var organizationImageView = UIImageView(image: .imgProfileGroup).then {
+    lazy var userImageView = UIImageView(image: .imgProfileUser).then {
         $0.setSize(
-            width: Self.OrganizationProfileCardSize,
-            height: Self.OrganizationProfileCardSize
+            width: Self.UserProfileCardSize,
+            height: Self.UserProfileCardSize
         )
-        $0.layer.cornerRadius = Self.OrganizationProfileCardSize / 2
+        $0.layer.cornerRadius = Self.UserProfileCardSize / 2
         $0.layer.masksToBounds = true
     }
     
-    lazy var organizationNameLabel = UILabel().then {
-        $0.text = "Skeleton dummy"
+    lazy var userNameLabel = UILabel().then {
+        $0.text = "김지은 님"
         $0.setTypo(.heading3)
         $0.textColor = .grey800
     }
     
-    lazy var organizationCategoryBadges = BaseHStack {
-        [
-            BaseBadge(contentsBudiler: {
-                [
-                    UILabel().then {
-                        $0.text = "IT"
-                        $0.setTypo(.body3b)
-                    }
-                ]
-            }).then {
-                $0.styled(color: .green, variant: .weak)
-            },
-            BaseBadge(contentsBudiler: {
-                [
-                    UILabel().then {
-                        $0.text = "창업"
-                        $0.setTypo(.body3b)
-                    }
-                ]
-            }).then {
-                $0.styled(color: .green, variant: .weak)
-            },
-            BaseSpacer()
-        ]
+    lazy var emailLabel = UILabel().then {
+        $0.text = "guest@noffice.com"
+        $0.setTypo(.body2)
+        $0.textColor = .grey500
     }
     
     // - Organization participant description
@@ -162,7 +152,7 @@ public class MypageView: BaseView {
         
         scrollView.addSubview(stackView)
         
-        stackView.addArrangedSubview(organizationProfile)
+        stackView.addArrangedSubview(userProfile)
         
         stackView.addArrangedSubview(BaseDivider(color: .grey200))
         
