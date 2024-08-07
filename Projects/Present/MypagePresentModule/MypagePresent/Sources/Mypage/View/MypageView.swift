@@ -85,61 +85,150 @@ public class MypageView: BaseView {
         $0.textColor = .grey500
     }
     
-    // - Organization participant description
-    lazy var organizationParticipantDescription = BaseHStack(
-        alignment: .center,
-        distribution: .equalCentering
-    ) {
-        [
-            BaseSpacer(),
-            UILabel().then {
-                $0.text = "Leader"
-                $0.setTypo(.body1m)
-                $0.textColor = .grey400
-            },
-            leaderCountLabel,
-            UILabel().then {
-                $0.text = "Member"
-                $0.setTypo(.body1m)
-                $0.textColor = .grey400
-            },
-            memberCountLabel,
-            BaseSpacer()
-        ]
+    // - Announcement card
+    lazy var announcementCard = BaseCard(
+        contentsBuilder: {
+            [
+                BaseVStack(spacing: 18) {
+                    let menus = [
+                        ("앱 버전", "00.00.00"),
+                        ("문의하기", nil),
+                        ("공지사항", nil),
+                        ("서비스 이용 약관", nil),
+                        ("개인정보 처리 방침", nil)
+                    ].map { (title, rightText) in
+                        BaseHStack {
+                            [
+                                UILabel().then {
+                                    $0.text = title
+                                    $0.setTypo(.body2m)
+                                    $0.textColor = .grey800
+                                },
+                                BaseSpacer(),
+                                rightText != nil ? UILabel().then {
+                                    $0.text = rightText
+                                    $0.setTypo(.body2m)
+                                    $0.textColor = .grey500
+                                } : UIImageView(image: .iconChevronRight).then {
+                                    $0.contentMode = .scaleAspectFit
+                                    $0.setSize(width: 18, height: 18)
+                                    $0.tintColor = .grey500
+                                }
+                            ]
+                        }
+                    }
+
+                    return [
+                        UILabel().then {
+                            $0.text = "공지사항"
+                            $0.setTypo(.body3m)
+                            $0.textColor = .grey500
+                        }
+                    ] + menus
+                }
+            ]
+        }
+    ).then {
+        $0.styled(variant: .translucent, color: .background, padding: .large)
     }
     
-    lazy var leaderCountLabel = UILabel().then {
-        $0.text = "0"
-        $0.setTypo(.body1m)
-        $0.textColor = .grey800
+    // - App setting card
+    lazy var appSettingCard = BaseCard(
+        contentsBuilder: {
+            [
+                BaseVStack(spacing: 18) {
+                    [
+                        UILabel().then {
+                            $0.text = "앱 설정"
+                            $0.setTypo(.body3m)
+                            $0.textColor = .grey500
+                        },
+                        BaseHStack {
+                            [
+                                UILabel().then {
+                                    $0.text = "알림 설정"
+                                    $0.setTypo(.body2m)
+                                    $0.textColor = .grey800
+                                },
+                                BaseSpacer(),
+                                UISwitch().then {
+                                    $0.isOn = true
+                                    $0.onTintColor = .green600
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ).then {
+        $0.styled(variant: .translucent, color: .background, padding: .large)
     }
     
-    lazy var memberCountLabel = UILabel().then {
-        $0.text = "0"
-        $0.setTypo(.body1m)
-        $0.textColor = .grey800
+    // - Etc card
+    lazy var etcCard = BaseCard(
+        contentsBuilder: {
+            [
+                BaseVStack(spacing: 18) {
+                    [
+                        UILabel().then {
+                            $0.text = "앱기타"
+                            $0.setTypo(.body3m)
+                            $0.textColor = .grey500
+                        },
+                        BaseHStack {
+                            [
+                                UILabel().then {
+                                    $0.text = "정보 동의 설정"
+                                    $0.setTypo(.body2m)
+                                    $0.textColor = .grey800
+                                },
+                                BaseSpacer(),
+                                UIImageView(image: .iconChevronRight).then {
+                                   $0.contentMode = .scaleAspectFit
+                                   $0.setSize(width: 18, height: 18)
+                                   $0.tintColor = .grey500
+                               }
+                            ]
+                        },
+                        BaseHStack {
+                            [
+                                UILabel().then {
+                                    $0.text = "회원 탈퇴"
+                                    $0.setTypo(.body2m)
+                                    $0.textColor = .grey800
+                                },
+                                BaseSpacer(),
+                                UIImageView(image: .iconChevronRight).then {
+                                   $0.contentMode = .scaleAspectFit
+                                   $0.setSize(width: 18, height: 18)
+                                   $0.tintColor = .grey500
+                               }
+                            ]
+                        },
+                        BaseHStack {
+                            [
+                                UILabel().then {
+                                    $0.text = "로그아웃"
+                                    $0.setTypo(.body2m)
+                                    $0.textColor = .red500
+                                },
+                                BaseSpacer(),
+                                UIImageView(image: .iconChevronRight).then {
+                                   $0.contentMode = .scaleAspectFit
+                                   $0.setSize(width: 18, height: 18)
+                                   $0.tintColor = .red500
+                               }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ).then {
+        $0.styled(variant: .translucent, color: .background, padding: .large)
     }
-    
-    // - Join waitlist button
-    lazy var joinWaitlistButton = BaseButton {
-        [
-            UIImageView(image: .iconLoading),
-            UILabel().then {
-                $0.text = "가입을 대기 중인 멤버가 있어요!"
-                $0.setTypo(.body1b)
-                $0.textAlignment = .center
-            }
-        ]
-    }.then {
-        $0.styled(variant: .outline, color: .green, size: .medium)
-        $0.isHidden = true
-    }
-    
-    // - Announcement list collection view
-    lazy var announcementsCollectionView = CompositionalCollectionView().then {
-        $0.isScrollEnabled = false
-    }
-    
+
     // MARK: Setup
     public override func setupHierarchy() {
         backgroundColor = .grey50
@@ -154,25 +243,11 @@ public class MypageView: BaseView {
         
         stackView.addArrangedSubview(userProfile)
         
-        stackView.addArrangedSubview(BaseDivider(color: .grey200))
+        stackView.addArrangedSubview(announcementCard)
         
-        stackView.addArrangedSubview(
-            BaseSpacer(size: GlobalViewConstant.SpacingUnit * 3)
-        )
+        stackView.addArrangedSubview(appSettingCard)
         
-        stackView.addArrangedSubview(organizationParticipantDescription)
-        
-        stackView.addArrangedSubview(
-            BaseSpacer(size: GlobalViewConstant.SpacingUnit * 2)
-        )
-        
-        stackView.addArrangedSubview(joinWaitlistButton)
-        
-        stackView.addArrangedSubview(
-            BaseSpacer(size: GlobalViewConstant.SpacingUnit * 2)
-        )
-
-        stackView.addArrangedSubview(announcementsCollectionView)
+        stackView.addArrangedSubview(etcCard)
     }
     
     public override func setupLayout() {

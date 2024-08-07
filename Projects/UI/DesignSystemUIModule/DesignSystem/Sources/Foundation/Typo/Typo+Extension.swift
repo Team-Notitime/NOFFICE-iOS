@@ -87,10 +87,14 @@ public enum Typo {
     case body1b
     /// Font size: 14, weight: regular
     case body2
+    /// Font size: 14, weight: medium
+    case body2m
     /// Font size: 14, weight: semibold
     case body2b
     /// Font size: 12, weight: regular
     case body3
+    /// Font size: 12, weight: medium
+    case body3m
     /// Font size: 12, weight: semibold
     case body3b
     /// Font size: 10, weight: regular
@@ -195,10 +199,14 @@ public extension UILabel {
             self.setDefaultFont(size: 16, weight: .semibold)
         case .body2:
             self.setDefaultFont(size: 14, weight: .regular)
+        case .body2m:
+            self.setDefaultFont(size: 14, weight: .medium)
         case .body2b:
             self.setDefaultFont(size: 14, weight: .semibold)
         case .body3:
             self.setDefaultFont(size: 12, weight: .regular)
+        case .body3m:
+            self.setDefaultFont(size: 12, weight: .medium)
         case .body3b:
             self.setDefaultFont(size: 12, weight: .semibold)
         case .detail:
@@ -303,10 +311,14 @@ public extension UITextField {
             self.setDefaultFont(size: 16, weight: .semibold)
         case .body2:
             self.setDefaultFont(size: 14, weight: .regular)
+        case .body2m:
+            self.setDefaultFont(size: 14, weight: .medium)
         case .body2b:
             self.setDefaultFont(size: 14, weight: .semibold)
         case .body3:
             self.setDefaultFont(size: 12, weight: .regular)
+        case .body3m:
+            self.setDefaultFont(size: 12, weight: .medium)
         case .body3b:
             self.setDefaultFont(size: 12, weight: .semibold)
         case .detail:
@@ -380,10 +392,14 @@ public extension UITextView {
             self.setDefaultFont(size: 16, weight: .semibold)
         case .body2:
             self.setDefaultFont(size: 14, weight: .regular)
+        case .body2m:
+            self.setDefaultFont(size: 14, weight: .medium)
         case .body2b:
             self.setDefaultFont(size: 14, weight: .semibold)
         case .body3:
             self.setDefaultFont(size: 12, weight: .regular)
+        case .body3m:
+            self.setDefaultFont(size: 12, weight: .medium)
         case .body3b:
             self.setDefaultFont(size: 12, weight: .semibold)
         case .detail:
