@@ -11,8 +11,6 @@ extension Settings {
         }
     }
     
-    /// The data module needs an `API URL`, so it has a special xcconfig file.
-    /// Other modules have the same settings and don't require an xcconfig file. But it may be added in the future.
     public static func settings(_ type: SettingsType) -> Settings {
         let baseSettings: SettingsDictionary = [
             "VERSIONING_SYSTEM": "apple-generic", // For fastlane auto increment build version
