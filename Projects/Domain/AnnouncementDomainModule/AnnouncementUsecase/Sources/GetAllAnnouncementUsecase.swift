@@ -24,6 +24,7 @@ public struct GetAllAnnouncementUsecase {
                 announcements: [
                     .init(
                         id: 1,
+                        organizationId: 1,
                         title: "1차 모임 공지",
                         body: """
                         안녕하세요, 팀원 여러분!
@@ -43,7 +44,7 @@ public struct GetAllAnnouncementUsecase {
                         
                         여러분의 많은 참석 부탁드려요. 감사합니다!
                         """,
-                        date: Date.now,
+                        endAt: Date.now,
                         place: .init(
                             type: .offline,
                             name: "강남역",
@@ -56,6 +57,7 @@ public struct GetAllAnnouncementUsecase {
                     ),
                     .init(
                         id: 2,
+                        organizationId: 1,
                         title: "5차 세션 : 최종 팀빌딩",
                         body: """
                         안녕하세요, 팀원 여러분!
@@ -69,7 +71,7 @@ public struct GetAllAnnouncementUsecase {
 
                         - 팀 멘토 드림 😊
                         """,
-                        date: Date.now,
+                        endAt: Date.now,
                         place: .init(
                             type: .online,
                             name: "ZEP",

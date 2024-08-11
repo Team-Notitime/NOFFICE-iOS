@@ -10,7 +10,7 @@ import CommonData
 
 struct JoinOrganizationConverter {
     static func convert(
-        from response: BaseResponse<JoinOrganizationDTO.Response>
+        from response: BaseResponse<JoinOrganizationResponse>
     ) -> Bool {
         return response.data.isSuccess
     }

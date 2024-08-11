@@ -23,7 +23,11 @@ extension Project {
                     name: "\(target.rawValue)Tests",
                     product: .unitTests,
                     bundleId: "\(bundleId).app.tests",
-                    dependencies: [.target(name: "Noffice")]
+                    dependencies: [
+                        .target(name: "Noffice"),
+                        .data(.common),
+                        .thirdParty(.openapiGenerated) // #for test
+                    ]
                 )
             ],
             schemes: .base

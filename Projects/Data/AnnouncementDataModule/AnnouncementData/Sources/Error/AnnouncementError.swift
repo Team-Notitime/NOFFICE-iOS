@@ -8,5 +8,5 @@
 import Foundation
 
 public enum AnnouncementError: LocalizedError {
-    
+    case underlying(Error)
 }

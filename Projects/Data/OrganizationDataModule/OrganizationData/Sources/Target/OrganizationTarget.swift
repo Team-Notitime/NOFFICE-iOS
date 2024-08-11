@@ -10,7 +10,7 @@ import Foundation
 import Moya
 
 enum OrganizationTarget {
-    case createOrganization(CreateOrganizationDTO.Request)
+    case createOrganization(CreateOrganizationRequest)
     case getOrganization(id: Int)
     case joinOrganization(organizationId: Int, userId: Int)
     case getOrganizationList

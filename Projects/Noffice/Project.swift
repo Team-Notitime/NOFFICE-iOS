@@ -6,7 +6,8 @@ let project = Project.makeMainApp(
     dependencies: [
         .ui(.designSystem),
         .ui(.assets),
-        .di(.router)
+        .di(.router),
+        .thirdParty(.openapiGenerated)
     ] + Module.Present.allCases.map {
         .present($0)
     }

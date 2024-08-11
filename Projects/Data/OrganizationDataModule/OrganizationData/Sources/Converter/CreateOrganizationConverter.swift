@@ -10,7 +10,7 @@ import CommonData
 
 struct CreateOrganizationConverter {
     static func convert(
-        from response: BaseResponse<CreateOrganizationDTO.Response>
+        from response: BaseResponse<CreateOrganizationResponse>
     ) -> OrganizationEntity {
         return OrganizationEntity(
             id: response.data.id,
@@ -23,7 +23,7 @@ struct CreateOrganizationConverter {
     
     static func convert(
         from entity: NewOrganizationEntity
-    ) -> CreateOrganizationDTO.Request {
+    ) -> CreateOrganizationRequest {
         return .init(
             name: entity.name,
             categories: entity.categories,

@@ -87,6 +87,7 @@ public enum Module {
         case skeletonView = "SkeletonView"
         case moya = "Moya"
         case rxMoya = "RxMoya"
+        case openapiGenerated = "OpenapiGenerated"
         
         var name: String { rawValue }
     }

@@ -27,7 +27,7 @@ public struct OrganizationRepository: OrganizationRepositoryInterface {
                 return .error(OrganizationError.underlying(error))
             }
             .filterSuccessfulStatusCodes()
-            .map(BaseResponse<CreateOrganizationDTO.Response>.self)
+            .map(BaseResponse<CreateOrganizationResponse>.self)
             .map(CreateOrganizationConverter.convert)
             .asObservable()
     }
@@ -38,7 +38,7 @@ public struct OrganizationRepository: OrganizationRepositoryInterface {
                 return .error(OrganizationError.underlying(error))
             }
             .filterSuccessfulStatusCodes()
-            .map(BaseResponse<GetOrganizationDTO.Response>.self)
+            .map(BaseResponse<GetOrganizationResponse>.self)
             .map(GetOrganizationConverter.convert)
             .asObservable()
     }
@@ -52,7 +52,7 @@ public struct OrganizationRepository: OrganizationRepositoryInterface {
                 return .error(OrganizationError.underlying(error))
             }
             .filterSuccessfulStatusCodes()
-            .map(BaseResponse<JoinOrganizationDTO.Response>.self)
+            .map(BaseResponse<JoinOrganizationResponse>.self)
             .map(JoinOrganizationConverter.convert)
             .asObservable()
     }
@@ -63,7 +63,7 @@ public struct OrganizationRepository: OrganizationRepositoryInterface {
                 return .error(OrganizationError.underlying(error))
             }
             .filterSuccessfulStatusCodes()
-            .map(BaseResponse<GetOrganizationListDTO.Response>.self)
+            .map(BaseResponse<GetOrganizationListResponse>.self)
             .map(GetOrganizationListConverter.convert)
             .asObservable()
     }

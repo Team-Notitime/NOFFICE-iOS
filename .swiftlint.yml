@@ -24,6 +24,9 @@ excluded:
   - Pods
   - Source/ExcludedFolder
   - Source/ExcludedFile.swift
+  - "**/Client.swift" # Open api generator
+  - "**/Types.swift" # Open api generator
+  - "**/Server.swift" # Open api generator
 force_cast: warning
 force_try:
   severity: warning

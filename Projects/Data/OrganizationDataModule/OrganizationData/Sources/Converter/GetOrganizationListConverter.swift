@@ -10,7 +10,7 @@ import CommonData
 
 struct GetOrganizationListConverter {
     static func convert(
-        from response: BaseResponse<GetOrganizationListDTO.Response>
+        from response: BaseResponse<GetOrganizationListResponse>
     ) -> [OrganizationEntity] {
         return response.data.organizations.map {
             OrganizationEntity(

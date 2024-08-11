@@ -1,0 +1,1411 @@
+---
+openapi: 3.0.1
+info:
+  title: NOFFICE API Docs
+  description: |-
+    테스트 프로덕션용 NOFFICE API 명세서입니다.
+    공통된 응답 형식은 Schemas-NofficeResponseString을 참고해주세요.
+  version: v1.0
+servers:
+- url: http://localhost:8080
+  description: local server
+- url: https://api.noffice.store
+  description: develop server
+
+tags:
+- name: 회원
+  description: 회원 로그인, 정보 조회 API
+- name: 알림
+  description: 노티 알림 발송 관련 API
+- name: 노티
+  description: 노티(공지사항) CRUD API
+- name: 서버 헬스 체크
+  description: 노피스 서버 상태 확인 API
+- name: 카테고리
+  description: 조직 내 카테고리 조회 API
+- name: 조직
+  description: 조직 가입, 정보 조회 API
+- name: 투두
+  description: 노티/사용자 투두 관련 API
+paths:
+  "/api/v1/tasks":
+    get:
+      tags:
+      - 투두
+      summary: 투두 목록 조회
+      operationId: getTasks
+      responses:
+        255:
+          description: 투두 목록 조회 성공
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/NofficeResponseTaskResponses"
+        404:
+          description: 등록된 투두가 없습니다.
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/NofficeResponseTaskResponses"
+    post:
+      tags:
+      - 투두
+      summary: 투두 생성
+      operationId: createTask
+      parameters:
+      - name: taskCreateRequest
+        in: query
+        required: true
+        schema:
+          "$ref": "#/components/schemas/TaskCreateRequest"
+      responses:
+        215:
+          description: 투두 생성 성공
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/NofficeResponseTaskCreateResponse"
+        400:
+          description: 투두 생성 실패
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/NofficeResponseTaskCreateResponse"
+  "/api/v1/tasks/bulk":
+    post:
+      tags:
+      - 투두
+      summary: 투두 대량 생성
+      operationId: createBulkTask
+      parameters:
+      - name: taskBulkCreateRequest
+        in: query
+        required: true
+        schema:
+          "$ref": "#/components/schemas/TaskBulkCreateRequest"
+      responses:
+        215:
+          description: 투두 대량 생성 성공
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/NofficeResponseTaskCreateResponses"
+        400:
+          description: 투두 대량 생성 실패
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/NofficeResponseTaskCreateResponses"
+  "/api/v1/organization":
+    post:
+      tags:
+      - 조직
+      summary: 조직 생성
+      operationId: createOrganization
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/OrganizationCreateRequest"
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/NofficeResponseOrganizationResponse"
+  "/api/v1/organization/{organizationId}/join":
+    post:
+      tags:
+      - 조직
+      summary: 멤버의 조직 가입
+      operationId: joinOrganization
+      parameters:
+      - name: organizationId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/OrganizationJoinRequest"
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/NofficeResponseOrganizationJoinResponse"
+  "/api/v1/notifications":
+    get:
+      tags:
+      - 알림
+      summary: 사용자에게 수신된 알림 조회
+      description: 사용자에게 수신된 알림을 조회합니다.
+      operationId: getNotifications
+      parameters:
+      - name: memberId
+        in: query
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        207:
+          description: 알림 조회 성공
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/NofficeResponseVoid"
+        404:
+          description: 알림이 없습니다.
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/NofficeResponseVoid"
+    post:
+      tags:
+      - 알림
+      summary: 단일 사용자 알림 대기열 추가
+      description: 단일 사용자를 특정하여 노티 알림 대기열에 등록합니다.
+      operationId: createNotification
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/NotificationRequest"
+        required: true
+      responses:
+        207:
+          description: 알림 대기열 등록 성공
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/NofficeResponseVoid"
+        400:
+          description: 알림 발송 실패
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/NofficeResponseVoid"
+    patch:
+      tags:
+      - 알림
+      summary: 알림 발송 시간 변경
+      description: 노티 알림 발송 시간을 변경합니다.
+      operationId: changeSendTime
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/NotificationTimeChangeRequest"
+        required: true
+      responses:
+        207:
+          description: 알림 발송 시간 변경 성공
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/NofficeResponseNotificationTimeChangeResponse"
+        400:
+          description: 알림 발송 시간 변경 실패
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/NofficeResponseNotificationTimeChangeResponse"
+  "/api/v1/notifications/bulk":
+    post:
+      tags:
+      - 알림
+      summary: 조직 단위 알림 대량 발송
+      description: 조직 내 모든 사용자에게 전체 발송되는 알림을 등록합니다.
+      operationId: createBulkNotification
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/NotificationBulkRequest"
+        required: true
+      responses:
+        207:
+          description: 조직 전체 알림 대량 등록 성공
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/NofficeResponseVoid"
+        400:
+          description: 조직 전체 알림 대량 등록 실패
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/NofficeResponseVoid"
+  "/api/v1/member/reissue":
+    post:
+      tags:
+      - 회원
+      summary: 토큰 재발급
+      description: 리프레시 토큰을 이용해 새로운 액세스 토큰을 발급합니다.
+      operationId: reissue
+      parameters:
+      - name: Authorization
+        in: header
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/NofficeResponseTokenResponse"
+  "/api/v1/member/login":
+    post:
+      tags:
+      - 회원
+      summary: 회원 로그인
+      description: 본문에 소셜 공급자명과 인가코드를 넣어 노피스 서버 로그인을 시도합니다.
+      operationId: login
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/SocialAuthRequest"
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/NofficeResponseSocialAuthResponse"
+  "/api/v1/announcement":
+    get:
+      tags:
+      - 노티
+      summary: 모든 노티 조회
+      description: 사용자에게 할당된 모든 노티를 조회합니다.
+      operationId: getAnnouncements
+      responses:
+        205:
+          description: 노티 목록 조회 성공
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/NofficeResponseAnnouncementResponses"
+        404:
+          description: 등록된 노티가 없습니다.
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/NofficeResponseAnnouncementResponses"
+    post:
+      tags:
+      - 노티
+      summary: 노티 생성
+      description: 노티를 생성합니다.
+      operationId: createAnnouncement
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/AnnouncementCreateRequest"
+        required: true
+      responses:
+        215:
+          description: 노티 생성 성공
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/NofficeResponseAnnouncementResponse"
+        400:
+          description: 노티 생성 실패
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/NofficeResponseAnnouncementResponse"
+  "/api/v1/announcement/{announcementId}":
+    get:
+      tags:
+      - 노티
+      summary: 노티 조회
+      description: 노티를 조회합니다.
+      operationId: getAnnouncement
+      parameters:
+      - name: announcementId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        205:
+          description: 노티 단일 조회 성공
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/NofficeResponseAnnouncementResponse"
+        404:
+          description: 해당 노티가 없습니다.
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/NofficeResponseAnnouncementResponse"
+    post:
+      tags:
+      - 노티
+      summary: 노티 수정
+      description: 노티를 수정합니다.
+      operationId: updateAnnouncement
+      parameters:
+      - name: announcementId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/AnnouncementUpdateRequest"
+        required: true
+      responses:
+        205:
+          description: 노티 수정 성공
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/NofficeResponseAnnouncementResponse"
+        404:
+          description: 해당 노티가 없습니다.
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/NofficeResponseAnnouncementResponse"
+    delete:
+      tags:
+      - 노티
+      summary: 노티 삭제
+      description: 노티를 삭제합니다.
+      operationId: deleteAnnouncement
+      parameters:
+      - name: announcementId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        205:
+          description: 노티 삭제 성공
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/NofficeResponseVoid"
+        404:
+          description: 노티 삭제에 실패하였습니다.
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/NofficeResponseVoid"
+  "/health":
+    get:
+      tags:
+      - 서버 헬스 체크
+      summary: 서버 상태 확인
+      description: 정상 동작시 OK 반환합니다.
+      operationId: health
+      responses:
+        '200':
+          description: OK
+          content:
+            "*/*":
+              schema:
+                type: string
+  "/api/v1/tasks/assigned":
+    get:
+      tags:
+      - 투두
+      summary: 사용자 할당 투두 목록 조회
+      operationId: getAssignedTasks
+      parameters:
+      - name: memberId
+        in: query
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: pageable
+        in: query
+        required: true
+        schema:
+          "$ref": "#/components/schemas/Pageable"
+      responses:
+        205:
+          description: 사용자 할당 투두 조회 성공
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/NofficeResponseSliceAssignedTaskResponse"
+        404:
+          description: 사용자 할당된 투두가 없습니다.
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/NofficeResponseSliceAssignedTaskResponse"
+  "/api/v1/organization/{organizationId}":
+    get:
+      tags:
+      - 조직
+      summary: 단일 조직 정보 조회
+      operationId: getOrganization
+      parameters:
+      - name: organizationId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/NofficeResponseOrganizationResponse"
+  "/api/v1/organization/list":
+    get:
+      tags:
+      - 조직
+      summary: 조직 목록 조회
+      operationId: getOrganizationList
+      responses:
+        '200':
+          description: OK
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/NofficeResponseOrganizationResponses"
+  "/api/v1/member/{memberId}":
+    get:
+      tags:
+      - 회원
+      summary: 단일 회원 정보 조회
+      operationId: getMember
+      parameters:
+      - name: memberId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/NofficeResponseMemberResponse"
+  "/api/v1/member/{memberId}/organizations":
+    get:
+      tags:
+      - 회원
+      summary: 멤버가 가입한 조직 목록 조회
+      operationId: getJoinedOrganizations
+      parameters:
+      - name: memberId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/NofficeResponseOrganizationResponses"
+  "/api/v1/category":
+    get:
+      tags:
+      - 카테고리
+      summary: 전체 카테고리 조회
+      operationId: getCategories
+      responses:
+        '200':
+          description: OK
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/NofficeResponseCategoryResponses"
+  "/api/v1/category/organization/{organizationId}":
+    get:
+      tags:
+      - 카테고리
+      summary: 특정 조직의 카테고리 조회
+      operationId: getCategoriesByOrganization
+      parameters:
+      - name: organizationId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/NofficeResponseCategoryResponses"
+  "/api/v1/announcement/{announcementId}/count":
+    get:
+      tags:
+      - 노티
+      summary: 노티에 발행된 알림 개수 조회
+      description: 노티에 발행된 알림 개수를 조회합니다.
+      operationId: getNotificationCount
+      parameters:
+      - name: announcementId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        207:
+          description: 알림 개수 조회 성공
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/NofficeResponseInteger"
+        404:
+          description: 노티에 발행된 알림이 없습니다.
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/NofficeResponseInteger"
+  "/api/v1/tasks/{taskId}":
+    delete:
+      tags:
+      - 투두
+      summary: 투두 삭제
+      operationId: deleteTask
+      parameters:
+      - name: taskId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        215:
+          description: 투두 삭제 성공
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/NofficeResponseVoid"
+        400:
+          description: 투두 삭제 실패
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/NofficeResponseVoid"
+  "/api/v1/notifications/{notificationId}":
+    delete:
+      tags:
+      - 알림
+      summary: 알림 삭제
+      description: 노티 알림을 삭제합니다.
+      operationId: deleteNotification
+      parameters:
+      - name: notificationId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        207:
+          description: 알림 삭제 성공
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/NofficeResponseVoid"
+        400:
+          description: 알림 삭제 실패
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/NofficeResponseVoid"
+components:
+  schemas:
+    TaskCreateRequest:
+      required:
+      - content
+      type: object
+      properties:
+        content:
+          type: string
+          description: 투두 항목
+          example: 노피스 API 제작
+    NofficeResponseTaskCreateResponse:
+      type: object
+      properties:
+        timestamp:
+          type: string
+        httpStatus:
+          type: integer
+          format: int32
+        code:
+          type: string
+        message:
+          type: string
+        data:
+          "$ref": "#/components/schemas/TaskCreateResponse"
+    TaskCreateResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        announcementId:
+          type: integer
+          format: int64
+        content:
+          type: string
+    TaskBulkCreateRequest:
+      required:
+      - contents
+      type: object
+      properties:
+        contents:
+          type: array
+          description: 투두 항목 목록
+          example:
+          - 노피스 API 제작
+          - 노피스 API 문서 작성
+          items:
+            type: string
+            description: 투두 항목 목록
+            example: '["노피스 API 제작","노피스 API 문서 작성"]'
+    NofficeResponseTaskCreateResponses:
+      type: object
+      properties:
+        timestamp:
+          type: string
+        httpStatus:
+          type: integer
+          format: int32
+        code:
+          type: string
+        message:
+          type: string
+        data:
+          "$ref": "#/components/schemas/TaskCreateResponses"
+    TaskCreateResponses:
+      type: object
+      properties:
+        tasks:
+          type: array
+          items:
+            "$ref": "#/components/schemas/TaskResponse"
+    TaskResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        announcementId:
+          type: integer
+          format: int64
+        content:
+          type: string
+    CategoryRequest:
+      required:
+      - categoryIds
+      type: object
+      properties:
+        categoryIds:
+          type: array
+          description: 카테고리 ID 목록
+          example:
+          - 1
+          - 2
+          items:
+            type: integer
+            description: 카테고리 ID 목록
+            format: int64
+      description: 조직 분류 ID 목록
+    OrganizationCreateRequest:
+      required:
+      - categories
+      - endAt
+      - name
+      - profile_image
+      type: object
+      properties:
+        name:
+          type: string
+          description: 조직 이름
+          example: 조직 이름
+        categories:
+          "$ref": "#/components/schemas/CategoryRequest"
+        profile_image:
+          type: string
+          description: 조직 커버 이미지 URL
+          example: https://test-image.com/cover_image.jpg
+        endAt:
+          type: string
+          description: 조직 활동 마감일자
+          format: date
+          example: '2021-07-01'
+        promotionCode:
+          type: string
+          description: 프로모션 코드 문자열
+          example: NOFFICE_HART
+    NofficeResponseOrganizationResponse:
+      type: object
+      properties:
+        timestamp:
+          type: string
+        httpStatus:
+          type: integer
+          format: int32
+        code:
+          type: string
+        message:
+          type: string
+        data:
+          "$ref": "#/components/schemas/OrganizationResponse"
+    OrganizationResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: 조직 ID
+          format: int64
+        name:
+          type: string
+          description: 조직 이름
+    OrganizationJoinRequest:
+      required:
+      - memberId
+      - organizationId
+      type: object
+      properties:
+        memberId:
+          type: integer
+          description: 사용자 ID
+          format: int64
+          example: 1
+        organizationId:
+          type: integer
+          description: 조직 ID
+          format: int64
+          example: 1
+    NofficeResponseOrganizationJoinResponse:
+      type: object
+      properties:
+        timestamp:
+          type: string
+        httpStatus:
+          type: integer
+          format: int32
+        code:
+          type: string
+        message:
+          type: string
+        data:
+          "$ref": "#/components/schemas/OrganizationJoinResponse"
+    OrganizationJoinResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        link:
+          type: string
+    NotificationRequest:
+      required:
+      - memberId
+      - sendAt
+      - title
+      type: object
+      properties:
+        title:
+          type: string
+          example: 알림 제목
+        content:
+          type: string
+          example: 알림 내용
+        memberId:
+          type: integer
+          format: int64
+          example: 1
+        sendAt:
+          type: string
+          format: date-time
+    NofficeResponseVoid:
+      type: object
+      properties:
+        timestamp:
+          type: string
+        httpStatus:
+          type: integer
+          format: int32
+        code:
+          type: string
+        message:
+          type: string
+        data:
+          type: object
+    NotificationBulkRequest:
+      type: object
+      properties:
+        title:
+          type: string
+        content:
+          type: string
+        announcementId:
+          type: integer
+          format: int64
+        noticeBefore:
+          type: array
+          items:
+            type: string
+        noticeDate:
+          type: array
+          items:
+            type: string
+    NofficeResponseTokenResponse:
+      type: object
+      properties:
+        timestamp:
+          type: string
+        httpStatus:
+          type: integer
+          format: int32
+        code:
+          type: string
+        message:
+          type: string
+        data:
+          "$ref": "#/components/schemas/TokenResponse"
+    TokenResponse:
+      type: object
+      properties:
+        accessToken:
+          type: string
+        refreshToken:
+          type: string
+    SocialAuthRequest:
+      required:
+      - code
+      - provider
+      type: object
+      properties:
+        provider:
+          type: string
+          description: 소셜 로그인 제공자
+          example: APPLE
+          enum:
+          - GOOGLE
+          - APPLE
+        code:
+          type: string
+          description: 제공자로부터 얻은 사용자별 인가 코드
+          example: 1q2w3e4r
+    NofficeResponseSocialAuthResponse:
+      type: object
+      properties:
+        timestamp:
+          type: string
+        httpStatus:
+          type: integer
+          format: int32
+        code:
+          type: string
+        message:
+          type: string
+        data:
+          "$ref": "#/components/schemas/SocialAuthResponse"
+    SocialAuthResponse:
+      type: object
+      properties:
+        memberId:
+          type: integer
+          format: int64
+        memberName:
+          type: string
+        provider:
+          type: string
+          enum:
+          - GOOGLE
+          - APPLE
+        token:
+          "$ref": "#/components/schemas/TokenResponse"
+    AnnouncementCreateRequest:
+      required:
+      - content
+      - endAt
+      - memberId
+      - noticeBefore
+      - noticeDate
+      - organizationId
+      - title
+      type: object
+      properties:
+        organizationId:
+          type: integer
+          format: int64
+        memberId:
+          type: integer
+          format: int64
+          example: 1
+        title:
+          type: string
+          example: 공지 제목
+        content:
+          type: string
+          example: 공지 내용
+        profileImageUrl:
+          type: string
+          example: 프로필 이미지 URL
+        placeLinkName:
+          type: string
+          example: 장소 링크 이름
+        placeLinkUrl:
+          type: string
+          example: 장소 링크 URL
+        isFaceToFace:
+          type: boolean
+          example: true
+        tasks:
+          type: array
+          items:
+            "$ref": "#/components/schemas/TaskCreateRequest"
+        endAt:
+          type: string
+          example: 2021-07-01T 00:00:00
+        noticeBefore:
+          type: array
+          example: "[2021-07-01T00:00:00, 2021-07-02T00:00:00]"
+          items:
+            type: string
+            example: "[2021-07-01T00:00:00, 2021-07-02T00:00:00]"
+        noticeDate:
+          type: array
+          items:
+            type: string
+    AnnouncementResponse:
+      type: object
+      properties:
+        organizationId:
+          type: integer
+          format: int64
+        memberId:
+          type: integer
+          format: int64
+        announcementId:
+          type: integer
+          format: int64
+        title:
+          type: string
+        content:
+          type: string
+        profileImageUrl:
+          type: string
+        placeLinkName:
+          type: string
+        placeLinkUrl:
+          type: string
+        endAt:
+          type: string
+          format: date-time
+        noticeAt:
+          type: array
+          items:
+            type: string
+            format: date-time
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+    NofficeResponseAnnouncementResponse:
+      type: object
+      properties:
+        timestamp:
+          type: string
+        httpStatus:
+          type: integer
+          format: int32
+        code:
+          type: string
+        message:
+          type: string
+        data:
+          "$ref": "#/components/schemas/AnnouncementResponse"
+    AnnouncementUpdateRequest:
+      required:
+      - content
+      - endAt
+      - memberId
+      - noticeBefore
+      - noticeDate
+      - organizationId
+      - title
+      type: object
+      properties:
+        organizationId:
+          type: integer
+          format: int64
+        memberId:
+          type: integer
+          format: int64
+          example: 1
+        title:
+          type: string
+          example: 공지 제목
+        content:
+          type: string
+          example: 공지 내용
+        profileImageUrl:
+          type: string
+          example: 프로필 이미지 URL
+        placeLinkName:
+          type: string
+          example: 장소 링크 이름
+        placeLinkUrl:
+          type: string
+          example: 장소 링크 URL
+        isFaceToFace:
+          type: boolean
+          example: true
+        tasks:
+          type: array
+          items:
+            "$ref": "#/components/schemas/TaskCreateRequest"
+        endAt:
+          type: string
+          example: 2021-07-01T 00:00:00
+        noticeBefore:
+          type: array
+          example: "[2021-07-01T00:00:00, 2021-07-02T00:00:00]"
+          items:
+            type: string
+            example: "[2021-07-01T00:00:00, 2021-07-02T00:00:00]"
+        noticeDate:
+          type: array
+          items:
+            type: string
+    NotificationTimeChangeRequest:
+      required:
+      - announcementId
+      - noticeBefore
+      - noticeDate
+      type: object
+      properties:
+        announcementId:
+          type: integer
+          description: 공지 ID
+          format: int64
+          example: 1
+        noticeBefore:
+          type: array
+          description: 알림 시간 변경 초(second)
+          example: 60, 120, 180
+          items:
+            type: string
+            description: 알림 시간 변경 초(second)
+            example: 60, 120, 180
+        noticeDate:
+          type: array
+          description: 알림 시간 변경 기준 일자
+          example:
+          - '2021-07-01T00:00:00'
+          - '2021-07-02T00:00:00'
+          items:
+            type: string
+            description: 알림 시간 변경 기준 일자
+            example: '["2021-07-01T00:00:00","2021-07-02T00:00:00"]'
+    NofficeResponseNotificationTimeChangeResponse:
+      type: object
+      properties:
+        timestamp:
+          type: string
+        httpStatus:
+          type: integer
+          format: int32
+        code:
+          type: string
+        message:
+          type: string
+        data:
+          "$ref": "#/components/schemas/NotificationTimeChangeResponse"
+    NotificationResponse:
+      type: object
+      properties:
+        notificationId:
+          type: integer
+          format: int64
+        announcementId:
+          type: integer
+          format: int64
+        title:
+          type: string
+        content:
+          type: string
+    NotificationTimeChangeResponse:
+      type: object
+      properties:
+        announcementId:
+          type: integer
+          format: int64
+        notifications:
+          type: array
+          items:
+            "$ref": "#/components/schemas/NotificationResponse"
+    NofficeResponseTaskResponses:
+      type: object
+      properties:
+        timestamp:
+          type: string
+        httpStatus:
+          type: integer
+          format: int32
+        code:
+          type: string
+        message:
+          type: string
+        data:
+          "$ref": "#/components/schemas/TaskResponses"
+    TaskResponses:
+      type: object
+      properties:
+        tasks:
+          type: array
+          items:
+            "$ref": "#/components/schemas/TaskResponse"
+    Pageable:
+      type: object
+      properties:
+        page:
+          minimum: 0
+          type: integer
+          format: int32
+        size:
+          minimum: 1
+          type: integer
+          format: int32
+        sort:
+          type: array
+          items:
+            type: string
+    AssignedTaskResponse:
+      type: object
+      properties:
+        organizationId:
+          type: integer
+          format: int64
+        organizationName:
+          type: string
+        tasks:
+          type: array
+          items:
+            "$ref": "#/components/schemas/TaskResponse"
+    NofficeResponseSliceAssignedTaskResponse:
+      type: object
+      properties:
+        timestamp:
+          type: string
+        httpStatus:
+          type: integer
+          format: int32
+        code:
+          type: string
+        message:
+          type: string
+        data:
+          "$ref": "#/components/schemas/SliceAssignedTaskResponse"
+    PageableObject:
+      type: object
+      properties:
+        paged:
+          type: boolean
+        pageNumber:
+          type: integer
+          format: int32
+        pageSize:
+          type: integer
+          format: int32
+        offset:
+          type: integer
+          format: int64
+        sort:
+          "$ref": "#/components/schemas/SortObject"
+        unpaged:
+          type: boolean
+    SliceAssignedTaskResponse:
+      type: object
+      properties:
+        pageable:
+          "$ref": "#/components/schemas/PageableObject"
+        first:
+          type: boolean
+        last:
+          type: boolean
+        size:
+          type: integer
+          format: int32
+        content:
+          type: array
+          items:
+            "$ref": "#/components/schemas/AssignedTaskResponse"
+        number:
+          type: integer
+          format: int32
+        sort:
+          "$ref": "#/components/schemas/SortObject"
+        numberOfElements:
+          type: integer
+          format: int32
+        empty:
+          type: boolean
+    SortObject:
+      type: object
+      properties:
+        sorted:
+          type: boolean
+        empty:
+          type: boolean
+        unsorted:
+          type: boolean
+    NofficeResponseOrganizationResponses:
+      type: object
+      properties:
+        timestamp:
+          type: string
+        httpStatus:
+          type: integer
+          format: int32
+        code:
+          type: string
+        message:
+          type: string
+        data:
+          "$ref": "#/components/schemas/OrganizationResponses"
+    OrganizationResponses:
+      type: object
+      properties:
+        organizations:
+          type: array
+          items:
+            "$ref": "#/components/schemas/OrganizationResponse"
+    MemberResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        alias:
+          type: string
+        profileImage:
+          type: string
+        organizations:
+          type: array
+          items:
+            "$ref": "#/components/schemas/OrganizationResponse"
+    NofficeResponseMemberResponse:
+      type: object
+      properties:
+        timestamp:
+          type: string
+        httpStatus:
+          type: integer
+          format: int32
+        code:
+          type: string
+        message:
+          type: string
+        data:
+          "$ref": "#/components/schemas/MemberResponse"
+    CategoryResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+    CategoryResponses:
+      type: object
+      properties:
+        categories:
+          type: array
+          items:
+            "$ref": "#/components/schemas/CategoryResponse"
+    NofficeResponseCategoryResponses:
+      type: object
+      properties:
+        timestamp:
+          type: string
+        httpStatus:
+          type: integer
+          format: int32
+        code:
+          type: string
+        message:
+          type: string
+        data:
+          "$ref": "#/components/schemas/CategoryResponses"
+    AnnouncementResponses:
+      type: object
+      properties:
+        announcements:
+          type: array
+          items:
+            "$ref": "#/components/schemas/AnnouncementResponse"
+    NofficeResponseAnnouncementResponses:
+      type: object
+      properties:
+        timestamp:
+          type: string
+        httpStatus:
+          type: integer
+          format: int32
+        code:
+          type: string
+        message:
+          type: string
+        data:
+          "$ref": "#/components/schemas/AnnouncementResponses"
+    NofficeResponseInteger:
+      type: object
+      properties:
+        timestamp:
+          type: string
+        httpStatus:
+          type: integer
+          format: int32
+        code:
+          type: string
+        message:
+          type: string
+        data:
+          type: integer
+          format: int32
+

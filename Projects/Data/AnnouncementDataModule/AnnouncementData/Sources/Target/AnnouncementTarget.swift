@@ -11,7 +11,7 @@ import Moya
 
 enum AnnouncementTarget {
     case createAnnouncement
-    case getOrganization(id: Int)
+    case getAllAnnouncement
     case joinOrganization(organizationId: Int, userId: Int)
     case getOrganizationList
 }
@@ -30,8 +30,8 @@ extension AnnouncementTarget: TargetType {
         case .createAnnouncement:
             return "/organization"
             
-        case let .getOrganization(id):
-            return "/organization/\(id)"
+        case let .getAllAnnouncement:
+            return "/organization"
             
         case let .joinOrganization(organizationId, _):
             return "/organization/\(organizationId)/join"
@@ -46,7 +46,7 @@ extension AnnouncementTarget: TargetType {
         case .createAnnouncement, .joinOrganization:
             return .post
             
-        case .getOrganization, .getOrganizationList:
+        case .getAllAnnouncement, .getOrganizationList:
             return .get
         }
     }
@@ -66,7 +66,7 @@ extension AnnouncementTarget: TargetType {
                 encoding: JSONEncoding.default
             )
             
-        case .getOrganization, .getOrganizationList:
+        case .getAllAnnouncement, .getOrganizationList:
             return .requestPlain
         }
     }

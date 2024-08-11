@@ -27,7 +27,7 @@ struct AnnouncementPageConverter {
         let convertToAnnouncementItem: (
             AnnouncementEntity
         ) -> AnnouncementItem = { announcementEntity in
-            let dateString = announcementEntity.date?
+            let dateString = announcementEntity.endAt?
                 .toString(format: "yyyy.MM.dd(EEE) HH:mm") ?? "-"
             let location = announcementEntity.place?.name ?? "-"
             

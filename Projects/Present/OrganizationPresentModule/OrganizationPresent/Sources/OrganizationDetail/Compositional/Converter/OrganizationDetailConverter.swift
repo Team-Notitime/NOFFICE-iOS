@@ -19,7 +19,7 @@ struct OrganizationDetailConverter {
                     AnnouncementItem(
                         id: announcement.id,
                         title: announcement.title,
-                        endDate: announcement.date,
+                        endDate: announcement.endAt,
                         place: announcement.place?.name,
                         todoCount: announcement.todos?.count,
                         body: announcement.body,

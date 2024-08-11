@@ -72,9 +72,9 @@ public class AnnouncementDetailViewController: BaseViewController<AnnouncementDe
                     owner.stopSkeleton()
                     
                     owner.baseView.titleLabel.text = item.title
-                    owner.baseView.createdDateLabel.text = item.date?
+                    owner.baseView.createdDateLabel.text = item.endAt?
                         .toString(format: "yyyy.MM.dd HH:mm") ?? "-"
-                    owner.baseView.eventDateLabel.text = item.date?
+                    owner.baseView.eventDateLabel.text = item.endAt?
                         .toString(format: "yyyy.MM.dd(E) HH:mm") ?? "-"
                     owner.baseView.eventPlaceLabel.text = item.place?.name ?? "-"
                     owner.baseView.eventBodyLabel.text = item.body

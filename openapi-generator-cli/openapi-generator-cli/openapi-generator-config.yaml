@@ -1,0 +1,5 @@
+# Use the OpenAPI Generator CLI to generate Swift client and models
+generate:
+  - types
+  - client
+accessModifier: public
