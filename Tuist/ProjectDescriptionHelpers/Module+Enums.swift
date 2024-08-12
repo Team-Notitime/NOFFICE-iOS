@@ -52,6 +52,7 @@ public enum Module {
         case sample = "Sample"
         case organization = "Organization"
         case announcement = "Announcement"
+        case member = "Member"
         
         var name: String { rawValue }
         var bundleIdenifier: String { rawValue.toBundleIdentifier() }
@@ -61,6 +62,7 @@ public enum Module {
         case common = "Common"
         case organization = "Organization"
         case announcement = "Announcement"
+        case member = "Member"
         
         var name: String { rawValue }
         var bundleIdenifier: String { rawValue.toBundleIdentifier() }

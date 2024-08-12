@@ -277,6 +277,7 @@ extension Project {
     static let dataDependencies: [TargetDependency] = [
         .thirdParty(.rxSwift),
         .thirdParty(.moya),
-        .thirdParty(.rxMoya)
+        .thirdParty(.rxMoya),
+        .thirdParty(.openapiGenerated)
     ]
 }

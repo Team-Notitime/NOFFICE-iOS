@@ -10,7 +10,7 @@ import Foundation
 /// Represents a member entity with basic user information.
 public struct MemberEntity {
     /// The unique identifier for the member.
-    public let uid: Int
+    public let uid: Int64
     
     /// The name of the member.
     public let name: String
@@ -22,7 +22,7 @@ public struct MemberEntity {
     public let profileImageURL: String?
     
     public init(
-        uid: Int,
+        uid: Int64,
         name: String,
         email: String,
         profileImageURL: String? = nil

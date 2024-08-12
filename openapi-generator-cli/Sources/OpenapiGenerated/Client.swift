@@ -11,7 +11,7 @@ import struct Foundation.Date
 #endif
 import HTTPTypes
 /// 테스트 프로덕션용 NOFFICE API 명세서입니다.
-/// 공통된 응답 형식은 Schemas-NofficeResponseString을 참고해주세요.
+///
 public struct Client: APIProtocol {
     /// The underlying HTTP client.
     private let client: UniversalClient
@@ -65,44 +65,44 @@ public struct Client: APIProtocol {
             },
             deserializer: { response, responseBody in
                 switch response.status.code {
-                case 255:
+                case 200:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.getTasks.Output.Code255.Body
+                    let body: Operations.getTasks.Output.Ok.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
-                            "*/*"
+                            "application/json"
                         ]
                     )
                     switch chosenContentType {
-                    case "*/*":
-                        body = try converter.getResponseBodyAsBinary(
-                            OpenAPIRuntime.HTTPBody.self,
+                    case "application/json":
+                        body = try await converter.getResponseBodyAsJSON(
+                            Components.Schemas.NofficeResponseTaskResponses.self,
                             from: responseBody,
                             transforming: { value in
-                                .any(value)
+                                .json(value)
                             }
                         )
                     default:
                         preconditionFailure("bestContentType chose an invalid content type.")
                     }
-                    return .code255(.init(body: body))
+                    return .ok(.init(body: body))
                 case 404:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
                     let body: Operations.getTasks.Output.NotFound.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
-                            "*/*"
+                            "application/json"
                         ]
                     )
                     switch chosenContentType {
-                    case "*/*":
-                        body = try converter.getResponseBodyAsBinary(
-                            OpenAPIRuntime.HTTPBody.self,
+                    case "application/json":
+                        body = try await converter.getResponseBodyAsJSON(
+                            Components.Schemas.NofficeResponseTaskResponses.self,
                             from: responseBody,
                             transforming: { value in
-                                .any(value)
+                                .json(value)
                             }
                         )
                     default:
@@ -151,44 +151,44 @@ public struct Client: APIProtocol {
             },
             deserializer: { response, responseBody in
                 switch response.status.code {
-                case 215:
+                case 201:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.createTask.Output.Code215.Body
+                    let body: Operations.createTask.Output.Created.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
-                            "*/*"
+                            "application/json"
                         ]
                     )
                     switch chosenContentType {
-                    case "*/*":
-                        body = try converter.getResponseBodyAsBinary(
-                            OpenAPIRuntime.HTTPBody.self,
+                    case "application/json":
+                        body = try await converter.getResponseBodyAsJSON(
+                            Components.Schemas.NofficeResponseTaskCreateResponse.self,
                             from: responseBody,
                             transforming: { value in
-                                .any(value)
+                                .json(value)
                             }
                         )
                     default:
                         preconditionFailure("bestContentType chose an invalid content type.")
                     }
-                    return .code215(.init(body: body))
+                    return .created(.init(body: body))
                 case 400:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
                     let body: Operations.createTask.Output.BadRequest.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
-                            "*/*"
+                            "application/json"
                         ]
                     )
                     switch chosenContentType {
-                    case "*/*":
-                        body = try converter.getResponseBodyAsBinary(
-                            OpenAPIRuntime.HTTPBody.self,
+                    case "application/json":
+                        body = try await converter.getResponseBodyAsJSON(
+                            Components.Schemas.NofficeResponseTaskCreateResponse.self,
                             from: responseBody,
                             transforming: { value in
-                                .any(value)
+                                .json(value)
                             }
                         )
                     default:
@@ -237,44 +237,44 @@ public struct Client: APIProtocol {
             },
             deserializer: { response, responseBody in
                 switch response.status.code {
-                case 215:
+                case 201:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.createBulkTask.Output.Code215.Body
+                    let body: Operations.createBulkTask.Output.Created.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
-                            "*/*"
+                            "application/json"
                         ]
                     )
                     switch chosenContentType {
-                    case "*/*":
-                        body = try converter.getResponseBodyAsBinary(
-                            OpenAPIRuntime.HTTPBody.self,
+                    case "application/json":
+                        body = try await converter.getResponseBodyAsJSON(
+                            Components.Schemas.NofficeResponseTaskCreateResponses.self,
                             from: responseBody,
                             transforming: { value in
-                                .any(value)
+                                .json(value)
                             }
                         )
                     default:
                         preconditionFailure("bestContentType chose an invalid content type.")
                     }
-                    return .code215(.init(body: body))
+                    return .created(.init(body: body))
                 case 400:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
                     let body: Operations.createBulkTask.Output.BadRequest.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
-                            "*/*"
+                            "application/json"
                         ]
                     )
                     switch chosenContentType {
-                    case "*/*":
-                        body = try converter.getResponseBodyAsBinary(
-                            OpenAPIRuntime.HTTPBody.self,
+                    case "application/json":
+                        body = try await converter.getResponseBodyAsJSON(
+                            Components.Schemas.NofficeResponseTaskCreateResponses.self,
                             from: responseBody,
                             transforming: { value in
-                                .any(value)
+                                .json(value)
                             }
                         )
                     default:
@@ -290,63 +290,92 @@ public struct Client: APIProtocol {
             }
         )
     }
-    /// 조직 생성
+    /// 사용자의 가입된 조직 페이징 조회
     ///
-    /// - Remark: HTTP `POST /api/v1/organization`.
-    /// - Remark: Generated from `#/paths//api/v1/organization/post(createOrganization)`.
-    public func createOrganization(_ input: Operations.createOrganization.Input) async throws -> Operations.createOrganization.Output {
+    /// 멤버가 가입한 조직 목록을 조회합니다.
+    ///
+    /// - Remark: HTTP `GET /api/v1/organizations`.
+    /// - Remark: Generated from `#/paths//api/v1/organizations/get(getJoinedOrganizations)`.
+    public func getJoinedOrganizations(_ input: Operations.getJoinedOrganizations.Input) async throws -> Operations.getJoinedOrganizations.Output {
         try await client.send(
             input: input,
-            forOperation: Operations.createOrganization.id,
+            forOperation: Operations.getJoinedOrganizations.id,
             serializer: { input in
                 let path = try converter.renderedPath(
-                    template: "/api/v1/organization",
+                    template: "/api/v1/organizations",
                     parameters: []
                 )
                 var request: HTTPTypes.HTTPRequest = .init(
                     soar_path: path,
-                    method: .post
+                    method: .get
                 )
                 suppressMutabilityWarning(&request)
+                try converter.setQueryItemAsURI(
+                    in: &request,
+                    style: .form,
+                    explode: true,
+                    name: "memberId",
+                    value: input.query.memberId
+                )
+                try converter.setQueryItemAsURI(
+                    in: &request,
+                    style: .form,
+                    explode: true,
+                    name: "pageable",
+                    value: input.query.pageable
+                )
                 converter.setAcceptHeader(
                     in: &request.headerFields,
                     contentTypes: input.headers.accept
                 )
-                let body: OpenAPIRuntime.HTTPBody?
-                switch input.body {
-                case let .json(value):
-                    body = try converter.setRequiredRequestBodyAsJSON(
-                        value,
-                        headerFields: &request.headerFields,
-                        contentType: "application/json; charset=utf-8"
-                    )
-                }
-                return (request, body)
+                return (request, nil)
             },
             deserializer: { response, responseBody in
                 switch response.status.code {
                 case 200:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.createOrganization.Output.Ok.Body
+                    let body: Operations.getJoinedOrganizations.Output.Ok.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
-                            "*/*"
+                            "application/json"
                         ]
                     )
                     switch chosenContentType {
-                    case "*/*":
-                        body = try converter.getResponseBodyAsBinary(
-                            OpenAPIRuntime.HTTPBody.self,
+                    case "application/json":
+                        body = try await converter.getResponseBodyAsJSON(
+                            Components.Schemas.NofficeResponseSliceOrganizationResponse.self,
                             from: responseBody,
                             transforming: { value in
-                                .any(value)
+                                .json(value)
                             }
                         )
                     default:
                         preconditionFailure("bestContentType chose an invalid content type.")
                     }
                     return .ok(.init(body: body))
+                case 404:
+                    let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
+                    let body: Operations.getJoinedOrganizations.Output.NotFound.Body
+                    let chosenContentType = try converter.bestContentType(
+                        received: contentType,
+                        options: [
+                            "application/json"
+                        ]
+                    )
+                    switch chosenContentType {
+                    case "application/json":
+                        body = try await converter.getResponseBodyAsJSON(
+                            Components.Schemas.NofficeResponseSliceOrganizationResponse.self,
+                            from: responseBody,
+                            transforming: { value in
+                                .json(value)
+                            }
+                        )
+                    default:
+                        preconditionFailure("bestContentType chose an invalid content type.")
+                    }
+                    return .notFound(.init(body: body))
                 default:
                     return .undocumented(
                         statusCode: response.status.code,
@@ -356,26 +385,33 @@ public struct Client: APIProtocol {
             }
         )
     }
-    /// 멤버의 조직 가입
+    /// 조직 생성
     ///
-    /// - Remark: HTTP `POST /api/v1/organization/{organizationId}/join`.
-    /// - Remark: Generated from `#/paths//api/v1/organization/{organizationId}/join/post(joinOrganization)`.
-    public func joinOrganization(_ input: Operations.joinOrganization.Input) async throws -> Operations.joinOrganization.Output {
+    /// 조직을 생성합니다.
+    ///
+    /// - Remark: HTTP `POST /api/v1/organizations`.
+    /// - Remark: Generated from `#/paths//api/v1/organizations/post(createOrganization)`.
+    public func createOrganization(_ input: Operations.createOrganization.Input) async throws -> Operations.createOrganization.Output {
         try await client.send(
             input: input,
-            forOperation: Operations.joinOrganization.id,
+            forOperation: Operations.createOrganization.id,
             serializer: { input in
                 let path = try converter.renderedPath(
-                    template: "/api/v1/organization/{}/join",
-                    parameters: [
-                        input.path.organizationId
-                    ]
+                    template: "/api/v1/organizations",
+                    parameters: []
                 )
                 var request: HTTPTypes.HTTPRequest = .init(
                     soar_path: path,
                     method: .post
                 )
                 suppressMutabilityWarning(&request)
+                try converter.setQueryItemAsURI(
+                    in: &request,
+                    style: .form,
+                    explode: true,
+                    name: "memberId",
+                    value: input.query.memberId
+                )
                 converter.setAcceptHeader(
                     in: &request.headerFields,
                     contentTypes: input.headers.accept
@@ -393,22 +429,112 @@ public struct Client: APIProtocol {
             },
             deserializer: { response, responseBody in
                 switch response.status.code {
+                case 201:
+                    let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
+                    let body: Operations.createOrganization.Output.Created.Body
+                    let chosenContentType = try converter.bestContentType(
+                        received: contentType,
+                        options: [
+                            "application/json"
+                        ]
+                    )
+                    switch chosenContentType {
+                    case "application/json":
+                        body = try await converter.getResponseBodyAsJSON(
+                            Components.Schemas.NofficeResponseOrganizationCreateResponse.self,
+                            from: responseBody,
+                            transforming: { value in
+                                .json(value)
+                            }
+                        )
+                    default:
+                        preconditionFailure("bestContentType chose an invalid content type.")
+                    }
+                    return .created(.init(body: body))
+                case 400:
+                    let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
+                    let body: Operations.createOrganization.Output.BadRequest.Body
+                    let chosenContentType = try converter.bestContentType(
+                        received: contentType,
+                        options: [
+                            "application/json"
+                        ]
+                    )
+                    switch chosenContentType {
+                    case "application/json":
+                        body = try await converter.getResponseBodyAsJSON(
+                            Components.Schemas.NofficeResponseOrganizationCreateResponse.self,
+                            from: responseBody,
+                            transforming: { value in
+                                .json(value)
+                            }
+                        )
+                    default:
+                        preconditionFailure("bestContentType chose an invalid content type.")
+                    }
+                    return .badRequest(.init(body: body))
+                default:
+                    return .undocumented(
+                        statusCode: response.status.code,
+                        .init()
+                    )
+                }
+            }
+        )
+    }
+    /// 조직 가입
+    ///
+    /// 조직에 가입합니다.
+    ///
+    /// - Remark: HTTP `POST /api/v1/organizations/{organizationId}/join`.
+    /// - Remark: Generated from `#/paths//api/v1/organizations/{organizationId}/join/post(joinOrganization)`.
+    public func joinOrganization(_ input: Operations.joinOrganization.Input) async throws -> Operations.joinOrganization.Output {
+        try await client.send(
+            input: input,
+            forOperation: Operations.joinOrganization.id,
+            serializer: { input in
+                let path = try converter.renderedPath(
+                    template: "/api/v1/organizations/{}/join",
+                    parameters: [
+                        input.path.organizationId
+                    ]
+                )
+                var request: HTTPTypes.HTTPRequest = .init(
+                    soar_path: path,
+                    method: .post
+                )
+                suppressMutabilityWarning(&request)
+                try converter.setQueryItemAsURI(
+                    in: &request,
+                    style: .form,
+                    explode: true,
+                    name: "memberId",
+                    value: input.query.memberId
+                )
+                converter.setAcceptHeader(
+                    in: &request.headerFields,
+                    contentTypes: input.headers.accept
+                )
+                return (request, nil)
+            },
+            deserializer: { response, responseBody in
+                switch response.status.code {
                 case 200:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
                     let body: Operations.joinOrganization.Output.Ok.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
-                            "*/*"
+                            "application/json"
                         ]
                     )
                     switch chosenContentType {
-                    case "*/*":
-                        body = try converter.getResponseBodyAsBinary(
-                            OpenAPIRuntime.HTTPBody.self,
+                    case "application/json":
+                        body = try await converter.getResponseBodyAsJSON(
+                            Components.Schemas.NofficeResponseOrganizationJoinResponse.self,
                             from: responseBody,
                             transforming: { value in
-                                .any(value)
+                                .json(value)
                             }
                         )
                     default:
@@ -459,44 +585,44 @@ public struct Client: APIProtocol {
             },
             deserializer: { response, responseBody in
                 switch response.status.code {
-                case 207:
+                case 200:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.getNotifications.Output.Code207.Body
+                    let body: Operations.getNotifications.Output.Ok.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
-                            "*/*"
+                            "application/json"
                         ]
                     )
                     switch chosenContentType {
-                    case "*/*":
-                        body = try converter.getResponseBodyAsBinary(
-                            OpenAPIRuntime.HTTPBody.self,
+                    case "application/json":
+                        body = try await converter.getResponseBodyAsJSON(
+                            Components.Schemas.NofficeResponseVoid.self,
                             from: responseBody,
                             transforming: { value in
-                                .any(value)
+                                .json(value)
                             }
                         )
                     default:
                         preconditionFailure("bestContentType chose an invalid content type.")
                     }
-                    return .code207(.init(body: body))
+                    return .ok(.init(body: body))
                 case 404:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
                     let body: Operations.getNotifications.Output.NotFound.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
-                            "*/*"
+                            "application/json"
                         ]
                     )
                     switch chosenContentType {
-                    case "*/*":
-                        body = try converter.getResponseBodyAsBinary(
-                            OpenAPIRuntime.HTTPBody.self,
+                    case "application/json":
+                        body = try await converter.getResponseBodyAsJSON(
+                            Components.Schemas.NofficeResponseVoid.self,
                             from: responseBody,
                             transforming: { value in
-                                .any(value)
+                                .json(value)
                             }
                         )
                     default:
@@ -549,44 +675,44 @@ public struct Client: APIProtocol {
             },
             deserializer: { response, responseBody in
                 switch response.status.code {
-                case 207:
+                case 200:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.createNotification.Output.Code207.Body
+                    let body: Operations.createNotification.Output.Ok.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
-                            "*/*"
+                            "application/json"
                         ]
                     )
                     switch chosenContentType {
-                    case "*/*":
-                        body = try converter.getResponseBodyAsBinary(
-                            OpenAPIRuntime.HTTPBody.self,
+                    case "application/json":
+                        body = try await converter.getResponseBodyAsJSON(
+                            Components.Schemas.NofficeResponseVoid.self,
                             from: responseBody,
                             transforming: { value in
-                                .any(value)
+                                .json(value)
                             }
                         )
                     default:
                         preconditionFailure("bestContentType chose an invalid content type.")
                     }
-                    return .code207(.init(body: body))
+                    return .ok(.init(body: body))
                 case 400:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
                     let body: Operations.createNotification.Output.BadRequest.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
-                            "*/*"
+                            "application/json"
                         ]
                     )
                     switch chosenContentType {
-                    case "*/*":
-                        body = try converter.getResponseBodyAsBinary(
-                            OpenAPIRuntime.HTTPBody.self,
+                    case "application/json":
+                        body = try await converter.getResponseBodyAsJSON(
+                            Components.Schemas.NofficeResponseVoid.self,
                             from: responseBody,
                             transforming: { value in
-                                .any(value)
+                                .json(value)
                             }
                         )
                     default:
@@ -639,44 +765,44 @@ public struct Client: APIProtocol {
             },
             deserializer: { response, responseBody in
                 switch response.status.code {
-                case 207:
+                case 200:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.changeSendTime.Output.Code207.Body
+                    let body: Operations.changeSendTime.Output.Ok.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
-                            "*/*"
+                            "application/json"
                         ]
                     )
                     switch chosenContentType {
-                    case "*/*":
-                        body = try converter.getResponseBodyAsBinary(
-                            OpenAPIRuntime.HTTPBody.self,
+                    case "application/json":
+                        body = try await converter.getResponseBodyAsJSON(
+                            Components.Schemas.NofficeResponseNotificationTimeChangeResponse.self,
                             from: responseBody,
                             transforming: { value in
-                                .any(value)
+                                .json(value)
                             }
                         )
                     default:
                         preconditionFailure("bestContentType chose an invalid content type.")
                     }
-                    return .code207(.init(body: body))
+                    return .ok(.init(body: body))
                 case 400:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
                     let body: Operations.changeSendTime.Output.BadRequest.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
-                            "*/*"
+                            "application/json"
                         ]
                     )
                     switch chosenContentType {
-                    case "*/*":
-                        body = try converter.getResponseBodyAsBinary(
-                            OpenAPIRuntime.HTTPBody.self,
+                    case "application/json":
+                        body = try await converter.getResponseBodyAsJSON(
+                            Components.Schemas.NofficeResponseNotificationTimeChangeResponse.self,
                             from: responseBody,
                             transforming: { value in
-                                .any(value)
+                                .json(value)
                             }
                         )
                     default:
@@ -729,44 +855,44 @@ public struct Client: APIProtocol {
             },
             deserializer: { response, responseBody in
                 switch response.status.code {
-                case 207:
+                case 200:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.createBulkNotification.Output.Code207.Body
+                    let body: Operations.createBulkNotification.Output.Ok.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
-                            "*/*"
+                            "application/json"
                         ]
                     )
                     switch chosenContentType {
-                    case "*/*":
-                        body = try converter.getResponseBodyAsBinary(
-                            OpenAPIRuntime.HTTPBody.self,
+                    case "application/json":
+                        body = try await converter.getResponseBodyAsJSON(
+                            Components.Schemas.NofficeResponseVoid.self,
                             from: responseBody,
                             transforming: { value in
-                                .any(value)
+                                .json(value)
                             }
                         )
                     default:
                         preconditionFailure("bestContentType chose an invalid content type.")
                     }
-                    return .code207(.init(body: body))
+                    return .ok(.init(body: body))
                 case 400:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
                     let body: Operations.createBulkNotification.Output.BadRequest.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
-                            "*/*"
+                            "application/json"
                         ]
                     )
                     switch chosenContentType {
-                    case "*/*":
-                        body = try converter.getResponseBodyAsBinary(
-                            OpenAPIRuntime.HTTPBody.self,
+                    case "application/json":
+                        body = try await converter.getResponseBodyAsJSON(
+                            Components.Schemas.NofficeResponseVoid.self,
                             from: responseBody,
                             transforming: { value in
-                                .any(value)
+                                .json(value)
                             }
                         )
                     default:
@@ -816,16 +942,16 @@ public struct Client: APIProtocol {
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
-                            "*/*"
+                            "application/json"
                         ]
                     )
                     switch chosenContentType {
-                    case "*/*":
-                        body = try converter.getResponseBodyAsBinary(
-                            OpenAPIRuntime.HTTPBody.self,
+                    case "application/json":
+                        body = try await converter.getResponseBodyAsJSON(
+                            Components.Schemas.NofficeResponseTokenResponse.self,
                             from: responseBody,
                             transforming: { value in
-                                .any(value)
+                                .json(value)
                             }
                         )
                     default:
@@ -884,103 +1010,22 @@ public struct Client: APIProtocol {
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
-                            "*/*"
+                            "application/json"
                         ]
                     )
                     switch chosenContentType {
-                    case "*/*":
-                        body = try converter.getResponseBodyAsBinary(
-                            OpenAPIRuntime.HTTPBody.self,
+                    case "application/json":
+                        body = try await converter.getResponseBodyAsJSON(
+                            Components.Schemas.NofficeResponseSocialAuthResponse.self,
                             from: responseBody,
                             transforming: { value in
-                                .any(value)
+                                .json(value)
                             }
                         )
                     default:
                         preconditionFailure("bestContentType chose an invalid content type.")
                     }
                     return .ok(.init(body: body))
-                default:
-                    return .undocumented(
-                        statusCode: response.status.code,
-                        .init()
-                    )
-                }
-            }
-        )
-    }
-    /// 모든 노티 조회
-    ///
-    /// 사용자에게 할당된 모든 노티를 조회합니다.
-    ///
-    /// - Remark: HTTP `GET /api/v1/announcement`.
-    /// - Remark: Generated from `#/paths//api/v1/announcement/get(getAnnouncements)`.
-    public func getAnnouncements(_ input: Operations.getAnnouncements.Input) async throws -> Operations.getAnnouncements.Output {
-        try await client.send(
-            input: input,
-            forOperation: Operations.getAnnouncements.id,
-            serializer: { input in
-                let path = try converter.renderedPath(
-                    template: "/api/v1/announcement",
-                    parameters: []
-                )
-                var request: HTTPTypes.HTTPRequest = .init(
-                    soar_path: path,
-                    method: .get
-                )
-                suppressMutabilityWarning(&request)
-                converter.setAcceptHeader(
-                    in: &request.headerFields,
-                    contentTypes: input.headers.accept
-                )
-                return (request, nil)
-            },
-            deserializer: { response, responseBody in
-                switch response.status.code {
-                case 205:
-                    let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.getAnnouncements.Output.ResetContent.Body
-                    let chosenContentType = try converter.bestContentType(
-                        received: contentType,
-                        options: [
-                            "*/*"
-                        ]
-                    )
-                    switch chosenContentType {
-                    case "*/*":
-                        body = try converter.getResponseBodyAsBinary(
-                            OpenAPIRuntime.HTTPBody.self,
-                            from: responseBody,
-                            transforming: { value in
-                                .any(value)
-                            }
-                        )
-                    default:
-                        preconditionFailure("bestContentType chose an invalid content type.")
-                    }
-                    return .resetContent(.init(body: body))
-                case 404:
-                    let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.getAnnouncements.Output.NotFound.Body
-                    let chosenContentType = try converter.bestContentType(
-                        received: contentType,
-                        options: [
-                            "*/*"
-                        ]
-                    )
-                    switch chosenContentType {
-                    case "*/*":
-                        body = try converter.getResponseBodyAsBinary(
-                            OpenAPIRuntime.HTTPBody.self,
-                            from: responseBody,
-                            transforming: { value in
-                                .any(value)
-                            }
-                        )
-                    default:
-                        preconditionFailure("bestContentType chose an invalid content type.")
-                    }
-                    return .notFound(.init(body: body))
                 default:
                     return .undocumented(
                         statusCode: response.status.code,
@@ -1027,44 +1072,44 @@ public struct Client: APIProtocol {
             },
             deserializer: { response, responseBody in
                 switch response.status.code {
-                case 215:
+                case 201:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.createAnnouncement.Output.Code215.Body
+                    let body: Operations.createAnnouncement.Output.Created.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
-                            "*/*"
+                            "application/json"
                         ]
                     )
                     switch chosenContentType {
-                    case "*/*":
-                        body = try converter.getResponseBodyAsBinary(
-                            OpenAPIRuntime.HTTPBody.self,
+                    case "application/json":
+                        body = try await converter.getResponseBodyAsJSON(
+                            Components.Schemas.NofficeResponseAnnouncementResponse.self,
                             from: responseBody,
                             transforming: { value in
-                                .any(value)
+                                .json(value)
                             }
                         )
                     default:
                         preconditionFailure("bestContentType chose an invalid content type.")
                     }
-                    return .code215(.init(body: body))
+                    return .created(.init(body: body))
                 case 400:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
                     let body: Operations.createAnnouncement.Output.BadRequest.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
-                            "*/*"
+                            "application/json"
                         ]
                     )
                     switch chosenContentType {
-                    case "*/*":
-                        body = try converter.getResponseBodyAsBinary(
-                            OpenAPIRuntime.HTTPBody.self,
+                    case "application/json":
+                        body = try await converter.getResponseBodyAsJSON(
+                            Components.Schemas.NofficeResponseAnnouncementResponse.self,
                             from: responseBody,
                             transforming: { value in
-                                .any(value)
+                                .json(value)
                             }
                         )
                     default:
@@ -1110,44 +1155,44 @@ public struct Client: APIProtocol {
             },
             deserializer: { response, responseBody in
                 switch response.status.code {
-                case 205:
+                case 200:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.getAnnouncement.Output.ResetContent.Body
+                    let body: Operations.getAnnouncement.Output.Ok.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
-                            "*/*"
+                            "application/json"
                         ]
                     )
                     switch chosenContentType {
-                    case "*/*":
-                        body = try converter.getResponseBodyAsBinary(
-                            OpenAPIRuntime.HTTPBody.self,
+                    case "application/json":
+                        body = try await converter.getResponseBodyAsJSON(
+                            Components.Schemas.NofficeResponseAnnouncementResponse.self,
                             from: responseBody,
                             transforming: { value in
-                                .any(value)
+                                .json(value)
                             }
                         )
                     default:
                         preconditionFailure("bestContentType chose an invalid content type.")
                     }
-                    return .resetContent(.init(body: body))
+                    return .ok(.init(body: body))
                 case 404:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
                     let body: Operations.getAnnouncement.Output.NotFound.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
-                            "*/*"
+                            "application/json"
                         ]
                     )
                     switch chosenContentType {
-                    case "*/*":
-                        body = try converter.getResponseBodyAsBinary(
-                            OpenAPIRuntime.HTTPBody.self,
+                    case "application/json":
+                        body = try await converter.getResponseBodyAsJSON(
+                            Components.Schemas.NofficeResponseAnnouncementResponse.self,
                             from: responseBody,
                             transforming: { value in
-                                .any(value)
+                                .json(value)
                             }
                         )
                     default:
@@ -1202,44 +1247,44 @@ public struct Client: APIProtocol {
             },
             deserializer: { response, responseBody in
                 switch response.status.code {
-                case 205:
+                case 200:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.updateAnnouncement.Output.ResetContent.Body
+                    let body: Operations.updateAnnouncement.Output.Ok.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
-                            "*/*"
+                            "application/json"
                         ]
                     )
                     switch chosenContentType {
-                    case "*/*":
-                        body = try converter.getResponseBodyAsBinary(
-                            OpenAPIRuntime.HTTPBody.self,
+                    case "application/json":
+                        body = try await converter.getResponseBodyAsJSON(
+                            Components.Schemas.NofficeResponseAnnouncementResponse.self,
                             from: responseBody,
                             transforming: { value in
-                                .any(value)
+                                .json(value)
                             }
                         )
                     default:
                         preconditionFailure("bestContentType chose an invalid content type.")
                     }
-                    return .resetContent(.init(body: body))
+                    return .ok(.init(body: body))
                 case 404:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
                     let body: Operations.updateAnnouncement.Output.NotFound.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
-                            "*/*"
+                            "application/json"
                         ]
                     )
                     switch chosenContentType {
-                    case "*/*":
-                        body = try converter.getResponseBodyAsBinary(
-                            OpenAPIRuntime.HTTPBody.self,
+                    case "application/json":
+                        body = try await converter.getResponseBodyAsJSON(
+                            Components.Schemas.NofficeResponseAnnouncementResponse.self,
                             from: responseBody,
                             transforming: { value in
-                                .any(value)
+                                .json(value)
                             }
                         )
                     default:
@@ -1285,109 +1330,50 @@ public struct Client: APIProtocol {
             },
             deserializer: { response, responseBody in
                 switch response.status.code {
-                case 205:
+                case 204:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.deleteAnnouncement.Output.ResetContent.Body
+                    let body: Operations.deleteAnnouncement.Output.NoContent.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
-                            "*/*"
+                            "application/json"
                         ]
                     )
                     switch chosenContentType {
-                    case "*/*":
-                        body = try converter.getResponseBodyAsBinary(
-                            OpenAPIRuntime.HTTPBody.self,
+                    case "application/json":
+                        body = try await converter.getResponseBodyAsJSON(
+                            Components.Schemas.NofficeResponseVoid.self,
                             from: responseBody,
                             transforming: { value in
-                                .any(value)
+                                .json(value)
                             }
                         )
                     default:
                         preconditionFailure("bestContentType chose an invalid content type.")
                     }
-                    return .resetContent(.init(body: body))
-                case 404:
+                    return .noContent(.init(body: body))
+                case 400:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.deleteAnnouncement.Output.NotFound.Body
+                    let body: Operations.deleteAnnouncement.Output.BadRequest.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
-                            "*/*"
+                            "application/json"
                         ]
                     )
                     switch chosenContentType {
-                    case "*/*":
-                        body = try converter.getResponseBodyAsBinary(
-                            OpenAPIRuntime.HTTPBody.self,
+                    case "application/json":
+                        body = try await converter.getResponseBodyAsJSON(
+                            Components.Schemas.NofficeResponseVoid.self,
                             from: responseBody,
                             transforming: { value in
-                                .any(value)
+                                .json(value)
                             }
                         )
                     default:
                         preconditionFailure("bestContentType chose an invalid content type.")
                     }
-                    return .notFound(.init(body: body))
-                default:
-                    return .undocumented(
-                        statusCode: response.status.code,
-                        .init()
-                    )
-                }
-            }
-        )
-    }
-    /// 서버 상태 확인
-    ///
-    /// 정상 동작시 OK 반환합니다.
-    ///
-    /// - Remark: HTTP `GET /health`.
-    /// - Remark: Generated from `#/paths//health/get(health)`.
-    public func health(_ input: Operations.health.Input) async throws -> Operations.health.Output {
-        try await client.send(
-            input: input,
-            forOperation: Operations.health.id,
-            serializer: { input in
-                let path = try converter.renderedPath(
-                    template: "/health",
-                    parameters: []
-                )
-                var request: HTTPTypes.HTTPRequest = .init(
-                    soar_path: path,
-                    method: .get
-                )
-                suppressMutabilityWarning(&request)
-                converter.setAcceptHeader(
-                    in: &request.headerFields,
-                    contentTypes: input.headers.accept
-                )
-                return (request, nil)
-            },
-            deserializer: { response, responseBody in
-                switch response.status.code {
-                case 200:
-                    let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.health.Output.Ok.Body
-                    let chosenContentType = try converter.bestContentType(
-                        received: contentType,
-                        options: [
-                            "*/*"
-                        ]
-                    )
-                    switch chosenContentType {
-                    case "*/*":
-                        body = try converter.getResponseBodyAsBinary(
-                            OpenAPIRuntime.HTTPBody.self,
-                            from: responseBody,
-                            transforming: { value in
-                                .any(value)
-                            }
-                        )
-                    default:
-                        preconditionFailure("bestContentType chose an invalid content type.")
-                    }
-                    return .ok(.init(body: body))
+                    return .badRequest(.init(body: body))
                 default:
                     return .undocumented(
                         statusCode: response.status.code,
@@ -1437,44 +1423,44 @@ public struct Client: APIProtocol {
             },
             deserializer: { response, responseBody in
                 switch response.status.code {
-                case 205:
+                case 200:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.getAssignedTasks.Output.ResetContent.Body
+                    let body: Operations.getAssignedTasks.Output.Ok.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
-                            "*/*"
+                            "application/json"
                         ]
                     )
                     switch chosenContentType {
-                    case "*/*":
-                        body = try converter.getResponseBodyAsBinary(
-                            OpenAPIRuntime.HTTPBody.self,
+                    case "application/json":
+                        body = try await converter.getResponseBodyAsJSON(
+                            Components.Schemas.NofficeResponseSliceAssignedTaskResponse.self,
                             from: responseBody,
                             transforming: { value in
-                                .any(value)
+                                .json(value)
                             }
                         )
                     default:
                         preconditionFailure("bestContentType chose an invalid content type.")
                     }
-                    return .resetContent(.init(body: body))
+                    return .ok(.init(body: body))
                 case 404:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
                     let body: Operations.getAssignedTasks.Output.NotFound.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
-                            "*/*"
+                            "application/json"
                         ]
                     )
                     switch chosenContentType {
-                    case "*/*":
-                        body = try converter.getResponseBodyAsBinary(
-                            OpenAPIRuntime.HTTPBody.self,
+                    case "application/json":
+                        body = try await converter.getResponseBodyAsJSON(
+                            Components.Schemas.NofficeResponseSliceAssignedTaskResponse.self,
                             from: responseBody,
                             transforming: { value in
-                                .any(value)
+                                .json(value)
                             }
                         )
                     default:
@@ -1492,15 +1478,17 @@ public struct Client: APIProtocol {
     }
     /// 단일 조직 정보 조회
     ///
-    /// - Remark: HTTP `GET /api/v1/organization/{organizationId}`.
-    /// - Remark: Generated from `#/paths//api/v1/organization/{organizationId}/get(getOrganization)`.
+    /// 조직의 정보를 조회합니다.
+    ///
+    /// - Remark: HTTP `GET /api/v1/organizations/{organizationId}`.
+    /// - Remark: Generated from `#/paths//api/v1/organizations/{organizationId}/get(getOrganization)`.
     public func getOrganization(_ input: Operations.getOrganization.Input) async throws -> Operations.getOrganization.Output {
         try await client.send(
             input: input,
             forOperation: Operations.getOrganization.id,
             serializer: { input in
                 let path = try converter.renderedPath(
-                    template: "/api/v1/organization/{}",
+                    template: "/api/v1/organizations/{}",
                     parameters: [
                         input.path.organizationId
                     ]
@@ -1524,22 +1512,44 @@ public struct Client: APIProtocol {
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
-                            "*/*"
+                            "application/json"
                         ]
                     )
                     switch chosenContentType {
-                    case "*/*":
-                        body = try converter.getResponseBodyAsBinary(
-                            OpenAPIRuntime.HTTPBody.self,
+                    case "application/json":
+                        body = try await converter.getResponseBodyAsJSON(
+                            Components.Schemas.NofficeResponseOrganizationResponse.self,
                             from: responseBody,
                             transforming: { value in
-                                .any(value)
+                                .json(value)
                             }
                         )
                     default:
                         preconditionFailure("bestContentType chose an invalid content type.")
                     }
                     return .ok(.init(body: body))
+                case 404:
+                    let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
+                    let body: Operations.getOrganization.Output.NotFound.Body
+                    let chosenContentType = try converter.bestContentType(
+                        received: contentType,
+                        options: [
+                            "application/json"
+                        ]
+                    )
+                    switch chosenContentType {
+                    case "application/json":
+                        body = try await converter.getResponseBodyAsJSON(
+                            Components.Schemas.NofficeResponseOrganizationResponse.self,
+                            from: responseBody,
+                            transforming: { value in
+                                .json(value)
+                            }
+                        )
+                    default:
+                        preconditionFailure("bestContentType chose an invalid content type.")
+                    }
+                    return .notFound(.init(body: body))
                 default:
                     return .undocumented(
                         statusCode: response.status.code,
@@ -1549,24 +1559,42 @@ public struct Client: APIProtocol {
             }
         )
     }
-    /// 조직 목록 조회
+    /// 조직별 노티 페이징 조회
     ///
-    /// - Remark: HTTP `GET /api/v1/organization/list`.
-    /// - Remark: Generated from `#/paths//api/v1/organization/list/get(getOrganizationList)`.
-    public func getOrganizationList(_ input: Operations.getOrganizationList.Input) async throws -> Operations.getOrganizationList.Output {
+    /// 조직별 노티를 페이징 조회합니다.
+    ///
+    /// - Remark: HTTP `GET /api/v1/organizations/{organizationId}/announcements`.
+    /// - Remark: Generated from `#/paths//api/v1/organizations/{organizationId}/announcements/get(getPublishedAnnouncements)`.
+    public func getPublishedAnnouncements(_ input: Operations.getPublishedAnnouncements.Input) async throws -> Operations.getPublishedAnnouncements.Output {
         try await client.send(
             input: input,
-            forOperation: Operations.getOrganizationList.id,
+            forOperation: Operations.getPublishedAnnouncements.id,
             serializer: { input in
                 let path = try converter.renderedPath(
-                    template: "/api/v1/organization/list",
-                    parameters: []
+                    template: "/api/v1/organizations/{}/announcements",
+                    parameters: [
+                        input.path.organizationId
+                    ]
                 )
                 var request: HTTPTypes.HTTPRequest = .init(
                     soar_path: path,
                     method: .get
                 )
                 suppressMutabilityWarning(&request)
+                try converter.setQueryItemAsURI(
+                    in: &request,
+                    style: .form,
+                    explode: true,
+                    name: "memberId",
+                    value: input.query.memberId
+                )
+                try converter.setQueryItemAsURI(
+                    in: &request,
+                    style: .form,
+                    explode: true,
+                    name: "pageable",
+                    value: input.query.pageable
+                )
                 converter.setAcceptHeader(
                     in: &request.headerFields,
                     contentTypes: input.headers.accept
@@ -1577,26 +1605,48 @@ public struct Client: APIProtocol {
                 switch response.status.code {
                 case 200:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.getOrganizationList.Output.Ok.Body
+                    let body: Operations.getPublishedAnnouncements.Output.Ok.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
-                            "*/*"
+                            "application/json"
                         ]
                     )
                     switch chosenContentType {
-                    case "*/*":
-                        body = try converter.getResponseBodyAsBinary(
-                            OpenAPIRuntime.HTTPBody.self,
+                    case "application/json":
+                        body = try await converter.getResponseBodyAsJSON(
+                            Components.Schemas.NofficeResponseSliceAnnouncementCoverResponse.self,
                             from: responseBody,
                             transforming: { value in
-                                .any(value)
+                                .json(value)
                             }
                         )
                     default:
                         preconditionFailure("bestContentType chose an invalid content type.")
                     }
                     return .ok(.init(body: body))
+                case 404:
+                    let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
+                    let body: Operations.getPublishedAnnouncements.Output.NotFound.Body
+                    let chosenContentType = try converter.bestContentType(
+                        received: contentType,
+                        options: [
+                            "application/json"
+                        ]
+                    )
+                    switch chosenContentType {
+                    case "application/json":
+                        body = try await converter.getResponseBodyAsJSON(
+                            Components.Schemas.NofficeResponseSliceAnnouncementCoverResponse.self,
+                            from: responseBody,
+                            transforming: { value in
+                                .json(value)
+                            }
+                        )
+                    default:
+                        preconditionFailure("bestContentType chose an invalid content type.")
+                    }
+                    return .notFound(.init(body: body))
                 default:
                     return .undocumented(
                         statusCode: response.status.code,
@@ -1608,18 +1658,18 @@ public struct Client: APIProtocol {
     }
     /// 단일 회원 정보 조회
     ///
-    /// - Remark: HTTP `GET /api/v1/member/{memberId}`.
-    /// - Remark: Generated from `#/paths//api/v1/member/{memberId}/get(getMember)`.
+    /// 회원의 정보를 조회합니다.
+    ///
+    /// - Remark: HTTP `GET /api/v1/member`.
+    /// - Remark: Generated from `#/paths//api/v1/member/get(getMember)`.
     public func getMember(_ input: Operations.getMember.Input) async throws -> Operations.getMember.Output {
         try await client.send(
             input: input,
             forOperation: Operations.getMember.id,
             serializer: { input in
                 let path = try converter.renderedPath(
-                    template: "/api/v1/member/{}",
-                    parameters: [
-                        input.path.memberId
-                    ]
+                    template: "/api/v1/member",
+                    parameters: []
                 )
                 var request: HTTPTypes.HTTPRequest = .init(
                     soar_path: path,
@@ -1640,280 +1690,22 @@ public struct Client: APIProtocol {
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
-                            "*/*"
+                            "application/json"
                         ]
                     )
                     switch chosenContentType {
-                    case "*/*":
-                        body = try converter.getResponseBodyAsBinary(
-                            OpenAPIRuntime.HTTPBody.self,
+                    case "application/json":
+                        body = try await converter.getResponseBodyAsJSON(
+                            Components.Schemas.NofficeResponseMemberResponse.self,
                             from: responseBody,
                             transforming: { value in
-                                .any(value)
+                                .json(value)
                             }
                         )
                     default:
                         preconditionFailure("bestContentType chose an invalid content type.")
                     }
                     return .ok(.init(body: body))
-                default:
-                    return .undocumented(
-                        statusCode: response.status.code,
-                        .init()
-                    )
-                }
-            }
-        )
-    }
-    /// 멤버가 가입한 조직 목록 조회
-    ///
-    /// - Remark: HTTP `GET /api/v1/member/{memberId}/organizations`.
-    /// - Remark: Generated from `#/paths//api/v1/member/{memberId}/organizations/get(getJoinedOrganizations)`.
-    public func getJoinedOrganizations(_ input: Operations.getJoinedOrganizations.Input) async throws -> Operations.getJoinedOrganizations.Output {
-        try await client.send(
-            input: input,
-            forOperation: Operations.getJoinedOrganizations.id,
-            serializer: { input in
-                let path = try converter.renderedPath(
-                    template: "/api/v1/member/{}/organizations",
-                    parameters: [
-                        input.path.memberId
-                    ]
-                )
-                var request: HTTPTypes.HTTPRequest = .init(
-                    soar_path: path,
-                    method: .get
-                )
-                suppressMutabilityWarning(&request)
-                converter.setAcceptHeader(
-                    in: &request.headerFields,
-                    contentTypes: input.headers.accept
-                )
-                return (request, nil)
-            },
-            deserializer: { response, responseBody in
-                switch response.status.code {
-                case 200:
-                    let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.getJoinedOrganizations.Output.Ok.Body
-                    let chosenContentType = try converter.bestContentType(
-                        received: contentType,
-                        options: [
-                            "*/*"
-                        ]
-                    )
-                    switch chosenContentType {
-                    case "*/*":
-                        body = try converter.getResponseBodyAsBinary(
-                            OpenAPIRuntime.HTTPBody.self,
-                            from: responseBody,
-                            transforming: { value in
-                                .any(value)
-                            }
-                        )
-                    default:
-                        preconditionFailure("bestContentType chose an invalid content type.")
-                    }
-                    return .ok(.init(body: body))
-                default:
-                    return .undocumented(
-                        statusCode: response.status.code,
-                        .init()
-                    )
-                }
-            }
-        )
-    }
-    /// 전체 카테고리 조회
-    ///
-    /// - Remark: HTTP `GET /api/v1/category`.
-    /// - Remark: Generated from `#/paths//api/v1/category/get(getCategories)`.
-    public func getCategories(_ input: Operations.getCategories.Input) async throws -> Operations.getCategories.Output {
-        try await client.send(
-            input: input,
-            forOperation: Operations.getCategories.id,
-            serializer: { input in
-                let path = try converter.renderedPath(
-                    template: "/api/v1/category",
-                    parameters: []
-                )
-                var request: HTTPTypes.HTTPRequest = .init(
-                    soar_path: path,
-                    method: .get
-                )
-                suppressMutabilityWarning(&request)
-                converter.setAcceptHeader(
-                    in: &request.headerFields,
-                    contentTypes: input.headers.accept
-                )
-                return (request, nil)
-            },
-            deserializer: { response, responseBody in
-                switch response.status.code {
-                case 200:
-                    let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.getCategories.Output.Ok.Body
-                    let chosenContentType = try converter.bestContentType(
-                        received: contentType,
-                        options: [
-                            "*/*"
-                        ]
-                    )
-                    switch chosenContentType {
-                    case "*/*":
-                        body = try converter.getResponseBodyAsBinary(
-                            OpenAPIRuntime.HTTPBody.self,
-                            from: responseBody,
-                            transforming: { value in
-                                .any(value)
-                            }
-                        )
-                    default:
-                        preconditionFailure("bestContentType chose an invalid content type.")
-                    }
-                    return .ok(.init(body: body))
-                default:
-                    return .undocumented(
-                        statusCode: response.status.code,
-                        .init()
-                    )
-                }
-            }
-        )
-    }
-    /// 특정 조직의 카테고리 조회
-    ///
-    /// - Remark: HTTP `GET /api/v1/category/organization/{organizationId}`.
-    /// - Remark: Generated from `#/paths//api/v1/category/organization/{organizationId}/get(getCategoriesByOrganization)`.
-    public func getCategoriesByOrganization(_ input: Operations.getCategoriesByOrganization.Input) async throws -> Operations.getCategoriesByOrganization.Output {
-        try await client.send(
-            input: input,
-            forOperation: Operations.getCategoriesByOrganization.id,
-            serializer: { input in
-                let path = try converter.renderedPath(
-                    template: "/api/v1/category/organization/{}",
-                    parameters: [
-                        input.path.organizationId
-                    ]
-                )
-                var request: HTTPTypes.HTTPRequest = .init(
-                    soar_path: path,
-                    method: .get
-                )
-                suppressMutabilityWarning(&request)
-                converter.setAcceptHeader(
-                    in: &request.headerFields,
-                    contentTypes: input.headers.accept
-                )
-                return (request, nil)
-            },
-            deserializer: { response, responseBody in
-                switch response.status.code {
-                case 200:
-                    let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.getCategoriesByOrganization.Output.Ok.Body
-                    let chosenContentType = try converter.bestContentType(
-                        received: contentType,
-                        options: [
-                            "*/*"
-                        ]
-                    )
-                    switch chosenContentType {
-                    case "*/*":
-                        body = try converter.getResponseBodyAsBinary(
-                            OpenAPIRuntime.HTTPBody.self,
-                            from: responseBody,
-                            transforming: { value in
-                                .any(value)
-                            }
-                        )
-                    default:
-                        preconditionFailure("bestContentType chose an invalid content type.")
-                    }
-                    return .ok(.init(body: body))
-                default:
-                    return .undocumented(
-                        statusCode: response.status.code,
-                        .init()
-                    )
-                }
-            }
-        )
-    }
-    /// 노티에 발행된 알림 개수 조회
-    ///
-    /// 노티에 발행된 알림 개수를 조회합니다.
-    ///
-    /// - Remark: HTTP `GET /api/v1/announcement/{announcementId}/count`.
-    /// - Remark: Generated from `#/paths//api/v1/announcement/{announcementId}/count/get(getNotificationCount)`.
-    public func getNotificationCount(_ input: Operations.getNotificationCount.Input) async throws -> Operations.getNotificationCount.Output {
-        try await client.send(
-            input: input,
-            forOperation: Operations.getNotificationCount.id,
-            serializer: { input in
-                let path = try converter.renderedPath(
-                    template: "/api/v1/announcement/{}/count",
-                    parameters: [
-                        input.path.announcementId
-                    ]
-                )
-                var request: HTTPTypes.HTTPRequest = .init(
-                    soar_path: path,
-                    method: .get
-                )
-                suppressMutabilityWarning(&request)
-                converter.setAcceptHeader(
-                    in: &request.headerFields,
-                    contentTypes: input.headers.accept
-                )
-                return (request, nil)
-            },
-            deserializer: { response, responseBody in
-                switch response.status.code {
-                case 207:
-                    let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.getNotificationCount.Output.Code207.Body
-                    let chosenContentType = try converter.bestContentType(
-                        received: contentType,
-                        options: [
-                            "*/*"
-                        ]
-                    )
-                    switch chosenContentType {
-                    case "*/*":
-                        body = try converter.getResponseBodyAsBinary(
-                            OpenAPIRuntime.HTTPBody.self,
-                            from: responseBody,
-                            transforming: { value in
-                                .any(value)
-                            }
-                        )
-                    default:
-                        preconditionFailure("bestContentType chose an invalid content type.")
-                    }
-                    return .code207(.init(body: body))
-                case 404:
-                    let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.getNotificationCount.Output.NotFound.Body
-                    let chosenContentType = try converter.bestContentType(
-                        received: contentType,
-                        options: [
-                            "*/*"
-                        ]
-                    )
-                    switch chosenContentType {
-                    case "*/*":
-                        body = try converter.getResponseBodyAsBinary(
-                            OpenAPIRuntime.HTTPBody.self,
-                            from: responseBody,
-                            transforming: { value in
-                                .any(value)
-                            }
-                        )
-                    default:
-                        preconditionFailure("bestContentType chose an invalid content type.")
-                    }
-                    return .notFound(.init(body: body))
                 default:
                     return .undocumented(
                         statusCode: response.status.code,
@@ -1951,44 +1743,44 @@ public struct Client: APIProtocol {
             },
             deserializer: { response, responseBody in
                 switch response.status.code {
-                case 215:
+                case 204:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.deleteTask.Output.Code215.Body
+                    let body: Operations.deleteTask.Output.NoContent.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
-                            "*/*"
+                            "application/json"
                         ]
                     )
                     switch chosenContentType {
-                    case "*/*":
-                        body = try converter.getResponseBodyAsBinary(
-                            OpenAPIRuntime.HTTPBody.self,
+                    case "application/json":
+                        body = try await converter.getResponseBodyAsJSON(
+                            Components.Schemas.NofficeResponseVoid.self,
                             from: responseBody,
                             transforming: { value in
-                                .any(value)
+                                .json(value)
                             }
                         )
                     default:
                         preconditionFailure("bestContentType chose an invalid content type.")
                     }
-                    return .code215(.init(body: body))
+                    return .noContent(.init(body: body))
                 case 400:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
                     let body: Operations.deleteTask.Output.BadRequest.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
-                            "*/*"
+                            "application/json"
                         ]
                     )
                     switch chosenContentType {
-                    case "*/*":
-                        body = try converter.getResponseBodyAsBinary(
-                            OpenAPIRuntime.HTTPBody.self,
+                    case "application/json":
+                        body = try await converter.getResponseBodyAsJSON(
+                            Components.Schemas.NofficeResponseVoid.self,
                             from: responseBody,
                             transforming: { value in
-                                .any(value)
+                                .json(value)
                             }
                         )
                     default:
@@ -2034,44 +1826,44 @@ public struct Client: APIProtocol {
             },
             deserializer: { response, responseBody in
                 switch response.status.code {
-                case 207:
+                case 204:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.deleteNotification.Output.Code207.Body
+                    let body: Operations.deleteNotification.Output.NoContent.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
-                            "*/*"
+                            "application/json"
                         ]
                     )
                     switch chosenContentType {
-                    case "*/*":
-                        body = try converter.getResponseBodyAsBinary(
-                            OpenAPIRuntime.HTTPBody.self,
+                    case "application/json":
+                        body = try await converter.getResponseBodyAsJSON(
+                            Components.Schemas.NofficeResponseVoid.self,
                             from: responseBody,
                             transforming: { value in
-                                .any(value)
+                                .json(value)
                             }
                         )
                     default:
                         preconditionFailure("bestContentType chose an invalid content type.")
                     }
-                    return .code207(.init(body: body))
+                    return .noContent(.init(body: body))
                 case 400:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
                     let body: Operations.deleteNotification.Output.BadRequest.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
-                            "*/*"
+                            "application/json"
                         ]
                     )
                     switch chosenContentType {
-                    case "*/*":
-                        body = try converter.getResponseBodyAsBinary(
-                            OpenAPIRuntime.HTTPBody.self,
+                    case "application/json":
+                        body = try await converter.getResponseBodyAsJSON(
+                            Components.Schemas.NofficeResponseVoid.self,
                             from: responseBody,
                             transforming: { value in
-                                .any(value)
+                                .json(value)
                             }
                         )
                     default:

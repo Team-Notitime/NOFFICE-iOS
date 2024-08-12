@@ -7,8 +7,8 @@ SWIFT_OPENAPI_GENERATOR_GIT_URL ?= https://github.com/apple/swift-openapi-genera
 SWIFT_OPENAPI_GENERATOR_GIT_TAG ?= 1.0.0
 SWIFT_OPENAPI_GENERATOR_CLONE_DIR ?= $(CURRENT_MAKEFILE_DIR)/.swift-openapi-generator
 SWIFT_OPENAPI_GENERATOR_BUILD_CONFIGURATION ?= debug
-OPENAPI_YAML_PATH ?= $(CURRENT_MAKEFILE_DIR)/openapi-generator-cli/openapi.yaml
-OPENAPI_GENERATOR_CONFIG_PATH ?= $(CURRENT_MAKEFILE_DIR)/openapi-generator-cli/openapi-generator-config.yaml
+OPENAPI_YAML_PATH ?= $(CURRENT_MAKEFILE_DIR)/Sources/openapi-generator-cli/openapi.yaml
+OPENAPI_GENERATOR_CONFIG_PATH ?= $(CURRENT_MAKEFILE_DIR)/Sources/openapi-generator-cli/openapi-generator-config.yaml
 OUTPUT_DIRECTORY ?= $(CURRENT_MAKEFILE_DIR)/Sources/OpenapiGenerated
 
 # Derived values (don't change these).

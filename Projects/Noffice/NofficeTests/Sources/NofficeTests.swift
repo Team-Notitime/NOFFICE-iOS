@@ -3,7 +3,6 @@ import XCTest
 
 import OpenapiGenerated
 
-import OpenAPIRuntime
 import OpenAPIURLSession
 
 final class NofficeTests: XCTestCase {
@@ -24,7 +23,7 @@ final class NofficeTests: XCTestCase {
     
     func test_openapiGenerated() {
         // Create an expectation for the asynchronous operation
-        let expectation = self.expectation(description: "Async operation")
+        let expectation = self.expectation(description: "Api test")
         
         // Perform the asynchronous operation
         Task {
