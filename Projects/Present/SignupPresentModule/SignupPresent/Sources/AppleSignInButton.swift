@@ -13,6 +13,7 @@ import RxCocoa
 import SnapKit
 import Then
 
+// TODO: authorization 로직 UI 코드와 분리 필요
 final public class AppleSignInButton: UIButton {
     // MARK: Property
     private var authorizationController: ASAuthorizationController = {

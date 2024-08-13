@@ -4,16 +4,14 @@ import ProjectDescriptionHelpers
 let project = Project.makeDIModule(
     .container,
     dependencies: [
-        // entity
-        .entity(.organization),
-        .entity(.announcement),
-        .entity(.todo),
         // data interface
         .dataInterface(.organization),
         .dataInterface(.announcement),
+        .dataInterface(.member),
         // data
         .data(.organization),
         .data(.announcement),
+        .data(.member),
         // third party
         .thirdParty(.swinject),
         .thirdParty(.rxSwift)

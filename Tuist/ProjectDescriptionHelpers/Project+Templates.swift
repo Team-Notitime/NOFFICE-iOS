@@ -153,7 +153,7 @@ extension Project {
                     name: "\(target.name)DataInterface",
                     product: .framework,
                     bundleId: "\(bundleId).\(target.bundleIdenifier).datainterface",
-                    dependencies: dependencies
+                    dependencies: dependencies + dataDependencies
                 ),
             ],
             schemes: .base
