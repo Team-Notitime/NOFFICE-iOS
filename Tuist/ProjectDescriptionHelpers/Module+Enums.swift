@@ -1,100 +1,107 @@
 public enum Module {
     public enum MainApp: String, CaseIterable {
-        case noffice = "Noffice"
+        case noffice
         
-        var name: String { rawValue }
+        var name: String { rawValue.toUpperCamelCase() }
         var bundleIdenifier: String { rawValue.toBundleIdentifier() }
     }
     
     public enum Present: String, CaseIterable {
-        case home = "Home"
-        case organization = "Organization"
-        case newOrganization = "NewOrganization"
-        case mypage = "Mypage"
-        case signup = "Signup"
-        case announcement = "Announcement"
-        case newAnnouncement = "NewAnnouncement"
+        case home
+        case organization
+        case newOrganization
+        case mypage
+        case signup
+        case announcement
+        case newAnnouncement
         
-        var name: String { rawValue }
+        var name: String { rawValue.toUpperCamelCase() }
         var bundleIdenifier: String { rawValue.toBundleIdentifier() }
     }
 
     public enum UI: String, CaseIterable {
-        case designSystem = "DesignSystem"
-        case assets = "Assets"
+        case designSystem
+        case assets
         
-        var name: String { rawValue }
+        var name: String { rawValue.toUpperCamelCase() }
         var bundleIdenifier: String { rawValue.toBundleIdentifier() }
     }
 
     public enum Example: String, CaseIterable {
-        case home = "Home"
-        case newOrganization = "NewOrganization"
-        case organization = "Organization"
-        case mypage = "Mypage"
-        case signup = "Signup"
-        case announcement = "Announcement"
-        case newAnnouncement = "NewAnnouncement"
+        case home
+        case newOrganization
+        case organization
+        case mypage
+        case signup
+        case announcement
+        case newAnnouncement
         
-        var name: String { rawValue }
+        var name: String { rawValue.toUpperCamelCase() }
         var bundleIdenifier: String { rawValue.toBundleIdentifier() }
     }
 
     public enum Domain: String, CaseIterable {
-        case common = "Common"
-        case organization = "Organization"
-        case todo = "Todo"
-        case announcement = "Announcement"
-        case member = "Member"
+        case common
+        case organization
+        case todo
+        case announcement
+        case member
         
-        var name: String { rawValue }
+        var name: String { rawValue.toUpperCamelCase() }
         var bundleIdenifier: String { rawValue.toBundleIdentifier() }
     }
 
     public enum DataInterface: String, CaseIterable {
-        case sample = "Sample"
-        case organization = "Organization"
-        case announcement = "Announcement"
-        case member = "Member"
+        case sample
+        case organization
+        case announcement
+        case member
         
-        var name: String { rawValue }
+        var name: String { rawValue.toUpperCamelCase() }
         var bundleIdenifier: String { rawValue.toBundleIdentifier() }
     }
 
     public enum Data: String, CaseIterable {
-        case common = "Common"
-        case organization = "Organization"
-        case announcement = "Announcement"
-        case member = "Member"
+        case common
+        case organization
+        case announcement
+        case member
         
-        var name: String { rawValue }
+        var name: String { rawValue.toUpperCamelCase() }
         var bundleIdenifier: String { rawValue.toBundleIdentifier() }
     }
 
     public enum DI: String, CaseIterable {
-        case container = "Container"
-        case router = "Router"
+        case container
+        case router
         
-        var name: String { rawValue }
+        var name: String { rawValue.toUpperCamelCase() }
+        var bundleIdenifier: String { rawValue.toBundleIdentifier() }
+    }
+    
+    public enum Utility: String, CaseIterable {
+        case keychain
+        
+        var name: String { rawValue.toUpperCamelCase() }
         var bundleIdenifier: String { rawValue.toBundleIdentifier() }
     }
     
     public enum ThirdParty: String, CaseIterable {
-        case swinject = "Swinject"
-        case rxSwift = "RxSwift"
-        case rxCocoa = "RxCocoa"
-        case rxGesture = "RxGesture"
-        case snapKit = "SnapKit"
-        case then = "Then"
-        case reactorKit = "ReactorKit"
-        case kingfisher = "Kingfisher"
-        case openGraph = "OpenGraph"
-        case skeletonView = "SkeletonView"
-        case moya = "Moya"
-        case rxMoya = "RxMoya"
-        case openapiGenerated = "OpenapiGenerated"
+        case swinject
+        case rxSwift
+        case rxCocoa
+        case rxGesture
+        case snapKit
+        case then
+        case reactorKit
+        case kingfisher
+        case openGraph
+        case skeletonView
+        case moya
+        case rxMoya
+        case openapiGenerated
         
-        var name: String { rawValue }
+        var name: String { rawValue.toUpperCamelCase() }
     }
 }
 
@@ -110,5 +117,9 @@ extension String {
             }
         }
         return result
+    }
+
+    func toUpperCamelCase() -> String {
+        return prefix(1).uppercased() + dropFirst()
     }
 }

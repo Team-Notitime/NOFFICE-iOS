@@ -5,8 +5,8 @@ public extension TargetDependency {
         _ target: Module.Present
     ) -> TargetDependency {
         return .project(
-            target: "\(target.rawValue)Present",
-            path: .relativeToRoot("Projects/Present/\(target.rawValue)PresentModule")
+            target: "\(target.name)Present",
+            path: .relativeToRoot("Projects/Present/\(target.name)PresentModule")
         )
     }
     
@@ -14,8 +14,8 @@ public extension TargetDependency {
         _ target: Module.UI
     ) -> TargetDependency {
         return .project(
-            target: "\(target.rawValue)",
-            path: .relativeToRoot("Projects/UI/\(target.rawValue)UIModule")
+            target: "\(target.name)",
+            path: .relativeToRoot("Projects/UI/\(target.name)UIModule")
         )
     }
     
@@ -23,8 +23,8 @@ public extension TargetDependency {
         _ target: Module.Domain
     ) -> TargetDependency {
         return .project(
-            target: "\(target.rawValue)Usecase",
-            path: .relativeToRoot("Projects/Domain/\(target.rawValue)DomainModule")
+            target: "\(target.name)Usecase",
+            path: .relativeToRoot("Projects/Domain/\(target.name)DomainModule")
         )
     }
     
@@ -32,8 +32,8 @@ public extension TargetDependency {
         _ target: Module.Domain
     ) -> TargetDependency {
         return .project(
-            target: "\(target.rawValue)Entity",
-            path: .relativeToRoot("Projects/Domain/\(target.rawValue)DomainModule")
+            target: "\(target.name)Entity",
+            path: .relativeToRoot("Projects/Domain/\(target.name)DomainModule")
         )
     }
     
@@ -41,8 +41,8 @@ public extension TargetDependency {
         _ target: Module.DataInterface
     ) -> TargetDependency {
         return .project(
-            target: "\(target.rawValue)DataInterface",
-            path: .relativeToRoot("Projects/DataInterface/\(target.rawValue)DataInterfaceModule")
+            target: "\(target.name)DataInterface",
+            path: .relativeToRoot("Projects/DataInterface/\(target.name)DataInterfaceModule")
         )
     }
     
@@ -50,8 +50,8 @@ public extension TargetDependency {
         _ target: Module.Data
     ) -> TargetDependency {
         return .project(
-            target: "\(target.rawValue)Data",
-            path: .relativeToRoot("Projects/Data/\(target.rawValue)DataModule")
+            target: "\(target.name)Data",
+            path: .relativeToRoot("Projects/Data/\(target.name)DataModule")
         )
     }
     
@@ -59,14 +59,23 @@ public extension TargetDependency {
         _ target: Module.DI
     ) -> TargetDependency {
         return .project(
-            target: "\(target.rawValue)",
-            path: .relativeToRoot("Projects/DI/\(target.rawValue)DIModule")
+            target: "\(target.name)",
+            path: .relativeToRoot("Projects/DI/\(target.name)DIModule")
+        )
+    }
+    
+    static func utility(
+        _ target: Module.Utility
+    ) -> TargetDependency {
+        return .project(
+            target: "\(target.name)",
+            path: .relativeToRoot("Projects/Utility/\(target.name)UtilityModule")
         )
     }
     
     static func thirdParty(
         _ target: Module.ThirdParty
     ) -> TargetDependency {
-        return .external(name: target.rawValue)
+        return .external(name: target.name)
     }
 }

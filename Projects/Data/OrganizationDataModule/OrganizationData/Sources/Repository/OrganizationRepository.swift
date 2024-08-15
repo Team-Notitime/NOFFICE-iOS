@@ -17,12 +17,15 @@ import RxSwift
 
 /// A repository that handles network communication with the server related to the organization domain.
 public struct OrganizationRepository: OrganizationRepositoryInterface {
-    private let client: APIProtocol = Client(
-        serverURL: UrlConfig.baseUrl.url,
-        transport: URLSessionTransport()
-    )
-    
-    public init() {}
+    private let client: APIProtocol
+    public init() {
+        
+        client = Client(
+           serverURL: UrlConfig.baseUrl.url,
+           transport: URLSessionTransport(),
+           middlewares: [AuthenticationMiddleware(token: "")]
+       )
+    }
     
     public func getOrganization(
         _ param: GetOrganizationParam
@@ -53,7 +56,9 @@ public struct OrganizationRepository: OrganizationRepositoryInterface {
         return Observable.create { observer in
             Task {
                 do {
-                    let response = try await client.getJoinedOrganizations(param)
+                    let response = try await client.getJoinedOrganizations(
+                        .init(query: param)
+                    )
                     
                     if let data = try response.ok.body.json.data {
                         observer.onNext(data)

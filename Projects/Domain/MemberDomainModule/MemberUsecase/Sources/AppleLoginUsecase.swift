@@ -14,7 +14,7 @@ import RxSwift
 
 public struct AppleLoginUsecase {
     // MARK: DTO
-    public struct Param {
+    public struct Input {
         let authorizationCode: String // TODO: 추후 가능하면 identityToken으로 변경
         
         public init(
@@ -24,7 +24,7 @@ public struct AppleLoginUsecase {
         }
     }
     
-    public struct Result { }
+    public struct Output { }
     
     // MARK: Dependency
     let memberRepository = Container.shared.resolve(MemberRepositoryInterface.self)!
@@ -33,7 +33,7 @@ public struct AppleLoginUsecase {
     public init() { }
     
     // MARK: Execute method
-    public func execute(_ param: Param) -> Observable<Result> {
+    public func execute(_ param: Input) -> Observable<Output> {
         let requestParam: LoginParam = .init(
             body: .json(
                 .init(
@@ -44,6 +44,6 @@ public struct AppleLoginUsecase {
         )
         
         return memberRepository.login(requestParam)
-            .map { _ in Result() }
+            .map { _ in Output() }
     }
 }

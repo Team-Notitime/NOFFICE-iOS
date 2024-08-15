@@ -16,11 +16,11 @@ extension Project {
                     name: "\(target.name)",
                     product: .app,
                     bundleId: "\(bundleId).app",
-                    infoPlist: .file(path: "\(target.rawValue)/Sources/Info.plist"),
+                    infoPlist: .file(path: "\(target.name)/Sources/Info.plist"),
                     dependencies: dependencies + uiDependencies
                 ),
                 makeTarget(
-                    name: "\(target.rawValue)Tests",
+                    name: "\(target.name)Tests",
                     product: .unitTests,
                     bundleId: "\(bundleId).app.tests",
                     dependencies: [
@@ -39,11 +39,11 @@ extension Project {
         dependencies: [TargetDependency] = []
     ) -> Project {
         return Project(
-            name: "\(target.rawValue)PresentModule",
+            name: "\(target.name)PresentModule",
             settings: .settings(.view),
             targets: [
                 makeTarget(
-                    name: "\(target.rawValue)Present",
+                    name: "\(target.name)Present",
                     product: .framework,
                     bundleId: "\(bundleId).\(target.bundleIdenifier).present",
                     infoPlist: .default,
@@ -63,23 +63,23 @@ extension Project {
         dependencies: [TargetDependency] = []
     ) -> Project {
         return Project(
-            name: "\(target.rawValue)Module",
+            name: "\(target.name)Module",
             settings: .settings(.base),
             targets: [
                 makeTarget(
-                    name: "\(target.rawValue)App",
+                    name: "\(target.name)App",
                     product: .app,
                     bundleId: "\(bundleId).\(target.bundleIdenifier).app",
-                    infoPlist: .file(path: "\(target.rawValue)App/Sources/Info.plist"),
+                    infoPlist: .file(path: "\(target.name)App/Sources/Info.plist"),
                     dependencies: [
-                        .target(name: "\(target.rawValue)"),
+                        .target(name: "\(target.name)"),
                     ] + dependencies + uiDependencies
                 ),
                 makeTarget(
-                    name: "\(target.rawValue)",
+                    name: "\(target.name)",
                     product: .framework,
                     bundleId: "\(bundleId).\(target.bundleIdenifier)",
-                    infoPlist: .file(path: "\(target.rawValue)/Sources/Info.plist"),
+                    infoPlist: .file(path: "\(target.name)/Sources/Info.plist"),
                     dependencies: dependencies + uiDependencies
                 )
             ],
@@ -192,6 +192,25 @@ extension Project {
                     name: "\(target.name)",
                     product: .framework,
                     bundleId: "\(bundleId).\(target.bundleIdenifier).di",
+                    dependencies: dependencies
+                ),
+            ],
+            schemes: .base
+        )
+    }
+    
+    public static func makeUtilityModule(
+        _ target: Module.Utility,
+        dependencies: [TargetDependency] = []
+    ) -> Project {
+        return Project(
+            name: "\(target.name)UtilityModule",
+            settings: .settings(.base),
+            targets: [
+                makeTarget(
+                    name: "\(target.name)Utility",
+                    product: .framework,
+                    bundleId: "\(bundleId).\(target.bundleIdenifier).utility",
                     dependencies: dependencies
                 ),
             ],

@@ -13,7 +13,7 @@ import RxSwift
 public typealias GetOrganizationParam = Operations.getOrganization.Input.Path
 public typealias GetOrganizationResult = Components.Schemas.OrganizationResponse
 
-public typealias GetJoinedOrganizationsParam = Operations.getJoinedOrganizations.Input
+public typealias GetJoinedOrganizationsParam = Operations.getJoinedOrganizations.Input.Query
 public typealias GetJoinedOrganizationsResult = Components.Schemas.SliceOrganizationResponse
 
 public struct GetPublishedAnnouncementParam {
