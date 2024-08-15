@@ -7,6 +7,7 @@
 
 import Foundation
 
+@available(*, deprecated, message: "Openapi generate된 dto로 대체")
 struct CreateOrganizationRequest: Codable {
     let name: String
     let categories: [Int]

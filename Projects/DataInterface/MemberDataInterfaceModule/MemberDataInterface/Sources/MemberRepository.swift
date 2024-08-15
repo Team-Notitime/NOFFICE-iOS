@@ -18,7 +18,7 @@ public typealias LoginResult = Components.Schemas.SocialAuthResponse
 public typealias ReissueParam = Operations.reissue.Input
 public typealias ReissueResult = Components.Schemas.TokenResponse
 
-public protocol MemberRepository { 
+public protocol MemberRepositoryInterface { 
     func getMember(_ param: GetMemberParam) -> Observable<GetMemberResult>
     
     func login(_ param: LoginParam) -> Observable<LoginResult>

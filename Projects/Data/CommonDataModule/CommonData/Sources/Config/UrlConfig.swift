@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum UrlConfig {
+public enum UrlConfig {
     case baseUrl
     
     public var get: String {

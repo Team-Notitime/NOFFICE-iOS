@@ -16,14 +16,18 @@ public struct AppleLoginUsecase {
     // MARK: DTO
     public struct Param {
         let authorizationCode: String // TODO: 추후 가능하면 identityToken으로 변경
+        
+        public init(
+            authorizationCode: String
+        ) {
+            self.authorizationCode = authorizationCode
+        }
     }
     
-    public struct Result {
-        
-    }
+    public struct Result { }
     
     // MARK: Dependency
-    let memberRepository = Container.shared.resolve(MemberRepository.self)!
+    let memberRepository = Container.shared.resolve(MemberRepositoryInterface.self)!
     
     // MARK: Initializer
     public init() { }

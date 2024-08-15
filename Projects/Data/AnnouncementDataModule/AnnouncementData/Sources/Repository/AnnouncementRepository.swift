@@ -1,95 +1,127 @@
-////
-////  AnnouncementRepository.swift
-////  AnnouncementData
-////
-////  Created by DOYEON LEE on 7/31/24.
-////
 //
-// import Foundation
-// import RxSwift
+//  AnnouncementRepository.swift
+//  AnnouncementData
 //
-// import AnnouncementEntity
+//  Created by DOYEON LEE on 7/31/24.
 //
-// import RxMoya
-// import Moya
-//
-// struct AnnouncementRepository {
-//    private let provider = MoyaProvider<AnnouncementTarget>()
-//    
-//    // Initialize with a MoyaProvider
-//    init(provider: MoyaProvider<AnnouncementTarget>) {
-//        self.provider = provider
-//    }
-//    
-//    // Fetch a specific announcement by ID
-//    public func getAnnouncement(id: Int) -> Observable<AnnouncementEntity> {
-//        return provider.rx.request(.(id: id))
-//            .catch { error -> Single<Response> in
-//                return .error(AnnouncementError.underlying(error))
-//            }
-//            .filterSuccessfulStatusCodes()
-//            .map(GetAnnouncementResponse.self)
-//            .map { response in
-//                GetAnnouncementConverter.convert(
-//                    from: response,
-//                    memberId: 0
-//                ) // Provide memberId as needed
-//            }
-//            .asObservable()
-//    }
-//    
-//    // Create a new announcement
-//    public func createAnnouncement(
-//        announcement: AnnouncementEntity,
-//        memberId: Int
-//    ) -> Observable<AnnouncementEntity> {
-//        let requestDTO = CreateAnnouncementConverter.convert(from: announcement, memberId: memberId)
-//        
-//        return provider.rx.request(.createAnnouncement(requestDTO))
-//            .catch { error -> Single<Response> in
-//                return .error(AnnouncementError.underlying(error))
-//            }
-//            .filterSuccessfulStatusCodes()
-//            .map(CreateAnnouncementDTO.Response.self)
-//            .map { _ in
-//                // Convert the response to an AnnouncementEntity if needed
-//                // Assuming CreateAnnouncementConverter can handle this if it needs to
-//                // Or fetch the announcement again if needed
-//                announcement // Return the original announcement if no conversion is needed
-//            }
-//            .asObservable()
-//    }
-//    
-//    // Update an existing announcement
-//    public func updateAnnouncement(
-//        announcement: AnnouncementEntity
-//    ) -> Observable<AnnouncementEntity> {
-//        let requestDTO = UpdateAnnouncementConverter.convert(from: announcement)
-//        
-//        return provider.rx.request(.updateAnnouncement(requestDTO))
-//            .catch { error -> Single<Response> in
-//                return .error(AnnouncementError.underlying(error))
-//            }
-//            .filterSuccessfulStatusCodes()
-//            .map(UpdateAnnouncementDTO.Response.self)
-//            .map { _ in
-//                // Convert the response to an AnnouncementEntity if needed
-//                // Assuming UpdateAnnouncementConverter can handle this if it needs to
-//                // Or fetch the announcement again if needed
-//                announcement // Return the original announcement if no conversion is needed
-//            }
-//            .asObservable()
-//    }
-//    
-//    // Delete an announcement by ID
-//    public func deleteAnnouncement(id: Int) -> Observable<Bool> {
-//        return provider.rx.request(.deleteAnnouncement(id: id))
-//            .catch { error -> Single<Response> in
-//                return .error(AnnouncementError.underlying(error))
-//            }
-//            .filterSuccessfulStatusCodes()
-//            .map { _ in true }
-//            .catch { _ in .just(false) }
-//            .asObservable()
-//    }
-// }
+
+import Foundation
+
+import OpenapiGenerated
+import AnnouncementEntity
+import AnnouncementDataInterface
+import CommonData
+
+import OpenAPIURLSession
+import RxSwift
+
+public struct AnnouncementRepository: AnnouncementRepositoryInterface {
+    private let client: APIProtocol = Client(
+        serverURL: UrlConfig.baseUrl.url,
+        transport: URLSessionTransport()
+    )
+    
+    public init() {}
+    
+    public func createAnnouncement(
+        _ param: CreateAnnounementParam
+    ) -> Observable<CreateAnnouncementResult> {
+        return Observable.create { observer in
+            Task {
+                do {
+                    let response = try await client.createAnnouncement(
+                        .init(
+                            body: .json(param)
+                        )
+                    )
+                    
+                    if let data = try response.created.body.json.data {
+                        observer.onNext(data)
+                        observer.onCompleted()
+                    } else {
+                        observer.onError(AnnouncementError.invalidResponse)
+                    }
+                } catch {
+                    observer.onError(AnnouncementError.underlying(error))
+                }
+            }
+            
+            return Disposables.create()
+        }
+    }
+    
+    public func getAnnouncement(
+        _ param: GetAnnouncementParam
+    ) -> Observable<CreateAnnouncementResult> {
+        return Observable.create { observer in
+            Task {
+                do {
+                    let response = try await client.getAnnouncement(
+                        .init(
+                            path: param
+                        )
+                    )
+                    
+                    if let data = try response.ok.body.json.data {
+                        observer.onNext(data)
+                        observer.onCompleted()
+                    } else {
+                        observer.onError(AnnouncementError.invalidResponse)
+                    }
+                } catch {
+                    observer.onError(AnnouncementError.underlying(error))
+                }
+            }
+            return Disposables.create()
+        }
+    }
+    
+    public func updateAnnouncement(
+        _ param: UpdateAnnouncementParam
+    ) -> Observable<UpdateAnnouncementResult> {
+        return Observable.create { observer in
+            Task {
+                do {
+                    let response = try await client.updateAnnouncement(
+                        .init(
+                            path: .init(announcementId: param.announcementId),
+                            body: .json(param.updatedAnnoundement)
+                        )
+                    )
+                    
+                    if let data = try response.ok.body.json.data {
+                        observer.onNext(data)
+                        observer.onCompleted()
+                    } else {
+                        observer.onError(AnnouncementError.invalidResponse)
+                    }
+                } catch {
+                    observer.onError(AnnouncementError.underlying(error))
+                }
+            }
+            return Disposables.create()
+        }
+    }
+    
+    public func deleteAnnouncement(
+        _ announcementId: Int64
+    ) -> Observable<Void> {
+        return Observable.create { observer in
+            Task {
+                do {
+                    let response = try await client.deleteAnnouncement(
+                        .init(
+                            path: .init(announcementId: announcementId)
+                        )
+                    )
+                    
+                    observer.onNext(())
+                    observer.onCompleted()
+                } catch {
+                    observer.onError(AnnouncementError.underlying(error))
+                }
+            }
+            return Disposables.create()
+        }
+    }
+}

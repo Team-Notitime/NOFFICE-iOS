@@ -10,11 +10,12 @@ import Foundation
 import OpenapiGenerated
 import MemberEntity
 import MemberDataInterface
+import CommonData
 
 import OpenAPIURLSession
 import RxSwift
 
-public struct MemberRepositoryImpl: MemberRepository {
+public struct MemberRepository: MemberRepositoryInterface {
     private let client: APIProtocol = Client(
         serverURL: UrlConfig.baseUrl.url,
         transport: URLSessionTransport()

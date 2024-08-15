@@ -11,6 +11,11 @@ extension Container {
     static let shared: Container = {
         let container = Container()
         
+        container.register(SignupReactor.self) { _ in
+            SignupReactor()
+        }
+        .inObjectScope(.weak)
+        
         container.register(SignupFunnelReactor.self) { resolver in
             SignupFunnelReactor(
                 termsReactor: resolver.resolve(SignupTermsPageReactor.self)!,

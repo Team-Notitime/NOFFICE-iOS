@@ -7,7 +7,11 @@
 
 import Foundation
 
+/// An error type that member related errors.
 public enum MemberError: LocalizedError {
+    /// The response from the server is not match client scheme.
     case invalidResponse
+    
+    /// Wraps another error that caused this error.
     case underlying(Error)
 }

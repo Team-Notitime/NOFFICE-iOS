@@ -5,40 +5,63 @@
 //  Created by DOYEON LEE on 7/31/24.
 //
 
-import RxSwift
+import OpenapiGenerated
 import OrganizationEntity
+
+import RxSwift
+
+public typealias GetOrganizationParam = Operations.getOrganization.Input.Path
+public typealias GetOrganizationResult = Components.Schemas.OrganizationResponse
+
+public typealias GetJoinedOrganizationsParam = Operations.getJoinedOrganizations.Input
+public typealias GetJoinedOrganizationsResult = Components.Schemas.SliceOrganizationResponse
+
+public struct GetPublishedAnnouncementParam {
+    public let memberId: Int64
+    public let organizationId: Int64
+    public let pageable: Components.Schemas.Pageable
+    
+    public init(
+        memberId: Int64,
+        organizationId: Int64,
+        pageable: Components.Schemas.Pageable
+    ) {
+        self.memberId = memberId
+        self.organizationId = organizationId
+        self.pageable = pageable
+    }
+}
+public typealias GetPublishedAnnouncementResult = Components.Schemas.SliceAnnouncementCoverResponse
+
+public struct CreateOrganizationParam {
+    public let memberId: Int64
+    public let body: Components.Schemas.OrganizationCreateRequest
+    
+    public init(
+        memberId: Int64,
+        body: Components.Schemas.OrganizationCreateRequest
+    ) {
+        self.memberId = memberId
+        self.body = body
+    }
+}
+public typealias CreateOrganizationResult = Components.Schemas.OrganizationCreateResponse
 
 /// A protocol defining the operations for managing organizations.
 public protocol OrganizationRepositoryInterface {
+    func getOrganization(
+        _ param: GetOrganizationParam
+    ) -> Observable<GetOrganizationResult>
     
-    /// Creates a new organization.
-    ///
-    /// - Parameter organization: The organization entity containing the details of the organization to be created.
-    /// - Returns: An Observable that emits the created OrganizationEntity upon successful creation. 
-    /// If the request fails, it emits an ``OrganizationError``.
+    func getJoinedOrganizations(
+        _ param: GetJoinedOrganizationsParam
+    ) -> Observable<GetJoinedOrganizationsResult>
+    
+    func getPublishedAnnouncements(
+        _ param: GetPublishedAnnouncementParam
+    ) -> Observable<GetPublishedAnnouncementResult>
+    
     func createOrganization(
-        organization: NewOrganizationEntity
-    ) -> Observable<OrganizationEntity>
-    
-    /// Retrieves the details of a specific organization.
-    ///
-    /// - Parameter id: The unique identifier of the organization to retrieve.
-    /// - Returns: An Observable that emits the OrganizationEntity containing the details of the requested organization. 
-    /// If the request fails, it emits an ``OrganizationError``.
-    func getOrganization(id: Int) -> Observable<OrganizationEntity>
-    
-    /// Sends a request for a user to join an organization.
-    ///
-    /// - Parameters:
-    ///   - organizationId: The unique identifier of the organization the user wants to join.
-    ///   - userId: The unique identifier of the user who wants to join the organization.
-    /// - Returns: An Observable that emits a Boolean value indicating whether the join operation was successful. 
-    /// If the request fails, it emits an ``OrganizationError``.
-    func joinOrganization(organizationId: Int, userId: Int) -> Observable<Bool>
-    
-    /// Retrieves a list of all organizations.
-    ///
-    /// - Returns: An Observable that emits an array of OrganizationEntity objects, each representing an organization. 
-    /// If the request fails, it emits an ``OrganizationError``.
-    func getOrganizationList() -> Observable<[OrganizationEntity]>
+        _ param: CreateOrganizationParam
+    ) -> Observable<CreateOrganizationResult>
 }

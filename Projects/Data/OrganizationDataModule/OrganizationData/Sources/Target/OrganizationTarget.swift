@@ -9,6 +9,7 @@ import Foundation
 
 import Moya
 
+@available(*, deprecated, message: "Openapi generate client로 대체")
 enum OrganizationTarget {
     case createOrganization(CreateOrganizationRequest)
     case getOrganization(id: Int)
@@ -16,6 +17,7 @@ enum OrganizationTarget {
     case getOrganizationList
 }
 
+@available(*, deprecated, message: "Openapi generate client로 대체")
 extension OrganizationTarget: TargetType {
     var baseURL: URL {
         guard let urlString = Bundle.main.infoDictionary?["API_BASE_URL"] as? String,

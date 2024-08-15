@@ -7,8 +7,10 @@
 
 import Foundation
 
+@available(*, deprecated, message: "Openapi generate된 dto로 대체")
 struct GetOrganizationListRequest: Codable { }
 
+@available(*, deprecated, message: "Openapi generate된 dto로 대체")
 struct GetOrganizationListResponse: Codable {
     let organizations: [Organization]
     
