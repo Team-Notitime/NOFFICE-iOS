@@ -13,7 +13,7 @@ import Assets
 import SnapKit
 import Then
 
-class NewOrganizationFunnelView: BaseView {
+public class NewOrganizationFunnelView: BaseView {
     // MARK: Data
     let pages = Array(NewOrganizationFunnelPage.allCases)
     
@@ -30,13 +30,13 @@ class NewOrganizationFunnelView: BaseView {
     }
     
     // MARK: Setup
-    override func setupHierarchy() {
+    public override func setupHierarchy() {
         addSubview(navigationBar)
         
         addSubview(paginableView)
     }
     
-    override func setupLayout() { 
+    public override func setupLayout() { 
         navigationBar.snp.makeConstraints {
             $0.top.equalTo(safeAreaLayoutGuide)
             $0.left.right.equalToSuperview()

@@ -14,14 +14,14 @@ import Swinject
 import RxSwift
 import RxCocoa
 
-class NewOrganizationFunnelViewController: BaseViewController<NewOrganizationFunnelView> {
+public class NewOrganizationFunnelViewController: BaseViewController<NewOrganizationFunnelView> {
     // MARK: Reactor
     private let reactor = Container.shared.resolve(NewOrganizationFunnelReactor.self)!
     
     // MARK: Setup
-    override func setupViewBind() { }
+    public override func setupViewBind() { }
     
-    override func setupStateBind() {
+    public override func setupStateBind() {
         reactor.state.map { $0.currentPage }
             .withUnretained(self.baseView)
             .subscribe(onNext: { owner, page in
@@ -30,7 +30,7 @@ class NewOrganizationFunnelViewController: BaseViewController<NewOrganizationFun
           .disposed(by: self.disposeBag)
     }
     
-    override func setupActionBind() {
+    public override func setupActionBind() {
         baseView.navigationBar
             .onTapBackButton
             .withUnretained(self)

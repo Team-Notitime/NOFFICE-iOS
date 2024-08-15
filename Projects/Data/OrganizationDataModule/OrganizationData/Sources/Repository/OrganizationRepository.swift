@@ -47,7 +47,6 @@ public struct OrganizationRepository: OrganizationRepositoryInterface {
         }
     }
     
-    
     public func getJoinedOrganizations(
         _ param: GetJoinedOrganizationsParam
     ) -> Observable<GetJoinedOrganizationsResult> {

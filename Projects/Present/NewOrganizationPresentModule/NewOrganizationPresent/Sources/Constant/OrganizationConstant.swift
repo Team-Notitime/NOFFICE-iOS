@@ -1,8 +1,8 @@
 //
-//  OrganizationConstant.swift
-//  OrganizationPresent
+//  Constant.swift
+//  NewOrganizationPresent
 //
-//  Created by DOYEON LEE on 7/19/24.
+//  Created by DOYEON LEE on 8/15/24.
 //
 
 import Foundation

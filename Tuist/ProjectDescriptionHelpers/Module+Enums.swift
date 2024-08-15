@@ -9,10 +9,11 @@ public enum Module {
     public enum Present: String, CaseIterable {
         case home = "Home"
         case organization = "Organization"
+        case newOrganization = "NewOrganization"
         case mypage = "Mypage"
         case signup = "Signup"
-        case newAnnouncement = "NewAnnouncement"
         case announcement = "Announcement"
+        case newAnnouncement = "NewAnnouncement"
         
         var name: String { rawValue }
         var bundleIdenifier: String { rawValue.toBundleIdentifier() }
@@ -28,9 +29,11 @@ public enum Module {
 
     public enum Example: String, CaseIterable {
         case home = "Home"
+        case newOrganization = "NewOrganization"
         case organization = "Organization"
         case mypage = "Mypage"
         case signup = "Signup"
+        case announcement = "Announcement"
         case newAnnouncement = "NewAnnouncement"
         
         var name: String { rawValue }

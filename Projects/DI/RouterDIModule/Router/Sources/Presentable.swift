@@ -11,5 +11,6 @@ import AnnouncementEntity
 public enum Presentable {
     case newAnnouncement
     case announcementDetail(announcementEntity: AnnouncementEntity)
+    case newOrganization
     case mypage
 }

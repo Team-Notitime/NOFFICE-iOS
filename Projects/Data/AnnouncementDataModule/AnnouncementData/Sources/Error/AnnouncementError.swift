@@ -15,4 +15,3 @@ public enum AnnouncementError: LocalizedError {
     /// Wraps another error that caused this error.
     case underlying(_ error: Error)
 }
-

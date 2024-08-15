@@ -8,6 +8,7 @@
 import Router
 import AnnouncementPresent
 import NewAnnouncementPresent
+import NewOrganizationPresent
 import MypagePresent
 
 struct RouterConfig {
@@ -21,6 +22,9 @@ struct RouterConfig {
                 return AnnouncementDetailViewController(
                     announcement: announcementEntity
                 )
+                
+            case .newOrganization:
+                return NewOrganizationFunnelViewController()
                 
             case .mypage:
                 return MypageViewController()

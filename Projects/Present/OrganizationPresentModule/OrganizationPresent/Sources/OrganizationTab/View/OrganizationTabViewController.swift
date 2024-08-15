@@ -35,7 +35,7 @@ public class OrganizationTabViewController: BaseViewController<OrganizationTabVi
                 OrganizationTabConverter.convert(
                     entities: $0,
                     onTapNewButton: {
-                        Router.shared.push(NewOrganizationFunnelViewController())
+                        Router.shared.push(.newOrganization)
                     },
                     onTapOrganizationRow: { organization in
                         Router.shared.push(

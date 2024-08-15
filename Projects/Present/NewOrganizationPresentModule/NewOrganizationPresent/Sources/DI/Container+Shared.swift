@@ -1,8 +1,8 @@
 //
-//  OrganizationContainer.swift
-//  OrganizationPresent
+//  Container+Shared.swift
+//  NewOrganizationPresent
 //
-//  Created by DOYEON LEE on 7/19/24.
+//  Created by DOYEON LEE on 8/15/24.
 //
 
 import Swinject
@@ -37,7 +37,7 @@ extension Container {
         container.register(NewOrganizationImagePageReactor.self) { _ in
             NewOrganizationImagePageReactor()
         }
-        .inObjectScope(.weak)        
+        .inObjectScope(.weak)
         
         container.register(NewOrganizationDatePageReactor.self) { _ in
             NewOrganizationDatePageReactor()
@@ -53,18 +53,6 @@ extension Container {
             NewOrganizationCompletePageReactor()
         }
         .inObjectScope(.weak)
-        
-        // - Organization tab
-        container.register(OrganizationTabReactor.self) { _ in
-            OrganizationTabReactor()
-        }
-        .inObjectScope(.transient)
-        
-        // - Organization detail
-        container.register(OrganizationDetailReactor.self) { _ in
-            OrganizationDetailReactor()
-        }
-        .inObjectScope(.transient)
 
         return container
     }()
