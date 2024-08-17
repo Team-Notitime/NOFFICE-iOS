@@ -68,7 +68,7 @@ public extension TargetDependency {
         _ target: Module.Utility
     ) -> TargetDependency {
         return .project(
-            target: "\(target.name)",
+            target: "\(target.name)Utility",
             path: .relativeToRoot("Projects/Utility/\(target.name)UtilityModule")
         )
     }

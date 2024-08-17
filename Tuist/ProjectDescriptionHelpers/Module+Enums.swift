@@ -56,6 +56,7 @@ public enum Module {
         case organization
         case announcement
         case member
+        case todo
         
         var name: String { rawValue.toUpperCamelCase() }
         var bundleIdenifier: String { rawValue.toBundleIdentifier() }
@@ -66,6 +67,7 @@ public enum Module {
         case organization
         case announcement
         case member
+        case todo
         
         var name: String { rawValue.toUpperCamelCase() }
         var bundleIdenifier: String { rawValue.toBundleIdentifier() }
@@ -99,6 +101,8 @@ public enum Module {
         case skeletonView
         case moya
         case rxMoya
+        case pulse
+        case pulseUI
         case openapiGenerated
         
         var name: String { rawValue.toUpperCamelCase() }

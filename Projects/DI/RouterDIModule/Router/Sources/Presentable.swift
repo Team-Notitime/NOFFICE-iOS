@@ -13,4 +13,5 @@ public enum Presentable {
     case announcementDetail(announcementEntity: AnnouncementEntity)
     case newOrganization
     case mypage
+    case signup
 }

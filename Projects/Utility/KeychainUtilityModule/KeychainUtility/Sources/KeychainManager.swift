@@ -35,13 +35,13 @@ import Security
 /// let deleteSuccess = keychainManager.delete()
 /// print("Token deleted successfully: \(deleteSuccess)")
 /// ```
-class KeychainManager<T: Keychainable> {
+public class KeychainManager<T: Keychainable> {
     
     private let service: String
     private let account: String
 
     /// Initializes the KeychainManager with a specific service and account.
-    init(service: String, account: String) {
+    public init() {
         self.service = Bundle.main.bundleIdentifier ?? ""
         self.account = T.identifier
     }
@@ -50,7 +50,8 @@ class KeychainManager<T: Keychainable> {
     ///
     /// - Parameter item: The data item of type `T` to be saved, which must conform to `Codable`.
     /// - Returns: A boolean indicating whether the save operation was successful.
-    func save(_ item: T) -> Bool {
+    @discardableResult
+    public func save(_ item: T) -> Bool {
         do {
             let data = try JSONEncoder().encode(item)
             if let _ = get() {
@@ -85,7 +86,7 @@ class KeychainManager<T: Keychainable> {
     /// Retrieves the stored item from the Keychain.
     ///
     /// - Returns: The stored item of type `T` if it exists, otherwise `nil`.
-    func get() -> T? {
+    public func get() -> T? {
         let query: [String: Any] = [
             kSecClass as String: kSecClassGenericPassword,
             kSecAttrService as String: service,
@@ -111,7 +112,8 @@ class KeychainManager<T: Keychainable> {
     /// Deletes the stored item from the Keychain.
     ///
     /// - Returns: A boolean indicating whether the delete operation was successful.
-    func delete() -> Bool {
+    @discardableResult
+    public func delete() -> Bool {
         let query: [String: Any] = [
             kSecClass as String: kSecClassGenericPassword,
             kSecAttrService as String: service,

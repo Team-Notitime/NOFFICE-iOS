@@ -42,8 +42,8 @@ class OrganizationTabReactor: Reactor {
     func mutate(action: Action) -> Observable<Mutation> {
         switch action { 
         case .viewDidLoad:
-            return getMyOrganizationsUsecase.execute()
-                .map { Mutation.setOrganizations($0) }
+            return getMyOrganizationsUsecase.execute(.init())
+                .map { Mutation.setOrganizations($0.organizations) }
         }
     }
     

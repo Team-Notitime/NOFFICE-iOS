@@ -5,9 +5,11 @@
 //  Created by DOYEON LEE on 7/19/24.
 //
 
-import ReactorKit
+import Foundation
 
 import Router
+
+import ReactorKit
 
 class NewOrganizationFunnelReactor: Reactor {
     // MARK: Action
@@ -142,7 +144,9 @@ class NewOrganizationFunnelReactor: Reactor {
             .subscribe(onNext: { action in
                 switch action {
                 case .tapGoHomeButton:
-                    Router.shared.back()
+                    DispatchQueue.main.async {
+                        Router.shared.back()
+                    }
                 default: return
                 }
             })

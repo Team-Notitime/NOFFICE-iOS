@@ -6,7 +6,9 @@ let project = Project.makeMainApp(
     dependencies: [
         .ui(.designSystem),
         .ui(.assets),
-        .di(.router)
+        .di(.router),
+        .thirdParty(.pulse),
+        .thirdParty(.pulseUI)
     ] + Module.Present.allCases.map {
         .present($0)
     }

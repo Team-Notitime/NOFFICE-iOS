@@ -18,12 +18,12 @@ import RxSwift
 /// A repository that handles network communication with the server related to the organization domain.
 public struct OrganizationRepository: OrganizationRepositoryInterface {
     private let client: APIProtocol
+    
     public init() {
-        
-        client = Client(
+        self.client = Client(
            serverURL: UrlConfig.baseUrl.url,
            transport: URLSessionTransport(),
-           middlewares: [AuthenticationMiddleware(token: "")]
+           middlewares: [AuthenticationMiddleware()]
        )
     }
     

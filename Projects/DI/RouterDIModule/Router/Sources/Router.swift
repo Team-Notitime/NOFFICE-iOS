@@ -8,6 +8,7 @@
 import Foundation
 import UIKit
 
+@MainActor
 final public class Router: UINavigationController {
     public static let shared = Router()
     

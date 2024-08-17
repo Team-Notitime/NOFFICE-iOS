@@ -19,6 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         InjectIIIConfig.setup()
         FontConfig.setup()
         RouterConfig.setup()
+        PulseConfig.setup()
         
         return true
     }

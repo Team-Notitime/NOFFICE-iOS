@@ -14,10 +14,12 @@ import RxSwift
 
 public class GetMyOrganizationsUsecase {
     // MARK: DTO
-    public struct Input { }
+    public struct Input { 
+        public init() { }
+    }
     
     public struct Output {
-        let organizations: [OrganizationEntity]
+        public let organizations: [OrganizationEntity]
         
         public init(
             organizations: [OrganizationEntity]

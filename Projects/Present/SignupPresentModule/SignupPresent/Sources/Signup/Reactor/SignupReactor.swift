@@ -5,14 +5,18 @@
 //  Created by DOYEON LEE on 8/14/24.
 //
 
+import Foundation
+
+import KeychainUtility
 import MemberUsecase
+import Router
 
 import ReactorKit
 
 class SignupReactor: Reactor {
     // MARK: Action
     enum Action { 
-        case completeAppleLogin(authorizationCode: String)
+        case tapAppleSigninButton
     }
     
     enum Mutation { }
@@ -36,19 +40,21 @@ class SignupReactor: Reactor {
     // MARK: Action operation
     func mutate(action: Action) -> Observable<Mutation> {
         switch action { 
-        case let .completeAppleLogin(authorizationCode):
-            
-            return appleLoginUsecase
-                .execute(
-                    .init(
-                        authorizationCode: authorizationCode
-                    )
-                )
-                .debug()
-                .flatMap { _ in
-                    Observable<Mutation>.empty() // TODO: navigation 처리
+        case .tapAppleSigninButton:
+            let appleLoginExecuted = appleLoginUsecase
+                .execute(.init())
+                .flatMap { result in
+                    if result.isSuccess {
+                        DispatchQueue.main.async {
+                            Router.shared.dismiss()
+                        }
+                    } else {
+                        // TODO: Error dialog 처리하기
+                    }
+                    return Observable<Mutation>.empty()
                 }
             
+            return appleLoginExecuted
         }
     }
     

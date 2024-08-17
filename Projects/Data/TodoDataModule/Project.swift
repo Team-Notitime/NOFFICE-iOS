@@ -2,8 +2,8 @@ import ProjectDescription
 import ProjectDescriptionHelpers
 
 let project = Project.makeDataModule(
-    .common,
+    .todo,
     dependencies: [
-        .utility(.keychain)
+        .dataInterface(.todo)
     ]
 )

@@ -5,26 +5,16 @@
 //  Created by DOYEON LEE on 8/15/24.
 //
 
+import KeychainUtility
+
 import OpenAPIRuntime
 import Foundation
 import HTTPTypes
 
 /// A client middleware that injects a value into the `Authorization` header field of the request.
-public struct AuthenticationMiddleware {
+public struct AuthenticationMiddleware: ClientMiddleware {
+    public init() { }
     
-    /// The value for the `Authorization` header field.
-    private let token: String
-    
-    /// Creates a new middleware.
-    /// - Parameter token: The value for the `Authorization` header field.
-    public init(
-        token: String
-    ) {
-        self.token = token
-    }
-}
-
-extension AuthenticationMiddleware: ClientMiddleware {
     public func intercept(
         _ request: HTTPRequest,
         body: HTTPBody?,
@@ -34,7 +24,17 @@ extension AuthenticationMiddleware: ClientMiddleware {
     ) async throws -> (HTTPResponse, HTTPBody?) {
         var request = request
         // Adds the `Authorization` header field with the provided value.
-        request.headerFields[.authorization] = token
+        if let token = KeychainManager<Token>().get() {
+            request.headerFields[.authorization] = token.accessToken
+        } else {
+            throw AuthenticationError.tokenNotFoundInKeychain
+        }
+        
+        
         return try await next(request, body, baseURL)
     }
+}
+
+public enum AuthenticationError: LocalizedError {
+    case tokenNotFoundInKeychain
 }

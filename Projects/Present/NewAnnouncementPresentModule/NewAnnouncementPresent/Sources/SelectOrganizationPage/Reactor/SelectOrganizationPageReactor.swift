@@ -48,9 +48,9 @@ class SelectOrganizationPageReactor: Reactor {
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .viewDidLoad:
-            return fetchMyOrganizations.execute()
-                .map { organizations in
-                    return .setMyOrganizations(organizations)
+            return fetchMyOrganizations.execute(.init())
+                .map { ouput in
+                    return .setMyOrganizations(ouput.organizations)
                 }
         case let .changeSelectedOrganization(organization):
             return .merge(

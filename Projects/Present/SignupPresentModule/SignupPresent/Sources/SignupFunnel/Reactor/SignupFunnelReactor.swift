@@ -87,7 +87,9 @@ class SignupFunnelReactor: Reactor {
             .subscribe(onNext: { [weak self] action in
                 switch action {
                 case .tapCompleteButton:
-                    Router.shared.dismiss()
+                    DispatchQueue.main.async {
+                        Router.shared.dismiss()
+                    }
                 default: return
                 }
             })

@@ -7,8 +7,9 @@
 
 import UIKit
 
-import Router
 import Assets
+import Router
+import KeychainUtility
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
@@ -26,6 +27,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         let tabBarController = TabBarController()
         Router.shared.push(tabBarController)
+        
+        let tokenKeychainManager = KeychainManager<Token>()
+        if let token = tokenKeychainManager.get() {
+            print(token)
+        } else {
+            print("has no token")
+            Router.shared.presentFullScreen(.signup, animated: false)
+        }
         
         window?.makeKeyAndVisible()
     }

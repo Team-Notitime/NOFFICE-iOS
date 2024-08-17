@@ -5,11 +5,18 @@
 //  Created by DOYEON LEE on 8/2/24.
 //
 
+import Foundation
+
+import MemberUsecase
+import Router
+
 import ReactorKit
 
 class MypageReactor: Reactor {
     // MARK: Action
-    enum Action { }
+    enum Action { 
+        case tapLogoutRow
+    }
     
     enum Mutation { }
     
@@ -21,6 +28,7 @@ class MypageReactor: Reactor {
     // MARK: ChildReactor
     
     // MARK: Dependency
+    private let logoutUsecase = LogoutUsecase()
     
     // MARK: DisposeBag
     private let disposeBag = DisposeBag()
@@ -30,7 +38,17 @@ class MypageReactor: Reactor {
     
     // MARK: Action operation
     func mutate(action: Action) -> Observable<Mutation> {
-        switch action { }
+        switch action { 
+        case .tapLogoutRow:
+            _ = logoutUsecase.execute(.init())
+            
+            DispatchQueue.main.async {
+                Router.shared.back(animated: false)
+                Router.shared.presentFullScreen(.signup, animated: false)
+            }
+            
+            return .empty()
+        }
     }
     
     func reduce(state: State, mutation: Mutation) -> State {
