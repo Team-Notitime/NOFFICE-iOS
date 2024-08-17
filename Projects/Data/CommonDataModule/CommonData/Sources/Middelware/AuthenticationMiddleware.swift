@@ -25,7 +25,7 @@ public struct AuthenticationMiddleware: ClientMiddleware {
         var request = request
         // Adds the `Authorization` header field with the provided value.
         if let token = KeychainManager<Token>().get() {
-            request.headerFields[.authorization] = token.accessToken
+            request.headerFields[.authorization] = "Bearer \(token.accessToken)"
         } else {
             throw AuthenticationError.tokenNotFoundInKeychain
         }

@@ -16,10 +16,13 @@ public struct GetAnnouncementsByGroup {
     public init() { }
     
     public func execute(groupId: Int) -> Observable<[AnnouncementEntity]> {
-        return .just(Self.mock)
+        return .just(Mock.AnnouncementEntities)
     }
-    
-    public static let mock: [AnnouncementEntity] = [
+}
+
+// MARK: - Mock
+private struct Mock {
+    static let AnnouncementEntities: [AnnouncementEntity] = [
         .init(
             id: 11412312,
             organizationId: 1,

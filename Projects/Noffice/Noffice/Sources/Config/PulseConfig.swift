@@ -12,7 +12,18 @@ import Pulse
 import PulseUI
 
 struct PulseConfig {
-    public static func setup() {
+    static func setup() {
+        #if DEBUG
         URLSessionProxyDelegate.enableAutomaticRegistration()
+        Experimental.URLSessionProxy.shared.isEnabled = true
+        #endif
     }
+    
+    static func getConsoleView() -> UIViewController {
+        let view = NavigationView {
+            ConsoleView()
+        }
+        return UIHostingController(rootView: view)
+    }
+    
 }

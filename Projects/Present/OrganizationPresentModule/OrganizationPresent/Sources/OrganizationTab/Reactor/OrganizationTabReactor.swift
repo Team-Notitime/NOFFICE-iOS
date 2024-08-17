@@ -43,6 +43,7 @@ class OrganizationTabReactor: Reactor {
         switch action { 
         case .viewDidLoad:
             return getMyOrganizationsUsecase.execute(.init())
+                .debug()
                 .map { Mutation.setOrganizations($0.organizations) }
         }
     }
@@ -51,6 +52,7 @@ class OrganizationTabReactor: Reactor {
         var state = state
         switch mutation { 
         case let .setOrganizations(organizations):
+            print("와웅")
             state.organizations = organizations
         }
         return state

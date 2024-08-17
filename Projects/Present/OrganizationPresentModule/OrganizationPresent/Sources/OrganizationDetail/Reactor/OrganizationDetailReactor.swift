@@ -7,6 +7,7 @@
 
 import AnnouncementUsecase
 import AnnouncementEntity
+import OrganizationUsecase
 import OrganizationEntity
 
 import ReactorKit
@@ -33,6 +34,8 @@ class OrganizationDetailReactor: Reactor {
     // MARK: ChildReactor
     
     // MARK: Dependency
+    private let getOrganizationDetailUsecase = GetOrganizationDetailUsecase()
+    
     private let getAnnouncementsByGroupUseCase = GetAnnouncementsByGroup()
     
     // MARK: DisposeBag
@@ -45,8 +48,9 @@ class OrganizationDetailReactor: Reactor {
     func mutate(action: Action) -> Observable<Mutation> {
         switch action { 
         case let .viewDidLoad(organization):
-            let setOrganization = Observable
-                .just(Mutation.setOrganization(organization))
+            let setOrganization = getOrganizationDetailUsecase
+                .execute(.init(organizationId: organization.id))
+                .map { Mutation.setOrganization($0.organization) }
             
             let setAnnouncements = getAnnouncementsByGroupUseCase
                 .execute(groupId: organization.id)

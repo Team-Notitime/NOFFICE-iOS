@@ -29,7 +29,7 @@ public struct AnnouncementRepository: AnnouncementRepositoryInterface {
         return Observable.create { observer in
             Task {
                 do {
-                    let response = try await client.createAnnouncement(
+                    let response = try await client.create_2(
                         .init(
                             body: .json(param)
                         )
@@ -52,13 +52,13 @@ public struct AnnouncementRepository: AnnouncementRepositoryInterface {
     
     public func getAnnouncement(
         _ param: GetAnnouncementParam
-    ) -> Observable<CreateAnnouncementResult> {
+    ) -> Observable<GetAnnouncementResult> {
         return Observable.create { observer in
             Task {
                 do {
-                    let response = try await client.getAnnouncement(
+                    let response = try await client.getPublishedAnnouncements(
                         .init(
-                            path: param
+                            path: param, query: .init(memberId: 3, pageable: .init()) // TODO:
                         )
                     )
                     
@@ -82,7 +82,7 @@ public struct AnnouncementRepository: AnnouncementRepositoryInterface {
         return Observable.create { observer in
             Task {
                 do {
-                    let response = try await client.updateAnnouncement(
+                    let response = try await client.update(
                         .init(
                             path: .init(announcementId: param.announcementId),
                             body: .json(param.updatedAnnoundement)
@@ -109,7 +109,7 @@ public struct AnnouncementRepository: AnnouncementRepositoryInterface {
         return Observable.create { observer in
             Task {
                 do {
-                    let response = try await client.deleteAnnouncement(
+                    let response = try await client.delete_1(
                         .init(
                             path: .init(announcementId: announcementId)
                         )

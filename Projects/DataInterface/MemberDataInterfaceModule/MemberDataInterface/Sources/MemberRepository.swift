@@ -9,7 +9,7 @@ import OpenapiGenerated
 
 import RxSwift
 
-public typealias GetMemberParam = Operations.getMember.Input
+public typealias GetMemberParam = Operations.getById.Input
 public typealias GetMemberResult = Components.Schemas.MemberResponse
 
 public typealias LoginParam = Operations.login.Input

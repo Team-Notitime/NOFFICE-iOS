@@ -27,13 +27,15 @@ public struct OrganizationRepository: OrganizationRepositoryInterface {
        )
     }
     
-    public func getOrganization(
-        _ param: GetOrganizationParam
-    ) -> Observable<GetOrganizationResult> {
+    public func getOrganizationDetail(
+        _ param: GetOrganizationDetailParam
+    ) -> Observable<GetOrganizationDetailResult> {
         return Observable.create { observer in
             Task {
                 do {
-                    let response = try await client.getOrganization(.init(path: param))
+                    let response = try await client.getInformation(
+                        .init(path: param)
+                    )
                     
                     if let data = try response.ok.body.json.data {
                         observer.onNext(data)
@@ -56,7 +58,7 @@ public struct OrganizationRepository: OrganizationRepositoryInterface {
         return Observable.create { observer in
             Task {
                 do {
-                    let response = try await client.getJoinedOrganizations(
+                    let response = try await client.getJoined(
                         .init(query: param)
                     )
                     
@@ -85,7 +87,7 @@ public struct OrganizationRepository: OrganizationRepositoryInterface {
                         .init(
                             path: .init(organizationId: param.organizationId),
                             query: .init(
-                                memberId: param.memberId,
+                                memberId: 1, // TODO:
                                 pageable: param.pageable
                             )
                         )
@@ -112,9 +114,8 @@ public struct OrganizationRepository: OrganizationRepositoryInterface {
         return Observable.create { observer in
             Task {
                 do {
-                    let response = try await client.createOrganization(
+                    let response = try await client.create(
                         .init(
-                            query: .init(memberId: param.memberId),
                             body: .json(param.body)
                         )
                     )

@@ -27,6 +27,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         let tabBarController = TabBarController()
         Router.shared.push(tabBarController)
+//        Router.shared.push(PulseConfig.getConsoleView())
         
         let tokenKeychainManager = KeychainManager<Token>()
         if let token = tokenKeychainManager.get() {

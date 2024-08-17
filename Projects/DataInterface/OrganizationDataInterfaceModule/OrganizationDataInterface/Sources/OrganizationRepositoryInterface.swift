@@ -10,23 +10,20 @@ import OrganizationEntity
 
 import RxSwift
 
-public typealias GetOrganizationParam = Operations.getOrganization.Input.Path
-public typealias GetOrganizationResult = Components.Schemas.OrganizationResponse
+public typealias GetOrganizationDetailParam = Operations.getInformation.Input.Path
+public typealias GetOrganizationDetailResult = Components.Schemas.OrganizationInfoResponse
 
-public typealias GetJoinedOrganizationsParam = Operations.getJoinedOrganizations.Input.Query
+public typealias GetJoinedOrganizationsParam = Operations.getJoined.Input.Query
 public typealias GetJoinedOrganizationsResult = Components.Schemas.SliceOrganizationResponse
 
 public struct GetPublishedAnnouncementParam {
-    public let memberId: Int64
     public let organizationId: Int64
     public let pageable: Components.Schemas.Pageable
     
     public init(
-        memberId: Int64,
         organizationId: Int64,
         pageable: Components.Schemas.Pageable
     ) {
-        self.memberId = memberId
         self.organizationId = organizationId
         self.pageable = pageable
     }
@@ -49,9 +46,9 @@ public typealias CreateOrganizationResult = Components.Schemas.OrganizationCreat
 
 /// A protocol defining the operations for managing organizations.
 public protocol OrganizationRepositoryInterface {
-    func getOrganization(
-        _ param: GetOrganizationParam
-    ) -> Observable<GetOrganizationResult>
+    func getOrganizationDetail(
+        _ param: GetOrganizationDetailParam
+    ) -> Observable<GetOrganizationDetailResult>
     
     func getJoinedOrganizations(
         _ param: GetJoinedOrganizationsParam

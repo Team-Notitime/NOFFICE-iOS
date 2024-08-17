@@ -27,7 +27,7 @@ public struct MemberRepository: MemberRepositoryInterface {
         return Observable.create { observer in
             Task {
                 do {
-                    let response = try await client.getMember(param)
+                    let response = try await client.getById(param)
                     
                     if let data = try response.ok.body.json.data {
                         observer.onNext(data)

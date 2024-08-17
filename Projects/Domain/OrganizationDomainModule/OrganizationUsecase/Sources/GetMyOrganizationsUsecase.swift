@@ -31,11 +31,6 @@ public class GetMyOrganizationsUsecase {
         }
     }
     
-    // MARK: Error
-    public enum Error: LocalizedError {
-        case memberNotFound
-    }
-    
     // MARK: Property
     var page: Int
     
@@ -51,35 +46,31 @@ public class GetMyOrganizationsUsecase {
     
     // MARK: Execute method
     public func execute(_ input: Input) -> Observable<Output> {
-        if let memberId = memberUserDefaultsManager.get()?.id {
-            return organizationRepository.getJoinedOrganizations(
-                .init(
-                    memberId: 3,
-                    pageable: .init(page: Int32(page), size: Constant.PageSize)
-                )
-            )
-            .map { result in
-                self.page += 1
-                
-                let organizations: [OrganizationEntity] = result.content?.map {
-                    OrganizationEntity(
-                        id: Int($0.id ?? -1),
-                        name: $0.name ?? "알 수 없는 그룹",
-                        categories: [], // TODO: remove
-                        leader: 0, // TODO: remove
-                        member: 0 // TODO: remove
-                    )
-                } ?? []
-                
-                return Output(organizations: organizations)
-            }
+        let outputObservable = organizationRepository.getJoinedOrganizations(
+            .init(pageable: .init(page: Int32(self.page), size: Constant.PageSize))
+        )
+        .map { result in
+            self.page += 1
             
-        } else {
-            return Observable.error(Error.memberNotFound)
+            let organizations: [OrganizationEntity] = result.content?.map {
+                OrganizationEntity(
+                    id: Int($0.organizationId),
+                    name: $0.organizationName,
+                    categories: [], // TODO: remove
+                    leader: 0, // TODO: remove
+                    member: 0 // TODO: remove
+                )
+            } ?? []
+            
+            return Output(organizations: organizations)
         }
+        
+        return outputObservable
     }
+    
 }
 
+// MARK: - Mock
 private struct Mock {
     static let OrganizationEntities: [OrganizationEntity] = [
         .init(id: 1, name: "CMC 15th", categories: [1, 2, 3], leader: 1, member: 10),
@@ -88,7 +79,8 @@ private struct Mock {
     ]
 }
 
+// MARK: - Constant
 private enum Constant {
-    static let StartPage: Int = 1
+    static let StartPage: Int = 0
     static let PageSize: Int32 = 10
 }

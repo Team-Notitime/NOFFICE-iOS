@@ -11,70 +11,62 @@ import struct Foundation.Date
 #endif
 /// A type that performs HTTP operations defined by the OpenAPI document.
 public protocol APIProtocol: Sendable {
-    /// 투두 목록 조회
+    /// [인증] 조직 카테고리 수정
     ///
-    /// - Remark: HTTP `GET /api/v1/tasks`.
-    /// - Remark: Generated from `#/paths//api/v1/tasks/get(getTasks)`.
-    func getTasks(_ input: Operations.getTasks.Input) async throws -> Operations.getTasks.Output
-    /// 투두 생성
+    /// 조직에 등록된 카테고리를 수정합니다.
     ///
-    /// - Remark: HTTP `POST /api/v1/tasks`.
-    /// - Remark: Generated from `#/paths//api/v1/tasks/post(createTask)`.
-    func createTask(_ input: Operations.createTask.Input) async throws -> Operations.createTask.Output
-    /// 투두 대량 생성
-    ///
-    /// - Remark: HTTP `POST /api/v1/tasks/bulk`.
-    /// - Remark: Generated from `#/paths//api/v1/tasks/bulk/post(createBulkTask)`.
-    func createBulkTask(_ input: Operations.createBulkTask.Input) async throws -> Operations.createBulkTask.Output
-    /// 사용자의 가입된 조직 페이징 조회
+    /// - Remark: HTTP `PUT /api/v1/organizations/{organizationId}/categories`.
+    /// - Remark: Generated from `#/paths//api/v1/organizations/{organizationId}/categories/put(modifyCategories)`.
+    func modifyCategories(_ input: Operations.modifyCategories.Input) async throws -> Operations.modifyCategories.Output
+    /// [인증] 사용자의 가입된 조직 페이징 조회
     ///
     /// 멤버가 가입한 조직 목록을 조회합니다.
     ///
     /// - Remark: HTTP `GET /api/v1/organizations`.
-    /// - Remark: Generated from `#/paths//api/v1/organizations/get(getJoinedOrganizations)`.
-    func getJoinedOrganizations(_ input: Operations.getJoinedOrganizations.Input) async throws -> Operations.getJoinedOrganizations.Output
-    /// 조직 생성
+    /// - Remark: Generated from `#/paths//api/v1/organizations/get(getJoined)`.
+    func getJoined(_ input: Operations.getJoined.Input) async throws -> Operations.getJoined.Output
+    /// [인증] 조직 생성
     ///
     /// 조직을 생성합니다.
     ///
     /// - Remark: HTTP `POST /api/v1/organizations`.
-    /// - Remark: Generated from `#/paths//api/v1/organizations/post(createOrganization)`.
-    func createOrganization(_ input: Operations.createOrganization.Input) async throws -> Operations.createOrganization.Output
-    /// 조직 가입
+    /// - Remark: Generated from `#/paths//api/v1/organizations/post(create)`.
+    func create(_ input: Operations.create.Input) async throws -> Operations.create.Output
+    /// [인증] 조직 가입
     ///
     /// 조직에 가입합니다.
     ///
     /// - Remark: HTTP `POST /api/v1/organizations/{organizationId}/join`.
-    /// - Remark: Generated from `#/paths//api/v1/organizations/{organizationId}/join/post(joinOrganization)`.
-    func joinOrganization(_ input: Operations.joinOrganization.Input) async throws -> Operations.joinOrganization.Output
-    /// 사용자에게 수신된 알림 조회
+    /// - Remark: Generated from `#/paths//api/v1/organizations/{organizationId}/join/post(join)`.
+    func join(_ input: Operations.join.Input) async throws -> Operations.join.Output
+    /// [인증] 사용자에게 수신된 알림 조회
     ///
     /// 사용자에게 수신된 알림을 조회합니다.
     ///
     /// - Remark: HTTP `GET /api/v1/notifications`.
-    /// - Remark: Generated from `#/paths//api/v1/notifications/get(getNotifications)`.
-    func getNotifications(_ input: Operations.getNotifications.Input) async throws -> Operations.getNotifications.Output
-    /// 단일 사용자 알림 대기열 추가
+    /// - Remark: Generated from `#/paths//api/v1/notifications/get(findById)`.
+    func findById(_ input: Operations.findById.Input) async throws -> Operations.findById.Output
+    /// [인증] 단일 사용자 알림 대기열 추가
     ///
     /// 단일 사용자를 특정하여 노티 알림 대기열에 등록합니다.
     ///
     /// - Remark: HTTP `POST /api/v1/notifications`.
-    /// - Remark: Generated from `#/paths//api/v1/notifications/post(createNotification)`.
-    func createNotification(_ input: Operations.createNotification.Input) async throws -> Operations.createNotification.Output
-    /// 알림 발송 시간 변경
+    /// - Remark: Generated from `#/paths//api/v1/notifications/post(create_1)`.
+    func create_1(_ input: Operations.create_1.Input) async throws -> Operations.create_1.Output
+    /// [인증] 알림 발송 시간 변경
     ///
     /// 노티 알림 발송 시간을 변경합니다.
     ///
     /// - Remark: HTTP `PATCH /api/v1/notifications`.
     /// - Remark: Generated from `#/paths//api/v1/notifications/patch(changeSendTime)`.
     func changeSendTime(_ input: Operations.changeSendTime.Input) async throws -> Operations.changeSendTime.Output
-    /// 조직 단위 알림 대량 발송
+    /// [인증] 조직 단위 알림 대량 발송
     ///
     /// 조직 내 모든 사용자에게 전체 발송되는 알림을 등록합니다.
     ///
     /// - Remark: HTTP `POST /api/v1/notifications/bulk`.
-    /// - Remark: Generated from `#/paths//api/v1/notifications/bulk/post(createBulkNotification)`.
-    func createBulkNotification(_ input: Operations.createBulkNotification.Input) async throws -> Operations.createBulkNotification.Output
+    /// - Remark: Generated from `#/paths//api/v1/notifications/bulk/post(createAll)`.
+    func createAll(_ input: Operations.createAll.Input) async throws -> Operations.createAll.Output
     /// 토큰 재발급
     ///
     /// 리프레시 토큰을 이용해 새로운 액세스 토큰을 발급합니다.
@@ -89,189 +81,214 @@ public protocol APIProtocol: Sendable {
     /// - Remark: HTTP `POST /api/v1/member/login`.
     /// - Remark: Generated from `#/paths//api/v1/member/login/post(login)`.
     func login(_ input: Operations.login.Input) async throws -> Operations.login.Output
+    /// 컨텐츠 이미지 업로드 위치 요청
+    ///
+    /// fileType에는 확장자를, fileName은 파일명을 넣어주세요. imageType은 이미지 유형을 명시해주세요.
+    ///
+    /// - Remark: HTTP `GET /api/v1/image`.
+    /// - Remark: Generated from `#/paths//api/v1/image/get(getContentImage)`.
+    func getContentImage(_ input: Operations.getContentImage.Input) async throws -> Operations.getContentImage.Output
+    /// 컨텐츠 이미지 업로드 완료
+    ///
+    /// 컨텐츠 이미지 업로드 완료를 노피스 서버에 알립니다.
+    ///
+    /// - Remark: HTTP `POST /api/v1/image`.
+    /// - Remark: Generated from `#/paths//api/v1/image/post(notifyContentImageSaveSuccess)`.
+    func notifyContentImageSaveSuccess(_ input: Operations.notifyContentImageSaveSuccess.Input) async throws -> Operations.notifyContentImageSaveSuccess.Output
     /// 노티 생성
     ///
     /// 노티를 생성합니다.
     ///
     /// - Remark: HTTP `POST /api/v1/announcement`.
-    /// - Remark: Generated from `#/paths//api/v1/announcement/post(createAnnouncement)`.
-    func createAnnouncement(_ input: Operations.createAnnouncement.Input) async throws -> Operations.createAnnouncement.Output
-    /// 노티 조회
+    /// - Remark: Generated from `#/paths//api/v1/announcement/post(create_2)`.
+    func create_2(_ input: Operations.create_2.Input) async throws -> Operations.create_2.Output
+    /// [인증] 조직에 발급된 노티 열람
     ///
-    /// 노티를 조회합니다.
+    /// 열람하려는 노티를 조회하고, 열람 기록에 추가합니다.
     ///
     /// - Remark: HTTP `GET /api/v1/announcement/{announcementId}`.
-    /// - Remark: Generated from `#/paths//api/v1/announcement/{announcementId}/get(getAnnouncement)`.
-    func getAnnouncement(_ input: Operations.getAnnouncement.Input) async throws -> Operations.getAnnouncement.Output
-    /// 노티 수정
+    /// - Remark: Generated from `#/paths//api/v1/announcement/{announcementId}/get(read)`.
+    func read(_ input: Operations.read.Input) async throws -> Operations.read.Output
+    /// [인증] 노티 수정
     ///
     /// 노티를 수정합니다.
     ///
     /// - Remark: HTTP `POST /api/v1/announcement/{announcementId}`.
-    /// - Remark: Generated from `#/paths//api/v1/announcement/{announcementId}/post(updateAnnouncement)`.
-    func updateAnnouncement(_ input: Operations.updateAnnouncement.Input) async throws -> Operations.updateAnnouncement.Output
-    /// 노티 삭제
+    /// - Remark: Generated from `#/paths//api/v1/announcement/{announcementId}/post(update)`.
+    func update(_ input: Operations.update.Input) async throws -> Operations.update.Output
+    /// [인증] 노티 삭제
     ///
     /// 노티를 삭제합니다.
     ///
     /// - Remark: HTTP `DELETE /api/v1/announcement/{announcementId}`.
-    /// - Remark: Generated from `#/paths//api/v1/announcement/{announcementId}/delete(deleteAnnouncement)`.
-    func deleteAnnouncement(_ input: Operations.deleteAnnouncement.Input) async throws -> Operations.deleteAnnouncement.Output
+    /// - Remark: Generated from `#/paths//api/v1/announcement/{announcementId}/delete(delete_1)`.
+    func delete_1(_ input: Operations.delete_1.Input) async throws -> Operations.delete_1.Output
+    /// 투두 수정
+    ///
+    /// - Remark: HTTP `PATCH /api/v1/tasks`.
+    /// - Remark: Generated from `#/paths//api/v1/tasks/patch(modify)`.
+    func modify(_ input: Operations.modify.Input) async throws -> Operations.modify.Output
+    /// [인증] 조직원 권한 변경
+    ///
+    /// 타겟에 해당하는 멤버의 조직 내 권한을 입력한 권한대로 변경합니다.
+    ///
+    /// - Remark: HTTP `PATCH /api/v1/organizations/{organizationId}/roles`.
+    /// - Remark: Generated from `#/paths//api/v1/organizations/{organizationId}/roles/patch(changeRoles)`.
+    func changeRoles(_ input: Operations.changeRoles.Input) async throws -> Operations.changeRoles.Output
     /// 사용자 할당 투두 목록 조회
     ///
     /// - Remark: HTTP `GET /api/v1/tasks/assigned`.
-    /// - Remark: Generated from `#/paths//api/v1/tasks/assigned/get(getAssignedTasks)`.
-    func getAssignedTasks(_ input: Operations.getAssignedTasks.Input) async throws -> Operations.getAssignedTasks.Output
-    /// 단일 조직 정보 조회
+    /// - Remark: Generated from `#/paths//api/v1/tasks/assigned/get(getAssigned)`.
+    func getAssigned(_ input: Operations.getAssigned.Input) async throws -> Operations.getAssigned.Output
+    /// [인증] 단일 조직 정보 조회
     ///
-    /// 조직의 정보를 조회합니다.
+    /// 조직의 정보(조직명, 가입 대기여부, 가입자수) 를 조회합니다.
     ///
     /// - Remark: HTTP `GET /api/v1/organizations/{organizationId}`.
-    /// - Remark: Generated from `#/paths//api/v1/organizations/{organizationId}/get(getOrganization)`.
-    func getOrganization(_ input: Operations.getOrganization.Input) async throws -> Operations.getOrganization.Output
-    /// 조직별 노티 페이징 조회
+    /// - Remark: Generated from `#/paths//api/v1/organizations/{organizationId}/get(getInformation)`.
+    func getInformation(_ input: Operations.getInformation.Input) async throws -> Operations.getInformation.Output
+    /// [인증] 조직별 노티 페이징 조회
     ///
     /// 조직별 노티를 페이징 조회합니다.
     ///
     /// - Remark: HTTP `GET /api/v1/organizations/{organizationId}/announcements`.
     /// - Remark: Generated from `#/paths//api/v1/organizations/{organizationId}/announcements/get(getPublishedAnnouncements)`.
     func getPublishedAnnouncements(_ input: Operations.getPublishedAnnouncements.Input) async throws -> Operations.getPublishedAnnouncements.Output
-    /// 단일 회원 정보 조회
+    /// [인증] 단일 회원 정보 조회
     ///
     /// 회원의 정보를 조회합니다.
     ///
     /// - Remark: HTTP `GET /api/v1/member`.
-    /// - Remark: Generated from `#/paths//api/v1/member/get(getMember)`.
-    func getMember(_ input: Operations.getMember.Input) async throws -> Operations.getMember.Output
-    /// 투두 삭제
+    /// - Remark: Generated from `#/paths//api/v1/member/get(getById)`.
+    func getById(_ input: Operations.getById.Input) async throws -> Operations.getById.Output
+    /// 서버 상태 확인
     ///
-    /// - Remark: HTTP `DELETE /api/v1/tasks/{taskId}`.
-    /// - Remark: Generated from `#/paths//api/v1/tasks/{taskId}/delete(deleteTask)`.
-    func deleteTask(_ input: Operations.deleteTask.Input) async throws -> Operations.deleteTask.Output
+    /// 정상 동작시 200 반환합니다.
+    ///
+    /// - Remark: HTTP `GET /api/v1/health`.
+    /// - Remark: Generated from `#/paths//api/v1/health/get(health)`.
+    func health(_ input: Operations.health.Input) async throws -> Operations.health.Output
+    /// 전체 카테고리 조회
+    ///
+    /// 등록 가능한 모든 카테고리를 조회합니다.
+    ///
+    /// - Remark: HTTP `GET /api/v1/category`.
+    /// - Remark: Generated from `#/paths//api/v1/category/get(getCategories)`.
+    func getCategories(_ input: Operations.getCategories.Input) async throws -> Operations.getCategories.Output
+    /// [인증] 노티에 발급된 투두 조회
+    ///
+    /// 노티에 발급된 투두를 조회합니다.
+    ///
+    /// - Remark: HTTP `GET /api/v1/announcement/{announcementId}/tasks`.
+    /// - Remark: Generated from `#/paths//api/v1/announcement/{announcementId}/tasks/get(getTasksById)`.
+    func getTasksById(_ input: Operations.getTasksById.Input) async throws -> Operations.getTasksById.Output
     /// 알림 삭제
     ///
     /// 노티 알림을 삭제합니다.
     ///
     /// - Remark: HTTP `DELETE /api/v1/notifications/{notificationId}`.
-    /// - Remark: Generated from `#/paths//api/v1/notifications/{notificationId}/delete(deleteNotification)`.
-    func deleteNotification(_ input: Operations.deleteNotification.Input) async throws -> Operations.deleteNotification.Output
+    /// - Remark: Generated from `#/paths//api/v1/notifications/{notificationId}/delete(delete)`.
+    func delete(_ input: Operations.delete.Input) async throws -> Operations.delete.Output
+    /// 노티에 발급된 투두 삭제
+    ///
+    /// 노티에 발급된 투두를 삭제합니다.
+    ///
+    /// - Remark: HTTP `DELETE /api/v1/announcement/{announcementId}/tasks/{taskId}`.
+    /// - Remark: Generated from `#/paths//api/v1/announcement/{announcementId}/tasks/{taskId}/delete(deleteTaskById)`.
+    func deleteTaskById(_ input: Operations.deleteTaskById.Input) async throws -> Operations.deleteTaskById.Output
 }
 
 /// Convenience overloads for operation inputs.
 extension APIProtocol {
-    /// 투두 목록 조회
+    /// [인증] 조직 카테고리 수정
     ///
-    /// - Remark: HTTP `GET /api/v1/tasks`.
-    /// - Remark: Generated from `#/paths//api/v1/tasks/get(getTasks)`.
-    public func getTasks(headers: Operations.getTasks.Input.Headers = .init()) async throws -> Operations.getTasks.Output {
-        try await getTasks(Operations.getTasks.Input(headers: headers))
-    }
-    /// 투두 생성
+    /// 조직에 등록된 카테고리를 수정합니다.
     ///
-    /// - Remark: HTTP `POST /api/v1/tasks`.
-    /// - Remark: Generated from `#/paths//api/v1/tasks/post(createTask)`.
-    public func createTask(
-        query: Operations.createTask.Input.Query,
-        headers: Operations.createTask.Input.Headers = .init()
-    ) async throws -> Operations.createTask.Output {
-        try await createTask(Operations.createTask.Input(
+    /// - Remark: HTTP `PUT /api/v1/organizations/{organizationId}/categories`.
+    /// - Remark: Generated from `#/paths//api/v1/organizations/{organizationId}/categories/put(modifyCategories)`.
+    public func modifyCategories(
+        path: Operations.modifyCategories.Input.Path,
+        query: Operations.modifyCategories.Input.Query,
+        headers: Operations.modifyCategories.Input.Headers = .init(),
+        body: Operations.modifyCategories.Input.Body
+    ) async throws -> Operations.modifyCategories.Output {
+        try await modifyCategories(Operations.modifyCategories.Input(
+            path: path,
             query: query,
-            headers: headers
+            headers: headers,
+            body: body
         ))
     }
-    /// 투두 대량 생성
-    ///
-    /// - Remark: HTTP `POST /api/v1/tasks/bulk`.
-    /// - Remark: Generated from `#/paths//api/v1/tasks/bulk/post(createBulkTask)`.
-    public func createBulkTask(
-        query: Operations.createBulkTask.Input.Query,
-        headers: Operations.createBulkTask.Input.Headers = .init()
-    ) async throws -> Operations.createBulkTask.Output {
-        try await createBulkTask(Operations.createBulkTask.Input(
-            query: query,
-            headers: headers
-        ))
-    }
-    /// 사용자의 가입된 조직 페이징 조회
+    /// [인증] 사용자의 가입된 조직 페이징 조회
     ///
     /// 멤버가 가입한 조직 목록을 조회합니다.
     ///
     /// - Remark: HTTP `GET /api/v1/organizations`.
-    /// - Remark: Generated from `#/paths//api/v1/organizations/get(getJoinedOrganizations)`.
-    public func getJoinedOrganizations(
-        query: Operations.getJoinedOrganizations.Input.Query,
-        headers: Operations.getJoinedOrganizations.Input.Headers = .init()
-    ) async throws -> Operations.getJoinedOrganizations.Output {
-        try await getJoinedOrganizations(Operations.getJoinedOrganizations.Input(
+    /// - Remark: Generated from `#/paths//api/v1/organizations/get(getJoined)`.
+    public func getJoined(
+        query: Operations.getJoined.Input.Query,
+        headers: Operations.getJoined.Input.Headers = .init()
+    ) async throws -> Operations.getJoined.Output {
+        try await getJoined(Operations.getJoined.Input(
             query: query,
             headers: headers
         ))
     }
-    /// 조직 생성
+    /// [인증] 조직 생성
     ///
     /// 조직을 생성합니다.
     ///
     /// - Remark: HTTP `POST /api/v1/organizations`.
-    /// - Remark: Generated from `#/paths//api/v1/organizations/post(createOrganization)`.
-    public func createOrganization(
-        query: Operations.createOrganization.Input.Query,
-        headers: Operations.createOrganization.Input.Headers = .init(),
-        body: Operations.createOrganization.Input.Body
-    ) async throws -> Operations.createOrganization.Output {
-        try await createOrganization(Operations.createOrganization.Input(
-            query: query,
+    /// - Remark: Generated from `#/paths//api/v1/organizations/post(create)`.
+    public func create(
+        headers: Operations.create.Input.Headers = .init(),
+        body: Operations.create.Input.Body
+    ) async throws -> Operations.create.Output {
+        try await create(Operations.create.Input(
             headers: headers,
             body: body
         ))
     }
-    /// 조직 가입
+    /// [인증] 조직 가입
     ///
     /// 조직에 가입합니다.
     ///
     /// - Remark: HTTP `POST /api/v1/organizations/{organizationId}/join`.
-    /// - Remark: Generated from `#/paths//api/v1/organizations/{organizationId}/join/post(joinOrganization)`.
-    public func joinOrganization(
-        path: Operations.joinOrganization.Input.Path,
-        query: Operations.joinOrganization.Input.Query,
-        headers: Operations.joinOrganization.Input.Headers = .init()
-    ) async throws -> Operations.joinOrganization.Output {
-        try await joinOrganization(Operations.joinOrganization.Input(
+    /// - Remark: Generated from `#/paths//api/v1/organizations/{organizationId}/join/post(join)`.
+    public func join(
+        path: Operations.join.Input.Path,
+        headers: Operations.join.Input.Headers = .init()
+    ) async throws -> Operations.join.Output {
+        try await join(Operations.join.Input(
             path: path,
-            query: query,
             headers: headers
         ))
     }
-    /// 사용자에게 수신된 알림 조회
+    /// [인증] 사용자에게 수신된 알림 조회
     ///
     /// 사용자에게 수신된 알림을 조회합니다.
     ///
     /// - Remark: HTTP `GET /api/v1/notifications`.
-    /// - Remark: Generated from `#/paths//api/v1/notifications/get(getNotifications)`.
-    public func getNotifications(
-        query: Operations.getNotifications.Input.Query,
-        headers: Operations.getNotifications.Input.Headers = .init()
-    ) async throws -> Operations.getNotifications.Output {
-        try await getNotifications(Operations.getNotifications.Input(
-            query: query,
-            headers: headers
-        ))
+    /// - Remark: Generated from `#/paths//api/v1/notifications/get(findById)`.
+    public func findById(headers: Operations.findById.Input.Headers = .init()) async throws -> Operations.findById.Output {
+        try await findById(Operations.findById.Input(headers: headers))
     }
-    /// 단일 사용자 알림 대기열 추가
+    /// [인증] 단일 사용자 알림 대기열 추가
     ///
     /// 단일 사용자를 특정하여 노티 알림 대기열에 등록합니다.
     ///
     /// - Remark: HTTP `POST /api/v1/notifications`.
-    /// - Remark: Generated from `#/paths//api/v1/notifications/post(createNotification)`.
-    public func createNotification(
-        headers: Operations.createNotification.Input.Headers = .init(),
-        body: Operations.createNotification.Input.Body
-    ) async throws -> Operations.createNotification.Output {
-        try await createNotification(Operations.createNotification.Input(
+    /// - Remark: Generated from `#/paths//api/v1/notifications/post(create_1)`.
+    public func create_1(
+        headers: Operations.create_1.Input.Headers = .init(),
+        body: Operations.create_1.Input.Body
+    ) async throws -> Operations.create_1.Output {
+        try await create_1(Operations.create_1.Input(
             headers: headers,
             body: body
         ))
     }
-    /// 알림 발송 시간 변경
+    /// [인증] 알림 발송 시간 변경
     ///
     /// 노티 알림 발송 시간을 변경합니다.
     ///
@@ -286,17 +303,17 @@ extension APIProtocol {
             body: body
         ))
     }
-    /// 조직 단위 알림 대량 발송
+    /// [인증] 조직 단위 알림 대량 발송
     ///
     /// 조직 내 모든 사용자에게 전체 발송되는 알림을 등록합니다.
     ///
     /// - Remark: HTTP `POST /api/v1/notifications/bulk`.
-    /// - Remark: Generated from `#/paths//api/v1/notifications/bulk/post(createBulkNotification)`.
-    public func createBulkNotification(
-        headers: Operations.createBulkNotification.Input.Headers = .init(),
-        body: Operations.createBulkNotification.Input.Body
-    ) async throws -> Operations.createBulkNotification.Output {
-        try await createBulkNotification(Operations.createBulkNotification.Input(
+    /// - Remark: Generated from `#/paths//api/v1/notifications/bulk/post(createAll)`.
+    public func createAll(
+        headers: Operations.createAll.Input.Headers = .init(),
+        body: Operations.createAll.Input.Body
+    ) async throws -> Operations.createAll.Output {
+        try await createAll(Operations.createAll.Input(
             headers: headers,
             body: body
         ))
@@ -325,97 +342,151 @@ extension APIProtocol {
             body: body
         ))
     }
+    /// 컨텐츠 이미지 업로드 위치 요청
+    ///
+    /// fileType에는 확장자를, fileName은 파일명을 넣어주세요. imageType은 이미지 유형을 명시해주세요.
+    ///
+    /// - Remark: HTTP `GET /api/v1/image`.
+    /// - Remark: Generated from `#/paths//api/v1/image/get(getContentImage)`.
+    public func getContentImage(
+        query: Operations.getContentImage.Input.Query,
+        headers: Operations.getContentImage.Input.Headers = .init()
+    ) async throws -> Operations.getContentImage.Output {
+        try await getContentImage(Operations.getContentImage.Input(
+            query: query,
+            headers: headers
+        ))
+    }
+    /// 컨텐츠 이미지 업로드 완료
+    ///
+    /// 컨텐츠 이미지 업로드 완료를 노피스 서버에 알립니다.
+    ///
+    /// - Remark: HTTP `POST /api/v1/image`.
+    /// - Remark: Generated from `#/paths//api/v1/image/post(notifyContentImageSaveSuccess)`.
+    public func notifyContentImageSaveSuccess(body: Operations.notifyContentImageSaveSuccess.Input.Body) async throws -> Operations.notifyContentImageSaveSuccess.Output {
+        try await notifyContentImageSaveSuccess(Operations.notifyContentImageSaveSuccess.Input(body: body))
+    }
     /// 노티 생성
     ///
     /// 노티를 생성합니다.
     ///
     /// - Remark: HTTP `POST /api/v1/announcement`.
-    /// - Remark: Generated from `#/paths//api/v1/announcement/post(createAnnouncement)`.
-    public func createAnnouncement(
-        headers: Operations.createAnnouncement.Input.Headers = .init(),
-        body: Operations.createAnnouncement.Input.Body
-    ) async throws -> Operations.createAnnouncement.Output {
-        try await createAnnouncement(Operations.createAnnouncement.Input(
+    /// - Remark: Generated from `#/paths//api/v1/announcement/post(create_2)`.
+    public func create_2(
+        headers: Operations.create_2.Input.Headers = .init(),
+        body: Operations.create_2.Input.Body
+    ) async throws -> Operations.create_2.Output {
+        try await create_2(Operations.create_2.Input(
             headers: headers,
             body: body
         ))
     }
-    /// 노티 조회
+    /// [인증] 조직에 발급된 노티 열람
     ///
-    /// 노티를 조회합니다.
+    /// 열람하려는 노티를 조회하고, 열람 기록에 추가합니다.
     ///
     /// - Remark: HTTP `GET /api/v1/announcement/{announcementId}`.
-    /// - Remark: Generated from `#/paths//api/v1/announcement/{announcementId}/get(getAnnouncement)`.
-    public func getAnnouncement(
-        path: Operations.getAnnouncement.Input.Path,
-        headers: Operations.getAnnouncement.Input.Headers = .init()
-    ) async throws -> Operations.getAnnouncement.Output {
-        try await getAnnouncement(Operations.getAnnouncement.Input(
+    /// - Remark: Generated from `#/paths//api/v1/announcement/{announcementId}/get(read)`.
+    public func read(
+        path: Operations.read.Input.Path,
+        headers: Operations.read.Input.Headers = .init()
+    ) async throws -> Operations.read.Output {
+        try await read(Operations.read.Input(
             path: path,
             headers: headers
         ))
     }
-    /// 노티 수정
+    /// [인증] 노티 수정
     ///
     /// 노티를 수정합니다.
     ///
     /// - Remark: HTTP `POST /api/v1/announcement/{announcementId}`.
-    /// - Remark: Generated from `#/paths//api/v1/announcement/{announcementId}/post(updateAnnouncement)`.
-    public func updateAnnouncement(
-        path: Operations.updateAnnouncement.Input.Path,
-        headers: Operations.updateAnnouncement.Input.Headers = .init(),
-        body: Operations.updateAnnouncement.Input.Body
-    ) async throws -> Operations.updateAnnouncement.Output {
-        try await updateAnnouncement(Operations.updateAnnouncement.Input(
+    /// - Remark: Generated from `#/paths//api/v1/announcement/{announcementId}/post(update)`.
+    public func update(
+        path: Operations.update.Input.Path,
+        headers: Operations.update.Input.Headers = .init(),
+        body: Operations.update.Input.Body
+    ) async throws -> Operations.update.Output {
+        try await update(Operations.update.Input(
             path: path,
             headers: headers,
             body: body
         ))
     }
-    /// 노티 삭제
+    /// [인증] 노티 삭제
     ///
     /// 노티를 삭제합니다.
     ///
     /// - Remark: HTTP `DELETE /api/v1/announcement/{announcementId}`.
-    /// - Remark: Generated from `#/paths//api/v1/announcement/{announcementId}/delete(deleteAnnouncement)`.
-    public func deleteAnnouncement(
-        path: Operations.deleteAnnouncement.Input.Path,
-        headers: Operations.deleteAnnouncement.Input.Headers = .init()
-    ) async throws -> Operations.deleteAnnouncement.Output {
-        try await deleteAnnouncement(Operations.deleteAnnouncement.Input(
+    /// - Remark: Generated from `#/paths//api/v1/announcement/{announcementId}/delete(delete_1)`.
+    public func delete_1(
+        path: Operations.delete_1.Input.Path,
+        headers: Operations.delete_1.Input.Headers = .init()
+    ) async throws -> Operations.delete_1.Output {
+        try await delete_1(Operations.delete_1.Input(
             path: path,
             headers: headers
+        ))
+    }
+    /// 투두 수정
+    ///
+    /// - Remark: HTTP `PATCH /api/v1/tasks`.
+    /// - Remark: Generated from `#/paths//api/v1/tasks/patch(modify)`.
+    public func modify(
+        query: Operations.modify.Input.Query,
+        headers: Operations.modify.Input.Headers = .init()
+    ) async throws -> Operations.modify.Output {
+        try await modify(Operations.modify.Input(
+            query: query,
+            headers: headers
+        ))
+    }
+    /// [인증] 조직원 권한 변경
+    ///
+    /// 타겟에 해당하는 멤버의 조직 내 권한을 입력한 권한대로 변경합니다.
+    ///
+    /// - Remark: HTTP `PATCH /api/v1/organizations/{organizationId}/roles`.
+    /// - Remark: Generated from `#/paths//api/v1/organizations/{organizationId}/roles/patch(changeRoles)`.
+    public func changeRoles(
+        path: Operations.changeRoles.Input.Path,
+        headers: Operations.changeRoles.Input.Headers = .init(),
+        body: Operations.changeRoles.Input.Body
+    ) async throws -> Operations.changeRoles.Output {
+        try await changeRoles(Operations.changeRoles.Input(
+            path: path,
+            headers: headers,
+            body: body
         ))
     }
     /// 사용자 할당 투두 목록 조회
     ///
     /// - Remark: HTTP `GET /api/v1/tasks/assigned`.
-    /// - Remark: Generated from `#/paths//api/v1/tasks/assigned/get(getAssignedTasks)`.
-    public func getAssignedTasks(
-        query: Operations.getAssignedTasks.Input.Query,
-        headers: Operations.getAssignedTasks.Input.Headers = .init()
-    ) async throws -> Operations.getAssignedTasks.Output {
-        try await getAssignedTasks(Operations.getAssignedTasks.Input(
+    /// - Remark: Generated from `#/paths//api/v1/tasks/assigned/get(getAssigned)`.
+    public func getAssigned(
+        query: Operations.getAssigned.Input.Query,
+        headers: Operations.getAssigned.Input.Headers = .init()
+    ) async throws -> Operations.getAssigned.Output {
+        try await getAssigned(Operations.getAssigned.Input(
             query: query,
             headers: headers
         ))
     }
-    /// 단일 조직 정보 조회
+    /// [인증] 단일 조직 정보 조회
     ///
-    /// 조직의 정보를 조회합니다.
+    /// 조직의 정보(조직명, 가입 대기여부, 가입자수) 를 조회합니다.
     ///
     /// - Remark: HTTP `GET /api/v1/organizations/{organizationId}`.
-    /// - Remark: Generated from `#/paths//api/v1/organizations/{organizationId}/get(getOrganization)`.
-    public func getOrganization(
-        path: Operations.getOrganization.Input.Path,
-        headers: Operations.getOrganization.Input.Headers = .init()
-    ) async throws -> Operations.getOrganization.Output {
-        try await getOrganization(Operations.getOrganization.Input(
+    /// - Remark: Generated from `#/paths//api/v1/organizations/{organizationId}/get(getInformation)`.
+    public func getInformation(
+        path: Operations.getInformation.Input.Path,
+        headers: Operations.getInformation.Input.Headers = .init()
+    ) async throws -> Operations.getInformation.Output {
+        try await getInformation(Operations.getInformation.Input(
             path: path,
             headers: headers
         ))
     }
-    /// 조직별 노티 페이징 조회
+    /// [인증] 조직별 노티 페이징 조회
     ///
     /// 조직별 노티를 페이징 조회합니다.
     ///
@@ -432,24 +503,44 @@ extension APIProtocol {
             headers: headers
         ))
     }
-    /// 단일 회원 정보 조회
+    /// [인증] 단일 회원 정보 조회
     ///
     /// 회원의 정보를 조회합니다.
     ///
     /// - Remark: HTTP `GET /api/v1/member`.
-    /// - Remark: Generated from `#/paths//api/v1/member/get(getMember)`.
-    public func getMember(headers: Operations.getMember.Input.Headers = .init()) async throws -> Operations.getMember.Output {
-        try await getMember(Operations.getMember.Input(headers: headers))
+    /// - Remark: Generated from `#/paths//api/v1/member/get(getById)`.
+    public func getById(headers: Operations.getById.Input.Headers = .init()) async throws -> Operations.getById.Output {
+        try await getById(Operations.getById.Input(headers: headers))
     }
-    /// 투두 삭제
+    /// 서버 상태 확인
     ///
-    /// - Remark: HTTP `DELETE /api/v1/tasks/{taskId}`.
-    /// - Remark: Generated from `#/paths//api/v1/tasks/{taskId}/delete(deleteTask)`.
-    public func deleteTask(
-        path: Operations.deleteTask.Input.Path,
-        headers: Operations.deleteTask.Input.Headers = .init()
-    ) async throws -> Operations.deleteTask.Output {
-        try await deleteTask(Operations.deleteTask.Input(
+    /// 정상 동작시 200 반환합니다.
+    ///
+    /// - Remark: HTTP `GET /api/v1/health`.
+    /// - Remark: Generated from `#/paths//api/v1/health/get(health)`.
+    public func health() async throws -> Operations.health.Output {
+        try await health(Operations.health.Input())
+    }
+    /// 전체 카테고리 조회
+    ///
+    /// 등록 가능한 모든 카테고리를 조회합니다.
+    ///
+    /// - Remark: HTTP `GET /api/v1/category`.
+    /// - Remark: Generated from `#/paths//api/v1/category/get(getCategories)`.
+    public func getCategories(headers: Operations.getCategories.Input.Headers = .init()) async throws -> Operations.getCategories.Output {
+        try await getCategories(Operations.getCategories.Input(headers: headers))
+    }
+    /// [인증] 노티에 발급된 투두 조회
+    ///
+    /// 노티에 발급된 투두를 조회합니다.
+    ///
+    /// - Remark: HTTP `GET /api/v1/announcement/{announcementId}/tasks`.
+    /// - Remark: Generated from `#/paths//api/v1/announcement/{announcementId}/tasks/get(getTasksById)`.
+    public func getTasksById(
+        path: Operations.getTasksById.Input.Path,
+        headers: Operations.getTasksById.Input.Headers = .init()
+    ) async throws -> Operations.getTasksById.Output {
+        try await getTasksById(Operations.getTasksById.Input(
             path: path,
             headers: headers
         ))
@@ -459,12 +550,27 @@ extension APIProtocol {
     /// 노티 알림을 삭제합니다.
     ///
     /// - Remark: HTTP `DELETE /api/v1/notifications/{notificationId}`.
-    /// - Remark: Generated from `#/paths//api/v1/notifications/{notificationId}/delete(deleteNotification)`.
-    public func deleteNotification(
-        path: Operations.deleteNotification.Input.Path,
-        headers: Operations.deleteNotification.Input.Headers = .init()
-    ) async throws -> Operations.deleteNotification.Output {
-        try await deleteNotification(Operations.deleteNotification.Input(
+    /// - Remark: Generated from `#/paths//api/v1/notifications/{notificationId}/delete(delete)`.
+    public func delete(
+        path: Operations.delete.Input.Path,
+        headers: Operations.delete.Input.Headers = .init()
+    ) async throws -> Operations.delete.Output {
+        try await delete(Operations.delete.Input(
+            path: path,
+            headers: headers
+        ))
+    }
+    /// 노티에 발급된 투두 삭제
+    ///
+    /// 노티에 발급된 투두를 삭제합니다.
+    ///
+    /// - Remark: HTTP `DELETE /api/v1/announcement/{announcementId}/tasks/{taskId}`.
+    /// - Remark: Generated from `#/paths//api/v1/announcement/{announcementId}/tasks/{taskId}/delete(deleteTaskById)`.
+    public func deleteTaskById(
+        path: Operations.deleteTaskById.Input.Path,
+        headers: Operations.deleteTaskById.Input.Headers = .init()
+    ) async throws -> Operations.deleteTaskById.Output {
+        try await deleteTaskById(Operations.deleteTaskById.Input(
             path: path,
             headers: headers
         ))
@@ -493,36 +599,140 @@ public enum Servers {
 public enum Components {
     /// Types generated from the `#/components/schemas` section of the OpenAPI document.
     public enum Schemas {
-        /// - Remark: Generated from `#/components/schemas/TaskCreateRequest`.
-        public struct TaskCreateRequest: Codable, Hashable, Sendable {
-            /// 투두 항목
-            ///
-            /// - Remark: Generated from `#/components/schemas/TaskCreateRequest/content`.
-            public var content: Swift.String
-            /// Creates a new `TaskCreateRequest`.
+        /// - Remark: Generated from `#/components/schemas/SortObject`.
+        public struct SortObjectPayload: Codable, Hashable, Sendable {
+            /// - Remark: Generated from `#/components/schemas/SortObject/sorted`.
+            public var sorted: Swift.String?
+            /// - Remark: Generated from `#/components/schemas/SortObject/unsorted`.
+            public var unsorted: Swift.String?
+            /// - Remark: Generated from `#/components/schemas/SortObject/empty`.
+            public var empty: Swift.String?
+            /// Creates a new `SortObjectPayload`.
             ///
             /// - Parameters:
-            ///   - content: 투두 항목
-            public init(content: Swift.String) {
-                self.content = content
+            ///   - sorted:
+            ///   - unsorted:
+            ///   - empty:
+            public init(
+                sorted: Swift.String? = nil,
+                unsorted: Swift.String? = nil,
+                empty: Swift.String? = nil
+            ) {
+                self.sorted = sorted
+                self.unsorted = unsorted
+                self.empty = empty
             }
             public enum CodingKeys: String, CodingKey {
-                case content
+                case sorted
+                case unsorted
+                case empty
             }
         }
-        /// - Remark: Generated from `#/components/schemas/NofficeResponseTaskCreateResponse`.
-        public struct NofficeResponseTaskCreateResponse: Codable, Hashable, Sendable {
-            /// - Remark: Generated from `#/components/schemas/NofficeResponseTaskCreateResponse/timestamp`.
+        /// - Remark: Generated from `#/components/schemas/SortObject`.
+        public typealias SortObject = [Components.Schemas.SortObjectPayload]
+        /// - Remark: Generated from `#/components/schemas/CategoryModifyRequest`.
+        public struct CategoryModifyRequest: Codable, Hashable, Sendable {
+            /// 수정하려는 카테고리 ID 목록
+            ///
+            /// - Remark: Generated from `#/components/schemas/CategoryModifyRequest/categoryIds`.
+            public var categoryIds: [Swift.Int64]
+            /// Creates a new `CategoryModifyRequest`.
+            ///
+            /// - Parameters:
+            ///   - categoryIds: 수정하려는 카테고리 ID 목록
+            public init(categoryIds: [Swift.Int64]) {
+                self.categoryIds = categoryIds
+            }
+            public enum CodingKeys: String, CodingKey {
+                case categoryIds
+            }
+        }
+        /// - Remark: Generated from `#/components/schemas/CategoryModifyResponse`.
+        public struct CategoryModifyResponse: Codable, Hashable, Sendable {
+            /// 카테고리 수정된 조직 식별자
+            ///
+            /// - Remark: Generated from `#/components/schemas/CategoryModifyResponse/organizationId`.
+            public var organizationId: Swift.Int64
+            /// 카테고리 수정된 조직 이름
+            ///
+            /// - Remark: Generated from `#/components/schemas/CategoryModifyResponse/organizationName`.
+            public var organizationName: Swift.String
+            /// - Remark: Generated from `#/components/schemas/CategoryModifyResponse/categories`.
+            public var categories: Components.Schemas.CategoryResponses?
+            /// Creates a new `CategoryModifyResponse`.
+            ///
+            /// - Parameters:
+            ///   - organizationId: 카테고리 수정된 조직 식별자
+            ///   - organizationName: 카테고리 수정된 조직 이름
+            ///   - categories:
+            public init(
+                organizationId: Swift.Int64,
+                organizationName: Swift.String,
+                categories: Components.Schemas.CategoryResponses? = nil
+            ) {
+                self.organizationId = organizationId
+                self.organizationName = organizationName
+                self.categories = categories
+            }
+            public enum CodingKeys: String, CodingKey {
+                case organizationId
+                case organizationName
+                case categories
+            }
+        }
+        /// - Remark: Generated from `#/components/schemas/CategoryResponse`.
+        public struct CategoryResponse: Codable, Hashable, Sendable {
+            /// - Remark: Generated from `#/components/schemas/CategoryResponse/id`.
+            public var id: Swift.Int64?
+            /// - Remark: Generated from `#/components/schemas/CategoryResponse/name`.
+            public var name: Swift.String?
+            /// Creates a new `CategoryResponse`.
+            ///
+            /// - Parameters:
+            ///   - id:
+            ///   - name:
+            public init(
+                id: Swift.Int64? = nil,
+                name: Swift.String? = nil
+            ) {
+                self.id = id
+                self.name = name
+            }
+            public enum CodingKeys: String, CodingKey {
+                case id
+                case name
+            }
+        }
+        /// 변경된 카테고리 목록
+        ///
+        /// - Remark: Generated from `#/components/schemas/CategoryResponses`.
+        public struct CategoryResponses: Codable, Hashable, Sendable {
+            /// - Remark: Generated from `#/components/schemas/CategoryResponses/categories`.
+            public var categories: [Components.Schemas.CategoryResponse]?
+            /// Creates a new `CategoryResponses`.
+            ///
+            /// - Parameters:
+            ///   - categories:
+            public init(categories: [Components.Schemas.CategoryResponse]? = nil) {
+                self.categories = categories
+            }
+            public enum CodingKeys: String, CodingKey {
+                case categories
+            }
+        }
+        /// - Remark: Generated from `#/components/schemas/NofficeResponseCategoryModifyResponse`.
+        public struct NofficeResponseCategoryModifyResponse: Codable, Hashable, Sendable {
+            /// - Remark: Generated from `#/components/schemas/NofficeResponseCategoryModifyResponse/timestamp`.
             public var timestamp: Swift.String?
-            /// - Remark: Generated from `#/components/schemas/NofficeResponseTaskCreateResponse/httpStatus`.
+            /// - Remark: Generated from `#/components/schemas/NofficeResponseCategoryModifyResponse/httpStatus`.
             public var httpStatus: Swift.Int32?
-            /// - Remark: Generated from `#/components/schemas/NofficeResponseTaskCreateResponse/code`.
+            /// - Remark: Generated from `#/components/schemas/NofficeResponseCategoryModifyResponse/code`.
             public var code: Swift.String?
-            /// - Remark: Generated from `#/components/schemas/NofficeResponseTaskCreateResponse/message`.
+            /// - Remark: Generated from `#/components/schemas/NofficeResponseCategoryModifyResponse/message`.
             public var message: Swift.String?
-            /// - Remark: Generated from `#/components/schemas/NofficeResponseTaskCreateResponse/data`.
-            public var data: Components.Schemas.TaskCreateResponse?
-            /// Creates a new `NofficeResponseTaskCreateResponse`.
+            /// - Remark: Generated from `#/components/schemas/NofficeResponseCategoryModifyResponse/data`.
+            public var data: Components.Schemas.CategoryModifyResponse?
+            /// Creates a new `NofficeResponseCategoryModifyResponse`.
             ///
             /// - Parameters:
             ///   - timestamp:
@@ -535,7 +745,7 @@ public enum Components {
                 httpStatus: Swift.Int32? = nil,
                 code: Swift.String? = nil,
                 message: Swift.String? = nil,
-                data: Components.Schemas.TaskCreateResponse? = nil
+                data: Components.Schemas.CategoryModifyResponse? = nil
             ) {
                 self.timestamp = timestamp
                 self.httpStatus = httpStatus
@@ -549,137 +759,6 @@ public enum Components {
                 case code
                 case message
                 case data
-            }
-        }
-        /// - Remark: Generated from `#/components/schemas/TaskCreateResponse`.
-        public struct TaskCreateResponse: Codable, Hashable, Sendable {
-            /// - Remark: Generated from `#/components/schemas/TaskCreateResponse/id`.
-            public var id: Swift.Int64?
-            /// - Remark: Generated from `#/components/schemas/TaskCreateResponse/announcementId`.
-            public var announcementId: Swift.Int64?
-            /// - Remark: Generated from `#/components/schemas/TaskCreateResponse/content`.
-            public var content: Swift.String?
-            /// Creates a new `TaskCreateResponse`.
-            ///
-            /// - Parameters:
-            ///   - id:
-            ///   - announcementId:
-            ///   - content:
-            public init(
-                id: Swift.Int64? = nil,
-                announcementId: Swift.Int64? = nil,
-                content: Swift.String? = nil
-            ) {
-                self.id = id
-                self.announcementId = announcementId
-                self.content = content
-            }
-            public enum CodingKeys: String, CodingKey {
-                case id
-                case announcementId
-                case content
-            }
-        }
-        /// - Remark: Generated from `#/components/schemas/TaskBulkCreateRequest`.
-        public struct TaskBulkCreateRequest: Codable, Hashable, Sendable {
-            /// 투두 항목 목록
-            ///
-            /// - Remark: Generated from `#/components/schemas/TaskBulkCreateRequest/contents`.
-            public var contents: [Swift.String]
-            /// Creates a new `TaskBulkCreateRequest`.
-            ///
-            /// - Parameters:
-            ///   - contents: 투두 항목 목록
-            public init(contents: [Swift.String]) {
-                self.contents = contents
-            }
-            public enum CodingKeys: String, CodingKey {
-                case contents
-            }
-        }
-        /// - Remark: Generated from `#/components/schemas/NofficeResponseTaskCreateResponses`.
-        public struct NofficeResponseTaskCreateResponses: Codable, Hashable, Sendable {
-            /// - Remark: Generated from `#/components/schemas/NofficeResponseTaskCreateResponses/timestamp`.
-            public var timestamp: Swift.String?
-            /// - Remark: Generated from `#/components/schemas/NofficeResponseTaskCreateResponses/httpStatus`.
-            public var httpStatus: Swift.Int32?
-            /// - Remark: Generated from `#/components/schemas/NofficeResponseTaskCreateResponses/code`.
-            public var code: Swift.String?
-            /// - Remark: Generated from `#/components/schemas/NofficeResponseTaskCreateResponses/message`.
-            public var message: Swift.String?
-            /// - Remark: Generated from `#/components/schemas/NofficeResponseTaskCreateResponses/data`.
-            public var data: Components.Schemas.TaskCreateResponses?
-            /// Creates a new `NofficeResponseTaskCreateResponses`.
-            ///
-            /// - Parameters:
-            ///   - timestamp:
-            ///   - httpStatus:
-            ///   - code:
-            ///   - message:
-            ///   - data:
-            public init(
-                timestamp: Swift.String? = nil,
-                httpStatus: Swift.Int32? = nil,
-                code: Swift.String? = nil,
-                message: Swift.String? = nil,
-                data: Components.Schemas.TaskCreateResponses? = nil
-            ) {
-                self.timestamp = timestamp
-                self.httpStatus = httpStatus
-                self.code = code
-                self.message = message
-                self.data = data
-            }
-            public enum CodingKeys: String, CodingKey {
-                case timestamp
-                case httpStatus
-                case code
-                case message
-                case data
-            }
-        }
-        /// - Remark: Generated from `#/components/schemas/TaskCreateResponses`.
-        public struct TaskCreateResponses: Codable, Hashable, Sendable {
-            /// - Remark: Generated from `#/components/schemas/TaskCreateResponses/tasks`.
-            public var tasks: [Components.Schemas.TaskResponse]?
-            /// Creates a new `TaskCreateResponses`.
-            ///
-            /// - Parameters:
-            ///   - tasks:
-            public init(tasks: [Components.Schemas.TaskResponse]? = nil) {
-                self.tasks = tasks
-            }
-            public enum CodingKeys: String, CodingKey {
-                case tasks
-            }
-        }
-        /// - Remark: Generated from `#/components/schemas/TaskResponse`.
-        public struct TaskResponse: Codable, Hashable, Sendable {
-            /// - Remark: Generated from `#/components/schemas/TaskResponse/id`.
-            public var id: Swift.Int64?
-            /// - Remark: Generated from `#/components/schemas/TaskResponse/announcementId`.
-            public var announcementId: Swift.Int64?
-            /// - Remark: Generated from `#/components/schemas/TaskResponse/content`.
-            public var content: Swift.String?
-            /// Creates a new `TaskResponse`.
-            ///
-            /// - Parameters:
-            ///   - id:
-            ///   - announcementId:
-            ///   - content:
-            public init(
-                id: Swift.Int64? = nil,
-                announcementId: Swift.Int64? = nil,
-                content: Swift.String? = nil
-            ) {
-                self.id = id
-                self.announcementId = announcementId
-                self.content = content
-            }
-            public enum CodingKeys: String, CodingKey {
-                case id
-                case announcementId
-                case content
             }
         }
         /// - Remark: Generated from `#/components/schemas/OrganizationCreateRequest`.
@@ -928,31 +1007,37 @@ public enum Components {
         }
         /// - Remark: Generated from `#/components/schemas/OrganizationJoinResponse`.
         public struct OrganizationJoinResponse: Codable, Hashable, Sendable {
-            /// - Remark: Generated from `#/components/schemas/OrganizationJoinResponse/id`.
-            public var id: Swift.Int64?
-            /// - Remark: Generated from `#/components/schemas/OrganizationJoinResponse/name`.
-            public var name: Swift.String?
-            /// - Remark: Generated from `#/components/schemas/OrganizationJoinResponse/link`.
-            public var link: Swift.String?
+            /// 조직 ID
+            ///
+            /// - Remark: Generated from `#/components/schemas/OrganizationJoinResponse/organizationId`.
+            public var organizationId: Swift.Int64
+            /// 조직 이름
+            ///
+            /// - Remark: Generated from `#/components/schemas/OrganizationJoinResponse/organizationName`.
+            public var organizationName: Swift.String?
+            /// 가입한 사용자 식별자
+            ///
+            /// - Remark: Generated from `#/components/schemas/OrganizationJoinResponse/memberId`.
+            public var memberId: Swift.Int64
             /// Creates a new `OrganizationJoinResponse`.
             ///
             /// - Parameters:
-            ///   - id:
-            ///   - name:
-            ///   - link:
+            ///   - organizationId: 조직 ID
+            ///   - organizationName: 조직 이름
+            ///   - memberId: 가입한 사용자 식별자
             public init(
-                id: Swift.Int64? = nil,
-                name: Swift.String? = nil,
-                link: Swift.String? = nil
+                organizationId: Swift.Int64,
+                organizationName: Swift.String? = nil,
+                memberId: Swift.Int64
             ) {
-                self.id = id
-                self.name = name
-                self.link = link
+                self.organizationId = organizationId
+                self.organizationName = organizationName
+                self.memberId = memberId
             }
             public enum CodingKeys: String, CodingKey {
-                case id
-                case name
-                case link
+                case organizationId
+                case organizationName
+                case memberId
             }
         }
         /// - Remark: Generated from `#/components/schemas/NotificationRequest`.
@@ -1251,47 +1336,86 @@ public enum Components {
                 case token
             }
         }
+        /// - Remark: Generated from `#/components/schemas/NotifyContentImageSaveSuccessRequest`.
+        public struct NotifyContentImageSaveSuccessRequest: Codable, Hashable, Sendable {
+            /// - Remark: Generated from `#/components/schemas/NotifyContentImageSaveSuccessRequest/fileName`.
+            public var fileName: Swift.String?
+            /// Creates a new `NotifyContentImageSaveSuccessRequest`.
+            ///
+            /// - Parameters:
+            ///   - fileName:
+            public init(fileName: Swift.String? = nil) {
+                self.fileName = fileName
+            }
+            public enum CodingKeys: String, CodingKey {
+                case fileName
+            }
+        }
         /// - Remark: Generated from `#/components/schemas/AnnouncementCreateRequest`.
         public struct AnnouncementCreateRequest: Codable, Hashable, Sendable {
+            /// 조직 ID
+            ///
             /// - Remark: Generated from `#/components/schemas/AnnouncementCreateRequest/organizationId`.
             public var organizationId: Swift.Int64
+            /// 공지 발행자 ID
+            ///
             /// - Remark: Generated from `#/components/schemas/AnnouncementCreateRequest/memberId`.
             public var memberId: Swift.Int64
+            /// 공지 제목
+            ///
             /// - Remark: Generated from `#/components/schemas/AnnouncementCreateRequest/title`.
             public var title: Swift.String
+            /// 공지 내용
+            ///
             /// - Remark: Generated from `#/components/schemas/AnnouncementCreateRequest/content`.
             public var content: Swift.String
+            /// 프로필 이미지 URL
+            ///
             /// - Remark: Generated from `#/components/schemas/AnnouncementCreateRequest/profileImageUrl`.
             public var profileImageUrl: Swift.String?
+            /// 장소 링크 이름
+            ///
             /// - Remark: Generated from `#/components/schemas/AnnouncementCreateRequest/placeLinkName`.
             public var placeLinkName: Swift.String?
+            /// 장소 링크 URL
+            ///
             /// - Remark: Generated from `#/components/schemas/AnnouncementCreateRequest/placeLinkUrl`.
             public var placeLinkUrl: Swift.String?
+            /// 장소 대면/비대면 여부
+            ///
             /// - Remark: Generated from `#/components/schemas/AnnouncementCreateRequest/isFaceToFace`.
             public var isFaceToFace: Swift.Bool?
+            /// 투두 목록
+            ///
             /// - Remark: Generated from `#/components/schemas/AnnouncementCreateRequest/tasks`.
             public var tasks: [Components.Schemas.TaskCreateRequest]?
+            /// 활동 진행 만료일
+            ///
             /// - Remark: Generated from `#/components/schemas/AnnouncementCreateRequest/endAt`.
             public var endAt: Swift.String
+            /// 리마인드 알림 시간(초 단위)
+            ///
             /// - Remark: Generated from `#/components/schemas/AnnouncementCreateRequest/noticeBefore`.
             public var noticeBefore: [Swift.String]
+            /// 리마인드 알림 기준시간
+            ///
             /// - Remark: Generated from `#/components/schemas/AnnouncementCreateRequest/noticeDate`.
             public var noticeDate: [Swift.String]
             /// Creates a new `AnnouncementCreateRequest`.
             ///
             /// - Parameters:
-            ///   - organizationId:
-            ///   - memberId:
-            ///   - title:
-            ///   - content:
-            ///   - profileImageUrl:
-            ///   - placeLinkName:
-            ///   - placeLinkUrl:
-            ///   - isFaceToFace:
-            ///   - tasks:
-            ///   - endAt:
-            ///   - noticeBefore:
-            ///   - noticeDate:
+            ///   - organizationId: 조직 ID
+            ///   - memberId: 공지 발행자 ID
+            ///   - title: 공지 제목
+            ///   - content: 공지 내용
+            ///   - profileImageUrl: 프로필 이미지 URL
+            ///   - placeLinkName: 장소 링크 이름
+            ///   - placeLinkUrl: 장소 링크 URL
+            ///   - isFaceToFace: 장소 대면/비대면 여부
+            ///   - tasks: 투두 목록
+            ///   - endAt: 활동 진행 만료일
+            ///   - noticeBefore: 리마인드 알림 시간(초 단위)
+            ///   - noticeDate: 리마인드 알림 기준시간
             public init(
                 organizationId: Swift.Int64,
                 memberId: Swift.Int64,
@@ -1332,6 +1456,25 @@ public enum Components {
                 case endAt
                 case noticeBefore
                 case noticeDate
+            }
+        }
+        /// 투두 목록
+        ///
+        /// - Remark: Generated from `#/components/schemas/TaskCreateRequest`.
+        public struct TaskCreateRequest: Codable, Hashable, Sendable {
+            /// 투두 항목
+            ///
+            /// - Remark: Generated from `#/components/schemas/TaskCreateRequest/content`.
+            public var content: Swift.String
+            /// Creates a new `TaskCreateRequest`.
+            ///
+            /// - Parameters:
+            ///   - content: 투두 항목
+            public init(content: Swift.String) {
+                self.content = content
+            }
+            public enum CodingKeys: String, CodingKey {
+                case content
             }
         }
         /// - Remark: Generated from `#/components/schemas/AnnouncementResponse`.
@@ -1541,6 +1684,133 @@ public enum Components {
                 case noticeDate
             }
         }
+        /// - Remark: Generated from `#/components/schemas/TaskModifyRequest`.
+        public struct TaskModifyRequest: Codable, Hashable, Sendable {
+            /// 투두 항목 ID
+            ///
+            /// - Remark: Generated from `#/components/schemas/TaskModifyRequest/id`.
+            public var id: Swift.Int64
+            /// 투두 항목
+            ///
+            /// - Remark: Generated from `#/components/schemas/TaskModifyRequest/content`.
+            public var content: Swift.String
+            /// Creates a new `TaskModifyRequest`.
+            ///
+            /// - Parameters:
+            ///   - id: 투두 항목 ID
+            ///   - content: 투두 항목
+            public init(
+                id: Swift.Int64,
+                content: Swift.String
+            ) {
+                self.id = id
+                self.content = content
+            }
+            public enum CodingKeys: String, CodingKey {
+                case id
+                case content
+            }
+        }
+        /// - Remark: Generated from `#/components/schemas/NofficeResponseTaskModifyResponse`.
+        public struct NofficeResponseTaskModifyResponse: Codable, Hashable, Sendable {
+            /// - Remark: Generated from `#/components/schemas/NofficeResponseTaskModifyResponse/timestamp`.
+            public var timestamp: Swift.String?
+            /// - Remark: Generated from `#/components/schemas/NofficeResponseTaskModifyResponse/httpStatus`.
+            public var httpStatus: Swift.Int32?
+            /// - Remark: Generated from `#/components/schemas/NofficeResponseTaskModifyResponse/code`.
+            public var code: Swift.String?
+            /// - Remark: Generated from `#/components/schemas/NofficeResponseTaskModifyResponse/message`.
+            public var message: Swift.String?
+            /// - Remark: Generated from `#/components/schemas/NofficeResponseTaskModifyResponse/data`.
+            public var data: Components.Schemas.TaskModifyResponse?
+            /// Creates a new `NofficeResponseTaskModifyResponse`.
+            ///
+            /// - Parameters:
+            ///   - timestamp:
+            ///   - httpStatus:
+            ///   - code:
+            ///   - message:
+            ///   - data:
+            public init(
+                timestamp: Swift.String? = nil,
+                httpStatus: Swift.Int32? = nil,
+                code: Swift.String? = nil,
+                message: Swift.String? = nil,
+                data: Components.Schemas.TaskModifyResponse? = nil
+            ) {
+                self.timestamp = timestamp
+                self.httpStatus = httpStatus
+                self.code = code
+                self.message = message
+                self.data = data
+            }
+            public enum CodingKeys: String, CodingKey {
+                case timestamp
+                case httpStatus
+                case code
+                case message
+                case data
+            }
+        }
+        /// - Remark: Generated from `#/components/schemas/TaskModifyResponse`.
+        public struct TaskModifyResponse: Codable, Hashable, Sendable {
+            /// - Remark: Generated from `#/components/schemas/TaskModifyResponse/id`.
+            public var id: Swift.Int64?
+            /// - Remark: Generated from `#/components/schemas/TaskModifyResponse/content`.
+            public var content: Swift.String?
+            /// Creates a new `TaskModifyResponse`.
+            ///
+            /// - Parameters:
+            ///   - id:
+            ///   - content:
+            public init(
+                id: Swift.Int64? = nil,
+                content: Swift.String? = nil
+            ) {
+                self.id = id
+                self.content = content
+            }
+            public enum CodingKeys: String, CodingKey {
+                case id
+                case content
+            }
+        }
+        /// - Remark: Generated from `#/components/schemas/ChangeRoleRequest`.
+        public struct ChangeRoleRequest: Codable, Hashable, Sendable {
+            /// 변경 적용할 권한
+            ///
+            /// - Remark: Generated from `#/components/schemas/ChangeRoleRequest/role`.
+            @frozen public enum rolePayload: String, Codable, Hashable, Sendable {
+                case ADMIN = "ADMIN"
+                case LEADER = "LEADER"
+                case PARTICIPANT = "PARTICIPANT"
+                case GUEST = "GUEST"
+            }
+            /// 변경 적용할 권한
+            ///
+            /// - Remark: Generated from `#/components/schemas/ChangeRoleRequest/role`.
+            public var role: Components.Schemas.ChangeRoleRequest.rolePayload
+            /// 변경할 대상 멤버 ID 리스트
+            ///
+            /// - Remark: Generated from `#/components/schemas/ChangeRoleRequest/memberIds`.
+            public var memberIds: [Swift.Int64]
+            /// Creates a new `ChangeRoleRequest`.
+            ///
+            /// - Parameters:
+            ///   - role: 변경 적용할 권한
+            ///   - memberIds: 변경할 대상 멤버 ID 리스트
+            public init(
+                role: Components.Schemas.ChangeRoleRequest.rolePayload,
+                memberIds: [Swift.Int64]
+            ) {
+                self.role = role
+                self.memberIds = memberIds
+            }
+            public enum CodingKeys: String, CodingKey {
+                case role
+                case memberIds
+            }
+        }
         /// - Remark: Generated from `#/components/schemas/NotificationTimeChangeRequest`.
         public struct NotificationTimeChangeRequest: Codable, Hashable, Sendable {
             /// 공지 ID
@@ -1675,62 +1945,6 @@ public enum Components {
                 case notifications
             }
         }
-        /// - Remark: Generated from `#/components/schemas/NofficeResponseTaskResponses`.
-        public struct NofficeResponseTaskResponses: Codable, Hashable, Sendable {
-            /// - Remark: Generated from `#/components/schemas/NofficeResponseTaskResponses/timestamp`.
-            public var timestamp: Swift.String?
-            /// - Remark: Generated from `#/components/schemas/NofficeResponseTaskResponses/httpStatus`.
-            public var httpStatus: Swift.Int32?
-            /// - Remark: Generated from `#/components/schemas/NofficeResponseTaskResponses/code`.
-            public var code: Swift.String?
-            /// - Remark: Generated from `#/components/schemas/NofficeResponseTaskResponses/message`.
-            public var message: Swift.String?
-            /// - Remark: Generated from `#/components/schemas/NofficeResponseTaskResponses/data`.
-            public var data: Components.Schemas.TaskResponses?
-            /// Creates a new `NofficeResponseTaskResponses`.
-            ///
-            /// - Parameters:
-            ///   - timestamp:
-            ///   - httpStatus:
-            ///   - code:
-            ///   - message:
-            ///   - data:
-            public init(
-                timestamp: Swift.String? = nil,
-                httpStatus: Swift.Int32? = nil,
-                code: Swift.String? = nil,
-                message: Swift.String? = nil,
-                data: Components.Schemas.TaskResponses? = nil
-            ) {
-                self.timestamp = timestamp
-                self.httpStatus = httpStatus
-                self.code = code
-                self.message = message
-                self.data = data
-            }
-            public enum CodingKeys: String, CodingKey {
-                case timestamp
-                case httpStatus
-                case code
-                case message
-                case data
-            }
-        }
-        /// - Remark: Generated from `#/components/schemas/TaskResponses`.
-        public struct TaskResponses: Codable, Hashable, Sendable {
-            /// - Remark: Generated from `#/components/schemas/TaskResponses/tasks`.
-            public var tasks: [Components.Schemas.TaskResponse]?
-            /// Creates a new `TaskResponses`.
-            ///
-            /// - Parameters:
-            ///   - tasks:
-            public init(tasks: [Components.Schemas.TaskResponse]? = nil) {
-                self.tasks = tasks
-            }
-            public enum CodingKeys: String, CodingKey {
-                case tasks
-            }
-        }
         /// - Remark: Generated from `#/components/schemas/Pageable`.
         public struct Pageable: Codable, Hashable, Sendable {
             /// - Remark: Generated from `#/components/schemas/Pageable/page`.
@@ -1832,57 +2046,53 @@ public enum Components {
         }
         /// - Remark: Generated from `#/components/schemas/PageableObject`.
         public struct PageableObject: Codable, Hashable, Sendable {
-            /// - Remark: Generated from `#/components/schemas/PageableObject/sort`.
-            public var sort: Components.Schemas.SortObject?
             /// - Remark: Generated from `#/components/schemas/PageableObject/offset`.
             public var offset: Swift.Int64?
+            /// - Remark: Generated from `#/components/schemas/PageableObject/sort`.
+            public var sort: Components.Schemas.SortObject?
+            /// - Remark: Generated from `#/components/schemas/PageableObject/unpaged`.
+            public var unpaged: Swift.Bool?
+            /// - Remark: Generated from `#/components/schemas/PageableObject/paged`.
+            public var paged: Swift.Bool?
             /// - Remark: Generated from `#/components/schemas/PageableObject/pageNumber`.
             public var pageNumber: Swift.Int32?
             /// - Remark: Generated from `#/components/schemas/PageableObject/pageSize`.
             public var pageSize: Swift.Int32?
-            /// - Remark: Generated from `#/components/schemas/PageableObject/paged`.
-            public var paged: Swift.Bool?
-            /// - Remark: Generated from `#/components/schemas/PageableObject/unpaged`.
-            public var unpaged: Swift.Bool?
             /// Creates a new `PageableObject`.
             ///
             /// - Parameters:
-            ///   - sort:
             ///   - offset:
+            ///   - sort:
+            ///   - unpaged:
+            ///   - paged:
             ///   - pageNumber:
             ///   - pageSize:
-            ///   - paged:
-            ///   - unpaged:
             public init(
-                sort: Components.Schemas.SortObject? = nil,
                 offset: Swift.Int64? = nil,
-                pageNumber: Swift.Int32? = nil,
-                pageSize: Swift.Int32? = nil,
+                sort: Components.Schemas.SortObject? = nil,
+                unpaged: Swift.Bool? = nil,
                 paged: Swift.Bool? = nil,
-                unpaged: Swift.Bool? = nil
+                pageNumber: Swift.Int32? = nil,
+                pageSize: Swift.Int32? = nil
             ) {
-                self.sort = sort
                 self.offset = offset
+                self.sort = sort
+                self.unpaged = unpaged
+                self.paged = paged
                 self.pageNumber = pageNumber
                 self.pageSize = pageSize
-                self.paged = paged
-                self.unpaged = unpaged
             }
             public enum CodingKeys: String, CodingKey {
-                case sort
                 case offset
+                case sort
+                case unpaged
+                case paged
                 case pageNumber
                 case pageSize
-                case paged
-                case unpaged
             }
         }
         /// - Remark: Generated from `#/components/schemas/SliceAssignedTaskResponse`.
         public struct SliceAssignedTaskResponse: Codable, Hashable, Sendable {
-            /// - Remark: Generated from `#/components/schemas/SliceAssignedTaskResponse/number`.
-            public var number: Swift.Int32?
-            /// - Remark: Generated from `#/components/schemas/SliceAssignedTaskResponse/sort`.
-            public var sort: Components.Schemas.SortObject?
             /// - Remark: Generated from `#/components/schemas/SliceAssignedTaskResponse/first`.
             public var first: Swift.Bool?
             /// - Remark: Generated from `#/components/schemas/SliceAssignedTaskResponse/last`.
@@ -1891,84 +2101,88 @@ public enum Components {
             public var size: Swift.Int32?
             /// - Remark: Generated from `#/components/schemas/SliceAssignedTaskResponse/content`.
             public var content: [Components.Schemas.AssignedTaskResponse]?
-            /// - Remark: Generated from `#/components/schemas/SliceAssignedTaskResponse/numberOfElements`.
-            public var numberOfElements: Swift.Int32?
+            /// - Remark: Generated from `#/components/schemas/SliceAssignedTaskResponse/number`.
+            public var number: Swift.Int32?
+            /// - Remark: Generated from `#/components/schemas/SliceAssignedTaskResponse/sort`.
+            public var sort: Components.Schemas.SortObject?
             /// - Remark: Generated from `#/components/schemas/SliceAssignedTaskResponse/pageable`.
             public var pageable: Components.Schemas.PageableObject?
+            /// - Remark: Generated from `#/components/schemas/SliceAssignedTaskResponse/numberOfElements`.
+            public var numberOfElements: Swift.Int32?
             /// - Remark: Generated from `#/components/schemas/SliceAssignedTaskResponse/empty`.
             public var empty: Swift.Bool?
             /// Creates a new `SliceAssignedTaskResponse`.
             ///
             /// - Parameters:
-            ///   - number:
-            ///   - sort:
             ///   - first:
             ///   - last:
             ///   - size:
             ///   - content:
-            ///   - numberOfElements:
+            ///   - number:
+            ///   - sort:
             ///   - pageable:
+            ///   - numberOfElements:
             ///   - empty:
             public init(
-                number: Swift.Int32? = nil,
-                sort: Components.Schemas.SortObject? = nil,
                 first: Swift.Bool? = nil,
                 last: Swift.Bool? = nil,
                 size: Swift.Int32? = nil,
                 content: [Components.Schemas.AssignedTaskResponse]? = nil,
-                numberOfElements: Swift.Int32? = nil,
+                number: Swift.Int32? = nil,
+                sort: Components.Schemas.SortObject? = nil,
                 pageable: Components.Schemas.PageableObject? = nil,
+                numberOfElements: Swift.Int32? = nil,
                 empty: Swift.Bool? = nil
             ) {
-                self.number = number
-                self.sort = sort
                 self.first = first
                 self.last = last
                 self.size = size
                 self.content = content
-                self.numberOfElements = numberOfElements
+                self.number = number
+                self.sort = sort
                 self.pageable = pageable
+                self.numberOfElements = numberOfElements
                 self.empty = empty
             }
             public enum CodingKeys: String, CodingKey {
-                case number
-                case sort
                 case first
                 case last
                 case size
                 case content
-                case numberOfElements
+                case number
+                case sort
                 case pageable
+                case numberOfElements
                 case empty
             }
         }
-        /// - Remark: Generated from `#/components/schemas/SortObject`.
-        public struct SortObject: Codable, Hashable, Sendable {
-            /// - Remark: Generated from `#/components/schemas/SortObject/empty`.
-            public var empty: Swift.Bool?
-            /// - Remark: Generated from `#/components/schemas/SortObject/unsorted`.
-            public var unsorted: Swift.Bool?
-            /// - Remark: Generated from `#/components/schemas/SortObject/sorted`.
-            public var sorted: Swift.Bool?
-            /// Creates a new `SortObject`.
+        /// - Remark: Generated from `#/components/schemas/TaskResponse`.
+        public struct TaskResponse: Codable, Hashable, Sendable {
+            /// - Remark: Generated from `#/components/schemas/TaskResponse/id`.
+            public var id: Swift.Int64?
+            /// - Remark: Generated from `#/components/schemas/TaskResponse/announcementId`.
+            public var announcementId: Swift.Int64?
+            /// - Remark: Generated from `#/components/schemas/TaskResponse/content`.
+            public var content: Swift.String?
+            /// Creates a new `TaskResponse`.
             ///
             /// - Parameters:
-            ///   - empty:
-            ///   - unsorted:
-            ///   - sorted:
+            ///   - id:
+            ///   - announcementId:
+            ///   - content:
             public init(
-                empty: Swift.Bool? = nil,
-                unsorted: Swift.Bool? = nil,
-                sorted: Swift.Bool? = nil
+                id: Swift.Int64? = nil,
+                announcementId: Swift.Int64? = nil,
+                content: Swift.String? = nil
             ) {
-                self.empty = empty
-                self.unsorted = unsorted
-                self.sorted = sorted
+                self.id = id
+                self.announcementId = announcementId
+                self.content = content
             }
             public enum CodingKeys: String, CodingKey {
-                case empty
-                case unsorted
-                case sorted
+                case id
+                case announcementId
+                case content
             }
         }
         /// - Remark: Generated from `#/components/schemas/NofficeResponseSliceOrganizationResponse`.
@@ -2014,37 +2228,58 @@ public enum Components {
         }
         /// - Remark: Generated from `#/components/schemas/OrganizationResponse`.
         public struct OrganizationResponse: Codable, Hashable, Sendable {
+            /// 요청한 사용자의 조직 내 권한
+            ///
+            /// - Remark: Generated from `#/components/schemas/OrganizationResponse/role`.
+            @frozen public enum rolePayload: String, Codable, Hashable, Sendable {
+                case ADMIN = "ADMIN"
+                case LEADER = "LEADER"
+                case PARTICIPANT = "PARTICIPANT"
+                case GUEST = "GUEST"
+            }
+            /// 요청한 사용자의 조직 내 권한
+            ///
+            /// - Remark: Generated from `#/components/schemas/OrganizationResponse/role`.
+            public var role: Components.Schemas.OrganizationResponse.rolePayload?
             /// 조직 ID
             ///
-            /// - Remark: Generated from `#/components/schemas/OrganizationResponse/id`.
-            public var id: Swift.Int64?
+            /// - Remark: Generated from `#/components/schemas/OrganizationResponse/organizationId`.
+            public var organizationId: Swift.Int64
             /// 조직 이름
             ///
-            /// - Remark: Generated from `#/components/schemas/OrganizationResponse/name`.
-            public var name: Swift.String?
+            /// - Remark: Generated from `#/components/schemas/OrganizationResponse/organizationName`.
+            public var organizationName: Swift.String
+            /// 프로필 이미지
+            ///
+            /// - Remark: Generated from `#/components/schemas/OrganizationResponse/profileImage`.
+            public var profileImage: Swift.String
             /// Creates a new `OrganizationResponse`.
             ///
             /// - Parameters:
-            ///   - id: 조직 ID
-            ///   - name: 조직 이름
+            ///   - role: 요청한 사용자의 조직 내 권한
+            ///   - organizationId: 조직 ID
+            ///   - organizationName: 조직 이름
+            ///   - profileImage: 프로필 이미지
             public init(
-                id: Swift.Int64? = nil,
-                name: Swift.String? = nil
+                role: Components.Schemas.OrganizationResponse.rolePayload? = nil,
+                organizationId: Swift.Int64,
+                organizationName: Swift.String,
+                profileImage: Swift.String
             ) {
-                self.id = id
-                self.name = name
+                self.role = role
+                self.organizationId = organizationId
+                self.organizationName = organizationName
+                self.profileImage = profileImage
             }
             public enum CodingKeys: String, CodingKey {
-                case id
-                case name
+                case role
+                case organizationId
+                case organizationName
+                case profileImage
             }
         }
         /// - Remark: Generated from `#/components/schemas/SliceOrganizationResponse`.
         public struct SliceOrganizationResponse: Codable, Hashable, Sendable {
-            /// - Remark: Generated from `#/components/schemas/SliceOrganizationResponse/number`.
-            public var number: Swift.Int32?
-            /// - Remark: Generated from `#/components/schemas/SliceOrganizationResponse/sort`.
-            public var sort: Components.Schemas.SortObject?
             /// - Remark: Generated from `#/components/schemas/SliceOrganizationResponse/first`.
             public var first: Swift.Bool?
             /// - Remark: Generated from `#/components/schemas/SliceOrganizationResponse/last`.
@@ -2053,70 +2288,74 @@ public enum Components {
             public var size: Swift.Int32?
             /// - Remark: Generated from `#/components/schemas/SliceOrganizationResponse/content`.
             public var content: [Components.Schemas.OrganizationResponse]?
-            /// - Remark: Generated from `#/components/schemas/SliceOrganizationResponse/numberOfElements`.
-            public var numberOfElements: Swift.Int32?
+            /// - Remark: Generated from `#/components/schemas/SliceOrganizationResponse/number`.
+            public var number: Swift.Int32?
+            /// - Remark: Generated from `#/components/schemas/SliceOrganizationResponse/sort`.
+            public var sort: Components.Schemas.SortObject?
             /// - Remark: Generated from `#/components/schemas/SliceOrganizationResponse/pageable`.
             public var pageable: Components.Schemas.PageableObject?
+            /// - Remark: Generated from `#/components/schemas/SliceOrganizationResponse/numberOfElements`.
+            public var numberOfElements: Swift.Int32?
             /// - Remark: Generated from `#/components/schemas/SliceOrganizationResponse/empty`.
             public var empty: Swift.Bool?
             /// Creates a new `SliceOrganizationResponse`.
             ///
             /// - Parameters:
-            ///   - number:
-            ///   - sort:
             ///   - first:
             ///   - last:
             ///   - size:
             ///   - content:
-            ///   - numberOfElements:
+            ///   - number:
+            ///   - sort:
             ///   - pageable:
+            ///   - numberOfElements:
             ///   - empty:
             public init(
-                number: Swift.Int32? = nil,
-                sort: Components.Schemas.SortObject? = nil,
                 first: Swift.Bool? = nil,
                 last: Swift.Bool? = nil,
                 size: Swift.Int32? = nil,
                 content: [Components.Schemas.OrganizationResponse]? = nil,
-                numberOfElements: Swift.Int32? = nil,
+                number: Swift.Int32? = nil,
+                sort: Components.Schemas.SortObject? = nil,
                 pageable: Components.Schemas.PageableObject? = nil,
+                numberOfElements: Swift.Int32? = nil,
                 empty: Swift.Bool? = nil
             ) {
-                self.number = number
-                self.sort = sort
                 self.first = first
                 self.last = last
                 self.size = size
                 self.content = content
-                self.numberOfElements = numberOfElements
+                self.number = number
+                self.sort = sort
                 self.pageable = pageable
+                self.numberOfElements = numberOfElements
                 self.empty = empty
             }
             public enum CodingKeys: String, CodingKey {
-                case number
-                case sort
                 case first
                 case last
                 case size
                 case content
-                case numberOfElements
+                case number
+                case sort
                 case pageable
+                case numberOfElements
                 case empty
             }
         }
-        /// - Remark: Generated from `#/components/schemas/NofficeResponseOrganizationResponse`.
-        public struct NofficeResponseOrganizationResponse: Codable, Hashable, Sendable {
-            /// - Remark: Generated from `#/components/schemas/NofficeResponseOrganizationResponse/timestamp`.
+        /// - Remark: Generated from `#/components/schemas/NofficeResponseOrganizationInfoResponse`.
+        public struct NofficeResponseOrganizationInfoResponse: Codable, Hashable, Sendable {
+            /// - Remark: Generated from `#/components/schemas/NofficeResponseOrganizationInfoResponse/timestamp`.
             public var timestamp: Swift.String?
-            /// - Remark: Generated from `#/components/schemas/NofficeResponseOrganizationResponse/httpStatus`.
+            /// - Remark: Generated from `#/components/schemas/NofficeResponseOrganizationInfoResponse/httpStatus`.
             public var httpStatus: Swift.Int32?
-            /// - Remark: Generated from `#/components/schemas/NofficeResponseOrganizationResponse/code`.
+            /// - Remark: Generated from `#/components/schemas/NofficeResponseOrganizationInfoResponse/code`.
             public var code: Swift.String?
-            /// - Remark: Generated from `#/components/schemas/NofficeResponseOrganizationResponse/message`.
+            /// - Remark: Generated from `#/components/schemas/NofficeResponseOrganizationInfoResponse/message`.
             public var message: Swift.String?
-            /// - Remark: Generated from `#/components/schemas/NofficeResponseOrganizationResponse/data`.
-            public var data: Components.Schemas.OrganizationResponse?
-            /// Creates a new `NofficeResponseOrganizationResponse`.
+            /// - Remark: Generated from `#/components/schemas/NofficeResponseOrganizationInfoResponse/data`.
+            public var data: Components.Schemas.OrganizationInfoResponse?
+            /// Creates a new `NofficeResponseOrganizationInfoResponse`.
             ///
             /// - Parameters:
             ///   - timestamp:
@@ -2129,7 +2368,7 @@ public enum Components {
                 httpStatus: Swift.Int32? = nil,
                 code: Swift.String? = nil,
                 message: Swift.String? = nil,
-                data: Components.Schemas.OrganizationResponse? = nil
+                data: Components.Schemas.OrganizationInfoResponse? = nil
             ) {
                 self.timestamp = timestamp
                 self.httpStatus = httpStatus
@@ -2145,12 +2384,98 @@ public enum Components {
                 case data
             }
         }
+        /// - Remark: Generated from `#/components/schemas/OrganizationInfoResponse`.
+        public struct OrganizationInfoResponse: Codable, Hashable, Sendable {
+            /// 요청한 사용자의 조직 내 권한
+            ///
+            /// - Remark: Generated from `#/components/schemas/OrganizationInfoResponse/role`.
+            @frozen public enum rolePayload: String, Codable, Hashable, Sendable {
+                case ADMIN = "ADMIN"
+                case LEADER = "LEADER"
+                case PARTICIPANT = "PARTICIPANT"
+                case GUEST = "GUEST"
+            }
+            /// 요청한 사용자의 조직 내 권한
+            ///
+            /// - Remark: Generated from `#/components/schemas/OrganizationInfoResponse/role`.
+            public var role: Components.Schemas.OrganizationInfoResponse.rolePayload?
+            /// 조직 ID
+            ///
+            /// - Remark: Generated from `#/components/schemas/OrganizationInfoResponse/organizationId`.
+            public var organizationId: Swift.Int64
+            /// 조직 이름
+            ///
+            /// - Remark: Generated from `#/components/schemas/OrganizationInfoResponse/organizationName`.
+            public var organizationName: Swift.String
+            /// 프로필 이미지
+            ///
+            /// - Remark: Generated from `#/components/schemas/OrganizationInfoResponse/profileImage`.
+            public var profileImage: Swift.String
+            /// 카테고리 리스트
+            ///
+            /// - Remark: Generated from `#/components/schemas/OrganizationInfoResponse/categories`.
+            public var categories: [Swift.String]
+            /// 관리자 사용자 수
+            ///
+            /// - Remark: Generated from `#/components/schemas/OrganizationInfoResponse/leaderCount`.
+            public var leaderCount: Swift.Int64?
+            /// 일반 사용자 수
+            ///
+            /// - Remark: Generated from `#/components/schemas/OrganizationInfoResponse/participantCount`.
+            public var participantCount: Swift.Int64?
+            /// 가입 대기자 여부
+            ///
+            /// - Remark: Generated from `#/components/schemas/OrganizationInfoResponse/isPending`.
+            public var isPending: Swift.Bool?
+            /// Creates a new `OrganizationInfoResponse`.
+            ///
+            /// - Parameters:
+            ///   - role: 요청한 사용자의 조직 내 권한
+            ///   - organizationId: 조직 ID
+            ///   - organizationName: 조직 이름
+            ///   - profileImage: 프로필 이미지
+            ///   - categories: 카테고리 리스트
+            ///   - leaderCount: 관리자 사용자 수
+            ///   - participantCount: 일반 사용자 수
+            ///   - isPending: 가입 대기자 여부
+            public init(
+                role: Components.Schemas.OrganizationInfoResponse.rolePayload? = nil,
+                organizationId: Swift.Int64,
+                organizationName: Swift.String,
+                profileImage: Swift.String,
+                categories: [Swift.String],
+                leaderCount: Swift.Int64? = nil,
+                participantCount: Swift.Int64? = nil,
+                isPending: Swift.Bool? = nil
+            ) {
+                self.role = role
+                self.organizationId = organizationId
+                self.organizationName = organizationName
+                self.profileImage = profileImage
+                self.categories = categories
+                self.leaderCount = leaderCount
+                self.participantCount = participantCount
+                self.isPending = isPending
+            }
+            public enum CodingKeys: String, CodingKey {
+                case role
+                case organizationId
+                case organizationName
+                case profileImage
+                case categories
+                case leaderCount
+                case participantCount
+                case isPending
+            }
+        }
         /// - Remark: Generated from `#/components/schemas/AnnouncementCoverResponse`.
         public struct AnnouncementCoverResponse: Codable, Hashable, Sendable {
             /// - Remark: Generated from `#/components/schemas/AnnouncementCoverResponse/announcementId`.
             public var announcementId: Swift.Int64?
             /// - Remark: Generated from `#/components/schemas/AnnouncementCoverResponse/title`.
             public var title: Swift.String?
+            /// - Remark: Generated from `#/components/schemas/AnnouncementCoverResponse/content`.
+            public var content: Swift.String?
             /// - Remark: Generated from `#/components/schemas/AnnouncementCoverResponse/profileImageUrl`.
             public var profileImageUrl: Swift.String?
             /// - Remark: Generated from `#/components/schemas/AnnouncementCoverResponse/placeLinkName`.
@@ -2159,6 +2484,10 @@ public enum Components {
             public var placeLinkUrl: Swift.String?
             /// - Remark: Generated from `#/components/schemas/AnnouncementCoverResponse/endAt`.
             public var endAt: Foundation.Date?
+            /// - Remark: Generated from `#/components/schemas/AnnouncementCoverResponse/readerCount`.
+            public var readerCount: Swift.Int64?
+            /// - Remark: Generated from `#/components/schemas/AnnouncementCoverResponse/totalMemberCount`.
+            public var totalMemberCount: Swift.Int64?
             /// - Remark: Generated from `#/components/schemas/AnnouncementCoverResponse/createdAt`.
             public var createdAt: Foundation.Date?
             /// - Remark: Generated from `#/components/schemas/AnnouncementCoverResponse/updatedAt`.
@@ -2168,38 +2497,50 @@ public enum Components {
             /// - Parameters:
             ///   - announcementId:
             ///   - title:
+            ///   - content:
             ///   - profileImageUrl:
             ///   - placeLinkName:
             ///   - placeLinkUrl:
             ///   - endAt:
+            ///   - readerCount:
+            ///   - totalMemberCount:
             ///   - createdAt:
             ///   - updatedAt:
             public init(
                 announcementId: Swift.Int64? = nil,
                 title: Swift.String? = nil,
+                content: Swift.String? = nil,
                 profileImageUrl: Swift.String? = nil,
                 placeLinkName: Swift.String? = nil,
                 placeLinkUrl: Swift.String? = nil,
                 endAt: Foundation.Date? = nil,
+                readerCount: Swift.Int64? = nil,
+                totalMemberCount: Swift.Int64? = nil,
                 createdAt: Foundation.Date? = nil,
                 updatedAt: Foundation.Date? = nil
             ) {
                 self.announcementId = announcementId
                 self.title = title
+                self.content = content
                 self.profileImageUrl = profileImageUrl
                 self.placeLinkName = placeLinkName
                 self.placeLinkUrl = placeLinkUrl
                 self.endAt = endAt
+                self.readerCount = readerCount
+                self.totalMemberCount = totalMemberCount
                 self.createdAt = createdAt
                 self.updatedAt = updatedAt
             }
             public enum CodingKeys: String, CodingKey {
                 case announcementId
                 case title
+                case content
                 case profileImageUrl
                 case placeLinkName
                 case placeLinkUrl
                 case endAt
+                case readerCount
+                case totalMemberCount
                 case createdAt
                 case updatedAt
             }
@@ -2247,10 +2588,6 @@ public enum Components {
         }
         /// - Remark: Generated from `#/components/schemas/SliceAnnouncementCoverResponse`.
         public struct SliceAnnouncementCoverResponse: Codable, Hashable, Sendable {
-            /// - Remark: Generated from `#/components/schemas/SliceAnnouncementCoverResponse/number`.
-            public var number: Swift.Int32?
-            /// - Remark: Generated from `#/components/schemas/SliceAnnouncementCoverResponse/sort`.
-            public var sort: Components.Schemas.SortObject?
             /// - Remark: Generated from `#/components/schemas/SliceAnnouncementCoverResponse/first`.
             public var first: Swift.Bool?
             /// - Remark: Generated from `#/components/schemas/SliceAnnouncementCoverResponse/last`.
@@ -2259,54 +2596,58 @@ public enum Components {
             public var size: Swift.Int32?
             /// - Remark: Generated from `#/components/schemas/SliceAnnouncementCoverResponse/content`.
             public var content: [Components.Schemas.AnnouncementCoverResponse]?
-            /// - Remark: Generated from `#/components/schemas/SliceAnnouncementCoverResponse/numberOfElements`.
-            public var numberOfElements: Swift.Int32?
+            /// - Remark: Generated from `#/components/schemas/SliceAnnouncementCoverResponse/number`.
+            public var number: Swift.Int32?
+            /// - Remark: Generated from `#/components/schemas/SliceAnnouncementCoverResponse/sort`.
+            public var sort: Components.Schemas.SortObject?
             /// - Remark: Generated from `#/components/schemas/SliceAnnouncementCoverResponse/pageable`.
             public var pageable: Components.Schemas.PageableObject?
+            /// - Remark: Generated from `#/components/schemas/SliceAnnouncementCoverResponse/numberOfElements`.
+            public var numberOfElements: Swift.Int32?
             /// - Remark: Generated from `#/components/schemas/SliceAnnouncementCoverResponse/empty`.
             public var empty: Swift.Bool?
             /// Creates a new `SliceAnnouncementCoverResponse`.
             ///
             /// - Parameters:
-            ///   - number:
-            ///   - sort:
             ///   - first:
             ///   - last:
             ///   - size:
             ///   - content:
-            ///   - numberOfElements:
+            ///   - number:
+            ///   - sort:
             ///   - pageable:
+            ///   - numberOfElements:
             ///   - empty:
             public init(
-                number: Swift.Int32? = nil,
-                sort: Components.Schemas.SortObject? = nil,
                 first: Swift.Bool? = nil,
                 last: Swift.Bool? = nil,
                 size: Swift.Int32? = nil,
                 content: [Components.Schemas.AnnouncementCoverResponse]? = nil,
-                numberOfElements: Swift.Int32? = nil,
+                number: Swift.Int32? = nil,
+                sort: Components.Schemas.SortObject? = nil,
                 pageable: Components.Schemas.PageableObject? = nil,
+                numberOfElements: Swift.Int32? = nil,
                 empty: Swift.Bool? = nil
             ) {
-                self.number = number
-                self.sort = sort
                 self.first = first
                 self.last = last
                 self.size = size
                 self.content = content
-                self.numberOfElements = numberOfElements
+                self.number = number
+                self.sort = sort
                 self.pageable = pageable
+                self.numberOfElements = numberOfElements
                 self.empty = empty
             }
             public enum CodingKeys: String, CodingKey {
-                case number
-                case sort
                 case first
                 case last
                 case size
                 case content
-                case numberOfElements
+                case number
+                case sort
                 case pageable
+                case numberOfElements
                 case empty
             }
         }
@@ -2392,6 +2733,144 @@ public enum Components {
                 case data
             }
         }
+        /// - Remark: Generated from `#/components/schemas/ContentImagePresignedUrlVO`.
+        public struct ContentImagePresignedUrlVO: Codable, Hashable, Sendable {
+            /// - Remark: Generated from `#/components/schemas/ContentImagePresignedUrlVO/fileName`.
+            public var fileName: Swift.String?
+            /// - Remark: Generated from `#/components/schemas/ContentImagePresignedUrlVO/urls`.
+            public struct urlsPayload: Codable, Hashable, Sendable {
+                /// A container of undocumented properties.
+                public var additionalProperties: [String: Swift.String]
+                /// Creates a new `urlsPayload`.
+                ///
+                /// - Parameters:
+                ///   - additionalProperties: A container of undocumented properties.
+                public init(additionalProperties: [String: Swift.String] = .init()) {
+                    self.additionalProperties = additionalProperties
+                }
+                public init(from decoder: any Decoder) throws {
+                    additionalProperties = try decoder.decodeAdditionalProperties(knownKeys: [])
+                }
+                public func encode(to encoder: any Encoder) throws {
+                    try encoder.encodeAdditionalProperties(additionalProperties)
+                }
+            }
+            /// - Remark: Generated from `#/components/schemas/ContentImagePresignedUrlVO/urls`.
+            public var urls: Components.Schemas.ContentImagePresignedUrlVO.urlsPayload?
+            /// Creates a new `ContentImagePresignedUrlVO`.
+            ///
+            /// - Parameters:
+            ///   - fileName:
+            ///   - urls:
+            public init(
+                fileName: Swift.String? = nil,
+                urls: Components.Schemas.ContentImagePresignedUrlVO.urlsPayload? = nil
+            ) {
+                self.fileName = fileName
+                self.urls = urls
+            }
+            public enum CodingKeys: String, CodingKey {
+                case fileName
+                case urls
+            }
+        }
+        /// - Remark: Generated from `#/components/schemas/NofficeResponseCategoryResponses`.
+        public struct NofficeResponseCategoryResponses: Codable, Hashable, Sendable {
+            /// - Remark: Generated from `#/components/schemas/NofficeResponseCategoryResponses/timestamp`.
+            public var timestamp: Swift.String?
+            /// - Remark: Generated from `#/components/schemas/NofficeResponseCategoryResponses/httpStatus`.
+            public var httpStatus: Swift.Int32?
+            /// - Remark: Generated from `#/components/schemas/NofficeResponseCategoryResponses/code`.
+            public var code: Swift.String?
+            /// - Remark: Generated from `#/components/schemas/NofficeResponseCategoryResponses/message`.
+            public var message: Swift.String?
+            /// - Remark: Generated from `#/components/schemas/NofficeResponseCategoryResponses/data`.
+            public var data: Components.Schemas.CategoryResponses?
+            /// Creates a new `NofficeResponseCategoryResponses`.
+            ///
+            /// - Parameters:
+            ///   - timestamp:
+            ///   - httpStatus:
+            ///   - code:
+            ///   - message:
+            ///   - data:
+            public init(
+                timestamp: Swift.String? = nil,
+                httpStatus: Swift.Int32? = nil,
+                code: Swift.String? = nil,
+                message: Swift.String? = nil,
+                data: Components.Schemas.CategoryResponses? = nil
+            ) {
+                self.timestamp = timestamp
+                self.httpStatus = httpStatus
+                self.code = code
+                self.message = message
+                self.data = data
+            }
+            public enum CodingKeys: String, CodingKey {
+                case timestamp
+                case httpStatus
+                case code
+                case message
+                case data
+            }
+        }
+        /// - Remark: Generated from `#/components/schemas/NofficeResponseTaskResponses`.
+        public struct NofficeResponseTaskResponses: Codable, Hashable, Sendable {
+            /// - Remark: Generated from `#/components/schemas/NofficeResponseTaskResponses/timestamp`.
+            public var timestamp: Swift.String?
+            /// - Remark: Generated from `#/components/schemas/NofficeResponseTaskResponses/httpStatus`.
+            public var httpStatus: Swift.Int32?
+            /// - Remark: Generated from `#/components/schemas/NofficeResponseTaskResponses/code`.
+            public var code: Swift.String?
+            /// - Remark: Generated from `#/components/schemas/NofficeResponseTaskResponses/message`.
+            public var message: Swift.String?
+            /// - Remark: Generated from `#/components/schemas/NofficeResponseTaskResponses/data`.
+            public var data: Components.Schemas.TaskResponses?
+            /// Creates a new `NofficeResponseTaskResponses`.
+            ///
+            /// - Parameters:
+            ///   - timestamp:
+            ///   - httpStatus:
+            ///   - code:
+            ///   - message:
+            ///   - data:
+            public init(
+                timestamp: Swift.String? = nil,
+                httpStatus: Swift.Int32? = nil,
+                code: Swift.String? = nil,
+                message: Swift.String? = nil,
+                data: Components.Schemas.TaskResponses? = nil
+            ) {
+                self.timestamp = timestamp
+                self.httpStatus = httpStatus
+                self.code = code
+                self.message = message
+                self.data = data
+            }
+            public enum CodingKeys: String, CodingKey {
+                case timestamp
+                case httpStatus
+                case code
+                case message
+                case data
+            }
+        }
+        /// - Remark: Generated from `#/components/schemas/TaskResponses`.
+        public struct TaskResponses: Codable, Hashable, Sendable {
+            /// - Remark: Generated from `#/components/schemas/TaskResponses/tasks`.
+            public var tasks: [Components.Schemas.TaskResponse]?
+            /// Creates a new `TaskResponses`.
+            ///
+            /// - Parameters:
+            ///   - tasks:
+            public init(tasks: [Components.Schemas.TaskResponse]? = nil) {
+                self.tasks = tasks
+            }
+            public enum CodingKeys: String, CodingKey {
+                case tasks
+            }
+        }
     }
     /// Types generated from the `#/components/parameters` section of the OpenAPI document.
     public enum Parameters {}
@@ -2405,44 +2884,89 @@ public enum Components {
 
 /// API operations, with input and output types, generated from `#/paths` in the OpenAPI document.
 public enum Operations {
-    /// 투두 목록 조회
+    /// [인증] 조직 카테고리 수정
     ///
-    /// - Remark: HTTP `GET /api/v1/tasks`.
-    /// - Remark: Generated from `#/paths//api/v1/tasks/get(getTasks)`.
-    public enum getTasks {
-        public static let id: Swift.String = "getTasks"
+    /// 조직에 등록된 카테고리를 수정합니다.
+    ///
+    /// - Remark: HTTP `PUT /api/v1/organizations/{organizationId}/categories`.
+    /// - Remark: Generated from `#/paths//api/v1/organizations/{organizationId}/categories/put(modifyCategories)`.
+    public enum modifyCategories {
+        public static let id: Swift.String = "modifyCategories"
         public struct Input: Sendable, Hashable {
-            /// - Remark: Generated from `#/paths/api/v1/tasks/GET/header`.
+            /// - Remark: Generated from `#/paths/api/v1/organizations/{organizationId}/categories/PUT/path`.
+            public struct Path: Sendable, Hashable {
+                /// - Remark: Generated from `#/paths/api/v1/organizations/{organizationId}/categories/PUT/path/organizationId`.
+                public var organizationId: Swift.Int64
+                /// Creates a new `Path`.
+                ///
+                /// - Parameters:
+                ///   - organizationId:
+                public init(organizationId: Swift.Int64) {
+                    self.organizationId = organizationId
+                }
+            }
+            public var path: Operations.modifyCategories.Input.Path
+            /// - Remark: Generated from `#/paths/api/v1/organizations/{organizationId}/categories/PUT/query`.
+            public struct Query: Sendable, Hashable {
+                /// - Remark: Generated from `#/paths/api/v1/organizations/{organizationId}/categories/PUT/query/memberId`.
+                public var memberId: Swift.Int64
+                /// Creates a new `Query`.
+                ///
+                /// - Parameters:
+                ///   - memberId:
+                public init(memberId: Swift.Int64) {
+                    self.memberId = memberId
+                }
+            }
+            public var query: Operations.modifyCategories.Input.Query
+            /// - Remark: Generated from `#/paths/api/v1/organizations/{organizationId}/categories/PUT/header`.
             public struct Headers: Sendable, Hashable {
-                public var accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.getTasks.AcceptableContentType>]
+                public var accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.modifyCategories.AcceptableContentType>]
                 /// Creates a new `Headers`.
                 ///
                 /// - Parameters:
                 ///   - accept:
-                public init(accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.getTasks.AcceptableContentType>] = .defaultValues()) {
+                public init(accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.modifyCategories.AcceptableContentType>] = .defaultValues()) {
                     self.accept = accept
                 }
             }
-            public var headers: Operations.getTasks.Input.Headers
+            public var headers: Operations.modifyCategories.Input.Headers
+            /// - Remark: Generated from `#/paths/api/v1/organizations/{organizationId}/categories/PUT/requestBody`.
+            @frozen public enum Body: Sendable, Hashable {
+                /// - Remark: Generated from `#/paths/api/v1/organizations/{organizationId}/categories/PUT/requestBody/content/application\/json`.
+                case json(Components.Schemas.CategoryModifyRequest)
+            }
+            public var body: Operations.modifyCategories.Input.Body
             /// Creates a new `Input`.
             ///
             /// - Parameters:
+            ///   - path:
+            ///   - query:
             ///   - headers:
-            public init(headers: Operations.getTasks.Input.Headers = .init()) {
+            ///   - body:
+            public init(
+                path: Operations.modifyCategories.Input.Path,
+                query: Operations.modifyCategories.Input.Query,
+                headers: Operations.modifyCategories.Input.Headers = .init(),
+                body: Operations.modifyCategories.Input.Body
+            ) {
+                self.path = path
+                self.query = query
                 self.headers = headers
+                self.body = body
             }
         }
         @frozen public enum Output: Sendable, Hashable {
             public struct Ok: Sendable, Hashable {
-                /// - Remark: Generated from `#/paths/api/v1/tasks/GET/responses/200/content`.
+                /// - Remark: Generated from `#/paths/api/v1/organizations/{organizationId}/categories/PUT/responses/200/content`.
                 @frozen public enum Body: Sendable, Hashable {
-                    /// - Remark: Generated from `#/paths/api/v1/tasks/GET/responses/200/content/application\/json`.
-                    case json(Components.Schemas.NofficeResponseTaskResponses)
+                    /// - Remark: Generated from `#/paths/api/v1/organizations/{organizationId}/categories/PUT/responses/200/content/application\/json`.
+                    case json(Components.Schemas.NofficeResponseCategoryModifyResponse)
                     /// The associated value of the enum case if `self` is `.json`.
                     ///
                     /// - Throws: An error if `self` is not `.json`.
                     /// - SeeAlso: `.json`.
-                    public var json: Components.Schemas.NofficeResponseTaskResponses {
+                    public var json: Components.Schemas.NofficeResponseCategoryModifyResponse {
                         get throws {
                             switch self {
                             case let .json(body):
@@ -2452,26 +2976,26 @@ public enum Operations {
                     }
                 }
                 /// Received HTTP response body
-                public var body: Operations.getTasks.Output.Ok.Body
+                public var body: Operations.modifyCategories.Output.Ok.Body
                 /// Creates a new `Ok`.
                 ///
                 /// - Parameters:
                 ///   - body: Received HTTP response body
-                public init(body: Operations.getTasks.Output.Ok.Body) {
+                public init(body: Operations.modifyCategories.Output.Ok.Body) {
                     self.body = body
                 }
             }
-            /// 투두 목록 조회 성공
+            /// 조직 카테고리 수정 성공
             ///
-            /// - Remark: Generated from `#/paths//api/v1/tasks/get(getTasks)/responses/200`.
+            /// - Remark: Generated from `#/paths//api/v1/organizations/{organizationId}/categories/put(modifyCategories)/responses/200`.
             ///
             /// HTTP response code: `200 ok`.
-            case ok(Operations.getTasks.Output.Ok)
+            case ok(Operations.modifyCategories.Output.Ok)
             /// The associated value of the enum case if `self` is `.ok`.
             ///
             /// - Throws: An error if `self` is not `.ok`.
             /// - SeeAlso: `.ok`.
-            public var ok: Operations.getTasks.Output.Ok {
+            public var ok: Operations.modifyCategories.Output.Ok {
                 get throws {
                     switch self {
                     case let .ok(response):
@@ -2485,15 +3009,15 @@ public enum Operations {
                 }
             }
             public struct NotFound: Sendable, Hashable {
-                /// - Remark: Generated from `#/paths/api/v1/tasks/GET/responses/404/content`.
+                /// - Remark: Generated from `#/paths/api/v1/organizations/{organizationId}/categories/PUT/responses/404/content`.
                 @frozen public enum Body: Sendable, Hashable {
-                    /// - Remark: Generated from `#/paths/api/v1/tasks/GET/responses/404/content/application\/json`.
-                    case json(Components.Schemas.NofficeResponseTaskResponses)
+                    /// - Remark: Generated from `#/paths/api/v1/organizations/{organizationId}/categories/PUT/responses/404/content/application\/json`.
+                    case json(Components.Schemas.NofficeResponseCategoryModifyResponse)
                     /// The associated value of the enum case if `self` is `.json`.
                     ///
                     /// - Throws: An error if `self` is not `.json`.
                     /// - SeeAlso: `.json`.
-                    public var json: Components.Schemas.NofficeResponseTaskResponses {
+                    public var json: Components.Schemas.NofficeResponseCategoryModifyResponse {
                         get throws {
                             switch self {
                             case let .json(body):
@@ -2503,26 +3027,26 @@ public enum Operations {
                     }
                 }
                 /// Received HTTP response body
-                public var body: Operations.getTasks.Output.NotFound.Body
+                public var body: Operations.modifyCategories.Output.NotFound.Body
                 /// Creates a new `NotFound`.
                 ///
                 /// - Parameters:
                 ///   - body: Received HTTP response body
-                public init(body: Operations.getTasks.Output.NotFound.Body) {
+                public init(body: Operations.modifyCategories.Output.NotFound.Body) {
                     self.body = body
                 }
             }
-            /// 등록된 투두가 없습니다.
+            /// 조직에 등록된 카테고리가 없습니다.
             ///
-            /// - Remark: Generated from `#/paths//api/v1/tasks/get(getTasks)/responses/404`.
+            /// - Remark: Generated from `#/paths//api/v1/organizations/{organizationId}/categories/put(modifyCategories)/responses/404`.
             ///
             /// HTTP response code: `404 notFound`.
-            case notFound(Operations.getTasks.Output.NotFound)
+            case notFound(Operations.modifyCategories.Output.NotFound)
             /// The associated value of the enum case if `self` is `.notFound`.
             ///
             /// - Throws: An error if `self` is not `.notFound`.
             /// - SeeAlso: `.notFound`.
-            public var notFound: Operations.getTasks.Output.NotFound {
+            public var notFound: Operations.modifyCategories.Output.NotFound {
                 get throws {
                     switch self {
                     case let .notFound(response):
@@ -2566,413 +3090,48 @@ public enum Operations {
             }
         }
     }
-    /// 투두 생성
-    ///
-    /// - Remark: HTTP `POST /api/v1/tasks`.
-    /// - Remark: Generated from `#/paths//api/v1/tasks/post(createTask)`.
-    public enum createTask {
-        public static let id: Swift.String = "createTask"
-        public struct Input: Sendable, Hashable {
-            /// - Remark: Generated from `#/paths/api/v1/tasks/POST/query`.
-            public struct Query: Sendable, Hashable {
-                /// - Remark: Generated from `#/paths/api/v1/tasks/POST/query/taskCreateRequest`.
-                public var taskCreateRequest: Components.Schemas.TaskCreateRequest
-                /// Creates a new `Query`.
-                ///
-                /// - Parameters:
-                ///   - taskCreateRequest:
-                public init(taskCreateRequest: Components.Schemas.TaskCreateRequest) {
-                    self.taskCreateRequest = taskCreateRequest
-                }
-            }
-            public var query: Operations.createTask.Input.Query
-            /// - Remark: Generated from `#/paths/api/v1/tasks/POST/header`.
-            public struct Headers: Sendable, Hashable {
-                public var accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.createTask.AcceptableContentType>]
-                /// Creates a new `Headers`.
-                ///
-                /// - Parameters:
-                ///   - accept:
-                public init(accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.createTask.AcceptableContentType>] = .defaultValues()) {
-                    self.accept = accept
-                }
-            }
-            public var headers: Operations.createTask.Input.Headers
-            /// Creates a new `Input`.
-            ///
-            /// - Parameters:
-            ///   - query:
-            ///   - headers:
-            public init(
-                query: Operations.createTask.Input.Query,
-                headers: Operations.createTask.Input.Headers = .init()
-            ) {
-                self.query = query
-                self.headers = headers
-            }
-        }
-        @frozen public enum Output: Sendable, Hashable {
-            public struct Created: Sendable, Hashable {
-                /// - Remark: Generated from `#/paths/api/v1/tasks/POST/responses/201/content`.
-                @frozen public enum Body: Sendable, Hashable {
-                    /// - Remark: Generated from `#/paths/api/v1/tasks/POST/responses/201/content/application\/json`.
-                    case json(Components.Schemas.NofficeResponseTaskCreateResponse)
-                    /// The associated value of the enum case if `self` is `.json`.
-                    ///
-                    /// - Throws: An error if `self` is not `.json`.
-                    /// - SeeAlso: `.json`.
-                    public var json: Components.Schemas.NofficeResponseTaskCreateResponse {
-                        get throws {
-                            switch self {
-                            case let .json(body):
-                                return body
-                            }
-                        }
-                    }
-                }
-                /// Received HTTP response body
-                public var body: Operations.createTask.Output.Created.Body
-                /// Creates a new `Created`.
-                ///
-                /// - Parameters:
-                ///   - body: Received HTTP response body
-                public init(body: Operations.createTask.Output.Created.Body) {
-                    self.body = body
-                }
-            }
-            /// 투두 생성 성공
-            ///
-            /// - Remark: Generated from `#/paths//api/v1/tasks/post(createTask)/responses/201`.
-            ///
-            /// HTTP response code: `201 created`.
-            case created(Operations.createTask.Output.Created)
-            /// The associated value of the enum case if `self` is `.created`.
-            ///
-            /// - Throws: An error if `self` is not `.created`.
-            /// - SeeAlso: `.created`.
-            public var created: Operations.createTask.Output.Created {
-                get throws {
-                    switch self {
-                    case let .created(response):
-                        return response
-                    default:
-                        try throwUnexpectedResponseStatus(
-                            expectedStatus: "created",
-                            response: self
-                        )
-                    }
-                }
-            }
-            public struct BadRequest: Sendable, Hashable {
-                /// - Remark: Generated from `#/paths/api/v1/tasks/POST/responses/400/content`.
-                @frozen public enum Body: Sendable, Hashable {
-                    /// - Remark: Generated from `#/paths/api/v1/tasks/POST/responses/400/content/application\/json`.
-                    case json(Components.Schemas.NofficeResponseTaskCreateResponse)
-                    /// The associated value of the enum case if `self` is `.json`.
-                    ///
-                    /// - Throws: An error if `self` is not `.json`.
-                    /// - SeeAlso: `.json`.
-                    public var json: Components.Schemas.NofficeResponseTaskCreateResponse {
-                        get throws {
-                            switch self {
-                            case let .json(body):
-                                return body
-                            }
-                        }
-                    }
-                }
-                /// Received HTTP response body
-                public var body: Operations.createTask.Output.BadRequest.Body
-                /// Creates a new `BadRequest`.
-                ///
-                /// - Parameters:
-                ///   - body: Received HTTP response body
-                public init(body: Operations.createTask.Output.BadRequest.Body) {
-                    self.body = body
-                }
-            }
-            /// 투두 생성 실패
-            ///
-            /// - Remark: Generated from `#/paths//api/v1/tasks/post(createTask)/responses/400`.
-            ///
-            /// HTTP response code: `400 badRequest`.
-            case badRequest(Operations.createTask.Output.BadRequest)
-            /// The associated value of the enum case if `self` is `.badRequest`.
-            ///
-            /// - Throws: An error if `self` is not `.badRequest`.
-            /// - SeeAlso: `.badRequest`.
-            public var badRequest: Operations.createTask.Output.BadRequest {
-                get throws {
-                    switch self {
-                    case let .badRequest(response):
-                        return response
-                    default:
-                        try throwUnexpectedResponseStatus(
-                            expectedStatus: "badRequest",
-                            response: self
-                        )
-                    }
-                }
-            }
-            /// Undocumented response.
-            ///
-            /// A response with a code that is not documented in the OpenAPI document.
-            case undocumented(statusCode: Swift.Int, OpenAPIRuntime.UndocumentedPayload)
-        }
-        @frozen public enum AcceptableContentType: AcceptableProtocol {
-            case json
-            case other(Swift.String)
-            public init?(rawValue: Swift.String) {
-                switch rawValue.lowercased() {
-                case "application/json":
-                    self = .json
-                default:
-                    self = .other(rawValue)
-                }
-            }
-            public var rawValue: Swift.String {
-                switch self {
-                case let .other(string):
-                    return string
-                case .json:
-                    return "application/json"
-                }
-            }
-            public static var allCases: [Self] {
-                [
-                    .json
-                ]
-            }
-        }
-    }
-    /// 투두 대량 생성
-    ///
-    /// - Remark: HTTP `POST /api/v1/tasks/bulk`.
-    /// - Remark: Generated from `#/paths//api/v1/tasks/bulk/post(createBulkTask)`.
-    public enum createBulkTask {
-        public static let id: Swift.String = "createBulkTask"
-        public struct Input: Sendable, Hashable {
-            /// - Remark: Generated from `#/paths/api/v1/tasks/bulk/POST/query`.
-            public struct Query: Sendable, Hashable {
-                /// - Remark: Generated from `#/paths/api/v1/tasks/bulk/POST/query/taskBulkCreateRequest`.
-                public var taskBulkCreateRequest: Components.Schemas.TaskBulkCreateRequest
-                /// Creates a new `Query`.
-                ///
-                /// - Parameters:
-                ///   - taskBulkCreateRequest:
-                public init(taskBulkCreateRequest: Components.Schemas.TaskBulkCreateRequest) {
-                    self.taskBulkCreateRequest = taskBulkCreateRequest
-                }
-            }
-            public var query: Operations.createBulkTask.Input.Query
-            /// - Remark: Generated from `#/paths/api/v1/tasks/bulk/POST/header`.
-            public struct Headers: Sendable, Hashable {
-                public var accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.createBulkTask.AcceptableContentType>]
-                /// Creates a new `Headers`.
-                ///
-                /// - Parameters:
-                ///   - accept:
-                public init(accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.createBulkTask.AcceptableContentType>] = .defaultValues()) {
-                    self.accept = accept
-                }
-            }
-            public var headers: Operations.createBulkTask.Input.Headers
-            /// Creates a new `Input`.
-            ///
-            /// - Parameters:
-            ///   - query:
-            ///   - headers:
-            public init(
-                query: Operations.createBulkTask.Input.Query,
-                headers: Operations.createBulkTask.Input.Headers = .init()
-            ) {
-                self.query = query
-                self.headers = headers
-            }
-        }
-        @frozen public enum Output: Sendable, Hashable {
-            public struct Created: Sendable, Hashable {
-                /// - Remark: Generated from `#/paths/api/v1/tasks/bulk/POST/responses/201/content`.
-                @frozen public enum Body: Sendable, Hashable {
-                    /// - Remark: Generated from `#/paths/api/v1/tasks/bulk/POST/responses/201/content/application\/json`.
-                    case json(Components.Schemas.NofficeResponseTaskCreateResponses)
-                    /// The associated value of the enum case if `self` is `.json`.
-                    ///
-                    /// - Throws: An error if `self` is not `.json`.
-                    /// - SeeAlso: `.json`.
-                    public var json: Components.Schemas.NofficeResponseTaskCreateResponses {
-                        get throws {
-                            switch self {
-                            case let .json(body):
-                                return body
-                            }
-                        }
-                    }
-                }
-                /// Received HTTP response body
-                public var body: Operations.createBulkTask.Output.Created.Body
-                /// Creates a new `Created`.
-                ///
-                /// - Parameters:
-                ///   - body: Received HTTP response body
-                public init(body: Operations.createBulkTask.Output.Created.Body) {
-                    self.body = body
-                }
-            }
-            /// 투두 대량 생성 성공
-            ///
-            /// - Remark: Generated from `#/paths//api/v1/tasks/bulk/post(createBulkTask)/responses/201`.
-            ///
-            /// HTTP response code: `201 created`.
-            case created(Operations.createBulkTask.Output.Created)
-            /// The associated value of the enum case if `self` is `.created`.
-            ///
-            /// - Throws: An error if `self` is not `.created`.
-            /// - SeeAlso: `.created`.
-            public var created: Operations.createBulkTask.Output.Created {
-                get throws {
-                    switch self {
-                    case let .created(response):
-                        return response
-                    default:
-                        try throwUnexpectedResponseStatus(
-                            expectedStatus: "created",
-                            response: self
-                        )
-                    }
-                }
-            }
-            public struct BadRequest: Sendable, Hashable {
-                /// - Remark: Generated from `#/paths/api/v1/tasks/bulk/POST/responses/400/content`.
-                @frozen public enum Body: Sendable, Hashable {
-                    /// - Remark: Generated from `#/paths/api/v1/tasks/bulk/POST/responses/400/content/application\/json`.
-                    case json(Components.Schemas.NofficeResponseTaskCreateResponses)
-                    /// The associated value of the enum case if `self` is `.json`.
-                    ///
-                    /// - Throws: An error if `self` is not `.json`.
-                    /// - SeeAlso: `.json`.
-                    public var json: Components.Schemas.NofficeResponseTaskCreateResponses {
-                        get throws {
-                            switch self {
-                            case let .json(body):
-                                return body
-                            }
-                        }
-                    }
-                }
-                /// Received HTTP response body
-                public var body: Operations.createBulkTask.Output.BadRequest.Body
-                /// Creates a new `BadRequest`.
-                ///
-                /// - Parameters:
-                ///   - body: Received HTTP response body
-                public init(body: Operations.createBulkTask.Output.BadRequest.Body) {
-                    self.body = body
-                }
-            }
-            /// 투두 대량 생성 실패
-            ///
-            /// - Remark: Generated from `#/paths//api/v1/tasks/bulk/post(createBulkTask)/responses/400`.
-            ///
-            /// HTTP response code: `400 badRequest`.
-            case badRequest(Operations.createBulkTask.Output.BadRequest)
-            /// The associated value of the enum case if `self` is `.badRequest`.
-            ///
-            /// - Throws: An error if `self` is not `.badRequest`.
-            /// - SeeAlso: `.badRequest`.
-            public var badRequest: Operations.createBulkTask.Output.BadRequest {
-                get throws {
-                    switch self {
-                    case let .badRequest(response):
-                        return response
-                    default:
-                        try throwUnexpectedResponseStatus(
-                            expectedStatus: "badRequest",
-                            response: self
-                        )
-                    }
-                }
-            }
-            /// Undocumented response.
-            ///
-            /// A response with a code that is not documented in the OpenAPI document.
-            case undocumented(statusCode: Swift.Int, OpenAPIRuntime.UndocumentedPayload)
-        }
-        @frozen public enum AcceptableContentType: AcceptableProtocol {
-            case json
-            case other(Swift.String)
-            public init?(rawValue: Swift.String) {
-                switch rawValue.lowercased() {
-                case "application/json":
-                    self = .json
-                default:
-                    self = .other(rawValue)
-                }
-            }
-            public var rawValue: Swift.String {
-                switch self {
-                case let .other(string):
-                    return string
-                case .json:
-                    return "application/json"
-                }
-            }
-            public static var allCases: [Self] {
-                [
-                    .json
-                ]
-            }
-        }
-    }
-    /// 사용자의 가입된 조직 페이징 조회
+    /// [인증] 사용자의 가입된 조직 페이징 조회
     ///
     /// 멤버가 가입한 조직 목록을 조회합니다.
     ///
     /// - Remark: HTTP `GET /api/v1/organizations`.
-    /// - Remark: Generated from `#/paths//api/v1/organizations/get(getJoinedOrganizations)`.
-    public enum getJoinedOrganizations {
-        public static let id: Swift.String = "getJoinedOrganizations"
+    /// - Remark: Generated from `#/paths//api/v1/organizations/get(getJoined)`.
+    public enum getJoined {
+        public static let id: Swift.String = "getJoined"
         public struct Input: Sendable, Hashable {
             /// - Remark: Generated from `#/paths/api/v1/organizations/GET/query`.
             public struct Query: Sendable, Hashable {
-                /// - Remark: Generated from `#/paths/api/v1/organizations/GET/query/memberId`.
-                public var memberId: Swift.Int64
                 /// - Remark: Generated from `#/paths/api/v1/organizations/GET/query/pageable`.
                 public var pageable: Components.Schemas.Pageable
                 /// Creates a new `Query`.
                 ///
                 /// - Parameters:
-                ///   - memberId:
                 ///   - pageable:
-                public init(
-                    memberId: Swift.Int64,
-                    pageable: Components.Schemas.Pageable
-                ) {
-                    self.memberId = memberId
+                public init(pageable: Components.Schemas.Pageable) {
                     self.pageable = pageable
                 }
             }
-            public var query: Operations.getJoinedOrganizations.Input.Query
+            public var query: Operations.getJoined.Input.Query
             /// - Remark: Generated from `#/paths/api/v1/organizations/GET/header`.
             public struct Headers: Sendable, Hashable {
-                public var accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.getJoinedOrganizations.AcceptableContentType>]
+                public var accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.getJoined.AcceptableContentType>]
                 /// Creates a new `Headers`.
                 ///
                 /// - Parameters:
                 ///   - accept:
-                public init(accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.getJoinedOrganizations.AcceptableContentType>] = .defaultValues()) {
+                public init(accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.getJoined.AcceptableContentType>] = .defaultValues()) {
                     self.accept = accept
                 }
             }
-            public var headers: Operations.getJoinedOrganizations.Input.Headers
+            public var headers: Operations.getJoined.Input.Headers
             /// Creates a new `Input`.
             ///
             /// - Parameters:
             ///   - query:
             ///   - headers:
             public init(
-                query: Operations.getJoinedOrganizations.Input.Query,
-                headers: Operations.getJoinedOrganizations.Input.Headers = .init()
+                query: Operations.getJoined.Input.Query,
+                headers: Operations.getJoined.Input.Headers = .init()
             ) {
                 self.query = query
                 self.headers = headers
@@ -2998,26 +3157,26 @@ public enum Operations {
                     }
                 }
                 /// Received HTTP response body
-                public var body: Operations.getJoinedOrganizations.Output.Ok.Body
+                public var body: Operations.getJoined.Output.Ok.Body
                 /// Creates a new `Ok`.
                 ///
                 /// - Parameters:
                 ///   - body: Received HTTP response body
-                public init(body: Operations.getJoinedOrganizations.Output.Ok.Body) {
+                public init(body: Operations.getJoined.Output.Ok.Body) {
                     self.body = body
                 }
             }
             /// 회원의 가입된 조직 조회에 성공하였습니다.
             ///
-            /// - Remark: Generated from `#/paths//api/v1/organizations/get(getJoinedOrganizations)/responses/200`.
+            /// - Remark: Generated from `#/paths//api/v1/organizations/get(getJoined)/responses/200`.
             ///
             /// HTTP response code: `200 ok`.
-            case ok(Operations.getJoinedOrganizations.Output.Ok)
+            case ok(Operations.getJoined.Output.Ok)
             /// The associated value of the enum case if `self` is `.ok`.
             ///
             /// - Throws: An error if `self` is not `.ok`.
             /// - SeeAlso: `.ok`.
-            public var ok: Operations.getJoinedOrganizations.Output.Ok {
+            public var ok: Operations.getJoined.Output.Ok {
                 get throws {
                     switch self {
                     case let .ok(response):
@@ -3049,26 +3208,26 @@ public enum Operations {
                     }
                 }
                 /// Received HTTP response body
-                public var body: Operations.getJoinedOrganizations.Output.NotFound.Body
+                public var body: Operations.getJoined.Output.NotFound.Body
                 /// Creates a new `NotFound`.
                 ///
                 /// - Parameters:
                 ///   - body: Received HTTP response body
-                public init(body: Operations.getJoinedOrganizations.Output.NotFound.Body) {
+                public init(body: Operations.getJoined.Output.NotFound.Body) {
                     self.body = body
                 }
             }
             /// 가입된 조직이 없습니다.
             ///
-            /// - Remark: Generated from `#/paths//api/v1/organizations/get(getJoinedOrganizations)/responses/404`.
+            /// - Remark: Generated from `#/paths//api/v1/organizations/get(getJoined)/responses/404`.
             ///
             /// HTTP response code: `404 notFound`.
-            case notFound(Operations.getJoinedOrganizations.Output.NotFound)
+            case notFound(Operations.getJoined.Output.NotFound)
             /// The associated value of the enum case if `self` is `.notFound`.
             ///
             /// - Throws: An error if `self` is not `.notFound`.
             /// - SeeAlso: `.notFound`.
-            public var notFound: Operations.getJoinedOrganizations.Output.NotFound {
+            public var notFound: Operations.getJoined.Output.NotFound {
                 get throws {
                     switch self {
                     case let .notFound(response):
@@ -3112,58 +3271,42 @@ public enum Operations {
             }
         }
     }
-    /// 조직 생성
+    /// [인증] 조직 생성
     ///
     /// 조직을 생성합니다.
     ///
     /// - Remark: HTTP `POST /api/v1/organizations`.
-    /// - Remark: Generated from `#/paths//api/v1/organizations/post(createOrganization)`.
-    public enum createOrganization {
-        public static let id: Swift.String = "createOrganization"
+    /// - Remark: Generated from `#/paths//api/v1/organizations/post(create)`.
+    public enum create {
+        public static let id: Swift.String = "create"
         public struct Input: Sendable, Hashable {
-            /// - Remark: Generated from `#/paths/api/v1/organizations/POST/query`.
-            public struct Query: Sendable, Hashable {
-                /// - Remark: Generated from `#/paths/api/v1/organizations/POST/query/memberId`.
-                public var memberId: Swift.Int64
-                /// Creates a new `Query`.
-                ///
-                /// - Parameters:
-                ///   - memberId:
-                public init(memberId: Swift.Int64) {
-                    self.memberId = memberId
-                }
-            }
-            public var query: Operations.createOrganization.Input.Query
             /// - Remark: Generated from `#/paths/api/v1/organizations/POST/header`.
             public struct Headers: Sendable, Hashable {
-                public var accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.createOrganization.AcceptableContentType>]
+                public var accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.create.AcceptableContentType>]
                 /// Creates a new `Headers`.
                 ///
                 /// - Parameters:
                 ///   - accept:
-                public init(accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.createOrganization.AcceptableContentType>] = .defaultValues()) {
+                public init(accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.create.AcceptableContentType>] = .defaultValues()) {
                     self.accept = accept
                 }
             }
-            public var headers: Operations.createOrganization.Input.Headers
+            public var headers: Operations.create.Input.Headers
             /// - Remark: Generated from `#/paths/api/v1/organizations/POST/requestBody`.
             @frozen public enum Body: Sendable, Hashable {
                 /// - Remark: Generated from `#/paths/api/v1/organizations/POST/requestBody/content/application\/json`.
                 case json(Components.Schemas.OrganizationCreateRequest)
             }
-            public var body: Operations.createOrganization.Input.Body
+            public var body: Operations.create.Input.Body
             /// Creates a new `Input`.
             ///
             /// - Parameters:
-            ///   - query:
             ///   - headers:
             ///   - body:
             public init(
-                query: Operations.createOrganization.Input.Query,
-                headers: Operations.createOrganization.Input.Headers = .init(),
-                body: Operations.createOrganization.Input.Body
+                headers: Operations.create.Input.Headers = .init(),
+                body: Operations.create.Input.Body
             ) {
-                self.query = query
                 self.headers = headers
                 self.body = body
             }
@@ -3188,26 +3331,26 @@ public enum Operations {
                     }
                 }
                 /// Received HTTP response body
-                public var body: Operations.createOrganization.Output.Created.Body
+                public var body: Operations.create.Output.Created.Body
                 /// Creates a new `Created`.
                 ///
                 /// - Parameters:
                 ///   - body: Received HTTP response body
-                public init(body: Operations.createOrganization.Output.Created.Body) {
+                public init(body: Operations.create.Output.Created.Body) {
                     self.body = body
                 }
             }
             /// 조직 생성에 성공하였습니다.
             ///
-            /// - Remark: Generated from `#/paths//api/v1/organizations/post(createOrganization)/responses/201`.
+            /// - Remark: Generated from `#/paths//api/v1/organizations/post(create)/responses/201`.
             ///
             /// HTTP response code: `201 created`.
-            case created(Operations.createOrganization.Output.Created)
+            case created(Operations.create.Output.Created)
             /// The associated value of the enum case if `self` is `.created`.
             ///
             /// - Throws: An error if `self` is not `.created`.
             /// - SeeAlso: `.created`.
-            public var created: Operations.createOrganization.Output.Created {
+            public var created: Operations.create.Output.Created {
                 get throws {
                     switch self {
                     case let .created(response):
@@ -3239,26 +3382,26 @@ public enum Operations {
                     }
                 }
                 /// Received HTTP response body
-                public var body: Operations.createOrganization.Output.BadRequest.Body
+                public var body: Operations.create.Output.BadRequest.Body
                 /// Creates a new `BadRequest`.
                 ///
                 /// - Parameters:
                 ///   - body: Received HTTP response body
-                public init(body: Operations.createOrganization.Output.BadRequest.Body) {
+                public init(body: Operations.create.Output.BadRequest.Body) {
                     self.body = body
                 }
             }
             /// 조직 생성에 실패하였습니다.
             ///
-            /// - Remark: Generated from `#/paths//api/v1/organizations/post(createOrganization)/responses/400`.
+            /// - Remark: Generated from `#/paths//api/v1/organizations/post(create)/responses/400`.
             ///
             /// HTTP response code: `400 badRequest`.
-            case badRequest(Operations.createOrganization.Output.BadRequest)
+            case badRequest(Operations.create.Output.BadRequest)
             /// The associated value of the enum case if `self` is `.badRequest`.
             ///
             /// - Throws: An error if `self` is not `.badRequest`.
             /// - SeeAlso: `.badRequest`.
-            public var badRequest: Operations.createOrganization.Output.BadRequest {
+            public var badRequest: Operations.create.Output.BadRequest {
                 get throws {
                     switch self {
                     case let .badRequest(response):
@@ -3302,14 +3445,14 @@ public enum Operations {
             }
         }
     }
-    /// 조직 가입
+    /// [인증] 조직 가입
     ///
     /// 조직에 가입합니다.
     ///
     /// - Remark: HTTP `POST /api/v1/organizations/{organizationId}/join`.
-    /// - Remark: Generated from `#/paths//api/v1/organizations/{organizationId}/join/post(joinOrganization)`.
-    public enum joinOrganization {
-        public static let id: Swift.String = "joinOrganization"
+    /// - Remark: Generated from `#/paths//api/v1/organizations/{organizationId}/join/post(join)`.
+    public enum join {
+        public static let id: Swift.String = "join"
         public struct Input: Sendable, Hashable {
             /// - Remark: Generated from `#/paths/api/v1/organizations/{organizationId}/join/POST/path`.
             public struct Path: Sendable, Hashable {
@@ -3323,45 +3466,29 @@ public enum Operations {
                     self.organizationId = organizationId
                 }
             }
-            public var path: Operations.joinOrganization.Input.Path
-            /// - Remark: Generated from `#/paths/api/v1/organizations/{organizationId}/join/POST/query`.
-            public struct Query: Sendable, Hashable {
-                /// - Remark: Generated from `#/paths/api/v1/organizations/{organizationId}/join/POST/query/memberId`.
-                public var memberId: Swift.Int64
-                /// Creates a new `Query`.
-                ///
-                /// - Parameters:
-                ///   - memberId:
-                public init(memberId: Swift.Int64) {
-                    self.memberId = memberId
-                }
-            }
-            public var query: Operations.joinOrganization.Input.Query
+            public var path: Operations.join.Input.Path
             /// - Remark: Generated from `#/paths/api/v1/organizations/{organizationId}/join/POST/header`.
             public struct Headers: Sendable, Hashable {
-                public var accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.joinOrganization.AcceptableContentType>]
+                public var accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.join.AcceptableContentType>]
                 /// Creates a new `Headers`.
                 ///
                 /// - Parameters:
                 ///   - accept:
-                public init(accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.joinOrganization.AcceptableContentType>] = .defaultValues()) {
+                public init(accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.join.AcceptableContentType>] = .defaultValues()) {
                     self.accept = accept
                 }
             }
-            public var headers: Operations.joinOrganization.Input.Headers
+            public var headers: Operations.join.Input.Headers
             /// Creates a new `Input`.
             ///
             /// - Parameters:
             ///   - path:
-            ///   - query:
             ///   - headers:
             public init(
-                path: Operations.joinOrganization.Input.Path,
-                query: Operations.joinOrganization.Input.Query,
-                headers: Operations.joinOrganization.Input.Headers = .init()
+                path: Operations.join.Input.Path,
+                headers: Operations.join.Input.Headers = .init()
             ) {
                 self.path = path
-                self.query = query
                 self.headers = headers
             }
         }
@@ -3385,26 +3512,26 @@ public enum Operations {
                     }
                 }
                 /// Received HTTP response body
-                public var body: Operations.joinOrganization.Output.Ok.Body
+                public var body: Operations.join.Output.Ok.Body
                 /// Creates a new `Ok`.
                 ///
                 /// - Parameters:
                 ///   - body: Received HTTP response body
-                public init(body: Operations.joinOrganization.Output.Ok.Body) {
+                public init(body: Operations.join.Output.Ok.Body) {
                     self.body = body
                 }
             }
             /// 조직 가입에 성공하였습니다.
             ///
-            /// - Remark: Generated from `#/paths//api/v1/organizations/{organizationId}/join/post(joinOrganization)/responses/200`.
+            /// - Remark: Generated from `#/paths//api/v1/organizations/{organizationId}/join/post(join)/responses/200`.
             ///
             /// HTTP response code: `200 ok`.
-            case ok(Operations.joinOrganization.Output.Ok)
+            case ok(Operations.join.Output.Ok)
             /// The associated value of the enum case if `self` is `.ok`.
             ///
             /// - Throws: An error if `self` is not `.ok`.
             /// - SeeAlso: `.ok`.
-            public var ok: Operations.joinOrganization.Output.Ok {
+            public var ok: Operations.join.Output.Ok {
                 get throws {
                     switch self {
                     case let .ok(response):
@@ -3448,50 +3575,32 @@ public enum Operations {
             }
         }
     }
-    /// 사용자에게 수신된 알림 조회
+    /// [인증] 사용자에게 수신된 알림 조회
     ///
     /// 사용자에게 수신된 알림을 조회합니다.
     ///
     /// - Remark: HTTP `GET /api/v1/notifications`.
-    /// - Remark: Generated from `#/paths//api/v1/notifications/get(getNotifications)`.
-    public enum getNotifications {
-        public static let id: Swift.String = "getNotifications"
+    /// - Remark: Generated from `#/paths//api/v1/notifications/get(findById)`.
+    public enum findById {
+        public static let id: Swift.String = "findById"
         public struct Input: Sendable, Hashable {
-            /// - Remark: Generated from `#/paths/api/v1/notifications/GET/query`.
-            public struct Query: Sendable, Hashable {
-                /// - Remark: Generated from `#/paths/api/v1/notifications/GET/query/memberId`.
-                public var memberId: Swift.Int64
-                /// Creates a new `Query`.
-                ///
-                /// - Parameters:
-                ///   - memberId:
-                public init(memberId: Swift.Int64) {
-                    self.memberId = memberId
-                }
-            }
-            public var query: Operations.getNotifications.Input.Query
             /// - Remark: Generated from `#/paths/api/v1/notifications/GET/header`.
             public struct Headers: Sendable, Hashable {
-                public var accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.getNotifications.AcceptableContentType>]
+                public var accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.findById.AcceptableContentType>]
                 /// Creates a new `Headers`.
                 ///
                 /// - Parameters:
                 ///   - accept:
-                public init(accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.getNotifications.AcceptableContentType>] = .defaultValues()) {
+                public init(accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.findById.AcceptableContentType>] = .defaultValues()) {
                     self.accept = accept
                 }
             }
-            public var headers: Operations.getNotifications.Input.Headers
+            public var headers: Operations.findById.Input.Headers
             /// Creates a new `Input`.
             ///
             /// - Parameters:
-            ///   - query:
             ///   - headers:
-            public init(
-                query: Operations.getNotifications.Input.Query,
-                headers: Operations.getNotifications.Input.Headers = .init()
-            ) {
-                self.query = query
+            public init(headers: Operations.findById.Input.Headers = .init()) {
                 self.headers = headers
             }
         }
@@ -3515,26 +3624,26 @@ public enum Operations {
                     }
                 }
                 /// Received HTTP response body
-                public var body: Operations.getNotifications.Output.Ok.Body
+                public var body: Operations.findById.Output.Ok.Body
                 /// Creates a new `Ok`.
                 ///
                 /// - Parameters:
                 ///   - body: Received HTTP response body
-                public init(body: Operations.getNotifications.Output.Ok.Body) {
+                public init(body: Operations.findById.Output.Ok.Body) {
                     self.body = body
                 }
             }
             /// 알림 조회 성공
             ///
-            /// - Remark: Generated from `#/paths//api/v1/notifications/get(getNotifications)/responses/200`.
+            /// - Remark: Generated from `#/paths//api/v1/notifications/get(findById)/responses/200`.
             ///
             /// HTTP response code: `200 ok`.
-            case ok(Operations.getNotifications.Output.Ok)
+            case ok(Operations.findById.Output.Ok)
             /// The associated value of the enum case if `self` is `.ok`.
             ///
             /// - Throws: An error if `self` is not `.ok`.
             /// - SeeAlso: `.ok`.
-            public var ok: Operations.getNotifications.Output.Ok {
+            public var ok: Operations.findById.Output.Ok {
                 get throws {
                     switch self {
                     case let .ok(response):
@@ -3566,26 +3675,26 @@ public enum Operations {
                     }
                 }
                 /// Received HTTP response body
-                public var body: Operations.getNotifications.Output.NotFound.Body
+                public var body: Operations.findById.Output.NotFound.Body
                 /// Creates a new `NotFound`.
                 ///
                 /// - Parameters:
                 ///   - body: Received HTTP response body
-                public init(body: Operations.getNotifications.Output.NotFound.Body) {
+                public init(body: Operations.findById.Output.NotFound.Body) {
                     self.body = body
                 }
             }
             /// 알림이 없습니다.
             ///
-            /// - Remark: Generated from `#/paths//api/v1/notifications/get(getNotifications)/responses/404`.
+            /// - Remark: Generated from `#/paths//api/v1/notifications/get(findById)/responses/404`.
             ///
             /// HTTP response code: `404 notFound`.
-            case notFound(Operations.getNotifications.Output.NotFound)
+            case notFound(Operations.findById.Output.NotFound)
             /// The associated value of the enum case if `self` is `.notFound`.
             ///
             /// - Throws: An error if `self` is not `.notFound`.
             /// - SeeAlso: `.notFound`.
-            public var notFound: Operations.getNotifications.Output.NotFound {
+            public var notFound: Operations.findById.Output.NotFound {
                 get throws {
                     switch self {
                     case let .notFound(response):
@@ -3629,41 +3738,41 @@ public enum Operations {
             }
         }
     }
-    /// 단일 사용자 알림 대기열 추가
+    /// [인증] 단일 사용자 알림 대기열 추가
     ///
     /// 단일 사용자를 특정하여 노티 알림 대기열에 등록합니다.
     ///
     /// - Remark: HTTP `POST /api/v1/notifications`.
-    /// - Remark: Generated from `#/paths//api/v1/notifications/post(createNotification)`.
-    public enum createNotification {
-        public static let id: Swift.String = "createNotification"
+    /// - Remark: Generated from `#/paths//api/v1/notifications/post(create_1)`.
+    public enum create_1 {
+        public static let id: Swift.String = "create_1"
         public struct Input: Sendable, Hashable {
             /// - Remark: Generated from `#/paths/api/v1/notifications/POST/header`.
             public struct Headers: Sendable, Hashable {
-                public var accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.createNotification.AcceptableContentType>]
+                public var accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.create_1.AcceptableContentType>]
                 /// Creates a new `Headers`.
                 ///
                 /// - Parameters:
                 ///   - accept:
-                public init(accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.createNotification.AcceptableContentType>] = .defaultValues()) {
+                public init(accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.create_1.AcceptableContentType>] = .defaultValues()) {
                     self.accept = accept
                 }
             }
-            public var headers: Operations.createNotification.Input.Headers
+            public var headers: Operations.create_1.Input.Headers
             /// - Remark: Generated from `#/paths/api/v1/notifications/POST/requestBody`.
             @frozen public enum Body: Sendable, Hashable {
                 /// - Remark: Generated from `#/paths/api/v1/notifications/POST/requestBody/content/application\/json`.
                 case json(Components.Schemas.NotificationRequest)
             }
-            public var body: Operations.createNotification.Input.Body
+            public var body: Operations.create_1.Input.Body
             /// Creates a new `Input`.
             ///
             /// - Parameters:
             ///   - headers:
             ///   - body:
             public init(
-                headers: Operations.createNotification.Input.Headers = .init(),
-                body: Operations.createNotification.Input.Body
+                headers: Operations.create_1.Input.Headers = .init(),
+                body: Operations.create_1.Input.Body
             ) {
                 self.headers = headers
                 self.body = body
@@ -3689,26 +3798,26 @@ public enum Operations {
                     }
                 }
                 /// Received HTTP response body
-                public var body: Operations.createNotification.Output.Ok.Body
+                public var body: Operations.create_1.Output.Ok.Body
                 /// Creates a new `Ok`.
                 ///
                 /// - Parameters:
                 ///   - body: Received HTTP response body
-                public init(body: Operations.createNotification.Output.Ok.Body) {
+                public init(body: Operations.create_1.Output.Ok.Body) {
                     self.body = body
                 }
             }
             /// 알림 대기열 등록 성공
             ///
-            /// - Remark: Generated from `#/paths//api/v1/notifications/post(createNotification)/responses/200`.
+            /// - Remark: Generated from `#/paths//api/v1/notifications/post(create_1)/responses/200`.
             ///
             /// HTTP response code: `200 ok`.
-            case ok(Operations.createNotification.Output.Ok)
+            case ok(Operations.create_1.Output.Ok)
             /// The associated value of the enum case if `self` is `.ok`.
             ///
             /// - Throws: An error if `self` is not `.ok`.
             /// - SeeAlso: `.ok`.
-            public var ok: Operations.createNotification.Output.Ok {
+            public var ok: Operations.create_1.Output.Ok {
                 get throws {
                     switch self {
                     case let .ok(response):
@@ -3740,26 +3849,26 @@ public enum Operations {
                     }
                 }
                 /// Received HTTP response body
-                public var body: Operations.createNotification.Output.BadRequest.Body
+                public var body: Operations.create_1.Output.BadRequest.Body
                 /// Creates a new `BadRequest`.
                 ///
                 /// - Parameters:
                 ///   - body: Received HTTP response body
-                public init(body: Operations.createNotification.Output.BadRequest.Body) {
+                public init(body: Operations.create_1.Output.BadRequest.Body) {
                     self.body = body
                 }
             }
             /// 알림 발송 실패
             ///
-            /// - Remark: Generated from `#/paths//api/v1/notifications/post(createNotification)/responses/400`.
+            /// - Remark: Generated from `#/paths//api/v1/notifications/post(create_1)/responses/400`.
             ///
             /// HTTP response code: `400 badRequest`.
-            case badRequest(Operations.createNotification.Output.BadRequest)
+            case badRequest(Operations.create_1.Output.BadRequest)
             /// The associated value of the enum case if `self` is `.badRequest`.
             ///
             /// - Throws: An error if `self` is not `.badRequest`.
             /// - SeeAlso: `.badRequest`.
-            public var badRequest: Operations.createNotification.Output.BadRequest {
+            public var badRequest: Operations.create_1.Output.BadRequest {
                 get throws {
                     switch self {
                     case let .badRequest(response):
@@ -3803,7 +3912,7 @@ public enum Operations {
             }
         }
     }
-    /// 알림 발송 시간 변경
+    /// [인증] 알림 발송 시간 변경
     ///
     /// 노티 알림 발송 시간을 변경합니다.
     ///
@@ -3977,41 +4086,41 @@ public enum Operations {
             }
         }
     }
-    /// 조직 단위 알림 대량 발송
+    /// [인증] 조직 단위 알림 대량 발송
     ///
     /// 조직 내 모든 사용자에게 전체 발송되는 알림을 등록합니다.
     ///
     /// - Remark: HTTP `POST /api/v1/notifications/bulk`.
-    /// - Remark: Generated from `#/paths//api/v1/notifications/bulk/post(createBulkNotification)`.
-    public enum createBulkNotification {
-        public static let id: Swift.String = "createBulkNotification"
+    /// - Remark: Generated from `#/paths//api/v1/notifications/bulk/post(createAll)`.
+    public enum createAll {
+        public static let id: Swift.String = "createAll"
         public struct Input: Sendable, Hashable {
             /// - Remark: Generated from `#/paths/api/v1/notifications/bulk/POST/header`.
             public struct Headers: Sendable, Hashable {
-                public var accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.createBulkNotification.AcceptableContentType>]
+                public var accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.createAll.AcceptableContentType>]
                 /// Creates a new `Headers`.
                 ///
                 /// - Parameters:
                 ///   - accept:
-                public init(accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.createBulkNotification.AcceptableContentType>] = .defaultValues()) {
+                public init(accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.createAll.AcceptableContentType>] = .defaultValues()) {
                     self.accept = accept
                 }
             }
-            public var headers: Operations.createBulkNotification.Input.Headers
+            public var headers: Operations.createAll.Input.Headers
             /// - Remark: Generated from `#/paths/api/v1/notifications/bulk/POST/requestBody`.
             @frozen public enum Body: Sendable, Hashable {
                 /// - Remark: Generated from `#/paths/api/v1/notifications/bulk/POST/requestBody/content/application\/json`.
                 case json(Components.Schemas.NotificationBulkRequest)
             }
-            public var body: Operations.createBulkNotification.Input.Body
+            public var body: Operations.createAll.Input.Body
             /// Creates a new `Input`.
             ///
             /// - Parameters:
             ///   - headers:
             ///   - body:
             public init(
-                headers: Operations.createBulkNotification.Input.Headers = .init(),
-                body: Operations.createBulkNotification.Input.Body
+                headers: Operations.createAll.Input.Headers = .init(),
+                body: Operations.createAll.Input.Body
             ) {
                 self.headers = headers
                 self.body = body
@@ -4037,26 +4146,26 @@ public enum Operations {
                     }
                 }
                 /// Received HTTP response body
-                public var body: Operations.createBulkNotification.Output.Ok.Body
+                public var body: Operations.createAll.Output.Ok.Body
                 /// Creates a new `Ok`.
                 ///
                 /// - Parameters:
                 ///   - body: Received HTTP response body
-                public init(body: Operations.createBulkNotification.Output.Ok.Body) {
+                public init(body: Operations.createAll.Output.Ok.Body) {
                     self.body = body
                 }
             }
             /// 조직 전체 알림 대량 등록 성공
             ///
-            /// - Remark: Generated from `#/paths//api/v1/notifications/bulk/post(createBulkNotification)/responses/200`.
+            /// - Remark: Generated from `#/paths//api/v1/notifications/bulk/post(createAll)/responses/200`.
             ///
             /// HTTP response code: `200 ok`.
-            case ok(Operations.createBulkNotification.Output.Ok)
+            case ok(Operations.createAll.Output.Ok)
             /// The associated value of the enum case if `self` is `.ok`.
             ///
             /// - Throws: An error if `self` is not `.ok`.
             /// - SeeAlso: `.ok`.
-            public var ok: Operations.createBulkNotification.Output.Ok {
+            public var ok: Operations.createAll.Output.Ok {
                 get throws {
                     switch self {
                     case let .ok(response):
@@ -4088,26 +4197,26 @@ public enum Operations {
                     }
                 }
                 /// Received HTTP response body
-                public var body: Operations.createBulkNotification.Output.BadRequest.Body
+                public var body: Operations.createAll.Output.BadRequest.Body
                 /// Creates a new `BadRequest`.
                 ///
                 /// - Parameters:
                 ///   - body: Received HTTP response body
-                public init(body: Operations.createBulkNotification.Output.BadRequest.Body) {
+                public init(body: Operations.createAll.Output.BadRequest.Body) {
                     self.body = body
                 }
             }
             /// 조직 전체 알림 대량 등록 실패
             ///
-            /// - Remark: Generated from `#/paths//api/v1/notifications/bulk/post(createBulkNotification)/responses/400`.
+            /// - Remark: Generated from `#/paths//api/v1/notifications/bulk/post(createAll)/responses/400`.
             ///
             /// HTTP response code: `400 badRequest`.
-            case badRequest(Operations.createBulkNotification.Output.BadRequest)
+            case badRequest(Operations.createAll.Output.BadRequest)
             /// The associated value of the enum case if `self` is `.badRequest`.
             ///
             /// - Throws: An error if `self` is not `.badRequest`.
             /// - SeeAlso: `.badRequest`.
-            public var badRequest: Operations.createBulkNotification.Output.BadRequest {
+            public var badRequest: Operations.createAll.Output.BadRequest {
                 get throws {
                     switch self {
                     case let .badRequest(response):
@@ -4386,41 +4495,248 @@ public enum Operations {
             }
         }
     }
+    /// 컨텐츠 이미지 업로드 위치 요청
+    ///
+    /// fileType에는 확장자를, fileName은 파일명을 넣어주세요. imageType은 이미지 유형을 명시해주세요.
+    ///
+    /// - Remark: HTTP `GET /api/v1/image`.
+    /// - Remark: Generated from `#/paths//api/v1/image/get(getContentImage)`.
+    public enum getContentImage {
+        public static let id: Swift.String = "getContentImage"
+        public struct Input: Sendable, Hashable {
+            /// - Remark: Generated from `#/paths/api/v1/image/GET/query`.
+            public struct Query: Sendable, Hashable {
+                /// - Remark: Generated from `#/paths/api/v1/image/GET/query/fileType`.
+                public var fileType: Swift.String
+                /// - Remark: Generated from `#/paths/api/v1/image/GET/query/fileName`.
+                public var fileName: Swift.String
+                /// - Remark: Generated from `#/paths/api/v1/image/GET/query/imagePurpose`.
+                @frozen public enum imagePurposePayload: String, Codable, Hashable, Sendable {
+                    case ORGANIZATION_LOGO = "ORGANIZATION_LOGO"
+                    case MEMBER_PROFILE = "MEMBER_PROFILE"
+                    case ANNOUNCEMENT_PROFILE = "ANNOUNCEMENT_PROFILE"
+                    case ANNOUNCEMENT_CONTENT = "ANNOUNCEMENT_CONTENT"
+                    case PROMOTION_COVER = "PROMOTION_COVER"
+                }
+                /// - Remark: Generated from `#/paths/api/v1/image/GET/query/imagePurpose`.
+                public var imagePurpose: Operations.getContentImage.Input.Query.imagePurposePayload
+                /// Creates a new `Query`.
+                ///
+                /// - Parameters:
+                ///   - fileType:
+                ///   - fileName:
+                ///   - imagePurpose:
+                public init(
+                    fileType: Swift.String,
+                    fileName: Swift.String,
+                    imagePurpose: Operations.getContentImage.Input.Query.imagePurposePayload
+                ) {
+                    self.fileType = fileType
+                    self.fileName = fileName
+                    self.imagePurpose = imagePurpose
+                }
+            }
+            public var query: Operations.getContentImage.Input.Query
+            /// - Remark: Generated from `#/paths/api/v1/image/GET/header`.
+            public struct Headers: Sendable, Hashable {
+                public var accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.getContentImage.AcceptableContentType>]
+                /// Creates a new `Headers`.
+                ///
+                /// - Parameters:
+                ///   - accept:
+                public init(accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.getContentImage.AcceptableContentType>] = .defaultValues()) {
+                    self.accept = accept
+                }
+            }
+            public var headers: Operations.getContentImage.Input.Headers
+            /// Creates a new `Input`.
+            ///
+            /// - Parameters:
+            ///   - query:
+            ///   - headers:
+            public init(
+                query: Operations.getContentImage.Input.Query,
+                headers: Operations.getContentImage.Input.Headers = .init()
+            ) {
+                self.query = query
+                self.headers = headers
+            }
+        }
+        @frozen public enum Output: Sendable, Hashable {
+            public struct Ok: Sendable, Hashable {
+                /// - Remark: Generated from `#/paths/api/v1/image/GET/responses/200/content`.
+                @frozen public enum Body: Sendable, Hashable {
+                    /// - Remark: Generated from `#/paths/api/v1/image/GET/responses/200/content/application\/json`.
+                    case json(Components.Schemas.ContentImagePresignedUrlVO)
+                    /// The associated value of the enum case if `self` is `.json`.
+                    ///
+                    /// - Throws: An error if `self` is not `.json`.
+                    /// - SeeAlso: `.json`.
+                    public var json: Components.Schemas.ContentImagePresignedUrlVO {
+                        get throws {
+                            switch self {
+                            case let .json(body):
+                                return body
+                            }
+                        }
+                    }
+                }
+                /// Received HTTP response body
+                public var body: Operations.getContentImage.Output.Ok.Body
+                /// Creates a new `Ok`.
+                ///
+                /// - Parameters:
+                ///   - body: Received HTTP response body
+                public init(body: Operations.getContentImage.Output.Ok.Body) {
+                    self.body = body
+                }
+            }
+            /// 이미지 업로드 위치 요청에 성공하였습니다.
+            ///
+            /// - Remark: Generated from `#/paths//api/v1/image/get(getContentImage)/responses/200`.
+            ///
+            /// HTTP response code: `200 ok`.
+            case ok(Operations.getContentImage.Output.Ok)
+            /// The associated value of the enum case if `self` is `.ok`.
+            ///
+            /// - Throws: An error if `self` is not `.ok`.
+            /// - SeeAlso: `.ok`.
+            public var ok: Operations.getContentImage.Output.Ok {
+                get throws {
+                    switch self {
+                    case let .ok(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "ok",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// Undocumented response.
+            ///
+            /// A response with a code that is not documented in the OpenAPI document.
+            case undocumented(statusCode: Swift.Int, OpenAPIRuntime.UndocumentedPayload)
+        }
+        @frozen public enum AcceptableContentType: AcceptableProtocol {
+            case json
+            case other(Swift.String)
+            public init?(rawValue: Swift.String) {
+                switch rawValue.lowercased() {
+                case "application/json":
+                    self = .json
+                default:
+                    self = .other(rawValue)
+                }
+            }
+            public var rawValue: Swift.String {
+                switch self {
+                case let .other(string):
+                    return string
+                case .json:
+                    return "application/json"
+                }
+            }
+            public static var allCases: [Self] {
+                [
+                    .json
+                ]
+            }
+        }
+    }
+    /// 컨텐츠 이미지 업로드 완료
+    ///
+    /// 컨텐츠 이미지 업로드 완료를 노피스 서버에 알립니다.
+    ///
+    /// - Remark: HTTP `POST /api/v1/image`.
+    /// - Remark: Generated from `#/paths//api/v1/image/post(notifyContentImageSaveSuccess)`.
+    public enum notifyContentImageSaveSuccess {
+        public static let id: Swift.String = "notifyContentImageSaveSuccess"
+        public struct Input: Sendable, Hashable {
+            /// - Remark: Generated from `#/paths/api/v1/image/POST/requestBody`.
+            @frozen public enum Body: Sendable, Hashable {
+                /// - Remark: Generated from `#/paths/api/v1/image/POST/requestBody/content/application\/json`.
+                case json(Components.Schemas.NotifyContentImageSaveSuccessRequest)
+            }
+            public var body: Operations.notifyContentImageSaveSuccess.Input.Body
+            /// Creates a new `Input`.
+            ///
+            /// - Parameters:
+            ///   - body:
+            public init(body: Operations.notifyContentImageSaveSuccess.Input.Body) {
+                self.body = body
+            }
+        }
+        @frozen public enum Output: Sendable, Hashable {
+            public struct Ok: Sendable, Hashable {
+                /// Creates a new `Ok`.
+                public init() {}
+            }
+            /// 별도 파일을 제외한 POST 요청을 발송해주세요.
+            ///
+            /// - Remark: Generated from `#/paths//api/v1/image/post(notifyContentImageSaveSuccess)/responses/200`.
+            ///
+            /// HTTP response code: `200 ok`.
+            case ok(Operations.notifyContentImageSaveSuccess.Output.Ok)
+            /// The associated value of the enum case if `self` is `.ok`.
+            ///
+            /// - Throws: An error if `self` is not `.ok`.
+            /// - SeeAlso: `.ok`.
+            public var ok: Operations.notifyContentImageSaveSuccess.Output.Ok {
+                get throws {
+                    switch self {
+                    case let .ok(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "ok",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// Undocumented response.
+            ///
+            /// A response with a code that is not documented in the OpenAPI document.
+            case undocumented(statusCode: Swift.Int, OpenAPIRuntime.UndocumentedPayload)
+        }
+    }
     /// 노티 생성
     ///
     /// 노티를 생성합니다.
     ///
     /// - Remark: HTTP `POST /api/v1/announcement`.
-    /// - Remark: Generated from `#/paths//api/v1/announcement/post(createAnnouncement)`.
-    public enum createAnnouncement {
-        public static let id: Swift.String = "createAnnouncement"
+    /// - Remark: Generated from `#/paths//api/v1/announcement/post(create_2)`.
+    public enum create_2 {
+        public static let id: Swift.String = "create_2"
         public struct Input: Sendable, Hashable {
             /// - Remark: Generated from `#/paths/api/v1/announcement/POST/header`.
             public struct Headers: Sendable, Hashable {
-                public var accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.createAnnouncement.AcceptableContentType>]
+                public var accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.create_2.AcceptableContentType>]
                 /// Creates a new `Headers`.
                 ///
                 /// - Parameters:
                 ///   - accept:
-                public init(accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.createAnnouncement.AcceptableContentType>] = .defaultValues()) {
+                public init(accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.create_2.AcceptableContentType>] = .defaultValues()) {
                     self.accept = accept
                 }
             }
-            public var headers: Operations.createAnnouncement.Input.Headers
+            public var headers: Operations.create_2.Input.Headers
             /// - Remark: Generated from `#/paths/api/v1/announcement/POST/requestBody`.
             @frozen public enum Body: Sendable, Hashable {
                 /// - Remark: Generated from `#/paths/api/v1/announcement/POST/requestBody/content/application\/json`.
                 case json(Components.Schemas.AnnouncementCreateRequest)
             }
-            public var body: Operations.createAnnouncement.Input.Body
+            public var body: Operations.create_2.Input.Body
             /// Creates a new `Input`.
             ///
             /// - Parameters:
             ///   - headers:
             ///   - body:
             public init(
-                headers: Operations.createAnnouncement.Input.Headers = .init(),
-                body: Operations.createAnnouncement.Input.Body
+                headers: Operations.create_2.Input.Headers = .init(),
+                body: Operations.create_2.Input.Body
             ) {
                 self.headers = headers
                 self.body = body
@@ -4446,26 +4762,26 @@ public enum Operations {
                     }
                 }
                 /// Received HTTP response body
-                public var body: Operations.createAnnouncement.Output.Created.Body
+                public var body: Operations.create_2.Output.Created.Body
                 /// Creates a new `Created`.
                 ///
                 /// - Parameters:
                 ///   - body: Received HTTP response body
-                public init(body: Operations.createAnnouncement.Output.Created.Body) {
+                public init(body: Operations.create_2.Output.Created.Body) {
                     self.body = body
                 }
             }
             /// 노티 생성 성공
             ///
-            /// - Remark: Generated from `#/paths//api/v1/announcement/post(createAnnouncement)/responses/201`.
+            /// - Remark: Generated from `#/paths//api/v1/announcement/post(create_2)/responses/201`.
             ///
             /// HTTP response code: `201 created`.
-            case created(Operations.createAnnouncement.Output.Created)
+            case created(Operations.create_2.Output.Created)
             /// The associated value of the enum case if `self` is `.created`.
             ///
             /// - Throws: An error if `self` is not `.created`.
             /// - SeeAlso: `.created`.
-            public var created: Operations.createAnnouncement.Output.Created {
+            public var created: Operations.create_2.Output.Created {
                 get throws {
                     switch self {
                     case let .created(response):
@@ -4497,26 +4813,26 @@ public enum Operations {
                     }
                 }
                 /// Received HTTP response body
-                public var body: Operations.createAnnouncement.Output.BadRequest.Body
+                public var body: Operations.create_2.Output.BadRequest.Body
                 /// Creates a new `BadRequest`.
                 ///
                 /// - Parameters:
                 ///   - body: Received HTTP response body
-                public init(body: Operations.createAnnouncement.Output.BadRequest.Body) {
+                public init(body: Operations.create_2.Output.BadRequest.Body) {
                     self.body = body
                 }
             }
             /// 노티 생성 실패
             ///
-            /// - Remark: Generated from `#/paths//api/v1/announcement/post(createAnnouncement)/responses/400`.
+            /// - Remark: Generated from `#/paths//api/v1/announcement/post(create_2)/responses/400`.
             ///
             /// HTTP response code: `400 badRequest`.
-            case badRequest(Operations.createAnnouncement.Output.BadRequest)
+            case badRequest(Operations.create_2.Output.BadRequest)
             /// The associated value of the enum case if `self` is `.badRequest`.
             ///
             /// - Throws: An error if `self` is not `.badRequest`.
             /// - SeeAlso: `.badRequest`.
-            public var badRequest: Operations.createAnnouncement.Output.BadRequest {
+            public var badRequest: Operations.create_2.Output.BadRequest {
                 get throws {
                     switch self {
                     case let .badRequest(response):
@@ -4560,14 +4876,14 @@ public enum Operations {
             }
         }
     }
-    /// 노티 조회
+    /// [인증] 조직에 발급된 노티 열람
     ///
-    /// 노티를 조회합니다.
+    /// 열람하려는 노티를 조회하고, 열람 기록에 추가합니다.
     ///
     /// - Remark: HTTP `GET /api/v1/announcement/{announcementId}`.
-    /// - Remark: Generated from `#/paths//api/v1/announcement/{announcementId}/get(getAnnouncement)`.
-    public enum getAnnouncement {
-        public static let id: Swift.String = "getAnnouncement"
+    /// - Remark: Generated from `#/paths//api/v1/announcement/{announcementId}/get(read)`.
+    public enum read {
+        public static let id: Swift.String = "read"
         public struct Input: Sendable, Hashable {
             /// - Remark: Generated from `#/paths/api/v1/announcement/{announcementId}/GET/path`.
             public struct Path: Sendable, Hashable {
@@ -4581,27 +4897,27 @@ public enum Operations {
                     self.announcementId = announcementId
                 }
             }
-            public var path: Operations.getAnnouncement.Input.Path
+            public var path: Operations.read.Input.Path
             /// - Remark: Generated from `#/paths/api/v1/announcement/{announcementId}/GET/header`.
             public struct Headers: Sendable, Hashable {
-                public var accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.getAnnouncement.AcceptableContentType>]
+                public var accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.read.AcceptableContentType>]
                 /// Creates a new `Headers`.
                 ///
                 /// - Parameters:
                 ///   - accept:
-                public init(accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.getAnnouncement.AcceptableContentType>] = .defaultValues()) {
+                public init(accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.read.AcceptableContentType>] = .defaultValues()) {
                     self.accept = accept
                 }
             }
-            public var headers: Operations.getAnnouncement.Input.Headers
+            public var headers: Operations.read.Input.Headers
             /// Creates a new `Input`.
             ///
             /// - Parameters:
             ///   - path:
             ///   - headers:
             public init(
-                path: Operations.getAnnouncement.Input.Path,
-                headers: Operations.getAnnouncement.Input.Headers = .init()
+                path: Operations.read.Input.Path,
+                headers: Operations.read.Input.Headers = .init()
             ) {
                 self.path = path
                 self.headers = headers
@@ -4627,26 +4943,26 @@ public enum Operations {
                     }
                 }
                 /// Received HTTP response body
-                public var body: Operations.getAnnouncement.Output.Ok.Body
+                public var body: Operations.read.Output.Ok.Body
                 /// Creates a new `Ok`.
                 ///
                 /// - Parameters:
                 ///   - body: Received HTTP response body
-                public init(body: Operations.getAnnouncement.Output.Ok.Body) {
+                public init(body: Operations.read.Output.Ok.Body) {
                     self.body = body
                 }
             }
             /// 노티 단일 조회 성공
             ///
-            /// - Remark: Generated from `#/paths//api/v1/announcement/{announcementId}/get(getAnnouncement)/responses/200`.
+            /// - Remark: Generated from `#/paths//api/v1/announcement/{announcementId}/get(read)/responses/200`.
             ///
             /// HTTP response code: `200 ok`.
-            case ok(Operations.getAnnouncement.Output.Ok)
+            case ok(Operations.read.Output.Ok)
             /// The associated value of the enum case if `self` is `.ok`.
             ///
             /// - Throws: An error if `self` is not `.ok`.
             /// - SeeAlso: `.ok`.
-            public var ok: Operations.getAnnouncement.Output.Ok {
+            public var ok: Operations.read.Output.Ok {
                 get throws {
                     switch self {
                     case let .ok(response):
@@ -4678,26 +4994,26 @@ public enum Operations {
                     }
                 }
                 /// Received HTTP response body
-                public var body: Operations.getAnnouncement.Output.NotFound.Body
+                public var body: Operations.read.Output.NotFound.Body
                 /// Creates a new `NotFound`.
                 ///
                 /// - Parameters:
                 ///   - body: Received HTTP response body
-                public init(body: Operations.getAnnouncement.Output.NotFound.Body) {
+                public init(body: Operations.read.Output.NotFound.Body) {
                     self.body = body
                 }
             }
             /// 해당 노티가 없습니다.
             ///
-            /// - Remark: Generated from `#/paths//api/v1/announcement/{announcementId}/get(getAnnouncement)/responses/404`.
+            /// - Remark: Generated from `#/paths//api/v1/announcement/{announcementId}/get(read)/responses/404`.
             ///
             /// HTTP response code: `404 notFound`.
-            case notFound(Operations.getAnnouncement.Output.NotFound)
+            case notFound(Operations.read.Output.NotFound)
             /// The associated value of the enum case if `self` is `.notFound`.
             ///
             /// - Throws: An error if `self` is not `.notFound`.
             /// - SeeAlso: `.notFound`.
-            public var notFound: Operations.getAnnouncement.Output.NotFound {
+            public var notFound: Operations.read.Output.NotFound {
                 get throws {
                     switch self {
                     case let .notFound(response):
@@ -4741,14 +5057,14 @@ public enum Operations {
             }
         }
     }
-    /// 노티 수정
+    /// [인증] 노티 수정
     ///
     /// 노티를 수정합니다.
     ///
     /// - Remark: HTTP `POST /api/v1/announcement/{announcementId}`.
-    /// - Remark: Generated from `#/paths//api/v1/announcement/{announcementId}/post(updateAnnouncement)`.
-    public enum updateAnnouncement {
-        public static let id: Swift.String = "updateAnnouncement"
+    /// - Remark: Generated from `#/paths//api/v1/announcement/{announcementId}/post(update)`.
+    public enum update {
+        public static let id: Swift.String = "update"
         public struct Input: Sendable, Hashable {
             /// - Remark: Generated from `#/paths/api/v1/announcement/{announcementId}/POST/path`.
             public struct Path: Sendable, Hashable {
@@ -4762,25 +5078,25 @@ public enum Operations {
                     self.announcementId = announcementId
                 }
             }
-            public var path: Operations.updateAnnouncement.Input.Path
+            public var path: Operations.update.Input.Path
             /// - Remark: Generated from `#/paths/api/v1/announcement/{announcementId}/POST/header`.
             public struct Headers: Sendable, Hashable {
-                public var accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.updateAnnouncement.AcceptableContentType>]
+                public var accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.update.AcceptableContentType>]
                 /// Creates a new `Headers`.
                 ///
                 /// - Parameters:
                 ///   - accept:
-                public init(accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.updateAnnouncement.AcceptableContentType>] = .defaultValues()) {
+                public init(accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.update.AcceptableContentType>] = .defaultValues()) {
                     self.accept = accept
                 }
             }
-            public var headers: Operations.updateAnnouncement.Input.Headers
+            public var headers: Operations.update.Input.Headers
             /// - Remark: Generated from `#/paths/api/v1/announcement/{announcementId}/POST/requestBody`.
             @frozen public enum Body: Sendable, Hashable {
                 /// - Remark: Generated from `#/paths/api/v1/announcement/{announcementId}/POST/requestBody/content/application\/json`.
                 case json(Components.Schemas.AnnouncementUpdateRequest)
             }
-            public var body: Operations.updateAnnouncement.Input.Body
+            public var body: Operations.update.Input.Body
             /// Creates a new `Input`.
             ///
             /// - Parameters:
@@ -4788,9 +5104,9 @@ public enum Operations {
             ///   - headers:
             ///   - body:
             public init(
-                path: Operations.updateAnnouncement.Input.Path,
-                headers: Operations.updateAnnouncement.Input.Headers = .init(),
-                body: Operations.updateAnnouncement.Input.Body
+                path: Operations.update.Input.Path,
+                headers: Operations.update.Input.Headers = .init(),
+                body: Operations.update.Input.Body
             ) {
                 self.path = path
                 self.headers = headers
@@ -4817,26 +5133,26 @@ public enum Operations {
                     }
                 }
                 /// Received HTTP response body
-                public var body: Operations.updateAnnouncement.Output.Ok.Body
+                public var body: Operations.update.Output.Ok.Body
                 /// Creates a new `Ok`.
                 ///
                 /// - Parameters:
                 ///   - body: Received HTTP response body
-                public init(body: Operations.updateAnnouncement.Output.Ok.Body) {
+                public init(body: Operations.update.Output.Ok.Body) {
                     self.body = body
                 }
             }
             /// 노티 수정 성공
             ///
-            /// - Remark: Generated from `#/paths//api/v1/announcement/{announcementId}/post(updateAnnouncement)/responses/200`.
+            /// - Remark: Generated from `#/paths//api/v1/announcement/{announcementId}/post(update)/responses/200`.
             ///
             /// HTTP response code: `200 ok`.
-            case ok(Operations.updateAnnouncement.Output.Ok)
+            case ok(Operations.update.Output.Ok)
             /// The associated value of the enum case if `self` is `.ok`.
             ///
             /// - Throws: An error if `self` is not `.ok`.
             /// - SeeAlso: `.ok`.
-            public var ok: Operations.updateAnnouncement.Output.Ok {
+            public var ok: Operations.update.Output.Ok {
                 get throws {
                     switch self {
                     case let .ok(response):
@@ -4868,26 +5184,26 @@ public enum Operations {
                     }
                 }
                 /// Received HTTP response body
-                public var body: Operations.updateAnnouncement.Output.NotFound.Body
+                public var body: Operations.update.Output.NotFound.Body
                 /// Creates a new `NotFound`.
                 ///
                 /// - Parameters:
                 ///   - body: Received HTTP response body
-                public init(body: Operations.updateAnnouncement.Output.NotFound.Body) {
+                public init(body: Operations.update.Output.NotFound.Body) {
                     self.body = body
                 }
             }
             /// 해당 노티가 없습니다.
             ///
-            /// - Remark: Generated from `#/paths//api/v1/announcement/{announcementId}/post(updateAnnouncement)/responses/404`.
+            /// - Remark: Generated from `#/paths//api/v1/announcement/{announcementId}/post(update)/responses/404`.
             ///
             /// HTTP response code: `404 notFound`.
-            case notFound(Operations.updateAnnouncement.Output.NotFound)
+            case notFound(Operations.update.Output.NotFound)
             /// The associated value of the enum case if `self` is `.notFound`.
             ///
             /// - Throws: An error if `self` is not `.notFound`.
             /// - SeeAlso: `.notFound`.
-            public var notFound: Operations.updateAnnouncement.Output.NotFound {
+            public var notFound: Operations.update.Output.NotFound {
                 get throws {
                     switch self {
                     case let .notFound(response):
@@ -4931,14 +5247,14 @@ public enum Operations {
             }
         }
     }
-    /// 노티 삭제
+    /// [인증] 노티 삭제
     ///
     /// 노티를 삭제합니다.
     ///
     /// - Remark: HTTP `DELETE /api/v1/announcement/{announcementId}`.
-    /// - Remark: Generated from `#/paths//api/v1/announcement/{announcementId}/delete(deleteAnnouncement)`.
-    public enum deleteAnnouncement {
-        public static let id: Swift.String = "deleteAnnouncement"
+    /// - Remark: Generated from `#/paths//api/v1/announcement/{announcementId}/delete(delete_1)`.
+    public enum delete_1 {
+        public static let id: Swift.String = "delete_1"
         public struct Input: Sendable, Hashable {
             /// - Remark: Generated from `#/paths/api/v1/announcement/{announcementId}/DELETE/path`.
             public struct Path: Sendable, Hashable {
@@ -4952,27 +5268,27 @@ public enum Operations {
                     self.announcementId = announcementId
                 }
             }
-            public var path: Operations.deleteAnnouncement.Input.Path
+            public var path: Operations.delete_1.Input.Path
             /// - Remark: Generated from `#/paths/api/v1/announcement/{announcementId}/DELETE/header`.
             public struct Headers: Sendable, Hashable {
-                public var accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.deleteAnnouncement.AcceptableContentType>]
+                public var accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.delete_1.AcceptableContentType>]
                 /// Creates a new `Headers`.
                 ///
                 /// - Parameters:
                 ///   - accept:
-                public init(accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.deleteAnnouncement.AcceptableContentType>] = .defaultValues()) {
+                public init(accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.delete_1.AcceptableContentType>] = .defaultValues()) {
                     self.accept = accept
                 }
             }
-            public var headers: Operations.deleteAnnouncement.Input.Headers
+            public var headers: Operations.delete_1.Input.Headers
             /// Creates a new `Input`.
             ///
             /// - Parameters:
             ///   - path:
             ///   - headers:
             public init(
-                path: Operations.deleteAnnouncement.Input.Path,
-                headers: Operations.deleteAnnouncement.Input.Headers = .init()
+                path: Operations.delete_1.Input.Path,
+                headers: Operations.delete_1.Input.Headers = .init()
             ) {
                 self.path = path
                 self.headers = headers
@@ -4998,26 +5314,26 @@ public enum Operations {
                     }
                 }
                 /// Received HTTP response body
-                public var body: Operations.deleteAnnouncement.Output.NoContent.Body
+                public var body: Operations.delete_1.Output.NoContent.Body
                 /// Creates a new `NoContent`.
                 ///
                 /// - Parameters:
                 ///   - body: Received HTTP response body
-                public init(body: Operations.deleteAnnouncement.Output.NoContent.Body) {
+                public init(body: Operations.delete_1.Output.NoContent.Body) {
                     self.body = body
                 }
             }
             /// 노티 삭제 성공
             ///
-            /// - Remark: Generated from `#/paths//api/v1/announcement/{announcementId}/delete(deleteAnnouncement)/responses/204`.
+            /// - Remark: Generated from `#/paths//api/v1/announcement/{announcementId}/delete(delete_1)/responses/204`.
             ///
             /// HTTP response code: `204 noContent`.
-            case noContent(Operations.deleteAnnouncement.Output.NoContent)
+            case noContent(Operations.delete_1.Output.NoContent)
             /// The associated value of the enum case if `self` is `.noContent`.
             ///
             /// - Throws: An error if `self` is not `.noContent`.
             /// - SeeAlso: `.noContent`.
-            public var noContent: Operations.deleteAnnouncement.Output.NoContent {
+            public var noContent: Operations.delete_1.Output.NoContent {
                 get throws {
                     switch self {
                     case let .noContent(response):
@@ -5049,26 +5365,26 @@ public enum Operations {
                     }
                 }
                 /// Received HTTP response body
-                public var body: Operations.deleteAnnouncement.Output.BadRequest.Body
+                public var body: Operations.delete_1.Output.BadRequest.Body
                 /// Creates a new `BadRequest`.
                 ///
                 /// - Parameters:
                 ///   - body: Received HTTP response body
-                public init(body: Operations.deleteAnnouncement.Output.BadRequest.Body) {
+                public init(body: Operations.delete_1.Output.BadRequest.Body) {
                     self.body = body
                 }
             }
             /// 노티 삭제에 실패하였습니다.
             ///
-            /// - Remark: Generated from `#/paths//api/v1/announcement/{announcementId}/delete(deleteAnnouncement)/responses/400`.
+            /// - Remark: Generated from `#/paths//api/v1/announcement/{announcementId}/delete(delete_1)/responses/400`.
             ///
             /// HTTP response code: `400 badRequest`.
-            case badRequest(Operations.deleteAnnouncement.Output.BadRequest)
+            case badRequest(Operations.delete_1.Output.BadRequest)
             /// The associated value of the enum case if `self` is `.badRequest`.
             ///
             /// - Throws: An error if `self` is not `.badRequest`.
             /// - SeeAlso: `.badRequest`.
-            public var badRequest: Operations.deleteAnnouncement.Output.BadRequest {
+            public var badRequest: Operations.delete_1.Output.BadRequest {
                 get throws {
                     switch self {
                     case let .badRequest(response):
@@ -5076,6 +5392,477 @@ public enum Operations {
                     default:
                         try throwUnexpectedResponseStatus(
                             expectedStatus: "badRequest",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// Undocumented response.
+            ///
+            /// A response with a code that is not documented in the OpenAPI document.
+            case undocumented(statusCode: Swift.Int, OpenAPIRuntime.UndocumentedPayload)
+        }
+        @frozen public enum AcceptableContentType: AcceptableProtocol {
+            case json
+            case other(Swift.String)
+            public init?(rawValue: Swift.String) {
+                switch rawValue.lowercased() {
+                case "application/json":
+                    self = .json
+                default:
+                    self = .other(rawValue)
+                }
+            }
+            public var rawValue: Swift.String {
+                switch self {
+                case let .other(string):
+                    return string
+                case .json:
+                    return "application/json"
+                }
+            }
+            public static var allCases: [Self] {
+                [
+                    .json
+                ]
+            }
+        }
+    }
+    /// 투두 수정
+    ///
+    /// - Remark: HTTP `PATCH /api/v1/tasks`.
+    /// - Remark: Generated from `#/paths//api/v1/tasks/patch(modify)`.
+    public enum modify {
+        public static let id: Swift.String = "modify"
+        public struct Input: Sendable, Hashable {
+            /// - Remark: Generated from `#/paths/api/v1/tasks/PATCH/query`.
+            public struct Query: Sendable, Hashable {
+                /// - Remark: Generated from `#/paths/api/v1/tasks/PATCH/query/taskModifyRequest`.
+                public var taskModifyRequest: Components.Schemas.TaskModifyRequest
+                /// Creates a new `Query`.
+                ///
+                /// - Parameters:
+                ///   - taskModifyRequest:
+                public init(taskModifyRequest: Components.Schemas.TaskModifyRequest) {
+                    self.taskModifyRequest = taskModifyRequest
+                }
+            }
+            public var query: Operations.modify.Input.Query
+            /// - Remark: Generated from `#/paths/api/v1/tasks/PATCH/header`.
+            public struct Headers: Sendable, Hashable {
+                public var accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.modify.AcceptableContentType>]
+                /// Creates a new `Headers`.
+                ///
+                /// - Parameters:
+                ///   - accept:
+                public init(accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.modify.AcceptableContentType>] = .defaultValues()) {
+                    self.accept = accept
+                }
+            }
+            public var headers: Operations.modify.Input.Headers
+            /// Creates a new `Input`.
+            ///
+            /// - Parameters:
+            ///   - query:
+            ///   - headers:
+            public init(
+                query: Operations.modify.Input.Query,
+                headers: Operations.modify.Input.Headers = .init()
+            ) {
+                self.query = query
+                self.headers = headers
+            }
+        }
+        @frozen public enum Output: Sendable, Hashable {
+            public struct Ok: Sendable, Hashable {
+                /// - Remark: Generated from `#/paths/api/v1/tasks/PATCH/responses/200/content`.
+                @frozen public enum Body: Sendable, Hashable {
+                    /// - Remark: Generated from `#/paths/api/v1/tasks/PATCH/responses/200/content/application\/json`.
+                    case json(Components.Schemas.NofficeResponseTaskModifyResponse)
+                    /// The associated value of the enum case if `self` is `.json`.
+                    ///
+                    /// - Throws: An error if `self` is not `.json`.
+                    /// - SeeAlso: `.json`.
+                    public var json: Components.Schemas.NofficeResponseTaskModifyResponse {
+                        get throws {
+                            switch self {
+                            case let .json(body):
+                                return body
+                            }
+                        }
+                    }
+                }
+                /// Received HTTP response body
+                public var body: Operations.modify.Output.Ok.Body
+                /// Creates a new `Ok`.
+                ///
+                /// - Parameters:
+                ///   - body: Received HTTP response body
+                public init(body: Operations.modify.Output.Ok.Body) {
+                    self.body = body
+                }
+            }
+            /// 투두 수정 성공
+            ///
+            /// - Remark: Generated from `#/paths//api/v1/tasks/patch(modify)/responses/200`.
+            ///
+            /// HTTP response code: `200 ok`.
+            case ok(Operations.modify.Output.Ok)
+            /// The associated value of the enum case if `self` is `.ok`.
+            ///
+            /// - Throws: An error if `self` is not `.ok`.
+            /// - SeeAlso: `.ok`.
+            public var ok: Operations.modify.Output.Ok {
+                get throws {
+                    switch self {
+                    case let .ok(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "ok",
+                            response: self
+                        )
+                    }
+                }
+            }
+            public struct BadRequest: Sendable, Hashable {
+                /// - Remark: Generated from `#/paths/api/v1/tasks/PATCH/responses/400/content`.
+                @frozen public enum Body: Sendable, Hashable {
+                    /// - Remark: Generated from `#/paths/api/v1/tasks/PATCH/responses/400/content/application\/json`.
+                    case json(Components.Schemas.NofficeResponseTaskModifyResponse)
+                    /// The associated value of the enum case if `self` is `.json`.
+                    ///
+                    /// - Throws: An error if `self` is not `.json`.
+                    /// - SeeAlso: `.json`.
+                    public var json: Components.Schemas.NofficeResponseTaskModifyResponse {
+                        get throws {
+                            switch self {
+                            case let .json(body):
+                                return body
+                            }
+                        }
+                    }
+                }
+                /// Received HTTP response body
+                public var body: Operations.modify.Output.BadRequest.Body
+                /// Creates a new `BadRequest`.
+                ///
+                /// - Parameters:
+                ///   - body: Received HTTP response body
+                public init(body: Operations.modify.Output.BadRequest.Body) {
+                    self.body = body
+                }
+            }
+            /// 투두 수정 실패
+            ///
+            /// - Remark: Generated from `#/paths//api/v1/tasks/patch(modify)/responses/400`.
+            ///
+            /// HTTP response code: `400 badRequest`.
+            case badRequest(Operations.modify.Output.BadRequest)
+            /// The associated value of the enum case if `self` is `.badRequest`.
+            ///
+            /// - Throws: An error if `self` is not `.badRequest`.
+            /// - SeeAlso: `.badRequest`.
+            public var badRequest: Operations.modify.Output.BadRequest {
+                get throws {
+                    switch self {
+                    case let .badRequest(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "badRequest",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// Undocumented response.
+            ///
+            /// A response with a code that is not documented in the OpenAPI document.
+            case undocumented(statusCode: Swift.Int, OpenAPIRuntime.UndocumentedPayload)
+        }
+        @frozen public enum AcceptableContentType: AcceptableProtocol {
+            case json
+            case other(Swift.String)
+            public init?(rawValue: Swift.String) {
+                switch rawValue.lowercased() {
+                case "application/json":
+                    self = .json
+                default:
+                    self = .other(rawValue)
+                }
+            }
+            public var rawValue: Swift.String {
+                switch self {
+                case let .other(string):
+                    return string
+                case .json:
+                    return "application/json"
+                }
+            }
+            public static var allCases: [Self] {
+                [
+                    .json
+                ]
+            }
+        }
+    }
+    /// [인증] 조직원 권한 변경
+    ///
+    /// 타겟에 해당하는 멤버의 조직 내 권한을 입력한 권한대로 변경합니다.
+    ///
+    /// - Remark: HTTP `PATCH /api/v1/organizations/{organizationId}/roles`.
+    /// - Remark: Generated from `#/paths//api/v1/organizations/{organizationId}/roles/patch(changeRoles)`.
+    public enum changeRoles {
+        public static let id: Swift.String = "changeRoles"
+        public struct Input: Sendable, Hashable {
+            /// - Remark: Generated from `#/paths/api/v1/organizations/{organizationId}/roles/PATCH/path`.
+            public struct Path: Sendable, Hashable {
+                /// - Remark: Generated from `#/paths/api/v1/organizations/{organizationId}/roles/PATCH/path/organizationId`.
+                public var organizationId: Swift.Int64
+                /// Creates a new `Path`.
+                ///
+                /// - Parameters:
+                ///   - organizationId:
+                public init(organizationId: Swift.Int64) {
+                    self.organizationId = organizationId
+                }
+            }
+            public var path: Operations.changeRoles.Input.Path
+            /// - Remark: Generated from `#/paths/api/v1/organizations/{organizationId}/roles/PATCH/header`.
+            public struct Headers: Sendable, Hashable {
+                public var accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.changeRoles.AcceptableContentType>]
+                /// Creates a new `Headers`.
+                ///
+                /// - Parameters:
+                ///   - accept:
+                public init(accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.changeRoles.AcceptableContentType>] = .defaultValues()) {
+                    self.accept = accept
+                }
+            }
+            public var headers: Operations.changeRoles.Input.Headers
+            /// - Remark: Generated from `#/paths/api/v1/organizations/{organizationId}/roles/PATCH/requestBody`.
+            @frozen public enum Body: Sendable, Hashable {
+                /// - Remark: Generated from `#/paths/api/v1/organizations/{organizationId}/roles/PATCH/requestBody/content/application\/json`.
+                case json(Components.Schemas.ChangeRoleRequest)
+            }
+            public var body: Operations.changeRoles.Input.Body
+            /// Creates a new `Input`.
+            ///
+            /// - Parameters:
+            ///   - path:
+            ///   - headers:
+            ///   - body:
+            public init(
+                path: Operations.changeRoles.Input.Path,
+                headers: Operations.changeRoles.Input.Headers = .init(),
+                body: Operations.changeRoles.Input.Body
+            ) {
+                self.path = path
+                self.headers = headers
+                self.body = body
+            }
+        }
+        @frozen public enum Output: Sendable, Hashable {
+            public struct NoContent: Sendable, Hashable {
+                /// - Remark: Generated from `#/paths/api/v1/organizations/{organizationId}/roles/PATCH/responses/204/content`.
+                @frozen public enum Body: Sendable, Hashable {
+                    /// - Remark: Generated from `#/paths/api/v1/organizations/{organizationId}/roles/PATCH/responses/204/content/application\/json`.
+                    case json(Components.Schemas.NofficeResponseVoid)
+                    /// The associated value of the enum case if `self` is `.json`.
+                    ///
+                    /// - Throws: An error if `self` is not `.json`.
+                    /// - SeeAlso: `.json`.
+                    public var json: Components.Schemas.NofficeResponseVoid {
+                        get throws {
+                            switch self {
+                            case let .json(body):
+                                return body
+                            }
+                        }
+                    }
+                }
+                /// Received HTTP response body
+                public var body: Operations.changeRoles.Output.NoContent.Body
+                /// Creates a new `NoContent`.
+                ///
+                /// - Parameters:
+                ///   - body: Received HTTP response body
+                public init(body: Operations.changeRoles.Output.NoContent.Body) {
+                    self.body = body
+                }
+            }
+            /// 권한 변경에 성공하였습니다.
+            ///
+            /// - Remark: Generated from `#/paths//api/v1/organizations/{organizationId}/roles/patch(changeRoles)/responses/204`.
+            ///
+            /// HTTP response code: `204 noContent`.
+            case noContent(Operations.changeRoles.Output.NoContent)
+            /// The associated value of the enum case if `self` is `.noContent`.
+            ///
+            /// - Throws: An error if `self` is not `.noContent`.
+            /// - SeeAlso: `.noContent`.
+            public var noContent: Operations.changeRoles.Output.NoContent {
+                get throws {
+                    switch self {
+                    case let .noContent(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "noContent",
+                            response: self
+                        )
+                    }
+                }
+            }
+            public struct BadRequest: Sendable, Hashable {
+                /// - Remark: Generated from `#/paths/api/v1/organizations/{organizationId}/roles/PATCH/responses/400/content`.
+                @frozen public enum Body: Sendable, Hashable {
+                    /// - Remark: Generated from `#/paths/api/v1/organizations/{organizationId}/roles/PATCH/responses/400/content/application\/json`.
+                    case json(Components.Schemas.NofficeResponseVoid)
+                    /// The associated value of the enum case if `self` is `.json`.
+                    ///
+                    /// - Throws: An error if `self` is not `.json`.
+                    /// - SeeAlso: `.json`.
+                    public var json: Components.Schemas.NofficeResponseVoid {
+                        get throws {
+                            switch self {
+                            case let .json(body):
+                                return body
+                            }
+                        }
+                    }
+                }
+                /// Received HTTP response body
+                public var body: Operations.changeRoles.Output.BadRequest.Body
+                /// Creates a new `BadRequest`.
+                ///
+                /// - Parameters:
+                ///   - body: Received HTTP response body
+                public init(body: Operations.changeRoles.Output.BadRequest.Body) {
+                    self.body = body
+                }
+            }
+            /// 권한 변경에 실패하였습니다.
+            ///
+            /// - Remark: Generated from `#/paths//api/v1/organizations/{organizationId}/roles/patch(changeRoles)/responses/400`.
+            ///
+            /// HTTP response code: `400 badRequest`.
+            case badRequest(Operations.changeRoles.Output.BadRequest)
+            /// The associated value of the enum case if `self` is `.badRequest`.
+            ///
+            /// - Throws: An error if `self` is not `.badRequest`.
+            /// - SeeAlso: `.badRequest`.
+            public var badRequest: Operations.changeRoles.Output.BadRequest {
+                get throws {
+                    switch self {
+                    case let .badRequest(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "badRequest",
+                            response: self
+                        )
+                    }
+                }
+            }
+            public struct Forbidden: Sendable, Hashable {
+                /// - Remark: Generated from `#/paths/api/v1/organizations/{organizationId}/roles/PATCH/responses/403/content`.
+                @frozen public enum Body: Sendable, Hashable {
+                    /// - Remark: Generated from `#/paths/api/v1/organizations/{organizationId}/roles/PATCH/responses/403/content/application\/json`.
+                    case json(Components.Schemas.NofficeResponseVoid)
+                    /// The associated value of the enum case if `self` is `.json`.
+                    ///
+                    /// - Throws: An error if `self` is not `.json`.
+                    /// - SeeAlso: `.json`.
+                    public var json: Components.Schemas.NofficeResponseVoid {
+                        get throws {
+                            switch self {
+                            case let .json(body):
+                                return body
+                            }
+                        }
+                    }
+                }
+                /// Received HTTP response body
+                public var body: Operations.changeRoles.Output.Forbidden.Body
+                /// Creates a new `Forbidden`.
+                ///
+                /// - Parameters:
+                ///   - body: Received HTTP response body
+                public init(body: Operations.changeRoles.Output.Forbidden.Body) {
+                    self.body = body
+                }
+            }
+            /// 요청을 수행할 수 있는 권한이 없습니다.
+            ///
+            /// - Remark: Generated from `#/paths//api/v1/organizations/{organizationId}/roles/patch(changeRoles)/responses/403`.
+            ///
+            /// HTTP response code: `403 forbidden`.
+            case forbidden(Operations.changeRoles.Output.Forbidden)
+            /// The associated value of the enum case if `self` is `.forbidden`.
+            ///
+            /// - Throws: An error if `self` is not `.forbidden`.
+            /// - SeeAlso: `.forbidden`.
+            public var forbidden: Operations.changeRoles.Output.Forbidden {
+                get throws {
+                    switch self {
+                    case let .forbidden(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "forbidden",
+                            response: self
+                        )
+                    }
+                }
+            }
+            public struct NotFound: Sendable, Hashable {
+                /// - Remark: Generated from `#/paths/api/v1/organizations/{organizationId}/roles/PATCH/responses/404/content`.
+                @frozen public enum Body: Sendable, Hashable {
+                    /// - Remark: Generated from `#/paths/api/v1/organizations/{organizationId}/roles/PATCH/responses/404/content/application\/json`.
+                    case json(Components.Schemas.NofficeResponseVoid)
+                    /// The associated value of the enum case if `self` is `.json`.
+                    ///
+                    /// - Throws: An error if `self` is not `.json`.
+                    /// - SeeAlso: `.json`.
+                    public var json: Components.Schemas.NofficeResponseVoid {
+                        get throws {
+                            switch self {
+                            case let .json(body):
+                                return body
+                            }
+                        }
+                    }
+                }
+                /// Received HTTP response body
+                public var body: Operations.changeRoles.Output.NotFound.Body
+                /// Creates a new `NotFound`.
+                ///
+                /// - Parameters:
+                ///   - body: Received HTTP response body
+                public init(body: Operations.changeRoles.Output.NotFound.Body) {
+                    self.body = body
+                }
+            }
+            /// 조직원이 존재하지 않습니다.
+            ///
+            /// - Remark: Generated from `#/paths//api/v1/organizations/{organizationId}/roles/patch(changeRoles)/responses/404`.
+            ///
+            /// HTTP response code: `404 notFound`.
+            case notFound(Operations.changeRoles.Output.NotFound)
+            /// The associated value of the enum case if `self` is `.notFound`.
+            ///
+            /// - Throws: An error if `self` is not `.notFound`.
+            /// - SeeAlso: `.notFound`.
+            public var notFound: Operations.changeRoles.Output.NotFound {
+                get throws {
+                    switch self {
+                    case let .notFound(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "notFound",
                             response: self
                         )
                     }
@@ -5115,50 +5902,43 @@ public enum Operations {
     /// 사용자 할당 투두 목록 조회
     ///
     /// - Remark: HTTP `GET /api/v1/tasks/assigned`.
-    /// - Remark: Generated from `#/paths//api/v1/tasks/assigned/get(getAssignedTasks)`.
-    public enum getAssignedTasks {
-        public static let id: Swift.String = "getAssignedTasks"
+    /// - Remark: Generated from `#/paths//api/v1/tasks/assigned/get(getAssigned)`.
+    public enum getAssigned {
+        public static let id: Swift.String = "getAssigned"
         public struct Input: Sendable, Hashable {
             /// - Remark: Generated from `#/paths/api/v1/tasks/assigned/GET/query`.
             public struct Query: Sendable, Hashable {
-                /// - Remark: Generated from `#/paths/api/v1/tasks/assigned/GET/query/memberId`.
-                public var memberId: Swift.Int64
                 /// - Remark: Generated from `#/paths/api/v1/tasks/assigned/GET/query/pageable`.
                 public var pageable: Components.Schemas.Pageable
                 /// Creates a new `Query`.
                 ///
                 /// - Parameters:
-                ///   - memberId:
                 ///   - pageable:
-                public init(
-                    memberId: Swift.Int64,
-                    pageable: Components.Schemas.Pageable
-                ) {
-                    self.memberId = memberId
+                public init(pageable: Components.Schemas.Pageable) {
                     self.pageable = pageable
                 }
             }
-            public var query: Operations.getAssignedTasks.Input.Query
+            public var query: Operations.getAssigned.Input.Query
             /// - Remark: Generated from `#/paths/api/v1/tasks/assigned/GET/header`.
             public struct Headers: Sendable, Hashable {
-                public var accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.getAssignedTasks.AcceptableContentType>]
+                public var accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.getAssigned.AcceptableContentType>]
                 /// Creates a new `Headers`.
                 ///
                 /// - Parameters:
                 ///   - accept:
-                public init(accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.getAssignedTasks.AcceptableContentType>] = .defaultValues()) {
+                public init(accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.getAssigned.AcceptableContentType>] = .defaultValues()) {
                     self.accept = accept
                 }
             }
-            public var headers: Operations.getAssignedTasks.Input.Headers
+            public var headers: Operations.getAssigned.Input.Headers
             /// Creates a new `Input`.
             ///
             /// - Parameters:
             ///   - query:
             ///   - headers:
             public init(
-                query: Operations.getAssignedTasks.Input.Query,
-                headers: Operations.getAssignedTasks.Input.Headers = .init()
+                query: Operations.getAssigned.Input.Query,
+                headers: Operations.getAssigned.Input.Headers = .init()
             ) {
                 self.query = query
                 self.headers = headers
@@ -5184,26 +5964,26 @@ public enum Operations {
                     }
                 }
                 /// Received HTTP response body
-                public var body: Operations.getAssignedTasks.Output.Ok.Body
+                public var body: Operations.getAssigned.Output.Ok.Body
                 /// Creates a new `Ok`.
                 ///
                 /// - Parameters:
                 ///   - body: Received HTTP response body
-                public init(body: Operations.getAssignedTasks.Output.Ok.Body) {
+                public init(body: Operations.getAssigned.Output.Ok.Body) {
                     self.body = body
                 }
             }
             /// 사용자 할당 투두 조회 성공
             ///
-            /// - Remark: Generated from `#/paths//api/v1/tasks/assigned/get(getAssignedTasks)/responses/200`.
+            /// - Remark: Generated from `#/paths//api/v1/tasks/assigned/get(getAssigned)/responses/200`.
             ///
             /// HTTP response code: `200 ok`.
-            case ok(Operations.getAssignedTasks.Output.Ok)
+            case ok(Operations.getAssigned.Output.Ok)
             /// The associated value of the enum case if `self` is `.ok`.
             ///
             /// - Throws: An error if `self` is not `.ok`.
             /// - SeeAlso: `.ok`.
-            public var ok: Operations.getAssignedTasks.Output.Ok {
+            public var ok: Operations.getAssigned.Output.Ok {
                 get throws {
                     switch self {
                     case let .ok(response):
@@ -5235,26 +6015,26 @@ public enum Operations {
                     }
                 }
                 /// Received HTTP response body
-                public var body: Operations.getAssignedTasks.Output.NotFound.Body
+                public var body: Operations.getAssigned.Output.NotFound.Body
                 /// Creates a new `NotFound`.
                 ///
                 /// - Parameters:
                 ///   - body: Received HTTP response body
-                public init(body: Operations.getAssignedTasks.Output.NotFound.Body) {
+                public init(body: Operations.getAssigned.Output.NotFound.Body) {
                     self.body = body
                 }
             }
             /// 사용자 할당된 투두가 없습니다.
             ///
-            /// - Remark: Generated from `#/paths//api/v1/tasks/assigned/get(getAssignedTasks)/responses/404`.
+            /// - Remark: Generated from `#/paths//api/v1/tasks/assigned/get(getAssigned)/responses/404`.
             ///
             /// HTTP response code: `404 notFound`.
-            case notFound(Operations.getAssignedTasks.Output.NotFound)
+            case notFound(Operations.getAssigned.Output.NotFound)
             /// The associated value of the enum case if `self` is `.notFound`.
             ///
             /// - Throws: An error if `self` is not `.notFound`.
             /// - SeeAlso: `.notFound`.
-            public var notFound: Operations.getAssignedTasks.Output.NotFound {
+            public var notFound: Operations.getAssigned.Output.NotFound {
                 get throws {
                     switch self {
                     case let .notFound(response):
@@ -5298,14 +6078,14 @@ public enum Operations {
             }
         }
     }
-    /// 단일 조직 정보 조회
+    /// [인증] 단일 조직 정보 조회
     ///
-    /// 조직의 정보를 조회합니다.
+    /// 조직의 정보(조직명, 가입 대기여부, 가입자수) 를 조회합니다.
     ///
     /// - Remark: HTTP `GET /api/v1/organizations/{organizationId}`.
-    /// - Remark: Generated from `#/paths//api/v1/organizations/{organizationId}/get(getOrganization)`.
-    public enum getOrganization {
-        public static let id: Swift.String = "getOrganization"
+    /// - Remark: Generated from `#/paths//api/v1/organizations/{organizationId}/get(getInformation)`.
+    public enum getInformation {
+        public static let id: Swift.String = "getInformation"
         public struct Input: Sendable, Hashable {
             /// - Remark: Generated from `#/paths/api/v1/organizations/{organizationId}/GET/path`.
             public struct Path: Sendable, Hashable {
@@ -5319,27 +6099,27 @@ public enum Operations {
                     self.organizationId = organizationId
                 }
             }
-            public var path: Operations.getOrganization.Input.Path
+            public var path: Operations.getInformation.Input.Path
             /// - Remark: Generated from `#/paths/api/v1/organizations/{organizationId}/GET/header`.
             public struct Headers: Sendable, Hashable {
-                public var accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.getOrganization.AcceptableContentType>]
+                public var accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.getInformation.AcceptableContentType>]
                 /// Creates a new `Headers`.
                 ///
                 /// - Parameters:
                 ///   - accept:
-                public init(accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.getOrganization.AcceptableContentType>] = .defaultValues()) {
+                public init(accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.getInformation.AcceptableContentType>] = .defaultValues()) {
                     self.accept = accept
                 }
             }
-            public var headers: Operations.getOrganization.Input.Headers
+            public var headers: Operations.getInformation.Input.Headers
             /// Creates a new `Input`.
             ///
             /// - Parameters:
             ///   - path:
             ///   - headers:
             public init(
-                path: Operations.getOrganization.Input.Path,
-                headers: Operations.getOrganization.Input.Headers = .init()
+                path: Operations.getInformation.Input.Path,
+                headers: Operations.getInformation.Input.Headers = .init()
             ) {
                 self.path = path
                 self.headers = headers
@@ -5350,12 +6130,12 @@ public enum Operations {
                 /// - Remark: Generated from `#/paths/api/v1/organizations/{organizationId}/GET/responses/200/content`.
                 @frozen public enum Body: Sendable, Hashable {
                     /// - Remark: Generated from `#/paths/api/v1/organizations/{organizationId}/GET/responses/200/content/application\/json`.
-                    case json(Components.Schemas.NofficeResponseOrganizationResponse)
+                    case json(Components.Schemas.NofficeResponseOrganizationInfoResponse)
                     /// The associated value of the enum case if `self` is `.json`.
                     ///
                     /// - Throws: An error if `self` is not `.json`.
                     /// - SeeAlso: `.json`.
-                    public var json: Components.Schemas.NofficeResponseOrganizationResponse {
+                    public var json: Components.Schemas.NofficeResponseOrganizationInfoResponse {
                         get throws {
                             switch self {
                             case let .json(body):
@@ -5365,26 +6145,26 @@ public enum Operations {
                     }
                 }
                 /// Received HTTP response body
-                public var body: Operations.getOrganization.Output.Ok.Body
+                public var body: Operations.getInformation.Output.Ok.Body
                 /// Creates a new `Ok`.
                 ///
                 /// - Parameters:
                 ///   - body: Received HTTP response body
-                public init(body: Operations.getOrganization.Output.Ok.Body) {
+                public init(body: Operations.getInformation.Output.Ok.Body) {
                     self.body = body
                 }
             }
             /// 조직 정보 조회에 성공하였습니다.
             ///
-            /// - Remark: Generated from `#/paths//api/v1/organizations/{organizationId}/get(getOrganization)/responses/200`.
+            /// - Remark: Generated from `#/paths//api/v1/organizations/{organizationId}/get(getInformation)/responses/200`.
             ///
             /// HTTP response code: `200 ok`.
-            case ok(Operations.getOrganization.Output.Ok)
+            case ok(Operations.getInformation.Output.Ok)
             /// The associated value of the enum case if `self` is `.ok`.
             ///
             /// - Throws: An error if `self` is not `.ok`.
             /// - SeeAlso: `.ok`.
-            public var ok: Operations.getOrganization.Output.Ok {
+            public var ok: Operations.getInformation.Output.Ok {
                 get throws {
                     switch self {
                     case let .ok(response):
@@ -5401,12 +6181,12 @@ public enum Operations {
                 /// - Remark: Generated from `#/paths/api/v1/organizations/{organizationId}/GET/responses/404/content`.
                 @frozen public enum Body: Sendable, Hashable {
                     /// - Remark: Generated from `#/paths/api/v1/organizations/{organizationId}/GET/responses/404/content/application\/json`.
-                    case json(Components.Schemas.NofficeResponseOrganizationResponse)
+                    case json(Components.Schemas.NofficeResponseOrganizationInfoResponse)
                     /// The associated value of the enum case if `self` is `.json`.
                     ///
                     /// - Throws: An error if `self` is not `.json`.
                     /// - SeeAlso: `.json`.
-                    public var json: Components.Schemas.NofficeResponseOrganizationResponse {
+                    public var json: Components.Schemas.NofficeResponseOrganizationInfoResponse {
                         get throws {
                             switch self {
                             case let .json(body):
@@ -5416,26 +6196,26 @@ public enum Operations {
                     }
                 }
                 /// Received HTTP response body
-                public var body: Operations.getOrganization.Output.NotFound.Body
+                public var body: Operations.getInformation.Output.NotFound.Body
                 /// Creates a new `NotFound`.
                 ///
                 /// - Parameters:
                 ///   - body: Received HTTP response body
-                public init(body: Operations.getOrganization.Output.NotFound.Body) {
+                public init(body: Operations.getInformation.Output.NotFound.Body) {
                     self.body = body
                 }
             }
             /// 조직 정보가 없습니다.
             ///
-            /// - Remark: Generated from `#/paths//api/v1/organizations/{organizationId}/get(getOrganization)/responses/404`.
+            /// - Remark: Generated from `#/paths//api/v1/organizations/{organizationId}/get(getInformation)/responses/404`.
             ///
             /// HTTP response code: `404 notFound`.
-            case notFound(Operations.getOrganization.Output.NotFound)
+            case notFound(Operations.getInformation.Output.NotFound)
             /// The associated value of the enum case if `self` is `.notFound`.
             ///
             /// - Throws: An error if `self` is not `.notFound`.
             /// - SeeAlso: `.notFound`.
-            public var notFound: Operations.getOrganization.Output.NotFound {
+            public var notFound: Operations.getInformation.Output.NotFound {
                 get throws {
                     switch self {
                     case let .notFound(response):
@@ -5479,7 +6259,7 @@ public enum Operations {
             }
         }
     }
-    /// 조직별 노티 페이징 조회
+    /// [인증] 조직별 노티 페이징 조회
     ///
     /// 조직별 노티를 페이징 조회합니다.
     ///
@@ -5683,32 +6463,32 @@ public enum Operations {
             }
         }
     }
-    /// 단일 회원 정보 조회
+    /// [인증] 단일 회원 정보 조회
     ///
     /// 회원의 정보를 조회합니다.
     ///
     /// - Remark: HTTP `GET /api/v1/member`.
-    /// - Remark: Generated from `#/paths//api/v1/member/get(getMember)`.
-    public enum getMember {
-        public static let id: Swift.String = "getMember"
+    /// - Remark: Generated from `#/paths//api/v1/member/get(getById)`.
+    public enum getById {
+        public static let id: Swift.String = "getById"
         public struct Input: Sendable, Hashable {
             /// - Remark: Generated from `#/paths/api/v1/member/GET/header`.
             public struct Headers: Sendable, Hashable {
-                public var accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.getMember.AcceptableContentType>]
+                public var accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.getById.AcceptableContentType>]
                 /// Creates a new `Headers`.
                 ///
                 /// - Parameters:
                 ///   - accept:
-                public init(accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.getMember.AcceptableContentType>] = .defaultValues()) {
+                public init(accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.getById.AcceptableContentType>] = .defaultValues()) {
                     self.accept = accept
                 }
             }
-            public var headers: Operations.getMember.Input.Headers
+            public var headers: Operations.getById.Input.Headers
             /// Creates a new `Input`.
             ///
             /// - Parameters:
             ///   - headers:
-            public init(headers: Operations.getMember.Input.Headers = .init()) {
+            public init(headers: Operations.getById.Input.Headers = .init()) {
                 self.headers = headers
             }
         }
@@ -5732,26 +6512,26 @@ public enum Operations {
                     }
                 }
                 /// Received HTTP response body
-                public var body: Operations.getMember.Output.Ok.Body
+                public var body: Operations.getById.Output.Ok.Body
                 /// Creates a new `Ok`.
                 ///
                 /// - Parameters:
                 ///   - body: Received HTTP response body
-                public init(body: Operations.getMember.Output.Ok.Body) {
+                public init(body: Operations.getById.Output.Ok.Body) {
                     self.body = body
                 }
             }
             /// 회원 정보 조회에 성공하였습니다.
             ///
-            /// - Remark: Generated from `#/paths//api/v1/member/get(getMember)/responses/200`.
+            /// - Remark: Generated from `#/paths//api/v1/member/get(getById)/responses/200`.
             ///
             /// HTTP response code: `200 ok`.
-            case ok(Operations.getMember.Output.Ok)
+            case ok(Operations.getById.Output.Ok)
             /// The associated value of the enum case if `self` is `.ok`.
             ///
             /// - Throws: An error if `self` is not `.ok`.
             /// - SeeAlso: `.ok`.
-            public var ok: Operations.getMember.Output.Ok {
+            public var ok: Operations.getById.Output.Ok {
                 get throws {
                     switch self {
                     case let .ok(response):
@@ -5795,46 +6575,438 @@ public enum Operations {
             }
         }
     }
-    /// 투두 삭제
+    /// 서버 상태 확인
     ///
-    /// - Remark: HTTP `DELETE /api/v1/tasks/{taskId}`.
-    /// - Remark: Generated from `#/paths//api/v1/tasks/{taskId}/delete(deleteTask)`.
-    public enum deleteTask {
-        public static let id: Swift.String = "deleteTask"
+    /// 정상 동작시 200 반환합니다.
+    ///
+    /// - Remark: HTTP `GET /api/v1/health`.
+    /// - Remark: Generated from `#/paths//api/v1/health/get(health)`.
+    public enum health {
+        public static let id: Swift.String = "health"
         public struct Input: Sendable, Hashable {
-            /// - Remark: Generated from `#/paths/api/v1/tasks/{taskId}/DELETE/path`.
-            public struct Path: Sendable, Hashable {
-                /// - Remark: Generated from `#/paths/api/v1/tasks/{taskId}/DELETE/path/taskId`.
-                public var taskId: Swift.Int64
-                /// Creates a new `Path`.
-                ///
-                /// - Parameters:
-                ///   - taskId:
-                public init(taskId: Swift.Int64) {
-                    self.taskId = taskId
+            /// Creates a new `Input`.
+            public init() {}
+        }
+        @frozen public enum Output: Sendable, Hashable {
+            public struct Ok: Sendable, Hashable {
+                /// Creates a new `Ok`.
+                public init() {}
+            }
+            /// OK
+            ///
+            /// - Remark: Generated from `#/paths//api/v1/health/get(health)/responses/200`.
+            ///
+            /// HTTP response code: `200 ok`.
+            case ok(Operations.health.Output.Ok)
+            /// The associated value of the enum case if `self` is `.ok`.
+            ///
+            /// - Throws: An error if `self` is not `.ok`.
+            /// - SeeAlso: `.ok`.
+            public var ok: Operations.health.Output.Ok {
+                get throws {
+                    switch self {
+                    case let .ok(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "ok",
+                            response: self
+                        )
+                    }
                 }
             }
-            public var path: Operations.deleteTask.Input.Path
-            /// - Remark: Generated from `#/paths/api/v1/tasks/{taskId}/DELETE/header`.
+            /// Undocumented response.
+            ///
+            /// A response with a code that is not documented in the OpenAPI document.
+            case undocumented(statusCode: Swift.Int, OpenAPIRuntime.UndocumentedPayload)
+        }
+    }
+    /// 전체 카테고리 조회
+    ///
+    /// 등록 가능한 모든 카테고리를 조회합니다.
+    ///
+    /// - Remark: HTTP `GET /api/v1/category`.
+    /// - Remark: Generated from `#/paths//api/v1/category/get(getCategories)`.
+    public enum getCategories {
+        public static let id: Swift.String = "getCategories"
+        public struct Input: Sendable, Hashable {
+            /// - Remark: Generated from `#/paths/api/v1/category/GET/header`.
             public struct Headers: Sendable, Hashable {
-                public var accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.deleteTask.AcceptableContentType>]
+                public var accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.getCategories.AcceptableContentType>]
                 /// Creates a new `Headers`.
                 ///
                 /// - Parameters:
                 ///   - accept:
-                public init(accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.deleteTask.AcceptableContentType>] = .defaultValues()) {
+                public init(accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.getCategories.AcceptableContentType>] = .defaultValues()) {
                     self.accept = accept
                 }
             }
-            public var headers: Operations.deleteTask.Input.Headers
+            public var headers: Operations.getCategories.Input.Headers
+            /// Creates a new `Input`.
+            ///
+            /// - Parameters:
+            ///   - headers:
+            public init(headers: Operations.getCategories.Input.Headers = .init()) {
+                self.headers = headers
+            }
+        }
+        @frozen public enum Output: Sendable, Hashable {
+            public struct Ok: Sendable, Hashable {
+                /// - Remark: Generated from `#/paths/api/v1/category/GET/responses/200/content`.
+                @frozen public enum Body: Sendable, Hashable {
+                    /// - Remark: Generated from `#/paths/api/v1/category/GET/responses/200/content/application\/json`.
+                    case json(Components.Schemas.NofficeResponseCategoryResponses)
+                    /// The associated value of the enum case if `self` is `.json`.
+                    ///
+                    /// - Throws: An error if `self` is not `.json`.
+                    /// - SeeAlso: `.json`.
+                    public var json: Components.Schemas.NofficeResponseCategoryResponses {
+                        get throws {
+                            switch self {
+                            case let .json(body):
+                                return body
+                            }
+                        }
+                    }
+                }
+                /// Received HTTP response body
+                public var body: Operations.getCategories.Output.Ok.Body
+                /// Creates a new `Ok`.
+                ///
+                /// - Parameters:
+                ///   - body: Received HTTP response body
+                public init(body: Operations.getCategories.Output.Ok.Body) {
+                    self.body = body
+                }
+            }
+            /// 카테고리 목록 조회 성공
+            ///
+            /// - Remark: Generated from `#/paths//api/v1/category/get(getCategories)/responses/200`.
+            ///
+            /// HTTP response code: `200 ok`.
+            case ok(Operations.getCategories.Output.Ok)
+            /// The associated value of the enum case if `self` is `.ok`.
+            ///
+            /// - Throws: An error if `self` is not `.ok`.
+            /// - SeeAlso: `.ok`.
+            public var ok: Operations.getCategories.Output.Ok {
+                get throws {
+                    switch self {
+                    case let .ok(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "ok",
+                            response: self
+                        )
+                    }
+                }
+            }
+            public struct NotFound: Sendable, Hashable {
+                /// - Remark: Generated from `#/paths/api/v1/category/GET/responses/404/content`.
+                @frozen public enum Body: Sendable, Hashable {
+                    /// - Remark: Generated from `#/paths/api/v1/category/GET/responses/404/content/application\/json`.
+                    case json(Components.Schemas.NofficeResponseCategoryResponses)
+                    /// The associated value of the enum case if `self` is `.json`.
+                    ///
+                    /// - Throws: An error if `self` is not `.json`.
+                    /// - SeeAlso: `.json`.
+                    public var json: Components.Schemas.NofficeResponseCategoryResponses {
+                        get throws {
+                            switch self {
+                            case let .json(body):
+                                return body
+                            }
+                        }
+                    }
+                }
+                /// Received HTTP response body
+                public var body: Operations.getCategories.Output.NotFound.Body
+                /// Creates a new `NotFound`.
+                ///
+                /// - Parameters:
+                ///   - body: Received HTTP response body
+                public init(body: Operations.getCategories.Output.NotFound.Body) {
+                    self.body = body
+                }
+            }
+            /// 등록된 카테고리가 없습니다.
+            ///
+            /// - Remark: Generated from `#/paths//api/v1/category/get(getCategories)/responses/404`.
+            ///
+            /// HTTP response code: `404 notFound`.
+            case notFound(Operations.getCategories.Output.NotFound)
+            /// The associated value of the enum case if `self` is `.notFound`.
+            ///
+            /// - Throws: An error if `self` is not `.notFound`.
+            /// - SeeAlso: `.notFound`.
+            public var notFound: Operations.getCategories.Output.NotFound {
+                get throws {
+                    switch self {
+                    case let .notFound(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "notFound",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// Undocumented response.
+            ///
+            /// A response with a code that is not documented in the OpenAPI document.
+            case undocumented(statusCode: Swift.Int, OpenAPIRuntime.UndocumentedPayload)
+        }
+        @frozen public enum AcceptableContentType: AcceptableProtocol {
+            case json
+            case other(Swift.String)
+            public init?(rawValue: Swift.String) {
+                switch rawValue.lowercased() {
+                case "application/json":
+                    self = .json
+                default:
+                    self = .other(rawValue)
+                }
+            }
+            public var rawValue: Swift.String {
+                switch self {
+                case let .other(string):
+                    return string
+                case .json:
+                    return "application/json"
+                }
+            }
+            public static var allCases: [Self] {
+                [
+                    .json
+                ]
+            }
+        }
+    }
+    /// [인증] 노티에 발급된 투두 조회
+    ///
+    /// 노티에 발급된 투두를 조회합니다.
+    ///
+    /// - Remark: HTTP `GET /api/v1/announcement/{announcementId}/tasks`.
+    /// - Remark: Generated from `#/paths//api/v1/announcement/{announcementId}/tasks/get(getTasksById)`.
+    public enum getTasksById {
+        public static let id: Swift.String = "getTasksById"
+        public struct Input: Sendable, Hashable {
+            /// - Remark: Generated from `#/paths/api/v1/announcement/{announcementId}/tasks/GET/path`.
+            public struct Path: Sendable, Hashable {
+                /// - Remark: Generated from `#/paths/api/v1/announcement/{announcementId}/tasks/GET/path/announcementId`.
+                public var announcementId: Swift.Int64
+                /// Creates a new `Path`.
+                ///
+                /// - Parameters:
+                ///   - announcementId:
+                public init(announcementId: Swift.Int64) {
+                    self.announcementId = announcementId
+                }
+            }
+            public var path: Operations.getTasksById.Input.Path
+            /// - Remark: Generated from `#/paths/api/v1/announcement/{announcementId}/tasks/GET/header`.
+            public struct Headers: Sendable, Hashable {
+                public var accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.getTasksById.AcceptableContentType>]
+                /// Creates a new `Headers`.
+                ///
+                /// - Parameters:
+                ///   - accept:
+                public init(accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.getTasksById.AcceptableContentType>] = .defaultValues()) {
+                    self.accept = accept
+                }
+            }
+            public var headers: Operations.getTasksById.Input.Headers
             /// Creates a new `Input`.
             ///
             /// - Parameters:
             ///   - path:
             ///   - headers:
             public init(
-                path: Operations.deleteTask.Input.Path,
-                headers: Operations.deleteTask.Input.Headers = .init()
+                path: Operations.getTasksById.Input.Path,
+                headers: Operations.getTasksById.Input.Headers = .init()
+            ) {
+                self.path = path
+                self.headers = headers
+            }
+        }
+        @frozen public enum Output: Sendable, Hashable {
+            public struct Ok: Sendable, Hashable {
+                /// - Remark: Generated from `#/paths/api/v1/announcement/{announcementId}/tasks/GET/responses/200/content`.
+                @frozen public enum Body: Sendable, Hashable {
+                    /// - Remark: Generated from `#/paths/api/v1/announcement/{announcementId}/tasks/GET/responses/200/content/application\/json`.
+                    case json(Components.Schemas.NofficeResponseTaskResponses)
+                    /// The associated value of the enum case if `self` is `.json`.
+                    ///
+                    /// - Throws: An error if `self` is not `.json`.
+                    /// - SeeAlso: `.json`.
+                    public var json: Components.Schemas.NofficeResponseTaskResponses {
+                        get throws {
+                            switch self {
+                            case let .json(body):
+                                return body
+                            }
+                        }
+                    }
+                }
+                /// Received HTTP response body
+                public var body: Operations.getTasksById.Output.Ok.Body
+                /// Creates a new `Ok`.
+                ///
+                /// - Parameters:
+                ///   - body: Received HTTP response body
+                public init(body: Operations.getTasksById.Output.Ok.Body) {
+                    self.body = body
+                }
+            }
+            /// 노티에 발급된 투두 조회 성공
+            ///
+            /// - Remark: Generated from `#/paths//api/v1/announcement/{announcementId}/tasks/get(getTasksById)/responses/200`.
+            ///
+            /// HTTP response code: `200 ok`.
+            case ok(Operations.getTasksById.Output.Ok)
+            /// The associated value of the enum case if `self` is `.ok`.
+            ///
+            /// - Throws: An error if `self` is not `.ok`.
+            /// - SeeAlso: `.ok`.
+            public var ok: Operations.getTasksById.Output.Ok {
+                get throws {
+                    switch self {
+                    case let .ok(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "ok",
+                            response: self
+                        )
+                    }
+                }
+            }
+            public struct NotFound: Sendable, Hashable {
+                /// - Remark: Generated from `#/paths/api/v1/announcement/{announcementId}/tasks/GET/responses/404/content`.
+                @frozen public enum Body: Sendable, Hashable {
+                    /// - Remark: Generated from `#/paths/api/v1/announcement/{announcementId}/tasks/GET/responses/404/content/application\/json`.
+                    case json(Components.Schemas.NofficeResponseTaskResponses)
+                    /// The associated value of the enum case if `self` is `.json`.
+                    ///
+                    /// - Throws: An error if `self` is not `.json`.
+                    /// - SeeAlso: `.json`.
+                    public var json: Components.Schemas.NofficeResponseTaskResponses {
+                        get throws {
+                            switch self {
+                            case let .json(body):
+                                return body
+                            }
+                        }
+                    }
+                }
+                /// Received HTTP response body
+                public var body: Operations.getTasksById.Output.NotFound.Body
+                /// Creates a new `NotFound`.
+                ///
+                /// - Parameters:
+                ///   - body: Received HTTP response body
+                public init(body: Operations.getTasksById.Output.NotFound.Body) {
+                    self.body = body
+                }
+            }
+            /// 노티에 발급된 투두가 없습니다.
+            ///
+            /// - Remark: Generated from `#/paths//api/v1/announcement/{announcementId}/tasks/get(getTasksById)/responses/404`.
+            ///
+            /// HTTP response code: `404 notFound`.
+            case notFound(Operations.getTasksById.Output.NotFound)
+            /// The associated value of the enum case if `self` is `.notFound`.
+            ///
+            /// - Throws: An error if `self` is not `.notFound`.
+            /// - SeeAlso: `.notFound`.
+            public var notFound: Operations.getTasksById.Output.NotFound {
+                get throws {
+                    switch self {
+                    case let .notFound(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "notFound",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// Undocumented response.
+            ///
+            /// A response with a code that is not documented in the OpenAPI document.
+            case undocumented(statusCode: Swift.Int, OpenAPIRuntime.UndocumentedPayload)
+        }
+        @frozen public enum AcceptableContentType: AcceptableProtocol {
+            case json
+            case other(Swift.String)
+            public init?(rawValue: Swift.String) {
+                switch rawValue.lowercased() {
+                case "application/json":
+                    self = .json
+                default:
+                    self = .other(rawValue)
+                }
+            }
+            public var rawValue: Swift.String {
+                switch self {
+                case let .other(string):
+                    return string
+                case .json:
+                    return "application/json"
+                }
+            }
+            public static var allCases: [Self] {
+                [
+                    .json
+                ]
+            }
+        }
+    }
+    /// 알림 삭제
+    ///
+    /// 노티 알림을 삭제합니다.
+    ///
+    /// - Remark: HTTP `DELETE /api/v1/notifications/{notificationId}`.
+    /// - Remark: Generated from `#/paths//api/v1/notifications/{notificationId}/delete(delete)`.
+    public enum delete {
+        public static let id: Swift.String = "delete"
+        public struct Input: Sendable, Hashable {
+            /// - Remark: Generated from `#/paths/api/v1/notifications/{notificationId}/DELETE/path`.
+            public struct Path: Sendable, Hashable {
+                /// - Remark: Generated from `#/paths/api/v1/notifications/{notificationId}/DELETE/path/notificationId`.
+                public var notificationId: Swift.Int64
+                /// Creates a new `Path`.
+                ///
+                /// - Parameters:
+                ///   - notificationId:
+                public init(notificationId: Swift.Int64) {
+                    self.notificationId = notificationId
+                }
+            }
+            public var path: Operations.delete.Input.Path
+            /// - Remark: Generated from `#/paths/api/v1/notifications/{notificationId}/DELETE/header`.
+            public struct Headers: Sendable, Hashable {
+                public var accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.delete.AcceptableContentType>]
+                /// Creates a new `Headers`.
+                ///
+                /// - Parameters:
+                ///   - accept:
+                public init(accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.delete.AcceptableContentType>] = .defaultValues()) {
+                    self.accept = accept
+                }
+            }
+            public var headers: Operations.delete.Input.Headers
+            /// Creates a new `Input`.
+            ///
+            /// - Parameters:
+            ///   - path:
+            ///   - headers:
+            public init(
+                path: Operations.delete.Input.Path,
+                headers: Operations.delete.Input.Headers = .init()
             ) {
                 self.path = path
                 self.headers = headers
@@ -5842,9 +7014,9 @@ public enum Operations {
         }
         @frozen public enum Output: Sendable, Hashable {
             public struct NoContent: Sendable, Hashable {
-                /// - Remark: Generated from `#/paths/api/v1/tasks/{taskId}/DELETE/responses/204/content`.
+                /// - Remark: Generated from `#/paths/api/v1/notifications/{notificationId}/DELETE/responses/204/content`.
                 @frozen public enum Body: Sendable, Hashable {
-                    /// - Remark: Generated from `#/paths/api/v1/tasks/{taskId}/DELETE/responses/204/content/application\/json`.
+                    /// - Remark: Generated from `#/paths/api/v1/notifications/{notificationId}/DELETE/responses/204/content/application\/json`.
                     case json(Components.Schemas.NofficeResponseVoid)
                     /// The associated value of the enum case if `self` is `.json`.
                     ///
@@ -5860,26 +7032,26 @@ public enum Operations {
                     }
                 }
                 /// Received HTTP response body
-                public var body: Operations.deleteTask.Output.NoContent.Body
+                public var body: Operations.delete.Output.NoContent.Body
                 /// Creates a new `NoContent`.
                 ///
                 /// - Parameters:
                 ///   - body: Received HTTP response body
-                public init(body: Operations.deleteTask.Output.NoContent.Body) {
+                public init(body: Operations.delete.Output.NoContent.Body) {
                     self.body = body
                 }
             }
-            /// 투두 삭제 성공
+            /// 알림 삭제 성공
             ///
-            /// - Remark: Generated from `#/paths//api/v1/tasks/{taskId}/delete(deleteTask)/responses/204`.
+            /// - Remark: Generated from `#/paths//api/v1/notifications/{notificationId}/delete(delete)/responses/204`.
             ///
             /// HTTP response code: `204 noContent`.
-            case noContent(Operations.deleteTask.Output.NoContent)
+            case noContent(Operations.delete.Output.NoContent)
             /// The associated value of the enum case if `self` is `.noContent`.
             ///
             /// - Throws: An error if `self` is not `.noContent`.
             /// - SeeAlso: `.noContent`.
-            public var noContent: Operations.deleteTask.Output.NoContent {
+            public var noContent: Operations.delete.Output.NoContent {
                 get throws {
                     switch self {
                     case let .noContent(response):
@@ -5893,9 +7065,9 @@ public enum Operations {
                 }
             }
             public struct BadRequest: Sendable, Hashable {
-                /// - Remark: Generated from `#/paths/api/v1/tasks/{taskId}/DELETE/responses/400/content`.
+                /// - Remark: Generated from `#/paths/api/v1/notifications/{notificationId}/DELETE/responses/400/content`.
                 @frozen public enum Body: Sendable, Hashable {
-                    /// - Remark: Generated from `#/paths/api/v1/tasks/{taskId}/DELETE/responses/400/content/application\/json`.
+                    /// - Remark: Generated from `#/paths/api/v1/notifications/{notificationId}/DELETE/responses/400/content/application\/json`.
                     case json(Components.Schemas.NofficeResponseVoid)
                     /// The associated value of the enum case if `self` is `.json`.
                     ///
@@ -5911,26 +7083,26 @@ public enum Operations {
                     }
                 }
                 /// Received HTTP response body
-                public var body: Operations.deleteTask.Output.BadRequest.Body
+                public var body: Operations.delete.Output.BadRequest.Body
                 /// Creates a new `BadRequest`.
                 ///
                 /// - Parameters:
                 ///   - body: Received HTTP response body
-                public init(body: Operations.deleteTask.Output.BadRequest.Body) {
+                public init(body: Operations.delete.Output.BadRequest.Body) {
                     self.body = body
                 }
             }
-            /// 투두 삭제 실패
+            /// 알림 삭제 실패
             ///
-            /// - Remark: Generated from `#/paths//api/v1/tasks/{taskId}/delete(deleteTask)/responses/400`.
+            /// - Remark: Generated from `#/paths//api/v1/notifications/{notificationId}/delete(delete)/responses/400`.
             ///
             /// HTTP response code: `400 badRequest`.
-            case badRequest(Operations.deleteTask.Output.BadRequest)
+            case badRequest(Operations.delete.Output.BadRequest)
             /// The associated value of the enum case if `self` is `.badRequest`.
             ///
             /// - Throws: An error if `self` is not `.badRequest`.
             /// - SeeAlso: `.badRequest`.
-            public var badRequest: Operations.deleteTask.Output.BadRequest {
+            public var badRequest: Operations.delete.Output.BadRequest {
                 get throws {
                     switch self {
                     case let .badRequest(response):
@@ -5974,48 +7146,55 @@ public enum Operations {
             }
         }
     }
-    /// 알림 삭제
+    /// 노티에 발급된 투두 삭제
     ///
-    /// 노티 알림을 삭제합니다.
+    /// 노티에 발급된 투두를 삭제합니다.
     ///
-    /// - Remark: HTTP `DELETE /api/v1/notifications/{notificationId}`.
-    /// - Remark: Generated from `#/paths//api/v1/notifications/{notificationId}/delete(deleteNotification)`.
-    public enum deleteNotification {
-        public static let id: Swift.String = "deleteNotification"
+    /// - Remark: HTTP `DELETE /api/v1/announcement/{announcementId}/tasks/{taskId}`.
+    /// - Remark: Generated from `#/paths//api/v1/announcement/{announcementId}/tasks/{taskId}/delete(deleteTaskById)`.
+    public enum deleteTaskById {
+        public static let id: Swift.String = "deleteTaskById"
         public struct Input: Sendable, Hashable {
-            /// - Remark: Generated from `#/paths/api/v1/notifications/{notificationId}/DELETE/path`.
+            /// - Remark: Generated from `#/paths/api/v1/announcement/{announcementId}/tasks/{taskId}/DELETE/path`.
             public struct Path: Sendable, Hashable {
-                /// - Remark: Generated from `#/paths/api/v1/notifications/{notificationId}/DELETE/path/notificationId`.
-                public var notificationId: Swift.Int64
+                /// - Remark: Generated from `#/paths/api/v1/announcement/{announcementId}/tasks/{taskId}/DELETE/path/announcementId`.
+                public var announcementId: Swift.Int64
+                /// - Remark: Generated from `#/paths/api/v1/announcement/{announcementId}/tasks/{taskId}/DELETE/path/taskId`.
+                public var taskId: Swift.Int64
                 /// Creates a new `Path`.
                 ///
                 /// - Parameters:
-                ///   - notificationId:
-                public init(notificationId: Swift.Int64) {
-                    self.notificationId = notificationId
+                ///   - announcementId:
+                ///   - taskId:
+                public init(
+                    announcementId: Swift.Int64,
+                    taskId: Swift.Int64
+                ) {
+                    self.announcementId = announcementId
+                    self.taskId = taskId
                 }
             }
-            public var path: Operations.deleteNotification.Input.Path
-            /// - Remark: Generated from `#/paths/api/v1/notifications/{notificationId}/DELETE/header`.
+            public var path: Operations.deleteTaskById.Input.Path
+            /// - Remark: Generated from `#/paths/api/v1/announcement/{announcementId}/tasks/{taskId}/DELETE/header`.
             public struct Headers: Sendable, Hashable {
-                public var accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.deleteNotification.AcceptableContentType>]
+                public var accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.deleteTaskById.AcceptableContentType>]
                 /// Creates a new `Headers`.
                 ///
                 /// - Parameters:
                 ///   - accept:
-                public init(accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.deleteNotification.AcceptableContentType>] = .defaultValues()) {
+                public init(accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.deleteTaskById.AcceptableContentType>] = .defaultValues()) {
                     self.accept = accept
                 }
             }
-            public var headers: Operations.deleteNotification.Input.Headers
+            public var headers: Operations.deleteTaskById.Input.Headers
             /// Creates a new `Input`.
             ///
             /// - Parameters:
             ///   - path:
             ///   - headers:
             public init(
-                path: Operations.deleteNotification.Input.Path,
-                headers: Operations.deleteNotification.Input.Headers = .init()
+                path: Operations.deleteTaskById.Input.Path,
+                headers: Operations.deleteTaskById.Input.Headers = .init()
             ) {
                 self.path = path
                 self.headers = headers
@@ -6023,9 +7202,9 @@ public enum Operations {
         }
         @frozen public enum Output: Sendable, Hashable {
             public struct NoContent: Sendable, Hashable {
-                /// - Remark: Generated from `#/paths/api/v1/notifications/{notificationId}/DELETE/responses/204/content`.
+                /// - Remark: Generated from `#/paths/api/v1/announcement/{announcementId}/tasks/{taskId}/DELETE/responses/204/content`.
                 @frozen public enum Body: Sendable, Hashable {
-                    /// - Remark: Generated from `#/paths/api/v1/notifications/{notificationId}/DELETE/responses/204/content/application\/json`.
+                    /// - Remark: Generated from `#/paths/api/v1/announcement/{announcementId}/tasks/{taskId}/DELETE/responses/204/content/application\/json`.
                     case json(Components.Schemas.NofficeResponseVoid)
                     /// The associated value of the enum case if `self` is `.json`.
                     ///
@@ -6041,26 +7220,26 @@ public enum Operations {
                     }
                 }
                 /// Received HTTP response body
-                public var body: Operations.deleteNotification.Output.NoContent.Body
+                public var body: Operations.deleteTaskById.Output.NoContent.Body
                 /// Creates a new `NoContent`.
                 ///
                 /// - Parameters:
                 ///   - body: Received HTTP response body
-                public init(body: Operations.deleteNotification.Output.NoContent.Body) {
+                public init(body: Operations.deleteTaskById.Output.NoContent.Body) {
                     self.body = body
                 }
             }
-            /// 알림 삭제 성공
+            /// 노티에 발급된 투두 삭제 성공
             ///
-            /// - Remark: Generated from `#/paths//api/v1/notifications/{notificationId}/delete(deleteNotification)/responses/204`.
+            /// - Remark: Generated from `#/paths//api/v1/announcement/{announcementId}/tasks/{taskId}/delete(deleteTaskById)/responses/204`.
             ///
             /// HTTP response code: `204 noContent`.
-            case noContent(Operations.deleteNotification.Output.NoContent)
+            case noContent(Operations.deleteTaskById.Output.NoContent)
             /// The associated value of the enum case if `self` is `.noContent`.
             ///
             /// - Throws: An error if `self` is not `.noContent`.
             /// - SeeAlso: `.noContent`.
-            public var noContent: Operations.deleteNotification.Output.NoContent {
+            public var noContent: Operations.deleteTaskById.Output.NoContent {
                 get throws {
                     switch self {
                     case let .noContent(response):
@@ -6074,9 +7253,9 @@ public enum Operations {
                 }
             }
             public struct BadRequest: Sendable, Hashable {
-                /// - Remark: Generated from `#/paths/api/v1/notifications/{notificationId}/DELETE/responses/400/content`.
+                /// - Remark: Generated from `#/paths/api/v1/announcement/{announcementId}/tasks/{taskId}/DELETE/responses/400/content`.
                 @frozen public enum Body: Sendable, Hashable {
-                    /// - Remark: Generated from `#/paths/api/v1/notifications/{notificationId}/DELETE/responses/400/content/application\/json`.
+                    /// - Remark: Generated from `#/paths/api/v1/announcement/{announcementId}/tasks/{taskId}/DELETE/responses/400/content/application\/json`.
                     case json(Components.Schemas.NofficeResponseVoid)
                     /// The associated value of the enum case if `self` is `.json`.
                     ///
@@ -6092,26 +7271,26 @@ public enum Operations {
                     }
                 }
                 /// Received HTTP response body
-                public var body: Operations.deleteNotification.Output.BadRequest.Body
+                public var body: Operations.deleteTaskById.Output.BadRequest.Body
                 /// Creates a new `BadRequest`.
                 ///
                 /// - Parameters:
                 ///   - body: Received HTTP response body
-                public init(body: Operations.deleteNotification.Output.BadRequest.Body) {
+                public init(body: Operations.deleteTaskById.Output.BadRequest.Body) {
                     self.body = body
                 }
             }
-            /// 알림 삭제 실패
+            /// 노티에 발급된 투두 삭제에 실패하였습니다.
             ///
-            /// - Remark: Generated from `#/paths//api/v1/notifications/{notificationId}/delete(deleteNotification)/responses/400`.
+            /// - Remark: Generated from `#/paths//api/v1/announcement/{announcementId}/tasks/{taskId}/delete(deleteTaskById)/responses/400`.
             ///
             /// HTTP response code: `400 badRequest`.
-            case badRequest(Operations.deleteNotification.Output.BadRequest)
+            case badRequest(Operations.deleteTaskById.Output.BadRequest)
             /// The associated value of the enum case if `self` is `.badRequest`.
             ///
             /// - Throws: An error if `self` is not `.badRequest`.
             /// - SeeAlso: `.badRequest`.
-            public var badRequest: Operations.deleteNotification.Output.BadRequest {
+            public var badRequest: Operations.deleteTaskById.Output.BadRequest {
                 get throws {
                     switch self {
                     case let .badRequest(response):
