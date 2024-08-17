@@ -43,7 +43,7 @@ public class KeychainManager<T: Keychainable> {
     /// Initializes the KeychainManager with a specific service and account.
     public init() {
         self.service = Bundle.main.bundleIdentifier ?? ""
-        self.account = T.identifier
+        self.account = T.account
     }
 
     /// Saves the given item to the Keychain. If the item already exists, it updates the existing item.

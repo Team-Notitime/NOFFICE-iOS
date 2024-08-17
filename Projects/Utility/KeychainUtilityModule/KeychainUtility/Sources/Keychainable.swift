@@ -6,5 +6,5 @@
 //
 
 public protocol Keychainable: Codable {
-    static var identifier: String { get }
+    static var account: String { get }
 }

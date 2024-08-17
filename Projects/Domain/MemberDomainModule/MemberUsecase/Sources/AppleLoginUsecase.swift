@@ -12,6 +12,7 @@ import Container
 import MemberEntity
 import MemberDataInterface
 import KeychainUtility
+import UserDefaultsUtility
 
 import Swinject
 import RxSwift
@@ -51,6 +52,8 @@ public final class AppleLoginUsecase: NSObject {
     
     let keychainManager = KeychainManager<Token>()
     
+    let userDefaultsManager = UserDefaultsManager<Member>()
+    
     private var authorizationController: ASAuthorizationController = {
         let appleIDProvider = ASAuthorizationAppleIDProvider()
         let request = appleIDProvider.createRequest()
@@ -84,6 +87,23 @@ extension AppleLoginUsecase {
         authorizationController.delegate = self
         authorizationController.presentationContextProvider = self
     }
+    
+    private func saveToKeychain(accessToken: String, refreshToken: String) {
+        let token = Token(accessToken: accessToken, refreshToken: refreshToken)
+        keychainManager.save(token)
+    }
+    
+    private func saveToUserDefaults(result: LoginResult) {
+        if let id = result.memberId,
+           let name = result.memberName,
+           let provider = result.provider {
+            let member = Member(
+                id: id, name: name,
+                provider: provider.rawValue
+            )
+            userDefaultsManager.save(member)
+        }
+    }
 }
 
 // MARK: - Delegate
@@ -114,12 +134,8 @@ extension AppleLoginUsecase: ASAuthorizationControllerDelegate,
                     guard let self = self else { return Observable.empty() }
                     if let accessToken = result.token?.accessToken,
                        let refreshToken = result.token?.refreshToken {
-                        self.keychainManager.save(
-                            Token(
-                                accessToken: accessToken,
-                                refreshToken: refreshToken
-                            )
-                        )
+                        self.saveToKeychain(accessToken: accessToken, refreshToken: refreshToken)
+                        self.saveToUserDefaults(result: result)
                         return Observable.just(Output(isSuccess: true))
                     } else {
                         return Observable.error(Error.invalidToken)

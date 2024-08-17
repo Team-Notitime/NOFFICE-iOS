@@ -30,7 +30,6 @@ public struct AuthenticationMiddleware: ClientMiddleware {
             throw AuthenticationError.tokenNotFoundInKeychain
         }
         
-        
         return try await next(request, body, baseURL)
     }
 }

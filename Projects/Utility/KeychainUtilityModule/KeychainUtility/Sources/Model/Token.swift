@@ -8,7 +8,7 @@
 import Foundation
 
 public struct Token: Keychainable, Codable {
-    public static var identifier: String {
+    public static var account: String {
         String(describing: self)
     }
     

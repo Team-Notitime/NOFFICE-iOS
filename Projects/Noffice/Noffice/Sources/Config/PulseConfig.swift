@@ -15,11 +15,4 @@ struct PulseConfig {
     public static func setup() {
         URLSessionProxyDelegate.enableAutomaticRegistration()
     }
-    
-    public static func getConsoleView() -> UIViewController {
-        let view = NavigationView {
-            ConsoleView()
-        }
-        return UIHostingController(rootView: view)
-    }
 }

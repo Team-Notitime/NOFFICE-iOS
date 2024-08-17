@@ -83,6 +83,7 @@ public enum Module {
     
     public enum Utility: String, CaseIterable {
         case keychain
+        case userDefaults
         
         var name: String { rawValue.toUpperCamelCase() }
         var bundleIdenifier: String { rawValue.toBundleIdentifier() }
