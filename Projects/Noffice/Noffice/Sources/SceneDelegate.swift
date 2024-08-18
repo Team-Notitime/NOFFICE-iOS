@@ -43,16 +43,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Set config
         DebugButtonConfig.setup(window: window)
     }
-    
-    /// 시뮬레이터 디버그용 토큰 설정
-    private func setAccessToken() {
-        let tokenKeychainManager = KeychainManager<Token>()
-        let token: Token = .init(
-            accessToken: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI4Iiwicm9sZSI6IlJPTEVfVVNFUiIsImlhdCI6MTcyMzkwNzM3MywiZXhwIjoxNzI1MTE2OTczfQ.93nKxeC7HLHip41EOAIqG-ZgIcE5lM7-AuIatHwGgZw",
-            refreshToken: ""
-        )
-        tokenKeychainManager.save(token)
-    }
 
     func sceneDidDisconnect(_ scene: UIScene) {
         // 씬이 해제될 때 호출되는 메서드
