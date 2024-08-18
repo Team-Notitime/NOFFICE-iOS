@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SwiftUI
 
 import Assets
 import Router
@@ -20,6 +21,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         willConnectTo session: UISceneSession,
         options connectionOptions: UIScene.ConnectionOptions
     ) {
+        // Set root view
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
         window = UIWindow(windowScene: windowScene)
@@ -27,7 +29,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         let tabBarController = TabBarController()
         Router.shared.push(tabBarController)
-//        Router.shared.push(PulseConfig.getConsoleView())
         
         let tokenKeychainManager = KeychainManager<Token>()
         if let token = tokenKeychainManager.get() {
@@ -38,6 +39,19 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         }
         
         window?.makeKeyAndVisible()
+        
+        // Set config
+        DebugButtonConfig.setup(window: window)
+    }
+    
+    /// 시뮬레이터 디버그용 토큰 설정
+    private func setAccessToken() {
+        let tokenKeychainManager = KeychainManager<Token>()
+        let token: Token = .init(
+            accessToken: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI4Iiwicm9sZSI6IlJPTEVfVVNFUiIsImlhdCI6MTcyMzkwNzM3MywiZXhwIjoxNzI1MTE2OTczfQ.93nKxeC7HLHip41EOAIqG-ZgIcE5lM7-AuIatHwGgZw",
+            refreshToken: ""
+        )
+        tokenKeychainManager.save(token)
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
