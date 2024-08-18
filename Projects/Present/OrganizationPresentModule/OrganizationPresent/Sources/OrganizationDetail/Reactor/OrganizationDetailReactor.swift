@@ -36,7 +36,7 @@ class OrganizationDetailReactor: Reactor {
     // MARK: Dependency
     private let getOrganizationDetailUsecase = GetOrganizationDetailUsecase()
     
-    private let getAnnouncementsByGroupUseCase = GetAnnouncementsByGroupUsecase()
+    private let getAnnouncementsByGroupUseCase = GetAnnouncementsByOrganizationUsecase()
     
     // MARK: DisposeBag
     private let disposeBag = DisposeBag()

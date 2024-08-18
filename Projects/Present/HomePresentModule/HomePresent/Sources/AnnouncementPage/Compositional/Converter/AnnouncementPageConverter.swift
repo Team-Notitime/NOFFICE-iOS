@@ -13,7 +13,7 @@ import DesignSystem
 struct AnnouncementPageConverter {
     static func convertToOrganizationSections(
         _ entities: [AnnouncementOrganizationEntity],
-        onTapAnnouncementCard: @escaping (AnnouncementEntity) -> Void
+        onTapAnnouncementCard: @escaping (AnnouncementSummaryEntity) -> Void
     ) -> [AnnouncementSection] {
         // - Convert to join pending card
         let convertPendingItems: () -> [any CompositionalItem] = {
@@ -25,17 +25,13 @@ struct AnnouncementPageConverter {
         
         // - Convert to default announcement card
         let convertToAnnouncementItem: (
-            AnnouncementEntity
+            AnnouncementSummaryEntity
         ) -> AnnouncementItem = { announcementEntity in
-            let dateString = announcementEntity.endAt?
-                .toString(format: "yyyy.MM.dd(EEE) HH:mm") ?? "-"
-            let location = announcementEntity.place?.name ?? "-"
-            
             return AnnouncementItem(
                 state: .default,
                 title: announcementEntity.title,
-                date: dateString,
-                location: location,
+                date: "", // TODO: 삭제 필요
+                location: announcementEntity.placeName ?? "-",
                 onTap: { onTapAnnouncementCard(announcementEntity) }
             )
         }
@@ -50,7 +46,8 @@ struct AnnouncementPageConverter {
                     AnnouncementDummyItem()
                 ]
             } else {
-                return organizationEntity.announcements.map(convertToAnnouncementItem)
+                return organizationEntity.announcements
+                    .map(convertToAnnouncementItem)
             }
         }
         

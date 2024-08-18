@@ -1,5 +1,5 @@
 //
-//  GetAnnouncementsByGroupUsecase.swift
+//  _GetAnnouncementsByOrganizationUsecase.swift
 //  AnnouncementUsecase
 //
 //  Created by DOYEON LEE on 8/1/24.
@@ -15,7 +15,7 @@ import OrganizationDataInterface
 import Swinject
 import RxSwift
 
-public final class GetAnnouncementsByGroupUsecase {
+final class _GetAnnouncementsByOrganizationUsecase {
     // MARK: DTO
     public struct Input {
         public let organizationId: Int

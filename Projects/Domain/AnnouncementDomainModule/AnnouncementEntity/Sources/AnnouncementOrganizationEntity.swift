@@ -21,13 +21,13 @@ public struct AnnouncementOrganizationEntity: Identifiable, Equatable {
     public let status: OrganizationStatus
     
     /// List of todos associated with the organization.
-    public let announcements: [AnnouncementEntity]
+    public let announcements: [AnnouncementSummaryEntity]
     
     public init(
         id: Int,
         name: String,
         status: OrganizationStatus,
-        announcements: [AnnouncementEntity]
+        announcements: [AnnouncementSummaryEntity]
     ) {
         self.id = id
         self.name = name
