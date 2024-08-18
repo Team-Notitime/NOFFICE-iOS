@@ -10,8 +10,8 @@ import AnnouncementEntity
 
 struct OrganizationDetailConverter {
     static func convert(
-        from announcements: [AnnouncementEntity],
-        onTapAnnouncementItem: @escaping (AnnouncementEntity) -> Void
+        from announcements: [AnnouncementSummaryEntity],
+        onTapAnnouncementItem: @escaping (AnnouncementSummaryEntity) -> Void
     ) -> [any CompositionalSection] {
         return [
             AnnouncementSection(
@@ -19,9 +19,8 @@ struct OrganizationDetailConverter {
                     AnnouncementItem(
                         id: announcement.id,
                         title: announcement.title,
-                        endDate: announcement.endAt,
-                        place: announcement.place?.name,
-                        todoCount: announcement.todos?.count,
+                        place: announcement.placeName,
+                        todoCount: announcement.todoCount,
                         body: announcement.body,
                         createdDate: announcement.createdAt ?? .now,
                         onTap: {

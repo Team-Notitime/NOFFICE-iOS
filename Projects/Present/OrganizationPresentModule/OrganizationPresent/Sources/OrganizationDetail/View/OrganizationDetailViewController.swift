@@ -59,7 +59,6 @@ class OrganizationDetailViewController: BaseViewController<OrganizationDetailVie
                 )
             ]
         )
-        .debug()
         .bind(to: baseView.announcementsCollectionView.sectionBinder)
         .disposed(by: disposeBag)
     }
@@ -92,11 +91,11 @@ class OrganizationDetailViewController: BaseViewController<OrganizationDetailVie
             .filter { !$0.isEmpty }
             .map {
                 OrganizationDetailConverter.convert(from: $0) { announcement in
-                    Router.shared.push(
-                        .announcementDetail(
-                            announcementEntity: announcement
-                        )
-                    )
+//                    Router.shared.push(
+//                        .announcementDetail(
+//                            announcementEntity: announcement
+//                        )
+//                    )
                 }
             }
             .bind(to: baseView.announcementsCollectionView.sectionBinder)

@@ -141,7 +141,6 @@ extension AppleLoginUsecase: ASAuthorizationControllerDelegate,
                         return Observable.error(Error.invalidToken)
                     }
                 }
-                .debug()
                 .subscribe(onNext: { [weak self] output in
                     self?.authorizationResultSubject.onNext(output)
                 }, onError: { [weak self] error in

@@ -20,13 +20,13 @@ class OrganizationDetailReactor: Reactor {
     
     enum Mutation { 
         case setOrganization(OrganizationEntity)
-        case setAnnouncements([AnnouncementEntity])
+        case setAnnouncements([AnnouncementSummaryEntity])
     }
     
     // MARK: State
     struct State { 
         var organization: OrganizationEntity?
-        var announcements: [AnnouncementEntity] = []
+        var announcements: [AnnouncementSummaryEntity] = []
     }
     
     let initialState: State = State()
@@ -36,7 +36,7 @@ class OrganizationDetailReactor: Reactor {
     // MARK: Dependency
     private let getOrganizationDetailUsecase = GetOrganizationDetailUsecase()
     
-    private let getAnnouncementsByGroupUseCase = GetAnnouncementsByGroup()
+    private let getAnnouncementsByGroupUseCase = GetAnnouncementsByGroupUsecase()
     
     // MARK: DisposeBag
     private let disposeBag = DisposeBag()
@@ -50,12 +50,15 @@ class OrganizationDetailReactor: Reactor {
         case let .viewDidLoad(organization):
             let setOrganization = getOrganizationDetailUsecase
                 .execute(.init(organizationId: organization.id))
-                .map { Mutation.setOrganization($0.organization) }
+                .map { output in
+                    Mutation.setOrganization(output.organization)
+                }
             
             let setAnnouncements = getAnnouncementsByGroupUseCase
-                .execute(groupId: organization.id)
-                .delay(.seconds(2), scheduler: MainScheduler.instance)
-                .map { Mutation.setAnnouncements($0) }
+                .execute(.init(organizationId: organization.id))
+                .map { output in
+                    Mutation.setAnnouncements(output.announcements)
+                }
             
             return .merge(
                 setOrganization,

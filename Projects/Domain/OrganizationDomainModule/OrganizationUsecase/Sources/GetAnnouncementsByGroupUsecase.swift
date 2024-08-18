@@ -1,5 +1,5 @@
 //
-//  GetAnnouncementsByGroup.swift
+//  GetAnnouncementsByGroupUsecase.swift
 //  AnnouncementUsecase
 //
 //  Created by DOYEON LEE on 8/1/24.
@@ -7,16 +7,71 @@
 
 import Foundation
 
+import Container
+import OrganizationEntity
 import AnnouncementEntity
+import OrganizationDataInterface
+
+import Swinject
+import RxSwift
 
 import RxSwift
 
-public struct GetAnnouncementsByGroup {
+public struct GetAnnouncementsByGroupUsecase {
+    // MARK: DTO
+    public struct Input {
+        public let organizationId: Int
+        
+        public init(organizationId: Int) {
+            self.organizationId = organizationId
+        }
+    }
     
+    public struct Output { 
+        public let announcements: [AnnouncementSummaryEntity]
+    }
+    
+    // MARK: Error
+    public enum Error: LocalizedError {
+        case contentFieldNotFound
+    }
+    
+    // MARK: Dependency
+    private let organizationRepository = Container.shared.resolve(OrganizationRepositoryInterface.self)!
+    
+    // MARK: Initializer
     public init() { }
     
-    public func execute(groupId: Int) -> Observable<[AnnouncementEntity]> {
-        return .just(Mock.AnnouncementEntities)
+    // MARK: Execute method
+    public func execute(_ input: Input) -> Observable<Output> {
+        
+        
+        let outputObservable = organizationRepository.getPublishedAnnouncements(
+            .init(
+                organizationId: Int64(input.organizationId),
+                pageable: .init() // TODO:
+            )
+        ).flatMap { result -> Observable<Output> in
+            if let content = result.content {
+                let announcements = content.map {
+                    AnnouncementSummaryEntity(
+                        id: Int($0.announcementId ?? -1),
+                        organizationId: input.organizationId,
+                        imageUrl: $0.profileImageUrl,
+                        createdAt: $0.createdAt,
+                        title: $0.title ?? "",
+                        body: $0.content ?? "",
+                        placeName: $0.placeLinkName,
+                        todoCount: 0 // todo 조회 API 사용? 같이 담아줄 수 있는지 요청 필요
+                    )
+                }
+                return Observable.just(Output(announcements: announcements))
+            } else {
+                return Observable.error(Error.contentFieldNotFound)
+            }
+        }
+        
+        return outputObservable
     }
 }
 
