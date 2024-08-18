@@ -12,11 +12,7 @@ extension Settings {
     }
     
     public static func settings(_ type: SettingsType) -> Settings {
-        let baseSettings: SettingsDictionary = [
-            "VERSIONING_SYSTEM": "apple-generic", // For fastlane auto increment build version
-            "CURRENT_PROJECT_VERSION": "$(CURRENT_PROJECT_VERSION)",
-            "CODE_SIGN_STYLE": "Manual"
-        ]
+
         
         switch type {
         case .base:
@@ -29,24 +25,13 @@ extension Settings {
                 defaultSettings: .recommended
             )
         case .view:
-            var viewSettings: SettingsDictionary = [
-                "OTHER_LDFLAGS": [
-                    "-Xlinker", // For InjectIII
-                    "-interposable", // For InjectIII
-                    "$(inherited) -ObjC" // For InjectIII, SkeletonView
-                ]
-            ]
-            
             // Merge base settings
-            viewSettings.merge(baseSettings) { (_, new) in new }
+            let viewSettings = viewSettings
+                .merging(baseSettings) { (_, new) in new }
+                .merging(devSettings) { (_, new) in new }
             
-            var prodViewSettings: SettingsDictionary = [
-                "OTHER_LDFLAGS": [
-                    "$(inherited) -ObjC" // For SkeletonView
-                ]
-            ]
-            // Merge base settings
-            prodViewSettings.merge(baseSettings) { (_, new) in new }
+            let prodSettings = prodViewSettings
+                .merging(baseSettings) { (_, new) in new }
             
             return .settings(
                 base: prodViewSettings,
@@ -74,4 +59,34 @@ extension Settings {
             )
         }
     }
+}
+
+extension Settings {
+    // - Layer setting
+    static let baseSettings: SettingsDictionary = [
+        "VERSIONING_SYSTEM": "apple-generic", // For fastlane auto increment build version
+        "CURRENT_PROJECT_VERSION": "$(CURRENT_PROJECT_VERSION)",
+        "CODE_SIGN_STYLE": "Manual"
+    ]
+    
+    static let viewSettings: SettingsDictionary = [
+        "OTHER_LDFLAGS": [
+            "-Xlinker", // For InjectIII
+            "-interposable", // For InjectIII
+            "$(inherited) -ObjC" // For InjectIII, SkeletonView
+        ]
+    ]
+    
+    // - Scheme setting
+    static let devSettings: SettingsDictionary = [
+        "OTHER_SWIFT_FLAGS": [
+            "-DDEBUG"
+        ]
+    ]
+    
+    static let prodViewSettings: SettingsDictionary = [
+        "OTHER_LDFLAGS": [
+            "$(inherited) -ObjC" // For SkeletonView
+        ]
+    ]
 }

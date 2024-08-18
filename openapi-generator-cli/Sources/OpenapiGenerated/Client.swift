@@ -1744,13 +1744,6 @@ public struct Client: APIProtocol {
                     in: &request,
                     style: .form,
                     explode: true,
-                    name: "memberId",
-                    value: input.query.memberId
-                )
-                try converter.setQueryItemAsURI(
-                    in: &request,
-                    style: .form,
-                    explode: true,
                     name: "pageable",
                     value: input.query.pageable
                 )

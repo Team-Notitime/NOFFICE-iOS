@@ -15,8 +15,6 @@ import OrganizationDataInterface
 import Swinject
 import RxSwift
 
-import RxSwift
-
 public struct GetAnnouncementsByGroupUsecase {
     // MARK: DTO
     public struct Input {
@@ -45,31 +43,34 @@ public struct GetAnnouncementsByGroupUsecase {
     // MARK: Execute method
     public func execute(_ input: Input) -> Observable<Output> {
         
-        
         let outputObservable = organizationRepository.getPublishedAnnouncements(
             .init(
                 organizationId: Int64(input.organizationId),
                 pageable: .init() // TODO:
             )
-        ).flatMap { result -> Observable<Output> in
-            if let content = result.content {
-                let announcements = content.map {
-                    AnnouncementSummaryEntity(
-                        id: Int($0.announcementId ?? -1),
-                        organizationId: input.organizationId,
-                        imageUrl: $0.profileImageUrl,
-                        createdAt: $0.createdAt,
-                        title: $0.title ?? "",
-                        body: $0.content ?? "",
-                        placeName: $0.placeLinkName,
-                        todoCount: 0 // todo 조회 API 사용? 같이 담아줄 수 있는지 요청 필요
-                    )
+        )
+            .debug(":::")
+            .flatMap { result -> Observable<Output> in
+                if let content = result.content {
+                    let announcements = content.map {
+                        AnnouncementSummaryEntity(
+                            id: Int($0.announcementId ?? -1),
+                            organizationId: input.organizationId,
+                            imageUrl: $0.profileImageUrl,
+                            createdAt: $0.createdAt,
+                            title: $0.title ?? "",
+                            body: $0.content ?? "",
+                            placeName: $0.placeLinkName,
+                            todoCount: 0 // todo 조회 API 사용? 같이 담아줄 수 있는지 요청 필요
+                        )
+                    }
+                    
+                    print("::: \(announcements)")
+                    return Observable.just(Output(announcements: announcements))
+                } else {
+                    return Observable.error(Error.contentFieldNotFound)
                 }
-                return Observable.just(Output(announcements: announcements))
-            } else {
-                return Observable.error(Error.contentFieldNotFound)
             }
-        }
         
         return outputObservable
     }

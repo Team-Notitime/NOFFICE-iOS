@@ -58,7 +58,7 @@ public struct AnnouncementRepository: AnnouncementRepositoryInterface {
                 do {
                     let response = try await client.getPublishedAnnouncements(
                         .init(
-                            path: param, query: .init(memberId: 3, pageable: .init()) // TODO:
+                            path: param, query: .init(pageable: .init())
                         )
                     )
                     

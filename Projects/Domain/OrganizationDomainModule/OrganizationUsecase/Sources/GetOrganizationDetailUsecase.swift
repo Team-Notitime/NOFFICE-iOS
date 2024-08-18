@@ -50,7 +50,6 @@ public struct GetOrganizationDetailUsecase {
             return Output(organization: organization)
         }
         
-        
         return outputObservable
     }
 }

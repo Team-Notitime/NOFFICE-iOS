@@ -62,4 +62,3 @@ public class UserDefaultsManager<T: UserDefaultsable> {
         return UserDefaults.standard.object(forKey: key) == nil
     }
 }
-

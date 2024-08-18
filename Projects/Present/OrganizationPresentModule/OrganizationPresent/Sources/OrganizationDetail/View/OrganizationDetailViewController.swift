@@ -90,7 +90,7 @@ class OrganizationDetailViewController: BaseViewController<OrganizationDetailVie
         reactor.state.map { $0.announcements }
             .filter { !$0.isEmpty }
             .map {
-                OrganizationDetailConverter.convert(from: $0) { announcement in
+                OrganizationDetailConverter.convert(from: $0) { _ in
 //                    Router.shared.push(
 //                        .announcementDetail(
 //                            announcementEntity: announcement

@@ -12,6 +12,7 @@ import OrganizationEntity
 import OrganizationDataInterface
 import CommonData
 
+import OpenAPIRuntime
 import OpenAPIURLSession
 import RxSwift
 
@@ -22,6 +23,7 @@ public struct OrganizationRepository: OrganizationRepositoryInterface {
     public init() {
         self.client = Client(
            serverURL: UrlConfig.baseUrl.url,
+           configuration: .init(dateTranscoder: .custom),
            transport: URLSessionTransport(),
            middlewares: [AuthenticationMiddleware()]
        )
@@ -36,6 +38,8 @@ public struct OrganizationRepository: OrganizationRepositoryInterface {
                     let response = try await client.getInformation(
                         .init(path: param)
                     )
+                    
+                    print("::: \(response)")
                     
                     if let data = try response.ok.body.json.data {
                         observer.onNext(data)
@@ -87,7 +91,6 @@ public struct OrganizationRepository: OrganizationRepositoryInterface {
                         .init(
                             path: .init(organizationId: param.organizationId),
                             query: .init(
-                                memberId: 1, // TODO:
                                 pageable: param.pageable
                             )
                         )

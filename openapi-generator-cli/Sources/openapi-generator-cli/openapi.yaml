@@ -570,12 +570,6 @@ paths:
       description: 조직별 노티를 페이징 조회합니다.
       operationId: getPublishedAnnouncements
       parameters:
-      - name: memberId
-        in: query
-        required: true
-        schema:
-          type: integer
-          format: int64
       - name: organizationId
         in: path
         required: true

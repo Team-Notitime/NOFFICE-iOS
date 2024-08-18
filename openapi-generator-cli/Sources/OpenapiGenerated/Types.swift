@@ -6283,20 +6283,13 @@ public enum Operations {
             public var path: Operations.getPublishedAnnouncements.Input.Path
             /// - Remark: Generated from `#/paths/api/v1/organizations/{organizationId}/announcements/GET/query`.
             public struct Query: Sendable, Hashable {
-                /// - Remark: Generated from `#/paths/api/v1/organizations/{organizationId}/announcements/GET/query/memberId`.
-                public var memberId: Swift.Int64
                 /// - Remark: Generated from `#/paths/api/v1/organizations/{organizationId}/announcements/GET/query/pageable`.
                 public var pageable: Components.Schemas.Pageable
                 /// Creates a new `Query`.
                 ///
                 /// - Parameters:
-                ///   - memberId:
                 ///   - pageable:
-                public init(
-                    memberId: Swift.Int64,
-                    pageable: Components.Schemas.Pageable
-                ) {
-                    self.memberId = memberId
+                public init(pageable: Components.Schemas.Pageable) {
                     self.pageable = pageable
                 }
             }
