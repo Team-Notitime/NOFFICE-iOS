@@ -42,7 +42,8 @@ public struct CreateOrganizationUsecase {
                     promotionCode: .init(promotionCode: newOrganization.promotionCode)
                 )
             )
-        ).map { _ in
+        )
+        .map { _ in
             .init()
         }
     }

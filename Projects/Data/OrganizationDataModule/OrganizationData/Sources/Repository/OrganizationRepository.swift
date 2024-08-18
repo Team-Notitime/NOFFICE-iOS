@@ -39,8 +39,6 @@ public struct OrganizationRepository: OrganizationRepositoryInterface {
                         .init(path: param)
                     )
                     
-                    print("::: \(response)")
-                    
                     if let data = try response.ok.body.json.data {
                         observer.onNext(data)
                         observer.onCompleted()

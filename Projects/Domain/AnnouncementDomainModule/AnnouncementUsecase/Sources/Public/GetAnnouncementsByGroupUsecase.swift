@@ -15,7 +15,7 @@ import OrganizationDataInterface
 import Swinject
 import RxSwift
 
-public struct GetAnnouncementsByGroupUsecase {
+public final class GetAnnouncementsByGroupUsecase {
     // MARK: DTO
     public struct Input {
         public let organizationId: Int
@@ -34,11 +34,16 @@ public struct GetAnnouncementsByGroupUsecase {
         case contentFieldNotFound
     }
     
+    // MARK: Property
+    private var page: Int
+    
     // MARK: Dependency
     private let organizationRepository = Container.shared.resolve(OrganizationRepositoryInterface.self)!
     
     // MARK: Initializer
-    public init() { }
+    public init() { 
+        page = Constant.StartPage
+    }
     
     // MARK: Execute method
     public func execute(_ input: Input) -> Observable<Output> {
@@ -46,12 +51,14 @@ public struct GetAnnouncementsByGroupUsecase {
         let outputObservable = organizationRepository.getPublishedAnnouncements(
             .init(
                 organizationId: Int64(input.organizationId),
-                pageable: .init() // TODO:
+                pageable: .init(page: Int32(page), size: Constant.PageSize)
             )
         )
-            .debug(":::")
-            .flatMap { result -> Observable<Output> in
+            .withUnretained(self)
+            .flatMap { owner, result -> Observable<Output> in
                 if let content = result.content {
+                    owner.page += 1
+                    
                     let announcements = content.map {
                         AnnouncementSummaryEntity(
                             id: Int($0.announcementId ?? -1),
@@ -65,7 +72,6 @@ public struct GetAnnouncementsByGroupUsecase {
                         )
                     }
                     
-                    print("::: \(announcements)")
                     return Observable.just(Output(announcements: announcements))
                 } else {
                     return Observable.error(Error.contentFieldNotFound)
@@ -206,4 +212,10 @@ private struct Mock {
             ]
         )
     ]
+}
+
+// MARK: - Constant
+private enum Constant {
+    static let StartPage: Int = 0
+    static let PageSize: Int32 = 10
 }

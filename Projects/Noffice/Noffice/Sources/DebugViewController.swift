@@ -8,12 +8,17 @@
 import SwiftUI
 
 import KeychainUtility
+import UserDefaultsUtility
 
 import PulseUI
 
 struct DebugView: View {
     @Environment(\.dismiss) var dismiss
+    
     @State private var token: String = ""
+    @State private var memberId: String = ""
+    @State private var memberName: String = ""
+    @State private var memberProvider: String = ""
     
     var body: some View {
         NavigationStack {
@@ -47,6 +52,34 @@ struct DebugView: View {
                 }
                 .padding()
                 
+                // - Set member
+                TextField("Enter Member ID", text: $memberId)
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .padding()
+                    .keyboardType(.numberPad)
+                    .frame(width: 300, height: 50)
+                
+                TextField("Enter Member Name", text: $memberName)
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .padding()
+                    .frame(width: 300, height: 50)
+                
+                TextField("Enter Member Provider", text: $memberProvider)
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .padding()
+                    .frame(width: 300, height: 50)
+                
+                Button(action: {
+                    setMember()
+                }) {
+                    Text("Set Member")
+                        .padding()
+                        .background(Color.green)
+                        .foregroundColor(.white)
+                        .cornerRadius(8)
+                }
+                .padding()
+                
                 // - Close button
                 Button(action: {
                     dismiss()
@@ -72,6 +105,17 @@ struct DebugView: View {
             refreshToken: ""
         )
         tokenKeychainManager.save(token)
+    }
+    
+    private func setMember() {
+        guard let id = Int64(memberId) else {
+            print("Invalid ID")
+            return
+        }
+        
+        let member = Member(id: id, name: memberName, provider: memberProvider)
+        let memberDefaultsManager = UserDefaultsManager<Member>()
+        memberDefaultsManager.save(member)
     }
     
     private func getToken() {

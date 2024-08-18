@@ -32,7 +32,6 @@ final class NofficeTests: XCTestCase {
                 
                 // Verify the response and fulfill the expectation
                 XCTAssertNotNil(response, "Response should not be nil")
-                print("::: \(response)")
                 
                 // Fulfill the expectation to indicate that the asynchronous operation is complete
                 expectation.fulfill()

@@ -9,6 +9,8 @@ import ReactorKit
 
 import AnnouncementUsecase
 import AnnouncementEntity
+import MemberUsecase
+import MemberEntity
 
 class AnnouncementPageReactor: Reactor {
 
@@ -18,14 +20,18 @@ class AnnouncementPageReactor: Reactor {
     
     enum Mutation {
         case setOrganizations([AnnouncementOrganizationEntity])
+        case setMember(MemberEntity)
     }
     
     struct State {
         var organizations: [AnnouncementOrganizationEntity] = []
+        var member: MemberEntity?
     }
     
     // MARK: Dependency
     let fetchAllAnnouncementUsecase = GetAllAnnouncementUsecase()
+    
+    let getMemberUsecase = GetMemberUsecase()
     
     let initialState: State = State()
 }
@@ -35,10 +41,23 @@ extension AnnouncementPageReactor {
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .viewWillAppear:
-            return fetchAllAnnouncementUsecase.execute()
-                .map { organizations in
-                    return .setOrganizations(organizations)
+            let memberObservable = getMemberUsecase
+                .execute(.init())
+                .map { output in
+                    return Mutation.setMember(output.member)
                 }
+            
+            let announcementObservable = fetchAllAnnouncementUsecase
+                .execute(.init())
+                .debug(":::")
+                .map { output in
+                    return Mutation.setOrganizations(output.announcements)
+                }
+            
+            return .merge( // concat은 왜 안되지?
+                memberObservable,
+                announcementObservable
+            )
         }
     }
     
@@ -47,6 +66,8 @@ extension AnnouncementPageReactor {
         switch mutation {
         case let .setOrganizations(organizations):
             state.organizations = organizations
+        case let .setMember(member):
+            state.member = member
         }
         return state
     }

@@ -14,8 +14,12 @@ import Assets
 import RxSwift
 import RxCocoa
 import RxGesture
+import Swinject
 
 public final class HomeTabViewController: BaseViewController<HomeTabView> {
+    // MARK: Reactor
+    private let reactor = Container.shared.resolve(HomeTabReactor.self)!
+    
     // MARK: Setup
     public override func setupViewBind() {
         // - Synchronize paginable view and segment

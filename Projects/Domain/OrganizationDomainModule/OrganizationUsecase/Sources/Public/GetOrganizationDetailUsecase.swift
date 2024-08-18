@@ -36,19 +36,23 @@ public struct GetOrganizationDetailUsecase {
     
     // MARK: Execute method
     public func execute(_ input: Input) -> Observable<Output> {
-        let outputObservable = organizationRepository.getOrganizationDetail(
-            .init(organizationId: Int64(input.organizationId))
-        ).map { result in
-            let organization = OrganizationEntity(
-                id: Int(result.organizationId),
-                name: result.organizationName,
-                categories: [],
-                leader: Int(result.leaderCount ?? 0),
-                member: Int(result.participantCount ?? 0)
+        let outputObservable = organizationRepository
+            .getOrganizationDetail(
+                .init(
+                    organizationId: Int64(input.organizationId)
+                )
             )
-            
-            return Output(organization: organization)
-        }
+            .map { result in
+                let organization = OrganizationEntity(
+                    id: Int(result.organizationId),
+                    name: result.organizationName,
+                    categories: [],
+                    leader: Int(result.leaderCount ?? 0),
+                    member: Int(result.participantCount ?? 0)
+                )
+                
+                return Output(organization: organization)
+            }
         
         return outputObservable
     }

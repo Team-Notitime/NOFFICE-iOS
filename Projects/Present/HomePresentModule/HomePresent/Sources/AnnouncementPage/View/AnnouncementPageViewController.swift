@@ -28,13 +28,14 @@ class AnnouncementPageViewController: BaseViewController<AnnouncementPageView> {
     // MARK: Setup
     override func setupStateBind() {
         reactor.state.map { $0.organizations }
-            .map { organizations in
+            .withUnretained(self)
+            .map { owner, organizations in
                 [
                     BannerSection(
                         identifier: UUID().uuidString,
                         items: [
                             BannerItem(
-                                userName: "이즌",
+                                userName: owner.reactor.currentState.member?.name ?? "",
                                 todayPrefixText: "활기찬",
                                 dateText: "화요일"
                             )

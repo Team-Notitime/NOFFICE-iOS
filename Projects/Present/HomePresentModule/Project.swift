@@ -6,7 +6,10 @@ let project = Project.makePresentModule(
     dependencies: [
         .usecase(.todo),
         .usecase(.announcement),
+        .usecase(.member),
         .entity(.todo),
-        .entity(.announcement)
+        .entity(.announcement),
+        .entity(.member)
+        
     ]
 )
