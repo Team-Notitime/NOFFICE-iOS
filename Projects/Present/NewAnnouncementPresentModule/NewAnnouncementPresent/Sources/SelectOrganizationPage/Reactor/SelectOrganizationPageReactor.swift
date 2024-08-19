@@ -17,12 +17,12 @@ class SelectOrganizationPageReactor: Reactor {
     enum Action { 
         case viewDidLoad
         case tapNextPageButton
-        case changeSelectedOrganization(OrganizationEntity)
+        case changeSelectedOrganization(OrganizationEntity?)
     }
     
     enum Mutation { 
         case setMyOrganizations([OrganizationEntity])
-        case setSelectedOrganization(OrganizationEntity)
+        case setSelectedOrganization(OrganizationEntity?)
         case changeNextButtonActive(Bool)
     }
     
@@ -52,10 +52,10 @@ class SelectOrganizationPageReactor: Reactor {
                 .map { ouput in
                     return .setMyOrganizations(ouput.organizations)
                 }
-        case let .changeSelectedOrganization(organization):
+        case let .changeSelectedOrganization(selectedOrganization):
             return .merge(
-                .just(Mutation.setSelectedOrganization(organization)),
-                .just(Mutation.changeNextButtonActive(true))
+                .just(Mutation.setSelectedOrganization(selectedOrganization)),
+                .just(Mutation.changeNextButtonActive(selectedOrganization != nil))
             )
             
         case .tapNextPageButton:

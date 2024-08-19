@@ -31,6 +31,7 @@ class SelectOrganizationPageViewController: BaseViewController<SelectOrganizatio
         // - Bind my organizations
         reactor.state.map { $0.myOrganizations }
             .distinctUntilChanged()
+            .observe(on: MainScheduler.asyncInstance)
             .withUnretained(self)
             .subscribe(onNext: { owner, value in
                 owner.baseView.organizationGroup.updateSource(value)
@@ -51,9 +52,8 @@ class SelectOrganizationPageViewController: BaseViewController<SelectOrganizatio
         // - Select organization option
         baseView.organizationGroup
             .onChangeSelectedOption
-            .compactMap { $0 }
             .map { option in
-                    .changeSelectedOrganization(option)
+                return .changeSelectedOrganization(option)
             }
             .bind(to: reactor.action)
             .disposed(by: self.disposeBag)

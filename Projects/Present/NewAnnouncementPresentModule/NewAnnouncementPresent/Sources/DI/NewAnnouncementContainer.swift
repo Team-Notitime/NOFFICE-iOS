@@ -14,7 +14,11 @@ extension Container {
         container.register(NewAnnouncementFunnelReactor.self) { resolver in
             NewAnnouncementFunnelReactor(
                 selectOrganizationReactor: resolver.resolve(SelectOrganizationPageReactor.self)!,
-                editContentsReactor: resolver.resolve(EditContentsPageReactor.self)!
+                editContentsReactor: resolver.resolve(EditContentsPageReactor.self)!,
+                editDateTimeReactor: resolver.resolve(EditDateTimeReactor.self)!,
+                editPlaceReactor: resolver.resolve(EditPlaceReactor.self)!,
+                editTodoReactor: resolver.resolve(EditTodoReactor.self)!,
+                editNotificationReactor: resolver.resolve(EditNotificationReactor.self)!
             )
         }
         .inObjectScope(.weak)

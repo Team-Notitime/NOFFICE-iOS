@@ -120,7 +120,8 @@ struct DebugView: View {
     
     private func getToken() {
         let tokenKeychainManager = KeychainManager<Token>()
-        
+        let token = tokenKeychainManager.get()
+        print(token?.accessToken)
     }
 }
 

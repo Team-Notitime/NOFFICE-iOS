@@ -8,6 +8,8 @@
 import Foundation
 
 import Router
+import OrganizationUsecase
+import OrganizationEntity
 
 import ReactorKit
 
@@ -44,6 +46,7 @@ class NewOrganizationFunnelReactor: Reactor {
     private let completeReactor: NewOrganizationCompletePageReactor
     
     // MARK: Dependency
+    private let createOrganizationUsecase = CreateOrganizationUsecase()
     
     // MARK: DisposeBag
     private let disposeBag = DisposeBag()
@@ -131,13 +134,37 @@ class NewOrganizationFunnelReactor: Reactor {
             .disposed(by: disposeBag)
         
         promotionReactor.action
-            .subscribe(onNext: { [weak self] action in
+            .flatMapLatest { [weak self] action -> Observable<Void> in
+                guard let self = self else { return .empty() }
+
                 switch action {
                 case .tapCompleteButton:
-                    self?.action.onNext(.moveNextPage)
-                default: return
+                    let newOrganization = NewOrganizationEntity(
+                        name: self.nameReactor.currentState.name,
+                        categories: [], // TODO: 추가 필요
+                        imageURL: "", // TODO: 추가 필요
+                        endDate: self.endDateReactor.currentState.selectedDate,
+                        promotionCode: self.promotionReactor.currentState.promotionCode
+                    )
+
+                    return self.createOrganizationUsecase
+                        .execute(.init(newOrganization: newOrganization))
+                        .map { _ in return Void() }
+
+                default:
+                    return .empty()
                 }
-            })
+            }
+            .observe(on: MainScheduler.asyncInstance)
+            .subscribe(
+                with: self,
+                onNext: { owner, _ in
+                    owner.action.onNext(.moveNextPage)
+                }, onError: { _, error in
+                    // 에러 핸들링 추가 필요
+                    print("Error: \(error)")
+                }
+            )
             .disposed(by: disposeBag)
         
         completeReactor.action

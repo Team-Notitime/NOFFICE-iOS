@@ -44,7 +44,7 @@ class AnnouncementPageViewController: BaseViewController<AnnouncementPageView> {
                 ] + AnnouncementPageConverter
                     .convertToOrganizationSections(
                         organizations
-                    ) { announcement in
+                    ) { _ in
                         // TODO: AnnouncementSummaryEntity 처리 필요
 //                        Router.shared.push(
 //                            .announcementDetail(

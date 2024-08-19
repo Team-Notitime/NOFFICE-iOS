@@ -97,6 +97,27 @@ class EditContentsPageViewController: BaseViewController<EditContentsPageView> {
     }
     
     override func setupActionBind() {
+        // - Change title textfield
+        baseView.titleTextField
+            .onChange
+            .distinctUntilChanged()
+            .compactMap { $0 }
+            .map {
+                .changeTitle($0)
+            }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        baseView.bodyTextView
+            .onChange
+            .distinctUntilChanged()
+            .compactMap { $0 }
+            .map {
+                .changeBody($0)
+            }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
         // - Tap to edit date and time
         baseView.editDateTime
             .rx.tapGesture()

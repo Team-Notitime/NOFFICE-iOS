@@ -1396,11 +1396,11 @@ public enum Components {
             /// 리마인드 알림 시간(초 단위)
             ///
             /// - Remark: Generated from `#/components/schemas/AnnouncementCreateRequest/noticeBefore`.
-            public var noticeBefore: [Swift.String]
+            public var noticeBefore: [Swift.String]?
             /// 리마인드 알림 기준시간
             ///
             /// - Remark: Generated from `#/components/schemas/AnnouncementCreateRequest/noticeDate`.
-            public var noticeDate: [Swift.String]
+            public var noticeDate: [Swift.String]?
             /// Creates a new `AnnouncementCreateRequest`.
             ///
             /// - Parameters:
@@ -1427,8 +1427,8 @@ public enum Components {
                 isFaceToFace: Swift.Bool? = nil,
                 tasks: [Components.Schemas.TaskCreateRequest]? = nil,
                 endAt: Swift.String,
-                noticeBefore: [Swift.String],
-                noticeDate: [Swift.String]
+                noticeBefore: [Swift.String]? = nil,
+                noticeDate: [Swift.String]? = nil
             ) {
                 self.organizationId = organizationId
                 self.memberId = memberId

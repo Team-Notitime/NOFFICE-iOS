@@ -186,4 +186,3 @@ private enum Constant {
     static let StartPage: Int = 0
     static let PageSize: Int32 = 10
 }
-

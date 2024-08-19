@@ -1066,8 +1066,6 @@ components:
       - content
       - endAt
       - memberId
-      - noticeBefore
-      - noticeDate
       - organizationId
       - title
       type: object

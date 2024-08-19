@@ -15,7 +15,7 @@ public struct AnnouncementEntity: Identifiable, Equatable {
     public let id: Int
     
     /// ID of organization that will generate announcement
-    public let organizationId: Int
+    public let organizationId: Int64
     
     /// Announcement creation date
     public let createdAt: Date?
@@ -43,7 +43,7 @@ public struct AnnouncementEntity: Identifiable, Equatable {
     
     public init(
         id: Int,
-        organizationId: Int,
+        organizationId: Int64,
         imageURL: String? = nil,
         createdAt: Date? = nil,
         title: String,

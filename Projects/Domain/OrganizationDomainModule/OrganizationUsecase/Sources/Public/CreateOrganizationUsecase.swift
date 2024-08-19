@@ -17,7 +17,13 @@ import RxSwift
 public struct CreateOrganizationUsecase {
     // MARK: DTO
     public struct Input { 
-        let organization: NewOrganizationEntity
+        let newOrganization: NewOrganizationEntity
+        
+        public init(
+            newOrganization: NewOrganizationEntity
+        ) {
+            self.newOrganization = newOrganization
+        }
     }
     
     public struct Output { }
@@ -30,13 +36,13 @@ public struct CreateOrganizationUsecase {
     
     // MARK: Execute method
     public func execute(_ input: Input) -> Observable<Output> {
-        let newOrganization = input.organization
+        let newOrganization = input.newOrganization
         return organizationRepository.createOrganization(
             .init(
                 memberId: 1,
                 body: .init(
                     name: newOrganization.name,
-                    categoryList: [], // TODO
+                    categoryList: [1, 2], // TODO
                     profileImage: newOrganization.imageURL,
                     endAt: newOrganization.endDate,
                     promotionCode: .init(promotionCode: newOrganization.promotionCode)

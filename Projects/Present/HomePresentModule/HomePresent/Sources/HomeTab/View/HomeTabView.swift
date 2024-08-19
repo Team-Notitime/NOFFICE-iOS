@@ -96,15 +96,16 @@ public class HomeTabView: BaseView {
 }
 
 // MARK: - DisplayModel
+// TODO: 1차 배포 후 todo 탭 살리기
 public extension HomeTabView {
     enum Page: CaseIterable, Identifiable, Paginable {
         case announcement
-        case todo
+//        case todo
         
         var krName: String {
             switch self {
             case .announcement: return "노티"
-            case .todo: return "투두"
+//            case .todo: return "투두"
             }
         }
         
@@ -116,8 +117,8 @@ public extension HomeTabView {
             switch self {
             case .announcement:
                 return AnnouncementPageViewController()
-            case .todo:
-                return TodoPageViewController()
+//            case .todo:
+//                return TodoPageViewController()
             }
         }
     }

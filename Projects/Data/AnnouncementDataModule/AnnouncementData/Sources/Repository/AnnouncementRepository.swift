@@ -18,7 +18,8 @@ import RxSwift
 public struct AnnouncementRepository: AnnouncementRepositoryInterface {
     private let client: APIProtocol = Client(
         serverURL: UrlConfig.baseUrl.url,
-        transport: URLSessionTransport()
+        transport: URLSessionTransport(),
+        middlewares: [AuthenticationMiddleware()]
     )
     
     public init() {}

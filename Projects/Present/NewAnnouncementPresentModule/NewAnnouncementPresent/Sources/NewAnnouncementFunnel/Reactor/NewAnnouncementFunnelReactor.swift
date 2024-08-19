@@ -8,6 +8,8 @@
 import Foundation
 
 import Router
+import AnnouncementUsecase
+import AnnouncementEntity
 
 import ReactorKit
 
@@ -30,10 +32,22 @@ class NewAnnouncementFunnelReactor: Reactor {
     
     let initialState: State = State()
     
+    // MARK: Dependency
+    private let createAnnouncementUsecase = CreateAnnouncementUsecase()
+    
     // MARK: Child Reactor
     private let selectOrganizationReactor: SelectOrganizationPageReactor
     
     private let editContentsReactor: EditContentsPageReactor
+    
+    // 실질적으로는 editContents의 자식 reactor 인데...더 좋은 방향이 없을지 고민 필요
+    private let editDateTimeReactor: EditDateTimeReactor
+    
+    private let editPlaceReactor: EditPlaceReactor
+    
+    private let editTodoReactor: EditTodoReactor
+    
+    private let editNotificationReactor: EditNotificationReactor
     
     // MARK: DisposeBag
     private let disposeBag = DisposeBag()
@@ -41,10 +55,19 @@ class NewAnnouncementFunnelReactor: Reactor {
     // MARK: Initializer
     init(
         selectOrganizationReactor: SelectOrganizationPageReactor,
-        editContentsReactor: EditContentsPageReactor
+        editContentsReactor: EditContentsPageReactor,
+        editDateTimeReactor: EditDateTimeReactor,
+        editPlaceReactor: EditPlaceReactor,
+        editTodoReactor: EditTodoReactor,
+        editNotificationReactor: EditNotificationReactor
     ) {
         self.selectOrganizationReactor = selectOrganizationReactor
         self.editContentsReactor = editContentsReactor
+        self.editDateTimeReactor = editDateTimeReactor
+        self.editPlaceReactor = editPlaceReactor
+        self.editTodoReactor = editTodoReactor
+        self.editNotificationReactor = editNotificationReactor
+        
         
         setupChildBind()
     }
@@ -84,12 +107,41 @@ class NewAnnouncementFunnelReactor: Reactor {
             .disposed(by: disposeBag)
         
         editContentsReactor.action
-            .subscribe(onNext: { [weak self] action in
+            .flatMapLatest { [weak self] action -> Observable<Void> in
+                guard let self = self else { return .empty() }
+
                 switch action {
                 case .tapCompleteButton:
-                    self?.action.onNext(.moveNextPage)
-                default: return
+                    let newAnnouncement = AnnouncementEntity(
+                        id: -1, // 생성시엔 사용 X 추후 NewAnnouncementEntity로 분리 필요
+                        organizationId: Int64(selectOrganizationReactor.currentState.selectedOrganization?.id ?? 0), // 옵셔널 핸들링 필요
+                        imageURL: "", // 추후 프로모션 페이지 사용하면서 추가
+                        createdAt: .now,
+                        title: editContentsReactor.currentState.title,
+                        body: editContentsReactor.currentState.body,
+                        endAt: editDateTimeReactor.currentState.selectedDate,
+                        place: .init(
+                            type: editPlaceReactor.currentState.placeType,
+                            name: editPlaceReactor.currentState.placeName,
+                            link: editPlaceReactor.currentState.placeLink
+                        ),
+                        todos: [],
+                        remindNotification: []
+                    )
+                    
+                    return self.createAnnouncementUsecase
+                        .execute(.init(newAnnouncement: newAnnouncement))
+                        .map { _ in return Void() }
+                        
+                default:
+                    return .empty()
                 }
+            }
+            .subscribe(onNext: { [weak self] _ in
+                self?.action.onNext(.moveNextPage)
+            }, onError: { error in
+                // 에러 핸들링 추가 필요
+                print("Error: \(error)")
             })
             .disposed(by: disposeBag)
     }
