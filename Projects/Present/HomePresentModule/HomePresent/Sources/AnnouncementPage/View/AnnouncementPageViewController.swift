@@ -44,13 +44,12 @@ class AnnouncementPageViewController: BaseViewController<AnnouncementPageView> {
                 ] + AnnouncementPageConverter
                     .convertToOrganizationSections(
                         organizations
-                    ) { _ in
-                        // TODO: AnnouncementSummaryEntity 처리 필요
-//                        Router.shared.push(
-//                            .announcementDetail(
-//                                announcementEntity: announcement
-//                            )
-//                        )
+                    ) { announcementSummary in
+                        Router.shared.push(
+                            .announcementDetail(
+                                announcementSummary: announcementSummary
+                            )
+                        )
                     }
             }
             .bind(to: baseView.collectionView.sectionBinder)

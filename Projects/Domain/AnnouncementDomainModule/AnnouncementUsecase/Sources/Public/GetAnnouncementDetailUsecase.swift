@@ -8,18 +8,65 @@
 import Foundation
 
 import AnnouncementEntity
+import AnnouncementDataInterface
+import Container
 
+import Swinject
 import RxSwift
 
 public struct GetAnnouncementDetailUsecase {
-    
-    public init() { }
-    
-    public func execute() -> Observable<AnnouncementEntity> {
-        return .just(Self.mock)
+    // MARK: DTO
+    public struct Input {
+        let announcementId: Int64
+        
+        public init(
+            announcementId: Int64
+        ) {
+            self.announcementId = announcementId
+        }
     }
     
-    public static let mock = AnnouncementEntity(
+    public struct Output { 
+        public let announcement: AnnouncementEntity
+    }
+    
+    // MARK: Dependency
+    private let announcementRepository = Container.shared
+        .resolve(AnnouncementRepositoryInterface.self)!
+    
+    // MARK: Initializer
+    public init() { }
+    
+    // MARK: Execute method
+    public func execute(_ input: Input) -> Observable<Output> {
+        let outputObservable = announcementRepository
+            .getAnnouncement(
+                .init(announcementId: input.announcementId)
+            )
+            .map { result in
+                Output( // TODO: 서버쪽에서 ymal에 옵셔널 없애줘야함
+                    announcement: AnnouncementEntity(
+                        id: result.announcementId ?? 0,
+                        organizationId: result.organizationId ?? 0,
+                        title: result.title ?? "",
+                        body: result.content ?? "",
+                        endAt: result.endAt,
+                        place: .init(
+                            type: .offline, // TODO: 스키마 추가 필요
+                            name: result.placeLinkName,
+                            link: result.placeLinkUrl ?? ""
+                        )
+                    )
+                )
+            }
+        
+        return outputObservable
+    }
+}
+
+// MARK: - Mock
+private struct Mock {
+    static let annoucement = AnnouncementEntity(
         id: 11412312,
         organizationId: 1,
         createdAt: Date.now,

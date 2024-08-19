@@ -19,10 +19,10 @@ public class OrganizationTabViewController: BaseViewController<OrganizationTabVi
     private let reactor = Container.shared.resolve(OrganizationTabReactor.self)!
     
     // MARK: Life cycle
-    public override func viewDidLoad() {
-        super.viewDidLoad()
+    public override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         
-        reactor.action.onNext(.viewDidLoad)
+        reactor.action.onNext(.viewWillAppear)
     }
     
     // MARK: Setup

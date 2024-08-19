@@ -12,10 +12,10 @@ import Foundation
  */
 public struct AnnouncementSummaryEntity: Identifiable, Equatable {
     /// Unique identifier for the announcement item
-    public let id: Int
+    public let id: Int64
     
     /// ID of organization that will generate announcement
-    public let organizationId: Int
+    public let organizationId: Int64
     
     /// Announcement creation date
     public let createdAt: Date?
@@ -36,8 +36,8 @@ public struct AnnouncementSummaryEntity: Identifiable, Equatable {
     public let todoCount: Int?
     
     public init(
-        id: Int,
-        organizationId: Int,
+        id: Int64,
+        organizationId: Int64,
         imageUrl: String? = nil,
         createdAt: Date? = nil,
         title: String,

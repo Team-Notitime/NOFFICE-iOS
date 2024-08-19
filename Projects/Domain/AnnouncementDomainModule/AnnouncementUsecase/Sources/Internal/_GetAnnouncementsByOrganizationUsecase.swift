@@ -18,9 +18,9 @@ import RxSwift
 final class _GetAnnouncementsByOrganizationUsecase {
     // MARK: DTO
     public struct Input {
-        public let organizationId: Int
+        public let organizationId: Int64
         
-        public init(organizationId: Int) {
+        public init(organizationId: Int64) {
             self.organizationId = organizationId
         }
     }
@@ -61,7 +61,7 @@ final class _GetAnnouncementsByOrganizationUsecase {
                     
                     let announcements = content.map {
                         AnnouncementSummaryEntity(
-                            id: Int($0.announcementId ?? -1),
+                            id: $0.announcementId ?? -1,
                             organizationId: input.organizationId,
                             imageUrl: $0.profileImageUrl,
                             createdAt: $0.createdAt,

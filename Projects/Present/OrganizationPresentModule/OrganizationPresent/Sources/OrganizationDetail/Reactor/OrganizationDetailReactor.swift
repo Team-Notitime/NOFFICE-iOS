@@ -55,7 +55,7 @@ class OrganizationDetailReactor: Reactor {
                 }
             
             let setAnnouncements = getAnnouncementsByGroupUseCase
-                .execute(.init(organizationId: organization.id))
+                .execute(.init(organizationId: Int64(organization.id)))
                 .map { output in
                     Mutation.setAnnouncements(output.announcements)
                 }

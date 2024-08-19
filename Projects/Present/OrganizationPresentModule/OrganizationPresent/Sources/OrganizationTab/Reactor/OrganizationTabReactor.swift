@@ -13,7 +13,7 @@ import ReactorKit
 class OrganizationTabReactor: Reactor {
     // MARK: Action
     enum Action { 
-        case viewDidLoad
+        case viewWillAppear
     }
     
     enum Mutation { 
@@ -30,7 +30,7 @@ class OrganizationTabReactor: Reactor {
     // MARK: ChildReactor
     
     // MARK: Dependency
-    private let getMyOrganizationsUsecase = GetMyOrganizationsUsecase()
+    private var getMyOrganizationsUsecase = GetMyOrganizationsUsecase()
     
     // MARK: DisposeBag
     private let disposeBag = DisposeBag()
@@ -41,7 +41,8 @@ class OrganizationTabReactor: Reactor {
     // MARK: Action operation
     func mutate(action: Action) -> Observable<Mutation> {
         switch action { 
-        case .viewDidLoad:
+        case .viewWillAppear:
+            getMyOrganizationsUsecase = GetMyOrganizationsUsecase() // 페이징 초기화 위해 새로 할당
             return getMyOrganizationsUsecase.execute(.init())
                 .map { Mutation.setOrganizations($0.organizations) }
         }

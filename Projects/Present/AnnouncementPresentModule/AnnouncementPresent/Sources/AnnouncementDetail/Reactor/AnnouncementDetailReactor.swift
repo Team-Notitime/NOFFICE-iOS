@@ -13,19 +13,21 @@ import ReactorKit
 class AnnouncementDetailReactor: Reactor {
     // MARK: Action
     enum Action { 
-        case viewDidLoad(AnnouncementEntity)
+        case viewDidLoad(AnnouncementSummaryEntity)
         case toggleTodoStatus(AnnouncementTodoEntity)
     }
     
     enum Mutation { 
-        case setAnnouncementItem(AnnouncementEntity)
+        case setAnnouncementSummary(AnnouncementSummaryEntity)
+        case setAnnouncement(AnnouncementEntity)
         case setTodoItems(Set<AnnouncementTodoEntity>)
         case updateTodoStatus(AnnouncementTodoEntity)
     }
     
     // MARK: State
     struct State { 
-        var announcementItem: AnnouncementEntity?
+        var announcementSummary: AnnouncementSummaryEntity?
+        var announcement: AnnouncementEntity?
         var todoItems: Set<AnnouncementTodoEntity>?
     }
     
@@ -44,18 +46,16 @@ class AnnouncementDetailReactor: Reactor {
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case let .viewDidLoad(announcement):
-//            let detailObserver = fetchAnnouncementDetailUsecase.execute()
-            let detailObserver = Observable<AnnouncementEntity>.create { observer in
-                observer.onNext(announcement)
-                
-                return Disposables.create()
-            }
+            let detailObservable = fetchAnnouncementDetailUsecase
+                .execute(.init(announcementId: announcement.id))
             
             return .merge(
-                detailObserver
-                    .map { Mutation.setAnnouncementItem($0) },
-                detailObserver
-                    .compactMap { $0.todos }
+                detailObservable
+                    .map { output in
+                        Mutation.setAnnouncement(output.announcement)
+                    },
+                detailObservable
+                    .compactMap { $0.announcement.todos }
                     .map { Mutation.setTodoItems(Set($0)) }
             )
             
@@ -72,8 +72,11 @@ class AnnouncementDetailReactor: Reactor {
     func reduce(state: State, mutation: Mutation) -> State {
         var state = state
         switch mutation { 
-        case let .setAnnouncementItem(announcement):
-            state.announcementItem = announcement
+        case let .setAnnouncementSummary(announcement):
+            state.announcementSummary = announcement
+            
+        case let .setAnnouncement(announcement):
+            state.announcement = announcement
             
         case let .setTodoItems(todos):
             state.todoItems = todos

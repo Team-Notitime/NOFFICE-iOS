@@ -12,8 +12,8 @@ import RxSwift
 public typealias CreateAnnounementParam = Components.Schemas.AnnouncementCreateRequest
 public typealias CreateAnnouncementResult = Components.Schemas.AnnouncementResponse
 
-public typealias GetAnnouncementParam = Operations.getPublishedAnnouncements.Input.Path
-public typealias GetAnnouncementResult = Components.Schemas.SliceAnnouncementCoverResponse
+public typealias GetAnnouncementParam = Operations.read.Input.Path
+public typealias GetAnnouncementResult = Components.Schemas.AnnouncementResponse
 
 public struct UpdateAnnouncementParam {
     public let announcementId: Int64

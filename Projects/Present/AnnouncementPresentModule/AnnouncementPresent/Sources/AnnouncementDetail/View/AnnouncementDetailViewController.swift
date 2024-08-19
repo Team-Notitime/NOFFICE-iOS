@@ -26,16 +26,11 @@ public class AnnouncementDetailViewController: BaseViewController<AnnouncementDe
     private let reactor = Container.shared.resolve(AnnouncementDetailReactor.self)!
     
     // MARK: Data
-    private let announcement: AnnouncementEntity
+    private let announcement: AnnouncementSummaryEntity
     
     // MARK: Initialzier
-    // example app 때문에 임시로 optional 처리
-    public init(announcement: AnnouncementEntity? = nil) {
-        if let announcement = announcement {
-            self.announcement = announcement
-        } else {
-            self.announcement = GetAnnouncementDetailUsecase.mock
-        }
+    public init(announcement: AnnouncementSummaryEntity) {
+        self.announcement = announcement
         
         super.init()
     }
@@ -63,7 +58,7 @@ public class AnnouncementDetailViewController: BaseViewController<AnnouncementDe
     
     public override func setupStateBind() {
         // - Bind announcement detail
-        reactor.state.map { $0.announcementItem }
+        reactor.state.map { $0.announcement}
             .compactMap { $0 }
             .observe(on: MainScheduler.asyncInstance)
             .subscribe(
@@ -122,7 +117,7 @@ public class AnnouncementDetailViewController: BaseViewController<AnnouncementDe
             .subscribe(
                 with: self,
                 onNext: { owner, _ in
-                    if let placeURLString = owner.reactor.currentState.announcementItem?.place?.link,
+                    if let placeURLString = owner.reactor.currentState.announcement?.place?.link,
                        let placeURL = URL(string: placeURLString) {
                         Router.shared.presentWebView(placeURL)
                     }

@@ -68,7 +68,6 @@ class NewAnnouncementFunnelReactor: Reactor {
         self.editTodoReactor = editTodoReactor
         self.editNotificationReactor = editNotificationReactor
         
-        
         setupChildBind()
     }
     

@@ -18,9 +18,9 @@ import RxSwift
 public final class GetAnnouncementsByOrganizationUsecase {
     // MARK: DTO
     public struct Input {
-        public let organizationId: Int
+        public let organizationId: Int64
         
-        public init(organizationId: Int) {
+        public init(organizationId: Int64) {
             self.organizationId = organizationId
         }
     }
@@ -42,7 +42,9 @@ public final class GetAnnouncementsByOrganizationUsecase {
     
     // MARK: Execute method
     public func execute(_ input: Input) -> Observable<Output> {
-        let internalInput = _GetAnnouncementsByOrganizationUsecase.Input(organizationId: input.organizationId)
+        let internalInput = _GetAnnouncementsByOrganizationUsecase.Input(
+            organizationId: input.organizationId
+        )
         
         return internalUsecase.execute(internalInput)
             .map { internalOutput in

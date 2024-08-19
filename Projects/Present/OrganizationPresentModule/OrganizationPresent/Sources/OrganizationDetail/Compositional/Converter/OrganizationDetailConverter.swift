@@ -17,7 +17,7 @@ struct OrganizationDetailConverter {
             AnnouncementSection(
                 items: announcements.map { announcement in
                     AnnouncementItem(
-                        id: announcement.id,
+                        id: Int(announcement.id),
                         title: announcement.title,
                         place: announcement.placeName,
                         todoCount: announcement.todoCount,

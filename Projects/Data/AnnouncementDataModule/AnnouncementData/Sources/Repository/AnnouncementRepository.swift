@@ -18,6 +18,7 @@ import RxSwift
 public struct AnnouncementRepository: AnnouncementRepositoryInterface {
     private let client: APIProtocol = Client(
         serverURL: UrlConfig.baseUrl.url,
+        configuration: .init(dateTranscoder: .custom),
         transport: URLSessionTransport(),
         middlewares: [AuthenticationMiddleware()]
     )
@@ -57,9 +58,9 @@ public struct AnnouncementRepository: AnnouncementRepositoryInterface {
         return Observable.create { observer in
             Task {
                 do {
-                    let response = try await client.getPublishedAnnouncements(
+                    let response = try await client.read(
                         .init(
-                            path: param, query: .init(pageable: .init())
+                            path: param
                         )
                     )
                     

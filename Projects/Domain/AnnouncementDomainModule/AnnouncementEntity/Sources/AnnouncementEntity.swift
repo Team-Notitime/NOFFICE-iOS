@@ -12,7 +12,7 @@ import Foundation
  */
 public struct AnnouncementEntity: Identifiable, Equatable {
     /// Unique identifier for the announcement item
-    public let id: Int
+    public let id: Int64
     
     /// ID of organization that will generate announcement
     public let organizationId: Int64
@@ -42,7 +42,7 @@ public struct AnnouncementEntity: Identifiable, Equatable {
     public let remindNotification: [AnnouncementRemindNotification]?
     
     public init(
-        id: Int,
+        id: Int64,
         organizationId: Int64,
         imageURL: String? = nil,
         createdAt: Date? = nil,

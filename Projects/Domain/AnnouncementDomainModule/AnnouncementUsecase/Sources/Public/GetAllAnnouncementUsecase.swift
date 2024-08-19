@@ -84,7 +84,7 @@ public final class GetAllAnnouncementUsecase {
         announcementUsecaseDict[organizationId] = announcementUsecase
         
         return announcementUsecase
-            .execute(.init(organizationId: Int(organizationId)))
+            .execute(.init(organizationId: organizationId))
             .map { output in
                 return AnnouncementOrganizationEntity(
                     id: Int(organizationId),
