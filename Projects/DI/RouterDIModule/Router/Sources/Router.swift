@@ -118,8 +118,14 @@ final public class Router: UINavigationController {
     
     // MARK: Web view
     /// Presents a web view
-    public func presentWebView(_ url: URL) {
-        let viewController = WebViewController(url: url)
+    public func presentWebView(
+        _ url: URL,
+        isSafariButtonHidden: Bool = false
+    ) {
+        let viewController = WebViewController(
+            url: url,
+            isSafariButtonHidden: isSafariButtonHidden
+        )
         present(viewController, animated: true, completion: nil)
     }
 }

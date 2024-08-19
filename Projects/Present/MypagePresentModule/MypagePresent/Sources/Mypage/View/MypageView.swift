@@ -92,8 +92,9 @@ public class MypageView: BaseView {
                 BaseVStack(spacing: 18) {
                     let menus = [
                         ("앱 버전", "00.00.00"),
-                        ("문의하기", nil),
-                        ("공지사항", nil),
+                        // TODO: 추후 추가 예정
+//                        ("문의하기", nil),
+//                        ("공지사항", nil),
                         ("서비스 이용 약관", nil),
                         ("개인정보 처리 방침", nil)
                     ].map { (title, rightText) in

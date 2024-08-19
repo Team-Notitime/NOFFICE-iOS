@@ -7,6 +7,7 @@
 
 import UIKit
 
+import Router
 import DesignSystem
 
 import RxSwift
@@ -23,6 +24,15 @@ public class MypageViewController: BaseViewController<MypageView> {
     public override func setupStateBind() { }
     
     public override func setupActionBind() { 
+        // - Bind back button in navigation bar
+        baseView.navigationBar
+            .onTapBackButton
+            .subscribe(onNext: {
+                Router.shared.back()
+            })
+            .disposed(by: disposeBag)
+        
+        // - Logout
         baseView.logoutRow
             .rx.tapGesture()
             .when(.recognized)
