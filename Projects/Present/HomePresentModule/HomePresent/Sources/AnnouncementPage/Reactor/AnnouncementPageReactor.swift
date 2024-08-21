@@ -48,7 +48,6 @@ extension AnnouncementPageReactor {
             
             let announcementObservable = fetchAllAnnouncementUsecase
                 .execute(.init())
-                .debug(":::")
                 .map { output in
                     return Mutation.setOrganizations(output.announcements)
                 }

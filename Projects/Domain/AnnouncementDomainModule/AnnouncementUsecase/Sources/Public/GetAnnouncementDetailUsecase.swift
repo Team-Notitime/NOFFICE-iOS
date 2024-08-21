@@ -43,7 +43,6 @@ public struct GetAnnouncementDetailUsecase {
             .getAnnouncement(
                 .init(announcementId: input.announcementId)
             )
-            .debug("bug")
             .map { result in
                 Output(
                     announcement: AnnouncementEntity(

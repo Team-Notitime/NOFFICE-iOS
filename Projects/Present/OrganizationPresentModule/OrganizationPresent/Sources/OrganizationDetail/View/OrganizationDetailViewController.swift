@@ -45,10 +45,11 @@ class OrganizationDetailViewController: BaseViewController<OrganizationDetailVie
     
     // MARK: Setup
     override func setupViewBind() { 
+        // TODO: 바인딩 필요
         // - Perform JoinWaitlistButton appearance animation
-        DispatchQueue.main.async {
-            self.animateJoinWaitlistButton()
-        }
+//        DispatchQueue.main.async {
+//            self.animateJoinWaitlistButton()
+//        }
         
         // - Add collection view skeleton        
         Observable.just(
@@ -88,7 +89,7 @@ class OrganizationDetailViewController: BaseViewController<OrganizationDetailVie
         
         // - Bind announcement list
         reactor.state.map { $0.announcements }
-            .filter { !$0.isEmpty }
+//            .filter { !$0.isEmpty }
             .map {
                 OrganizationDetailConverter.convert(from: $0) { _ in
 //                    Router.shared.push(
