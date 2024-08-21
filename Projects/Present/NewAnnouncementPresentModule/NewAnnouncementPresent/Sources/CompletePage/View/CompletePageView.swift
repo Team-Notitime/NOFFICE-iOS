@@ -5,13 +5,11 @@
 //  Created by DOYEON LEE on 7/25/24.
 //
 
-import UIKit
-
-import DesignSystem
 import Assets
-
+import DesignSystem
 import SnapKit
 import Then
+import UIKit
 
 class CompletePageView: BaseView {
     // MARK: UI Constant
@@ -38,6 +36,13 @@ class CompletePageView: BaseView {
     }
     
     // - Buttons
+    lazy var buttonStack = BaseHStack(distribution: .fillEqually) {
+        [
+            goHomeButton
+//            copyLinkButton // TODO: v1.1.0때 살리기
+        ]
+    }
+    
     lazy var goHomeButton = BaseButton(
         contentsBuilder: {
             [
@@ -62,13 +67,6 @@ class CompletePageView: BaseView {
         }
     ).then {
         $0.styled(variant: .fill, color: .green, shape: .round)
-    }
-    
-    lazy var buttonStack = BaseHStack(distribution: .fillEqually) {
-        [
-            goHomeButton,
-            copyLinkButton
-        ]
     }
 
     // MARK: Setup

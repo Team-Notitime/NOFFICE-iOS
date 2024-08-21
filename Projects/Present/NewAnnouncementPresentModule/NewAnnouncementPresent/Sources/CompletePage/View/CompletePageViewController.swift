@@ -5,18 +5,24 @@
 //  Created by DOYEON LEE on 7/25/24.
 //
 
-import UIKit
-
 import DesignSystem
-
-import RxSwift
+import Router
 import RxCocoa
+import RxSwift
+import UIKit
 
 class CompletePageViewController: BaseViewController<CompletePageView> {
     // MARK: Setup
-    override func setupViewBind() { }
-    
-    override func setupStateBind() { }
-    
-    override func setupActionBind() { }
+    override func setupViewBind() {}
+
+    override func setupStateBind() {}
+
+    override func setupActionBind() {
+        baseView.goHomeButton
+            .onTap
+            .subscribe(onNext: {
+                Router.shared.back()
+            })
+            .disposed(by: disposeBag)
+    }
 }
