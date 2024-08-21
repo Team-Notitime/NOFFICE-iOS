@@ -21,7 +21,7 @@ public class HomeTabView: BaseView {
             BaseSpacer(size: GlobalViewConstant.PagePadding / 2, orientation: .horizontal),
             segmentControl,
             BaseSpacer(),
-            notificationButton,
+//            notificationButton, // TODO: 우선 Hide 처리
             BaseSpacer(size: 6, orientation: .horizontal),
             mypageButton,
             BaseSpacer(size: GlobalViewConstant.PagePadding / 2, orientation: .horizontal)
