@@ -21,7 +21,7 @@ class CompletePageViewController: BaseViewController<CompletePageView> {
         baseView.goHomeButton
             .onTap
             .subscribe(onNext: {
-                Router.shared.back()
+                Router.shared.dismiss()
             })
             .disposed(by: disposeBag)
     }
