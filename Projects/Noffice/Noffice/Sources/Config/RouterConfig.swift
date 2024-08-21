@@ -21,9 +21,10 @@ struct RouterConfig {
                 return NewAnnouncementFunnelViewController()
                 
                 // - Announcement detail
-            case let .announcementDetail(announcementEntity):
+            case let .announcementDetail(announcement, organization):
                 return AnnouncementDetailViewController(
-                    announcement: announcementEntity
+                    announcement: announcement,
+                    organization: organization
                 )
                 
                 // - New organization

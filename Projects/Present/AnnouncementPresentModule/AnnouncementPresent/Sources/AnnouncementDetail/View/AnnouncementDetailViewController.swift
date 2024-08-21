@@ -5,18 +5,16 @@
 //  Created by DOYEON LEE on 7/26/24.
 //
 
-import UIKit
-
-import DesignSystem
-import Assets
-import Router
-import AnnouncementUsecase
 import AnnouncementEntity
-
-import Swinject
-import RxSwift
+import AnnouncementUsecase
+import Assets
+import DesignSystem
+import Router
 import RxCocoa
+import RxSwift
 import SkeletonView
+import Swinject
+import UIKit
 
 public class AnnouncementDetailViewController: BaseViewController<AnnouncementDetailView> {
     // MARK: Constant
@@ -27,41 +25,62 @@ public class AnnouncementDetailViewController: BaseViewController<AnnouncementDe
     
     // MARK: Data
     private let announcement: AnnouncementSummaryEntity
+    private let organization: AnnouncementOrganizationEntity
     
     // MARK: Initialzier
-    public init(announcement: AnnouncementSummaryEntity) {
+    public init(
+        announcement: AnnouncementSummaryEntity,
+        organization: AnnouncementOrganizationEntity
+    ) {
         self.announcement = announcement
+        self.organization = organization
         
         super.init()
     }
     
+    @available(*, unavailable)
     public required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
     // MARK: Life cycle
-    public override func viewDidLoad() {
+    override public func viewDidLoad() {
         super.viewDidLoad()
         
-        self.reactor.action.onNext(.viewDidLoad(self.announcement))
+        reactor.action
+            .onNext(.viewDidLoad(announcement, organization))
     }
     
     // MARK: Setup
-    public override func setupViewBind() { 
+    override public func setupViewBind() {
         setupSkeleton()
         startSkeleton()
     }
     
-    public override func setupStateBind() {
+    override public func setupStateBind() {
+        // - Bind organization
+        reactor.state.map { $0.organization }
+            .compactMap { $0 }
+            .observe(on: MainScheduler.instance)
+            .debug(":::")
+            .subscribe(
+                with: self,
+                onNext: { owner, organization in
+                    owner.stopSkeleton() // TODO: 왜 announcement subscribe쪽에 넣으면 안되는거지? 수정 필요 이건 동기고 announcement가 비동기임
+                    
+                    owner.baseView.orgnizationNameLabel.text = organization.name
+                    owner.baseView.organizationCategoryLabel.text = "" // TODO: 카테고리 방식 바꿔야함
+                }
+            )
+            .disposed(by: disposeBag)
+        
         // - Bind announcement detail
-        reactor.state.map { $0.announcement}
+        reactor.state.map { $0.announcement }
             .compactMap { $0 }
             .observe(on: MainScheduler.asyncInstance)
             .subscribe(
                 with: self,
                 onNext: { owner, item in
-                    owner.stopSkeleton()
-                    
                     owner.baseView.titleLabel.text = item.title
                     owner.baseView.createdDateLabel.text = item.endAt?
                         .toString(format: "yyyy.MM.dd HH:mm") ?? "-"
@@ -86,7 +105,9 @@ public class AnnouncementDetailViewController: BaseViewController<AnnouncementDe
                     todos: todos,
                     onTapTodoItem: { [weak owner] todo in
                         guard let weakOwner = owner
-                        else { return }
+                        else {
+                            return
+                        }
                         
                         weakOwner.reactor.action.onNext(.toggleTodoStatus(todo))
                     }
@@ -97,7 +118,7 @@ public class AnnouncementDetailViewController: BaseViewController<AnnouncementDe
             .disposed(by: disposeBag)
     }
     
-    public override func setupActionBind() { 
+    override public func setupActionBind() {
         // - Bind navigation bar
         baseView.navigationBar
             .onTapBackButton
@@ -114,7 +135,8 @@ public class AnnouncementDetailViewController: BaseViewController<AnnouncementDe
                 with: self,
                 onNext: { owner, _ in
                     if let placeURLString = owner.reactor.currentState.announcement?.place?.link,
-                       let placeURL = URL(string: placeURLString) {
+                       let placeURL = URL(string: placeURLString)
+                    {
                         Router.shared.presentWebView(placeURL)
                     }
                 }
@@ -145,11 +167,11 @@ public class AnnouncementDetailViewController: BaseViewController<AnnouncementDe
         
         baseView.createdDateLabel.skeletonTextLineHeight = .relativeToFont
         baseView.createdDateLabel.linesCornerRadius = SkeletonConstant.LineCornerRadius
-
+        
         baseView.eventDateLabel.skeletonTextNumberOfLines = 1
         baseView.eventDateLabel.skeletonTextLineHeight = .relativeToFont
         baseView.eventDateLabel.linesCornerRadius = SkeletonConstant.LineCornerRadius
-
+        
         baseView.eventPlaceLabel.skeletonTextNumberOfLines = 1
         baseView.eventPlaceLabel.skeletonTextLineHeight = .relativeToFont
         baseView.eventPlaceLabel.linesCornerRadius = SkeletonConstant.LineCornerRadius

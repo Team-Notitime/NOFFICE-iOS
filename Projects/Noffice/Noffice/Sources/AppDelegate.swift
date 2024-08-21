@@ -16,7 +16,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         _ application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
     ) -> Bool {
-        InjectIIIConfig.setup()
+//        InjectIIIConfig.setup()
         FontConfig.setup()
         RouterConfig.setup()
         PulseConfig.setup()

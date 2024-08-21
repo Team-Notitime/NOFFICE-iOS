@@ -44,10 +44,11 @@ class AnnouncementPageViewController: BaseViewController<AnnouncementPageView> {
                 ] + AnnouncementPageConverter
                     .convertToOrganizationSections(
                         organizations
-                    ) { announcementSummary in
+                    ) { announcementSummary, organization in
                         Router.shared.push(
                             .announcementDetail(
-                                announcementSummary: announcementSummary
+                                announcementSummary: announcementSummary,
+                                organization: organization
                             )
                         )
                     }

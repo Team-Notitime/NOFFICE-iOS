@@ -12,13 +12,14 @@ import ReactorKit
 class AnnouncementDetailReactor: Reactor {
     // MARK: Action
     enum Action {
-        case viewDidLoad(AnnouncementSummaryEntity)
+        case viewDidLoad(AnnouncementSummaryEntity, AnnouncementOrganizationEntity)
         case toggleTodoStatus(AnnouncementTodoEntity)
     }
     
     enum Mutation {
         case setAnnouncementSummary(AnnouncementSummaryEntity)
         case setAnnouncement(AnnouncementEntity)
+        case setOrganization(AnnouncementOrganizationEntity)
         case setTodoItems(Set<AnnouncementTodoEntity>)
         case updateTodoStatus(AnnouncementTodoEntity)
     }
@@ -27,6 +28,7 @@ class AnnouncementDetailReactor: Reactor {
     struct State {
         var announcementSummary: AnnouncementSummaryEntity?
         var announcement: AnnouncementEntity?
+        var organization: AnnouncementOrganizationEntity?
         var todoItems: Set<AnnouncementTodoEntity>?
     }
     
@@ -44,7 +46,7 @@ class AnnouncementDetailReactor: Reactor {
     // MARK: Action operation
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
-        case let .viewDidLoad(announcement):
+        case let .viewDidLoad(announcement, organization):
             let detailObservable = fetchAnnouncementDetailUsecase
                 .execute(.init(announcementId: announcement.id))
             
@@ -55,7 +57,8 @@ class AnnouncementDetailReactor: Reactor {
                     },
                 detailObservable
                     .compactMap { $0.announcement.todos }
-                    .map { Mutation.setTodoItems(Set($0)) }
+                    .map { Mutation.setTodoItems(Set($0)) },
+                .just(Mutation.setOrganization(organization))
             )
             
         case let .toggleTodoStatus(todo):
@@ -83,6 +86,9 @@ class AnnouncementDetailReactor: Reactor {
         case let .updateTodoStatus(newTodo):
             state.todoItems?.remove(newTodo)
             state.todoItems?.insert(newTodo)
+            
+        case let .setOrganization(organization):
+            state.organization = organization
         }
         return state
     }

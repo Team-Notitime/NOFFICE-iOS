@@ -13,7 +13,7 @@ import DesignSystem
 struct AnnouncementPageConverter {
     static func convertToOrganizationSections(
         _ entities: [AnnouncementOrganizationEntity],
-        onTapAnnouncementCard: @escaping (AnnouncementSummaryEntity) -> Void
+        onTapAnnouncementCard: @escaping (AnnouncementSummaryEntity, AnnouncementOrganizationEntity) -> Void
     ) -> [AnnouncementSection] {
         // - Convert to join pending card
         let convertPendingItems: () -> [any CompositionalItem] = {
@@ -25,29 +25,32 @@ struct AnnouncementPageConverter {
         
         // - Convert to default announcement card
         let convertToAnnouncementItem: (
-            AnnouncementSummaryEntity
-        ) -> AnnouncementItem = { announcement in
+            AnnouncementSummaryEntity,
+            AnnouncementOrganizationEntity
+        ) -> AnnouncementItem = { announcement, organization in
             return AnnouncementItem(
                 state: .default,
                 title: announcement.title,
                 date: announcement.endAt?.toString() ?? "-",
                 location: announcement.placeName ?? "-",
-                onTap: { onTapAnnouncementCard(announcement) }
+                onTap: { onTapAnnouncementCard(announcement, organization) }
             )
         }
         
         // - Convert to join card or empty card
         let convertJoinItems: (
             AnnouncementOrganizationEntity
-        ) -> [any CompositionalItem] = { organizationEntity in
-            if organizationEntity.announcements.isEmpty {
+        ) -> [any CompositionalItem] = { organization in
+            if organization.announcements.isEmpty {
                 return [
                     AnnouncementItem(state: .none),
                     AnnouncementDummyItem()
                 ]
             } else {
-                return organizationEntity.announcements
-                    .map(convertToAnnouncementItem)
+                return organization.announcements
+                    .map {
+                        convertToAnnouncementItem($0, organization)
+                    }
             }
         }
         
