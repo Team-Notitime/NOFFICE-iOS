@@ -43,11 +43,7 @@ public class AnnouncementDetailViewController: BaseViewController<AnnouncementDe
     public override func viewDidLoad() {
         super.viewDidLoad()
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) { [weak self] in
-            guard let self = self else { return }
-            
-            self.reactor.action.onNext(.viewDidLoad(self.announcement))
-        }
+        self.reactor.action.onNext(.viewDidLoad(self.announcement))
     }
     
     // MARK: Setup

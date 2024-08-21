@@ -10,37 +10,55 @@ import Foundation
 import OpenAPIRuntime
 
 public struct CustomDateTranscoder: DateTranscoder, @unchecked Sendable {
-    private let FormatString = "yyyy-MM-dd'T'HH:mm:ss.SSSSSS"
+    private let FormatStringWithMillis = "yyyy-MM-dd'T'HH:mm:ss.SSS"
+    private let FormatStringWithoutMillis = "yyyy-MM-dd'T'HH:mm:ss"
 
     private let lock: NSLock
-    private let lockedFormatter: DateFormatter
+    private let lockedFormatterWithMillis: DateFormatter
+    private let lockedFormatterWithoutMillis: DateFormatter
 
     public init() {
-        let formatter = DateFormatter()
-        formatter.dateFormat = FormatString
-        formatter.timeZone = TimeZone(secondsFromGMT: 0)
-        formatter.locale = Locale(identifier: "en_US_POSIX")
+        let formatterWithMillis = DateFormatter()
+        formatterWithMillis.dateFormat = FormatStringWithMillis
+        formatterWithMillis.timeZone = TimeZone(secondsFromGMT: 0)
+        formatterWithMillis.locale = Locale(identifier: "en_US_POSIX")
+        
+        let formatterWithoutMillis = DateFormatter()
+        formatterWithoutMillis.dateFormat = FormatStringWithoutMillis
+        formatterWithoutMillis.timeZone = TimeZone(secondsFromGMT: 0)
+        formatterWithoutMillis.locale = Locale(identifier: "en_US_POSIX")
+        
         lock = NSLock()
         lock.name = "com.yourcompany.customdatetranscoder"
-        lockedFormatter = formatter
+        lockedFormatterWithMillis = formatterWithMillis
+        lockedFormatterWithoutMillis = formatterWithoutMillis
     }
 
     public func encode(_ date: Date) throws -> String {
         lock.lock()
         defer { lock.unlock() }
-        return lockedFormatter.string(from: date)
+        return lockedFormatterWithMillis.string(from: date)
     }
 
     public func decode(_ dateString: String) throws -> Date {
         lock.lock()
         defer { lock.unlock() }
-        guard let date = lockedFormatter.date(from: dateString) else {
-            print("Invalid date string: \(dateString), expected format: \(FormatString)")
-            throw DecodingError.dataCorrupted(
-                .init(codingPath: [], debugDescription: "Expected date string to be in \(FormatString) format.")
-            )
+        
+        // Try to parse with milliseconds format
+        if let date = lockedFormatterWithMillis.date(from: dateString) {
+            return date
         }
-        return date
+        
+        // If parsing with milliseconds fails, try without milliseconds format
+        if let date = lockedFormatterWithoutMillis.date(from: dateString) {
+            return date
+        }
+        
+        // If both formats fail, throw an error
+        print("Invalid date string: \(dateString), expected formats: \(FormatStringWithMillis) or \(FormatStringWithoutMillis)")
+        throw DecodingError.dataCorrupted(
+            .init(codingPath: [], debugDescription: "Expected date string to be in \(FormatStringWithMillis) or \(FormatStringWithoutMillis) format.")
+        )
     }
 }
 
