@@ -69,8 +69,9 @@ class EditContentsPageView: BaseView, UIScrollViewDelegate {
     lazy var templateStack = BaseVStack(contents: [
         editDateTime,
         editLocation,
-        editTodo,
-        editNotification
+        // TODO: v1.1.0때 살리기
+//        editTodo,
+//        editNotification
     ])
     
     lazy var editDateTime = NofficeList(

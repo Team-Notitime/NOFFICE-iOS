@@ -57,10 +57,10 @@ extension NewOrganizationFunnelPage: Paginable {
             return NewOrganizationNamePageViewController()
         case .category:
             return NewOrganizationCategoryPageViewController()
-        case .image:
-            return NewOrganizationImagePageViewController()
-        case .endDate:
-            return NewOrganizationDatePageViewController()
+//        case .image:
+//            return NewOrganizationImagePageViewController()
+//        case .endDate:
+//            return NewOrganizationDatePageViewController()
         case .promotion:
             return NewOrganizationPromotionPageViewController()
         case .complete:

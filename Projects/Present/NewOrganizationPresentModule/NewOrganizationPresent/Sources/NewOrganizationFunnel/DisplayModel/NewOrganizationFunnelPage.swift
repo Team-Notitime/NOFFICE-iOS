@@ -10,8 +10,8 @@ import Foundation
 enum NewOrganizationFunnelPage: CaseIterable {
     case name
     case category
-    case image
-    case endDate
+//    case image
+//    case endDate
     case promotion
     case complete
 }
