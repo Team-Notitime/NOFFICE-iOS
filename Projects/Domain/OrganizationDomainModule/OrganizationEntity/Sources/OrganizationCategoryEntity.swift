@@ -34,7 +34,7 @@ public struct OrganizationCategoryEntity: Codable, Identifiable, Equatable {
  - See Also: ``OrganizationCategoryEntity``
  */
 public enum OrganizationCategoryType: String, CaseIterable {
-    case informationTechnology = "IT 계열"
+    case informationTechnology = "IT"
     case culture = "문화생활"
     case language = "어학"
     case arts = "예술"

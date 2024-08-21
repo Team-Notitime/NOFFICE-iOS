@@ -141,7 +141,7 @@ class NewOrganizationFunnelReactor: Reactor {
                 case .tapCompleteButton:
                     let newOrganization = NewOrganizationEntity(
                         name: self.nameReactor.currentState.name,
-                        categories: [], // TODO: 추가 필요
+                        categories: self.categoryReactor.currentState.selectedCateogries.map { $0.id },
                         imageURL: "", // TODO: 추가 필요
                         endDate: self.endDateReactor.currentState.selectedDate,
                         promotionCode: self.promotionReactor.currentState.promotionCode

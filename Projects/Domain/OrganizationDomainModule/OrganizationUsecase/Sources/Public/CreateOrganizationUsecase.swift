@@ -42,7 +42,7 @@ public struct CreateOrganizationUsecase {
                 memberId: 1,
                 body: .init(
                     name: newOrganization.name,
-                    categoryList: [1, 2], // TODO
+                    categoryList: newOrganization.categories.map { Int64($0) },
                     profileImage: newOrganization.imageURL,
                     endAt: newOrganization.endDate,
                     promotionCode: .init(promotionCode: newOrganization.promotionCode)

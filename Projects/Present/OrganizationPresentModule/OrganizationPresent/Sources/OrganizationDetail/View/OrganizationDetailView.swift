@@ -47,7 +47,7 @@ class OrganizationDetailView: BaseView {
                 [
                     BaseSpacer(),
                     organizationNameLabel,
-                    organizationCategoryBadges,
+//                    organizationCategoryBadges, // TODO: v1.1.0 때 살리기
                     BaseSpacer()
                 ]
             }

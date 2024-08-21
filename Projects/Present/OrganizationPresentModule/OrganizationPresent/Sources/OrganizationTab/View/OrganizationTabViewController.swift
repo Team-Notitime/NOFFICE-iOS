@@ -50,5 +50,12 @@ public class OrganizationTabViewController: BaseViewController<OrganizationTabVi
     }
     
     public override func setupActionBind() {
+        // - Tap mypage icon
+        baseView.mypageButton.rx.tapGesture()
+            .when(.recognized)
+            .bind { _ in
+                Router.shared.push(.mypage)
+            }
+            .disposed(by: disposeBag)
     }
 }
