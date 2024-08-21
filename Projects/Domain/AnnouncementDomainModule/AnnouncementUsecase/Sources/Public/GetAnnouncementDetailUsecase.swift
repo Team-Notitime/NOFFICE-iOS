@@ -43,8 +43,9 @@ public struct GetAnnouncementDetailUsecase {
             .getAnnouncement(
                 .init(announcementId: input.announcementId)
             )
+            .debug("bug")
             .map { result in
-                Output( // TODO: 서버쪽에서 ymal에 옵셔널 없애줘야함
+                Output(
                     announcement: AnnouncementEntity(
                         id: result.announcementId ?? 0,
                         organizationId: result.organizationId ?? 0,

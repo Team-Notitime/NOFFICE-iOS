@@ -10,13 +10,14 @@ import Foundation
 import OpenAPIRuntime
 
 public struct CustomDateTranscoder: DateTranscoder, @unchecked Sendable {
+    private let FormatString = "yyyy-MM-dd'T'HH:mm:ss.SSSSSS"
 
     private let lock: NSLock
     private let lockedFormatter: DateFormatter
 
     public init() {
         let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
+        formatter.dateFormat = FormatString
         formatter.timeZone = TimeZone(secondsFromGMT: 0)
         formatter.locale = Locale(identifier: "en_US_POSIX")
         lock = NSLock()
@@ -34,8 +35,9 @@ public struct CustomDateTranscoder: DateTranscoder, @unchecked Sendable {
         lock.lock()
         defer { lock.unlock() }
         guard let date = lockedFormatter.date(from: dateString) else {
+            print("Invalid date string: \(dateString), expected format: \(FormatString)")
             throw DecodingError.dataCorrupted(
-                .init(codingPath: [], debugDescription: "Expected date string to be in 'YYYY-MM-DDTHH:mm:ss' format.")
+                .init(codingPath: [], debugDescription: "Expected date string to be in \(FormatString) format.")
             )
         }
         return date

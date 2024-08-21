@@ -7,10 +7,10 @@ info:
     '
   version: v1.0
 servers:
-- url: http://localhost:8080
-  description: local server
 - url: https://api.noffice.store
   description: develop server
+- url: http://localhost:8080
+  description: local server
 security:
 - Bearer_Token: []
 tags:
@@ -26,6 +26,8 @@ tags:
   description: 노피스 서버 상태 확인 API
 - name: 조직
   description: 조직 관련 API
+- name: 프로모션
+  description: 프로모션 관련 API
 - name: 이미지
   description: 이미지 업로드 및 디렉토리 요청 API
 - name: 투두
@@ -39,12 +41,6 @@ paths:
       description: 조직에 등록된 카테고리를 수정합니다.
       operationId: modifyCategories
       parameters:
-      - name: memberId
-        in: query
-        required: true
-        schema:
-          type: integer
-          format: int64
       - name: organizationId
         in: path
         required: true
@@ -70,6 +66,32 @@ paths:
             application/json:
               schema:
                 "$ref": "#/components/schemas/NofficeResponseCategoryModifyResponse"
+  "/api/v1/promotion/grant-organization":
+    post:
+      tags:
+      - 프로모션
+      summary: 프로모션 가입
+      description: 조직에 프로모션 권한을 부여합니다.
+      operationId: grantOrganization
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/PromotionGrantRequest"
+        required: true
+      responses:
+        '200':
+          description: 프로모션 가입 성공
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/NofficeResponseVoid"
+        '404':
+          description: 조직이 존재하지 않습니다.
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/NofficeResponseVoid"
   "/api/v1/organizations":
     get:
       tags:
@@ -212,6 +234,32 @@ paths:
             application/json:
               schema:
                 "$ref": "#/components/schemas/NofficeResponseNotificationTimeChangeResponse"
+  "/api/v1/notifications/fcm-token":
+    post:
+      tags:
+      - 알림
+      summary: 기기별 FCM Token 저장
+      description: 기기별 FCM Token을 저장합니다.
+      operationId: saveFcmToken
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+        required: true
+      responses:
+        '201':
+          description: FCM Token 저장 성공
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/NofficeResponseVoid"
+        '400':
+          description: FCM Token 저장 실패
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/NofficeResponseVoid"
   "/api/v1/notifications/bulk":
     post:
       tags:
@@ -440,6 +488,33 @@ paths:
             application/json:
               schema:
                 "$ref": "#/components/schemas/NofficeResponseVoid"
+  "/api/v1/announcement/{announcementId}/remind-unread":
+    post:
+      tags:
+      - 노티
+      summary: 노티 미열람자 대상 FCM 알림
+      description: 노티 미열람자 대상으로 알림을 전송합니다.
+      operationId: sendToUnReader
+      parameters:
+      - name: announcementId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: 알림 전송 성공
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/NofficeResponseFCMCreateResponse"
+        '400':
+          description: 알림 전송에 실패하였습니다.
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/NofficeResponseFCMCreateResponse"
   "/api/v1/tasks":
     patch:
       tags:
@@ -510,6 +585,57 @@ paths:
             application/json:
               schema:
                 "$ref": "#/components/schemas/NofficeResponseVoid"
+  "/api/v1/organizations/{organizationId}/register":
+    patch:
+      tags:
+      - 조직
+      summary: "[인증] 조직 가입 수락"
+      description: 조직 가입대기 사용자 목록을 가입 처리합니다.
+      operationId: registerMember
+      parameters:
+      - name: organizationId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/ChangeRoleRequest"
+        required: true
+      responses:
+        '204':
+          description: 조직 가입 승인 성공
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/NofficeResponseVoid"
+        '400':
+          description: 조직 가입 수락 실패
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/NofficeResponse"
+        '403':
+          description: 요청을 수행할 수 있는 권한이 없습니다.
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/NofficeResponse"
+        '404':
+          description: 조직원이 존재하지 않습니다.
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/NofficeResponse"
+        '500':
+          description: 서버 내부 에러 발생
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/NofficeResponse"
   "/api/v1/tasks/assigned":
     get:
       tags:
@@ -535,6 +661,32 @@ paths:
             application/json:
               schema:
                 "$ref": "#/components/schemas/NofficeResponseSliceAssignedTaskResponse"
+  "/api/v1/promotion/verify":
+    get:
+      tags:
+      - 프로모션
+      summary: 프로모션 코드 검증
+      description: 프로모션 코드를 검증합니다.
+      operationId: verifyPromotionCode
+      parameters:
+      - name: promotionCode
+        in: query
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: 프로모션 코드 검증 성공
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/NofficeResponsePromotionVerifyResponse"
+        '404':
+          description: 프로모션 코드가 존재하지 않습니다.
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/NofficeResponsePromotionVerifyResponse"
   "/api/v1/organizations/{organizationId}":
     get:
       tags:
@@ -562,6 +714,87 @@ paths:
             application/json:
               schema:
                 "$ref": "#/components/schemas/NofficeResponseOrganizationInfoResponse"
+  "/api/v1/organizations/{organizationId}/signup-info":
+    get:
+      tags:
+      - 조직
+      summary: "[인증] 조직 가입 정보 조회"
+      description: 조직 가입을 위한 공개정보를 조회합니다. (조직명, 프로필 이미지 주소)
+      operationId: getSignUpInfo
+      parameters:
+      - name: organizationId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: 조직 가입 정보 조회에 성공하였습니다.
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/NofficeResponseOrganizationSignupResponse"
+        '404':
+          description: 조직 정보가 없습니다.
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/NofficeResponseOrganizationSignupResponse"
+  "/api/v1/organizations/{organizationId}/selectable-cover":
+    get:
+      tags:
+      - 조직
+      summary: "[인증] 선택 가능한 커버 이미지 조회"
+      description: 공지 발행 시 선택 가능한 커버 이미지를 모두 조회합니다.
+      operationId: getSelectableCover
+      parameters:
+      - name: organizationId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: 선택 가능한 공지 커버 이미지 목록 조회 성
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/NofficeResponseOrganizationImageResponse"
+        '404':
+          description: 공지 커버 이미지가 없습니다.
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/NofficeResponseOrganizationImageResponse"
+  "/api/v1/organizations/{organizationId}/pending-members":
+    get:
+      tags:
+      - 조직
+      summary: "[인증] 조직 가입 대기자 조회"
+      description: 조직 가입 대기자를 조회합니다.
+      operationId: getPendingMembers
+      parameters:
+      - name: organizationId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: 조직 가입 대기자 조회에 성공하였습니다.
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/NofficeResponseListMemberInfoResponse"
+        '404':
+          description: 조직 가입 대기자가 없습니다.
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/NofficeResponseListMemberInfoResponse"
   "/api/v1/organizations/{organizationId}/announcements":
     get:
       tags:
@@ -638,6 +871,33 @@ paths:
             application/json:
               schema:
                 "$ref": "#/components/schemas/NofficeResponseCategoryResponses"
+  "/api/v1/announcement/{announcementId}/unreaders":
+    get:
+      tags:
+      - 노티
+      summary: '공지 미열람 사용자 목록 조회 '
+      description: 공지에 대한 미열람 사용자 목록을 조회합니다.
+      operationId: getUnReadMembers
+      parameters:
+      - name: announcementId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: 공지 미열람 사용자 목록 조회 성공
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/NofficeResponseReadStatusResponse"
+        '404':
+          description: 공지에 대한 미열람 사용자가 없습니다.
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/NofficeResponseReadStatusResponse"
   "/api/v1/announcement/{announcementId}/tasks":
     get:
       tags:
@@ -665,6 +925,33 @@ paths:
             application/json:
               schema:
                 "$ref": "#/components/schemas/NofficeResponseTaskResponses"
+  "/api/v1/announcement/{announcementId}/readers":
+    get:
+      tags:
+      - 노티
+      summary: '공지 열람 사용자 목록 조회 '
+      description: 공지에 대한 열람 사용자 목록을 조회합니다.
+      operationId: getReadMembers
+      parameters:
+      - name: announcementId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: 공지 열람 사용자 목록 조회 성공
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/NofficeResponseReadStatusResponse"
+        '404':
+          description: 공지에 대한 열람 사용자가 없습니다.
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/NofficeResponseReadStatusResponse"
   "/api/v1/notifications/{notificationId}":
     delete:
       tags:
@@ -804,6 +1091,33 @@ components:
           type: string
         data:
           "$ref": "#/components/schemas/CategoryModifyResponse"
+    PromotionGrantRequest:
+      type: object
+      properties:
+        promotionId:
+          type: integer
+          description: 프로모션 ID
+          format: int64
+          example: 1
+        organizationId:
+          type: integer
+          description: 조직 ID
+          format: int64
+          example: 1
+    NofficeResponseVoid:
+      type: object
+      properties:
+        timestamp:
+          type: string
+        httpStatus:
+          type: integer
+          format: int32
+        code:
+          type: string
+        message:
+          type: string
+        data:
+          type: object
     OrganizationCreateRequest:
       required:
       - categoryList
@@ -889,18 +1203,10 @@ components:
           description: 프로모션 ID
           format: int64
           example: 1
-        promotionName:
-          type: string
-          description: 프로모션 이름
-          example: 예술은 폭발이다
         promotionCode:
           type: string
           description: 프로모션 코드 문자열
-          example: CODE_IS_HYPER_ART
-        isVerified:
-          type: boolean
-          description: 프로모션 진행 여부
-          example: false
+          example: NOFFICEWELCOME
       description: 프로모션 진행 여부
       example: false
     NofficeResponseOrganizationJoinResponse:
@@ -957,20 +1263,6 @@ components:
         sendAt:
           type: string
           format: date-time
-    NofficeResponseVoid:
-      type: object
-      properties:
-        timestamp:
-          type: string
-        httpStatus:
-          type: integer
-          format: int32
-        code:
-          type: string
-        message:
-          type: string
-        data:
-          type: object
     NotificationBulkRequest:
       type: object
       properties:
@@ -1066,6 +1358,8 @@ components:
       - content
       - endAt
       - memberId
+      - noticeBefore
+      - noticeDate
       - organizationId
       - title
       type: object
@@ -1109,23 +1403,27 @@ components:
         endAt:
           type: string
           description: 활동 진행 만료일
-          example: 2021-07-01T 00:00:00
+          format: date-time
         noticeBefore:
           type: array
-          description: 리마인드 알림 시간(초 단위)
-          example: "[2021-07-01T00:00:00, 2021-07-02T00:00:00]"
+          description: 리마인드 알림 시간 (ISO_LOCAL_DATE_TIME)
+          example:
+          - '2024-08-20T15:30:45'
+          - '2024-08-21T15:30:45'
           items:
             type: string
-            description: 리마인드 알림 시간(초 단위)
-            example: "[2021-07-01T00:00:00, 2021-07-02T00:00:00]"
+            description: 리마인드 알림 시간 (ISO_LOCAL_DATE_TIME)
+            format: date-time
         noticeDate:
           type: array
-          description: 리마인드 알림 기준시간
-          example: "[2021-07-01T00:00:00, 2021-07-02T00:00:00]"
+          description: 리마인드 알림 직접설정시간 (ISO_LOCAL_DATE_TIME)
+          example:
+          - '2024-08-20T15:30:45'
+          - '2024-08-21T15:30:45'
           items:
             type: string
-            description: 리마인드 알림 기준시간
-            example: "[2021-07-01T00:00:00, 2021-07-02T00:00:00]"
+            description: 리마인드 알림 직접설정시간 (ISO_LOCAL_DATE_TIME)
+            format: date-time
     TaskCreateRequest:
       required:
       - content
@@ -1239,6 +1537,31 @@ components:
           type: array
           items:
             type: string
+    FCMCreateResponse:
+      type: object
+      properties:
+        title:
+          type: string
+        body:
+          type: string
+        targetToken:
+          type: array
+          items:
+            type: string
+    NofficeResponseFCMCreateResponse:
+      type: object
+      properties:
+        timestamp:
+          type: string
+        httpStatus:
+          type: integer
+          format: int32
+        code:
+          type: string
+        message:
+          type: string
+        data:
+          "$ref": "#/components/schemas/FCMCreateResponse"
     TaskModifyRequest:
       required:
       - content
@@ -1302,6 +1625,20 @@ components:
             type: integer
             description: 변경할 대상 멤버 ID 리스트
             format: int64
+    NofficeResponse:
+      type: object
+      properties:
+        timestamp:
+          type: string
+        httpStatus:
+          type: integer
+          format: int32
+        code:
+          type: string
+        message:
+          type: string
+        data:
+          type: object
     NotificationTimeChangeRequest:
       required:
       - announcementId
@@ -1413,13 +1750,6 @@ components:
     PageableObject:
       type: object
       properties:
-        offset:
-          type: integer
-          format: int64
-        sort:
-          "$ref": "#/components/schemas/SortObject"
-        unpaged:
-          type: boolean
         paged:
           type: boolean
         pageNumber:
@@ -1428,9 +1758,18 @@ components:
         pageSize:
           type: integer
           format: int32
+        offset:
+          type: integer
+          format: int64
+        sort:
+          "$ref": "#/components/schemas/SortObject"
+        unpaged:
+          type: boolean
     SliceAssignedTaskResponse:
       type: object
       properties:
+        pageable:
+          "$ref": "#/components/schemas/PageableObject"
         first:
           type: boolean
         last:
@@ -1447,8 +1786,6 @@ components:
           format: int32
         sort:
           "$ref": "#/components/schemas/SortObject"
-        pageable:
-          "$ref": "#/components/schemas/PageableObject"
         numberOfElements:
           type: integer
           format: int32
@@ -1465,6 +1802,20 @@ components:
           format: int64
         content:
           type: string
+    NofficeResponsePromotionVerifyResponse:
+      type: object
+      properties:
+        timestamp:
+          type: string
+        httpStatus:
+          type: integer
+          format: int32
+        code:
+          type: string
+        message:
+          type: string
+        data:
+          "$ref": "#/components/schemas/PromotionVerifyResponse"
     NofficeResponseSliceOrganizationResponse:
       type: object
       properties:
@@ -1508,9 +1859,20 @@ components:
           type: string
           description: 프로필 이미지
           example: https://notitime.com/profile.png
+        joinStatus:
+          type: string
+          description: 가입 상태
+          example: "(string 1 of 4) : ACTIVE, PENDING, REJECTED, DELETED"
+          enum:
+          - ACTIVE
+          - PENDING
+          - REJECTED
+          - DELETED
     SliceOrganizationResponse:
       type: object
       properties:
+        pageable:
+          "$ref": "#/components/schemas/PageableObject"
         first:
           type: boolean
         last:
@@ -1527,8 +1889,6 @@ components:
           format: int32
         sort:
           "$ref": "#/components/schemas/SortObject"
-        pageable:
-          "$ref": "#/components/schemas/PageableObject"
         numberOfElements:
           type: integer
           format: int32
@@ -1600,6 +1960,119 @@ components:
           type: boolean
           description: 가입 대기자 여부
           example: true
+    NofficeResponseOrganizationSignupResponse:
+      type: object
+      properties:
+        timestamp:
+          type: string
+        httpStatus:
+          type: integer
+          format: int32
+        code:
+          type: string
+        message:
+          type: string
+        data:
+          "$ref": "#/components/schemas/OrganizationSignupResponse"
+    OrganizationSignupResponse:
+      type: object
+      properties:
+        organizationId:
+          type: integer
+          description: 조직 ID
+          format: int64
+          example: 1
+        organizationName:
+          type: string
+          description: 조직 이름
+          example: 'CMC 15th : NotiTime'
+        profileImage:
+          type: string
+          description: 프로필 이미지
+          example: https://notitime.com/profile.png
+    CommonImageResponse:
+      required:
+      - id
+      - type
+      - url
+      type: object
+      properties:
+        type:
+          type: string
+          description: 이미지 타입
+          example: ORGANIZATION_LOGO
+          enum:
+          - ORGANIZATION_LOGO
+          - MEMBER_PROFILE
+          - ANNOUNCEMENT_PROFILE
+          - ANNOUNCEMENT_CONTENT
+          - PROMOTION_COVER
+        id:
+          type: integer
+          description: 이미지 ID
+          format: int64
+          example: 1
+        url:
+          type: string
+          description: 이미지 URL
+          example: https://test-image.com/image.jpg
+      description: 조직 커버 이미지 URL 리스트
+    NofficeResponseOrganizationImageResponse:
+      type: object
+      properties:
+        timestamp:
+          type: string
+        httpStatus:
+          type: integer
+          format: int32
+        code:
+          type: string
+        message:
+          type: string
+        data:
+          "$ref": "#/components/schemas/OrganizationImageResponse"
+    OrganizationImageResponse:
+      required:
+      - id
+      type: object
+      properties:
+        id:
+          type: integer
+          description: 조직 ID
+          format: int64
+        images:
+          type: array
+          description: 조직 커버 이미지 URL 리스트
+          items:
+            "$ref": "#/components/schemas/CommonImageResponse"
+    MemberInfoResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        alias:
+          type: string
+        profileImage:
+          type: string
+    NofficeResponseListMemberInfoResponse:
+      type: object
+      properties:
+        timestamp:
+          type: string
+        httpStatus:
+          type: integer
+          format: int32
+        code:
+          type: string
+        message:
+          type: string
+        data:
+          type: array
+          items:
+            "$ref": "#/components/schemas/MemberInfoResponse"
     AnnouncementCoverResponse:
       type: object
       properties:
@@ -1648,6 +2121,8 @@ components:
     SliceAnnouncementCoverResponse:
       type: object
       properties:
+        pageable:
+          "$ref": "#/components/schemas/PageableObject"
         first:
           type: boolean
         last:
@@ -1664,8 +2139,6 @@ components:
           format: int32
         sort:
           "$ref": "#/components/schemas/SortObject"
-        pageable:
-          "$ref": "#/components/schemas/PageableObject"
         numberOfElements:
           type: integer
           format: int32
@@ -1724,6 +2197,30 @@ components:
           type: string
         data:
           "$ref": "#/components/schemas/CategoryResponses"
+    NofficeResponseReadStatusResponse:
+      type: object
+      properties:
+        timestamp:
+          type: string
+        httpStatus:
+          type: integer
+          format: int32
+        code:
+          type: string
+        message:
+          type: string
+        data:
+          "$ref": "#/components/schemas/ReadStatusResponse"
+    ReadStatusResponse:
+      type: object
+      properties:
+        announcementId:
+          type: integer
+          format: int64
+        memberList:
+          type: array
+          items:
+            "$ref": "#/components/schemas/MemberInfoResponse"
     NofficeResponseTaskResponses:
       type: object
       properties:
