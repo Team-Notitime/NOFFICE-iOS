@@ -29,6 +29,9 @@ public struct AnnouncementSummaryEntity: Identifiable, Equatable {
     /// Body text of the announcement
     public let body: String
     
+    /// Event date or deadline (optional)
+    public let endAt: Date?
+    
     /// Place of the announcement (optional)
     public let placeName: String?
     
@@ -42,6 +45,7 @@ public struct AnnouncementSummaryEntity: Identifiable, Equatable {
         createdAt: Date? = nil,
         title: String,
         body: String,
+        endAt: Date? = nil,
         placeName: String? = nil,
         todoCount: Int? = nil
     ) {
@@ -51,6 +55,7 @@ public struct AnnouncementSummaryEntity: Identifiable, Equatable {
         self.imageUrl = imageUrl
         self.title = title
         self.body = body
+        self.endAt = endAt
         self.placeName = placeName
         self.todoCount = todoCount
     }

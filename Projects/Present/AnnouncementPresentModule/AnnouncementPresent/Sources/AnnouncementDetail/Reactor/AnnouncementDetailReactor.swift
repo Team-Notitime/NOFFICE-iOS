@@ -5,19 +5,18 @@
 //  Created by DOYEON LEE on 7/26/24.
 //
 
-import AnnouncementUsecase
 import AnnouncementEntity
-
+import AnnouncementUsecase
 import ReactorKit
 
 class AnnouncementDetailReactor: Reactor {
     // MARK: Action
-    enum Action { 
+    enum Action {
         case viewDidLoad(AnnouncementSummaryEntity)
         case toggleTodoStatus(AnnouncementTodoEntity)
     }
     
-    enum Mutation { 
+    enum Mutation {
         case setAnnouncementSummary(AnnouncementSummaryEntity)
         case setAnnouncement(AnnouncementEntity)
         case setTodoItems(Set<AnnouncementTodoEntity>)
@@ -25,13 +24,13 @@ class AnnouncementDetailReactor: Reactor {
     }
     
     // MARK: State
-    struct State { 
+    struct State {
         var announcementSummary: AnnouncementSummaryEntity?
         var announcement: AnnouncementEntity?
         var todoItems: Set<AnnouncementTodoEntity>?
     }
     
-    let initialState: State = State()
+    let initialState: State = .init()
     
     // MARK: Dependency
     private let fetchAnnouncementDetailUsecase = GetAnnouncementDetailUsecase()
@@ -40,7 +39,7 @@ class AnnouncementDetailReactor: Reactor {
     private let disposeBag = DisposeBag()
     
     // MARK: Initializer
-    init() { }
+    init() {}
     
     // MARK: Action operation
     func mutate(action: Action) -> Observable<Mutation> {
@@ -71,7 +70,7 @@ class AnnouncementDetailReactor: Reactor {
     
     func reduce(state: State, mutation: Mutation) -> State {
         var state = state
-        switch mutation { 
+        switch mutation {
         case let .setAnnouncementSummary(announcement):
             state.announcementSummary = announcement
             

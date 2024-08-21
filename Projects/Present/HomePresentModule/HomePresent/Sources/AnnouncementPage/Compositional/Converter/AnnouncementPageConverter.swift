@@ -26,13 +26,13 @@ struct AnnouncementPageConverter {
         // - Convert to default announcement card
         let convertToAnnouncementItem: (
             AnnouncementSummaryEntity
-        ) -> AnnouncementItem = { announcementEntity in
+        ) -> AnnouncementItem = { announcement in
             return AnnouncementItem(
                 state: .default,
-                title: announcementEntity.title,
-                date: "", // TODO: 삭제 필요
-                location: announcementEntity.placeName ?? "-",
-                onTap: { onTapAnnouncementCard(announcementEntity) }
+                title: announcement.title,
+                date: announcement.endAt?.toString() ?? "-",
+                location: announcement.placeName ?? "-",
+                onTap: { onTapAnnouncementCard(announcement) }
             )
         }
         
