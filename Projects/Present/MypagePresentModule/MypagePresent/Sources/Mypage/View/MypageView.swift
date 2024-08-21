@@ -49,15 +49,16 @@ public class MypageView: BaseView {
                     BaseHStack {
                         [
                             userNameLabel,
-                            UIImageView(image: .iconEdit).then {
-                                $0.contentMode = .scaleAspectFit
-                                $0.setSize(width: 22, height: 22)
-                                $0.tintColor = .green600
-                            },
+                            // TODO: v1.1.0 추가 예정
+//                            UIImageView(image: .iconEdit).then {
+//                                $0.contentMode = .scaleAspectFit
+//                                $0.setSize(width: 22, height: 22)
+//                                $0.tintColor = .green600
+//                            },
                             BaseSpacer()
                         ]
                     },
-                    emailLabel,
+//                    emailLabel, // TODO: v1.1.0 추가 예정
                     BaseSpacer()
                 ]
             }
@@ -92,11 +93,11 @@ public class MypageView: BaseView {
                 BaseVStack(spacing: 18) {
                     let menus = [
                         ("앱 버전", "00.00.00"),
-                        // TODO: 추후 추가 예정
+                        // TODO: v1.1.0 추가 예정
 //                        ("문의하기", nil),
 //                        ("공지사항", nil),
-                        ("서비스 이용 약관", nil),
-                        ("개인정보 처리 방침", nil)
+//                        ("서비스 이용 약관", nil),
+//                        ("개인정보 처리 방침", nil)
                     ].map { (title, rightText) in
                         BaseHStack {
                             [
@@ -177,36 +178,37 @@ public class MypageView: BaseView {
                             $0.setTypo(.body3m)
                             $0.textColor = .grey500
                         },
-                        BaseHStack {
-                            [
-                                UILabel().then {
-                                    $0.text = "정보 동의 설정"
-                                    $0.setTypo(.body2m)
-                                    $0.textColor = .grey800
-                                },
-                                BaseSpacer(),
-                                UIImageView(image: .iconChevronRight).then {
-                                   $0.contentMode = .scaleAspectFit
-                                   $0.setSize(width: 18, height: 18)
-                                   $0.tintColor = .grey500
-                               }
-                            ]
-                        },
-                        BaseHStack {
-                            [
-                                UILabel().then {
-                                    $0.text = "회원 탈퇴"
-                                    $0.setTypo(.body2m)
-                                    $0.textColor = .grey800
-                                },
-                                BaseSpacer(),
-                                UIImageView(image: .iconChevronRight).then {
-                                   $0.contentMode = .scaleAspectFit
-                                   $0.setSize(width: 18, height: 18)
-                                   $0.tintColor = .grey500
-                               }
-                            ]
-                        },
+                        // TODO: v1.1.0 추가 예정
+//                        BaseHStack {
+//                            [
+//                                UILabel().then {
+//                                    $0.text = "정보 동의 설정"
+//                                    $0.setTypo(.body2m)
+//                                    $0.textColor = .grey800
+//                                },
+//                                BaseSpacer(),
+//                                UIImageView(image: .iconChevronRight).then {
+//                                   $0.contentMode = .scaleAspectFit
+//                                   $0.setSize(width: 18, height: 18)
+//                                   $0.tintColor = .grey500
+//                               }
+//                            ]
+//                        },
+//                        BaseHStack {
+//                            [
+//                                UILabel().then {
+//                                    $0.text = "회원 탈퇴"
+//                                    $0.setTypo(.body2m)
+//                                    $0.textColor = .grey800
+//                                },
+//                                BaseSpacer(),
+//                                UIImageView(image: .iconChevronRight).then {
+//                                   $0.contentMode = .scaleAspectFit
+//                                   $0.setSize(width: 18, height: 18)
+//                                   $0.tintColor = .grey500
+//                               }
+//                            ]
+//                        },
                         logoutRow
                     ]
                 }
@@ -248,7 +250,8 @@ public class MypageView: BaseView {
         
         stackView.addArrangedSubview(announcementCard)
         
-        stackView.addArrangedSubview(appSettingCard)
+        // TODO: v1.1.0 추가 예정
+//        stackView.addArrangedSubview(appSettingCard)
         
         stackView.addArrangedSubview(etcCard)
     }

@@ -9,25 +9,33 @@ import Foundation
 
 import MemberUsecase
 import Router
+import UserDefaultsUtility
 
 import ReactorKit
 
 class MypageReactor: Reactor {
     // MARK: Action
     enum Action { 
+        case viewDidLoad
         case tapLogoutRow
     }
     
-    enum Mutation { }
+    enum Mutation { 
+        case setMember(Member?)
+    }
     
     // MARK: State
-    struct State { }
+    struct State { 
+        var member: Member?
+    }
     
     let initialState: State = State()
     
     // MARK: ChildReactor
     
     // MARK: Dependency
+    private let memberUserDefaultsManager = UserDefaultsManager<Member>()
+    
     private let logoutUsecase = LogoutUsecase()
     
     // MARK: DisposeBag
@@ -39,6 +47,10 @@ class MypageReactor: Reactor {
     // MARK: Action operation
     func mutate(action: Action) -> Observable<Mutation> {
         switch action { 
+        case .viewDidLoad:
+            let member = memberUserDefaultsManager.get()
+            return .just(.setMember(member))
+            
         case .tapLogoutRow:
             _ = logoutUsecase.execute(.init())
             
@@ -53,7 +65,10 @@ class MypageReactor: Reactor {
     
     func reduce(state: State, mutation: Mutation) -> State {
         var state = state
-        switch mutation { }
+        switch mutation { 
+        case let .setMember(member):
+            state.member = member
+        }
         return state
     }
     

@@ -5,25 +5,38 @@
 //  Created by DOYEON LEE on 8/2/24.
 //
 
-import UIKit
-
-import Router
 import DesignSystem
-
-import RxSwift
+import Router
 import RxCocoa
+import RxSwift
 import Swinject
+import UIKit
 
 public class MypageViewController: BaseViewController<MypageView> {
     // MARK: Reactor
     private let reactor = Container.shared.resolve(MypageReactor.self)!
     
+    // MARK: Life cycle
+    override public func viewDidLoad() {
+        super.viewDidLoad()
+        
+        reactor.action.onNext(.viewDidLoad)
+    }
+    
     // MARK: Setup
-    public override func setupViewBind() { }
+    override public func setupViewBind() {}
     
-    public override func setupStateBind() { }
+    override public func setupStateBind() {
+        reactor.state.map { $0.member }
+            .compactMap { $0 }
+            .debug(":::")
+            .subscribe(with: self, onNext: { owner, member in
+                owner.baseView.userNameLabel.text = member.name
+            })
+            .disposed(by: disposeBag)
+    }
     
-    public override func setupActionBind() { 
+    override public func setupActionBind() {
         // - Bind back button in navigation bar
         baseView.navigationBar
             .onTapBackButton
