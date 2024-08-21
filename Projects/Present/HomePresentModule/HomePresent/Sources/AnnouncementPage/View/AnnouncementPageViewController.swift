@@ -5,14 +5,13 @@
 //  Created by DOYEON LEE on 7/15/24.
 //
 
-import UIKit
-
-import Router
-import DesignSystem
 import AnnouncementEntity
-
-import RxSwift
+import DesignSystem
+import Foundation
+import Router
 import RxCocoa
+import RxSwift
+import UIKit
 
 class AnnouncementPageViewController: BaseViewController<AnnouncementPageView> {
     // MARK: Reactor
@@ -37,7 +36,7 @@ class AnnouncementPageViewController: BaseViewController<AnnouncementPageView> {
                             BannerItem(
                                 userName: owner.reactor.currentState.member?.name ?? "",
                                 todayPrefixText: "활기찬",
-                                dateText: "화요일"
+                                dateText: owner.getCurrentDayOfWeek()
                             )
                         ]
                     )
@@ -55,5 +54,20 @@ class AnnouncementPageViewController: BaseViewController<AnnouncementPageView> {
             }
             .bind(to: baseView.collectionView.sectionBinder)
             .disposed(by: disposeBag)
+    }
+    
+    // MARK: Private
+    
+    // TODO: Usecase로 이동 필요
+    func getCurrentDayOfWeek() -> String {
+        let dateFormatter = DateFormatter()
+        
+        dateFormatter.locale = Locale(identifier: "ko_KR")
+        
+        dateFormatter.dateFormat = "EEEE"
+        
+        let currentDate = Date()
+        
+        return dateFormatter.string(from: currentDate)
     }
 }
