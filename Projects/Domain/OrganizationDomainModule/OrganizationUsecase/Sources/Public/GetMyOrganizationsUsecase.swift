@@ -50,7 +50,7 @@ public class GetMyOrganizationsUsecase {
             .init(pageable: .init(page: Int32(self.page), size: Constant.PageSize))
         )
         .map { result in
-            self.page += 1
+//            self.page += 1 // TODO: v1.1.0 때 페이징 구현
             
             let organizations: [OrganizationEntity] = result.content?.map {
                 OrganizationEntity(
