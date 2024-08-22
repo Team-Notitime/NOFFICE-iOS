@@ -44,11 +44,11 @@ public class AnnouncementDetailViewController: BaseViewController<AnnouncementDe
     }
     
     // MARK: Life cycle
-    override public func viewDidLoad() {
-        super.viewDidLoad()
+    override public func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         
         reactor.action
-            .onNext(.viewDidLoad(announcement, organization))
+            .onNext(.viewWillAppear(announcement, organization))
     }
     
     // MARK: Setup
@@ -135,8 +135,7 @@ public class AnnouncementDetailViewController: BaseViewController<AnnouncementDe
                 with: self,
                 onNext: { owner, _ in
                     if let placeURLString = owner.reactor.currentState.announcement?.place?.link,
-                       let placeURL = URL(string: placeURLString)
-                    {
+                       let placeURL = URL(string: placeURLString) {
                         Router.shared.presentWebView(placeURL)
                     }
                 }

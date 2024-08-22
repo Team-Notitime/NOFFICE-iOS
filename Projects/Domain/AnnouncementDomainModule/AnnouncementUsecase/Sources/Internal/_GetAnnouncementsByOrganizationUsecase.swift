@@ -57,7 +57,7 @@ final class _GetAnnouncementsByOrganizationUsecase {
             .withUnretained(self)
             .flatMap { owner, result -> Observable<Output> in
                 if let content = result.content {
-                    owner.page += 1
+//                    owner.page += 1 // TODO: v1.1.0에 페이징 로직 추가
                     
                     let announcements = content.map {
                         AnnouncementSummaryEntity(

@@ -29,7 +29,6 @@ public class MypageViewController: BaseViewController<MypageView> {
     override public func setupStateBind() {
         reactor.state.map { $0.member }
             .compactMap { $0 }
-            .debug(":::")
             .subscribe(with: self, onNext: { owner, member in
                 owner.baseView.userNameLabel.text = member.name
             })

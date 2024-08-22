@@ -28,6 +28,7 @@ class AnnouncementPageViewController: BaseViewController<AnnouncementPageView> {
     override func setupStateBind() {
         reactor.state.map { $0.organizations }
             .withUnretained(self)
+            .debug(":::")
             .map { owner, organizations in
                 [
                     BannerSection(

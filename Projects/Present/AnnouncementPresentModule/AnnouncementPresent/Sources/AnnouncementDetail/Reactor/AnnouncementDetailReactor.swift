@@ -12,7 +12,7 @@ import ReactorKit
 class AnnouncementDetailReactor: Reactor {
     // MARK: Action
     enum Action {
-        case viewDidLoad(AnnouncementSummaryEntity, AnnouncementOrganizationEntity)
+        case viewWillAppear(AnnouncementSummaryEntity, AnnouncementOrganizationEntity)
         case toggleTodoStatus(AnnouncementTodoEntity)
     }
     
@@ -46,7 +46,7 @@ class AnnouncementDetailReactor: Reactor {
     // MARK: Action operation
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
-        case let .viewDidLoad(announcement, organization):
+        case let .viewWillAppear(announcement, organization):
             let detailObservable = fetchAnnouncementDetailUsecase
                 .execute(.init(announcementId: announcement.id))
             
