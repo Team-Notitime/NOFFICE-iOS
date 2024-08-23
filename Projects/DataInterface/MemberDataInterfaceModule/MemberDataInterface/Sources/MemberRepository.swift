@@ -6,22 +6,12 @@
 //
 
 import OpenapiGenerated
-
 import RxSwift
 
-public typealias GetMemberParam = Operations.getById.Input
-public typealias GetMemberResult = Components.Schemas.MemberResponse
-
-public typealias LoginParam = Operations.login.Input
-public typealias LoginResult = Components.Schemas.SocialAuthResponse
-
-public typealias ReissueParam = Operations.reissue.Input
-public typealias ReissueResult = Components.Schemas.TokenResponse
-
-public protocol MemberRepositoryInterface { 
-    func getMember(_ param: GetMemberParam) -> Observable<GetMemberResult>
+public protocol MemberRepositoryInterface {
+    func getMember(_ request: GetMemberRequest) -> Observable<GetMemberResponse>
     
-    func login(_ param: LoginParam) -> Observable<LoginResult>
+    func login(_ request: LoginRequest) -> Observable<LoginResponse>
     
-    func reissue(_ param: ReissueParam) -> Observable<ReissueResult>
+    func reissue(_ request: ReissueRequest) -> Observable<ReissueResponse>
 }

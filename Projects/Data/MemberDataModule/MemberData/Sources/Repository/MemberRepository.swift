@@ -5,29 +5,30 @@
 //  Created by DOYEON LEE on 8/12/24.
 //
 
-import Foundation
-
-import OpenapiGenerated
-import MemberEntity
-import MemberDataInterface
 import CommonData
-
+import Foundation
+import MemberDataInterface
+import MemberEntity
+import OpenapiGenerated
 import OpenAPIURLSession
 import RxSwift
 
 public struct MemberRepository: MemberRepositoryInterface {
-    private let client: APIProtocol = Client(
-        serverURL: UrlConfig.baseUrl.url,
-        transport: URLSessionTransport()
-    )
+    private let client: APIProtocol
     
-    public init() {}
+    public init() {
+        self.client = Client(
+           serverURL: UrlConfig.baseUrl.url,
+           configuration: .init(dateTranscoder: .custom),
+           transport: URLSessionTransport()
+       )
+    }
     
-    public func getMember(_ param: GetMemberParam) -> Observable<GetMemberResult> {
+    public func getMember(_ request: GetMemberRequest) -> Observable<GetMemberResponse> {
         return Observable.create { observer in
             Task {
                 do {
-                    let response = try await client.getById(param)
+                    let response = try await client.getById(request)
                     
                     if let data = try response.ok.body.json.data {
                         observer.onNext(data)
@@ -44,11 +45,11 @@ public struct MemberRepository: MemberRepositoryInterface {
         }
     }
     
-    public func login(_ param: LoginParam) -> Observable<LoginResult> {
+    public func login(_ request: LoginRequest) -> Observable<LoginResponse> {
         return Observable.create { observer in
             Task {
                 do {
-                    let response = try await client.login(param)
+                    let response = try await client.login(request)
                     
                     if let data = try response.ok.body.json.data {
                         observer.onNext(data)
@@ -65,11 +66,11 @@ public struct MemberRepository: MemberRepositoryInterface {
         }
     }
     
-    public func reissue(_ param: ReissueParam) -> Observable<ReissueResult> {
+    public func reissue(_ request: ReissueRequest) -> Observable<ReissueResponse> {
         return Observable.create { observer in
             Task {
                 do {
-                    let response = try await client.reissue(param)
+                    let response = try await client.reissue(request)
                     
                     if let data = try response.ok.body.json.data {
                         observer.onNext(data)
