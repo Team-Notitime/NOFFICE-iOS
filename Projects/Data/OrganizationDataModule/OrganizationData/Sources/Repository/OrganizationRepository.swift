@@ -30,13 +30,13 @@ public struct OrganizationRepository: OrganizationRepositoryInterface {
     }
     
     public func getOrganizationDetail(
-        _ param: GetOrganizationDetailParam
-    ) -> Observable<GetOrganizationDetailResult> {
+        _ request: GetOrganizationDetailRequest
+    ) -> Observable<GetOrganizationDetailResponse> {
         return Observable.create { observer in
             Task {
                 do {
                     let response = try await client.getInformation(
-                        .init(path: param)
+                        .init(path: request)
                     )
                     
                     if let data = try response.ok.body.json.data {
@@ -55,13 +55,13 @@ public struct OrganizationRepository: OrganizationRepositoryInterface {
     }
     
     public func getJoinedOrganizations(
-        _ param: GetJoinedOrganizationsParam
-    ) -> Observable<GetJoinedOrganizationsResult> {
+        _ request: GetJoinedOrganizationsRequest
+    ) -> Observable<GetJoinedOrganizationsResponse> {
         return Observable.create { observer in
             Task {
                 do {
                     let response = try await client.getJoined(
-                        .init(query: param)
+                        .init(query: request)
                     )
                     
                     if let data = try response.ok.body.json.data {
@@ -80,16 +80,16 @@ public struct OrganizationRepository: OrganizationRepositoryInterface {
     }
     
     public func getPublishedAnnouncements(
-        _ param: GetPublishedAnnouncementParam
-    ) -> Observable<GetPublishedAnnouncementResult> {
+        _ request: GetPublishedAnnouncementRequest
+    ) -> Observable<GetPublishedAnnouncementResponse> {
         return Observable.create { observer in
             Task {
                 do {
                     let response = try await client.getPublishedAnnouncements(
                         .init(
-                            path: .init(organizationId: param.organizationId),
+                            path: .init(organizationId: request.organizationId),
                             query: .init(
-                                pageable: param.pageable
+                                pageable: request.pageable
                             )
                         )
                     )
@@ -110,14 +110,14 @@ public struct OrganizationRepository: OrganizationRepositoryInterface {
     }
     
     public func createOrganization(
-        _ param: CreateOrganizationParam
-    ) -> Observable<CreateOrganizationResult> {
+        _ request: CreateOrganizationRequest
+    ) -> Observable<CreateOrganizationResponse> {
         return Observable.create { observer in
             Task {
                 do {
                     let response = try await client.create(
                         .init(
-                            body: .json(param.body)
+                            body: .json(request.body)
                         )
                     )
                     
