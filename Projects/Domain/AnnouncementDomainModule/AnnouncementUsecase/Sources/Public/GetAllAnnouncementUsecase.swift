@@ -5,25 +5,25 @@
 //  Created by DOYEON LEE on 7/22/24.
 //
 
-import Foundation
-
-import OrganizationDataInterface
 import AnnouncementEntity
 import Container
-
-import Swinject
+import Foundation
+import OrganizationDataInterface
 import RxSwift
+import Swinject
 
 public final class GetAllAnnouncementUsecase {
     // MARK: DTO
     public struct Input {
-        public init() { }
+        public init() {
+            
+        }
     }
-    
+
     public struct Output {
         public let announcements: [AnnouncementOrganizationEntity]
     }
-    
+
     // MARK: Error
     public enum Error: LocalizedError {
         case organizationNotFound
@@ -34,7 +34,9 @@ public final class GetAllAnnouncementUsecase {
     
     // MARK: Dependency
     private let organizationRepository = Container.shared
-        .resolve(OrganizationRepositoryInterface.self)!
+        .resolve(
+            OrganizationRepositoryInterface.self
+        )!
     
     // MARK: Internal Usecase
     private var announcementUsecaseDict: [Int64: _GetAnnouncementsByOrganizationUsecase] = [:]
@@ -44,21 +46,27 @@ public final class GetAllAnnouncementUsecase {
         page = Constant.StartPage
     }
     
-    public func execute(_ input: Input) -> Observable<Output> {
+    public func execute(
+        _ input: Input
+    ) -> Observable<Output> {
         let param = GetJoinedOrganizationsParam(
             pageable: .init(
-                page: Int32(page),
+                page: Int32(
+                    page
+                ),
                 size: Constant.PageSize
             )
         )
-
+        
         return organizationRepository
-            .getJoinedOrganizations(param)
+            .getJoinedOrganizations(
+                param
+            )
             .flatMap { result -> Observable<Output> in
                 guard let content = result.content else {
                     throw Error.organizationNotFound
                 }
-
+                
                 // 각 organization마다 공지사항을 가져오기 위한 Observable 생성
                 let announcementObservables = content.map { organization in
                     self.fetchAnnouncements(
@@ -66,15 +74,19 @@ public final class GetAllAnnouncementUsecase {
                         organizationName: organization.organizationName
                     )
                 }
-
+                
                 // 모든 Observable을 합쳐서 순차적으로 실행
-                return Observable.zip(announcementObservables)
-                    .map { announcementEntities in
-                        Output(announcements: announcementEntities)
-                    }
+                return Observable.zip(
+                    announcementObservables
+                )
+                .map { announcementEntities in
+                    Output(
+                        announcements: announcementEntities
+                    )
+                }
             }
     }
-
+    
     private func fetchAnnouncements(
         organizationId: Int64,
         organizationName: String
@@ -84,12 +96,19 @@ public final class GetAllAnnouncementUsecase {
         announcementUsecaseDict[organizationId] = announcementUsecase
         
         return announcementUsecase
-            .execute(.init(organizationId: organizationId))
+            .execute(
+                .init(
+                    organizationId: organizationId
+                )
+            )
             .map { output in
                 return AnnouncementOrganizationEntity(
-                    id: Int(organizationId),
+                    id: Int(
+                        organizationId
+                    ),
                     name: organizationName,
-                    status: .join, // TODO: 실제 상태 판단 로직 필요
+                    status: .join,
+                    // TODO: 실제 상태 판단 로직 필요
                     announcements: output.announcements
                 )
             }

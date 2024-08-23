@@ -13,6 +13,8 @@ import AnnouncementDataInterface
 import AnnouncementData
 import OrganizationDataInterface
 import OrganizationData
+import TodoDataInterface
+import TodoData
 
 public extension Container {
     static let shared: Container = {
@@ -28,6 +30,10 @@ public extension Container {
         
         container.register(OrganizationRepositoryInterface.self) { _ in
             OrganizationRepository()
+        }
+        
+        container.register(TodoRepositoryInterface.self) { _ in
+            TodoRepository()
         }
         
         return container

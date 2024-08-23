@@ -399,9 +399,9 @@ public struct Client: APIProtocol {
             }
         )
     }
-    /// [인증] 조직 가입
+    /// [인증] 조직 가입 신청
     ///
-    /// 조직에 가입합니다.
+    /// 조직에 가입을 신청합니다. 조직의 가입 대기자 목록에 추가됩니다.
     ///
     /// - Remark: HTTP `POST /api/v1/organizations/{organizationId}/join`.
     /// - Remark: Generated from `#/paths//api/v1/organizations/{organizationId}/join/post(join)`.
@@ -1963,7 +1963,7 @@ public struct Client: APIProtocol {
             }
         )
     }
-    /// 사용자 할당 투두 목록 조회
+    /// [인증] 사용자 할당 투두 목록 조회
     ///
     /// - Remark: HTTP `GET /api/v1/tasks/assigned`.
     /// - Remark: Generated from `#/paths//api/v1/tasks/assigned/get(getAssigned)`.

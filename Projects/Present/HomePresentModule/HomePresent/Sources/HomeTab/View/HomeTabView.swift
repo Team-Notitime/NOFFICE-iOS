@@ -100,12 +100,12 @@ public class HomeTabView: BaseView {
 public extension HomeTabView {
     enum Page: CaseIterable, Identifiable, Paginable {
         case announcement
-//        case todo
+        case todo
         
         var krName: String {
             switch self {
             case .announcement: return "노티"
-//            case .todo: return "투두"
+            case .todo: return "투두"
             }
         }
         
@@ -117,8 +117,8 @@ public extension HomeTabView {
             switch self {
             case .announcement:
                 return AnnouncementPageViewController()
-//            case .todo:
-//                return TodoPageViewController()
+            case .todo:
+                return TodoPageViewController()
             }
         }
     }

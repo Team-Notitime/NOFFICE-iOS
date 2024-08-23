@@ -8,10 +8,12 @@ let project = Project.makeDIModule(
         .dataInterface(.organization),
         .dataInterface(.announcement),
         .dataInterface(.member),
+        .dataInterface(.todo),
         // data
         .data(.organization),
         .data(.announcement),
         .data(.member),
+        .data(.todo),
         // third party
         .thirdParty(.swinject),
         .thirdParty(.rxSwift)

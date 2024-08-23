@@ -147,8 +147,8 @@ paths:
     post:
       tags:
       - 조직
-      summary: "[인증] 조직 가입"
-      description: 조직에 가입합니다.
+      summary: "[인증] 조직 가입 신청"
+      description: 조직에 가입을 신청합니다. 조직의 가입 대기자 목록에 추가됩니다.
       operationId: join
       parameters:
       - name: organizationId
@@ -640,7 +640,7 @@ paths:
     get:
       tags:
       - 투두
-      summary: 사용자 할당 투두 목록 조회
+      summary: "[인증] 사용자 할당 투두 목록 조회"
       operationId: getAssigned
       parameters:
       - name: pageable

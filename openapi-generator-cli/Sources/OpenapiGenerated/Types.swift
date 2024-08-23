@@ -39,9 +39,9 @@ public protocol APIProtocol: Sendable {
     /// - Remark: HTTP `POST /api/v1/organizations`.
     /// - Remark: Generated from `#/paths//api/v1/organizations/post(create)`.
     func create(_ input: Operations.create.Input) async throws -> Operations.create.Output
-    /// [인증] 조직 가입
+    /// [인증] 조직 가입 신청
     ///
-    /// 조직에 가입합니다.
+    /// 조직에 가입을 신청합니다. 조직의 가입 대기자 목록에 추가됩니다.
     ///
     /// - Remark: HTTP `POST /api/v1/organizations/{organizationId}/join`.
     /// - Remark: Generated from `#/paths//api/v1/organizations/{organizationId}/join/post(join)`.
@@ -163,7 +163,7 @@ public protocol APIProtocol: Sendable {
     /// - Remark: HTTP `PATCH /api/v1/organizations/{organizationId}/register`.
     /// - Remark: Generated from `#/paths//api/v1/organizations/{organizationId}/register/patch(registerMember)`.
     func registerMember(_ input: Operations.registerMember.Input) async throws -> Operations.registerMember.Output
-    /// 사용자 할당 투두 목록 조회
+    /// [인증] 사용자 할당 투두 목록 조회
     ///
     /// - Remark: HTTP `GET /api/v1/tasks/assigned`.
     /// - Remark: Generated from `#/paths//api/v1/tasks/assigned/get(getAssigned)`.
@@ -332,9 +332,9 @@ extension APIProtocol {
             body: body
         ))
     }
-    /// [인증] 조직 가입
+    /// [인증] 조직 가입 신청
     ///
-    /// 조직에 가입합니다.
+    /// 조직에 가입을 신청합니다. 조직의 가입 대기자 목록에 추가됩니다.
     ///
     /// - Remark: HTTP `POST /api/v1/organizations/{organizationId}/join`.
     /// - Remark: Generated from `#/paths//api/v1/organizations/{organizationId}/join/post(join)`.
@@ -588,7 +588,7 @@ extension APIProtocol {
             body: body
         ))
     }
-    /// 사용자 할당 투두 목록 조회
+    /// [인증] 사용자 할당 투두 목록 조회
     ///
     /// - Remark: HTTP `GET /api/v1/tasks/assigned`.
     /// - Remark: Generated from `#/paths//api/v1/tasks/assigned/get(getAssigned)`.
@@ -1709,7 +1709,6 @@ public enum Components {
             }
         }
         /// - Remark: Generated from `#/components/schemas/AnnouncementResponse`.
-        ///         "announcementId": 10,
         public struct AnnouncementResponse: Codable, Hashable, Sendable {
             /// - Remark: Generated from `#/components/schemas/AnnouncementResponse/organizationId`.
             public var organizationId: Swift.Int64?
@@ -4335,9 +4334,9 @@ public enum Operations {
             }
         }
     }
-    /// [인증] 조직 가입
+    /// [인증] 조직 가입 신청
     ///
-    /// 조직에 가입합니다.
+    /// 조직에 가입을 신청합니다. 조직의 가입 대기자 목록에 추가됩니다.
     ///
     /// - Remark: HTTP `POST /api/v1/organizations/{organizationId}/join`.
     /// - Remark: Generated from `#/paths//api/v1/organizations/{organizationId}/join/post(join)`.
@@ -7487,7 +7486,7 @@ public enum Operations {
             }
         }
     }
-    /// 사용자 할당 투두 목록 조회
+    /// [인증] 사용자 할당 투두 목록 조회
     ///
     /// - Remark: HTTP `GET /api/v1/tasks/assigned`.
     /// - Remark: Generated from `#/paths//api/v1/tasks/assigned/get(getAssigned)`.
