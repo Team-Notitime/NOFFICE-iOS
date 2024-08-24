@@ -62,7 +62,6 @@ public class AnnouncementDetailViewController: BaseViewController<AnnouncementDe
         reactor.state.map { $0.organization }
             .compactMap { $0 }
             .observe(on: MainScheduler.instance)
-            .debug(":::")
             .subscribe(
                 with: self,
                 onNext: { owner, organization in

@@ -15,7 +15,7 @@ import ReactorKit
 class OrganizationDetailReactor: Reactor {
     // MARK: Action
     enum Action { 
-        case viewDidLoad(OrganizationEntity)
+        case viewDidLoad(OrganizationSummaryEntity)
     }
     
     enum Mutation { 

@@ -17,8 +17,8 @@ public struct OrganizationEntity: Identifiable, Equatable {
     /// Name of the organization.
     public let name: String
     
-    /// List of category IDs associated with the organization.
-    public let categories: [Int]
+    /// List of category associated with the organization.
+    public let categories: [String]
     
     /// URL of the image associated with the organization (optional).
     public let imageURL: String?
@@ -38,7 +38,7 @@ public struct OrganizationEntity: Identifiable, Equatable {
     public init(
         id: Int,
         name: String,
-        categories: [Int],
+        categories: [String],
         imageURL: String? = nil,
         endDate: Date? = nil,
         promotionCode: String? = nil,

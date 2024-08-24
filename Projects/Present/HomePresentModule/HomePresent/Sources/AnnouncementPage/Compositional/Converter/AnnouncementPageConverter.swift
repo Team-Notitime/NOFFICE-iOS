@@ -30,6 +30,7 @@ struct AnnouncementPageConverter {
         ) -> AnnouncementItem = { announcement, organization in
             return AnnouncementItem(
                 state: .default,
+                coverImageUrl: announcement.coverImageUrl,
                 title: announcement.title,
                 date: announcement.endAt?.toString(includeWeekday: true) ?? "-",
                 location: announcement.placeName ?? "-",

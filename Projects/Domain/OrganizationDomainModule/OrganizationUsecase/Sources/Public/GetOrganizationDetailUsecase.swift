@@ -5,38 +5,36 @@
 //  Created by DOYEON LEE on 8/18/24.
 //
 
-import Foundation
-
 import Container
-import OrganizationEntity
+import Foundation
 import OrganizationDataInterface
-
-import Swinject
+import OrganizationEntity
 import RxSwift
+import Swinject
 
 public struct GetOrganizationDetailUsecase {
     // MARK: DTO
     public struct Input {
         let organizationId: Int
-        
+
         public init(organizationId: Int) {
             self.organizationId = organizationId
         }
     }
-    
-    public struct Output { 
+
+    public struct Output {
         public let organization: OrganizationEntity
     }
-    
+
     // MARK: Dependency
     private let organizationRepository = Container.shared.resolve(OrganizationRepositoryInterface.self)!
-    
+
     // MARK: Initializer
-    public init() { }
-    
+    public init() {}
+
     // MARK: Execute method
     public func execute(_ input: Input) -> Observable<Output> {
-        let outputObservable = organizationRepository
+        return organizationRepository
             .getOrganizationDetail(
                 .init(
                     organizationId: Int64(input.organizationId)
@@ -46,14 +44,12 @@ public struct GetOrganizationDetailUsecase {
                 let organization = OrganizationEntity(
                     id: Int(result.organizationId),
                     name: result.organizationName,
-                    categories: [],
+                    categories: result.categories,
                     leader: Int(result.leaderCount ?? 0),
                     member: Int(result.participantCount ?? 0)
                 )
-                
+
                 return Output(organization: organization)
             }
-        
-        return outputObservable
     }
 }

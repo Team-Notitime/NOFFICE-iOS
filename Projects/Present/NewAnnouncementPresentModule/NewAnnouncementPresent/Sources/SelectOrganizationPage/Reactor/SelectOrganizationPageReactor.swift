@@ -17,19 +17,19 @@ class SelectOrganizationPageReactor: Reactor {
     enum Action { 
         case viewDidLoad
         case tapNextPageButton
-        case changeSelectedOrganization(OrganizationEntity?)
+        case changeSelectedOrganization(OrganizationSummaryEntity?)
     }
     
     enum Mutation { 
-        case setMyOrganizations([OrganizationEntity])
-        case setSelectedOrganization(OrganizationEntity?)
+        case setMyOrganizations([OrganizationSummaryEntity])
+        case setSelectedOrganization(OrganizationSummaryEntity?)
         case changeNextButtonActive(Bool)
     }
     
     // MARK: State
     struct State { 
-        var myOrganizations: [OrganizationEntity] = []
-        var selectedOrganization: OrganizationEntity?
+        var myOrganizations: [OrganizationSummaryEntity] = []
+        var selectedOrganization: OrganizationSummaryEntity?
         var nextButtonActive: Bool = false
     }
     

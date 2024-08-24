@@ -9,11 +9,20 @@ import UIKit
 
 import Assets
 
+import Kingfisher
 import SnapKit
 import Then
 
 public final class NofficeAnnouncementCard: UIView {
     // MARK: State
+    public var coverImageUrl: URL? {
+        didSet {
+            if let imageUrl = coverImageUrl {
+                coverImageView.kf.setImage(with: imageUrl)
+            }
+        }
+    }
+    
     public var titleText: String = "" {
         didSet {
             titleLabel.text = titleText
@@ -40,6 +49,12 @@ public final class NofficeAnnouncementCard: UIView {
     
     // MARK: UI Component
     // - Card for dafualt status
+    private lazy var coverImageView = UIImageView(image: .imgDefaultCover).then {
+        $0.setSize(height: 120)
+        $0.contentMode = .scaleAspectFill
+        $0.clipsToBounds = true
+    }
+    
     private lazy var titleLabel = UILabel().then {
         $0.text = ""
         $0.setTypo(.body1m)
@@ -62,11 +77,7 @@ public final class NofficeAnnouncementCard: UIView {
     private lazy var defaultCard = BaseCard(
         contentsBuilder: {
             [
-                UIImageView(image: .imgNottiLetter).then {
-                    $0.setSize(height: 120)
-                    $0.contentMode = .scaleAspectFill
-                    $0.clipsToBounds = true
-                },
+                coverImageView,
                 BaseHStack(spacing: 0) {[
                     BaseSpacer(size: 16, orientation: .horizontal),
                     BaseVStack(spacing: 10) {[

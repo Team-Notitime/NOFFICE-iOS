@@ -11,12 +11,6 @@ import Foundation
  Represents the information of a new organization to be created.
  */
 public struct NewOrganizationEntity: Equatable {
-    /// Unique identifier for the organization.
-    ///
-    /// - Note: that this is not a globally unique value among all organizations, 
-    /// but just a distinguishing identifier.
-//    public let id: Int
-    
     /// Name of the organization.
     public let name: String
     
@@ -33,14 +27,12 @@ public struct NewOrganizationEntity: Equatable {
     public let promotionCode: String?
     
     public init(
-//        id: Int,
         name: String,
         categories: [Int],
-        imageURL: String? = nil,
-        endDate: Date? = nil,
-        promotionCode: String? = nil
+        imageURL: String?,
+        endDate: Date?,
+        promotionCode: String?
     ) {
-//        self.id = id
         self.name = name
         self.categories = categories
         self.imageURL = imageURL

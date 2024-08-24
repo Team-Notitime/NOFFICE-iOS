@@ -22,10 +22,10 @@ public class GetMyOrganizationsUsecase {
     }
     
     public struct Output {
-        public let organizations: [OrganizationEntity]
+        public let organizations: [OrganizationSummaryEntity]
         
         public init(
-            organizations: [OrganizationEntity]
+            organizations: [OrganizationSummaryEntity]
         ) {
             self.organizations = organizations
         }
@@ -50,15 +50,13 @@ public class GetMyOrganizationsUsecase {
             .init(pageable: .init(page: Int32(self.page), size: Constant.PageSize))
         )
         .map { result in
-//            self.page += 1 // TODO: v1.1.0 때 페이징 구현
+            self.page += 1
             
-            let organizations: [OrganizationEntity] = result.content?.map {
-                OrganizationEntity(
+            let organizations: [OrganizationSummaryEntity] = result.content?.map {
+                OrganizationSummaryEntity(
                     id: Int($0.organizationId),
                     name: $0.organizationName,
-                    categories: [], // TODO: remove
-                    leader: 0, // TODO: remove
-                    member: 0 // TODO: remove
+                    profileImageUrl: URL(string: $0.profileImage)
                 )
             } ?? []
             
@@ -73,9 +71,9 @@ public class GetMyOrganizationsUsecase {
 // MARK: - Mock
 private struct Mock {
     static let OrganizationEntities: [OrganizationEntity] = [
-        .init(id: 1, name: "CMC 15th", categories: [1, 2, 3], leader: 1, member: 10),
-        .init(id: 2, name: "멋진 동아리", categories: [1, 2, 3], leader: 1, member: 3),
-        .init(id: 3, name: "즐거운 소모임", categories: [1, 2, 3], leader: 2, member: 15)
+        .init(id: 1, name: "CMC 15th", categories: ["IT", "예술"], leader: 1, member: 10),
+        .init(id: 2, name: "멋진 동아리", categories: ["IT", "예술"], leader: 1, member: 3),
+        .init(id: 3, name: "즐거운 소모임", categories: ["IT", "예술"], leader: 2, member: 15)
     ]
 }
 

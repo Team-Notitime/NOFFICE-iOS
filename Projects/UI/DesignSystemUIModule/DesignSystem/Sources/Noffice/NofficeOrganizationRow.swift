@@ -12,6 +12,7 @@ import Assets
 import RxSwift
 import SnapKit
 import Then
+import Kingfisher
 
 public final class NofficeOrganizationRow: UIControl {
     // MARK: Event
@@ -21,6 +22,14 @@ public final class NofficeOrganizationRow: UIControl {
     }
     
     // MARK: Data
+    public var organizationImageUrl: URL? {
+        didSet {
+            if let imgaeUrl = organizationImageUrl {
+                organizationImage.kf.setImage(with: imgaeUrl)
+            }
+        }
+    }
+    
     public var organizationName: String = "" {
         didSet {
             organizationNameLabel.text = organizationName
@@ -36,6 +45,7 @@ public final class NofficeOrganizationRow: UIControl {
     lazy var organizationImage = UIImageView(image: .imgProfileGroup).then {
         $0.setSize(width: imageSize, height: imageSize)
         $0.contentMode = .scaleToFill
+        $0.layer.cornerRadius = imageSize / 2
         $0.clipsToBounds = true
     }
     

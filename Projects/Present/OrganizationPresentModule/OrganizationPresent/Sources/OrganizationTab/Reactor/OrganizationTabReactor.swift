@@ -17,12 +17,12 @@ class OrganizationTabReactor: Reactor {
     }
     
     enum Mutation { 
-        case setOrganizations([OrganizationEntity])
+        case setOrganizations([OrganizationSummaryEntity])
     }
     
     // MARK: State
     struct State { 
-        var organizations: [OrganizationEntity] = []
+        var organizations: [OrganizationSummaryEntity] = []
     }
     
     let initialState: State = State()

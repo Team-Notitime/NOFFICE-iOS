@@ -25,6 +25,8 @@ final class AnnouncementItem: CompositionalItem {
     
     let state: NofficeAnnouncementCard.State
     
+    let coverImageUrl: URL?
+    
     let title: String?
     
     let date: String?
@@ -37,12 +39,14 @@ final class AnnouncementItem: CompositionalItem {
     // MARK: Initializer
     init(
         state: NofficeAnnouncementCard.State,
+        coverImageUrl: URL? = nil,
         title: String? = nil,
         date: String? = nil,
         location: String? = nil,
         onTap: @escaping () -> Void = { }
     ) {
         self.state = state
+        self.coverImageUrl = coverImageUrl
         self.title = title
         self.date = date
         self.location = location
@@ -94,6 +98,9 @@ final class AnnouncementItemCell: UIView, CompositionalItemCell {
             organizationCard.dateText = date
             organizationCard.locationText = location
         }
+        
+        print("::: cover \(item.coverImageUrl)")
+        organizationCard.coverImageUrl = item.coverImageUrl
         
         // action binding
         organizationCard.rx.tapGesture()

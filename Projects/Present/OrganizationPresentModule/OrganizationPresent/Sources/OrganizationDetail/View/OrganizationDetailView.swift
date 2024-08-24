@@ -47,7 +47,7 @@ class OrganizationDetailView: BaseView {
                 [
                     BaseSpacer(),
                     organizationNameLabel,
-//                    organizationCategoryBadges, // TODO: v1.1.0 때 살리기
+                    organizationCategoryBadges,
                     BaseSpacer()
                 ]
             }
@@ -71,26 +71,6 @@ class OrganizationDetailView: BaseView {
     
     lazy var organizationCategoryBadges = BaseHStack {
         [
-            BaseBadge(contentsBudiler: {
-                [
-                    UILabel().then {
-                        $0.text = "IT"
-                        $0.setTypo(.body3b)
-                    }
-                ]
-            }).then {
-                $0.styled(color: .green, variant: .weak)
-            },
-            BaseBadge(contentsBudiler: {
-                [
-                    UILabel().then {
-                        $0.text = "창업"
-                        $0.setTypo(.body3b)
-                    }
-                ]
-            }).then {
-                $0.styled(color: .green, variant: .weak)
-            },
             BaseSpacer()
         ]
     }
@@ -181,7 +161,7 @@ class OrganizationDetailView: BaseView {
         stackView.addArrangedSubview(
             BaseSpacer(size: GlobalViewConstant.SpacingUnit * 2)
         )
-
+        
         stackView.addArrangedSubview(announcementsCollectionView)
     }
     
@@ -208,5 +188,30 @@ class OrganizationDetailView: BaseView {
                 .inset(GlobalViewConstant.PagePaddingLarge)
             $0.bottom.equalToSuperview()
         }
+    }
+
+    func updateCategories(_ categories: [String]) {
+        let categoriesToDisplay = categories.isEmpty ? ["미지정"] : categories
+
+        let badges = categoriesToDisplay.map { category in
+            BaseBadge(
+                contentsBudiler: {
+                    [
+                        UILabel().then {
+                            $0.text = category
+                            $0.setTypo(.body3b)
+                        }
+                    ]
+                }
+            ).then {
+                $0.styled(color: .green, variant: .weak)
+            }
+        }
+        
+        organizationCategoryBadges
+            .arrangedSubviews
+            .forEach { $0.removeFromSuperview() }
+        
+        organizationCategoryBadges.addArrangedSubviews(badges + [BaseSpacer()])
     }
 }

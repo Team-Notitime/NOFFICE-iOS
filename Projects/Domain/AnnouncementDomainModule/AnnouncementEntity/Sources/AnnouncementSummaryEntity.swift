@@ -21,7 +21,7 @@ public struct AnnouncementSummaryEntity: Identifiable, Equatable {
     public let createdAt: Date?
     
     /// Image URL for the announcement illustration. (optional)
-    public let imageUrl: String?
+    public let coverImageUrl: URL?
     
     /// Title of the announcement
     public let title: String
@@ -41,18 +41,18 @@ public struct AnnouncementSummaryEntity: Identifiable, Equatable {
     public init(
         id: Int64,
         organizationId: Int64,
-        imageUrl: String? = nil,
-        createdAt: Date? = nil,
+        coverImageUrl: URL?,
+        createdAt: Date?,
         title: String,
         body: String,
-        endAt: Date? = nil,
-        placeName: String? = nil,
-        todoCount: Int? = nil
+        endAt: Date?,
+        placeName: String?,
+        todoCount: Int?
     ) {
         self.id = id
         self.organizationId = organizationId
         self.createdAt = createdAt
-        self.imageUrl = imageUrl
+        self.coverImageUrl = coverImageUrl
         self.title = title
         self.body = body
         self.endAt = endAt

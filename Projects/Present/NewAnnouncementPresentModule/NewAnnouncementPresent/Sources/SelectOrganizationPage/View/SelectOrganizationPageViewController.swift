@@ -31,7 +31,7 @@ class SelectOrganizationPageViewController: BaseViewController<SelectOrganizatio
         // - Bind my organizations
         reactor.state.map { $0.myOrganizations }
             .distinctUntilChanged()
-            .observe(on: MainScheduler.asyncInstance)
+            .observe(on: MainScheduler.asyncInstance) 
             .withUnretained(self)
             .subscribe(onNext: { owner, value in
                 owner.baseView.organizationGroup.updateSource(value)

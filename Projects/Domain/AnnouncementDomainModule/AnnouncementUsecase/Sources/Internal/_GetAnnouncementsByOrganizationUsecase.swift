@@ -55,15 +55,15 @@ final class _GetAnnouncementsByOrganizationUsecase {
             )
         )
             .withUnretained(self)
-            .flatMap { _, result -> Observable<Output> in
+            .flatMap { owner, result -> Observable<Output> in
                 if let content = result.content {
-//                    owner.page += 1 // TODO: v1.1.0에 페이징 로직 추가
+                    owner.page += 1
                     
                     let announcements = content.map {
-                        AnnouncementSummaryEntity(
+                        return AnnouncementSummaryEntity(
                             id: $0.announcementId ?? -1,
                             organizationId: input.organizationId,
-                            imageUrl: $0.profileImageUrl,
+                            coverImageUrl: URL(string: $0.profileImageUrl ?? ""),
                             createdAt: $0.createdAt,
                             title: $0.title ?? "",
                             body: $0.content ?? "",

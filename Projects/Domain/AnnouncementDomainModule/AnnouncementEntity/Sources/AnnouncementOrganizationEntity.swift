@@ -8,7 +8,7 @@
 import Foundation
 
 /**
- Represents an organization containing a list of todos.
+ Represents an organization containing a list of annuncements.
 */
 public struct AnnouncementOrganizationEntity: Identifiable, Equatable {
     /// Unique identifier for the organization.

@@ -36,7 +36,7 @@ class SelectOrganizationPageView: BaseView {
     }
     
     // - Organization list
-    lazy var organizationGroup = BaseRadioGroup<OrganizationEntity>( // TODO: 추후 스크롤뷰로 변경..
+    lazy var organizationGroup = BaseRadioGroup<OrganizationSummaryEntity>( // TODO: 추후 스크롤뷰로 변경..
         animation: true
     ) { option in
         NofficeList(option: option) { _ in

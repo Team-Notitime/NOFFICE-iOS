@@ -23,10 +23,10 @@ class OrganizationDetailViewController: BaseViewController<OrganizationDetailVie
     private let reactor = Container.shared.resolve(OrganizationDetailReactor.self)!
     
     // MARK: Data
-    private let organization: OrganizationEntity
+    private let organization: OrganizationSummaryEntity
     
     // MARK: Initialzier
-    public init(organization: OrganizationEntity) {
+    public init(organization: OrganizationSummaryEntity) {
         self.organization = organization
         
         super.init()
@@ -69,6 +69,18 @@ class OrganizationDetailViewController: BaseViewController<OrganizationDetailVie
         reactor.state.map { $0.organization?.name }
             .asDriver(onErrorJustReturn: "")
             .drive(baseView.organizationNameLabel.rx.text)
+            .disposed(by: disposeBag)
+        
+        // - Bind organization categories
+        reactor.state.map { $0.organization?.categories }
+            .compactMap { $0 }
+            .observe(on: MainScheduler.asyncInstance)
+            .subscribe(
+                with: self,
+                onNext: { owner, categories in
+                    owner.baseView.updateCategories(categories)
+                }
+            )
             .disposed(by: disposeBag)
         
         // - Bind leader count

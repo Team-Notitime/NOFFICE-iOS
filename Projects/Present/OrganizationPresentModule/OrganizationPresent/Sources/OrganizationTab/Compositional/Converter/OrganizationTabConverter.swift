@@ -10,9 +10,9 @@ import OrganizationEntity
 
 struct OrganizationTabConverter {
     static func convert(
-        entities: [OrganizationEntity],
+        entities: [OrganizationSummaryEntity],
         onTapNewButton: @escaping () -> Void,
-        onTapOrganizationRow: @escaping (OrganizationEntity) -> Void
+        onTapOrganizationRow: @escaping (OrganizationSummaryEntity) -> Void
     ) -> [any CompositionalSection] {
         let sections: [any CompositionalSection] = [
             NewOrganizationSection(
@@ -25,7 +25,8 @@ struct OrganizationTabConverter {
             OrganizationSection(
                 items: entities.map { organization in
                     OrganizationItem(
-                        organizationName: organization.name
+                        name: organization.name,
+                        profileImageUrl: organization.profileImageUrl
                     ) {
                         onTapOrganizationRow(organization)
                     }

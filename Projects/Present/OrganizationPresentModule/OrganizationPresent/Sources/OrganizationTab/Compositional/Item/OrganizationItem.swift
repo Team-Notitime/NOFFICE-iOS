@@ -20,23 +20,27 @@ final class OrganizationItem: CompositionalItem {
     let onTap: () -> Void
     
     // MARK: Data
-    let organizationName: String
+    let name: String
+    
+    let profileImageUrl: URL?
 
     // MARK: DisposeBag
     let disposeBag = DisposeBag()
     
     // MARK: Initializer
     init(
-        organizationName: String,
+        name: String,
+        profileImageUrl: URL?,
         onTap: @escaping () -> Void
     ) {
-        self.organizationName = organizationName
+        self.name = name
+        self.profileImageUrl = profileImageUrl
         self.onTap = onTap
     }
     
     func hash(into hasher: inout Hasher) {
         hasher.combine(String(describing: type(of: self)))
-        hasher.combine(organizationName)
+        hasher.combine(name)
     }
 }
 
@@ -67,8 +71,10 @@ final class OrganizationItemCell: UIView, CompositionalItemCell {
     
     func configure(with item: OrganizationItem) {
         // - Binding data
-        organizationRow.organizationName = item.organizationName
-                
+        organizationRow.organizationName = item.name
+        
+        organizationRow.organizationImageUrl = item.profileImageUrl
+        
         // - Binding action
         organizationRow.onTap
             .subscribe(onNext: {

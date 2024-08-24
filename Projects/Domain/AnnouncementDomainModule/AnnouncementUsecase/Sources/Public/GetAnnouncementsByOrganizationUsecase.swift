@@ -47,7 +47,6 @@ public final class GetAnnouncementsByOrganizationUsecase {
         )
         
         return internalUsecase.execute(internalInput)
-            .debug("::: ")
             .map { internalOutput in
                 return Output(announcements: internalOutput.announcements)
             }
