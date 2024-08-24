@@ -67,6 +67,7 @@ final class _GetAnnouncementsByOrganizationUsecase {
                             createdAt: $0.createdAt,
                             title: $0.title ?? "",
                             body: $0.content ?? "",
+                            endAt: $0.endAt,
                             placeName: $0.placeLinkName,
                             todoCount: 0 // todo 조회 API 사용? 같이 담아줄 수 있는지 요청 필요
                         )

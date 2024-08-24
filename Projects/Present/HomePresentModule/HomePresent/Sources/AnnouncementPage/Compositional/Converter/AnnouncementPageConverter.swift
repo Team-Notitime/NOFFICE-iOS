@@ -31,7 +31,7 @@ struct AnnouncementPageConverter {
             return AnnouncementItem(
                 state: .default,
                 title: announcement.title,
-                date: announcement.endAt?.toString() ?? "-",
+                date: announcement.endAt?.toString(includeWeekday: true) ?? "-",
                 location: announcement.placeName ?? "-",
                 onTap: { onTapAnnouncementCard(announcement, organization) }
             )
