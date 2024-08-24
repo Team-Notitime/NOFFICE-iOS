@@ -65,7 +65,6 @@ class AnnouncementDetailReactor: Reactor {
                 .just(Mutation.setOrganization(organization)),
                 .just(Mutation.setAnnouncementSummary(announcementSummary)),
                 detailObservable
-                    .delay(.seconds(1), scheduler: MainScheduler.instance)
                     .map { output in
                         Mutation.setAnnouncement(output.announcement)
                     },

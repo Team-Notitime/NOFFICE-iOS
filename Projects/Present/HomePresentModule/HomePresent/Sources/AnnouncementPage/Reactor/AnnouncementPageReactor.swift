@@ -28,7 +28,7 @@ class AnnouncementPageReactor: Reactor {
     }
     
     // MARK: Dependency
-    let fetchAllAnnouncementUsecase = GetAllAnnouncementUsecase()
+    var fetchAllAnnouncementUsecase = GetAllAnnouncementUsecase()
     
     let getMemberUsecase = GetMemberUsecase()
     
@@ -46,6 +46,7 @@ extension AnnouncementPageReactor {
                     return Mutation.setMember(output.member)
                 }
             
+            fetchAllAnnouncementUsecase = GetAllAnnouncementUsecase()
             let announcementObservable = fetchAllAnnouncementUsecase
                 .execute(.init())
                 .map { output in

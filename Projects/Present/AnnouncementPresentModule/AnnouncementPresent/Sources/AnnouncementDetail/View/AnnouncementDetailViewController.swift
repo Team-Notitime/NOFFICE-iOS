@@ -94,7 +94,6 @@ public class AnnouncementDetailViewController: BaseViewController<AnnouncementDe
             })
             .disposed(by: disposeBag)
         
-        
         // - Bind announcement detail
         reactor.state.map { $0.announcement }
             .compactMap { $0 }

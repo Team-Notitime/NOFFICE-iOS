@@ -66,7 +66,7 @@ class OrganizationDetailViewController: BaseViewController<OrganizationDetailVie
     }
     
     override func setupStateBind() { 
-        // - Bind organization name
+        // - Bind organization profile image
         reactor.state.map { $0.organization?.profileImageUrl }
             .compactMap { $0 }
             .observe(on: MainScheduler.asyncInstance)

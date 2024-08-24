@@ -43,7 +43,7 @@ public struct GetOrganizationDetailUsecase {
             .map { result in
                 let organization = OrganizationEntity(
                     id: Int(result.organizationId),
-                    name: result.profileImage,
+                    name: result.organizationName,
                     categories: result.categories,
                     profileImageUrl: URL(string: result.profileImage ?? ""),
                     endDate: nil, // TODO: 왜없지?
