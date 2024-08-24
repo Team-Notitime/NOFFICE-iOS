@@ -17,6 +17,9 @@ public struct AnnouncementOrganizationEntity: Identifiable, Equatable {
     /// Name of the organization in Korean.
     public let name: String
     
+    /// Name of the organization in Korean.
+    public let profileImageUrl: URL?
+    
     /// Status of the organization.
     public let status: OrganizationStatus
     
@@ -26,11 +29,13 @@ public struct AnnouncementOrganizationEntity: Identifiable, Equatable {
     public init(
         id: Int,
         name: String,
+        profileImageUrl: URL?,
         status: OrganizationStatus,
         announcements: [AnnouncementSummaryEntity]
     ) {
         self.id = id
         self.name = name
+        self.profileImageUrl = profileImageUrl
         self.status = status
         self.announcements = announcements
     }

@@ -58,19 +58,46 @@ public class AnnouncementDetailViewController: BaseViewController<AnnouncementDe
     }
     
     override public func setupStateBind() {
-        // - Bind organization
+        // - Stop skeleton
         reactor.state.map { $0.organization }
+            .asDriver(onErrorJustReturn: nil)
             .compactMap { $0 }
-            .observe(on: MainScheduler.instance)
-            .subscribe(
-                with: self,
-                onNext: { owner, organization in
-                    owner.stopSkeleton() // TODO: 왜 announcement subscribe쪽에 넣으면 안되는거지? 수정 필요 이건 동기고 announcement가 비동기임
-                    
-                    owner.baseView.orgnizationNameLabel.text = organization.name
-                    owner.baseView.organizationCategoryLabel.text = "" // TODO: 카테고리 방식 바꿔야함
-                }
-            )
+            .drive(onNext: { [weak self] _ in
+                self?.stopSkeleton()
+            })
+            .disposed(by: disposeBag)
+        
+        // - Bind organization name
+        reactor.state.map { $0.organization?.name }
+            .asDriver(onErrorJustReturn: "")
+            .drive(baseView.orgnizationNameLabel.rx.text)
+            .disposed(by: disposeBag)
+        
+        // - Bind organization categories
+//        reactor.state.map { $0.organization }
+//            .compactMap { $0 }
+//            .observe(on: MainScheduler.instance)
+//            .subscribe(
+//                with: self,
+//                onNext: { owner, organization in
+//                    owner.stopSkeleton() // TODO: 왜 announcement subscribe쪽에 넣으면 안되는거지? 수정 필요 이건 동기고 announcement가 비동기임
+//                    
+//                    owner.baseView.orgnizationNameLabel.text = organization.name
+//                    owner.baseView.organizationCategoryLabel.text = organization
+//                    owner.baseView.organizationProfileImage.kf
+//                        .setImage(with: organization.profileImageUrl)
+//                }
+//            )
+//            .disposed(by: disposeBag)
+        
+        // - Bind organization profile image
+        reactor.state.map { $0.organization?.profileImageUrl }
+            .asDriver(onErrorJustReturn: nil)
+            .drive(onNext: { [weak self] profileImageUrl in
+                self?.baseView.organizationProfileImage.kf.setImage(
+                    with: profileImageUrl
+                )
+            })
             .disposed(by: disposeBag)
         
         // - Bind announcement detail

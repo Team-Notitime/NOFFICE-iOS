@@ -11,8 +11,8 @@ import AnnouncementEntity
 import AnnouncementDataInterface
 import Container
 
-import Swinject
 import RxSwift
+import Swinject
 
 public struct GetAnnouncementDetailUsecase {
     // MARK: DTO

@@ -27,6 +27,7 @@ public final class GetAllAnnouncementUsecase {
     // MARK: Error
     public enum Error: LocalizedError {
         case organizationNotFound
+        case invalidAccessSelf
     }
     
     // MARK: Property
@@ -62,16 +63,23 @@ public final class GetAllAnnouncementUsecase {
             .getJoinedOrganizations(
                 request
             )
-            .flatMap { result -> Observable<Output> in
+            .flatMap { [weak self] result -> Observable<Output> in
                 guard let content = result.content else {
                     throw Error.organizationNotFound
                 }
                 
                 // 각 organization마다 공지사항을 가져오기 위한 Observable 생성
-                let announcementObservables = content.map { organization in
-                    self.fetchAnnouncements(
+                let announcementObservables = content.map { [weak self] organization in
+                    guard let self = self
+                    else {
+                        return Observable<AnnouncementOrganizationEntity>
+                            .error(Error.invalidAccessSelf)
+                    }
+                    
+                    return self.fetchAnnouncements(
                         organizationId: organization.organizationId,
-                        organizationName: organization.organizationName
+                        organizationName: organization.organizationName, 
+                        organizationProfileImageUrl: URL(string: organization.profileImage)
                     )
                 }
                 
@@ -89,7 +97,8 @@ public final class GetAllAnnouncementUsecase {
     
     private func fetchAnnouncements(
         organizationId: Int64,
-        organizationName: String
+        organizationName: String,
+        organizationProfileImageUrl: URL?
     ) -> Observable<AnnouncementOrganizationEntity> {
         // _GetAnnouncementsByOrganizationUsecase 인스턴스 생성 및 실행
         let announcementUsecase = announcementUsecaseDict[organizationId] ?? _GetAnnouncementsByOrganizationUsecase()
@@ -107,8 +116,8 @@ public final class GetAllAnnouncementUsecase {
                         organizationId
                     ),
                     name: organizationName,
-                    status: .join,
-                    // TODO: 실제 상태 판단 로직 필요
+                    profileImageUrl: organizationProfileImageUrl,
+                    status: .join,  // TODO: 실제 상태 판단 로직 필요
                     announcements: output.announcements
                 )
             }
