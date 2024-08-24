@@ -78,8 +78,10 @@ public final class GetAllAnnouncementUsecase {
                     
                     return self.fetchAnnouncements(
                         organizationId: organization.organizationId,
-                        organizationName: organization.organizationName, 
-                        organizationProfileImageUrl: URL(string: organization.profileImage)
+                        organizationName: organization.organizationName,
+                        organizationProfileImageUrl: URL(
+                            string: organization.profileImage
+                        )
                     )
                 }
                 

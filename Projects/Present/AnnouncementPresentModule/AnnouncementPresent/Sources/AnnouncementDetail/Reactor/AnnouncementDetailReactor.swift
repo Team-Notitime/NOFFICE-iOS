@@ -37,6 +37,8 @@ class AnnouncementDetailReactor: Reactor {
     // MARK: Dependency
     private let fetchAnnouncementDetailUsecase = GetAnnouncementDetailUsecase()
     
+    private let getTodosByAnnouncementUsecase = GetTodosByAnnouncementUsecase()
+    
     // MARK: DisposeBag
     private let disposeBag = DisposeBag()
     
@@ -46,31 +48,40 @@ class AnnouncementDetailReactor: Reactor {
     // MARK: Action operation
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
-        case let .viewWillAppear(announcement, organization):
+        case let .viewWillAppear(
+            announcementSummary,
+            organization
+        ):
             let detailObservable = fetchAnnouncementDetailUsecase
-                .execute(.init(announcementId: announcement.id))
-            
+                .execute(.init(announcementId: announcementSummary.id))
+
+            let todosObservable = getTodosByAnnouncementUsecase
+                .execute(.init(announcementId: announcementSummary.id))
+                .map { output in
+                    Mutation.setTodoItems(Set(output.todos))
+                }
+
             return .merge(
+                .just(Mutation.setOrganization(organization)),
+                .just(Mutation.setAnnouncementSummary(announcementSummary)),
                 detailObservable
+                    .delay(.seconds(1), scheduler: MainScheduler.instance)
                     .map { output in
                         Mutation.setAnnouncement(output.announcement)
                     },
-                detailObservable
-                    .compactMap { $0.announcement.todos }
-                    .map { Mutation.setTodoItems(Set($0)) },
-                .just(Mutation.setOrganization(organization))
+                todosObservable
             )
-            
+
         case let .toggleTodoStatus(todo):
             let newTodo = todo.copy(
                 with: \.status,
                 value: todo.status == .done ? .pending : .done
             )
-            
+
             return .just(.updateTodoStatus(newTodo))
         }
     }
-    
+
     func reduce(state: State, mutation: Mutation) -> State {
         var state = state
         switch mutation {

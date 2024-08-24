@@ -47,7 +47,6 @@ final class _GetAnnouncementsByOrganizationUsecase {
     
     // MARK: Execute method
     public func execute(_ input: Input) -> Observable<Output> {
-        
         let outputObservable = organizationRepository.getPublishedAnnouncements(
             .init(
                 organizationId: Int64(input.organizationId),
@@ -89,6 +88,7 @@ private struct Mock {
         .init(
             id: 11412312,
             organizationId: 1,
+            imageURL: "",
             createdAt: Date.now,
             title: "5차 세션 : 최종 팀 빌딩 ~ 제목이 두 줄 일 때",
             body: """
@@ -101,12 +101,12 @@ private struct Mock {
                 type: .offline,
                 name: "서울 창업 허브 : 장소 이름이름이름이름..",
                 link: "https://naver.com"
-            ),
-            todos: []
+            )
         ),
         .init(
             id: 11412313,
             organizationId: 1,
+            imageURL: "",
             createdAt: Date.now,
             title: "6차 세션 : 프로젝트 중간 점검 및 피드백",
             body: """
@@ -120,19 +120,12 @@ private struct Mock {
                 type: .online,
                 name: "구글 밋",
                 link: "https://meet.google.com/abc-defg-hij"
-            ),
-            todos: [
-                .init(id: 1, content: "프레젠테이션 자료 준비", status: .pending),
-                .init(id: 2, content: "팀 미팅 진행", status: .done),
-                .init(id: 3, content: "팀 미팅 진행상황 보고", status: .done),
-                .init(id: 4, content: "피드백 문서 정리", status: .pending),
-                .init(id: 5, content: "테스터 모집 테스터 모집 테스터 모집 테스터 모집 테스터 모집 테스터 모집 테스터 모집 테스터 모집 테스터 모집 테스터 모집 테스터 모집 테스터 모집 테스터 모집 테스터 모집 테스터 모집 테스터 모집", status: .done)
-            ]
+            )
         ),
-
         .init(
             id: 11412314,
             organizationId: 1,
+            imageURL: "",
             createdAt: Date.now,
             title: "7차 세션 : UI/UX 디자인 워크샵",
             body: """
@@ -145,16 +138,12 @@ private struct Mock {
                 type: .online,
                 name: "Zoom 화상회의",
                 link: "https://zoom.us/j/1234567890"
-            ),
-            todos: [
-                .init(id: 1, content: "현재 UI 스크린샷 준비", status: .pending),
-                .init(id: 2, content: "디자인 관련 질문 리스트 작성", status: .pending)
-            ]
+            )
         ),
-
         .init(
             id: 11412315,
             organizationId: 1,
+            imageURL: "",
             createdAt: Date.now,
             title: "8차 세션 : 데이터 분석과 인공지능 활용 특강",
             body: """
@@ -162,16 +151,15 @@ private struct Mock {
             기초적인 통계 분석부터 머신러닝 모델 적용까지, 다양한 레벨의 내용을 다룰 예정입니다.
             세션 후반부에는 각 팀의 프로젝트에 어떻게 이 기술들을 적용할 수 있을지 토론합니다.
             """,
-            endAt: Date.now.addingTimeInterval(21 * 24 * 60 * 60),
-            todos: [
-                .init(id: 1, content: "데이터셋 준비", status: .pending),
-                .init(id: 2, content: "Python 기초 학습", status: .done)
-            ]
+            endAt: Date.now.addingTimeInterval(
+                21 * 24 * 60 * 60
+            ),
+            place: nil
         ),
-
         .init(
             id: 11412316,
             organizationId: 1,
+            imageURL: "",
             createdAt: Date.now,
             title: "9차 세션 : 창업과 비즈니스 모델 구축",
             body: """
@@ -184,15 +172,13 @@ private struct Mock {
                 type: .offline,
                 name: "서울 스타트업 허브",
                 link: "https://meet.google.com/jkl-mnop-qrs"
-            ),
-            todos: [
-                .init(id: 1, content: "비즈니스 모델 캔버스 초안 작성", status: .pending)
-            ]
+            )
         ),
 
         .init(
             id: 11412317,
             organizationId: 1,
+            imageURL: "",
             createdAt: Date.now,
             title: "10차 세션 : 최종 프로젝트 발표 및 데모 데이",
             body: """
@@ -206,11 +192,7 @@ private struct Mock {
                 type: .offline,
                 name: "코엑스 컨퍼런스룸",
                 link: "https://maps.google.com/?q=COEX+Conference+Room"
-            ),
-            todos: [
-                .init(id: 1, content: "발표 자료 최종 점검", status: .pending),
-                .init(id: 2, content: "데모 리허설", status: .pending)
-            ]
+            )
         )
     ]
 }

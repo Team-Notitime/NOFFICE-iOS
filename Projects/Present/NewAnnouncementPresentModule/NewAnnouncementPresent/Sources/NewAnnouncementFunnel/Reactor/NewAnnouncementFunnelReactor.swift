@@ -14,7 +14,6 @@ import AnnouncementEntity
 import ReactorKit
 
 class NewAnnouncementFunnelReactor: Reactor {
-    
     // MARK: Action
     enum Action {
         case moveNextPage
@@ -123,9 +122,7 @@ class NewAnnouncementFunnelReactor: Reactor {
                             type: editPlaceReactor.currentState.placeType,
                             name: editPlaceReactor.currentState.placeName,
                             link: editPlaceReactor.currentState.placeLink
-                        ),
-                        todos: [],
-                        remindNotification: []
+                        )
                     )
                     
                     return self.createAnnouncementUsecase

@@ -128,4 +128,32 @@ public struct AnnouncementRepository: AnnouncementRepositoryInterface {
             return Disposables.create()
         }
     }
+    
+
+    public func getTodosByAnnouncement(
+        _ request: GetTodosByAnnouncementRequest
+    ) -> Observable<GetTodosByAnnouncementResponse> {
+        return Observable.create { observer in
+            Task {
+                do {
+                    let response = try await client.getTasksById(
+                        .init(
+                            path: request
+                        )
+                    )
+                    
+                    if let data = try response.ok.body.json.data {
+                        observer.onNext(data)
+                        observer.onCompleted()
+                    } else {
+                        observer.onError(AnnouncementError.invalidResponse)
+                    }
+                    observer.onCompleted()
+                } catch {
+                    observer.onError(AnnouncementError.underlying(error))
+                }
+            }
+            return Disposables.create()
+        }
+    }
 }

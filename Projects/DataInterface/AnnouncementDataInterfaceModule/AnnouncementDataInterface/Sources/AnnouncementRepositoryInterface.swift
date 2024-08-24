@@ -24,4 +24,8 @@ public protocol AnnouncementRepositoryInterface {
     func deleteAnnouncement(
         _ request: DeleteAnnouncementRequest
     ) -> Observable<DeleteAnnouncementResponse>
+    
+    func getTodosByAnnouncement(
+        _ request: GetTodosByAnnouncementRequest
+    ) -> Observable<GetTodosByAnnouncementResponse>
 }

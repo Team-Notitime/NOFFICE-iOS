@@ -250,8 +250,7 @@ public class AnnouncementDetailView: BaseView {
             BaseSpacer(size: GlobalViewConstant.SpacingUnit * 2)
         )
         
-        // TODO: v1.1.0 추가 예정
-//        stackView.addArrangedSubview(todoListCard)
+        stackView.addArrangedSubview(todoListCard)
     }
     
     public override func setupLayout() {

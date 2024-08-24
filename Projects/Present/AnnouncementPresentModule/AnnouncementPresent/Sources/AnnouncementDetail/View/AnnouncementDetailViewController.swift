@@ -59,10 +59,10 @@ public class AnnouncementDetailViewController: BaseViewController<AnnouncementDe
     
     override public func setupStateBind() {
         // - Stop skeleton
-        reactor.state.map { $0.organization }
-            .asDriver(onErrorJustReturn: nil)
+        reactor.state.map { $0.announcement }
             .compactMap { $0 }
-            .drive(onNext: { [weak self] _ in
+            .observe(on: MainScheduler.asyncInstance)
+            .subscribe(onNext: { [weak self] _ in
                 self?.stopSkeleton()
             })
             .disposed(by: disposeBag)
@@ -72,23 +72,6 @@ public class AnnouncementDetailViewController: BaseViewController<AnnouncementDe
             .asDriver(onErrorJustReturn: "")
             .drive(baseView.orgnizationNameLabel.rx.text)
             .disposed(by: disposeBag)
-        
-        // - Bind organization categories
-//        reactor.state.map { $0.organization }
-//            .compactMap { $0 }
-//            .observe(on: MainScheduler.instance)
-//            .subscribe(
-//                with: self,
-//                onNext: { owner, organization in
-//                    owner.stopSkeleton() // TODO: 왜 announcement subscribe쪽에 넣으면 안되는거지? 수정 필요 이건 동기고 announcement가 비동기임
-//                    
-//                    owner.baseView.orgnizationNameLabel.text = organization.name
-//                    owner.baseView.organizationCategoryLabel.text = organization
-//                    owner.baseView.organizationProfileImage.kf
-//                        .setImage(with: organization.profileImageUrl)
-//                }
-//            )
-//            .disposed(by: disposeBag)
         
         // - Bind organization profile image
         reactor.state.map { $0.organization?.profileImageUrl }
@@ -100,6 +83,18 @@ public class AnnouncementDetailViewController: BaseViewController<AnnouncementDe
             })
             .disposed(by: disposeBag)
         
+        // - Bind annuncement summary
+        reactor.state.map { $0.announcementSummary }
+            .asDriver(onErrorJustReturn: nil)
+            .compactMap { $0 }
+            .drive(with: self, onNext: { owner, announcementSummary in
+                owner.baseView.titleLabel.text = announcementSummary?.title
+                owner.baseView.createdDateLabel.text = announcementSummary?.endAt?
+                    .toString(format: "yyyy.MM.dd HH:mm") ?? "-"
+            })
+            .disposed(by: disposeBag)
+        
+        
         // - Bind announcement detail
         reactor.state.map { $0.announcement }
             .compactMap { $0 }
@@ -107,9 +102,6 @@ public class AnnouncementDetailViewController: BaseViewController<AnnouncementDe
             .subscribe(
                 with: self,
                 onNext: { owner, item in
-                    owner.baseView.titleLabel.text = item.title
-                    owner.baseView.createdDateLabel.text = item.endAt?
-                        .toString(format: "yyyy.MM.dd HH:mm") ?? "-"
                     owner.baseView.eventDateLabel.text = item.endAt?
                         .toString(format: "yyyy.MM.dd(E) HH:mm") ?? "-"
                     owner.baseView.eventPlaceLabel.text = item.place?.name ?? "-"
@@ -131,9 +123,7 @@ public class AnnouncementDetailViewController: BaseViewController<AnnouncementDe
                     todos: todos,
                     onTapTodoItem: { [weak owner] todo in
                         guard let weakOwner = owner
-                        else {
-                            return
-                        }
+                        else { return }
                         
                         weakOwner.reactor.action.onNext(.toggleTodoStatus(todo))
                     }
@@ -174,10 +164,6 @@ public class AnnouncementDetailViewController: BaseViewController<AnnouncementDe
         // Set up isSkeletonable
         baseView.setSkeletonableForViews(
             [
-                baseView.titleLabel,
-                baseView.createdDateLabel,
-                baseView.organizationProfileImage,
-                baseView.orgnizationNameLabel,
                 baseView.organizationCategoryLabel,
                 baseView.eventDateLabel,
                 baseView.eventPlaceLabel,

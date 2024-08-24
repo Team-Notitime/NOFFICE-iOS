@@ -35,23 +35,15 @@ public struct AnnouncementEntity: Identifiable, Equatable {
     /// Place of the announcement (optional)
     public let place: AnnouncementPlaceEntity?
     
-    /// List of todo items (optional)
-    public let todos: [AnnouncementTodoEntity]?
-    
-    /// Types of reminder notifications (optional)
-    public let remindNotification: [AnnouncementRemindNotification]?
-    
     public init(
         id: Int64,
         organizationId: Int64,
-        imageURL: String? = nil,
-        createdAt: Date? = nil,
+        imageURL: String?,
+        createdAt: Date?,
         title: String,
         body: String,
-        endAt: Date? = nil,
-        place: AnnouncementPlaceEntity? = nil,
-        todos: [AnnouncementTodoEntity]? = nil,
-        remindNotification: [AnnouncementRemindNotification]? = nil
+        endAt: Date?,
+        place: AnnouncementPlaceEntity?
     ) {
         self.id = id
         self.organizationId = organizationId
@@ -61,7 +53,5 @@ public struct AnnouncementEntity: Identifiable, Equatable {
         self.body = body
         self.endAt = endAt
         self.place = place
-        self.todos = todos
-        self.remindNotification = remindNotification
     }
 }

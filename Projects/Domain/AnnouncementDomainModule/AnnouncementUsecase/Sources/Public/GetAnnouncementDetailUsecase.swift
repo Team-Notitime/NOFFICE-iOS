@@ -48,6 +48,8 @@ public struct GetAnnouncementDetailUsecase {
                     announcement: AnnouncementEntity(
                         id: result.announcementId ?? 0,
                         organizationId: result.organizationId ?? 0,
+                        imageURL: result.profileImageUrl,
+                        createdAt: result.createdAt,
                         title: result.title ?? "",
                         body: result.content ?? "",
                         endAt: result.endAt,
@@ -69,6 +71,7 @@ private struct Mock {
     static let annoucement = AnnouncementEntity(
         id: 11412312,
         organizationId: 1,
+        imageURL: "",
         createdAt: Date.now,
         title: "5차 세션 : 최종 팀 빌딩 ~ 제목이 두 줄 일 때",
         body: """
@@ -81,10 +84,6 @@ private struct Mock {
             type: .offline,
             name: "서울 창업 허브 : 장소 이름이름이름이름..",
             link: "https://naver.com"
-        ),
-        todos: [
-            .init(id: 1, content: "과제 제출", status: .pending),
-            .init(id: 2, content: "과제 제출 2", status: .pending)
-        ]
+        )
     )
 }
