@@ -12,15 +12,24 @@ extension Settings {
     }
     
     public static func settings(_ type: SettingsType) -> Settings {
-
-        
         switch type {
         case .base:
+            
             return .settings(
                 base: baseSettings,
                 configurations: [
-                    .debug(name: Scheme.SchemeType.dev.name, settings: baseSettings),
-                    .release(name: Scheme.SchemeType.prod.name, settings: baseSettings)
+                    .debug(
+                        name: Scheme.SchemeType.dev.name,
+                        settings: devSettings.merging(baseSettings) {
+                            _, new in new
+                        }
+                    ),
+                    .release(
+                        name: Scheme.SchemeType.prod.name,
+                        settings: prodSettings.merging(baseSettings) {
+                            _, new in new
+                        }
+                    ),
                 ],
                 defaultSettings: .recommended
             )
@@ -61,6 +70,7 @@ extension Settings {
     }
 }
 
+// TODO: 스키마 정리 필ㅇ
 extension Settings {
     // - Layer setting
     static let baseSettings: SettingsDictionary = [
@@ -80,7 +90,13 @@ extension Settings {
     // - Scheme setting
     static let devSettings: SettingsDictionary = [
         "OTHER_SWIFT_FLAGS": [
-            "-DDEBUG"
+            "-D DEV"
+        ]
+    ]
+    
+    static let prodSettings: SettingsDictionary = [
+        "OTHER_SWIFT_FLAGS": [
+            "-D PROD"
         ]
     ]
     

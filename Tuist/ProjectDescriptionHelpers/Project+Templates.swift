@@ -30,7 +30,7 @@ extension Project {
                     ]
                 )
             ],
-            schemes: .base
+            schemes: .makeAppScheme(target.name)
         )
     }
     
@@ -54,7 +54,7 @@ extension Project {
                     ] + dependencies + uiDependencies + presentDependencies
                 ),
             ],
-            schemes: .base
+            schemes: .makeBaseScheme(target.name)
         )
     }
     
@@ -83,7 +83,7 @@ extension Project {
                     dependencies: dependencies + uiDependencies
                 )
             ],
-            schemes: .base,
+            schemes: .makeBaseScheme(target.name),
             resourceSynthesizers: [
                 .custom(name: "Assets", parser: .assets, extensions: ["xcassets"]),
             ]
@@ -108,7 +108,7 @@ extension Project {
                     ] + dependencies + uiDependencies
                 ),
             ],
-            schemes: .base
+            schemes: .makeBaseScheme(target.name)
         )
     }
     
@@ -137,7 +137,7 @@ extension Project {
                     dependencies: []
                 ),
             ],
-            schemes: .base
+            schemes: .makeBaseScheme(target.name)
         )
     }
     
@@ -156,7 +156,7 @@ extension Project {
                     dependencies: dependencies + dataDependencies
                 ),
             ],
-            schemes: .base
+            schemes: .makeBaseScheme(target.name)
         )
     }
     
@@ -176,7 +176,7 @@ extension Project {
                     dependencies: dependencies + dataDependencies
                 )
             ],
-            schemes: .base
+            schemes: .makeBaseScheme(target.name)
         )
     }
     
@@ -195,7 +195,7 @@ extension Project {
                     dependencies: dependencies
                 ),
             ],
-            schemes: .base
+            schemes: .makeBaseScheme(target.name)
         )
     }
     
@@ -214,7 +214,7 @@ extension Project {
                     dependencies: dependencies
                 ),
             ],
-            schemes: .base
+            schemes: .makeBaseScheme(target.name)
         )
     }
 }

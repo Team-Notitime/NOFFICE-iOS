@@ -14,8 +14,11 @@ import Router
 @MainActor
 final class DebugButtonConfig {
     static func setup(window: UIWindow?) {
-#if DEBUG
+#if DEV
+        print("prod인데 왜 DEBUG가 나오죠?")
         setupDebugButton(window: window)
+        #elseif PROD
+        print("PROD인데 왜 PROD가 나오죠?")
 #endif
     }
     

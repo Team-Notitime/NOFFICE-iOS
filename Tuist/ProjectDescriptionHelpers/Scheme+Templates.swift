@@ -13,22 +13,60 @@ extension Scheme {
 }
 
 extension Array where Element == Scheme {
-    public static var base: [Scheme] {
+    public static func makeAppScheme(_ appName: String) -> Self {
         return [
             .scheme(
-                name: "\(Scheme.SchemeType.dev.rawValue)",
+                name: "\(appName)(\(Scheme.SchemeType.dev.rawValue))",
+                hidden: false,
                 buildAction: .buildAction(
-                    targets: ["Noffice"],
+                    targets: [.target(appName)],
                     preActions: [swiftlintAction]
-                )
+                ),
+                testAction: .targets([], configuration: Scheme.SchemeType.dev.name),
+                runAction: .runAction(configuration: Scheme.SchemeType.dev.name),
+                archiveAction: .archiveAction(configuration: Scheme.SchemeType.dev.name),
+                profileAction: .profileAction(configuration: Scheme.SchemeType.dev.name),
+                analyzeAction: .analyzeAction(configuration: Scheme.SchemeType.dev.name)
             ),
             .scheme(
-                name: "\(Scheme.SchemeType.prod.rawValue)"
+                name: "\(appName)(\(Scheme.SchemeType.prod.rawValue))",
+                hidden: false,
+                buildAction: .buildAction(targets: [.target(appName)]),
+                testAction: .targets([], configuration: Scheme.SchemeType.prod.name),
+                runAction: .runAction(configuration: Scheme.SchemeType.prod.name),
+                archiveAction: .archiveAction(configuration: Scheme.SchemeType.prod.name),
+                profileAction: .profileAction(configuration: Scheme.SchemeType.prod.name),
+                analyzeAction: .analyzeAction(configuration: Scheme.SchemeType.prod.name)
             )
         ]
     }
     
-    public static var swiftlintAction: ExecutionAction {
+    public static func makeBaseScheme(_ moduleName: String) -> Self {
+        return [
+            .scheme(
+                name: "\(moduleName)(\(Scheme.SchemeType.dev.rawValue))",
+                hidden: true,
+                buildAction: .buildAction(targets: []),
+                testAction: .targets([], configuration: Scheme.SchemeType.dev.name),
+                runAction: .runAction(configuration: Scheme.SchemeType.dev.name),
+                archiveAction: .archiveAction(configuration: Scheme.SchemeType.dev.name),
+                profileAction: .profileAction(configuration: Scheme.SchemeType.dev.name),
+                analyzeAction: .analyzeAction(configuration: Scheme.SchemeType.dev.name)
+            ),
+            .scheme(
+                name: "\(moduleName)(\(Scheme.SchemeType.prod.rawValue))",
+                hidden: true,
+                buildAction: .buildAction(targets: []),
+                testAction: .targets([], configuration: Scheme.SchemeType.prod.name),
+                runAction: .runAction(configuration: Scheme.SchemeType.prod.name),
+                archiveAction: .archiveAction(configuration: Scheme.SchemeType.prod.name),
+                profileAction: .profileAction(configuration: Scheme.SchemeType.prod.name),
+                analyzeAction: .analyzeAction(configuration: Scheme.SchemeType.prod.name)
+            )
+        ]
+    }
+    
+    private static var swiftlintAction: ExecutionAction {
         return .executionAction(scriptText:
             """
             echo "Run script"
