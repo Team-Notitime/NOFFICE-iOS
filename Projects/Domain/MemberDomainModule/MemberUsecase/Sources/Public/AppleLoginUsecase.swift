@@ -74,7 +74,7 @@ public final class AppleLoginUsecase: NSObject {
     }
     
     // MARK: Execute method
-    public func execute(_ param: Input) -> Observable<Output> {
+    public func execute(_ input: Input) -> Observable<Output> {
         self.authorizationController.performRequests()
         
         return authorizationResultSubject.asObservable()
@@ -93,10 +93,10 @@ extension AppleLoginUsecase {
         keychainManager.save(token)
     }
     
-    private func saveToUserDefaults(result: LoginResult) {
-        if let id = result.memberId,
-           let name = result.memberName,
-           let provider = result.provider {
+    private func saveToUserDefaults(response: LoginResponse) {
+        if let id = response.memberId,
+           let name = response.memberName,
+           let provider = response.provider {
             let member = Member(
                 id: id, name: name,
                 provider: provider.rawValue
@@ -120,7 +120,7 @@ extension AppleLoginUsecase: ASAuthorizationControllerDelegate,
                 return
             }
             
-            let requestParam: LoginParam = .init(
+            let loginRequest: LoginRequest = .init(
                 body: .json(
                     .init(
                         provider: .APPLE,
@@ -129,13 +129,13 @@ extension AppleLoginUsecase: ASAuthorizationControllerDelegate,
                 )
             )
             
-            memberRepository.login(requestParam)
+            memberRepository.login(loginRequest)
                 .flatMap { [weak self] result -> Observable<Output> in
                     guard let self = self else { return Observable.empty() }
                     if let accessToken = result.token?.accessToken,
                        let refreshToken = result.token?.refreshToken {
                         self.saveToKeychain(accessToken: accessToken, refreshToken: refreshToken)
-                        self.saveToUserDefaults(result: result)
+                        self.saveToUserDefaults(response: result)
                         return Observable.just(Output(isSuccess: true))
                     } else {
                         return Observable.error(Error.invalidToken)

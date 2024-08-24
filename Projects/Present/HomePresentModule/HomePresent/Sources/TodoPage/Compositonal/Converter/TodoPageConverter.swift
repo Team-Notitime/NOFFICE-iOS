@@ -15,11 +15,11 @@ struct TodoPageConverter {
     ) -> [any CompositionalSection] {
         return entities.map { organizationEntity in
             TodoSection(
-                organizationId: organizationEntity.id,
+                organizationId: Int(organizationEntity.id),
                 organizationName: organizationEntity.name,
                 items: organizationEntity.todos.map { todoEntity in
                     TodoItem(
-                        id: todoEntity.id,
+                        id: Int(todoEntity.id),
                         status: todoEntity.status,
                         contents: todoEntity.contents,
                         onTap: {

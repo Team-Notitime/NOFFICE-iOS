@@ -26,14 +26,14 @@ public struct AnnouncementRepository: AnnouncementRepositoryInterface {
     public init() {}
     
     public func createAnnouncement(
-        _ param: CreateAnnounementParam
-    ) -> Observable<CreateAnnouncementResult> {
+        _ request: CreateAnnounementRequest
+    ) -> Observable<CreateAnnouncementResponse> {
         return Observable.create { observer in
             Task {
                 do {
                     let response = try await client.create_2(
                         .init(
-                            body: .json(param)
+                            body: .json(request)
                         )
                     )
                     
@@ -53,14 +53,14 @@ public struct AnnouncementRepository: AnnouncementRepositoryInterface {
     }
     
     public func getAnnouncement(
-        _ param: GetAnnouncementParam
-    ) -> Observable<GetAnnouncementResult> {
+        _ request: GetAnnouncementRequest
+    ) -> Observable<GetAnnouncementResponse> {
         return Observable.create { observer in
             Task {
                 do {
                     let response = try await client.read(
                         .init(
-                            path: param
+                            path: request
                         )
                     )
                     
@@ -79,15 +79,15 @@ public struct AnnouncementRepository: AnnouncementRepositoryInterface {
     }
     
     public func updateAnnouncement(
-        _ param: UpdateAnnouncementParam
-    ) -> Observable<UpdateAnnouncementResult> {
+        _ request: UpdateAnnouncementRequest
+    ) -> Observable<UpdateAnnouncementResponse> {
         return Observable.create { observer in
             Task {
                 do {
                     let response = try await client.update(
                         .init(
-                            path: .init(announcementId: param.announcementId),
-                            body: .json(param.updatedAnnoundement)
+                            path: .init(announcementId: request.announcementId),
+                            body: .json(request.updatedAnnoundement)
                         )
                     )
                     
@@ -106,14 +106,16 @@ public struct AnnouncementRepository: AnnouncementRepositoryInterface {
     }
     
     public func deleteAnnouncement(
-        _ announcementId: Int64
-    ) -> Observable<Void> {
+        _ request: DeleteAnnouncementRequest
+    ) -> Observable<DeleteAnnouncementResponse> {
         return Observable.create { observer in
             Task {
                 do {
-                    let response = try await client.delete_1(
+                    _ = try await client.delete_1(
                         .init(
-                            path: .init(announcementId: announcementId)
+                            path: .init(
+                                announcementId: request.announcementId
+                            )
                         )
                     )
                     

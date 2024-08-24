@@ -15,9 +15,9 @@ import TodoDataInterface
 /// A repository that handles network communication with the server related to the organization domain.
 public struct TodoRepository: TodoRepositoryInterface {
     private let client: APIProtocol
-    
+
     public init() {
-        self.client = Client(
+        client = Client(
             serverURL: UrlConfig.baseUrl.url,
             configuration: .init(
                 dateTranscoder: .custom
@@ -26,11 +26,10 @@ public struct TodoRepository: TodoRepositoryInterface {
             middlewares: [AuthenticationMiddleware()]
         )
     }
-    
 
     public func getAssignedTodos(
         _ request: GetAssignedTodosRequest
-    ) async throws -> Observable<GetAssignedTodosResponse> {
+    ) -> Observable<GetAssignedTodosResponse> {
         return Observable.create { observer in
             Task {
                 do {
@@ -41,7 +40,7 @@ public struct TodoRepository: TodoRepositoryInterface {
                             )
                         )
                     )
-                    
+
                     if let data = try response.ok.body.json.data {
                         observer.onNext(data)
                         observer.onCompleted()
@@ -52,13 +51,14 @@ public struct TodoRepository: TodoRepositoryInterface {
                     observer.onError(TodoError.underlying(error))
                 }
             }
-            
+
             return Disposables.create()
         }
     }
-    
 
-    public func updateTodo(_ request: UpdateTodoRequest) async throws -> Observable<UpdateTodoResponse>{
+    public func updateTodo(
+        _ request: UpdateTodoRequest
+    ) -> Observable<UpdateTodoResponse> {
         return Observable.create { observer in
             Task {
                 do {
@@ -69,7 +69,7 @@ public struct TodoRepository: TodoRepositoryInterface {
                             )
                         )
                     )
-                    
+
                     if let data = try response.ok.body.json.data {
                         observer.onNext(data)
                         observer.onCompleted()
@@ -80,7 +80,7 @@ public struct TodoRepository: TodoRepositoryInterface {
                     observer.onError(TodoError.underlying(error))
                 }
             }
-            
+
             return Disposables.create()
         }
     }

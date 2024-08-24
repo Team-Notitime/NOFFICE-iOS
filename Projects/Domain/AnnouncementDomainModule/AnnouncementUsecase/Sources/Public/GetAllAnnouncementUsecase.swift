@@ -49,7 +49,7 @@ public final class GetAllAnnouncementUsecase {
     public func execute(
         _ input: Input
     ) -> Observable<Output> {
-        let param = GetJoinedOrganizationsParam(
+        let request = GetJoinedOrganizationsRequest(
             pageable: .init(
                 page: Int32(
                     page
@@ -60,7 +60,7 @@ public final class GetAllAnnouncementUsecase {
         
         return organizationRepository
             .getJoinedOrganizations(
-                param
+                request
             )
             .flatMap { result -> Observable<Output> in
                 guard let content = result.content else {

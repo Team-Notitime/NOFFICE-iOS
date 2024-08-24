@@ -5,6 +5,15 @@
 //  Created by DOYEON LEE on 8/15/24.
 //
 
-import Foundation
+import RxSwift
 
-public protocol TodoRepositoryInterface { }
+/// A repository that handles network communication with the server related to the organization domain.
+public protocol TodoRepositoryInterface {
+    func getAssignedTodos(
+        _ request: GetAssignedTodosRequest
+    ) -> Observable<GetAssignedTodosResponse>
+    
+    func updateTodo(
+        _ request: UpdateTodoRequest
+    ) -> Observable<UpdateTodoResponse>
+}

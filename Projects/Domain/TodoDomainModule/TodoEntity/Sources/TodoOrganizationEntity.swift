@@ -12,7 +12,7 @@ import Foundation
 */
 public struct TodoOrganizationEntity: Codable, Identifiable, Equatable {
     /// Unique identifier for the organization.
-    public let id: Int
+    public let id: Int64
     
     /// Name of the organization in Korean.
     public let name: String
@@ -21,7 +21,7 @@ public struct TodoOrganizationEntity: Codable, Identifiable, Equatable {
     public let todos: [TodoItemEntity]
     
     public init(
-        id: Int,
+        id: Int64,
         name: String,
         todos: [TodoItemEntity]
     ) {

@@ -12,7 +12,7 @@ import Foundation
  */
 public struct TodoItemEntity: Codable, Identifiable, Equatable {
     /// Unique identifier for the todo item
-    public let id: Int
+    public let id: Int64
     
     /// Contents of the todo item
     public let contents: String
@@ -21,7 +21,7 @@ public struct TodoItemEntity: Codable, Identifiable, Equatable {
     public var status: Status
     
     public init(
-        id: Int,
+        id: Int64,
         contents: String,
         status: Status
     ) {

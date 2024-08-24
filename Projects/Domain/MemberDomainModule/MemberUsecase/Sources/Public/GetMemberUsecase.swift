@@ -37,19 +37,21 @@ public struct GetMemberUsecase {
     public func execute(_ input: Input) -> Observable<Output> {
         let member = memberUserDefaultsManager.get()
         
-        return Observable.create { observer in
+        let observable = Observable.create { observer in
             if let member = member {
                 let memberEntity = MemberEntity(
                     uid: member.id,
                     name: member.name,
                     email: "" // TODO:
                 )
-                observer.onNext(.init(member: memberEntity))
+                observer.onNext(Output(member: memberEntity))
             } else {
                 observer.onError(Error.memberNotFoundInUserDefaults)
             }
             return Disposables.create()
         }
+        
+        return observable
     }
 }
 
