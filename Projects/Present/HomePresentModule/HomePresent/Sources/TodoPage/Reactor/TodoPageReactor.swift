@@ -6,65 +6,60 @@
 //
 
 import ReactorKit
-
 import TodoEntity
+import TodoUsecase
 
 class TodoPageReactor: Reactor {
     // MARK: Action
-    enum Action { 
+    enum Action {
         case viewWillAppear
         case tapTodo(TodoItemEntity)
     }
-    
-    enum Mutation { 
+
+    enum Mutation {
         case setOrganizations([TodoOrganizationEntity])
         case updateTodoItemStatus(TodoItemEntity)
     }
-    
+
     // MARK: State
-    struct State { 
+    struct State {
         var organizations: [TodoOrganizationEntity] = []
     }
-    
-    let initialState: State = State()
-    
+
+    let initialState: State = .init()
+
     // MARK: ChildReactor
-    
+
     // MARK: Dependency
-    
+    private let getTodosByOrganizationUsecase = GetTodosByOrganizationUsecase()
+
     // MARK: DisposeBag
     private let disposeBag = DisposeBag()
-    
+
     // MARK: Initializer
-    init() { }
-    
+    init() {}
+
     // MARK: Action operation
     func mutate(action: Action) -> Observable<Mutation> {
-        switch action { 
+        switch action {
         case .viewWillAppear:
-            var temp = TodoOrganizationEntity.mock
-            temp = temp.map { organization in
-                let newTodos = organization.todos
-                    .sorted { $0.status == .pending && $1.status == .done }
-                return TodoOrganizationEntity(
-                    id: organization.id,
-                    name: organization.name,
-                    todos: newTodos
-                )
-            }
-            return .just(.setOrganizations(temp))
-            
+            return getTodosByOrganizationUsecase
+                .execute(.init())
+                .map { output in
+                    Mutation.setOrganizations(output.organization)
+                }
+
         case let .tapTodo(todo):
             return .just(.updateTodoItemStatus(todo))
         }
     }
-    
+
     func reduce(state: State, mutation: Mutation) -> State {
         var state = state
         switch mutation {
         case let .setOrganizations(organizations):
             state.organizations = organizations
-            
+
         case let .updateTodoItemStatus(todo):
             let newOrganizations = state.organizations.map { organization in
                 // Update target todo status
@@ -76,10 +71,10 @@ class TodoPageReactor: Reactor {
                     }
                     return todoEntity
                 }
-                
+
                 // Sort todos by status
                 newTodos.sort { $0.status == .pending && $1.status == .done }
-                
+
                 return TodoOrganizationEntity(
                     id: organization.id,
                     name: organization.name,
@@ -90,11 +85,11 @@ class TodoPageReactor: Reactor {
         }
         return state
     }
-    
+
     // MARK: Child bind
-    private func setupChildBind() { }
-    
+    private func setupChildBind() {}
+
     // MARK: Transform
-    
+
     // MARK: Private method
 }

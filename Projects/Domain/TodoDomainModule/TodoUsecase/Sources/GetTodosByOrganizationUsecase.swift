@@ -27,17 +27,24 @@ public final class GetTodosByOrganizationUsecase {
     public enum Error: LocalizedError {
         case contentFieldNotFound
     }
+    
+    // MARK: Property
+    private var page: Int
 
     // MARK: Dependency
     private let todoRepository = Container.shared.resolve(TodoRepositoryInterface.self)!
 
     // MARK: Initializer
-    public init() {}
+    public init() {
+        page = Constant.StartPage
+    }
 
     // MARK: Execute method
     public func execute(_: Input) -> Observable<Output> {
         let outputObservable = todoRepository
-            .getAssignedTodos(.init())
+            .getAssignedTodos(
+                .init(page: Int32(page), size: Constant.PageSize)
+            )
             .map { response in
                 guard let pagedContent = response.content else {
                      throw Error.contentFieldNotFound
@@ -64,4 +71,10 @@ public final class GetTodosByOrganizationUsecase {
         
         return outputObservable
     }
+}
+
+// MARK: - Constant
+private enum Constant {
+    static let StartPage: Int = 0
+    static let PageSize: Int32 = 10
 }
