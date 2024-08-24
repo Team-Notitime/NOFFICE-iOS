@@ -21,7 +21,7 @@ public struct OrganizationEntity: Identifiable, Equatable {
     public let categories: [String]
     
     /// URL of the image associated with the organization (optional).
-    public let imageURL: String?
+    public let profileImageUrl: URL?
     
     /// End date of the group's activities (optional).
     public let endDate: Date?
@@ -39,16 +39,16 @@ public struct OrganizationEntity: Identifiable, Equatable {
         id: Int,
         name: String,
         categories: [String],
-        imageURL: String? = nil,
-        endDate: Date? = nil,
-        promotionCode: String? = nil,
+        profileImageUrl: URL?,
+        endDate: Date?,
+        promotionCode: String?,
         leader: Int,
         member: Int
     ) {
         self.id = id
         self.name = name
         self.categories = categories
-        self.imageURL = imageURL
+        self.profileImageUrl = profileImageUrl
         self.endDate = endDate
         self.promotionCode = promotionCode
         self.leader = leader

@@ -7,12 +7,13 @@
 
 import UIKit
 
-import Router
 import DesignSystem
 import OrganizationEntity
+import Router
 
-import RxSwift
+import Kingfisher
 import RxCocoa
+import RxSwift
 import Swinject
 
 class OrganizationDetailViewController: BaseViewController<OrganizationDetailView> {
@@ -65,6 +66,18 @@ class OrganizationDetailViewController: BaseViewController<OrganizationDetailVie
     }
     
     override func setupStateBind() { 
+        // - Bind organization name
+        reactor.state.map { $0.organization?.profileImageUrl }
+            .compactMap { $0 }
+            .observe(on: MainScheduler.asyncInstance)
+            .subscribe(
+                with: self,
+                onNext: { owner, imageUrl in
+                    owner.baseView.organizationImageView.kf.setImage(with: imageUrl)
+                }
+            )
+            .disposed(by: disposeBag)
+        
         // - Bind organization name
         reactor.state.map { $0.organization?.name }
             .asDriver(onErrorJustReturn: "")

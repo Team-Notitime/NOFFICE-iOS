@@ -43,10 +43,13 @@ public struct GetOrganizationDetailUsecase {
             .map { result in
                 let organization = OrganizationEntity(
                     id: Int(result.organizationId),
-                    name: result.organizationName,
+                    name: result.profileImage,
                     categories: result.categories,
+                    profileImageUrl: URL(string: result.profileImage ?? ""),
+                    endDate: nil, // TODO: 왜없지?
+                    promotionCode: nil, // TODO: 왜없지?
                     leader: Int(result.leaderCount ?? 0),
-                    member: Int(result.participantCount ?? 0)
+                    member: Int(result.participantCount ?? 0) // FIXME: ex
                 )
 
                 return Output(organization: organization)

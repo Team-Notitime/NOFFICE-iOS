@@ -99,7 +99,6 @@ final class AnnouncementItemCell: UIView, CompositionalItemCell {
             organizationCard.locationText = location
         }
         
-        print("::: cover \(item.coverImageUrl)")
         organizationCard.coverImageUrl = item.coverImageUrl
         
         // action binding

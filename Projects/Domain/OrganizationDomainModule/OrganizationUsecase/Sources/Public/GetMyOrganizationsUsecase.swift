@@ -68,15 +68,6 @@ public class GetMyOrganizationsUsecase {
     
 }
 
-// MARK: - Mock
-private struct Mock {
-    static let OrganizationEntities: [OrganizationEntity] = [
-        .init(id: 1, name: "CMC 15th", categories: ["IT", "예술"], leader: 1, member: 10),
-        .init(id: 2, name: "멋진 동아리", categories: ["IT", "예술"], leader: 1, member: 3),
-        .init(id: 3, name: "즐거운 소모임", categories: ["IT", "예술"], leader: 2, member: 15)
-    ]
-}
-
 // MARK: - Constant
 private enum Constant {
     static let StartPage: Int = 0
