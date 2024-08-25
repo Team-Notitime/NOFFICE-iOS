@@ -14,7 +14,7 @@ import SnapKit
 /// Extension for set theme
 public extension BaseDialog {
     func styled(
-        variant: BasicDialogVariant = .shadow,
+        variant: BasicDialogVariant = .overlay,
         shape: BasicDialogShape = .round
     ) {
         let colorTheme = BasicDialogColorTheme(variant: variant)
@@ -28,29 +28,33 @@ public extension BaseDialog {
 /// Extension for open and close dialog
 public extension BaseDialog {
     func open() {
-        guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene
-        else { return }
-        guard let window = windowScene.windows.first
-        else { return }
-        
-        if window.subviews.contains(self) {
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            
+            guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene
+            else { return }
+            guard let window = windowScene.windows.first
+            else { return }
+            
+            if window.subviews.contains(self) {
+                self.isHidden = false
+            }
+            
+            // Add overlayView to UIWindow
+            window.addSubview(self)
+            self.snp.makeConstraints { make in
+                make.edges.equalTo(window)
+            }
+            
+            let duration = 0.3
             self.isHidden = false
-        }
-        
-        // Add overlayView to UIWindow
-        window.addSubview(self)
-        self.snp.makeConstraints { make in
-            make.edges.equalTo(window)
-        }
-        
-        let duration = 0.3
-        self.isHidden = false
-        self.overlayView.alpha = 0
-        self.backgroundView.alpha = 0
-        
-        UIView.animate(withDuration: duration) {
-            self.overlayView.alpha = 1
-            self.backgroundView.alpha = 1
+            self.overlayView.alpha = 0
+            self.backgroundView.alpha = 0
+            
+            UIView.animate(withDuration: duration) {
+                self.overlayView.alpha = 1
+                self.backgroundView.alpha = 1
+            }
         }
     }
     

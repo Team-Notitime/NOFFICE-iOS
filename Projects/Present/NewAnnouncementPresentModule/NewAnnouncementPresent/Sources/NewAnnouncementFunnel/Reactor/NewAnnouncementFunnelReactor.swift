@@ -15,12 +15,14 @@ import Router
 import ReactorKit
 import ProgressHUD
 
+// FIXME: 여기는 증맬루 심각합니다...
 class NewAnnouncementFunnelReactor: Reactor {
     // MARK: Action
     enum Action {
         case viewDidLoad
         case moveNextPage
         case movePreviousPage
+        case toggleisOpenHasLeaderRoleOrganizationDialog
     }
     
     enum Mutation {
@@ -32,7 +34,7 @@ class NewAnnouncementFunnelReactor: Reactor {
     struct State {
         var currentPage: NewAnnouncementFunnelPage = .selectOrganization
         
-        // - View TODO: ㅠㅠ 어떻게하지 변수명 머선일
+        // - View TODO: ㅠㅠ 어떡하지 변수명 머선일
         var isOpenHasLeaderRoleOrganizationDialog: Bool = false
     }
     
@@ -86,11 +88,12 @@ class NewAnnouncementFunnelReactor: Reactor {
         case .viewDidLoad:
             ProgressHUD.animate(nil, .horizontalDotScaling, interaction: false)
             
-            // TODO: 리더롤인지 확인하고 넣어야함
+            // TODO: 리더롤인지 확인하는 절차 필요
             let leaderRoleObservable = getJoinedOrganizationsUsecase
                 .execute(.init())
                 .compactMap {
-                    $0.organizations.isEmpty ? nil : ()
+                    ProgressHUD.dismiss()
+                    return $0.organizations.isEmpty ? () : nil
                 }
                 .map {
                     return Mutation.toggleisOpenHasLeaderRoleOrganizationDialog
@@ -105,6 +108,9 @@ class NewAnnouncementFunnelReactor: Reactor {
         case .movePreviousPage:
             let previousPage = previousPage(before: currentState.currentPage)
             return Observable.just(.setCurrentPage(previousPage))
+            
+        case .toggleisOpenHasLeaderRoleOrganizationDialog:
+            return .just(.toggleisOpenHasLeaderRoleOrganizationDialog)
         }
     }
     

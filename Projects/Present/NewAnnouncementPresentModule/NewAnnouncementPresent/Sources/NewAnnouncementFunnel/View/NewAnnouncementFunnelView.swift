@@ -36,12 +36,31 @@ public class NewAnnouncementFunnelView: BaseView {
         contentsBuilder: {
             [
                 UILabel().then {
-                    $0.text = "참여한 그룹이 없어요"
-                }
+                    $0.text = "참여한 그룹이 없습니다!"
+                    $0.setTypo(.body2b)
+                },
+                goHomeButton
             ]
         }
     ).then {
         $0.styled()
+    }
+    
+    lazy var goHomeButton = BaseButton(
+        contentsBuilder: {
+            [
+                UILabel().then {
+                    $0.text = "홈으로 돌아가기"
+                    $0.setTypo(.body1b)
+                }
+            ]
+        }
+    ).then {
+        $0.styled(
+            variant: .fill,
+            color: .ghost,
+            size: .medium
+        )
     }
     
     // MARK: Setup

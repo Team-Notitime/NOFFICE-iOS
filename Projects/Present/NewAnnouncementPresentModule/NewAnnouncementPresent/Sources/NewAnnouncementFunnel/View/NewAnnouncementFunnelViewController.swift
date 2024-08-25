@@ -20,8 +20,24 @@ public class NewAnnouncementFunnelViewController: BaseViewController<NewAnnounce
     // MARK: Reactor
     private let reactor = Container.shared.resolve(NewAnnouncementFunnelReactor.self)!
     
+    // MARK: Life cycle
+    public override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        reactor.action.onNext(.viewDidLoad)
+    }
+    
     // MARK: Setup
-    public override func setupViewBind() { }
+    public override func setupViewBind() {
+        baseView.goHomeButton
+            .onTap
+            .subscribe(with: self, onNext: { owner, _ in
+                owner.reactor.action.onNext(.toggleisOpenHasLeaderRoleOrganizationDialog)
+                
+                Router.shared.dismiss()
+            })
+            .disposed(by: disposeBag)
+    }
     
     public override func setupStateBind() { 
         reactor.state.map { $0.currentPage }
@@ -32,6 +48,7 @@ public class NewAnnouncementFunnelViewController: BaseViewController<NewAnnounce
           .disposed(by: self.disposeBag)
         
         reactor.state.map { $0.isOpenHasLeaderRoleOrganizationDialog }
+            .skip(1)
             .withUnretained(self.baseView)
             .subscribe(onNext: { owner, isOpen in
                 if isOpen {
