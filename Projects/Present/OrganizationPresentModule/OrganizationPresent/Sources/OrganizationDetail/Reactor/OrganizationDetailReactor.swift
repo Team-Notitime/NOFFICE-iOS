@@ -49,7 +49,7 @@ class OrganizationDetailReactor: Reactor {
         switch action { 
         case let .viewDidLoad(organization):
             let setOrganization = getOrganizationDetailUsecase
-                .execute(.init(organizationId: organization.id))
+                .execute(.init(organizationId: Int(organization.id)))
                 .map { output in
                     Mutation.setOrganization(output.organization)
                 }

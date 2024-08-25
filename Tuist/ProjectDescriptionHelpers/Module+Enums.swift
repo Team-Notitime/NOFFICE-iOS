@@ -57,6 +57,7 @@ public enum Module {
         case announcement
         case member
         case todo
+        case image
         
         var name: String { rawValue.toUpperCamelCase() }
         var bundleIdenifier: String { rawValue.toBundleIdentifier() }
@@ -68,6 +69,7 @@ public enum Module {
         case announcement
         case member
         case todo
+        case image
         
         var name: String { rawValue.toUpperCamelCase() }
         var bundleIdenifier: String { rawValue.toBundleIdentifier() }

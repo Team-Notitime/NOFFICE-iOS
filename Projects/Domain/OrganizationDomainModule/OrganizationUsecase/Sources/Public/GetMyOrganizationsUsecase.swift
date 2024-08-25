@@ -54,7 +54,7 @@ public class GetMyOrganizationsUsecase {
             
             let organizations: [OrganizationSummaryEntity] = result.content?.map {
                 OrganizationSummaryEntity(
-                    id: Int($0.organizationId),
+                    id: $0.organizationId,
                     name: $0.organizationName,
                     profileImageUrl: URL(string: $0.profileImage)
                 )

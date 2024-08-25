@@ -12,7 +12,7 @@ import Foundation
  */
 public struct OrganizationSummaryEntity: Identifiable, Equatable {
     /// Unique identifier for the organization.
-    public let id: Int
+    public let id: Int64
     
     /// Name of the organization.
     public let name: String
@@ -21,7 +21,7 @@ public struct OrganizationSummaryEntity: Identifiable, Equatable {
     public let profileImageUrl: URL?
     
     public init(
-        id: Int,
+        id: Int64,
         name: String,
         profileImageUrl: URL? = nil
     ) {

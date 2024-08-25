@@ -25,6 +25,7 @@ struct OrganizationTabConverter {
             OrganizationSection(
                 items: entities.map { organization in
                     OrganizationItem(
+                        id: organization.id,
                         name: organization.name,
                         profileImageUrl: organization.profileImageUrl
                     ) {

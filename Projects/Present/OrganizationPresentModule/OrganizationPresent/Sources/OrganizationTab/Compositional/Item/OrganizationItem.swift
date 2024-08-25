@@ -20,6 +20,8 @@ final class OrganizationItem: CompositionalItem {
     let onTap: () -> Void
     
     // MARK: Data
+    let id: Int64
+    
     let name: String
     
     let profileImageUrl: URL?
@@ -29,10 +31,12 @@ final class OrganizationItem: CompositionalItem {
     
     // MARK: Initializer
     init(
+        id: Int64,
         name: String,
         profileImageUrl: URL?,
         onTap: @escaping () -> Void
     ) {
+        self.id = id
         self.name = name
         self.profileImageUrl = profileImageUrl
         self.onTap = onTap
@@ -40,6 +44,7 @@ final class OrganizationItem: CompositionalItem {
     
     func hash(into hasher: inout Hasher) {
         hasher.combine(String(describing: type(of: self)))
+        hasher.combine(id)
         hasher.combine(name)
     }
 }

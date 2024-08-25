@@ -54,7 +54,7 @@ class AnnouncementPageViewController: BaseViewController<AnnouncementPageView> {
                             Router.shared.push(
                                 .organizationDetail(
                                     .init(
-                                        id: organization.id,
+                                        id: Int64(organization.id),
                                         name: organization.name,
                                         profileImageUrl: organization.profileImageUrl
                                     )

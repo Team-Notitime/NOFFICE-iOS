@@ -1,8 +1,8 @@
 import ProjectDescription
 import ProjectDescriptionHelpers
 
-let project = Project.makeDomainModule(
-    .common,
+let project = Project.makeDataModule(
+    .image,
     dependencies: [
         .dataInterface(.image)
     ]

@@ -125,7 +125,7 @@ class NewAnnouncementFunnelReactor: Reactor {
                         todos: editTodoReactor.currentState.todos.map {
                             $0.content
                         },
-                        notification: Array(editNotificationReactor.currentState.selectedTimeOptions)
+                        notifications: Array(editNotificationReactor.currentState.selectedTimeOptions)
                     )
                     
                     return self.createAnnouncementUsecase
