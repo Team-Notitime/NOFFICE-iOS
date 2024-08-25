@@ -6,17 +6,11 @@ type("development") # The default type, can be: appstore, adhoc, enterprise or d
 
 force_for_new_devices(true) # Auto recreate provisioning profile when change device count of team
 
-app_identifier([
-  "notitime.noffice.app",
-  "notitime.noffice.design-system.app",
-  "notitime.noffice.home.example",
-  "notitime.noffice.organization.example",
-  "notitime.noffice.mypage.example",
-  "notitime.noffice.signup.example",
-  "notitime.noffice.new-announcement.example",
-  "notitime.noffice.announcement.example"
-])
-username("do83430208@gmail.com") # Your Apple Developer Portal username
+app_identifiers = ENV["APP_IDENTIFIERS"]
+app_identifiers_array = JSON.parse(app_identifiers)
+app_identifier(app_identifiers_array)
+
+username(ENV["FASTLANE_USER"]) # Your Apple Developer Portal username
 
 # For all available options run `fastlane match --help`
 # Remove the # in the beginning of the line to enable the other options
