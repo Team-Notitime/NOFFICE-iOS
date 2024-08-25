@@ -57,7 +57,7 @@ public struct ImageRepository: ImageRepositoryInterface {
                         body: .json(request)
                     )
 
-                    let _ = try response.ok
+                    let _ = try response.created
 
                     observer.onNext(())
                     observer.onCompleted()

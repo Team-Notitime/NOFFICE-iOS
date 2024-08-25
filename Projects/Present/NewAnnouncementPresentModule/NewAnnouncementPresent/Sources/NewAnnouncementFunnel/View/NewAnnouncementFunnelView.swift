@@ -31,6 +31,19 @@ public class NewAnnouncementFunnelView: BaseView {
         $0.gestureScrollEnabled = false
     }
     
+    // - Has leader role organization dialog
+    lazy var hasLeaderRoleOrganizationDialog = BaseDialog(
+        contentsBuilder: {
+            [
+                UILabel().then {
+                    $0.text = "참여한 그룹이 없어요"
+                }
+            ]
+        }
+    ).then {
+        $0.styled()
+    }
+    
     // MARK: Setup
     public override func setupHierarchy() {
         addSubview(navigationBar)

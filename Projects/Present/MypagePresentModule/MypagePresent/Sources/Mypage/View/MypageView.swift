@@ -92,7 +92,8 @@ public class MypageView: BaseView {
             [
                 BaseVStack(spacing: 18) {
                     let menus = [
-                        ("앱 버전", "1.0.0")
+                        ("앱 버전", "1.0.0"),
+                        ("문의하기", "do83430208@gmail.com"),
                         // TODO: v1.1.0 추가 예정
 //                        ("문의하기", nil),
 //                        ("공지사항", nil),

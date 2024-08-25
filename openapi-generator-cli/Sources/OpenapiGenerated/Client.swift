@@ -1737,8 +1737,8 @@ public struct Client: APIProtocol {
             },
             deserializer: { response, responseBody in
                 switch response.status.code {
-                case 200:
-                    return .ok(.init())
+                case 201:
+                    return .created(.init())
                 default:
                     return .undocumented(
                         statusCode: response.status.code,

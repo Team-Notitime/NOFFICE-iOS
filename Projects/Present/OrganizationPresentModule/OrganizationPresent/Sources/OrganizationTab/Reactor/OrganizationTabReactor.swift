@@ -30,7 +30,7 @@ class OrganizationTabReactor: Reactor {
     // MARK: ChildReactor
     
     // MARK: Dependency
-    private var getMyOrganizationsUsecase = GetMyOrganizationsUsecase()
+    private var getJoinedOrganizationsUsecase = GetJoinedOrganizationsUsecase()
     
     // MARK: DisposeBag
     private let disposeBag = DisposeBag()
@@ -42,8 +42,8 @@ class OrganizationTabReactor: Reactor {
     func mutate(action: Action) -> Observable<Mutation> {
         switch action { 
         case .viewWillAppear:
-            getMyOrganizationsUsecase = GetMyOrganizationsUsecase() // 페이징 초기화 위해 새로 할당
-            return getMyOrganizationsUsecase.execute(.init())
+            getJoinedOrganizationsUsecase = GetJoinedOrganizationsUsecase() // 페이징 초기화 위해 새로 할당
+            return getJoinedOrganizationsUsecase.execute(.init())
                 .map { Mutation.setOrganizations($0.organizations) }
         }
     }

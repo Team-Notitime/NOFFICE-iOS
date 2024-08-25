@@ -142,7 +142,7 @@ class NewOrganizationFunnelReactor: Reactor {
                     let newOrganization = NewOrganizationEntity(
                         name: self.nameReactor.currentState.name,
                         categories: self.categoryReactor.currentState.selectedCateogries.map { $0.id },
-                        imageURL: "", // TODO: 추가 필요
+                        imageURL: self.imageReactor.currentState.uploadedUrl,
                         endDate: self.endDateReactor.currentState.selectedDate,
                         promotionCode: self.promotionReactor.currentState.promotionCode
                     )

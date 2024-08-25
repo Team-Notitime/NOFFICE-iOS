@@ -542,7 +542,7 @@ paths:
               "$ref": "#/components/schemas/NotifyContentImageSaveSuccessRequest"
         required: true
       responses:
-        '200':
+        '201':
           description: 별도 파일을 제외한 POST 요청을 발송해주세요.
   "/api/v1/announcement":
     post:

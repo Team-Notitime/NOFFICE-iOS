@@ -10,7 +10,9 @@ import UIKit
 import CommonEntity
 import CommonUsecase
 import OrganizationEntity
+
 import ReactorKit
+import ProgressHUD
 
 class NewOrganizationImagePageReactor: Reactor {
     // MARK: Action
@@ -22,11 +24,13 @@ class NewOrganizationImagePageReactor: Reactor {
     
     enum Mutation {
         case setSelectedImage(ImageEntity?)
+        case setUploadedUrl(URL?)
     }
     
     // MARK: State
     struct State {
         var selectedImage: ImageEntity?
+        var uploadedUrl: URL?
         var nextPageButtonActive: Bool = false
     }
     
@@ -45,14 +49,19 @@ class NewOrganizationImagePageReactor: Reactor {
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case let .changeSelectedImage(image):
+            ProgressHUD.animate(nil, .horizontalDotScaling, interaction: false)
             let uploadImageObservable = uploadImageUsecase.execute(
                 .init(
                     image: image,
                     imagePurpose: .organizationLogo
                 )
             )
-            .map { _ in
-                Mutation.setSelectedImage(image)
+            .flatMap { output in
+                ProgressHUD.dismiss()
+                return Observable.merge(
+                    .just(Mutation.setSelectedImage(image)),
+                    .just(Mutation.setUploadedUrl(output.url))
+                )
             }
 
             return uploadImageObservable
@@ -72,6 +81,9 @@ class NewOrganizationImagePageReactor: Reactor {
         case let .setSelectedImage(image):
             state.selectedImage = image
             state.nextPageButtonActive = image != nil
+            
+        case let .setUploadedUrl(url):
+            state.uploadedUrl = url
         }
         return state
     }

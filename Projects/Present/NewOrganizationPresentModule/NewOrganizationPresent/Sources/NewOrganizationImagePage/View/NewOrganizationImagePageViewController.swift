@@ -39,6 +39,7 @@ class NewOrganizationImagePageViewController: BaseViewController<NewOrganization
         // - Next page button active state
         reactor.state.map { $0.nextPageButtonActive }
             .withUnretained(self)
+            .observe(on: MainScheduler.asyncInstance)
             .subscribe(onNext: { owner, active in
                 owner.baseView.nextPageButton.isEnabled = active
             })

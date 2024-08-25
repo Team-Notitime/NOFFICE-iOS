@@ -30,6 +30,17 @@ public class NewAnnouncementFunnelViewController: BaseViewController<NewAnnounce
                 owner.paginableView.currentPage = page
             })
           .disposed(by: self.disposeBag)
+        
+        reactor.state.map { $0.isOpenHasLeaderRoleOrganizationDialog }
+            .withUnretained(self.baseView)
+            .subscribe(onNext: { owner, isOpen in
+                if isOpen {
+                    owner.hasLeaderRoleOrganizationDialog.open()
+                } else {
+                    owner.hasLeaderRoleOrganizationDialog.close()
+                }
+            })
+            .disposed(by: self.disposeBag)
     }
     
     public override func setupActionBind() { 

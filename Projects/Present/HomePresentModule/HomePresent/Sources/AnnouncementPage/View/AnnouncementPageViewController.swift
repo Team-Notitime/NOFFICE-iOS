@@ -56,7 +56,8 @@ class AnnouncementPageViewController: BaseViewController<AnnouncementPageView> {
                                     .init(
                                         id: Int64(organization.id),
                                         name: organization.name,
-                                        profileImageUrl: organization.profileImageUrl
+                                        profileImageUrl: organization.profileImageUrl,
+                                        role: .leader // FIXME: 롤 정보 필요
                                     )
                                 )
                             )

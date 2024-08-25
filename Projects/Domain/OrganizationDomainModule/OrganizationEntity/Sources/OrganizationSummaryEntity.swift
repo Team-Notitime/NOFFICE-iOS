@@ -20,13 +20,18 @@ public struct OrganizationSummaryEntity: Identifiable, Equatable {
     /// Profile image url of the organization.
     public let profileImageUrl: URL?
     
+    /// Role of the user in the organization
+    public let role: OrganizationRole
+    
     public init(
         id: Int64,
         name: String,
-        profileImageUrl: URL? = nil
+        profileImageUrl: URL?,
+        role: OrganizationRole
     ) {
         self.id = id
         self.name = name
         self.profileImageUrl = profileImageUrl
+        self.role = role
     }
 }

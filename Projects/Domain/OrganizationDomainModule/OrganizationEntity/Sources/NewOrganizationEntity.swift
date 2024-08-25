@@ -18,7 +18,7 @@ public struct NewOrganizationEntity: Equatable {
     public let categories: [Int]
     
     /// URL of the image associated with the organization (optional).
-    public let imageURL: String?
+    public let imageURL: URL?
     
     /// End date of the group's activities (optional).
     public let endDate: Date?
@@ -29,7 +29,7 @@ public struct NewOrganizationEntity: Equatable {
     public init(
         name: String,
         categories: [Int],
-        imageURL: String?,
+        imageURL: URL?,
         endDate: Date?,
         promotionCode: String?
     ) {

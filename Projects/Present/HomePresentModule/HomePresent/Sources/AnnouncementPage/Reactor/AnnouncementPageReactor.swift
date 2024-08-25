@@ -20,16 +20,12 @@ class AnnouncementPageReactor: Reactor {
     enum Mutation {
         case setOrganizations([AnnouncementOrganizationEntity])
         case setMember(MemberEntity)
-        case toggleisOpenHasLeaderRoleOrganizationDialog
     }
     
     struct State {
         // - Data
         var organizations: [AnnouncementOrganizationEntity] = []
         var member: MemberEntity?
-        
-        // - View TODO: ㅠㅠ 어떻게하지 변수명 머선일
-        var isOpenHasLeaderRoleOrganizationDialog: Bool = false
     }
     
     // MARK: Dependency
@@ -70,9 +66,6 @@ class AnnouncementPageReactor: Reactor {
             
         case let .setMember(member):
             state.member = member
-            
-        case .toggleisOpenHasLeaderRoleOrganizationDialog:
-            state.isOpenHasLeaderRoleOrganizationDialog
         }
         return state
     }

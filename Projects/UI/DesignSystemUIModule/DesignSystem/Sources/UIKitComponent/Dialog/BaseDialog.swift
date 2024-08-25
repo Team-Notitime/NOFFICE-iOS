@@ -33,6 +33,10 @@ public extension BaseDialog {
         guard let window = windowScene.windows.first
         else { return }
         
+        if window.subviews.contains(self) {
+            self.isHidden = false
+        }
+        
         // Add overlayView to UIWindow
         window.addSubview(self)
         self.snp.makeConstraints { make in

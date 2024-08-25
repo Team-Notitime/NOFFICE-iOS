@@ -1,5 +1,5 @@
 //
-//  GetMyOrganizationsUsecase.swift
+//  GetJoinedOrganizationsUsecase.swift
 //  OrganizationUsecase
 //
 //  Created by DOYEON LEE on 7/22/24.
@@ -15,7 +15,7 @@ import UserDefaultsUtility
 import Swinject
 import RxSwift
 
-public class GetMyOrganizationsUsecase {
+public class GetJoinedOrganizationsUsecase {
     // MARK: DTO
     public struct Input { 
         public init() { }
@@ -56,7 +56,10 @@ public class GetMyOrganizationsUsecase {
                 OrganizationSummaryEntity(
                     id: $0.organizationId,
                     name: $0.organizationName,
-                    profileImageUrl: URL(string: $0.profileImage)
+                    profileImageUrl: URL(
+                        string: $0.profileImage
+                    ),
+                    role: $0.role == .LEADER ? .leader : .member
                 )
             } ?? []
             

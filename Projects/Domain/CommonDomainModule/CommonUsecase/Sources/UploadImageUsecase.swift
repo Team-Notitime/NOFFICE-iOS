@@ -80,6 +80,7 @@ public struct UploadImageUsecase {
             .flatMap { output in
                 self.notifyImageUploadComplete(output: output)
             }
+            .debug(":::")
     }
     
     // MARK: Private method
@@ -98,28 +99,28 @@ public struct UploadImageUsecase {
         request.httpBody = imageData
         
         return Observable.create { observer in
-            let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            let task = URLSession.shared.dataTask(with: request) { _, response, error in
                 if let error = error {
                     observer.onError(error)
                     return
                 }
-                
+
                 guard let httpResponse = response as? HTTPURLResponse else {
                     observer.onError(Error.imageMetaDataParseError)
                     return
                 }
-                
-                guard 200..<300 ~= httpResponse.statusCode else {
+
+                guard 200 ..< 300 ~= httpResponse.statusCode else {
                     observer.onError(Error.imageMetaDataParseError)
                     return
                 }
-                
+
                 observer.onNext(Output(url: uploadUrl))
                 observer.onCompleted()
             }
-            
+
             task.resume()
-            
+
             return Disposables.create {
                 task.cancel()
             }
@@ -127,11 +128,22 @@ public struct UploadImageUsecase {
     }
     
     private func notifyImageUploadComplete(output: Output) -> Observable<Output> {
+        // Extract URL without query string
+        guard let url = output.url,
+                let urlWithoutQuery = urlWithoutQuery(url: url)
+        else { return .error(Error.imageMetaDataParseError) }
+
         return imageRepository.notifyImageUploadComplete(
-            .init(fileName: output.url?.absoluteString)
-        ).map {
+            .init(fileName: urlWithoutQuery.absoluteString)
+        ).map { _ in
             output
         }
+    }
+    
+    private func urlWithoutQuery(url: URL) -> URL? {
+        var urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: false)
+        urlComponents?.query = nil
+        return urlComponents?.url
     }
     
     private func extractImageNameAndExtension(from url: URL) -> (name: String, extension: String)? {

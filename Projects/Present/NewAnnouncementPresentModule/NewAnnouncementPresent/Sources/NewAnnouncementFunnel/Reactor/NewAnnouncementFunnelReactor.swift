@@ -7,32 +7,42 @@
 
 import Foundation
 
-import Router
-import AnnouncementUsecase
 import AnnouncementEntity
+import AnnouncementUsecase
+import OrganizationUsecase
+import Router
 
 import ReactorKit
+import ProgressHUD
 
 class NewAnnouncementFunnelReactor: Reactor {
     // MARK: Action
     enum Action {
+        case viewDidLoad
         case moveNextPage
         case movePreviousPage
     }
     
     enum Mutation {
         case setCurrentPage(NewAnnouncementFunnelPage)
+        case toggleisOpenHasLeaderRoleOrganizationDialog
     }
     
     // MARK: State
     struct State {
         var currentPage: NewAnnouncementFunnelPage = .selectOrganization
+        
+        // - View TODO: ㅠㅠ 어떻게하지 변수명 머선일
+        var isOpenHasLeaderRoleOrganizationDialog: Bool = false
     }
     
     let initialState: State = State()
     
     // MARK: Dependency
     private let createAnnouncementUsecase = CreateAnnouncementUsecase()
+    
+    // FIXME: 호출 최소화를 위한 고민 필요 (자식 리액토에서도 한번 호출함)
+    private let getJoinedOrganizationsUsecase = GetJoinedOrganizationsUsecase()
     
     // MARK: Child Reactor
     private let selectOrganizationReactor: SelectOrganizationPageReactor
@@ -73,10 +83,25 @@ class NewAnnouncementFunnelReactor: Reactor {
     // MARK: Action operation
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
+        case .viewDidLoad:
+            ProgressHUD.animate(nil, .horizontalDotScaling, interaction: false)
+            
+            // TODO: 리더롤인지 확인하고 넣어야함
+            let leaderRoleObservable = getJoinedOrganizationsUsecase
+                .execute(.init())
+                .compactMap {
+                    $0.organizations.isEmpty ? nil : ()
+                }
+                .map {
+                    return Mutation.toggleisOpenHasLeaderRoleOrganizationDialog
+                }
+            
+            return leaderRoleObservable
+            
         case .moveNextPage:
             let nextPage = nextPage(after: currentState.currentPage)
             return Observable.just(.setCurrentPage(nextPage))
-            
+
         case .movePreviousPage:
             let previousPage = previousPage(before: currentState.currentPage)
             return Observable.just(.setCurrentPage(previousPage))
@@ -88,6 +113,9 @@ class NewAnnouncementFunnelReactor: Reactor {
         switch mutation {
         case .setCurrentPage(let page):
             state.currentPage = page
+            
+        case .toggleisOpenHasLeaderRoleOrganizationDialog:
+            state.isOpenHasLeaderRoleOrganizationDialog.toggle()
         }
         return state
     }
@@ -128,9 +156,19 @@ class NewAnnouncementFunnelReactor: Reactor {
                         notifications: Array(editNotificationReactor.currentState.selectedTimeOptions)
                     )
                     
+                    ProgressHUD.animate(
+                        nil,
+                        .horizontalDotScaling,
+                        interaction: false
+                    )
+                    
                     return self.createAnnouncementUsecase
                         .execute(.init(newAnnouncement: newAnnouncement))
-                        .map { _ in return Void() }
+                        .map { _ in
+                            ProgressHUD.dismiss()
+                            
+                            return Void()
+                        }
                         
                 default:
                     return .empty()

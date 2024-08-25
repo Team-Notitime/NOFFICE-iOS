@@ -36,7 +36,7 @@ class SelectOrganizationPageReactor: Reactor {
     let initialState: State = State()
 
     // MARK: Dependency
-    private let fetchMyOrganizations = GetMyOrganizationsUsecase()
+    private let fetchMyOrganizations = GetJoinedOrganizationsUsecase()
     
     // MARK: DisposeBag
     private let disposeBag = DisposeBag()

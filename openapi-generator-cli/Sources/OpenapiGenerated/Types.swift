@@ -7220,28 +7220,28 @@ public enum Operations {
             }
         }
         @frozen public enum Output: Sendable, Hashable {
-            public struct Ok: Sendable, Hashable {
-                /// Creates a new `Ok`.
+            public struct Created: Sendable, Hashable {
+                /// Creates a new `Created`.
                 public init() {}
             }
             /// 별도 파일을 제외한 POST 요청을 발송해주세요.
             ///
-            /// - Remark: Generated from `#/paths//api/v1/image/post(notifyContentImageSaveSuccess)/responses/200`.
+            /// - Remark: Generated from `#/paths//api/v1/image/post(notifyContentImageSaveSuccess)/responses/201`.
             ///
-            /// HTTP response code: `200 ok`.
-            case ok(Operations.notifyContentImageSaveSuccess.Output.Ok)
-            /// The associated value of the enum case if `self` is `.ok`.
+            /// HTTP response code: `201 created`.
+            case created(Operations.notifyContentImageSaveSuccess.Output.Created)
+            /// The associated value of the enum case if `self` is `.created`.
             ///
-            /// - Throws: An error if `self` is not `.ok`.
-            /// - SeeAlso: `.ok`.
-            public var ok: Operations.notifyContentImageSaveSuccess.Output.Ok {
+            /// - Throws: An error if `self` is not `.created`.
+            /// - SeeAlso: `.created`.
+            public var created: Operations.notifyContentImageSaveSuccess.Output.Created {
                 get throws {
                     switch self {
-                    case let .ok(response):
+                    case let .created(response):
                         return response
                     default:
                         try throwUnexpectedResponseStatus(
-                            expectedStatus: "ok",
+                            expectedStatus: "created",
                             response: self
                         )
                     }
