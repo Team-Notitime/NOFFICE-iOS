@@ -20,6 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         FontConfig.setup()
         RouterConfig.setup()
         PulseConfig.setup()
+        ProgressHudConfig.setup()
         
         return true
     }

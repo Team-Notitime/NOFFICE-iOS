@@ -54,10 +54,10 @@ public struct ImageRepository: ImageRepositoryInterface {
             Task {
                 do {
                     let response = try await client.notifyContentImageSaveSuccess(
-                        body: request
+                        body: .json(request)
                     )
 
-                    let data = try response.ok
+                    let _ = try response.ok
 
                     observer.onNext(())
                     observer.onCompleted()

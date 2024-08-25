@@ -52,7 +52,6 @@ public enum Module {
     }
 
     public enum DataInterface: String, CaseIterable {
-        case sample
         case organization
         case announcement
         case member
@@ -106,6 +105,7 @@ public enum Module {
         case rxMoya
         case pulse
         case pulseUI
+        case progressHUD
         case openapiGenerated
         
         var name: String { rawValue.toUpperCamelCase() }

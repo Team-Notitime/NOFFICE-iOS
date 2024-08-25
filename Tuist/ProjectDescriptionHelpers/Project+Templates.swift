@@ -281,7 +281,8 @@ extension Project {
         .thirdParty(.reactorKit),
         .thirdParty(.swinject),
         .thirdParty(.kingfisher),
-        .thirdParty(.skeletonView)
+        .thirdParty(.skeletonView),
+        .thirdParty(.progressHUD)
     ]
     
     static let uiDependencies: [TargetDependency] = [

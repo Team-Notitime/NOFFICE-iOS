@@ -64,9 +64,7 @@ public struct TodoRepository: TodoRepositoryInterface {
                 do {
                     let response = try await client.modify(
                         .init(
-                            query: .init(
-                                taskModifyRequest: request
-                            )
+                            body: .json(request)
                         )
                     )
 

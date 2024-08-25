@@ -8,7 +8,7 @@
 import OpenapiGenerated
 
 // MARK: Request
-public typealias NotifyImageUploadCompleteRequest = Operations.notifyContentImageSaveSuccess.Input.Body
+public typealias NotifyImageUploadCompleteRequest = Components.Schemas.NotifyContentImageSaveSuccessRequest
 
 // MARK: Response
 public typealias NotifyImageUploadCompleteResponse = Void

@@ -7,14 +7,16 @@
 
 import Swinject
 
-import MemberDataInterface
-import MemberData
-import AnnouncementDataInterface
 import AnnouncementData
-import OrganizationDataInterface
+import AnnouncementDataInterface
+import ImageData
+import ImageDataInterface
+import MemberData
+import MemberDataInterface
 import OrganizationData
-import TodoDataInterface
+import OrganizationDataInterface
 import TodoData
+import TodoDataInterface
 
 public extension Container {
     static let shared: Container = {
@@ -34,6 +36,10 @@ public extension Container {
         
         container.register(TodoRepositoryInterface.self) { _ in
             TodoRepository()
+        }
+        
+        container.register(ImageRepositoryInterface.self) { _ in
+            ImageRepository()
         }
         
         return container

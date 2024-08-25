@@ -7,28 +7,33 @@
 
 import UIKit
 
+import CommonEntity
+import CommonUsecase
 import OrganizationEntity
-
 import ReactorKit
 
 class NewOrganizationImagePageReactor: Reactor {
     // MARK: Action
     enum Action {
-        case changeSelectedImage(UIImage?)
+        case changeSelectedImage(ImageEntity)
+        case deleteSelectedImage
         case tapNextPageButton
     }
     
     enum Mutation {
-        case setSelectedImage(UIImage?)
+        case setSelectedImage(ImageEntity?)
     }
     
     // MARK: State
     struct State {
-        var selectedImage: UIImage?
+        var selectedImage: ImageEntity?
         var nextPageButtonActive: Bool = false
     }
     
     let initialState: State = State()
+    
+    // MARK: Dependency
+    private let uploadImageUsecase = UploadImageUsecase()
     
     // MARK: DisposeBag
     private let disposeBag = DisposeBag()
@@ -40,11 +45,24 @@ class NewOrganizationImagePageReactor: Reactor {
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case let .changeSelectedImage(image):
-            return .just(.setSelectedImage(image))
-            
+            let uploadImageObservable = uploadImageUsecase.execute(
+                .init(
+                    image: image,
+                    imagePurpose: .organizationLogo
+                )
+            )
+            .map { _ in
+                Mutation.setSelectedImage(image)
+            }
+
+            return uploadImageObservable
+
         case .tapNextPageButton:
             // pass to parent
             return .empty()
+            
+        case .deleteSelectedImage:
+            return .just(Mutation.setSelectedImage(nil))
         }
     }
     
