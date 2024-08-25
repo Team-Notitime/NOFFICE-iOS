@@ -10,7 +10,7 @@ import UIKit
 public extension Router {
     /// Pushes a view from right to left
     func push(
-        _ presentable: Presentable,
+        _ presentable: Routable,
         animated: Bool = true
     ) {
         let destination = resolvePresentable(presentable)
@@ -20,7 +20,7 @@ public extension Router {
     
     /// Presents a view from bottom to top
     func present(
-        _ presentable: Presentable,
+        _ presentable: Routable,
         animated: Bool = true
     ) {
         let destination = resolvePresentable(presentable)
@@ -30,7 +30,7 @@ public extension Router {
     
     /// Presents a view in full screen mode from bottom to top
     func presentFullScreen(
-        _ presentable: Presentable,
+        _ presentable: Routable,
         animated: Bool = true
     ) {
         let destination = resolvePresentable(presentable)
@@ -44,7 +44,7 @@ public extension Router {
     
     /// Pushes a view controller on the stack when in a presented state (right to left)
     func pushToPresent(
-        _ presentable: Presentable,
+        _ presentable: Routable,
         animated: Bool = true
     ) {
         let destination = resolvePresentable(presentable)
@@ -54,7 +54,7 @@ public extension Router {
     
     /// Presents a bottom sheet
     func bottomSheet(
-        _ presentable: Presentable,
+        _ presentable: Routable,
         animated: Bool = true
     ) {
         let destination = resolvePresentable(presentable)

@@ -42,15 +42,26 @@ class AnnouncementPageViewController: BaseViewController<AnnouncementPageView> {
                     )
                 ] + AnnouncementPageConverter
                     .convertToOrganizationSections(
-                        organizations
-                    ) { announcementSummary, organization in
-                        Router.shared.push(
-                            .announcementDetail(
-                                announcementSummary: announcementSummary,
-                                organization: organization
+                        organizations,
+                        onTapAnnouncementCard: { announcementSummary, organization in
+                            Router.shared.push(
+                                .announcementDetail(
+                                    announcementSummary: announcementSummary,
+                                    organization: organization
+                                )
                             )
-                        )
-                    }
+                        }, onTapOrganizationHeader: { organization in
+                            Router.shared.push(
+                                .organizationDetail(
+                                    .init(
+                                        id: organization.id,
+                                        name: organization.name,
+                                        profileImageUrl: organization.profileImageUrl
+                                    )
+                                )
+                            )
+                        }
+                    )
             }
             .bind(to: baseView.collectionView.sectionBinder)
             .disposed(by: disposeBag)

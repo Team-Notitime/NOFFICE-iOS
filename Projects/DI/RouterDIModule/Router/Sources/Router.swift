@@ -14,7 +14,7 @@ final public class Router: UINavigationController {
     
     var presentNavigationController: UINavigationController?
     
-    public var resolvePresentable: (Presentable) -> UIViewController = { _ in
+    public var resolvePresentable: (Routable) -> UIViewController = { _ in
         fatalError("""
                     `resolvePresentable` must be set before using Router.
                     Check the RouterConfig in main app target.

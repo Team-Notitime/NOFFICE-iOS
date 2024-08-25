@@ -9,6 +9,7 @@ import Router
 import AnnouncementPresent
 import NewAnnouncementPresent
 import NewOrganizationPresent
+import OrganizationPresent
 import MypagePresent
 import SignupPresent
 
@@ -24,6 +25,11 @@ struct RouterConfig {
             case let .announcementDetail(announcement, organization):
                 return AnnouncementDetailViewController(
                     announcement: announcement,
+                    organization: organization
+                )
+                
+            case let .organizationDetail(organization):
+                return OrganizationDetailViewController(
                     organization: organization
                 )
                 

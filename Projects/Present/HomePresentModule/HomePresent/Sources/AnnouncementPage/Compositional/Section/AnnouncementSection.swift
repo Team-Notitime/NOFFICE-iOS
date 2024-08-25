@@ -73,16 +73,20 @@ struct AnnouncementSection: CompositionalSection {
     
     let items: [any CompositionalItem]
     
+    let onTapHeader: () -> Void
+    
     init(
         identifier: String,
         organizationName: String,
         scrollDisabled: Bool = false,
-        items: [any CompositionalItem]
+        items: [any CompositionalItem],
+        onTapHeader: @escaping () -> Void
     ) {
         self.identifier = identifier
         self.organizationName = organizationName
         self.scrollDisabled = scrollDisabled
         self.items = items
+        self.onTapHeader = onTapHeader
     }
     
     func hash(into hasher: inout Hasher) {
@@ -107,6 +111,9 @@ class AnnouncementSectionHeaderView: UIView, CompositionalReusableView {
         $0.tintColor = .grey800
         $0.contentMode = .scaleAspectFit
     }
+    
+    // MARK: DisposeBag
+    private let disposeBag = DisposeBag()
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
@@ -135,5 +142,12 @@ class AnnouncementSectionHeaderView: UIView, CompositionalReusableView {
     
     func configure(with section: Section) {
         label.text = section.organizationName
+        
+        rx.tapGesture()
+            .when(.recognized)
+            .subscribe(onNext: { _ in
+                section.onTapHeader()
+            })
+            .disposed(by: disposeBag)
     }
 }

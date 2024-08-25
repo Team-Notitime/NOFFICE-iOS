@@ -20,11 +20,16 @@ class AnnouncementPageReactor: Reactor {
     enum Mutation {
         case setOrganizations([AnnouncementOrganizationEntity])
         case setMember(MemberEntity)
+        case toggleisOpenHasLeaderRoleOrganizationDialog
     }
     
     struct State {
+        // - Data
         var organizations: [AnnouncementOrganizationEntity] = []
         var member: MemberEntity?
+        
+        // - View TODO: ㅠㅠ 어떻게하지 변수명 머선일
+        var isOpenHasLeaderRoleOrganizationDialog: Bool = false
     }
     
     // MARK: Dependency
@@ -33,9 +38,6 @@ class AnnouncementPageReactor: Reactor {
     let getMemberUsecase = GetMemberUsecase()
     
     let initialState: State = State()
-}
-
-extension AnnouncementPageReactor {
     
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
@@ -65,8 +67,12 @@ extension AnnouncementPageReactor {
         switch mutation {
         case let .setOrganizations(organizations):
             state.organizations = organizations
+            
         case let .setMember(member):
             state.member = member
+            
+        case .toggleisOpenHasLeaderRoleOrganizationDialog:
+            state.isOpenHasLeaderRoleOrganizationDialog
         }
         return state
     }

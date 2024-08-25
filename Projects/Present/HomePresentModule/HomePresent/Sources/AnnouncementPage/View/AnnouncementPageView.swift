@@ -15,11 +15,23 @@ import SnapKit
 import Then
 
 class AnnouncementPageView: BaseView {
-    // MARK: Data source
-    
     // MARK: UI Component
-    let collectionView = CompositionalCollectionView()
+    // - Announcement collection view
+    lazy var collectionView = CompositionalCollectionView()
     
+    // - Has leader role organization dialog
+    lazy var hasLeaderRoleOrganizationDialog = BaseDialog(
+        contentsBuilder: {
+            [
+                UILabel().then {
+                    $0.text = "참여한 그룹이 없어요"
+                }
+            ]
+        }
+    ).then {
+        $0.styled()
+    }
+
     // MARK: Setup
     override func setupHierarchy() {
         addSubview(collectionView)

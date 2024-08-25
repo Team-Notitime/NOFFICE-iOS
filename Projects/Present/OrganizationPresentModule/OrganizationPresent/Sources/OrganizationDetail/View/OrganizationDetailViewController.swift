@@ -16,7 +16,7 @@ import RxCocoa
 import RxSwift
 import Swinject
 
-class OrganizationDetailViewController: BaseViewController<OrganizationDetailView> {
+public final class OrganizationDetailViewController: BaseViewController<OrganizationDetailView> {
     // MARK: Constant
     private static let AnnouncementSkeletonItemCount = 2
     
@@ -45,7 +45,7 @@ class OrganizationDetailViewController: BaseViewController<OrganizationDetailVie
     }
     
     // MARK: Setup
-    override func setupViewBind() { 
+    public override func setupViewBind() {
         // TODO: 바인딩 필요
         // - Perform JoinWaitlistButton appearance animation
 //        DispatchQueue.main.async {
@@ -65,7 +65,7 @@ class OrganizationDetailViewController: BaseViewController<OrganizationDetailVie
         .disposed(by: disposeBag)
     }
     
-    override func setupStateBind() { 
+    public override func setupStateBind() {
         // - Bind organization profile image
         reactor.state.map { $0.organization?.profileImageUrl }
             .compactMap { $0 }
@@ -128,7 +128,7 @@ class OrganizationDetailViewController: BaseViewController<OrganizationDetailVie
             .disposed(by: disposeBag)
     }
     
-    override func setupActionBind() { 
+    public override func setupActionBind() {
         // - Tap navgation bar back button
         baseView.navigationBar
             .onTapBackButton

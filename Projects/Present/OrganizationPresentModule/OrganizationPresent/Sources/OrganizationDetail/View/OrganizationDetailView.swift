@@ -13,7 +13,7 @@ import Assets
 import SnapKit
 import Then
 
-class OrganizationDetailView: BaseView {
+public final class OrganizationDetailView: BaseView {
     // MARK: UI Constant
     private static let OrganizationProfileCardSize: CGFloat = 86
     

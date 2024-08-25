@@ -31,7 +31,7 @@ class EditNotificationView: BaseView {
     
     // - Selected reminder time collection view
     lazy var reminderCollectionView = CompositionalCollectionView().then {
-        $0.isScrollEnabled = false
+        $0.isScrollEnabled = true // FIXME: false여야 하는데 constraint가 깨짐
     }
     
     // - Reminder time option collection view

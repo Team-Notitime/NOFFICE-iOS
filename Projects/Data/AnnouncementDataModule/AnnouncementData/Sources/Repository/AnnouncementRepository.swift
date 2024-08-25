@@ -128,7 +128,6 @@ public struct AnnouncementRepository: AnnouncementRepositoryInterface {
             return Disposables.create()
         }
     }
-    
 
     public func getTodosByAnnouncement(
         _ request: GetTodosByAnnouncementRequest

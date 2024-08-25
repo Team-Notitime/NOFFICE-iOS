@@ -13,7 +13,13 @@ import DesignSystem
 struct AnnouncementPageConverter {
     static func convertToOrganizationSections(
         _ entities: [AnnouncementOrganizationEntity],
-        onTapAnnouncementCard: @escaping (AnnouncementSummaryEntity, AnnouncementOrganizationEntity) -> Void
+        onTapAnnouncementCard: @escaping (
+            AnnouncementSummaryEntity,
+            AnnouncementOrganizationEntity
+        ) -> Void,
+        onTapOrganizationHeader: @escaping (
+            AnnouncementOrganizationEntity
+        ) -> Void
     ) -> [AnnouncementSection] {
         // - Convert to join pending card
         let convertPendingItems: () -> [any CompositionalItem] = {
@@ -73,7 +79,10 @@ struct AnnouncementPageConverter {
                 identifier: "\(organizationEntity.id)",
                 organizationName: organizationEntity.name,
                 scrollDisabled: scrollDisabled,
-                items: convertToItems(organizationEntity)
+                items: convertToItems(organizationEntity), 
+                onTapHeader: {
+                    onTapOrganizationHeader(organizationEntity)
+                }
             )
         }
     }

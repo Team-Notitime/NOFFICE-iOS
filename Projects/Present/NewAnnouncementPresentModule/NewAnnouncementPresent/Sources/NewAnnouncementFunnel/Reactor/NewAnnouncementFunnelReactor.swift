@@ -110,8 +110,7 @@ class NewAnnouncementFunnelReactor: Reactor {
 
                 switch action {
                 case .tapCompleteButton:
-                    let newAnnouncement = AnnouncementEntity(
-                        id: -1, // 생성시엔 사용 X 추후 NewAnnouncementEntity로 분리 필요
+                    let newAnnouncement = NewAnnouncementEntity(
                         organizationId: Int64(selectOrganizationReactor.currentState.selectedOrganization?.id ?? 0), // 옵셔널 핸들링 필요
                         imageURL: "", // 추후 프로모션 페이지 사용하면서 추가
                         createdAt: .now,
@@ -122,7 +121,11 @@ class NewAnnouncementFunnelReactor: Reactor {
                             type: editPlaceReactor.currentState.placeType,
                             name: editPlaceReactor.currentState.placeName,
                             link: editPlaceReactor.currentState.placeLink
-                        )
+                        ),
+                        todos: editTodoReactor.currentState.todos.map {
+                            $0.content
+                        },
+                        notification: Array(editNotificationReactor.currentState.selectedTimeOptions)
                     )
                     
                     return self.createAnnouncementUsecase
