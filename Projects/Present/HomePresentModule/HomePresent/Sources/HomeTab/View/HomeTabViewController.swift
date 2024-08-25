@@ -43,4 +43,12 @@ public final class HomeTabViewController: BaseViewController<HomeTabView> {
             }
             .disposed(by: disposeBag)
     }
+    
+    public override func setupActionBind() {
+        // - Move page
+        baseView.paginableView.onMove
+            .map { .movePage($0) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+    }
 }

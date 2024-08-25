@@ -79,6 +79,7 @@ public protocol Paginable: Hashable {
  paginableView.updatePages([.first, .second])
  ```
  */
+@MainActor
 open class PaginableView<Page: Paginable>: UIView, UIScrollViewDelegate {
     // MARK: Event
     private let _onMove = PublishSubject<Page>()

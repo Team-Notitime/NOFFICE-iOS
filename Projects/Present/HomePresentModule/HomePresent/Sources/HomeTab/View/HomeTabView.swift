@@ -96,7 +96,6 @@ public class HomeTabView: BaseView {
 }
 
 // MARK: - DisplayModel
-// TODO: 1차 배포 후 todo 탭 살리기
 public extension HomeTabView {
     enum Page: CaseIterable, Identifiable, Paginable {
         case announcement
