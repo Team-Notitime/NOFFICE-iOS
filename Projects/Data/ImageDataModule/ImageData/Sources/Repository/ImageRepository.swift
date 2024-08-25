@@ -24,7 +24,7 @@ public struct ImageRepository: ImageRepositoryInterface {
        )
     }
     
-    func getImageUploadPath(
+    public func getImageUploadPath(
         _ request: GetImageUploadPathRequest
     ) -> Observable<GetImageUploadPathResponse> {
         return Observable.create { observer in
@@ -47,7 +47,7 @@ public struct ImageRepository: ImageRepositoryInterface {
         }
     }
 
-    func notifyImageUploadComplete(
+    public func notifyImageUploadComplete(
         _ request: NotifyImageUploadCompleteRequest
     ) -> Observable<NotifyImageUploadCompleteResponse> {
         return Observable.create { observer in
