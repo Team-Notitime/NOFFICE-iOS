@@ -43,7 +43,6 @@ public struct TokenRefreshingMiddleware: ClientMiddleware {
         }
     }
     
-    
     /// Function to refresh the token.
     /// - Parameter baseURL: The base URL for the API requests.
     /// - Throws: An error if the token refresh fails.

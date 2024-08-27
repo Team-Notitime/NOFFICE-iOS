@@ -33,18 +33,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let tabBarController = TabBarController()
         Router.shared.push(tabBarController)
         
-        let tokenKeychainManager = KeychainManager<Token>()
-        if let token = tokenKeychainManager.get() {
-            print(token)
-        } else {
-            print("has no token")
-            Router.shared.presentFullScreen(.signup, animated: false)
-        }
-        
         window?.makeKeyAndVisible()
         
         // Set setting
         NotificationCenterSetting.setup()
+        TokenSetting.setup()
         
         // Set config
         DebugButtonConfig.setup(window: window)

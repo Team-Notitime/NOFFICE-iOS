@@ -62,11 +62,11 @@ public class SignupView: BaseView {
             $0.width.equalTo(200)
         }
         
-        dummyButton.snp.makeConstraints {
-            $0.left.right.equalToSuperview().inset(GlobalViewConstant.PagePadding)
-            $0.centerX.equalToSuperview()
-            $0.centerY.equalToSuperview().multipliedBy(1.5)
-        }
+//        dummyButton.snp.makeConstraints {
+//            $0.left.right.equalToSuperview().inset(GlobalViewConstant.PagePadding)
+//            $0.centerX.equalToSuperview()
+//            $0.centerY.equalToSuperview().multipliedBy(1.5)
+//        }
         
         appleSigninButton.snp.makeConstraints {
             $0.left.right.equalToSuperview().inset(GlobalViewConstant.PagePadding)
