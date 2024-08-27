@@ -25,7 +25,10 @@ public struct OrganizationRepository: OrganizationRepositoryInterface {
            serverURL: UrlConfig.baseUrl.url,
            configuration: .init(dateTranscoder: .custom),
            transport: URLSessionTransport(),
-           middlewares: [AuthenticationMiddleware()]
+           middlewares: [
+               AuthenticationMiddleware(),
+               TokenRefreshingMiddleware()
+           ]
        )
     }
     

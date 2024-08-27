@@ -85,6 +85,7 @@ public enum Module {
     public enum Utility: String, CaseIterable {
         case keychain
         case userDefaults
+        case notificationCenter
         
         var name: String { rawValue.toUpperCamelCase() }
         var bundleIdenifier: String { rawValue.toBundleIdentifier() }
@@ -108,7 +109,7 @@ public enum Module {
         case progressHUD
         case openapiGenerated
         
-        var name: String { rawValue.toUpperCamelCase() }
+        public var name: String { rawValue.toUpperCamelCase() }
     }
 }
 

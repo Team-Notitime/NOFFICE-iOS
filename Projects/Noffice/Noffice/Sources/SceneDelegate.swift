@@ -9,8 +9,10 @@ import UIKit
 import SwiftUI
 
 import Assets
-import Router
 import KeychainUtility
+import Router
+import NotificationCenterUtility
+
 import ProgressHUD
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
@@ -40,6 +42,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         }
         
         window?.makeKeyAndVisible()
+        
+        // Set setting
+        NotificationCenterSetting.setup()
         
         // Set config
         DebugButtonConfig.setup(window: window)

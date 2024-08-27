@@ -67,6 +67,8 @@ public class GetJoinedOrganizationsUsecase {
         }
         
         return outputObservable
+        
+        //        return Mock.EmeptyReturnObservable
     }
     
 }
@@ -75,4 +77,17 @@ public class GetJoinedOrganizationsUsecase {
 private enum Constant {
     static let StartPage: Int = 0
     static let PageSize: Int32 = 10
+}
+
+// MARK: - Mock
+private struct Mock {
+    typealias Output = GetJoinedOrganizationsUsecase.Output
+    
+    static let EmeptyReturnObservable = Observable<Output>.create { observer in
+        
+        observer.onNext(Output(organizations: []))
+        observer.onCompleted()
+        
+        return Disposables.create()
+    }
 }

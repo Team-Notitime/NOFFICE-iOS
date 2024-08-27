@@ -20,7 +20,10 @@ public struct ImageRepository: ImageRepositoryInterface {
            serverURL: UrlConfig.baseUrl.url,
            configuration: .init(dateTranscoder: .custom),
            transport: URLSessionTransport(),
-           middlewares: [AuthenticationMiddleware()]
+           middlewares: [
+               AuthenticationMiddleware(),
+               TokenRefreshingMiddleware()
+           ]
        )
     }
     
@@ -57,7 +60,7 @@ public struct ImageRepository: ImageRepositoryInterface {
                         body: .json(request)
                     )
 
-                    let _ = try response.created
+                    _ = try response.created
 
                     observer.onNext(())
                     observer.onCompleted()

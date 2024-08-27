@@ -11,7 +11,7 @@ let packageSettings = PackageSettings(
     // productTypes: ["Alamofire": .framework,]
     productTypes: Dictionary(
         uniqueKeysWithValues: Module.ThirdParty.allCases
-            .map { ($0.rawValue, .framework) }
+            .map { ($0.name, .framework) }
     ),
     baseSettings: .settings(
         configurations: [

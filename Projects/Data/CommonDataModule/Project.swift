@@ -4,6 +4,7 @@ import ProjectDescriptionHelpers
 let project = Project.makeDataModule(
     .common,
     dependencies: [
-        .utility(.keychain)
+        .utility(.keychain),
+        .utility(.notificationCenter)
     ]
 )

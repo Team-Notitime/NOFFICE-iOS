@@ -7,6 +7,7 @@ let project = Project.makeMainApp(
         .ui(.designSystem),
         .ui(.assets),
         .di(.router),
+        .utility(.notificationCenter),
         .thirdParty(.pulse),
         .thirdParty(.pulseUI)
     ] + Module.Present.allCases.map {

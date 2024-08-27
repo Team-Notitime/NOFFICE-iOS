@@ -20,7 +20,10 @@ public struct AnnouncementRepository: AnnouncementRepositoryInterface {
         serverURL: UrlConfig.baseUrl.url,
         configuration: .init(dateTranscoder: .custom),
         transport: URLSessionTransport(),
-        middlewares: [AuthenticationMiddleware()]
+        middlewares: [
+            AuthenticationMiddleware(),
+            TokenRefreshingMiddleware()
+        ]
     )
     
     public init() {}
