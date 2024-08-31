@@ -95,7 +95,7 @@ class NewOrganizationCompletePageView: BaseView {
     override func setupLayout() {
         groupImageView.snp.makeConstraints {
             $0.centerY.equalToSuperview()
-                .offset(-Self.GroupImageSize * 0.8)
+                .offset(-Self.GroupImageSize * 1.2)
             $0.centerX.equalToSuperview()
         }
         

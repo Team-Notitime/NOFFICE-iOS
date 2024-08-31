@@ -20,7 +20,7 @@ class NewOrganizationCompletePageReactor: Reactor {
     
     // MARK: State
     struct State { 
-        var link: String = "https://www.link.com"
+        var link: String = "https://www.noffice.com/3KGj2ISA"
     }
     
     let initialState: State = State()

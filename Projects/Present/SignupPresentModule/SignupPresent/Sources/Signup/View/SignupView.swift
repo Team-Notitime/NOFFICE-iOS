@@ -69,9 +69,11 @@ public class SignupView: BaseView {
 //        }
         
         appleSigninButton.snp.makeConstraints {
-            $0.left.right.equalToSuperview().inset(GlobalViewConstant.PagePadding)
-            $0.top.equalTo(dummyButton.snp.bottom).offset(16)
+            $0.left.right.equalToSuperview()
+                .inset(GlobalViewConstant.PagePadding)
             $0.height.equalTo(50)
+            $0.bottom.equalToSuperview()
+                .inset(GlobalViewConstant.PagePadding * 4)
         }
     }
 }

@@ -10,14 +10,17 @@ import Foundation
 import MemberUsecase
 import Router
 import UserDefaultsUtility
+import NotificationCenterUtility
 
 import ReactorKit
+import RxSwift
 
 class MypageReactor: Reactor {
     // MARK: Action
     enum Action { 
         case viewDidLoad
         case tapLogoutRow
+        case tapWithdrawRow
     }
     
     enum Mutation { 
@@ -36,7 +39,11 @@ class MypageReactor: Reactor {
     // MARK: Dependency
     private let memberUserDefaultsManager = UserDefaultsManager<Member>()
     
+    private let notificationCenterManager = NotificationCenterManager<Void>(name: .tokenExpired)
+    
     private let logoutUsecase = LogoutUsecase()
+    
+    private let withdrawalUsecase = WithdrawalUsecase()
     
     // MARK: DisposeBag
     private let disposeBag = DisposeBag()
@@ -52,14 +59,36 @@ class MypageReactor: Reactor {
             return .just(.setMember(member))
             
         case .tapLogoutRow:
-            _ = logoutUsecase.execute(.init())
+            let logoutOuput = logoutUsecase.execute(.init())
+                .withUnretained(self)
+                .flatMap { owner, _ -> Observable<Mutation> in
+                    DispatchQueue.main.async {
+                        Router.shared.back(animated: false)
+                        owner.notificationCenterManager.post(data: ())
+                    }
+                    return .empty()
+                }
             
-            DispatchQueue.main.async {
+            DispatchQueue.main.async { [weak self] in
                 Router.shared.back(animated: false)
-                Router.shared.presentFullScreen(.signup, animated: false)
+                self?.notificationCenterManager.post(data: ())
             }
             
             return .empty()
+            
+        case .tapWithdrawRow:
+            let withdrawalUsecase = withdrawalUsecase
+                .execute(.init())
+                .debug("::: usecase")
+                .withUnretained(self)
+                .flatMap { owner, output -> Observable<Mutation> in
+                    if output.isSuccess {
+                        owner.notificationCenterManager.post(data: ())
+                    }
+                    return .empty() // 성공적인 경우 반환할 Mutation 정의
+                }
+            
+            return withdrawalUsecase
         }
     }
     

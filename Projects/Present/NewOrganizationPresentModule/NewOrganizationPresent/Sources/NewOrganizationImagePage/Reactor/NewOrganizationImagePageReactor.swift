@@ -31,7 +31,6 @@ class NewOrganizationImagePageReactor: Reactor {
     struct State {
         var selectedImage: ImageEntity?
         var uploadedUrl: URL?
-        var nextPageButtonActive: Bool = false
     }
     
     let initialState: State = State()
@@ -80,7 +79,6 @@ class NewOrganizationImagePageReactor: Reactor {
         switch mutation {
         case let .setSelectedImage(image):
             state.selectedImage = image
-            state.nextPageButtonActive = image != nil
             
         case let .setUploadedUrl(url):
             state.uploadedUrl = url

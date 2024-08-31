@@ -195,21 +195,7 @@ public class MypageView: BaseView {
 //                               }
 //                            ]
 //                        },
-//                        BaseHStack {
-//                            [
-//                                UILabel().then {
-//                                    $0.text = "회원 탈퇴"
-//                                    $0.setTypo(.body2m)
-//                                    $0.textColor = .grey800
-//                                },
-//                                BaseSpacer(),
-//                                UIImageView(image: .iconChevronRight).then {
-//                                   $0.contentMode = .scaleAspectFit
-//                                   $0.setSize(width: 18, height: 18)
-//                                   $0.tintColor = .grey500
-//                               }
-//                            ]
-//                        },
+                        withdrawRow,
                         logoutRow
                     ]
                 }
@@ -217,6 +203,22 @@ public class MypageView: BaseView {
         }
     ).then {
         $0.styled(variant: .translucent, color: .background, padding: .large)
+    }
+    
+    lazy var withdrawRow = BaseHStack {
+        [
+            UILabel().then {
+                $0.text = "회원 탈퇴"
+                $0.setTypo(.body2m)
+                $0.textColor = .red500
+            },
+            BaseSpacer(),
+            UIImageView(image: .iconChevronRight).then {
+               $0.contentMode = .scaleAspectFit
+               $0.setSize(width: 18, height: 18)
+               $0.tintColor = .red500
+           }
+        ]
     }
     
     lazy var logoutRow = BaseHStack {

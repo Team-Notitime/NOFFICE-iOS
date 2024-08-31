@@ -86,4 +86,25 @@ public struct MemberRepository: MemberRepositoryInterface {
             return Disposables.create()
         }
     }
+    
+    public func withdrawal(_ request: WithdrawalRequest) -> Observable<WithdrawalResponse> {
+        return Observable.create { observer in
+            Task {
+                do {
+                    let response = try await client.withdrawal(request)
+                    
+                    if let data = try response.noContent.body.json.data {
+                        observer.onNext(())
+                        observer.onCompleted()
+                    } else {
+                        observer.onError(MemberError.invalidResponse)
+                    }
+                } catch {
+                    observer.onError(MemberError.underlying(error))
+                }
+            }
+            
+            return Disposables.create()
+        }
+    }
 }
