@@ -6,9 +6,9 @@ all: lint generate
 
 generate:
 	$(TUIST) install
+	$(FASTLANE) match development --readonly
 	TUIST_ROOT_DIR=${PWD} $(TUIST) generate
 	$(SWIFTLINT) autocorrect --fix
-	$(FASTLANE) match
 
 lint:
 	$(SWIFTLINT)

@@ -72,7 +72,7 @@ class NewOrganizationImagePageView: BaseView {
         }
     ).then {
         $0.styled(variant: .fill, color: .green)
-        $0.isEnabled = false
+        $0.isEnabled = true // always enabled
     }
     
     // MARK: Setup

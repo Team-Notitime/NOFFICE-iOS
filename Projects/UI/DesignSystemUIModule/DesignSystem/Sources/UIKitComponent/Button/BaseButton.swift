@@ -171,6 +171,9 @@ public class BaseButton: UIControl {
             .forEach {
                 $0.textColor = foregroundColor
                 $0.isUserInteractionEnabled = false
+                if isFullWidth {
+                    $0.textAlignment = .center
+                }
             }
     }
     

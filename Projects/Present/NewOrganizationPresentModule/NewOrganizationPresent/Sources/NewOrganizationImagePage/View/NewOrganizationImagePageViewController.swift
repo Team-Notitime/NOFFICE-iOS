@@ -36,15 +36,6 @@ class NewOrganizationImagePageViewController: BaseViewController<NewOrganization
     }
 
     override func setupStateBind() {
-        // - Next page button active state
-        reactor.state.map { $0.nextPageButtonActive }
-            .withUnretained(self)
-            .observe(on: MainScheduler.asyncInstance)
-            .subscribe(onNext: { owner, active in
-                owner.baseView.nextPageButton.isEnabled = active
-            })
-            .disposed(by: self.disposeBag)
-
         // - Selected image
         reactor.state.map { $0.selectedImage?.data }
             .map { imageData -> UIImage? in

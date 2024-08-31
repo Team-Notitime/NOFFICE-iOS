@@ -76,7 +76,8 @@ extension Settings {
     static let baseSettings: SettingsDictionary = [
         "VERSIONING_SYSTEM": "apple-generic", // For fastlane auto increment build version
         "CURRENT_PROJECT_VERSION": "$(CURRENT_PROJECT_VERSION)",
-        "CODE_SIGN_STYLE": "Manual"
+        "CODE_SIGN_STYLE": "Manual",
+        "DEVELOPMENT_TEAM": "N8MX74Y447"
     ]
     
     static let viewSettings: SettingsDictionary = [

@@ -44,11 +44,19 @@ public class MypageViewController: BaseViewController<MypageView> {
             })
             .disposed(by: disposeBag)
         
-        // - Logout
+        // - Bind logout row
         baseView.logoutRow
             .rx.tapGesture()
             .when(.recognized)
             .map { _ in .tapLogoutRow }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        // - Bind Withdraw row
+        baseView.withdrawRow
+            .rx.tapGesture()
+            .when(.recognized)
+            .map { _ in .tapWithdrawRow }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
     }

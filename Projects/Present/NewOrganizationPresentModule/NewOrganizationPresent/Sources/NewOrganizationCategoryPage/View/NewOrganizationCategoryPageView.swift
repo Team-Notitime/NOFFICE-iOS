@@ -32,7 +32,7 @@ class NewOrganizationCategoryPageView: BaseView {
         }
     ).then {
         $0.funnelType = .newGroup
-        $0.title = "활동 종료 날짜가 언제인가요?"
+        $0.title = "그룹의 카테고리를 모두 선택해주세요"
     }
     
     // - Category list

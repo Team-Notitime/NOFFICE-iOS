@@ -12,6 +12,7 @@ import OrganizationUsecase
 import OrganizationEntity
 
 import ReactorKit
+import ProgressHUD
 
 class NewOrganizationFunnelReactor: Reactor {
     // MARK: Action
@@ -146,11 +147,20 @@ class NewOrganizationFunnelReactor: Reactor {
                         endDate: self.endDateReactor.currentState.selectedDate,
                         promotionCode: self.promotionReactor.currentState.promotionCode
                     )
-
+                    
+                    ProgressHUD.animate(
+                        "그룹을 생성중입니다",
+                        .horizontalDotScaling,
+                        interaction: false
+                    )
+                    
                     return self.createOrganizationUsecase
                         .execute(.init(newOrganization: newOrganization))
-                        .map { _ in return Void() }
-
+                        .map { _ in
+                            ProgressHUD.dismiss()
+                            return Void()
+                        }
+                    
                 default:
                     return .empty()
                 }
