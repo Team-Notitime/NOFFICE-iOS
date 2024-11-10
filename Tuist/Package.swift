@@ -38,7 +38,8 @@ let package = Package(
         .package(url: "https://github.com/Moya/Moya.git", from: "15.0.0"),
         .package(url: "https://github.com/kean/Pulse.git", from: "4.1.7"),
         .package(url: "https://github.com/relatedcode/ProgressHUD.git", from: "14.1.3"),
-        .package(path: "../openapi-generator-cli")
+        .package(path: "../openapi-generator-cli"),
+        .package(url: "https://github.com/kakao/kakao-ios-sdk-rx.git", branch: "master")
     ],
     targets: []
 )

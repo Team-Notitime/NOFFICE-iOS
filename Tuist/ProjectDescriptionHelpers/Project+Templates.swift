@@ -10,7 +10,7 @@ extension Project {
     ) -> Project {
         return Project(
             name: "\(target.name)",
-            settings: .settings(.base),
+            settings: .settings(.app),
             targets: [
                 makeTarget(
                     name: "\(target.name)",

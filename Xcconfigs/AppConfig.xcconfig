@@ -1,0 +1,11 @@
+//
+//  Config.xcconfig
+//  Noffice
+//
+//  Created by DOYEON LEE on 7/2/24.
+//
+
+// Configuration settings file format documentation can be found at:
+// https://help.apple.com/xcode/#/dev745c5c974
+
+KAKAO_NATIVE_APP_KEY=c7501e0fcc5b5f0ebc11208030c332ec

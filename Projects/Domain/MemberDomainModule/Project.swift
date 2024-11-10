@@ -6,6 +6,8 @@ let project = Project.makeDomainModule(
     dependencies: [
         .di(.container),
         .utility(.keychain),
-        .utility(.userDefaults)
+        .utility(.userDefaults),
+        .thirdParty(.rxKakaoSDKAuth),
+        .thirdParty(.rxKakaoSDKUser)
     ]
 )

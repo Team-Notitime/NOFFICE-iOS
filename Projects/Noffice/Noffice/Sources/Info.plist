@@ -2,6 +2,48 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>CFBundleDisplayName</key>
+	<string>노피스</string>
+	<key>CFBundleExecutable</key>
+	<string>$(EXECUTABLE_NAME)</string>
+	<key>CFBundleIdentifier</key>
+	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundleName</key>
+	<string>$(PRODUCT_NAME)</string>
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+	<key>CFBundleShortVersionString</key>
+	<string>1.0</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>kakao${KAKAO_NATIVE_APP_KEY}</string>
+			</array>
+		</dict>
+	</array>
+	<key>CFBundleVersion</key>
+	<string>2</string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>kakaokompassauth</string>
+		<string>kakaotalk</string>
+	</array>
+	<key>NSBonjourServices</key>
+	<array>
+		<string>_pulse._tcp</string>
+	</array>
+	<key>NSCameraUsageDescription</key>
+	<string>그룹 생성 및 어플 사용을 위한 갤러리 허용 권한이 필요합니다</string>
+	<key>NSLocalNetworkUsageDescription</key>
+	<string>Network usage required for debugging purposes </string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>그룹 생성 및 어플 사용을 위한 갤러리 허용 권한이 필요합니다</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
@@ -23,33 +65,9 @@
 	<string></string>
 	<key>UIMainStoryboardFile</key>
 	<string></string>
-	<key>CFBundleIdentifier</key>
-	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
-	<key>CFBundleName</key>
-	<string>$(PRODUCT_NAME)</string>
-	<key>CFBundleDisplayName</key>
-	<string>노피스</string>
-	<key>CFBundleShortVersionString</key>
-	<string>1.0</string>
-	<key>CFBundleVersion</key>
-	<string>2</string>
-	<key>CFBundleExecutable</key>
-	<string>$(EXECUTABLE_NAME)</string>
-	<key>CFBundlePackageType</key>
-	<string>APPL</string>
 	<key>UIUserInterfaceStyle</key>
 	<string>Light</string>
-	<key>CFBundleInfoDictionaryVersion</key>
-	<string>6.0</string>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>그룹 생성 및 어플 사용을 위한 갤러리 허용 권한이 필요합니다</string>
-	<key>NSCameraUsageDescription</key>
-	<string>그룹 생성 및 어플 사용을 위한 갤러리 허용 권한이 필요합니다</string>
-	<key>NSLocalNetworkUsageDescription</key>
-	<string>Network usage required for debugging purposes </string>
-	<key>NSBonjourServices</key>
-	<array>
-		<string>_pulse._tcp</string>
-	</array>
+	<key>KAKAO_NATIVE_APP_KEY</key>
+	<string>$(KAKAO_NATIVE_APP_KEY)</string>
 </dict>
 </plist>

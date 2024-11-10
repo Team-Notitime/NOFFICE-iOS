@@ -3,6 +3,7 @@ import ProjectDescription
 extension Settings {
     public enum SettingsType: String {
         case base
+        case app
         case view
         case data
         
@@ -14,7 +15,6 @@ extension Settings {
     public static func settings(_ type: SettingsType) -> Settings {
         switch type {
         case .base:
-            
             return .settings(
                 base: baseSettings,
                 configurations: [
@@ -33,20 +33,42 @@ extension Settings {
                 ],
                 defaultSettings: .recommended
             )
-        case .view:
-            // Merge base settings
-            let viewSettings = viewSettings
+        case .app:
+            let devSettings = devSettings
                 .merging(baseSettings) { (_, new) in new }
-                .merging(devSettings) { (_, new) in new }
             
-            let prodSettings = prodViewSettings
+            let prodSettings = prodSettings
                 .merging(baseSettings) { (_, new) in new }
             
             return .settings(
-                base: prodViewSettings,
+                base: prodSettings,
                 configurations: [
-                    .debug(name: Scheme.SchemeType.dev.name, settings: viewSettings),
-                    .release(name: Scheme.SchemeType.prod.name, settings: prodViewSettings)
+                    .debug(
+                        name: Scheme.SchemeType.dev.name,
+                        settings: devSettings,
+                        xcconfig: .relativeToRoot("Xcconfigs/AppConfig.xcconfig")
+                    ),
+                    .release(
+                        name: Scheme.SchemeType.prod.name,
+                        settings: prodSettings,
+                        xcconfig: .relativeToRoot("Xcconfigs/AppConfig.xcconfig")
+                    )
+                ],
+                defaultSettings: .recommended
+            )
+        case .view:
+            // Merge base settings
+            let devSettings = devSettings
+                .merging(baseSettings) { (_, new) in new }
+            
+            let prodSettings = prodSettings
+                .merging(baseSettings) { (_, new) in new }
+            
+            return .settings(
+                base: prodSettings,
+                configurations: [
+                    .debug(name: Scheme.SchemeType.dev.name, settings: devSettings),
+                    .release(name: Scheme.SchemeType.prod.name, settings: prodSettings)
                 ],
                 defaultSettings: .recommended
             )
@@ -76,33 +98,28 @@ extension Settings {
     static let baseSettings: SettingsDictionary = [
         "VERSIONING_SYSTEM": "apple-generic", // For fastlane auto increment build version
         "CURRENT_PROJECT_VERSION": "$(CURRENT_PROJECT_VERSION)",
-        "CODE_SIGN_STYLE": "Manual"
+        "CODE_SIGN_STYLE": "Manual",
     ]
+    .codeSignIdentityAppleDevelopment()
+    .automaticCodeSigning(devTeam: "N8MX74Y447")
     
-    static let viewSettings: SettingsDictionary = [
+    static let devSettings: SettingsDictionary = [
         "OTHER_LDFLAGS": [
             "-Xlinker", // For InjectIII
             "-interposable", // For InjectIII
             "$(inherited) -ObjC" // For InjectIII, SkeletonView
-        ]
-    ]
-    
-    // - Scheme setting
-    static let devSettings: SettingsDictionary = [
+        ],
         "OTHER_SWIFT_FLAGS": [
             "-D DEV"
         ]
     ]
     
     static let prodSettings: SettingsDictionary = [
-        "OTHER_SWIFT_FLAGS": [
-            "-D PROD"
-        ]
-    ]
-    
-    static let prodViewSettings: SettingsDictionary = [
         "OTHER_LDFLAGS": [
             "$(inherited) -ObjC" // For SkeletonView
+        ],
+        "OTHER_SWIFT_FLAGS": [
+            "-D PROD"
         ]
     ]
 }

@@ -15,8 +15,9 @@ import ReactorKit
 
 class SignupReactor: Reactor {
     // MARK: Action
-    enum Action { 
+    enum Action {
         case tapAppleSigninButton
+        case tapKakaoSigninButton
     }
     
     enum Mutation { }
@@ -31,6 +32,8 @@ class SignupReactor: Reactor {
     // MARK: Dependency
     private let appleLoginUsecase = AppleLoginUsecase()
     
+    private let kakaoLoginUsecase = KakaoLoginUsecase()
+    
     // MARK: DisposeBag
     private let disposeBag = DisposeBag()
     
@@ -39,7 +42,7 @@ class SignupReactor: Reactor {
     
     // MARK: Action operation
     func mutate(action: Action) -> Observable<Mutation> {
-        switch action { 
+        switch action {
         case .tapAppleSigninButton:
             let appleLoginExecuted = appleLoginUsecase
                 .execute(.init())
@@ -55,12 +58,21 @@ class SignupReactor: Reactor {
                 }
             
             return appleLoginExecuted
+        case .tapKakaoSigninButton:
+            let kakaoLoginExecuted = kakaoLoginUsecase
+                .execute(.init())
+                .flatMap { _ in
+                    print("::: 해치웠나")
+                    return Observable<Mutation>.empty()
+                }
+
+            return kakaoLoginExecuted
         }
     }
     
     func reduce(state: State, mutation: Mutation) -> State {
         var state = state
-        switch mutation { 
+        switch mutation {
             
         }
         return state

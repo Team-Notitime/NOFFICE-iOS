@@ -5,6 +5,7 @@ let project = Project.makePresentModule(
     .signup,
     dependencies: [
         .usecase(.member),
-        .entity(.member)
+        .entity(.member),
+        .thirdParty(.rxKakaoSDKAuth)
     ]
 )

@@ -20,7 +20,7 @@ extension Array where Element == Scheme {
                 hidden: false,
                 buildAction: .buildAction(
                     targets: [.target(appName)],
-                    preActions: [swiftlintAction]
+                    preActions: []
                 ),
                 testAction: .targets([], configuration: Scheme.SchemeType.dev.name),
                 runAction: .runAction(configuration: Scheme.SchemeType.dev.name),

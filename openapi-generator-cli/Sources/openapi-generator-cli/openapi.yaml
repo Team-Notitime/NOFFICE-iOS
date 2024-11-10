@@ -167,6 +167,32 @@ paths:
             application/json:
               schema:
                 "$ref": "#/components/schemas/NofficeResponse"
+  "/api/v1/promotion/verify":
+    post:
+      tags:
+      - 프로모션
+      summary: 프로모션 코드 검증
+      description: 프로모션 코드를 검증합니다.
+      operationId: verifyPromotionCode
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/VerifyPromotionRequest"
+        required: true
+      responses:
+        '200':
+          description: 프로모션 코드 검증 성공
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/NofficeResponsePromotionVerifyResponse"
+        '404':
+          description: 프로모션 코드가 존재하지 않습니다.
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/NofficeResponsePromotionVerifyResponse"
   "/api/v1/promotion/grant-organization":
     post:
       tags:
@@ -313,76 +339,6 @@ paths:
             application/json:
               schema:
                 "$ref": "#/components/schemas/NofficeResponse"
-  "/api/v1/notifications":
-    get:
-      tags:
-      - 알림
-      summary: "[인증] 사용자에게 수신된 알림 조회"
-      description: 사용자에게 수신된 알림을 조회합니다.
-      operationId: findById
-      responses:
-        '200':
-          description: 알림 조회 성공
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/NofficeResponseVoid"
-        '404':
-          description: 알림이 없습니다.
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/NofficeResponseVoid"
-    post:
-      tags:
-      - 알림
-      summary: "[인증] 단일 사용자 알림 대기열 추가"
-      description: 단일 사용자를 특정하여 노티 알림 대기열에 등록합니다.
-      operationId: create_1
-      requestBody:
-        content:
-          application/json:
-            schema:
-              "$ref": "#/components/schemas/NotificationRequest"
-        required: true
-      responses:
-        '200':
-          description: 알림 대기열 등록 성공
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/NofficeResponseVoid"
-        '400':
-          description: 알림 발송 실패
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/NofficeResponseVoid"
-    patch:
-      tags:
-      - 알림
-      summary: "[인증] 알림 발송 시간 변경"
-      description: 노티 알림 발송 시간을 변경합니다.
-      operationId: changeSendTime
-      requestBody:
-        content:
-          application/json:
-            schema:
-              "$ref": "#/components/schemas/NotificationTimeChangeRequest"
-        required: true
-      responses:
-        '200':
-          description: 알림 발송 시간 변경 성공
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/NofficeResponseNotificationTimeChangeResponse"
-        '400':
-          description: 알림 발송 시간 변경 실패
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/NofficeResponseNotificationTimeChangeResponse"
   "/api/v1/notifications/fcm-token":
     post:
       tags:
@@ -430,32 +386,6 @@ paths:
                 "$ref": "#/components/schemas/NofficeResponseVoid"
         '400':
           description: FCM Token 삭제 실패
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/NofficeResponseVoid"
-  "/api/v1/notifications/bulk":
-    post:
-      tags:
-      - 알림
-      summary: "[인증] 조직 단위 알림 대량 발송"
-      description: 조직 내 모든 사용자에게 전체 발송되는 알림을 등록합니다.
-      operationId: createAll
-      requestBody:
-        content:
-          application/json:
-            schema:
-              "$ref": "#/components/schemas/NotificationBulkRequest"
-        required: true
-      responses:
-        '200':
-          description: 조직 전체 알림 대량 등록 성공
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/NofficeResponseVoid"
-        '400':
-          description: 조직 전체 알림 대량 등록 실패
           content:
             application/json:
               schema:
@@ -607,7 +537,7 @@ paths:
       - 노티
       summary: 노티 생성
       description: 노티를 생성합니다.
-      operationId: create_2
+      operationId: create_1
       requestBody:
         content:
           application/json:
@@ -733,7 +663,7 @@ paths:
       - 노티
       summary: 노티 삭제
       description: 노티를 삭제합니다.
-      operationId: delete_1
+      operationId: delete
       parameters:
       - name: announcementId
         in: path
@@ -750,51 +680,6 @@ paths:
                 "$ref": "#/components/schemas/NofficeResponseVoid"
         '400':
           description: 노티 삭제에 실패하였습니다.
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/NofficeResponse"
-        '403':
-          description: 요청을 수행할 수 있는 권한이 없습니다.
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/NofficeResponse"
-        '500':
-          description: 서버 내부 에러 발생
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/NofficeResponse"
-  "/api/v1/announcement/{announcementId}/remind-unread":
-    post:
-      tags:
-      - 노티
-      summary: "[인증] 노티 미열람자 대상 FCM 알림"
-      description: 노티 미열람자 대상으로 알림을 전송합니다.
-      operationId: sendToUnReader
-      parameters:
-      - name: announcementId
-        in: path
-        required: true
-        schema:
-          type: integer
-          format: int64
-      responses:
-        '200':
-          description: 알림 전송 성공
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/NofficeResponseFCMCreateResponse"
-        '400':
-          description: 알림 전송에 실패하였습니다.
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/NofficeResponse"
-        '401':
-          description: 인증되지 않은 사용자입니다. 토큰을 확인해주세요.
           content:
             application/json:
               schema:
@@ -1153,6 +1038,7 @@ paths:
             application/json:
               schema:
                 "$ref": "#/components/schemas/NofficeResponse"
+      deprecated: true
   "/api/v1/announcement/{announcementId}/cover":
     patch:
       tags:
@@ -1210,32 +1096,6 @@ paths:
             application/json:
               schema:
                 "$ref": "#/components/schemas/NofficeResponse"
-  "/api/v1/promotion/verify":
-    get:
-      tags:
-      - 프로모션
-      summary: 프로모션 코드 검증
-      description: 프로모션 코드를 검증합니다.
-      operationId: verifyPromotionCode
-      parameters:
-      - name: promotionCode
-        in: query
-        required: true
-        schema:
-          type: string
-      responses:
-        '200':
-          description: 프로모션 코드 검증 성공
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/NofficeResponsePromotionVerifyResponse"
-        '404':
-          description: 프로모션 코드가 존재하지 않습니다.
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/NofficeResponsePromotionVerifyResponse"
   "/api/v1/organizations/{organizationId}":
     get:
       tags:
@@ -1696,33 +1556,6 @@ paths:
             application/json:
               schema:
                 "$ref": "#/components/schemas/NofficeResponse"
-  "/api/v1/notifications/{notificationId}":
-    delete:
-      tags:
-      - 알림
-      summary: 알림 삭제
-      description: 노티 알림을 삭제합니다.
-      operationId: delete
-      parameters:
-      - name: notificationId
-        in: path
-        required: true
-        schema:
-          type: integer
-          format: int64
-      responses:
-        '204':
-          description: 알림 삭제 성공
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/NofficeResponseVoid"
-        '400':
-          description: 알림 삭제 실패
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/NofficeResponseVoid"
   "/api/v1/member/withdrawal":
     delete:
       tags:
@@ -1933,6 +1766,41 @@ components:
           type: string
         data:
           "$ref": "#/components/schemas/CategoryModifyResponse"
+    VerifyPromotionRequest:
+      required:
+      - code
+      type: object
+      properties:
+        code:
+          type: string
+          description: 프로모션 코드
+          example: testcode
+    NofficeResponsePromotionVerifyResponse:
+      type: object
+      properties:
+        timestamp:
+          type: string
+        httpStatus:
+          type: integer
+          format: int32
+        code:
+          type: string
+        message:
+          type: string
+        data:
+          "$ref": "#/components/schemas/PromotionVerifyResponse"
+    PromotionVerifyResponse:
+      type: object
+      properties:
+        promotionId:
+          type: integer
+          description: 프로모션 ID
+          format: int64
+          example: 1
+        promotionCode:
+          type: string
+          description: 프로모션 코드 문자열
+          example: NOFFICEWELCOME
     PromotionGrantRequest:
       type: object
       properties:
@@ -2037,20 +1905,6 @@ components:
           example: https://test-image.com/cover_image.jpg
         promotion:
           "$ref": "#/components/schemas/PromotionVerifyResponse"
-    PromotionVerifyResponse:
-      type: object
-      properties:
-        promotionId:
-          type: integer
-          description: 프로모션 ID
-          format: int64
-          example: 1
-        promotionCode:
-          type: string
-          description: 프로모션 코드 문자열
-          example: NOFFICEWELCOME
-      description: 프로모션 진행 여부
-      example: false
     NofficeResponseOrganizationJoinResponse:
       type: object
       properties:
@@ -2085,52 +1939,15 @@ components:
           description: 가입한 사용자 식별자
           format: int64
           example: 1
-    NotificationRequest:
-      required:
-      - memberId
-      - sendAt
-      - title
-      type: object
-      properties:
-        title:
-          type: string
-          example: 알림 제목
-        content:
-          type: string
-          example: 알림 내용
-        memberId:
-          type: integer
-          format: int64
-          example: 1
-        sendAt:
-          type: string
-          format: date-time
     SaveTokenRequest:
       required:
-      - FCM 토큰
+      - token
       type: object
       properties:
-        FCM 토큰:
+        token:
           type: string
-          example: "(token)"
-    NotificationBulkRequest:
-      type: object
-      properties:
-        title:
-          type: string
-        content:
-          type: string
-        announcementId:
-          type: integer
-          format: int64
-        noticeBefore:
-          type: array
-          items:
-            type: string
-        noticeDate:
-          type: array
-          items:
-            type: string
+          description: FCM 토큰
+          example: token
     NofficeResponseTokenResponse:
       type: object
       properties:
@@ -2165,6 +1982,7 @@ components:
           enum:
           - GOOGLE
           - APPLE
+          - KAKAO
         code:
           type: string
           description: 제공자로부터 얻은 사용자별 인가 코드
@@ -2196,6 +2014,9 @@ components:
           enum:
           - GOOGLE
           - APPLE
+          - KAKAO
+        isAlreadyMember:
+          type: boolean
         token:
           "$ref": "#/components/schemas/TokenResponse"
     NotifyContentImageSaveSuccessRequest:
@@ -2387,31 +2208,6 @@ components:
           type: array
           items:
             type: string
-    FCMCreateResponse:
-      type: object
-      properties:
-        title:
-          type: string
-        body:
-          type: string
-        targetToken:
-          type: array
-          items:
-            type: string
-    NofficeResponseFCMCreateResponse:
-      type: object
-      properties:
-        timestamp:
-          type: string
-        httpStatus:
-          type: integer
-          format: int32
-        code:
-          type: string
-        message:
-          type: string
-        data:
-          "$ref": "#/components/schemas/FCMCreateResponse"
     TaskModifyRequest:
       required:
       - content
@@ -2484,73 +2280,6 @@ components:
           type: string
           description: 조직의 이미지가 저장된 Bucket URL
           example: https://bucket.ap-azname.hostname.com/example.type?
-    NotificationTimeChangeRequest:
-      required:
-      - announcementId
-      - noticeBefore
-      - noticeDate
-      type: object
-      properties:
-        announcementId:
-          type: integer
-          description: 공지 ID
-          format: int64
-          example: 1
-        noticeBefore:
-          type: array
-          description: 알림 시간 변경 초(second)
-          example: 60, 120, 180
-          items:
-            type: string
-            description: 알림 시간 변경 초(second)
-            example: 60, 120, 180
-        noticeDate:
-          type: array
-          description: 알림 시간 변경 기준 일자
-          example:
-          - '2021-07-01T00:00:00'
-          - '2021-07-02T00:00:00'
-          items:
-            type: string
-            description: 알림 시간 변경 기준 일자
-            example: '["2021-07-01T00:00:00","2021-07-02T00:00:00"]'
-    NofficeResponseNotificationTimeChangeResponse:
-      type: object
-      properties:
-        timestamp:
-          type: string
-        httpStatus:
-          type: integer
-          format: int32
-        code:
-          type: string
-        message:
-          type: string
-        data:
-          "$ref": "#/components/schemas/NotificationTimeChangeResponse"
-    NotificationResponse:
-      type: object
-      properties:
-        notificationId:
-          type: integer
-          format: int64
-        announcementId:
-          type: integer
-          format: int64
-        title:
-          type: string
-        content:
-          type: string
-    NotificationTimeChangeResponse:
-      type: object
-      properties:
-        announcementId:
-          type: integer
-          format: int64
-        notifications:
-          type: array
-          items:
-            "$ref": "#/components/schemas/NotificationResponse"
     MemberProfileUpdateRequest:
       required:
       - imageUrl
@@ -2667,20 +2396,6 @@ components:
           type: string
         isMemberChecked:
           type: boolean
-    NofficeResponsePromotionVerifyResponse:
-      type: object
-      properties:
-        timestamp:
-          type: string
-        httpStatus:
-          type: integer
-          format: int32
-        code:
-          type: string
-        message:
-          type: string
-        data:
-          "$ref": "#/components/schemas/PromotionVerifyResponse"
     NofficeResponseSliceOrganizationResponse:
       type: object
       properties:
@@ -3148,12 +2863,13 @@ components:
             "$ref": "#/components/schemas/TaskResponse"
     DeleteTokenRequest:
       required:
-      - FCM_토큰
+      - token
       type: object
       properties:
-        FCM_토큰:
+        token:
           type: string
-          example: "(token)"
+          description: FCM 토큰
+          example: token
   securitySchemes:
     Bearer_Token:
       type: http

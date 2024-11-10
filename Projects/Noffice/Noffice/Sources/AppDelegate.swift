@@ -21,6 +21,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         RouterConfig.setup()
         PulseConfig.setup()
         ProgressHudConfig.setup()
+        KakaoSdkConfig.setup()
         
         return true
     }

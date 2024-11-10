@@ -108,6 +108,9 @@ public enum Module {
         case pulseUI
         case progressHUD
         case openapiGenerated
+        case rxKakaoSDK
+        case rxKakaoSDKAuth
+        case rxKakaoSDKUser
         
         public var name: String { rawValue.toUpperCamelCase() }
     }

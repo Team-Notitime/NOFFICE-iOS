@@ -14,6 +14,7 @@ import Router
 import NotificationCenterUtility
 
 import ProgressHUD
+import KakaoSDKAuth
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
@@ -61,5 +62,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     func sceneDidEnterBackground(_ scene: UIScene) {
         // 씬이 백그라운드로 들어갈 때 호출되는 메서드
+    }
+    
+    func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
+        if let url = URLContexts.first?.url {
+            if AuthApi.isKakaoTalkLoginUrl(url) {
+                _ = AuthController.handleOpenUrl(url: url)
+            }
+        }
     }
 }

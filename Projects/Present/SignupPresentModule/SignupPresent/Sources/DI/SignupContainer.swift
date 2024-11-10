@@ -33,6 +33,11 @@ extension Container {
             SignupRealNamePageReactor()
         }
         .inObjectScope(.weak)
+        
+        container.register(SignupRealNamePageReactor.self) { _ in
+            SignupRealNamePageReactor()
+        }
+        .inObjectScope(.weak)
 
         return container
     }()

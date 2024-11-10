@@ -5,6 +5,7 @@
 //  Created by DOYEON LEE on 7/17/24.
 //
 
+import AuthenticationServices
 import UIKit
 
 import DesignSystem
@@ -24,20 +25,21 @@ public class SignupView: BaseView {
         $0.contentMode = .scaleAspectFit
     }
     
-    lazy var dummyButton = BaseButton(
-        contentsBuilder: {
-            [
-                UILabel().then {
-                    $0.text = "애플 로그인"
-                    $0.setTypo(.body1b)
-                }
-            ]
-        }
+    lazy var appleSigninButton = ASAuthorizationAppleIDButton(
+        type: .signIn,
+        style: .black
     ).then {
-        $0.styled(variant: .fill, color: .ghost, size: .medium)
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.isUserInteractionEnabled = false
+        $0.layer.masksToBounds = true
+        $0.layer.cornerRadius = 12
     }
     
-    lazy var appleSigninButton = AppleSignInButton()
+    lazy var kakaoSigninButton = UIImageView(image: .imgKakaoLogin).then {
+        $0.contentMode = .scaleAspectFill
+        $0.layer.masksToBounds = true
+        $0.layer.cornerRadius = 12
+    }
     
     // MARK: Setup
     public override func setupHierarchy() { 
@@ -45,9 +47,9 @@ public class SignupView: BaseView {
         
         addSubview(logo)
         
-        addSubview(dummyButton)
-        
         addSubview(appleSigninButton)
+        
+        addSubview(kakaoSigninButton)
     }
     
     public override func setupLayout() { 
@@ -62,18 +64,20 @@ public class SignupView: BaseView {
             $0.width.equalTo(200)
         }
         
-//        dummyButton.snp.makeConstraints {
-//            $0.left.right.equalToSuperview().inset(GlobalViewConstant.PagePadding)
-//            $0.centerX.equalToSuperview()
-//            $0.centerY.equalToSuperview().multipliedBy(1.5)
-//        }
-        
         appleSigninButton.snp.makeConstraints {
             $0.left.right.equalToSuperview()
                 .inset(GlobalViewConstant.PagePadding)
             $0.height.equalTo(50)
             $0.bottom.equalToSuperview()
                 .inset(GlobalViewConstant.PagePadding * 4)
+        }
+        
+        kakaoSigninButton.snp.makeConstraints {
+            $0.left.right.equalToSuperview()
+                .inset(GlobalViewConstant.PagePadding)
+            $0.bottom.equalTo(appleSigninButton.snp.top)
+                .offset(-GlobalViewConstant.SpacingUnit * 4)
+            $0.height.equalTo(50)
         }
     }
 }
