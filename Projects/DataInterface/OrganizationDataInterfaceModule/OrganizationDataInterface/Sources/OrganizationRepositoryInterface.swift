@@ -6,7 +6,7 @@
 //
 
 import OpenapiGenerated
-import OrganizationEntity
+import MainEntity
 import RxSwift
 
 /// A protocol defining the operations for managing organizations.

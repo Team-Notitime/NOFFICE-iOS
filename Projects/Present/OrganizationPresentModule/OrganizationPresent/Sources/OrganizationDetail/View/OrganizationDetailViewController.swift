@@ -8,7 +8,7 @@
 import UIKit
 
 import DesignSystem
-import OrganizationEntity
+import MainEntity
 import Router
 
 import Kingfisher

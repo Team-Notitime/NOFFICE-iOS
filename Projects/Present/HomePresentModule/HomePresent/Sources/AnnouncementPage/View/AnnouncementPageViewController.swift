@@ -5,7 +5,7 @@
 //  Created by DOYEON LEE on 7/15/24.
 //
 
-import AnnouncementEntity
+import MainEntity
 import DesignSystem
 import Foundation
 import Router

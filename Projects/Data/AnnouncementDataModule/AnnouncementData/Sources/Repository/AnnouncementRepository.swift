@@ -8,7 +8,7 @@
 import Foundation
 
 import OpenapiGenerated
-import AnnouncementEntity
+import MainEntity
 import AnnouncementDataInterface
 import CommonData
 

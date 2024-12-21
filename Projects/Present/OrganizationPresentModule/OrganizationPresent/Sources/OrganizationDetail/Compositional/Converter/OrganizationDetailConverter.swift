@@ -6,7 +6,7 @@
 //
 
 import DesignSystem
-import AnnouncementEntity
+import MainEntity
 
 struct OrganizationDetailConverter {
     static func convert(

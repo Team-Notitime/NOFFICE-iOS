@@ -7,7 +7,7 @@
 
 import Foundation
 
-import AnnouncementUsecase
+import MainUsecase
 
 import ReactorKit
 

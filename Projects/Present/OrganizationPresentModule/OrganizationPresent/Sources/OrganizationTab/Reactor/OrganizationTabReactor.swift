@@ -5,8 +5,8 @@
 //  Created by DOYEON LEE on 7/31/24.
 //
 
-import OrganizationUsecase
-import OrganizationEntity
+import MainUsecase
+import MainEntity
 
 import ReactorKit
 

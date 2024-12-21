@@ -7,9 +7,8 @@
 
 import UIKit
 
-import CommonEntity
-import CommonUsecase
-import OrganizationEntity
+import MainUsecase
+import MainEntity
 
 import ReactorKit
 import ProgressHUD

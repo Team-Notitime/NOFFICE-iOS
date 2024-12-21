@@ -7,7 +7,7 @@
 
 import UIKit
 
-import AnnouncementEntity
+import MainEntity
 import DesignSystem
 import Assets
 

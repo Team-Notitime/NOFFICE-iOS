@@ -6,8 +6,8 @@
 //
 
 import ReactorKit
-import TodoEntity
-import TodoUsecase
+import MainEntity
+import MainUsecase
 
 class TodoPageReactor: Reactor {
     // MARK: Action

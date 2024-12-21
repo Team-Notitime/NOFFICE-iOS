@@ -5,7 +5,7 @@
 //  Created by DOYEON LEE on 7/19/24.
 //
 
-import OrganizationEntity
+import MainEntity
 
 import ReactorKit
 

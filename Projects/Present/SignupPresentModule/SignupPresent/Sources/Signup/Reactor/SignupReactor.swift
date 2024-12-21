@@ -8,7 +8,7 @@
 import Foundation
 
 import KeychainUtility
-import MemberUsecase
+import MainUsecase
 import Router
 
 import ReactorKit
