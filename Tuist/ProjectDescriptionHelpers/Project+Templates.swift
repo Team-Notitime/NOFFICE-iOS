@@ -3,7 +3,10 @@ import ProjectDescription
 extension Project {
     public static let deployTarget = 16.0
     public static let bundleIdPrefix = "notitime.noffice"
-    
+    public static let entitlements: ProjectDescription.Entitlements = .dictionary([
+      "com.apple.developer.applesignin" : ["Default"]
+    ])
+  
     public static func makeMainApp(
         _ target: Module.MainApp,
         dependencies: [TargetDependency] = []
@@ -17,7 +20,8 @@ extension Project {
                     product: .app,
                     bundleId: "\(bundleIdPrefix).app",
                     infoPlist: .file(path: "\(target.name)/Sources/Info.plist"),
-                    dependencies: dependencies + uiDependencies
+                    dependencies: dependencies + uiDependencies,
+                    entitlements: entitlements
                 ),
                 makeTarget(
                     name: "\(target.name)Tests",
@@ -227,7 +231,8 @@ extension Project {
         product: Product,
         bundleId: String,
         infoPlist: InfoPlist? = .default,
-        dependencies: [TargetDependency] = []
+        dependencies: [TargetDependency] = [],
+        entitlements: ProjectDescription.Entitlements? = nil
     ) -> Target {
         return .target(
             name: name,
@@ -262,6 +267,7 @@ extension Project {
                     ]
                 )
             ),
+            entitlements: entitlements,
             scripts: [.swiftlint],
             dependencies: dependencies
         )
