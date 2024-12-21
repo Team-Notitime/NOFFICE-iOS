@@ -2,7 +2,7 @@ import ProjectDescription
 
 extension Project {
     public static let deployTarget = 16.0
-    public static let bundleId = "notitime.noffice"
+    public static let bundleIdPrefix = "notitime.noffice"
     
     public static func makeMainApp(
         _ target: Module.MainApp,
@@ -10,19 +10,19 @@ extension Project {
     ) -> Project {
         return Project(
             name: "\(target.name)",
-            settings: .settings(.base),
+            settings: .settings(.app),
             targets: [
                 makeTarget(
                     name: "\(target.name)",
                     product: .app,
-                    bundleId: "\(bundleId).app",
+                    bundleId: "\(bundleIdPrefix).app",
                     infoPlist: .file(path: "\(target.name)/Sources/Info.plist"),
                     dependencies: dependencies + uiDependencies
                 ),
                 makeTarget(
                     name: "\(target.name)Tests",
                     product: .unitTests,
-                    bundleId: "\(bundleId).app.tests",
+                    bundleId: "\(bundleIdPrefix).app.tests",
                     dependencies: [
                         .target(name: "Noffice"),
                         .data(.common),
@@ -40,12 +40,12 @@ extension Project {
     ) -> Project {
         return Project(
             name: "\(target.name)PresentModule",
-            settings: .settings(.view),
+            settings: .settings(.present),
             targets: [
                 makeTarget(
                     name: "\(target.name)Present",
                     product: .framework,
-                    bundleId: "\(bundleId).\(target.bundleIdenifier).present",
+                    bundleId: "\(bundleIdPrefix).\(target.bundleIdenifier).present",
                     infoPlist: .default,
                     dependencies: [
                         .ui(.designSystem),
@@ -64,12 +64,12 @@ extension Project {
     ) -> Project {
         return Project(
             name: "\(target.name)Module",
-            settings: .settings(.base),
+            settings: .settings(.default),
             targets: [
                 makeTarget(
                     name: "\(target.name)App",
                     product: .app,
-                    bundleId: "\(bundleId).\(target.bundleIdenifier).app",
+                    bundleId: "\(bundleIdPrefix).\(target.bundleIdenifier).app",
                     infoPlist: .file(path: "\(target.name)App/Sources/Info.plist"),
                     dependencies: [
                         .target(name: "\(target.name)"),
@@ -78,7 +78,7 @@ extension Project {
                 makeTarget(
                     name: "\(target.name)",
                     product: .framework,
-                    bundleId: "\(bundleId).\(target.bundleIdenifier)",
+                    bundleId: "\(bundleIdPrefix).\(target.bundleIdenifier)",
                     infoPlist: .file(path: "\(target.name)/Sources/Info.plist"),
                     dependencies: dependencies + uiDependencies
                 )
@@ -94,14 +94,15 @@ extension Project {
         _ target: Module.Present,
         dependencies: [TargetDependency] = []
     ) -> Project {
+        let bundleIdenifier = "\(bundleIdPrefix).\(target.bundleIdenifier).example"
         return Project(
             name: "\(target.name)ExampleModule",
-            settings: .settings(.base),
+            settings: .settings(.example(bundleIdentifier: bundleIdenifier)),
             targets: [
                 makeTarget(
                     name: "\(target.name)Example",
                     product: .app,
-                    bundleId: "\(bundleId).\(target.bundleIdenifier).example",
+                    bundleId: bundleIdenifier,
                     infoPlist: .file(path: "\(target.name)Example/Sources/Info.plist"),
                     dependencies: [
                         .di(.router)
@@ -118,12 +119,12 @@ extension Project {
     ) -> Project {
         return Project(
             name: "\(target.name)DomainModule",
-            settings: .settings(.base),
+            settings: .settings(.default),
             targets: [
                 makeTarget(
                     name: "\(target.name)Usecase",
                     product: .framework,
-                    bundleId: "\(bundleId).\(target.bundleIdenifier).domain",
+                    bundleId: "\(bundleIdPrefix).\(target.bundleIdenifier).domain",
                     dependencies: [
                         .di(.container),
                         .target(name: "\(target.name)Entity"),
@@ -133,7 +134,7 @@ extension Project {
                 makeTarget(
                     name: "\(target.name)Entity",
                     product: .framework,
-                    bundleId: "\(bundleId).\(target.bundleIdenifier).entity",
+                    bundleId: "\(bundleIdPrefix).\(target.bundleIdenifier).entity",
                     dependencies: []
                 ),
             ],
@@ -147,12 +148,12 @@ extension Project {
     ) -> Project {
         return Project(
             name: "\(target.name)DataInterfaceModule",
-            settings: .settings(.base),
+            settings: .settings(.default),
             targets: [
                 makeTarget(
                     name: "\(target.name)DataInterface",
                     product: .framework,
-                    bundleId: "\(bundleId).\(target.bundleIdenifier).datainterface",
+                    bundleId: "\(bundleIdPrefix).\(target.bundleIdenifier).datainterface",
                     dependencies: dependencies + dataDependencies
                 ),
             ],
@@ -171,7 +172,7 @@ extension Project {
                 makeTarget(
                     name: "\(target.name)Data",
                     product: .framework,
-                    bundleId: "\(bundleId).\(target.bundleIdenifier).data",
+                    bundleId: "\(bundleIdPrefix).\(target.bundleIdenifier).data",
                     infoPlist: .extendingDefault(with: dataInfoPlist),
                     dependencies: dependencies + dataDependencies
                 )
@@ -186,12 +187,12 @@ extension Project {
     ) -> Project {
         return Project(
             name: "\(target.name)Module",
-            settings: .settings(.base),
+            settings: .settings(.default),
             targets: [
                 makeTarget(
                     name: "\(target.name)",
                     product: .framework,
-                    bundleId: "\(bundleId).\(target.bundleIdenifier).di",
+                    bundleId: "\(bundleIdPrefix).\(target.bundleIdenifier).di",
                     dependencies: dependencies
                 ),
             ],
@@ -205,12 +206,12 @@ extension Project {
     ) -> Project {
         return Project(
             name: "\(target.name)UtilityModule",
-            settings: .settings(.base),
+            settings: .settings(.default),
             targets: [
                 makeTarget(
                     name: "\(target.name)Utility",
                     product: .framework,
-                    bundleId: "\(bundleId).\(target.bundleIdenifier).utility",
+                    bundleId: "\(bundleIdPrefix).\(target.bundleIdenifier).utility",
                     dependencies: dependencies
                 ),
             ],

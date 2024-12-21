@@ -3,10 +3,12 @@ SWIFTLINT = swiftlint
 FASTLANE = fastlane
 
 all: lint generate
+	
+match:
+	$(FASTLANE) match --readonly
 
 generate:
 	$(TUIST) install
-	$(FASTLANE) match development --readonly
 	TUIST_ROOT_DIR=${PWD} $(TUIST) generate
 	$(SWIFTLINT) autocorrect --fix
 
