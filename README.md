@@ -27,8 +27,5 @@
 - **Match**
   > This works for the app targets of all bundle IDs defined in the AppFile.
   ```
-  $ fastlane development
-  ```
-  ```
-  $ fastlane appstore
+  $ make match
   ```
