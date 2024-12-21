@@ -7,9 +7,8 @@
 
 import Foundation
 
-import AnnouncementEntity
-import AnnouncementUsecase
-import OrganizationUsecase
+import MainEntity
+import MainUsecase
 import Router
 
 import ReactorKit

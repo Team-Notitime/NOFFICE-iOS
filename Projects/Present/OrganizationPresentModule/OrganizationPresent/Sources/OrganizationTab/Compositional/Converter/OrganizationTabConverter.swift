@@ -6,7 +6,7 @@
 //
 
 import DesignSystem
-import OrganizationEntity
+import MainEntity
 
 struct OrganizationTabConverter {
     static func convert(

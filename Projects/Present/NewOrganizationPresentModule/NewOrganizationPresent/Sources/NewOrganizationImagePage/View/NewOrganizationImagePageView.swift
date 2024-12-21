@@ -9,7 +9,7 @@ import UIKit
 
 import DesignSystem
 import Assets
-import OrganizationEntity
+import MainEntity
 
 import SnapKit
 import Then

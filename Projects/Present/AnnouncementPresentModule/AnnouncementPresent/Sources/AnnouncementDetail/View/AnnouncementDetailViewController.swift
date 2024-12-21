@@ -5,8 +5,8 @@
 //  Created by DOYEON LEE on 7/26/24.
 //
 
-import AnnouncementEntity
-import AnnouncementUsecase
+import MainEntity
+import MainUsecase
 import Assets
 import DesignSystem
 import Router

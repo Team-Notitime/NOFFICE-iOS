@@ -7,7 +7,7 @@
 
 import UIKit
 
-import TodoEntity
+import MainEntity
 import DesignSystem
 
 import RxSwift

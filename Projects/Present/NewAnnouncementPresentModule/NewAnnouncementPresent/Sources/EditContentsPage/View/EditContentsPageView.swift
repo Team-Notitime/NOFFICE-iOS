@@ -11,7 +11,7 @@ import UIKit
 
 import DesignSystem
 import Assets
-import AnnouncementEntity
+import MainEntity
 
 import SnapKit
 import Then

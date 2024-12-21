@@ -8,7 +8,7 @@
 import CommonData
 import Foundation
 import MemberDataInterface
-import MemberEntity
+import MainEntity
 import OpenapiGenerated
 import OpenAPIURLSession
 import RxSwift

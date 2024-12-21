@@ -41,11 +41,7 @@ public enum Module {
     }
 
     public enum Domain: String, CaseIterable {
-        case common
-        case organization
-        case todo
-        case announcement
-        case member
+        case main
         
         var name: String { rawValue.toUpperCamelCase() }
         var bundleIdenifier: String { rawValue.toBundleIdentifier() }

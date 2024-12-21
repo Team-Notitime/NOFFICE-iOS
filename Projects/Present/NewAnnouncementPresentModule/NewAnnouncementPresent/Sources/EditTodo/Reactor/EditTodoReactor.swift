@@ -7,7 +7,7 @@
 
 import Foundation
 
-import AnnouncementEntity
+import MainEntity
 
 import ReactorKit
 

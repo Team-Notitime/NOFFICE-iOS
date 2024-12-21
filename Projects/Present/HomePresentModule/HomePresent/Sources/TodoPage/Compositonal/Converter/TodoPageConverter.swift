@@ -6,7 +6,7 @@
 //
 
 import DesignSystem
-import TodoEntity
+import MainEntity
 
 struct TodoPageConverter {
     static func convertToTodoSections(

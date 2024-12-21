@@ -7,10 +7,8 @@
 
 import ReactorKit
 
-import AnnouncementUsecase
-import AnnouncementEntity
-import MemberUsecase
-import MemberEntity
+import MainUsecase
+import MainEntity
 
 class AnnouncementPageReactor: Reactor {
     enum Action {

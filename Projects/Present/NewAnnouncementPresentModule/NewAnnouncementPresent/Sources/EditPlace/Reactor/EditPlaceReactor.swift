@@ -5,9 +5,8 @@
 //  Created by DOYEON LEE on 7/22/24.
 //
 
-import AnnouncementEntity
-import CommonUsecase
-import CommonEntity
+import MainEntity
+import MainUsecase
 
 import ReactorKit
 

@@ -8,8 +8,8 @@
 import Foundation
 
 import Router
-import OrganizationUsecase
-import OrganizationEntity
+import MainUsecase
+import MainEntity
 
 import ReactorKit
 import ProgressHUD

@@ -7,8 +7,8 @@
 
 import Foundation
 
-import OrganizationUsecase
-import OrganizationEntity
+import MainUsecase
+import MainEntity
 
 import ReactorKit
 

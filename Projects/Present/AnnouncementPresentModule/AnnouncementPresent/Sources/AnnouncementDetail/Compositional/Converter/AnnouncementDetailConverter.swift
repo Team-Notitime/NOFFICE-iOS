@@ -6,7 +6,7 @@
 //
 
 import DesignSystem
-import AnnouncementEntity
+import MainEntity
 
 struct AnnouncementDetailConverter {
     static func convertToTodoSections(

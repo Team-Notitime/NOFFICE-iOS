@@ -7,7 +7,7 @@
 
 import ReactorKit
 
-import AnnouncementEntity
+import MainEntity
 
 class EditNotificationReactor: Reactor {
     // MARK: Action

@@ -8,7 +8,7 @@
 import Foundation
 
 import OpenapiGenerated
-import OrganizationEntity
+import MainEntity
 import OrganizationDataInterface
 import CommonData
 

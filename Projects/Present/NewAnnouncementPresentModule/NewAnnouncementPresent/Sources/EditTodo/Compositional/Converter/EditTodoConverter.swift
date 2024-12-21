@@ -5,7 +5,7 @@
 //  Created by DOYEON LEE on 7/25/24.
 //
 
-import AnnouncementEntity
+import MainEntity
 
 struct EditTodoConverter {
     static func convertToTodoSections(
