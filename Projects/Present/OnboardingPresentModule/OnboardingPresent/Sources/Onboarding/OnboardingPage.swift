@@ -9,4 +9,5 @@ public struct OnboardingPage: Identifiable, Equatable {
   public let id: Int
   let title: String
   let content: String
+  let imageName: String
 }

@@ -14,8 +14,8 @@ open class BaseHostingController<Content: View>: UIViewController, BaseViewContr
   public var hostingController: UIHostingController<Content>?
   
   public init(rootView: Content) {
-    super.init(nibName: nil, bundle: nil)
     self.hostingController = UIHostingController(rootView: rootView)
+    super.init(nibName: nil, bundle: nil)
   }
   
   required public init?(coder: NSCoder) {
