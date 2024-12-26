@@ -114,6 +114,10 @@ open class PaginableView<Page: Paginable>: UIView, UIScrollViewDelegate {
     private var viewControllersDict: [Page: UIViewController] = [:]
     
     private var pageIndexDict: [Page: Int] = [:]
+  
+    public func viewController(for page: Page) -> UIViewController? {
+        return viewControllersDict[page]
+    }
     
     // MARK: UI component
     private lazy var scrollView = UIScrollView()

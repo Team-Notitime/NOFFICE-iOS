@@ -98,8 +98,9 @@ extension AppleLoginUsecase {
            let name = response.memberName,
            let provider = response.provider {
             let member = Member(
-                id: id, name: name,
-                provider: provider.rawValue
+              id: id,
+              name: name,
+              provider: provider.rawValue
             )
             userDefaultsManager.save(member)
         }

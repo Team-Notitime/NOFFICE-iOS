@@ -15,6 +15,7 @@ import Swinject
 import RxSwift
 import RxCocoa
 import ReactorKit
+import MainEntity
 
 public class SignupFunnelViewController: BaseViewController<SignupFunnelView> {
     // MARK: Reactor
@@ -44,10 +45,29 @@ public class SignupFunnelViewController: BaseViewController<SignupFunnelView> {
                 
                 if currentPageIndex < 1 {
                     Router.shared.dismiss()
+                    Router.shared.back()
                 } else {
                     owner.paginableView.currentPage = owner.pages[currentPageIndex - 1]
                 }
             })
             .disposed(by: disposeBag)
     }
+  
+    public override func viewDidLoad() {
+      super.viewDidLoad()
+      setupPageDelegates()
+    }
+    
+    private func setupPageDelegates() {
+      if let termsVC = baseView.paginableView.viewController(for: .terms) as? SignupTermsPageViewController {
+        termsVC.delegate = self
+      }
+    }
+}
+
+extension SignupFunnelViewController: SignupTermsPageViewDelegate {
+  public func termsPageViewController(_ viewController: SignupTermsPageViewController, didRequestPresentTerFile termFile: TermFile) {
+    let termsDetailVC = TermsDetailBottomSheetController(termFile: termFile)
+    self.present(termsDetailVC, animated: true)
+  }
 }

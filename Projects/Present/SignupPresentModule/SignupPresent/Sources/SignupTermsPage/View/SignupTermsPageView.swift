@@ -12,6 +12,7 @@ import Assets
 
 import SnapKit
 import Then
+import MainEntity
 
 public class SignupTermsPageView: BaseView {
     // MARK: UI Component
@@ -35,9 +36,9 @@ public class SignupTermsPageView: BaseView {
     
     // - Check box (all checked)
     lazy var allAgreeCheckBox = BaseToggleButton<
-        SignupTermsPageReactor.TermOption
+        TermOption
     >(
-        option: SignupTermsPageReactor.TermOption(
+        option: TermOption(
             order: -1,
             text: "모두 동의",
             description: "서비스 이용을 위해 아래의 약관을 모두 동의합니다."
@@ -72,9 +73,9 @@ public class SignupTermsPageView: BaseView {
     lazy var termsOptionIconViews: [UIView] = [] // for binding
     
     lazy var termsOptonGroup = BaseCheckBoxGroup(
-        source: Array(SignupTermsPageReactor.TermOptionType.allCases.map { $0.termOption }),
+        source: Array(TermOptionType.allCases.map { $0.termOption }),
         optionBuilder: { option in
-            BaseToggleButton<SignupTermsPageReactor.TermOption>(
+            BaseToggleButton<TermOption>(
                 option: option,
                 itemBuilder: { option in
                     let icon = UIImageView(image: .iconChevronRight).then {

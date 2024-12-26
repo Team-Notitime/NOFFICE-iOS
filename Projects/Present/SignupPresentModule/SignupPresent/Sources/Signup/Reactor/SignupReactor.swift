@@ -46,10 +46,11 @@ class SignupReactor: Reactor {
                 .flatMap { result in
                     if result.isSuccess {
                         DispatchQueue.main.async {
-                            Router.shared.dismiss()
+                          Router.shared.pushToPresent(SignupFunnelViewController(), animated: true)
                         }
                     } else {
                         // TODO: Error dialog 처리하기
+                      print("애플로그인 실패?")
                     }
                     return Observable<Mutation>.empty()
                 }
