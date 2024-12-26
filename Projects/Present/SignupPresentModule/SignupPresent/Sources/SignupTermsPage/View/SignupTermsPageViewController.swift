@@ -16,10 +16,19 @@ import RxSwift
 import RxCocoa
 import RxGesture
 
+import MainEntity
+
+public protocol SignupTermsPageViewDelegate: AnyObject {
+  func termsPageViewController(_ viewController: SignupTermsPageViewController, didRequestPresentTerFile termFile: TermFile)
+}
+
 public class SignupTermsPageViewController: BaseViewController<SignupTermsPageView> {
     // MARK: Reactor
     private let reactor = Container.shared.resolve(SignupTermsPageReactor.self)!
     
+    // MARK: Delegate
+    public weak var delegate: SignupTermsPageViewDelegate?
+  
     // MARK: Setup
     public override func setupViewBind() {
         // - All agree check
@@ -30,7 +39,7 @@ public class SignupTermsPageViewController: BaseViewController<SignupTermsPageVi
             .subscribe(onNext: { owner, selected in
                 if selected {
                     owner.baseView.termsOptonGroup
-                        .selectedOptions = SignupTermsPageReactor.TermOptionType.allCases
+                        .selectedOptions = TermOptionType.allCases
                         .map { $0.termOption }
                 } else {
                     owner.baseView.termsOptonGroup
@@ -40,12 +49,16 @@ public class SignupTermsPageViewController: BaseViewController<SignupTermsPageVi
             .disposed(by: disposeBag)
         
         // - Tap url icon
-        baseView.termsOptionIconViews
-            .forEach { icon in
+        baseView.termsOptionIconViews.enumerated()
+            .forEach { index, icon in
                 icon.rx.tapGesture()
                     .when(.recognized)
-                    .subscribe(onNext: { _ in
-                        print("눌렸다앙")
+                    .observe(on: MainScheduler.instance)
+                    .subscribe(onNext: { [weak self] _ in
+                        let termFile = TermOptionType.allCases[index].termOption.termFile
+                        guard let termFile,
+                              let self else { return }
+                        self.delegate?.termsPageViewController(self, didRequestPresentTerFile: termFile)
                     })
                     .disposed(by: self.disposeBag)
             }

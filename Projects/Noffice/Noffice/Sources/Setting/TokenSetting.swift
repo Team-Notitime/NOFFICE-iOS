@@ -7,6 +7,7 @@
 
 import KeychainUtility
 import Router
+import OnboardingPresent
 
 @MainActor
 struct TokenSetting {
@@ -16,7 +17,7 @@ struct TokenSetting {
             print(token)
         } else {
             print("has no token")
-            Router.shared.presentFullScreen(.signup, animated: false)
+            Router.shared.presentFullScreen(OnboardingViewController(), animated: false)
         }
     }
 }

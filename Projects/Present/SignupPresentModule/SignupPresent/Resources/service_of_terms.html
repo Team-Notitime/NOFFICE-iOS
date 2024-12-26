@@ -1,0 +1,693 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>서비스 이용약관</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+	background-color: #FAFAFA;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		padding-left: 16px;
+        padding-right: 16px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+    margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-default_background {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 237, 214, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 237, 214, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-uiBlue { background-color: rgba(35, 131, 226, .07); }
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-transparentGray { background-color: rgba(227, 226, 224, 0); }
+.select-value-color-translucentGray { background-color: rgba(0, 0, 0, 0.06); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(249, 228, 188, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+.select-value-color-pageGlass { background-color: undefined; }
+.select-value-color-washGlass { background-color: undefined; }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="de686939-c8e3-48e6-b089-6c200b72cb37" class="page sans"><header><h1 class="page-title">서비스 이용약관</h1><p class="page-description"></p></header><div class="page-body"><p id="1e2da5c8-4123-4c73-8a32-b0589720683e" class=""><strong>제 1조(목적)</strong></p><p id="0ebf7906-9b2b-4596-a046-adb23e0b6155" class="">이 약관은 노피스가 제공하는 서비스를 이용함에 있어 이용자의 권리 의무 및 책임사항을 규정하는 것을 목표로 합니다.</p><p id="7e1393ca-dec7-4b87-866a-dd249bfbf5af" class=""><strong>제 2조(정의)</strong></p><p id="f1b20a58-8210-4afe-b98b-5715cbf7a4fa" class="">이 약관에서 사용하는 용어의 정의는 다음과 같습니다.</p><ol type="1" id="f9ebfd19-8f05-400d-b24e-b9d442cccad8" class="numbered-list" start="1"><li>&quot;서비스&quot;라 함은 구현되는 단말기(PC, TV, 휴대형단말기 등의 각종 유무선 장치를 포함)와 상관없이 &quot;회원&quot;이 이용할 수 있는 서비스를 의미합니다.</li></ol><ol type="1" id="9d085da2-2a12-4465-a99f-f668782aa658" class="numbered-list" start="2"><li>&quot;회원&quot;이라 함은 노피스의 &quot;어플리케이션&quot;에 접속하여 이 약관에 따라 &quot;회사&quot;와 이용계약을 체결하고 노피스가 제공하는 &quot;서비스&quot;를 이용하는 고객을 말합니다.<ul id="78e1f6c9-f4a5-45c0-aecd-ed753204c055" class="bulleted-list"><li style="list-style-type:disc">개인회원: 노피스 이용약관에 따라, 회원으로 가입하고, 이용자 번호를 부여받은 개인을 말합니다.</li></ul></li></ol><ol type="1" id="2a665708-6a21-4666-bb61-3d30f1844bba" class="numbered-list" start="3"><li>&quot;아이디(ID)&quot;라 함은 &quot;회원&quot;의 식별과 &quot;서비스&quot; 이용을 위하여 &quot;회원&quot;이 정하고 노피스가 승인하는 문자와 숫자의 조합을 의미합니다.</li></ol><ol type="1" id="b4c2c32e-ffdc-4d33-9fed-3f81301fc2f6" class="numbered-list" start="4"><li>&quot;비밀번호&quot;라 함은 회원의 개인 정보 및 확인을 위해서 회원이 정한 문자 또는 숫자의 조합을 의미합니다.</li></ol><p id="b12785ca-2205-4e0d-bd95-78b6c755ddfa" class=""><strong>제3조 (약관의 효력과 변경)</strong></p><ol type="1" id="f0b38c7d-b840-4d85-b273-3da3fd7d06f1" class="numbered-list" start="1"><li>본 약관은 서비스를 이용하고자 하는 모든 사용자에게 그 적용을 받습니다.</li></ol><ol type="1" id="10e68941-a469-4e1b-bdc2-fac02699aba5" class="numbered-list" start="2"><li>“회사”는 필요하다고 인정되는 경우 본 약관을 변경할 수 있으며, 변경된 약관은 서비스 내 공지사항에 게시함으로써 효력을 발생합니다.</li></ol><ol type="1" id="b8ca3398-08f4-4a2d-a0ac-11f65dbaca83" class="numbered-list" start="3"><li>“회원”은 변경된 약관에 대해 동의하지 않을 권리가 있으며, 동의하지 않을 경우 서비스 이용이 제한될 수 있습니다.</li></ol><p id="6374c165-e302-4848-bb47-669ee613179d" class=""><strong>제 4조(약관 명시 및 개정)</strong></p><ol type="1" id="80bf9bf5-ce85-460a-8519-148434c978de" class="numbered-list" start="1"><li>노피스는 이 약관의 내용을 “회원”이 쉽게 알 수 있도록 마이 페이지에 이를 게시합니다</li></ol><ol type="1" id="46ffd552-f17d-4747-a432-11e7023fc120" class="numbered-list" start="2"><li>“약관의 규제에 관한 법률”, “정보통신망 이용 촉진 및 정보 보호 등에 관한 법률”등 관련법을 위배하지 않는 범위에서 이 약관을 개정할 수 있습니다.</li></ol><p id="6b670b08-18a5-4046-aba9-c680df5aff14" class=""><strong>제 5조(회원가입 및 회원탈퇴)</strong></p><ol type="1" id="1b76f398-d800-48bf-a670-08a04b71dbc5" class="numbered-list" start="1"><li>노피스가 정한 양식에 따라 ‘이용자’가 회원정보를 기입한 후 본 약관에 동의한다는 의사표시를 함으로써 회원가입을 신청합니다.</li></ol><ol type="1" id="503b4054-7468-438a-8f90-2e7bebbfb283" class="numbered-list" start="2"><li>회원가입 시기는 ‘회사’가 가입승낙 안내가 ‘회원’에게 도달한 시점으로 합니다.</li></ol><ol type="1" id="b437c23d-9749-4607-83f6-3443ef6649e7" class="numbered-list" start="3"><li>“회원”이 회원탈퇴를 한 경우에는 절차에 따라 “회원”이 서비스 내에서 게시한 모든 글은 선택적으로 삭제할 수 있습니다.</li></ol><p id="ff15910d-ab9f-4730-be86-ee33c4413779" class=""><strong>제 6조(서비스의 중단 등)</strong></p><ol type="1" id="506c3053-362b-4bab-8cd8-343dd85f5ee4" class="numbered-list" start="1"><li>노피스가 제공하는 서비스는 시스템의 유지,보수를 위한 점검, 통신장비의 교체 등 특별한 사유가 있는 경우 서비스의 전부 또는 일부에 대하여 일시적인 제공 중단이 발생할 수 있습니다.</li></ol><ol type="1" id="768b24c5-8a67-4a41-8030-eea688666c5d" class="numbered-list" start="2"><li>또한, 전시, 사변, 천재지변 또는 이에 준하는 국가비상사태가 발생하거나 발생할 우료가 있는 경우, 전기통신사업법에 의한 기간통신사업자가 전기통신서비스를 중지하는 등 부득이한 사유가 발생한 경우 서비스의 전부 또는 일부를 제한하거나 중지할 수 있습니다. </li></ol><p id="89cdcf5b-70c4-4127-b3a3-382584bf3ff9" class=""><strong>제 7조(”게시물”의 저작권)</strong></p><ol type="1" id="edd0739e-97d3-4c98-9436-68451606c171" class="numbered-list" start="1"><li>“회원”이 서비스 내에 작성한 텍스트, 이미지, 동영상, 링크 등의 기타 정보에 대한 책임 및 권리는 게시물을 등록한 회원에게 있습니다.</li></ol><ol type="1" id="87efe83f-60f3-43c5-9395-35ff1863f6f9" class="numbered-list" start="2"><li>“회원”이 작성한 컨텐츠에 대해서 감시 및 관리할 수 없으며 이에 대해서 책임지지 않습니다. 회사는 회원이 등록하는 게시물의 신뢰성, 진실성, 정확성 등에 대해서 책임지지 않으며 보증하지 않습니다.</li></ol><p id="42a57554-4f47-4d60-afa7-9f46f398ca13" class=""><strong>제 8조(”게시물”의 관리)</strong></p><ol type="1" id="a3622980-e3b6-4dc1-89c0-8383ba6bb41d" class="numbered-list" start="1"><li>“회사”는 그룹에 공개된 &quot;노티&quot;가 아래와 같은 내용을 포함할 경우 즉시 삭제, 블라인드 등 게시 중단 조치를 취함과 동시에 해당 게시물을 작성한 &quot;회원&quot;에 대한 서비스의 이용정지/계약의 해지 등 서비스 이용 제한, 수사 기관에의 고발 조치 등을 취할 수 있습니다.<ul id="9b6469ec-fcbb-48b3-a050-35f129548846" class="bulleted-list"><li style="list-style-type:disc">타인에 대해 직접적이고 명백한 신체적 위협을 가하는 내용</li></ul><ul id="813f6edf-15ff-4619-9732-025eb66040d8" class="bulleted-list"><li style="list-style-type:disc">타인의 자해 행위 또는 자살을 부추기거나 권장하는 내용</li></ul><ul id="4b29f865-69a1-49e9-958d-0a1fa23da156" class="bulleted-list"><li style="list-style-type:disc">타인의 신상정보, 사생활 등 비공개 개인정보를 드러내는 내용</li></ul><ul id="2ec99ec2-860b-4684-aa19-059c521d8993" class="bulleted-list"><li style="list-style-type:disc">타인을 지속적으로 따돌리거나 괴롭히는 내용</li></ul><ul id="63a56cbd-d506-4199-8d4e-e4a455987987" class="bulleted-list"><li style="list-style-type:disc">성매매를 제안, 알선, 유인 또는 강요하는 내용</li></ul><ul id="66612d2b-306c-49a3-8ae5-919a4c8c1949" class="bulleted-list"><li style="list-style-type:disc">공공 안전에 대해 직접적이고 심각한 위협을 가하는 내용</li></ul><ul id="1b8732ad-357e-4153-acfa-f586169eb28c" class="bulleted-list"><li style="list-style-type:disc">관련 법령상 금지되거나 형사처벌의 대상이 되는 행위를 수행하거나 이를 교사 또는 방조하는 등의 범죄 관련 직접적인 위험이 포함된 내용</li></ul><ul id="64e1f26a-da9d-428e-a7b5-1c9b65af3b63" class="bulleted-list"><li style="list-style-type:disc">관련 법령에서 홍보, 광고, 판매 등을 금지하고 있는 물건 또는 서비스를 홍보, 광고, 판매하는 내용</li></ul><ul id="cab46470-6376-4d04-84cf-69b6ef89ea41" class="bulleted-list"><li style="list-style-type:disc">타인의 지식재산권 등을 침해하거나 모욕, 사생활 침해 또는 명예훼손 등 타인의 권리를 침해하는 내용</li></ul><ul id="cf835979-2798-485d-b3d0-ad227315beb5" class="bulleted-list"><li style="list-style-type:disc">자극적이고 노골적인 성행위를 묘사하는 등 타인에게 성적 수치심을 유발시키거나 왜곡된 성 의식 등을 야기할 수 있는 내용</li></ul><ul id="f996fa74-c2b4-4d85-8ba1-ed5661ae294f" class="bulleted-list"><li style="list-style-type:disc">타인에게 잔혹감 또는 혐오감을 일으킬 수 있는 폭력적이고 자극적인 내용</li></ul><ul id="b59ef38f-ddae-4dc9-8583-e96eeacb20a2" class="bulleted-list"><li style="list-style-type:disc">본인 이외의 자를 사칭하거나 허위사실을 주장하는 등 타인을 기만하는 내용</li></ul><ul id="788c9fa1-b71d-4515-ae05-ba9d569b2128" class="bulleted-list"><li style="list-style-type:disc">과도한 욕설, 비속어 등을 계속하여 반복적으로 사용하여 심한 혐오감 또는 불쾌감을 일으키는 내용</li></ul></li></ol><p id="e5d276a1-773f-4fbd-9df9-a58759f46933" class=""><strong>제 9조(이용 제한)</strong></p><ol type="1" id="89b54c22-fe92-46f1-a3fb-c98ddc4799d8" class="numbered-list" start="1"><li>노피스는 &quot;회원&quot;이 이 약관의 의무를 위반하거나 &quot;서비스&quot;의 정상적인 운영을 방해한 경우, 경고, 일시정지, 영구이용정지 등으로 &quot;서비스&quot; 이용을 단계적으로 제한할 수 있습니다.</li></ol><ol type="1" id="7ea8b31a-9b2d-4497-a1a5-13cb69aa98c8" class="numbered-list" start="2"><li>본 조의 이용제한 범위 내에서 제한의 조건 및 세부내용은 &quot;회사&quot;의 이용제한정책에서 정하는 바에 의합니다.</li></ol><p id="75fd0b5e-a8fa-41f9-aced-bfcd46c34e02" class=""><strong>제 10조(서비스의 종료)</strong></p><ol type="1" id="d81419b4-1581-4913-a21a-30e691ae6116" class="numbered-list" start="1"><li>노피스는 서비스를 종료하고자 하는 날로부터 1개월 이전에 본 약관을 “회원”에게 알립니다.</li></ol><ol type="1" id="5343a937-dc9d-4108-a14e-ef98e5026bc4" class="numbered-list" start="2"><li>종료 통지일로부터 서비스 종료일까지 서비스의 일부가 제한될 수 있습니다.</li></ol><p id="e2d1ebee-6b7e-440c-8309-020d246879f1" class="">
+</p><p id="dee83916-7d3a-4c2e-a209-a0352cfbfc29" class="">공고일자 : 2024년 8월 24일</p><p id="1189b1cd-a255-4e05-803e-baa17a99343b" class="">시행일자 : 2024년 8월 31일</p><p id="0fb5718e-7284-4def-a180-1b6deaf0bf20" class="">
+</p><p id="bd6af51f-d53f-41f4-ab04-1dc3ba25e64e" class="">
+</p><p id="e59b1567-524f-4071-b99c-3bfeb1081988" class="">
+</p><p id="17b57470-6cdd-446f-8d26-91c4291781fe" class="">
+</p><p id="9490af57-d82b-4a8e-af57-d0069a6b8cdb" class="">
+</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

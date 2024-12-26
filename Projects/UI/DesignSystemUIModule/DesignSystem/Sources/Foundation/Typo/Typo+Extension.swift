@@ -407,3 +407,33 @@ public extension UITextView {
         }
     }
 }
+
+public extension Font {
+    static func pretendard(
+        size: CGFloat = 16,
+        weight: Font.Weight = .regular
+    ) -> Font {
+        switch weight {
+        case .thin:
+            return .custom("Pretendard-Thin", size: size)
+        case .ultraLight:
+            return .custom("Pretendard-ExtraLight", size: size)
+        case .light:
+            return .custom("Pretendard-Light", size: size)
+        case .regular:
+            return .custom("Pretendard-Regular", size: size)
+        case .medium:
+            return .custom("Pretendard-Medium", size: size)
+        case .semibold:
+            return .custom("Pretendard-SemiBold", size: size)
+        case .bold:
+            return .custom("Pretendard-Bold", size: size)
+        case .heavy:
+            return .custom("Pretendard-ExtraBold", size: size)
+        case .black:
+            return .custom("Pretendard-Black", size: size)
+        default:
+            return .custom("Pretendard-Regular", size: size)
+        }
+    }
+}

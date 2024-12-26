@@ -1,4 +1,4 @@
-git_url("https://github.com/Team-Notitime/NOFFICE-iOS-FASTLANE.git")
+git_url("git@github.com:Team-Notitime/NOFFICE-iOS-FASTLANE.git")
 
 storage_mode("git")
 

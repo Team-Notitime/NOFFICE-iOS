@@ -7,6 +7,7 @@ public enum Module {
     }
     
     public enum Present: String, CaseIterable {
+        case onboarding
         case home
         case organization
         case newOrganization

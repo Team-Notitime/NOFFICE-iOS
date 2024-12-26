@@ -7,6 +7,7 @@
 
 import UIKit
 import CoreText
+import SwiftUICore
 
 public struct FontConfig {
     public enum PretendardWeight: String, CaseIterable {
@@ -23,6 +24,10 @@ public struct FontConfig {
     
     public static func pretendard(size: CGFloat, weight: PretendardWeight = .regular) -> UIFont {
         return UIFont(name: weight.rawValue, size: size) ?? UIFont.systemFont(ofSize: size)
+    }
+  
+    public static func pretendard(size: CGFloat, weight: PretendardWeight = .regular) -> Font {
+        return Font.custom(weight.rawValue, size: size)
     }
     
     public static func setup() {
