@@ -1,92 +1,90 @@
----
 openapi: 3.0.1
 info:
   title: NOFFICE API Docs
-  description: '테스트 프로덕션용 NOFFICE API 명세서입니다.
-
-    '
+  description: |
+    테스트 프로덕션용 NOFFICE API 명세서입니다.
   version: v1.0
 servers:
-- url: https://api.noffice.store
-  description: develop server
-- url: http://localhost:8080
-  description: local server
+  - url: https://api.noffice.store
+    description: develop server
+  - url: http://localhost:8080
+    description: local server
 security:
-- Bearer_Token: []
+  - Bearer_Token: []
 tags:
-- name: 회원
-  description: 회원 로그인, 정보 조회 API
-- name: 노티
-  description: 노티(조직 내 공지) 관련 API
-- name: 알림
-  description: 노티 알림 발송 관련 API
-- name: 조직
-  description: 조직 관련 API
-- name: 카테고리
-  description: 조직 분류 카테고리 관련 API
-- name: 서버 헬스 체크
-  description: 노피스 서버 상태 확인 API
-- name: 프로모션
-  description: 프로모션 관련 API
-- name: 이미지
-  description: 이미지 업로드 및 디렉토리 요청 API
-- name: 투두
-  description: 노티 하위 발급 투두 리스트 관련 API
+  - name: 회원
+    description: 회원 로그인, 정보 조회 API
+  - name: 노티
+    description: 노티(조직 내 공지) 관련 API
+  - name: 알림
+    description: 노티 알림 발송 관련 API
+  - name: 조직
+    description: 조직 관련 API
+  - name: 카테고리
+    description: 조직 분류 카테고리 관련 API
+  - name: 서버 헬스 체크
+    description: 노피스 서버 상태 확인 API
+  - name: 프로모션
+    description: 프로모션 관련 API
+  - name: 이미지
+    description: 이미지 업로드 및 디렉토리 요청 API
+  - name: 투두
+    description: 노티 하위 발급 투두 리스트 관련 API
 paths:
-  "/api/v1/tasks/assigned":
+  /api/v1/tasks/assigned:
     get:
       tags:
-      - 투두
-      summary: "[인증] 사용자 할당 투두 목록 조회 (Paging)"
+        - 투두
+      summary: '[인증] 사용자 할당 투두 목록 조회 (Paging)'
       operationId: getAssigned
       parameters:
-      - name: pageable
-        in: query
-        required: true
-        schema:
-          "$ref": "#/components/schemas/Pageable"
+        - name: pageable
+          in: query
+          required: true
+          schema:
+            $ref: '#/components/schemas/Pageable'
       responses:
         '200':
           description: 사용자 할당 투두 조회 성공
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponseSliceAssignedTaskResponse"
+                $ref: '#/components/schemas/NofficeResponseSliceAssignedTaskResponse'
         '401':
           description: 인증되지 않은 사용자입니다. 토큰을 확인해주세요.
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponse"
+                $ref: '#/components/schemas/NofficeResponse'
         '403':
           description: 요청을 수행할 수 있는 권한이 없습니다.
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponse"
+                $ref: '#/components/schemas/NofficeResponse'
         '404':
           description: 사용자 할당된 투두가 없습니다.
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponse"
+                $ref: '#/components/schemas/NofficeResponse'
         '500':
           description: 서버 내부 에러 발생
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponse"
+                $ref: '#/components/schemas/NofficeResponse'
     put:
       tags:
-      - 투두
-      summary: "[인증] 사용자 투두 목록 완료 체크"
+        - 투두
+      summary: '[인증] 사용자 투두 목록 완료 체크'
       description: 사용자의 조직별 투두 목록에서 완료된 투두를 체크합니다.
       operationId: updateTaskStatus
       requestBody:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/TaskStatusUpdateRequests"
+              $ref: '#/components/schemas/TaskStatusUpdateRequests'
         required: true
       responses:
         '204':
@@ -96,45 +94,44 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponse"
+                $ref: '#/components/schemas/NofficeResponse'
         '403':
           description: 요청을 수행할 수 있는 권한이 없습니다.
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponse"
+                $ref: '#/components/schemas/NofficeResponse'
         '404':
-          description: "(변경 가능한 투두는 체크완료 처리됩니다.) 투두가 존재하지 않거나 이미 완료된 투두입니다. : [2,
-            3]"
+          description: '(변경 가능한 투두는 체크완료 처리됩니다.) 투두가 존재하지 않거나 이미 완료된 투두입니다. : [2, 3]'
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponse"
+                $ref: '#/components/schemas/NofficeResponse'
         '500':
           description: 서버 내부 에러 발생
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponse"
-  "/api/v1/organizations/{organizationId}/categories":
+                $ref: '#/components/schemas/NofficeResponse'
+  /api/v1/organizations/{organizationId}/categories:
     put:
       tags:
-      - 조직
-      summary: "[인증] 조직 카테고리 수정"
+        - 조직
+      summary: '[인증] 조직 카테고리 수정'
       description: 조직에 등록된 카테고리를 수정합니다.
       operationId: modifyCategories
       parameters:
-      - name: organizationId
-        in: path
-        required: true
-        schema:
-          type: integer
-          format: int64
+        - name: organizationId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
       requestBody:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/CategoryModifyRequest"
+              $ref: '#/components/schemas/CategoryModifyRequest'
         required: true
       responses:
         '200':
@@ -142,35 +139,61 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponseCategoryModifyResponse"
+                $ref: '#/components/schemas/NofficeResponseCategoryModifyResponse'
         '401':
           description: 인증되지 않은 사용자입니다. 토큰을 확인해주세요.
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponse"
+                $ref: '#/components/schemas/NofficeResponse'
         '403':
           description: 요청을 수행할 수 있는 권한이 없습니다.
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponse"
+                $ref: '#/components/schemas/NofficeResponse'
         '404':
           description: 조직에 등록된 카테고리가 없습니다.
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponse"
+                $ref: '#/components/schemas/NofficeResponse'
         '500':
           description: 서버 내부 에러 발생
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponse"
-  "/api/v1/promotion/grant-organization":
+                $ref: '#/components/schemas/NofficeResponse'
+  /api/v1/promotion/verify:
     post:
       tags:
-      - 프로모션
+        - 프로모션
+      summary: 프로모션 코드 검증
+      description: 프로모션 코드를 검증합니다.
+      operationId: verifyPromotionCode
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VerifyPromotionRequest'
+        required: true
+      responses:
+        '200':
+          description: 프로모션 코드 검증 성공
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NofficeResponsePromotionVerifyResponse'
+        '404':
+          description: 프로모션 코드가 존재하지 않습니다.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NofficeResponsePromotionVerifyResponse'
+  /api/v1/promotion/grant-organization:
+    post:
+      tags:
+        - 프로모션
       summary: 프로모션 가입
       description: 조직에 프로모션 권한을 부여합니다.
       operationId: grantOrganization
@@ -178,7 +201,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/PromotionGrantRequest"
+              $ref: '#/components/schemas/PromotionGrantRequest'
         required: true
       responses:
         '200':
@@ -186,68 +209,68 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponseVoid"
+                $ref: '#/components/schemas/NofficeResponseVoid'
         '404':
           description: 조직이 존재하지 않습니다.
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponseVoid"
-  "/api/v1/organizations":
+                $ref: '#/components/schemas/NofficeResponseVoid'
+  /api/v1/organizations:
     get:
       tags:
-      - 조직
-      summary: "[인증] 사용자의 가입된 조직 조회 (Paging)"
+        - 조직
+      summary: '[인증] 사용자의 가입된 조직 조회 (Paging)'
       description: 멤버가 가입한 조직 목록을 조회합니다.
       operationId: getJoined
       parameters:
-      - name: pageable
-        in: query
-        required: true
-        schema:
-          "$ref": "#/components/schemas/Pageable"
+        - name: pageable
+          in: query
+          required: true
+          schema:
+            $ref: '#/components/schemas/Pageable'
       responses:
         '200':
           description: 회원의 가입된 조직 조회에 성공하였습니다.
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponseSliceOrganizationResponse"
+                $ref: '#/components/schemas/NofficeResponseSliceOrganizationResponse'
         '401':
           description: 인증되지 않은 사용자입니다. 토큰을 확인해주세요.
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponse"
+                $ref: '#/components/schemas/NofficeResponse'
         '403':
           description: 요청을 수행할 수 있는 권한이 없습니다.
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponse"
+                $ref: '#/components/schemas/NofficeResponse'
         '404':
           description: 가입된 조직이 없습니다.
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponse"
+                $ref: '#/components/schemas/NofficeResponse'
         '500':
           description: 서버 내부 에러 발생
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponse"
+                $ref: '#/components/schemas/NofficeResponse'
     post:
       tags:
-      - 조직
-      summary: "[인증] 조직 생성"
+        - 조직
+      summary: '[인증] 조직 생성'
       description: 조직을 생성합니다.
       operationId: create
       requestBody:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/OrganizationCreateRequest"
+              $ref: '#/components/schemas/OrganizationCreateRequest'
         required: true
       responses:
         '201':
@@ -255,146 +278,76 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponseOrganizationCreateResponse"
+                $ref: '#/components/schemas/NofficeResponseOrganizationCreateResponse'
         '400':
           description: 조직 생성에 실패하였습니다.
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponse"
+                $ref: '#/components/schemas/NofficeResponse'
         '403':
           description: 요청을 수행할 수 있는 권한이 없습니다.
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponse"
+                $ref: '#/components/schemas/NofficeResponse'
         '500':
           description: 서버 내부 에러 발생
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponse"
-  "/api/v1/organizations/{organizationId}/join":
+                $ref: '#/components/schemas/NofficeResponse'
+  /api/v1/organizations/{organizationId}/join:
     post:
       tags:
-      - 조직
-      summary: "[인증] 조직 가입"
+        - 조직
+      summary: '[인증] 조직 가입'
       description: 조직에 가입합니다.
       operationId: join
       parameters:
-      - name: organizationId
-        in: path
-        required: true
-        schema:
-          type: integer
-          format: int64
+        - name: organizationId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
       responses:
         '200':
           description: 조직 가입에 성공하였습니다.
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponseOrganizationJoinResponse"
+                $ref: '#/components/schemas/NofficeResponseOrganizationJoinResponse'
         '401':
           description: 인증되지 않은 사용자입니다. 토큰을 확인해주세요.
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponse"
+                $ref: '#/components/schemas/NofficeResponse'
         '403':
           description: 요청을 수행할 수 있는 권한이 없습니다.
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponse"
+                $ref: '#/components/schemas/NofficeResponse'
         '500':
           description: 서버 내부 에러 발생
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponse"
-  "/api/v1/notifications":
-    get:
-      tags:
-      - 알림
-      summary: "[인증] 사용자에게 수신된 알림 조회"
-      description: 사용자에게 수신된 알림을 조회합니다.
-      operationId: findById
-      responses:
-        '200':
-          description: 알림 조회 성공
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/NofficeResponseVoid"
-        '404':
-          description: 알림이 없습니다.
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/NofficeResponseVoid"
+                $ref: '#/components/schemas/NofficeResponse'
+  /api/v1/notifications/fcm-token:
     post:
       tags:
-      - 알림
-      summary: "[인증] 단일 사용자 알림 대기열 추가"
-      description: 단일 사용자를 특정하여 노티 알림 대기열에 등록합니다.
-      operationId: create_1
-      requestBody:
-        content:
-          application/json:
-            schema:
-              "$ref": "#/components/schemas/NotificationRequest"
-        required: true
-      responses:
-        '200':
-          description: 알림 대기열 등록 성공
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/NofficeResponseVoid"
-        '400':
-          description: 알림 발송 실패
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/NofficeResponseVoid"
-    patch:
-      tags:
-      - 알림
-      summary: "[인증] 알림 발송 시간 변경"
-      description: 노티 알림 발송 시간을 변경합니다.
-      operationId: changeSendTime
-      requestBody:
-        content:
-          application/json:
-            schema:
-              "$ref": "#/components/schemas/NotificationTimeChangeRequest"
-        required: true
-      responses:
-        '200':
-          description: 알림 발송 시간 변경 성공
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/NofficeResponseNotificationTimeChangeResponse"
-        '400':
-          description: 알림 발송 시간 변경 실패
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/NofficeResponseNotificationTimeChangeResponse"
-  "/api/v1/notifications/fcm-token":
-    post:
-      tags:
-      - 알림
-      summary: "[인증] 기기별 FCM Token 저장"
+        - 알림
+      summary: '[인증] 기기별 FCM Token 저장'
       description: 기기별 FCM Token을 저장합니다.
       operationId: saveFcmToken
       requestBody:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/SaveTokenRequest"
+              $ref: '#/components/schemas/SaveTokenRequest'
         required: true
       responses:
         '201':
@@ -402,24 +355,24 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponseVoid"
+                $ref: '#/components/schemas/NofficeResponseVoid'
         '400':
           description: FCM Token 저장 실패
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponseVoid"
+                $ref: '#/components/schemas/NofficeResponseVoid'
     delete:
       tags:
-      - 알림
-      summary: "[인증] 기기별 FCM Token 삭제"
+        - 알림
+      summary: '[인증] 기기별 FCM Token 삭제'
       description: 기기별 FCM Token을 삭제합니다.
       operationId: deleteFcmToken
       requestBody:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/DeleteTokenRequest"
+              $ref: '#/components/schemas/DeleteTokenRequest'
         required: true
       responses:
         '204':
@@ -427,107 +380,81 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponseVoid"
+                $ref: '#/components/schemas/NofficeResponseVoid'
         '400':
           description: FCM Token 삭제 실패
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponseVoid"
-  "/api/v1/notifications/bulk":
+                $ref: '#/components/schemas/NofficeResponseVoid'
+  /api/v1/member/reissue:
     post:
       tags:
-      - 알림
-      summary: "[인증] 조직 단위 알림 대량 발송"
-      description: 조직 내 모든 사용자에게 전체 발송되는 알림을 등록합니다.
-      operationId: createAll
-      requestBody:
-        content:
-          application/json:
-            schema:
-              "$ref": "#/components/schemas/NotificationBulkRequest"
-        required: true
-      responses:
-        '200':
-          description: 조직 전체 알림 대량 등록 성공
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/NofficeResponseVoid"
-        '400':
-          description: 조직 전체 알림 대량 등록 실패
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/NofficeResponseVoid"
-  "/api/v1/member/reissue":
-    post:
-      tags:
-      - 회원
+        - 회원
       summary: 토큰 재발급
       description: 리프레시 토큰을 이용해 새로운 액세스 토큰을 발급합니다.
       operationId: reissue
       parameters:
-      - name: Authorization
-        in: header
-        required: true
-        schema:
-          type: string
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
       responses:
         '200':
           description: 액세스 토큰 재발급에 성공하였습니다.
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponseTokenResponse"
+                $ref: '#/components/schemas/NofficeResponseTokenResponse'
         '401':
           description: 리프레시 토큰이 유효하지 않습니다. 다시 로그인해주세요.
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponse"
+                $ref: '#/components/schemas/NofficeResponse'
         '500':
           description: 서버 내부 에러 발생
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponse"
-  "/api/v1/member/logout":
+                $ref: '#/components/schemas/NofficeResponse'
+  /api/v1/member/logout:
     post:
       tags:
-      - 회원
-      summary: "[인증] 회원 로그아웃"
+        - 회원
+      summary: '[인증] 회원 로그아웃'
       description: 회원의 계정에 저장된 Fcm 토큰을 모두 삭제합니다. 신규 로그인 시 토큰을 재요청해야합니다.
       operationId: logout
       parameters:
-      - name: notification-token
-        in: header
-        required: true
-        schema:
-          type: string
+        - name: notification-token
+          in: header
+          required: true
+          schema:
+            type: string
       responses:
         '204':
           description: 로그아웃에 성공하였습니다.
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponseVoid"
+                $ref: '#/components/schemas/NofficeResponseVoid'
         '401':
           description: 인증되지 않은 사용자입니다. 토큰을 확인해주세요.
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponse"
+                $ref: '#/components/schemas/NofficeResponse'
         '500':
           description: 서버 내부 에러 발생
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponse"
-  "/api/v1/member/login":
+                $ref: '#/components/schemas/NofficeResponse'
+  /api/v1/member/login:
     post:
       tags:
-      - 회원
+        - 회원
       summary: 회원 로그인
       description: 본문에 소셜 공급자명과 인가코드를 넣어 노피스 서버 로그인을 시도합니다.
       operationId: login
@@ -535,7 +462,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/SocialAuthRequest"
+              $ref: '#/components/schemas/SocialAuthRequest'
         required: true
       responses:
         '200':
@@ -543,52 +470,52 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponseSocialAuthResponse"
+                $ref: '#/components/schemas/NofficeResponseSocialAuthResponse'
         '500':
           description: 서버 내부 에러 발생
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponse"
-  "/api/v1/image":
+                $ref: '#/components/schemas/NofficeResponse'
+  /api/v1/image:
     get:
       tags:
-      - 이미지
+        - 이미지
       summary: 컨텐츠 이미지 업로드 위치 요청
       description: fileType에는 확장자를, fileName은 파일명을 넣어주세요. imageType은 이미지 유형을 명시해주세요.
       operationId: getContentImage
       parameters:
-      - name: fileType
-        in: query
-        required: true
-        schema:
-          type: string
-      - name: fileName
-        in: query
-        required: true
-        schema:
-          type: string
-      - name: imagePurpose
-        in: query
-        required: true
-        schema:
-          type: string
-          enum:
-          - ORGANIZATION_LOGO
-          - MEMBER_PROFILE
-          - ANNOUNCEMENT_PROFILE
-          - ANNOUNCEMENT_CONTENT
-          - PROMOTION_COVER
+        - name: fileType
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: fileName
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: imagePurpose
+          in: query
+          required: true
+          schema:
+            type: string
+            enum:
+              - ORGANIZATION_LOGO
+              - MEMBER_PROFILE
+              - ANNOUNCEMENT_PROFILE
+              - ANNOUNCEMENT_CONTENT
+              - PROMOTION_COVER
       responses:
         '200':
           description: 이미지 업로드 위치 요청에 성공하였습니다.
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/ContentImagePresignedUrlVO"
+                $ref: '#/components/schemas/ContentImagePresignedUrlVO'
     post:
       tags:
-      - 이미지
+        - 이미지
       summary: 컨텐츠 이미지 업로드 완료
       description: 컨텐츠 이미지 업로드 완료를 노피스 서버에 알립니다.
       operationId: notifyContentImageSaveSuccess
@@ -596,23 +523,23 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/NotifyContentImageSaveSuccessRequest"
+              $ref: '#/components/schemas/NotifyContentImageSaveSuccessRequest'
         required: true
       responses:
         '201':
           description: 별도 파일을 제외한 POST 요청을 발송해주세요.
-  "/api/v1/announcement":
+  /api/v1/announcement:
     post:
       tags:
-      - 노티
+        - 노티
       summary: 노티 생성
       description: 노티를 생성합니다.
-      operationId: create_2
+      operationId: create_1
       requestBody:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/AnnouncementCreateRequest"
+              $ref: '#/components/schemas/AnnouncementCreateRequest'
         required: true
       responses:
         '201':
@@ -620,82 +547,82 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponseAnnouncementResponse"
+                $ref: '#/components/schemas/NofficeResponseAnnouncementResponse'
         '400':
           description: 노티 생성 실패
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponse"
+                $ref: '#/components/schemas/NofficeResponse'
         '500':
           description: 서버 내부 에러 발생
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponse"
-  "/api/v1/announcement/{announcementId}":
+                $ref: '#/components/schemas/NofficeResponse'
+  /api/v1/announcement/{announcementId}:
     get:
       tags:
-      - 노티
-      summary: "[인증] 조직에 발급된 노티 열람"
+        - 노티
+      summary: '[인증] 조직에 발급된 노티 열람'
       description: 열람하려는 노티를 조회하고, 열람 기록에 추가합니다.
       operationId: read
       parameters:
-      - name: announcementId
-        in: path
-        required: true
-        schema:
-          type: integer
-          format: int64
+        - name: announcementId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
       responses:
         '200':
           description: 노티 단일 조회 성공
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponseAnnouncementResponse"
+                $ref: '#/components/schemas/NofficeResponseAnnouncementResponse'
         '401':
           description: 인증되지 않은 사용자입니다. 토큰을 확인해주세요.
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponse"
+                $ref: '#/components/schemas/NofficeResponse'
         '403':
           description: 요청을 수행할 수 있는 권한이 없습니다.
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponse"
+                $ref: '#/components/schemas/NofficeResponse'
         '404':
           description: 해당 노티가 없습니다.
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponse"
+                $ref: '#/components/schemas/NofficeResponse'
         '500':
           description: 서버 내부 에러 발생
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponse"
+                $ref: '#/components/schemas/NofficeResponse'
     post:
       tags:
-      - 노티
-      summary: "[인증] 노티 수정"
+        - 노티
+      summary: '[인증] 노티 수정'
       description: 노티를 수정합니다.
       operationId: update
       parameters:
-      - name: announcementId
-        in: path
-        required: true
-        schema:
-          type: integer
-          format: int64
+        - name: announcementId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
       requestBody:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/AnnouncementUpdateRequest"
+              $ref: '#/components/schemas/AnnouncementUpdateRequest'
         required: true
       responses:
         '200':
@@ -703,118 +630,73 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponseAnnouncementResponse"
+                $ref: '#/components/schemas/NofficeResponseAnnouncementResponse'
         '401':
           description: 인증되지 않은 사용자입니다. 토큰을 확인해주세요.
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponse"
+                $ref: '#/components/schemas/NofficeResponse'
         '403':
           description: 요청을 수행할 수 있는 권한이 없습니다.
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponse"
+                $ref: '#/components/schemas/NofficeResponse'
         '404':
           description: 해당 노티가 없습니다.
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponse"
+                $ref: '#/components/schemas/NofficeResponse'
         '500':
           description: 서버 내부 에러 발생
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponse"
+                $ref: '#/components/schemas/NofficeResponse'
     delete:
       tags:
-      - 노티
+        - 노티
       summary: 노티 삭제
       description: 노티를 삭제합니다.
-      operationId: delete_1
+      operationId: delete
       parameters:
-      - name: announcementId
-        in: path
-        required: true
-        schema:
-          type: integer
-          format: int64
+        - name: announcementId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
       responses:
         '204':
           description: 노티 삭제 성공
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponseVoid"
+                $ref: '#/components/schemas/NofficeResponseVoid'
         '400':
           description: 노티 삭제에 실패하였습니다.
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponse"
+                $ref: '#/components/schemas/NofficeResponse'
         '403':
           description: 요청을 수행할 수 있는 권한이 없습니다.
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponse"
+                $ref: '#/components/schemas/NofficeResponse'
         '500':
           description: 서버 내부 에러 발생
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponse"
-  "/api/v1/announcement/{announcementId}/remind-unread":
-    post:
-      tags:
-      - 노티
-      summary: "[인증] 노티 미열람자 대상 FCM 알림"
-      description: 노티 미열람자 대상으로 알림을 전송합니다.
-      operationId: sendToUnReader
-      parameters:
-      - name: announcementId
-        in: path
-        required: true
-        schema:
-          type: integer
-          format: int64
-      responses:
-        '200':
-          description: 알림 전송 성공
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/NofficeResponseFCMCreateResponse"
-        '400':
-          description: 알림 전송에 실패하였습니다.
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/NofficeResponse"
-        '401':
-          description: 인증되지 않은 사용자입니다. 토큰을 확인해주세요.
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/NofficeResponse"
-        '403':
-          description: 요청을 수행할 수 있는 권한이 없습니다.
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/NofficeResponse"
-        '500':
-          description: 서버 내부 에러 발생
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/NofficeResponse"
-  "/api/v1/tasks":
+                $ref: '#/components/schemas/NofficeResponse'
+  /api/v1/tasks:
     patch:
       tags:
-      - 투두
+        - 투두
       summary: 조직 내 투두 상세 내용 수정
       description: 등록된 투두 내용을 수정합니다.
       operationId: modify
@@ -822,7 +704,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/TaskModifyRequest"
+              $ref: '#/components/schemas/TaskModifyRequest'
         required: true
       responses:
         '200':
@@ -830,44 +712,44 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponseTaskModifyResponse"
+                $ref: '#/components/schemas/NofficeResponseTaskModifyResponse'
         '400':
           description: 투두 수정 실패
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponse"
+                $ref: '#/components/schemas/NofficeResponse'
         '403':
           description: 요청을 수행할 수 있는 권한이 없습니다.
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponse"
+                $ref: '#/components/schemas/NofficeResponse'
         '500':
           description: 서버 내부 에러 발생
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponse"
-  "/api/v1/organizations/{organizationId}/roles":
+                $ref: '#/components/schemas/NofficeResponse'
+  /api/v1/organizations/{organizationId}/roles:
     patch:
       tags:
-      - 조직
-      summary: "[인증] 조직원 권한 변경"
+        - 조직
+      summary: '[인증] 조직원 권한 변경'
       description: 타겟에 해당하는 멤버의 조직 내 권한을 입력한 권한대로 변경합니다.
       operationId: changeRoles
       parameters:
-      - name: organizationId
-        in: path
-        required: true
-        schema:
-          type: integer
-          format: int64
+        - name: organizationId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
       requestBody:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/ChangeRoleRequest"
+              $ref: '#/components/schemas/ChangeRoleRequest'
         required: true
       responses:
         '204':
@@ -875,44 +757,44 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponseVoid"
+                $ref: '#/components/schemas/NofficeResponseVoid'
         '401':
           description: 인증되지 않은 사용자입니다. 토큰을 확인해주세요.
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponse"
+                $ref: '#/components/schemas/NofficeResponse'
         '403':
-          description: "[권한 오류]: 변경할 수 없는 멤버가 포함되어 있습니다."
+          description: '[권한 오류]: 변경할 수 없는 멤버가 포함되어 있습니다.'
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponse"
+                $ref: '#/components/schemas/NofficeResponse'
         '500':
-          description: "[서버 내부 에러 발생]: 변경 역할 명 입력 오류"
+          description: '[서버 내부 에러 발생]: 변경 역할 명 입력 오류'
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponse"
-  "/api/v1/organizations/{organizationId}/register":
+                $ref: '#/components/schemas/NofficeResponse'
+  /api/v1/organizations/{organizationId}/register:
     patch:
       tags:
-      - 조직
-      summary: "[인증] 조직 가입 수락"
+        - 조직
+      summary: '[인증] 조직 가입 수락'
       description: 조직 가입대기 사용자 목록을 가입 처리합니다.
       operationId: registerMember
       parameters:
-      - name: organizationId
-        in: path
-        required: true
-        schema:
-          type: integer
-          format: int64
+        - name: organizationId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
       requestBody:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/ChangeRoleRequest"
+              $ref: '#/components/schemas/ChangeRoleRequest'
         required: true
       responses:
         '204':
@@ -920,100 +802,100 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponseVoid"
+                $ref: '#/components/schemas/NofficeResponseVoid'
         '400':
           description: 조직 가입 수락 실패
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponse"
+                $ref: '#/components/schemas/NofficeResponse'
         '401':
           description: 인증되지 않은 사용자입니다. 토큰을 확인해주세요.
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponse"
+                $ref: '#/components/schemas/NofficeResponse'
         '403':
           description: 요청을 수행할 수 있는 권한이 없습니다.
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponse"
+                $ref: '#/components/schemas/NofficeResponse'
         '404':
           description: 조직원이 존재하지 않습니다.
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponse"
+                $ref: '#/components/schemas/NofficeResponse'
         '500':
           description: 서버 내부 에러 발생
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponse"
-  "/api/v1/organizations/{organizationId}/profile-image":
+                $ref: '#/components/schemas/NofficeResponse'
+  /api/v1/organizations/{organizationId}/profile-image:
     delete:
       tags:
-      - 조직
-      summary: "[인증] 조직 프로필 이미지 삭제"
+        - 조직
+      summary: '[인증] 조직 프로필 이미지 삭제'
       description: 조직 프로필 이미지를 삭제합니다.
       operationId: deleteProfileImage
       parameters:
-      - name: organizationId
-        in: path
-        required: true
-        schema:
-          type: integer
-          format: int64
+        - name: organizationId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
       responses:
         '204':
           description: 프로필 이미지 삭제 성공
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponseVoid"
+                $ref: '#/components/schemas/NofficeResponseVoid'
         '400':
           description: 프로필 이미지 삭제 실패
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponse"
+                $ref: '#/components/schemas/NofficeResponse'
         '401':
           description: 인증되지 않은 사용자입니다. 토큰을 확인해주세요.
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponse"
+                $ref: '#/components/schemas/NofficeResponse'
         '403':
           description: 요청을 수행할 수 있는 권한이 없습니다.
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponse"
+                $ref: '#/components/schemas/NofficeResponse'
         '500':
           description: 서버 내부 에러 발생
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponse"
+                $ref: '#/components/schemas/NofficeResponse'
     patch:
       tags:
-      - 조직
-      summary: "[인증] 조직 프로필 이미지 수정"
+        - 조직
+      summary: '[인증] 조직 프로필 이미지 수정'
       description: 조직 프로필 이미지를 수정합니다.
       operationId: updateProfileImage
       parameters:
-      - name: organizationId
-        in: path
-        required: true
-        schema:
-          type: integer
-          format: int64
+        - name: organizationId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
       requestBody:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/OrganizationProfileUpdateRequest"
+              $ref: '#/components/schemas/OrganizationProfileUpdateRequest'
         required: true
       responses:
         '204':
@@ -1021,36 +903,36 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponseVoid"
+                $ref: '#/components/schemas/NofficeResponseVoid'
         '400':
           description: 프로필 이미지 수정 실패
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponse"
+                $ref: '#/components/schemas/NofficeResponse'
         '401':
           description: 인증되지 않은 사용자입니다. 토큰을 확인해주세요.
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponse"
+                $ref: '#/components/schemas/NofficeResponse'
         '403':
           description: 요청을 수행할 수 있는 권한이 없습니다.
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponse"
+                $ref: '#/components/schemas/NofficeResponse'
         '500':
           description: 서버 내부 에러 발생
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponse"
-  "/api/v1/member/profile-image":
+                $ref: '#/components/schemas/NofficeResponse'
+  /api/v1/member/profile-image:
     delete:
       tags:
-      - 회원
-      summary: "[인증] 회원 프로필 이미지 삭제"
+        - 회원
+      summary: '[인증] 회원 프로필 이미지 삭제'
       description: 회원의 프로필 이미지를 기본값(null)으로 되돌립니다.
       operationId: deleteProfileImage_1
       responses:
@@ -1059,36 +941,36 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponseVoid"
+                $ref: '#/components/schemas/NofficeResponseVoid'
         '401':
           description: 인증되지 않은 사용자입니다. 토큰을 확인해주세요.
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponse"
+                $ref: '#/components/schemas/NofficeResponse'
         '403':
           description: 요청을 수행할 수 있는 권한이 없습니다.
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponse"
+                $ref: '#/components/schemas/NofficeResponse'
         '500':
           description: 서버 내부 에러 발생
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponse"
+                $ref: '#/components/schemas/NofficeResponse'
     patch:
       tags:
-      - 회원
-      summary: "[인증] 회원 프로필 이미지 변경"
+        - 회원
+      summary: '[인증] 회원 프로필 이미지 변경'
       description: 회원의 프로필 이미지를 변경합니다.
       operationId: updateMemberProfile
       requestBody:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/MemberProfileUpdateRequest"
+              $ref: '#/components/schemas/MemberProfileUpdateRequest'
         required: true
       responses:
         '204':
@@ -1096,37 +978,75 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponseVoid"
+                $ref: '#/components/schemas/NofficeResponseVoid'
         '401':
           description: 인증되지 않은 사용자입니다. 토큰을 확인해주세요.
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponse"
+                $ref: '#/components/schemas/NofficeResponse'
         '403':
           description: 요청을 수행할 수 있는 권한이 없습니다.
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponse"
+                $ref: '#/components/schemas/NofficeResponse'
         '500':
           description: 서버 내부 에러 발생
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponse"
-  "/api/v1/member/alias":
+                $ref: '#/components/schemas/NofficeResponse'
+  /api/v1/member/name:
     patch:
       tags:
-      - 회원
-      summary: "[인증] 회원 별명 변경"
+        - 회원
+      summary: '[인증] 회원 이름 변경'
+      description: 회원의 이름을 변경합니다.
+      operationId: updateName
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MemberNameUpdateRequest'
+        required: true
+      responses:
+        '204':
+          description: 회원 이름 변경에 성공하였습니다.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NofficeResponseVoid'
+        '401':
+          description: 인증되지 않은 사용자입니다. 토큰을 확인해주세요.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NofficeResponse'
+        '403':
+          description: 요청을 수행할 수 있는 권한이 없습니다.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NofficeResponse'
+        '500':
+          description: 서버 내부 에러 발생
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NofficeResponse'
+  /api/v1/member/alias:
+    patch:
+      tags:
+        - 회원
+      summary: '[인증] 회원 별명 변경'
       description: 회원의 별명을 변경합니다.
       operationId: updateAlias
       requestBody:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/MemberAliasUpdateRequest"
+              $ref: '#/components/schemas/MemberAliasUpdateRequest'
         required: true
       responses:
         '204':
@@ -1134,39 +1054,40 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponseVoid"
+                $ref: '#/components/schemas/NofficeResponseVoid'
         '401':
           description: 인증되지 않은 사용자입니다. 토큰을 확인해주세요.
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponse"
+                $ref: '#/components/schemas/NofficeResponse'
         '403':
           description: 요청을 수행할 수 있는 권한이 없습니다.
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponse"
+                $ref: '#/components/schemas/NofficeResponse'
         '500':
           description: 서버 내부 에러 발생
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponse"
-  "/api/v1/announcement/{announcementId}/cover":
+                $ref: '#/components/schemas/NofficeResponse'
+      deprecated: true
+  /api/v1/announcement/{announcementId}/cover:
     patch:
       tags:
-      - 노티
-      summary: "[인증] 공지 커버 이미지 수정"
+        - 노티
+      summary: '[인증] 공지 커버 이미지 수정'
       description: 공지에 설정된 이미지를 변경합니다. 이미지는 선택 가능한 이미지 내에서 설정 가능합니다.
       operationId: modifyCover
       parameters:
-      - name: announcementId
-        in: path
-        required: true
-        schema:
-          type: integer
-          format: int64
+        - name: announcementId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
       requestBody:
         content:
           application/json:
@@ -1179,331 +1100,307 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponseVoid"
+                $ref: '#/components/schemas/NofficeResponseVoid'
         '400':
           description: 공지 커버 이미지 수정에 실패하였습니다.
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponse"
+                $ref: '#/components/schemas/NofficeResponse'
         '401':
           description: 인증되지 않은 사용자입니다. 토큰을 확인해주세요.
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponse"
+                $ref: '#/components/schemas/NofficeResponse'
         '403':
           description: 요청을 수행할 수 있는 권한이 없습니다.
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponse"
+                $ref: '#/components/schemas/NofficeResponse'
         '404':
           description: 선택 가능한 이미지 주소가 아닙니다.
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponse"
+                $ref: '#/components/schemas/NofficeResponse'
         '500':
           description: 서버 내부 에러 발생
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponse"
-  "/api/v1/promotion/verify":
+                $ref: '#/components/schemas/NofficeResponse'
+  /api/v1/organizations/{organizationId}:
     get:
       tags:
-      - 프로모션
-      summary: 프로모션 코드 검증
-      description: 프로모션 코드를 검증합니다.
-      operationId: verifyPromotionCode
-      parameters:
-      - name: promotionCode
-        in: query
-        required: true
-        schema:
-          type: string
-      responses:
-        '200':
-          description: 프로모션 코드 검증 성공
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/NofficeResponsePromotionVerifyResponse"
-        '404':
-          description: 프로모션 코드가 존재하지 않습니다.
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/NofficeResponsePromotionVerifyResponse"
-  "/api/v1/organizations/{organizationId}":
-    get:
-      tags:
-      - 조직
-      summary: "[인증] 단일 조직 정보 조회"
+        - 조직
+      summary: '[인증] 단일 조직 정보 조회'
       description: 조직의 정보(조직명, 가입 대기여부, 가입자수) 를 조회합니다.
       operationId: getInformation
       parameters:
-      - name: organizationId
-        in: path
-        required: true
-        schema:
-          type: integer
-          format: int64
+        - name: organizationId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
       responses:
         '200':
           description: 조직 정보 조회에 성공하였습니다.
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponseOrganizationInfoResponse"
+                $ref: '#/components/schemas/NofficeResponseOrganizationInfoResponse'
         '403':
           description: 요청을 수행할 수 있는 권한이 없습니다.
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponse"
+                $ref: '#/components/schemas/NofficeResponse'
         '404':
           description: 조직 정보가 없습니다.
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponseOrganizationInfoResponse"
+                $ref: '#/components/schemas/NofficeResponseOrganizationInfoResponse'
         '500':
           description: 서버 내부 에러 발생
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponse"
-  "/api/v1/organizations/{organizationId}/signup-info":
+                $ref: '#/components/schemas/NofficeResponse'
+  /api/v1/organizations/{organizationId}/signup-info:
     get:
       tags:
-      - 조직
-      summary: "[인증] 조직 가입 정보 조회"
+        - 조직
+      summary: '[인증] 조직 가입 정보 조회'
       description: 조직 가입을 위한 공개정보를 조회합니다. (조직명, 프로필 이미지 주소)
       operationId: getSignUpInfo
       parameters:
-      - name: organizationId
-        in: path
-        required: true
-        schema:
-          type: integer
-          format: int64
+        - name: organizationId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
       responses:
         '200':
           description: 조직 가입 정보 조회에 성공하였습니다.
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponseOrganizationSignupResponse"
+                $ref: '#/components/schemas/NofficeResponseOrganizationSignupResponse'
         '403':
           description: 요청을 수행할 수 있는 권한이 없습니다.
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponse"
+                $ref: '#/components/schemas/NofficeResponse'
         '404':
           description: 조직 정보가 없습니다.
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponse"
+                $ref: '#/components/schemas/NofficeResponse'
         '500':
           description: 서버 내부 에러 발생
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponse"
-  "/api/v1/organizations/{organizationId}/selectable-cover":
+                $ref: '#/components/schemas/NofficeResponse'
+  /api/v1/organizations/{organizationId}/selectable-cover:
     get:
       tags:
-      - 조직
-      summary: "[인증] 선택 가능한 커버 이미지 조회"
+        - 조직
+      summary: '[인증] 선택 가능한 커버 이미지 조회'
       description: 공지 발행 시 선택 가능한 커버 이미지를 모두 조회합니다.
       operationId: getSelectableCover
       parameters:
-      - name: organizationId
-        in: path
-        required: true
-        schema:
-          type: integer
-          format: int64
+        - name: organizationId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
       responses:
         '200':
           description: 선택 가능한 공지 커버 이미지 목록 조회 성공
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponseOrganizationImageResponse"
+                $ref: '#/components/schemas/NofficeResponseOrganizationImageResponse'
         '401':
           description: 인증되지 않은 사용자입니다. 토큰을 확인해주세요.
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponse"
+                $ref: '#/components/schemas/NofficeResponse'
         '403':
           description: 요청을 수행할 수 있는 권한이 없습니다.
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponse"
+                $ref: '#/components/schemas/NofficeResponse'
         '404':
           description: 공지 커버 이미지가 없습니다.
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponse"
+                $ref: '#/components/schemas/NofficeResponse'
         '500':
           description: 서버 내부 에러 발생
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponse"
-  "/api/v1/organizations/{organizationId}/pending-members":
+                $ref: '#/components/schemas/NofficeResponse'
+  /api/v1/organizations/{organizationId}/pending-members:
     get:
       tags:
-      - 조직
-      summary: "[인증] 조직 가입 대기자 조회"
+        - 조직
+      summary: '[인증] 조직 가입 대기자 조회'
       description: 조직 가입 대기자를 조회합니다.
       operationId: getPendingMembers
       parameters:
-      - name: organizationId
-        in: path
-        required: true
-        schema:
-          type: integer
-          format: int64
+        - name: organizationId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
       responses:
         '200':
           description: 조직 가입 대기자 조회에 성공하였습니다.
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponseListMemberInfoResponse"
+                $ref: '#/components/schemas/NofficeResponseListMemberInfoResponse'
         '401':
           description: 인증되지 않은 사용자입니다. 토큰을 확인해주세요.
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponse"
+                $ref: '#/components/schemas/NofficeResponse'
         '403':
           description: 요청을 수행할 수 있는 권한이 없습니다.
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponse"
+                $ref: '#/components/schemas/NofficeResponse'
         '404':
           description: 조직 가입 대기자가 없습니다.
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponse"
+                $ref: '#/components/schemas/NofficeResponse'
         '500':
           description: 서버 내부 에러 발생
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponse"
-  "/api/v1/organizations/{organizationId}/members":
+                $ref: '#/components/schemas/NofficeResponse'
+  /api/v1/organizations/{organizationId}/members:
     get:
       tags:
-      - 조직
-      summary: "[인증] 소속 조직원 권한별 전체 조회"
+        - 조직
+      summary: '[인증] 소속 조직원 권한별 전체 조회'
       description: 조직 내 소속원 전체를 조회합니다. LEADER, PARTICIPANT로 구분됩니다.
       operationId: getRegisteredMembers
       parameters:
-      - name: organizationId
-        in: path
-        required: true
-        schema:
-          type: integer
-          format: int64
+        - name: organizationId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
       responses:
         '200':
           description: 조직 가입자 목록 조회 성공
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponseOrganizationMemberResponses"
+                $ref: >-
+                  #/components/schemas/NofficeResponseOrganizationMemberResponses
         '400':
           description: 프로필 이미지 삭제 실패
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponse"
+                $ref: '#/components/schemas/NofficeResponse'
         '401':
           description: 인증되지 않은 사용자입니다. 토큰을 확인해주세요.
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponse"
+                $ref: '#/components/schemas/NofficeResponse'
         '403':
           description: 요청을 수행할 수 있는 권한이 없습니다.
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponse"
+                $ref: '#/components/schemas/NofficeResponse'
         '500':
           description: 서버 내부 에러 발생
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponse"
-  "/api/v1/organizations/{organizationId}/announcements":
+                $ref: '#/components/schemas/NofficeResponse'
+  /api/v1/organizations/{organizationId}/announcements:
     get:
       tags:
-      - 조직
-      summary: "[인증] 조직별 노티 페이징 조회 (Paging)"
+        - 조직
+      summary: '[인증] 조직별 노티 페이징 조회 (Paging)'
       description: 조직별 노티를 페이징 조회합니다.
       operationId: getPublishedAnnouncements
       parameters:
-      - name: organizationId
-        in: path
-        required: true
-        schema:
-          type: integer
-          format: int64
-      - name: pageable
-        in: query
-        required: true
-        schema:
-          "$ref": "#/components/schemas/Pageable"
+        - name: organizationId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: pageable
+          in: query
+          required: true
+          schema:
+            $ref: '#/components/schemas/Pageable'
       responses:
         '200':
           description: 조직별 노티 페이징 조회 성공
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponseSliceAnnouncementCoverResponse"
+                $ref: >-
+                  #/components/schemas/NofficeResponseSliceAnnouncementCoverResponse
         '401':
           description: 인증되지 않은 사용자입니다. 토큰을 확인해주세요.
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponse"
+                $ref: '#/components/schemas/NofficeResponse'
         '403':
           description: 요청을 수행할 수 있는 권한이 없습니다.
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponse"
+                $ref: '#/components/schemas/NofficeResponse'
         '404':
           description: 조직에 등록된 노티가 없습니다.
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponse"
+                $ref: '#/components/schemas/NofficeResponse'
         '500':
           description: 서버 내부 에러 발생
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponse"
-  "/api/v1/member":
+                $ref: '#/components/schemas/NofficeResponse'
+  /api/v1/member:
     get:
       tags:
-      - 회원
-      summary: "[인증] 단일 회원 정보 조회"
+        - 회원
+      summary: '[인증] 단일 회원 정보 조회'
       description: 회원의 정보를 조회합니다.
       operationId: getById
       responses:
@@ -1512,39 +1409,39 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponseMemberResponse"
+                $ref: '#/components/schemas/NofficeResponseMemberResponse'
         '401':
           description: 인증되지 않은 사용자입니다. 토큰을 확인해주세요.
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponse"
+                $ref: '#/components/schemas/NofficeResponse'
         '403':
           description: 요청을 수행할 수 있는 권한이 없습니다.
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponse"
+                $ref: '#/components/schemas/NofficeResponse'
         '500':
           description: 서버 내부 에러 발생
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponse"
-  "/api/v1/health":
+                $ref: '#/components/schemas/NofficeResponse'
+  /api/v1/health:
     get:
       tags:
-      - 서버 헬스 체크
+        - 서버 헬스 체크
       summary: 서버 상태 확인
       description: 정상 동작시 200 반환합니다.
       operationId: health
       responses:
         '200':
           description: OK
-  "/api/v1/category":
+  /api/v1/category:
     get:
       tags:
-      - 카테고리
+        - 카테고리
       summary: 전체 카테고리 조회
       description: 등록 가능한 모든 카테고리를 조회합니다.
       operationId: getCategories
@@ -1554,180 +1451,153 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponseCategoryResponses"
+                $ref: '#/components/schemas/NofficeResponseCategoryResponses'
         '404':
           description: 등록된 카테고리가 없습니다.
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponse"
-  "/api/v1/announcement/{announcementId}/unreaders":
+                $ref: '#/components/schemas/NofficeResponse'
+  /api/v1/announcement/{announcementId}/unreaders:
     get:
       tags:
-      - 노티
-      summary: "[인증] 공지 미열람 사용자 목록 조회 "
+        - 노티
+      summary: '[인증] 공지 미열람 사용자 목록 조회 '
       description: 공지에 대한 미열람 사용자 목록을 조회합니다.
       operationId: getUnReadMembers
       parameters:
-      - name: announcementId
-        in: path
-        required: true
-        schema:
-          type: integer
-          format: int64
+        - name: announcementId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
       responses:
         '200':
           description: 공지 미열람 사용자 목록 조회 성공
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponseReadStatusResponse"
+                $ref: '#/components/schemas/NofficeResponseReadStatusResponse'
         '401':
           description: 인증되지 않은 사용자입니다. 토큰을 확인해주세요.
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponse"
+                $ref: '#/components/schemas/NofficeResponse'
         '403':
           description: 요청을 수행할 수 있는 권한이 없습니다.
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponse"
+                $ref: '#/components/schemas/NofficeResponse'
         '404':
           description: 공지에 대한 미열람 사용자가 없습니다.
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponseReadStatusResponse"
+                $ref: '#/components/schemas/NofficeResponseReadStatusResponse'
         '500':
           description: 서버 내부 에러 발생
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponse"
-  "/api/v1/announcement/{announcementId}/tasks":
+                $ref: '#/components/schemas/NofficeResponse'
+  /api/v1/announcement/{announcementId}/tasks:
     get:
       tags:
-      - 노티
-      summary: "[인증] 노티에 발급된 투두 조회"
+        - 노티
+      summary: '[인증] 노티에 발급된 투두 조회'
       description: 노티에 발급된 투두를 조회합니다.
       operationId: getTasksById
       parameters:
-      - name: announcementId
-        in: path
-        required: true
-        schema:
-          type: integer
-          format: int64
+        - name: announcementId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
       responses:
         '200':
           description: 노티에 발급된 투두 조회 성공
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponseTaskResponses"
+                $ref: '#/components/schemas/NofficeResponseTaskResponses'
         '401':
           description: 인증되지 않은 사용자입니다. 토큰을 확인해주세요.
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponse"
+                $ref: '#/components/schemas/NofficeResponse'
         '403':
           description: 요청을 수행할 수 있는 권한이 없습니다.
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponse"
+                $ref: '#/components/schemas/NofficeResponse'
         '404':
           description: 노티에 발급된 투두가 없습니다.
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponse"
+                $ref: '#/components/schemas/NofficeResponse'
         '500':
           description: 서버 내부 에러 발생
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponse"
-  "/api/v1/announcement/{announcementId}/readers":
+                $ref: '#/components/schemas/NofficeResponse'
+  /api/v1/announcement/{announcementId}/readers:
     get:
       tags:
-      - 노티
-      summary: "[인증] 공지 열람 사용자 목록 조회 "
+        - 노티
+      summary: '[인증] 공지 열람 사용자 목록 조회 '
       description: 공지에 대한 열람 사용자 목록을 조회합니다.
       operationId: getReadMembers
       parameters:
-      - name: announcementId
-        in: path
-        required: true
-        schema:
-          type: integer
-          format: int64
+        - name: announcementId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
       responses:
         '200':
           description: 공지 열람 사용자 목록 조회 성공
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponseReadStatusResponse"
+                $ref: '#/components/schemas/NofficeResponseReadStatusResponse'
         '401':
           description: 인증되지 않은 사용자입니다. 토큰을 확인해주세요.
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponse"
+                $ref: '#/components/schemas/NofficeResponse'
         '403':
           description: 요청을 수행할 수 있는 권한이 없습니다.
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponse"
+                $ref: '#/components/schemas/NofficeResponse'
         '404':
           description: 공지에 대한 열람 사용자가 없습니다.
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponse"
+                $ref: '#/components/schemas/NofficeResponse'
         '500':
           description: 서버 내부 에러 발생
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponse"
-  "/api/v1/notifications/{notificationId}":
+                $ref: '#/components/schemas/NofficeResponse'
+  /api/v1/member/withdrawal:
     delete:
       tags:
-      - 알림
-      summary: 알림 삭제
-      description: 노티 알림을 삭제합니다.
-      operationId: delete
-      parameters:
-      - name: notificationId
-        in: path
-        required: true
-        schema:
-          type: integer
-          format: int64
-      responses:
-        '204':
-          description: 알림 삭제 성공
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/NofficeResponseVoid"
-        '400':
-          description: 알림 삭제 실패
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/NofficeResponseVoid"
-  "/api/v1/member/withdrawal":
-    delete:
-      tags:
-      - 회원
-      summary: "[인증] 회원 탈퇴"
+        - 회원
+      summary: '[인증] 회원 탈퇴'
       description: 회원의 계정을 탈퇴합니다. 탈퇴 시 회원의 모든 정보가 삭제됩니다.
       operationId: withdrawal
       responses:
@@ -1736,70 +1606,70 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponseVoid"
+                $ref: '#/components/schemas/NofficeResponseVoid'
         '401':
           description: 인증되지 않은 사용자입니다. 토큰을 확인해주세요.
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponse"
+                $ref: '#/components/schemas/NofficeResponse'
         '500':
           description: 서버 내부 에러 발생
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponse"
-  "/api/v1/announcement/{announcementId}/tasks/{taskId}":
+                $ref: '#/components/schemas/NofficeResponse'
+  /api/v1/announcement/{announcementId}/tasks/{taskId}:
     delete:
       tags:
-      - 노티
+        - 노티
       summary: 노티에 발급된 투두 삭제
       description: 노티에 발급된 투두를 삭제합니다.
       operationId: deleteTaskById
       parameters:
-      - name: announcementId
-        in: path
-        required: true
-        schema:
-          type: integer
-          format: int64
-      - name: taskId
-        in: path
-        required: true
-        schema:
-          type: integer
-          format: int64
+        - name: announcementId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: taskId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
       responses:
         '204':
           description: 노티에 발급된 투두 삭제 성공
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponseVoid"
+                $ref: '#/components/schemas/NofficeResponseVoid'
         '400':
           description: 노티에 발급된 투두 삭제에 실패하였습니다.
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponse"
+                $ref: '#/components/schemas/NofficeResponse'
         '401':
           description: 인증되지 않은 사용자입니다. 토큰을 확인해주세요.
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponse"
+                $ref: '#/components/schemas/NofficeResponse'
         '403':
           description: 요청을 수행할 수 있는 권한이 없습니다.
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponse"
+                $ref: '#/components/schemas/NofficeResponse'
         '500':
           description: 서버 내부 에러 발생
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NofficeResponse"
+                $ref: '#/components/schemas/NofficeResponse'
 components:
   schemas:
     SortObject:
@@ -1832,8 +1702,8 @@ components:
           type: object
     TaskStatusUpdateRequest:
       required:
-      - id
-      - status
+        - id
+        - status
       type: object
       properties:
         id:
@@ -1847,49 +1717,49 @@ components:
           example: true
       description: 투두 항목 상태 리스트
       example:
-      - id: 1
-        status: true
-      - id: 2
-        status: false
-      - id: 3
-        status: true
+        - id: 1
+          status: true
+        - id: 2
+          status: false
+        - id: 3
+          status: true
     TaskStatusUpdateRequests:
       required:
-      - tasks
+        - tasks
       type: object
       properties:
         tasks:
           type: array
           description: 투두 항목 상태 리스트
           example:
-          - id: 1
-            status: true
-          - id: 2
-            status: false
-          - id: 3
-            status: true
+            - id: 1
+              status: true
+            - id: 2
+              status: false
+            - id: 3
+              status: true
           items:
-            "$ref": "#/components/schemas/TaskStatusUpdateRequest"
+            $ref: '#/components/schemas/TaskStatusUpdateRequest'
     CategoryModifyRequest:
       required:
-      - categoryIds
+        - categoryIds
       type: object
       properties:
         categoryIds:
           type: array
           description: 수정하려는 카테고리 ID 목록
           example:
-          - 1
-          - 2
-          - 3
+            - 1
+            - 2
+            - 3
           items:
             type: integer
             description: 수정하려는 카테고리 ID 목록
             format: int64
     CategoryModifyResponse:
       required:
-      - organizationId
-      - organizationName
+        - organizationId
+        - organizationName
       type: object
       properties:
         organizationId:
@@ -1902,7 +1772,7 @@ components:
           description: 카테고리 수정된 조직 이름
           example: 'CMC 15th : NotiTime'
         categories:
-          "$ref": "#/components/schemas/CategoryResponses"
+          $ref: '#/components/schemas/CategoryResponses'
     CategoryResponse:
       type: object
       properties:
@@ -1917,7 +1787,7 @@ components:
         categories:
           type: array
           items:
-            "$ref": "#/components/schemas/CategoryResponse"
+            $ref: '#/components/schemas/CategoryResponse'
       description: 변경된 카테고리 목록
     NofficeResponseCategoryModifyResponse:
       type: object
@@ -1932,7 +1802,42 @@ components:
         message:
           type: string
         data:
-          "$ref": "#/components/schemas/CategoryModifyResponse"
+          $ref: '#/components/schemas/CategoryModifyResponse'
+    VerifyPromotionRequest:
+      required:
+        - code
+      type: object
+      properties:
+        code:
+          type: string
+          description: 프로모션 코드
+          example: testcode
+    NofficeResponsePromotionVerifyResponse:
+      type: object
+      properties:
+        timestamp:
+          type: string
+        httpStatus:
+          type: integer
+          format: int32
+        code:
+          type: string
+        message:
+          type: string
+        data:
+          $ref: '#/components/schemas/PromotionVerifyResponse'
+    PromotionVerifyResponse:
+      type: object
+      properties:
+        promotionId:
+          type: integer
+          description: 프로모션 ID
+          format: int64
+          example: 1
+        promotionCode:
+          type: string
+          description: 프로모션 코드 문자열
+          example: NOFFICEWELCOME
     PromotionGrantRequest:
       type: object
       properties:
@@ -1962,8 +1867,8 @@ components:
           type: object
     OrganizationCreateRequest:
       required:
-      - categoryList
-      - name
+        - categoryList
+        - name
       type: object
       properties:
         name:
@@ -1974,8 +1879,8 @@ components:
           type: array
           description: 카테고리 ID 목록
           example:
-          - 1
-          - 2
+            - 1
+            - 2
           items:
             type: integer
             description: 카테고리 ID 목록
@@ -1989,7 +1894,7 @@ components:
           description: 조직 활동 마감일자
           format: date-time
         promotionCode:
-          "$ref": "#/components/schemas/PromotionVerifyRequest"
+          $ref: '#/components/schemas/PromotionVerifyRequest'
     PromotionVerifyRequest:
       type: object
       properties:
@@ -2012,11 +1917,11 @@ components:
         message:
           type: string
         data:
-          "$ref": "#/components/schemas/OrganizationCreateResponse"
+          $ref: '#/components/schemas/OrganizationCreateResponse'
     OrganizationCreateResponse:
       required:
-      - id
-      - name
+        - id
+        - name
       type: object
       properties:
         id:
@@ -2036,21 +1941,7 @@ components:
           description: 조직 커버 이미지 URL
           example: https://test-image.com/cover_image.jpg
         promotion:
-          "$ref": "#/components/schemas/PromotionVerifyResponse"
-    PromotionVerifyResponse:
-      type: object
-      properties:
-        promotionId:
-          type: integer
-          description: 프로모션 ID
-          format: int64
-          example: 1
-        promotionCode:
-          type: string
-          description: 프로모션 코드 문자열
-          example: NOFFICEWELCOME
-      description: 프로모션 진행 여부
-      example: false
+          $ref: '#/components/schemas/PromotionVerifyResponse'
     NofficeResponseOrganizationJoinResponse:
       type: object
       properties:
@@ -2064,11 +1955,11 @@ components:
         message:
           type: string
         data:
-          "$ref": "#/components/schemas/OrganizationJoinResponse"
+          $ref: '#/components/schemas/OrganizationJoinResponse'
     OrganizationJoinResponse:
       required:
-      - memberId
-      - organizationId
+        - memberId
+        - organizationId
       type: object
       properties:
         organizationId:
@@ -2085,52 +1976,15 @@ components:
           description: 가입한 사용자 식별자
           format: int64
           example: 1
-    NotificationRequest:
-      required:
-      - memberId
-      - sendAt
-      - title
-      type: object
-      properties:
-        title:
-          type: string
-          example: 알림 제목
-        content:
-          type: string
-          example: 알림 내용
-        memberId:
-          type: integer
-          format: int64
-          example: 1
-        sendAt:
-          type: string
-          format: date-time
     SaveTokenRequest:
       required:
-      - FCM 토큰
+        - token
       type: object
       properties:
-        FCM 토큰:
+        token:
           type: string
-          example: "(token)"
-    NotificationBulkRequest:
-      type: object
-      properties:
-        title:
-          type: string
-        content:
-          type: string
-        announcementId:
-          type: integer
-          format: int64
-        noticeBefore:
-          type: array
-          items:
-            type: string
-        noticeDate:
-          type: array
-          items:
-            type: string
+          description: FCM 토큰
+          example: token
     NofficeResponseTokenResponse:
       type: object
       properties:
@@ -2144,7 +1998,7 @@ components:
         message:
           type: string
         data:
-          "$ref": "#/components/schemas/TokenResponse"
+          $ref: '#/components/schemas/TokenResponse'
     TokenResponse:
       type: object
       properties:
@@ -2154,8 +2008,8 @@ components:
           type: string
     SocialAuthRequest:
       required:
-      - code
-      - provider
+        - code
+        - provider
       type: object
       properties:
         provider:
@@ -2163,8 +2017,9 @@ components:
           description: 소셜 로그인 제공자
           example: APPLE
           enum:
-          - GOOGLE
-          - APPLE
+            - GOOGLE
+            - APPLE
+            - KAKAO
         code:
           type: string
           description: 제공자로부터 얻은 사용자별 인가 코드
@@ -2182,7 +2037,7 @@ components:
         message:
           type: string
         data:
-          "$ref": "#/components/schemas/SocialAuthResponse"
+          $ref: '#/components/schemas/SocialAuthResponse'
     SocialAuthResponse:
       type: object
       properties:
@@ -2194,10 +2049,13 @@ components:
         provider:
           type: string
           enum:
-          - GOOGLE
-          - APPLE
+            - GOOGLE
+            - APPLE
+            - KAKAO
+        isAlreadyMember:
+          type: boolean
         token:
-          "$ref": "#/components/schemas/TokenResponse"
+          $ref: '#/components/schemas/TokenResponse'
     NotifyContentImageSaveSuccessRequest:
       type: object
       properties:
@@ -2205,13 +2063,13 @@ components:
           type: string
     AnnouncementCreateRequest:
       required:
-      - content
-      - endAt
-      - memberId
-      - noticeBefore
-      - noticeDate
-      - organizationId
-      - title
+        - content
+        - endAt
+        - memberId
+        - noticeBefore
+        - noticeDate
+        - organizationId
+        - title
       type: object
       properties:
         organizationId:
@@ -2249,7 +2107,7 @@ components:
           type: array
           description: 투두 목록
           items:
-            "$ref": "#/components/schemas/TaskCreateRequest"
+            $ref: '#/components/schemas/TaskCreateRequest'
         endAt:
           type: string
           description: 활동 진행 만료일
@@ -2258,8 +2116,8 @@ components:
           type: array
           description: 리마인드 알림 시간 (ISO_LOCAL_DATE_TIME)
           example:
-          - '2024-08-20T15:30:45'
-          - '2024-08-21T15:30:45'
+            - '2024-08-20T15:30:45'
+            - '2024-08-21T15:30:45'
           items:
             type: string
             description: 리마인드 알림 시간 (ISO_LOCAL_DATE_TIME)
@@ -2268,15 +2126,15 @@ components:
           type: array
           description: 리마인드 알림 직접설정시간 (ISO_LOCAL_DATE_TIME)
           example:
-          - '2024-08-20T15:30:45'
-          - '2024-08-21T15:30:45'
+            - '2024-08-20T15:30:45'
+            - '2024-08-21T15:30:45'
           items:
             type: string
             description: 리마인드 알림 직접설정시간 (ISO_LOCAL_DATE_TIME)
             format: date-time
     TaskCreateRequest:
       required:
-      - content
+        - content
       type: object
       properties:
         content:
@@ -2333,16 +2191,16 @@ components:
         message:
           type: string
         data:
-          "$ref": "#/components/schemas/AnnouncementResponse"
+          $ref: '#/components/schemas/AnnouncementResponse'
     AnnouncementUpdateRequest:
       required:
-      - content
-      - endAt
-      - memberId
-      - noticeBefore
-      - noticeDate
-      - organizationId
-      - title
+        - content
+        - endAt
+        - memberId
+        - noticeBefore
+        - noticeDate
+        - organizationId
+        - title
       type: object
       properties:
         organizationId:
@@ -2373,49 +2231,24 @@ components:
         tasks:
           type: array
           items:
-            "$ref": "#/components/schemas/TaskCreateRequest"
+            $ref: '#/components/schemas/TaskCreateRequest'
         endAt:
           type: string
           example: 2021-07-01T 00:00:00
         noticeBefore:
           type: array
-          example: "[2021-07-01T00:00:00, 2021-07-02T00:00:00]"
+          example: '[2021-07-01T00:00:00, 2021-07-02T00:00:00]'
           items:
             type: string
-            example: "[2021-07-01T00:00:00, 2021-07-02T00:00:00]"
+            example: '[2021-07-01T00:00:00, 2021-07-02T00:00:00]'
         noticeDate:
           type: array
           items:
             type: string
-    FCMCreateResponse:
-      type: object
-      properties:
-        title:
-          type: string
-        body:
-          type: string
-        targetToken:
-          type: array
-          items:
-            type: string
-    NofficeResponseFCMCreateResponse:
-      type: object
-      properties:
-        timestamp:
-          type: string
-        httpStatus:
-          type: integer
-          format: int32
-        code:
-          type: string
-        message:
-          type: string
-        data:
-          "$ref": "#/components/schemas/FCMCreateResponse"
     TaskModifyRequest:
       required:
-      - content
-      - id
+        - content
+        - id
       type: object
       properties:
         id:
@@ -2440,7 +2273,7 @@ components:
         message:
           type: string
         data:
-          "$ref": "#/components/schemas/TaskModifyResponse"
+          $ref: '#/components/schemas/TaskModifyResponse'
     TaskModifyResponse:
       type: object
       properties:
@@ -2451,8 +2284,8 @@ components:
           type: string
     ChangeRoleRequest:
       required:
-      - memberIds
-      - role
+        - memberIds
+        - role
       type: object
       properties:
         role:
@@ -2460,109 +2293,51 @@ components:
           description: 변경 적용할 권한
           example: LEADER, PARTICIPANT
           enum:
-          - ADMIN
-          - LEADER
-          - PARTICIPANT
-          - GUEST
+            - ADMIN
+            - LEADER
+            - PARTICIPANT
+            - GUEST
         memberIds:
           type: array
           description: 변경할 대상 멤버 ID 리스트
           example:
-          - 1
-          - 2
-          - 3
+            - 1
+            - 2
+            - 3
           items:
             type: integer
             description: 변경할 대상 멤버 ID 리스트
             format: int64
     OrganizationProfileUpdateRequest:
       required:
-      - imageUrl
+        - imageUrl
       type: object
       properties:
         imageUrl:
           type: string
           description: 조직의 이미지가 저장된 Bucket URL
           example: https://bucket.ap-azname.hostname.com/example.type?
-    NotificationTimeChangeRequest:
-      required:
-      - announcementId
-      - noticeBefore
-      - noticeDate
-      type: object
-      properties:
-        announcementId:
-          type: integer
-          description: 공지 ID
-          format: int64
-          example: 1
-        noticeBefore:
-          type: array
-          description: 알림 시간 변경 초(second)
-          example: 60, 120, 180
-          items:
-            type: string
-            description: 알림 시간 변경 초(second)
-            example: 60, 120, 180
-        noticeDate:
-          type: array
-          description: 알림 시간 변경 기준 일자
-          example:
-          - '2021-07-01T00:00:00'
-          - '2021-07-02T00:00:00'
-          items:
-            type: string
-            description: 알림 시간 변경 기준 일자
-            example: '["2021-07-01T00:00:00","2021-07-02T00:00:00"]'
-    NofficeResponseNotificationTimeChangeResponse:
-      type: object
-      properties:
-        timestamp:
-          type: string
-        httpStatus:
-          type: integer
-          format: int32
-        code:
-          type: string
-        message:
-          type: string
-        data:
-          "$ref": "#/components/schemas/NotificationTimeChangeResponse"
-    NotificationResponse:
-      type: object
-      properties:
-        notificationId:
-          type: integer
-          format: int64
-        announcementId:
-          type: integer
-          format: int64
-        title:
-          type: string
-        content:
-          type: string
-    NotificationTimeChangeResponse:
-      type: object
-      properties:
-        announcementId:
-          type: integer
-          format: int64
-        notifications:
-          type: array
-          items:
-            "$ref": "#/components/schemas/NotificationResponse"
     MemberProfileUpdateRequest:
       required:
-      - imageUrl
+        - imageUrl
       type: object
       properties:
         imageUrl:
           type: string
           description: 사용자의 이미지가 저장된 Bucket URL
           example: https://bucket.ap-azname.hostname.com/example.type?
+    MemberNameUpdateRequest:
+      required:
+        - name
+      type: object
+      properties:
+        name:
+          type: string
+          description: 사용자가 변경하려는 이름
+          example: 변경될 이름
     MemberAliasUpdateRequest:
       required:
-      - alias
+        - alias
       type: object
       properties:
         alias:
@@ -2595,7 +2370,7 @@ components:
         tasks:
           type: array
           items:
-            "$ref": "#/components/schemas/TaskResponse"
+            $ref: '#/components/schemas/TaskResponse'
     NofficeResponseSliceAssignedTaskResponse:
       type: object
       properties:
@@ -2609,7 +2384,7 @@ components:
         message:
           type: string
         data:
-          "$ref": "#/components/schemas/SliceAssignedTaskResponse"
+          $ref: '#/components/schemas/SliceAssignedTaskResponse'
     PageableObject:
       type: object
       properties:
@@ -2625,14 +2400,14 @@ components:
           type: integer
           format: int64
         sort:
-          "$ref": "#/components/schemas/SortObject"
+          $ref: '#/components/schemas/SortObject'
         unpaged:
           type: boolean
     SliceAssignedTaskResponse:
       type: object
       properties:
         pageable:
-          "$ref": "#/components/schemas/PageableObject"
+          $ref: '#/components/schemas/PageableObject'
         first:
           type: boolean
         last:
@@ -2643,12 +2418,12 @@ components:
         content:
           type: array
           items:
-            "$ref": "#/components/schemas/AssignedTaskResponse"
+            $ref: '#/components/schemas/AssignedTaskResponse'
         number:
           type: integer
           format: int32
         sort:
-          "$ref": "#/components/schemas/SortObject"
+          $ref: '#/components/schemas/SortObject'
         numberOfElements:
           type: integer
           format: int32
@@ -2667,20 +2442,6 @@ components:
           type: string
         isMemberChecked:
           type: boolean
-    NofficeResponsePromotionVerifyResponse:
-      type: object
-      properties:
-        timestamp:
-          type: string
-        httpStatus:
-          type: integer
-          format: int32
-        code:
-          type: string
-        message:
-          type: string
-        data:
-          "$ref": "#/components/schemas/PromotionVerifyResponse"
     NofficeResponseSliceOrganizationResponse:
       type: object
       properties:
@@ -2694,12 +2455,12 @@ components:
         message:
           type: string
         data:
-          "$ref": "#/components/schemas/SliceOrganizationResponse"
+          $ref: '#/components/schemas/SliceOrganizationResponse'
     OrganizationResponse:
       required:
-      - organizationId
-      - organizationName
-      - profileImage
+        - organizationId
+        - organizationName
+        - profileImage
       type: object
       properties:
         role:
@@ -2707,10 +2468,10 @@ components:
           description: 요청한 사용자의 조직 내 권한
           example: LEADER
           enum:
-          - ADMIN
-          - LEADER
-          - PARTICIPANT
-          - GUEST
+            - ADMIN
+            - LEADER
+            - PARTICIPANT
+            - GUEST
         organizationId:
           type: integer
           description: 조직 ID
@@ -2727,17 +2488,17 @@ components:
         joinStatus:
           type: string
           description: 가입 상태
-          example: "(string 1 of 4) : ACTIVE, PENDING, REJECTED, DELETED"
+          example: '(string 1 of 4) : ACTIVE, PENDING, REJECTED, DELETED'
           enum:
-          - ACTIVE
-          - PENDING
-          - REJECTED
-          - DELETED
+            - ACTIVE
+            - PENDING
+            - REJECTED
+            - DELETED
     SliceOrganizationResponse:
       type: object
       properties:
         pageable:
-          "$ref": "#/components/schemas/PageableObject"
+          $ref: '#/components/schemas/PageableObject'
         first:
           type: boolean
         last:
@@ -2748,12 +2509,12 @@ components:
         content:
           type: array
           items:
-            "$ref": "#/components/schemas/OrganizationResponse"
+            $ref: '#/components/schemas/OrganizationResponse'
         number:
           type: integer
           format: int32
         sort:
-          "$ref": "#/components/schemas/SortObject"
+          $ref: '#/components/schemas/SortObject'
         numberOfElements:
           type: integer
           format: int32
@@ -2772,13 +2533,13 @@ components:
         message:
           type: string
         data:
-          "$ref": "#/components/schemas/OrganizationInfoResponse"
+          $ref: '#/components/schemas/OrganizationInfoResponse'
     OrganizationInfoResponse:
       required:
-      - categories
-      - organizationId
-      - organizationName
-      - profileImage
+        - categories
+        - organizationId
+        - organizationName
+        - profileImage
       type: object
       properties:
         role:
@@ -2786,10 +2547,10 @@ components:
           description: 요청한 사용자의 조직 내 권한
           example: LEADER
           enum:
-          - ADMIN
-          - LEADER
-          - PARTICIPANT
-          - GUEST
+            - ADMIN
+            - LEADER
+            - PARTICIPANT
+            - GUEST
         organizationId:
           type: integer
           description: 조직 ID
@@ -2806,11 +2567,11 @@ components:
         categories:
           type: array
           description: 카테고리 리스트
-          example: "['컴퓨터공학', '전자공학']"
+          example: '[''컴퓨터공학'', ''전자공학'']'
           items:
             type: string
             description: 카테고리 리스트
-            example: "['컴퓨터공학', '전자공학']"
+            example: '[''컴퓨터공학'', ''전자공학'']'
         leaderCount:
           type: integer
           description: 관리자 사용자 수
@@ -2838,7 +2599,7 @@ components:
         message:
           type: string
         data:
-          "$ref": "#/components/schemas/OrganizationSignupResponse"
+          $ref: '#/components/schemas/OrganizationSignupResponse'
     OrganizationSignupResponse:
       type: object
       properties:
@@ -2857,9 +2618,9 @@ components:
           example: https://notitime.com/profile.png
     CommonImageResponse:
       required:
-      - id
-      - type
-      - url
+        - id
+        - type
+        - url
       type: object
       properties:
         type:
@@ -2867,11 +2628,11 @@ components:
           description: 이미지 타입
           example: ORGANIZATION_LOGO
           enum:
-          - ORGANIZATION_LOGO
-          - MEMBER_PROFILE
-          - ANNOUNCEMENT_PROFILE
-          - ANNOUNCEMENT_CONTENT
-          - PROMOTION_COVER
+            - ORGANIZATION_LOGO
+            - MEMBER_PROFILE
+            - ANNOUNCEMENT_PROFILE
+            - ANNOUNCEMENT_CONTENT
+            - PROMOTION_COVER
         id:
           type: integer
           description: 이미지 ID
@@ -2895,10 +2656,10 @@ components:
         message:
           type: string
         data:
-          "$ref": "#/components/schemas/OrganizationImageResponse"
+          $ref: '#/components/schemas/OrganizationImageResponse'
     OrganizationImageResponse:
       required:
-      - id
+        - id
       type: object
       properties:
         id:
@@ -2909,7 +2670,7 @@ components:
           type: array
           description: 조직 커버 이미지 URL 리스트
           items:
-            "$ref": "#/components/schemas/CommonImageResponse"
+            $ref: '#/components/schemas/CommonImageResponse'
     MemberInfoResponse:
       type: object
       properties:
@@ -2937,7 +2698,7 @@ components:
         data:
           type: array
           items:
-            "$ref": "#/components/schemas/MemberInfoResponse"
+            $ref: '#/components/schemas/MemberInfoResponse'
     NofficeResponseOrganizationMemberResponses:
       type: object
       properties:
@@ -2951,25 +2712,25 @@ components:
         message:
           type: string
         data:
-          "$ref": "#/components/schemas/OrganizationMemberResponses"
+          $ref: '#/components/schemas/OrganizationMemberResponses'
     OrganizationMemberResponses:
       required:
-      - leaders
-      - requester
+        - leaders
+        - requester
       type: object
       properties:
         requester:
-          "$ref": "#/components/schemas/MemberInfoResponse"
+          $ref: '#/components/schemas/MemberInfoResponse'
         leaders:
           type: array
           description: 조직의 리더 목록 (LEADER)
           items:
-            "$ref": "#/components/schemas/MemberInfoResponse"
+            $ref: '#/components/schemas/MemberInfoResponse'
         participants:
           type: array
           description: 조직의 멤버 목록 (PARTICIPANT)
           items:
-            "$ref": "#/components/schemas/MemberInfoResponse"
+            $ref: '#/components/schemas/MemberInfoResponse'
     AnnouncementCoverResponse:
       type: object
       properties:
@@ -3014,12 +2775,12 @@ components:
         message:
           type: string
         data:
-          "$ref": "#/components/schemas/SliceAnnouncementCoverResponse"
+          $ref: '#/components/schemas/SliceAnnouncementCoverResponse'
     SliceAnnouncementCoverResponse:
       type: object
       properties:
         pageable:
-          "$ref": "#/components/schemas/PageableObject"
+          $ref: '#/components/schemas/PageableObject'
         first:
           type: boolean
         last:
@@ -3030,12 +2791,12 @@ components:
         content:
           type: array
           items:
-            "$ref": "#/components/schemas/AnnouncementCoverResponse"
+            $ref: '#/components/schemas/AnnouncementCoverResponse'
         number:
           type: integer
           format: int32
         sort:
-          "$ref": "#/components/schemas/SortObject"
+          $ref: '#/components/schemas/SortObject'
         numberOfElements:
           type: integer
           format: int32
@@ -3056,7 +2817,7 @@ components:
         organizations:
           type: array
           items:
-            "$ref": "#/components/schemas/OrganizationResponse"
+            $ref: '#/components/schemas/OrganizationResponse'
     NofficeResponseMemberResponse:
       type: object
       properties:
@@ -3070,17 +2831,17 @@ components:
         message:
           type: string
         data:
-          "$ref": "#/components/schemas/MemberResponse"
+          $ref: '#/components/schemas/MemberResponse'
     ContentImagePresignedUrlVO:
       type: object
       properties:
         fileName:
           type: string
         urls:
-          "$ref": "#/components/schemas/PresignedUrlInfoVO"
+          $ref: '#/components/schemas/PresignedUrlInfoVO'
     PresignedUrlInfoVO:
       required:
-      - url
+        - url
       type: object
       properties:
         url:
@@ -3100,7 +2861,7 @@ components:
         message:
           type: string
         data:
-          "$ref": "#/components/schemas/CategoryResponses"
+          $ref: '#/components/schemas/CategoryResponses'
     NofficeResponseReadStatusResponse:
       type: object
       properties:
@@ -3114,7 +2875,7 @@ components:
         message:
           type: string
         data:
-          "$ref": "#/components/schemas/ReadStatusResponse"
+          $ref: '#/components/schemas/ReadStatusResponse'
     ReadStatusResponse:
       type: object
       properties:
@@ -3124,7 +2885,7 @@ components:
         memberList:
           type: array
           items:
-            "$ref": "#/components/schemas/MemberInfoResponse"
+            $ref: '#/components/schemas/MemberInfoResponse'
     NofficeResponseTaskResponses:
       type: object
       properties:
@@ -3138,22 +2899,23 @@ components:
         message:
           type: string
         data:
-          "$ref": "#/components/schemas/TaskResponses"
+          $ref: '#/components/schemas/TaskResponses'
     TaskResponses:
       type: object
       properties:
         tasks:
           type: array
           items:
-            "$ref": "#/components/schemas/TaskResponse"
+            $ref: '#/components/schemas/TaskResponse'
     DeleteTokenRequest:
       required:
-      - FCM_토큰
+        - token
       type: object
       properties:
-        FCM_토큰:
+        token:
           type: string
-          example: "(token)"
+          description: FCM 토큰
+          example: token
   securitySchemes:
     Bearer_Token:
       type: http

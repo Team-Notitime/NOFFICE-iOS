@@ -30,6 +30,13 @@ public protocol APIProtocol: Sendable {
     /// - Remark: HTTP `PUT /api/v1/organizations/{organizationId}/categories`.
     /// - Remark: Generated from `#/paths//api/v1/organizations/{organizationId}/categories/put(modifyCategories)`.
     func modifyCategories(_ input: Operations.modifyCategories.Input) async throws -> Operations.modifyCategories.Output
+    /// 프로모션 코드 검증
+    ///
+    /// 프로모션 코드를 검증합니다.
+    ///
+    /// - Remark: HTTP `POST /api/v1/promotion/verify`.
+    /// - Remark: Generated from `#/paths//api/v1/promotion/verify/post(verifyPromotionCode)`.
+    func verifyPromotionCode(_ input: Operations.verifyPromotionCode.Input) async throws -> Operations.verifyPromotionCode.Output
     /// 프로모션 가입
     ///
     /// 조직에 프로모션 권한을 부여합니다.
@@ -58,27 +65,6 @@ public protocol APIProtocol: Sendable {
     /// - Remark: HTTP `POST /api/v1/organizations/{organizationId}/join`.
     /// - Remark: Generated from `#/paths//api/v1/organizations/{organizationId}/join/post(join)`.
     func join(_ input: Operations.join.Input) async throws -> Operations.join.Output
-    /// [인증] 사용자에게 수신된 알림 조회
-    ///
-    /// 사용자에게 수신된 알림을 조회합니다.
-    ///
-    /// - Remark: HTTP `GET /api/v1/notifications`.
-    /// - Remark: Generated from `#/paths//api/v1/notifications/get(findById)`.
-    func findById(_ input: Operations.findById.Input) async throws -> Operations.findById.Output
-    /// [인증] 단일 사용자 알림 대기열 추가
-    ///
-    /// 단일 사용자를 특정하여 노티 알림 대기열에 등록합니다.
-    ///
-    /// - Remark: HTTP `POST /api/v1/notifications`.
-    /// - Remark: Generated from `#/paths//api/v1/notifications/post(create_1)`.
-    func create_1(_ input: Operations.create_1.Input) async throws -> Operations.create_1.Output
-    /// [인증] 알림 발송 시간 변경
-    ///
-    /// 노티 알림 발송 시간을 변경합니다.
-    ///
-    /// - Remark: HTTP `PATCH /api/v1/notifications`.
-    /// - Remark: Generated from `#/paths//api/v1/notifications/patch(changeSendTime)`.
-    func changeSendTime(_ input: Operations.changeSendTime.Input) async throws -> Operations.changeSendTime.Output
     /// [인증] 기기별 FCM Token 저장
     ///
     /// 기기별 FCM Token을 저장합니다.
@@ -93,13 +79,6 @@ public protocol APIProtocol: Sendable {
     /// - Remark: HTTP `DELETE /api/v1/notifications/fcm-token`.
     /// - Remark: Generated from `#/paths//api/v1/notifications/fcm-token/delete(deleteFcmToken)`.
     func deleteFcmToken(_ input: Operations.deleteFcmToken.Input) async throws -> Operations.deleteFcmToken.Output
-    /// [인증] 조직 단위 알림 대량 발송
-    ///
-    /// 조직 내 모든 사용자에게 전체 발송되는 알림을 등록합니다.
-    ///
-    /// - Remark: HTTP `POST /api/v1/notifications/bulk`.
-    /// - Remark: Generated from `#/paths//api/v1/notifications/bulk/post(createAll)`.
-    func createAll(_ input: Operations.createAll.Input) async throws -> Operations.createAll.Output
     /// 토큰 재발급
     ///
     /// 리프레시 토큰을 이용해 새로운 액세스 토큰을 발급합니다.
@@ -140,8 +119,8 @@ public protocol APIProtocol: Sendable {
     /// 노티를 생성합니다.
     ///
     /// - Remark: HTTP `POST /api/v1/announcement`.
-    /// - Remark: Generated from `#/paths//api/v1/announcement/post(create_2)`.
-    func create_2(_ input: Operations.create_2.Input) async throws -> Operations.create_2.Output
+    /// - Remark: Generated from `#/paths//api/v1/announcement/post(create_1)`.
+    func create_1(_ input: Operations.create_1.Input) async throws -> Operations.create_1.Output
     /// [인증] 조직에 발급된 노티 열람
     ///
     /// 열람하려는 노티를 조회하고, 열람 기록에 추가합니다.
@@ -161,15 +140,8 @@ public protocol APIProtocol: Sendable {
     /// 노티를 삭제합니다.
     ///
     /// - Remark: HTTP `DELETE /api/v1/announcement/{announcementId}`.
-    /// - Remark: Generated from `#/paths//api/v1/announcement/{announcementId}/delete(delete_1)`.
-    func delete_1(_ input: Operations.delete_1.Input) async throws -> Operations.delete_1.Output
-    /// [인증] 노티 미열람자 대상 FCM 알림
-    ///
-    /// 노티 미열람자 대상으로 알림을 전송합니다.
-    ///
-    /// - Remark: HTTP `POST /api/v1/announcement/{announcementId}/remind-unread`.
-    /// - Remark: Generated from `#/paths//api/v1/announcement/{announcementId}/remind-unread/post(sendToUnReader)`.
-    func sendToUnReader(_ input: Operations.sendToUnReader.Input) async throws -> Operations.sendToUnReader.Output
+    /// - Remark: Generated from `#/paths//api/v1/announcement/{announcementId}/delete(delete)`.
+    func delete(_ input: Operations.delete.Input) async throws -> Operations.delete.Output
     /// 조직 내 투두 상세 내용 수정
     ///
     /// 등록된 투두 내용을 수정합니다.
@@ -219,12 +191,20 @@ public protocol APIProtocol: Sendable {
     /// - Remark: HTTP `DELETE /api/v1/member/profile-image`.
     /// - Remark: Generated from `#/paths//api/v1/member/profile-image/delete(deleteProfileImage_1)`.
     func deleteProfileImage_1(_ input: Operations.deleteProfileImage_1.Input) async throws -> Operations.deleteProfileImage_1.Output
+    /// [인증] 회원 이름 변경
+    ///
+    /// 회원의 이름을 변경합니다.
+    ///
+    /// - Remark: HTTP `PATCH /api/v1/member/name`.
+    /// - Remark: Generated from `#/paths//api/v1/member/name/patch(updateName)`.
+    func updateName(_ input: Operations.updateName.Input) async throws -> Operations.updateName.Output
     /// [인증] 회원 별명 변경
     ///
     /// 회원의 별명을 변경합니다.
     ///
     /// - Remark: HTTP `PATCH /api/v1/member/alias`.
     /// - Remark: Generated from `#/paths//api/v1/member/alias/patch(updateAlias)`.
+    @available(*, deprecated)
     func updateAlias(_ input: Operations.updateAlias.Input) async throws -> Operations.updateAlias.Output
     /// [인증] 공지 커버 이미지 수정
     ///
@@ -233,13 +213,6 @@ public protocol APIProtocol: Sendable {
     /// - Remark: HTTP `PATCH /api/v1/announcement/{announcementId}/cover`.
     /// - Remark: Generated from `#/paths//api/v1/announcement/{announcementId}/cover/patch(modifyCover)`.
     func modifyCover(_ input: Operations.modifyCover.Input) async throws -> Operations.modifyCover.Output
-    /// 프로모션 코드 검증
-    ///
-    /// 프로모션 코드를 검증합니다.
-    ///
-    /// - Remark: HTTP `GET /api/v1/promotion/verify`.
-    /// - Remark: Generated from `#/paths//api/v1/promotion/verify/get(verifyPromotionCode)`.
-    func verifyPromotionCode(_ input: Operations.verifyPromotionCode.Input) async throws -> Operations.verifyPromotionCode.Output
     /// [인증] 단일 조직 정보 조회
     ///
     /// 조직의 정보(조직명, 가입 대기여부, 가입자수) 를 조회합니다.
@@ -324,13 +297,6 @@ public protocol APIProtocol: Sendable {
     /// - Remark: HTTP `GET /api/v1/announcement/{announcementId}/readers`.
     /// - Remark: Generated from `#/paths//api/v1/announcement/{announcementId}/readers/get(getReadMembers)`.
     func getReadMembers(_ input: Operations.getReadMembers.Input) async throws -> Operations.getReadMembers.Output
-    /// 알림 삭제
-    ///
-    /// 노티 알림을 삭제합니다.
-    ///
-    /// - Remark: HTTP `DELETE /api/v1/notifications/{notificationId}`.
-    /// - Remark: Generated from `#/paths//api/v1/notifications/{notificationId}/delete(delete)`.
-    func delete(_ input: Operations.delete.Input) async throws -> Operations.delete.Output
     /// [인증] 회원 탈퇴
     ///
     /// 회원의 계정을 탈퇴합니다. 탈퇴 시 회원의 모든 정보가 삭제됩니다.
@@ -390,6 +356,21 @@ extension APIProtocol {
     ) async throws -> Operations.modifyCategories.Output {
         try await modifyCategories(Operations.modifyCategories.Input(
             path: path,
+            headers: headers,
+            body: body
+        ))
+    }
+    /// 프로모션 코드 검증
+    ///
+    /// 프로모션 코드를 검증합니다.
+    ///
+    /// - Remark: HTTP `POST /api/v1/promotion/verify`.
+    /// - Remark: Generated from `#/paths//api/v1/promotion/verify/post(verifyPromotionCode)`.
+    public func verifyPromotionCode(
+        headers: Operations.verifyPromotionCode.Input.Headers = .init(),
+        body: Operations.verifyPromotionCode.Input.Body
+    ) async throws -> Operations.verifyPromotionCode.Output {
+        try await verifyPromotionCode(Operations.verifyPromotionCode.Input(
             headers: headers,
             body: body
         ))
@@ -454,45 +435,6 @@ extension APIProtocol {
             headers: headers
         ))
     }
-    /// [인증] 사용자에게 수신된 알림 조회
-    ///
-    /// 사용자에게 수신된 알림을 조회합니다.
-    ///
-    /// - Remark: HTTP `GET /api/v1/notifications`.
-    /// - Remark: Generated from `#/paths//api/v1/notifications/get(findById)`.
-    public func findById(headers: Operations.findById.Input.Headers = .init()) async throws -> Operations.findById.Output {
-        try await findById(Operations.findById.Input(headers: headers))
-    }
-    /// [인증] 단일 사용자 알림 대기열 추가
-    ///
-    /// 단일 사용자를 특정하여 노티 알림 대기열에 등록합니다.
-    ///
-    /// - Remark: HTTP `POST /api/v1/notifications`.
-    /// - Remark: Generated from `#/paths//api/v1/notifications/post(create_1)`.
-    public func create_1(
-        headers: Operations.create_1.Input.Headers = .init(),
-        body: Operations.create_1.Input.Body
-    ) async throws -> Operations.create_1.Output {
-        try await create_1(Operations.create_1.Input(
-            headers: headers,
-            body: body
-        ))
-    }
-    /// [인증] 알림 발송 시간 변경
-    ///
-    /// 노티 알림 발송 시간을 변경합니다.
-    ///
-    /// - Remark: HTTP `PATCH /api/v1/notifications`.
-    /// - Remark: Generated from `#/paths//api/v1/notifications/patch(changeSendTime)`.
-    public func changeSendTime(
-        headers: Operations.changeSendTime.Input.Headers = .init(),
-        body: Operations.changeSendTime.Input.Body
-    ) async throws -> Operations.changeSendTime.Output {
-        try await changeSendTime(Operations.changeSendTime.Input(
-            headers: headers,
-            body: body
-        ))
-    }
     /// [인증] 기기별 FCM Token 저장
     ///
     /// 기기별 FCM Token을 저장합니다.
@@ -519,21 +461,6 @@ extension APIProtocol {
         body: Operations.deleteFcmToken.Input.Body
     ) async throws -> Operations.deleteFcmToken.Output {
         try await deleteFcmToken(Operations.deleteFcmToken.Input(
-            headers: headers,
-            body: body
-        ))
-    }
-    /// [인증] 조직 단위 알림 대량 발송
-    ///
-    /// 조직 내 모든 사용자에게 전체 발송되는 알림을 등록합니다.
-    ///
-    /// - Remark: HTTP `POST /api/v1/notifications/bulk`.
-    /// - Remark: Generated from `#/paths//api/v1/notifications/bulk/post(createAll)`.
-    public func createAll(
-        headers: Operations.createAll.Input.Headers = .init(),
-        body: Operations.createAll.Input.Body
-    ) async throws -> Operations.createAll.Output {
-        try await createAll(Operations.createAll.Input(
             headers: headers,
             body: body
         ))
@@ -600,12 +527,12 @@ extension APIProtocol {
     /// 노티를 생성합니다.
     ///
     /// - Remark: HTTP `POST /api/v1/announcement`.
-    /// - Remark: Generated from `#/paths//api/v1/announcement/post(create_2)`.
-    public func create_2(
-        headers: Operations.create_2.Input.Headers = .init(),
-        body: Operations.create_2.Input.Body
-    ) async throws -> Operations.create_2.Output {
-        try await create_2(Operations.create_2.Input(
+    /// - Remark: Generated from `#/paths//api/v1/announcement/post(create_1)`.
+    public func create_1(
+        headers: Operations.create_1.Input.Headers = .init(),
+        body: Operations.create_1.Input.Body
+    ) async throws -> Operations.create_1.Output {
+        try await create_1(Operations.create_1.Input(
             headers: headers,
             body: body
         ))
@@ -647,27 +574,12 @@ extension APIProtocol {
     /// 노티를 삭제합니다.
     ///
     /// - Remark: HTTP `DELETE /api/v1/announcement/{announcementId}`.
-    /// - Remark: Generated from `#/paths//api/v1/announcement/{announcementId}/delete(delete_1)`.
-    public func delete_1(
-        path: Operations.delete_1.Input.Path,
-        headers: Operations.delete_1.Input.Headers = .init()
-    ) async throws -> Operations.delete_1.Output {
-        try await delete_1(Operations.delete_1.Input(
-            path: path,
-            headers: headers
-        ))
-    }
-    /// [인증] 노티 미열람자 대상 FCM 알림
-    ///
-    /// 노티 미열람자 대상으로 알림을 전송합니다.
-    ///
-    /// - Remark: HTTP `POST /api/v1/announcement/{announcementId}/remind-unread`.
-    /// - Remark: Generated from `#/paths//api/v1/announcement/{announcementId}/remind-unread/post(sendToUnReader)`.
-    public func sendToUnReader(
-        path: Operations.sendToUnReader.Input.Path,
-        headers: Operations.sendToUnReader.Input.Headers = .init()
-    ) async throws -> Operations.sendToUnReader.Output {
-        try await sendToUnReader(Operations.sendToUnReader.Input(
+    /// - Remark: Generated from `#/paths//api/v1/announcement/{announcementId}/delete(delete)`.
+    public func delete(
+        path: Operations.delete.Input.Path,
+        headers: Operations.delete.Input.Headers = .init()
+    ) async throws -> Operations.delete.Output {
+        try await delete(Operations.delete.Input(
             path: path,
             headers: headers
         ))
@@ -777,12 +689,28 @@ extension APIProtocol {
     public func deleteProfileImage_1(headers: Operations.deleteProfileImage_1.Input.Headers = .init()) async throws -> Operations.deleteProfileImage_1.Output {
         try await deleteProfileImage_1(Operations.deleteProfileImage_1.Input(headers: headers))
     }
+    /// [인증] 회원 이름 변경
+    ///
+    /// 회원의 이름을 변경합니다.
+    ///
+    /// - Remark: HTTP `PATCH /api/v1/member/name`.
+    /// - Remark: Generated from `#/paths//api/v1/member/name/patch(updateName)`.
+    public func updateName(
+        headers: Operations.updateName.Input.Headers = .init(),
+        body: Operations.updateName.Input.Body
+    ) async throws -> Operations.updateName.Output {
+        try await updateName(Operations.updateName.Input(
+            headers: headers,
+            body: body
+        ))
+    }
     /// [인증] 회원 별명 변경
     ///
     /// 회원의 별명을 변경합니다.
     ///
     /// - Remark: HTTP `PATCH /api/v1/member/alias`.
     /// - Remark: Generated from `#/paths//api/v1/member/alias/patch(updateAlias)`.
+    @available(*, deprecated)
     public func updateAlias(
         headers: Operations.updateAlias.Input.Headers = .init(),
         body: Operations.updateAlias.Input.Body
@@ -807,21 +735,6 @@ extension APIProtocol {
             path: path,
             headers: headers,
             body: body
-        ))
-    }
-    /// 프로모션 코드 검증
-    ///
-    /// 프로모션 코드를 검증합니다.
-    ///
-    /// - Remark: HTTP `GET /api/v1/promotion/verify`.
-    /// - Remark: Generated from `#/paths//api/v1/promotion/verify/get(verifyPromotionCode)`.
-    public func verifyPromotionCode(
-        query: Operations.verifyPromotionCode.Input.Query,
-        headers: Operations.verifyPromotionCode.Input.Headers = .init()
-    ) async throws -> Operations.verifyPromotionCode.Output {
-        try await verifyPromotionCode(Operations.verifyPromotionCode.Input(
-            query: query,
-            headers: headers
         ))
     }
     /// [인증] 단일 조직 정보 조회
@@ -984,21 +897,6 @@ extension APIProtocol {
         headers: Operations.getReadMembers.Input.Headers = .init()
     ) async throws -> Operations.getReadMembers.Output {
         try await getReadMembers(Operations.getReadMembers.Input(
-            path: path,
-            headers: headers
-        ))
-    }
-    /// 알림 삭제
-    ///
-    /// 노티 알림을 삭제합니다.
-    ///
-    /// - Remark: HTTP `DELETE /api/v1/notifications/{notificationId}`.
-    /// - Remark: Generated from `#/paths//api/v1/notifications/{notificationId}/delete(delete)`.
-    public func delete(
-        path: Operations.delete.Input.Path,
-        headers: Operations.delete.Input.Headers = .init()
-    ) async throws -> Operations.delete.Output {
-        try await delete(Operations.delete.Input(
             path: path,
             headers: headers
         ))
@@ -1300,6 +1198,91 @@ public enum Components {
                 case data
             }
         }
+        /// - Remark: Generated from `#/components/schemas/VerifyPromotionRequest`.
+        public struct VerifyPromotionRequest: Codable, Hashable, Sendable {
+            /// 프로모션 코드
+            ///
+            /// - Remark: Generated from `#/components/schemas/VerifyPromotionRequest/code`.
+            public var code: Swift.String
+            /// Creates a new `VerifyPromotionRequest`.
+            ///
+            /// - Parameters:
+            ///   - code: 프로모션 코드
+            public init(code: Swift.String) {
+                self.code = code
+            }
+            public enum CodingKeys: String, CodingKey {
+                case code
+            }
+        }
+        /// - Remark: Generated from `#/components/schemas/NofficeResponsePromotionVerifyResponse`.
+        public struct NofficeResponsePromotionVerifyResponse: Codable, Hashable, Sendable {
+            /// - Remark: Generated from `#/components/schemas/NofficeResponsePromotionVerifyResponse/timestamp`.
+            public var timestamp: Swift.String?
+            /// - Remark: Generated from `#/components/schemas/NofficeResponsePromotionVerifyResponse/httpStatus`.
+            public var httpStatus: Swift.Int32?
+            /// - Remark: Generated from `#/components/schemas/NofficeResponsePromotionVerifyResponse/code`.
+            public var code: Swift.String?
+            /// - Remark: Generated from `#/components/schemas/NofficeResponsePromotionVerifyResponse/message`.
+            public var message: Swift.String?
+            /// - Remark: Generated from `#/components/schemas/NofficeResponsePromotionVerifyResponse/data`.
+            public var data: Components.Schemas.PromotionVerifyResponse?
+            /// Creates a new `NofficeResponsePromotionVerifyResponse`.
+            ///
+            /// - Parameters:
+            ///   - timestamp:
+            ///   - httpStatus:
+            ///   - code:
+            ///   - message:
+            ///   - data:
+            public init(
+                timestamp: Swift.String? = nil,
+                httpStatus: Swift.Int32? = nil,
+                code: Swift.String? = nil,
+                message: Swift.String? = nil,
+                data: Components.Schemas.PromotionVerifyResponse? = nil
+            ) {
+                self.timestamp = timestamp
+                self.httpStatus = httpStatus
+                self.code = code
+                self.message = message
+                self.data = data
+            }
+            public enum CodingKeys: String, CodingKey {
+                case timestamp
+                case httpStatus
+                case code
+                case message
+                case data
+            }
+        }
+        /// - Remark: Generated from `#/components/schemas/PromotionVerifyResponse`.
+        public struct PromotionVerifyResponse: Codable, Hashable, Sendable {
+            /// 프로모션 ID
+            ///
+            /// - Remark: Generated from `#/components/schemas/PromotionVerifyResponse/promotionId`.
+            public var promotionId: Swift.Int64?
+            /// 프로모션 코드 문자열
+            ///
+            /// - Remark: Generated from `#/components/schemas/PromotionVerifyResponse/promotionCode`.
+            public var promotionCode: Swift.String?
+            /// Creates a new `PromotionVerifyResponse`.
+            ///
+            /// - Parameters:
+            ///   - promotionId: 프로모션 ID
+            ///   - promotionCode: 프로모션 코드 문자열
+            public init(
+                promotionId: Swift.Int64? = nil,
+                promotionCode: Swift.String? = nil
+            ) {
+                self.promotionId = promotionId
+                self.promotionCode = promotionCode
+            }
+            public enum CodingKeys: String, CodingKey {
+                case promotionId
+                case promotionCode
+            }
+        }
         /// - Remark: Generated from `#/components/schemas/PromotionGrantRequest`.
         public struct PromotionGrantRequest: Codable, Hashable, Sendable {
             /// 프로모션 ID
@@ -1526,35 +1509,6 @@ public enum Components {
                 case promotion
             }
         }
-        /// 프로모션 진행 여부
-        ///
-        /// - Remark: Generated from `#/components/schemas/PromotionVerifyResponse`.
-        public struct PromotionVerifyResponse: Codable, Hashable, Sendable {
-            /// 프로모션 ID
-            ///
-            /// - Remark: Generated from `#/components/schemas/PromotionVerifyResponse/promotionId`.
-            public var promotionId: Swift.Int64?
-            /// 프로모션 코드 문자열
-            ///
-            /// - Remark: Generated from `#/components/schemas/PromotionVerifyResponse/promotionCode`.
-            public var promotionCode: Swift.String?
-            /// Creates a new `PromotionVerifyResponse`.
-            ///
-            /// - Parameters:
-            ///   - promotionId: 프로모션 ID
-            ///   - promotionCode: 프로모션 코드 문자열
-            public init(
-                promotionId: Swift.Int64? = nil,
-                promotionCode: Swift.String? = nil
-            ) {
-                self.promotionId = promotionId
-                self.promotionCode = promotionCode
-            }
-            public enum CodingKeys: String, CodingKey {
-                case promotionId
-                case promotionCode
-            }
-        }
         /// - Remark: Generated from `#/components/schemas/NofficeResponseOrganizationJoinResponse`.
         public struct NofficeResponseOrganizationJoinResponse: Codable, Hashable, Sendable {
             /// - Remark: Generated from `#/components/schemas/NofficeResponseOrganizationJoinResponse/timestamp`.
@@ -1631,95 +1585,21 @@ public enum Components {
                 case memberId
             }
         }
-        /// - Remark: Generated from `#/components/schemas/NotificationRequest`.
-        public struct NotificationRequest: Codable, Hashable, Sendable {
-            /// - Remark: Generated from `#/components/schemas/NotificationRequest/title`.
-            public var title: Swift.String
-            /// - Remark: Generated from `#/components/schemas/NotificationRequest/content`.
-            public var content: Swift.String?
-            /// - Remark: Generated from `#/components/schemas/NotificationRequest/memberId`.
-            public var memberId: Swift.Int64
-            /// - Remark: Generated from `#/components/schemas/NotificationRequest/sendAt`.
-            public var sendAt: Foundation.Date
-            /// Creates a new `NotificationRequest`.
-            ///
-            /// - Parameters:
-            ///   - title:
-            ///   - content:
-            ///   - memberId:
-            ///   - sendAt:
-            public init(
-                title: Swift.String,
-                content: Swift.String? = nil,
-                memberId: Swift.Int64,
-                sendAt: Foundation.Date
-            ) {
-                self.title = title
-                self.content = content
-                self.memberId = memberId
-                self.sendAt = sendAt
-            }
-            public enum CodingKeys: String, CodingKey {
-                case title
-                case content
-                case memberId
-                case sendAt
-            }
-        }
         /// - Remark: Generated from `#/components/schemas/SaveTokenRequest`.
         public struct SaveTokenRequest: Codable, Hashable, Sendable {
-            /// - Remark: Generated from `#/components/schemas/SaveTokenRequest/FCM 토큰`.
-            public var FCM_space_토큰: Swift.String
+            /// FCM 토큰
+            ///
+            /// - Remark: Generated from `#/components/schemas/SaveTokenRequest/token`.
+            public var token: Swift.String
             /// Creates a new `SaveTokenRequest`.
             ///
             /// - Parameters:
-            ///   - FCM_space_토큰:
-            public init(FCM_space_토큰: Swift.String) {
-                self.FCM_space_토큰 = FCM_space_토큰
+            ///   - token: FCM 토큰
+            public init(token: Swift.String) {
+                self.token = token
             }
             public enum CodingKeys: String, CodingKey {
-                case FCM_space_토큰 = "FCM 토큰"
-            }
-        }
-        /// - Remark: Generated from `#/components/schemas/NotificationBulkRequest`.
-        public struct NotificationBulkRequest: Codable, Hashable, Sendable {
-            /// - Remark: Generated from `#/components/schemas/NotificationBulkRequest/title`.
-            public var title: Swift.String?
-            /// - Remark: Generated from `#/components/schemas/NotificationBulkRequest/content`.
-            public var content: Swift.String?
-            /// - Remark: Generated from `#/components/schemas/NotificationBulkRequest/announcementId`.
-            public var announcementId: Swift.Int64?
-            /// - Remark: Generated from `#/components/schemas/NotificationBulkRequest/noticeBefore`.
-            public var noticeBefore: [Swift.String]?
-            /// - Remark: Generated from `#/components/schemas/NotificationBulkRequest/noticeDate`.
-            public var noticeDate: [Swift.String]?
-            /// Creates a new `NotificationBulkRequest`.
-            ///
-            /// - Parameters:
-            ///   - title:
-            ///   - content:
-            ///   - announcementId:
-            ///   - noticeBefore:
-            ///   - noticeDate:
-            public init(
-                title: Swift.String? = nil,
-                content: Swift.String? = nil,
-                announcementId: Swift.Int64? = nil,
-                noticeBefore: [Swift.String]? = nil,
-                noticeDate: [Swift.String]? = nil
-            ) {
-                self.title = title
-                self.content = content
-                self.announcementId = announcementId
-                self.noticeBefore = noticeBefore
-                self.noticeDate = noticeDate
-            }
-            public enum CodingKeys: String, CodingKey {
-                case title
-                case content
-                case announcementId
-                case noticeBefore
-                case noticeDate
+                case token
             }
         }
         /// - Remark: Generated from `#/components/schemas/NofficeResponseTokenResponse`.
@@ -1791,9 +1671,10 @@ public enum Components {
             /// 소셜 로그인 제공자
             ///
             /// - Remark: Generated from `#/components/schemas/SocialAuthRequest/provider`.
-            @frozen public enum providerPayload: String, Codable, Hashable, Sendable {
+            @frozen public enum providerPayload: String, Codable, Hashable, Sendable, CaseIterable {
                 case GOOGLE = "GOOGLE"
                 case APPLE = "APPLE"
+                case KAKAO = "KAKAO"
             }
             /// 소셜 로그인 제공자
             ///
@@ -1868,12 +1749,15 @@ public enum Components {
             /// - Remark: Generated from `#/components/schemas/SocialAuthResponse/memberName`.
             public var memberName: Swift.String?
             /// - Remark: Generated from `#/components/schemas/SocialAuthResponse/provider`.
-            @frozen public enum providerPayload: String, Codable, Hashable, Sendable {
+            @frozen public enum providerPayload: String, Codable, Hashable, Sendable, CaseIterable {
                 case GOOGLE = "GOOGLE"
                 case APPLE = "APPLE"
+                case KAKAO = "KAKAO"
             }
             /// - Remark: Generated from `#/components/schemas/SocialAuthResponse/provider`.
             public var provider: Components.Schemas.SocialAuthResponse.providerPayload?
+            /// - Remark: Generated from `#/components/schemas/SocialAuthResponse/isAlreadyMember`.
+            public var isAlreadyMember: Swift.Bool?
             /// - Remark: Generated from `#/components/schemas/SocialAuthResponse/token`.
             public var token: Components.Schemas.TokenResponse?
             /// Creates a new `SocialAuthResponse`.
@@ -1882,22 +1766,26 @@ public enum Components {
             ///   - memberId:
             ///   - memberName:
             ///   - provider:
+            ///   - isAlreadyMember:
             ///   - token:
             public init(
                 memberId: Swift.Int64? = nil,
                 memberName: Swift.String? = nil,
                 provider: Components.Schemas.SocialAuthResponse.providerPayload? = nil,
+                isAlreadyMember: Swift.Bool? = nil,
                 token: Components.Schemas.TokenResponse? = nil
             ) {
                 self.memberId = memberId
                 self.memberName = memberName
                 self.provider = provider
+                self.isAlreadyMember = isAlreadyMember
                 self.token = token
             }
             public enum CodingKeys: String, CodingKey {
                 case memberId
                 case memberName
                 case provider
+                case isAlreadyMember
                 case token
             }
         }
@@ -2249,76 +2137,6 @@ public enum Components {
                 case noticeDate
             }
         }
-        /// - Remark: Generated from `#/components/schemas/FCMCreateResponse`.
-        public struct FCMCreateResponse: Codable, Hashable, Sendable {
-            /// - Remark: Generated from `#/components/schemas/FCMCreateResponse/title`.
-            public var title: Swift.String?
-            /// - Remark: Generated from `#/components/schemas/FCMCreateResponse/body`.
-            public var body: Swift.String?
-            /// - Remark: Generated from `#/components/schemas/FCMCreateResponse/targetToken`.
-            public var targetToken: [Swift.String]?
-            /// Creates a new `FCMCreateResponse`.
-            ///
-            /// - Parameters:
-            ///   - title:
-            ///   - body:
-            ///   - targetToken:
-            public init(
-                title: Swift.String? = nil,
-                body: Swift.String? = nil,
-                targetToken: [Swift.String]? = nil
-            ) {
-                self.title = title
-                self.body = body
-                self.targetToken = targetToken
-            }
-            public enum CodingKeys: String, CodingKey {
-                case title
-                case body
-                case targetToken
-            }
-        }
-        /// - Remark: Generated from `#/components/schemas/NofficeResponseFCMCreateResponse`.
-        public struct NofficeResponseFCMCreateResponse: Codable, Hashable, Sendable {
-            /// - Remark: Generated from `#/components/schemas/NofficeResponseFCMCreateResponse/timestamp`.
-            public var timestamp: Swift.String?
-            /// - Remark: Generated from `#/components/schemas/NofficeResponseFCMCreateResponse/httpStatus`.
-            public var httpStatus: Swift.Int32?
-            /// - Remark: Generated from `#/components/schemas/NofficeResponseFCMCreateResponse/code`.
-            public var code: Swift.String?
-            /// - Remark: Generated from `#/components/schemas/NofficeResponseFCMCreateResponse/message`.
-            public var message: Swift.String?
-            /// - Remark: Generated from `#/components/schemas/NofficeResponseFCMCreateResponse/data`.
-            public var data: Components.Schemas.FCMCreateResponse?
-            /// Creates a new `NofficeResponseFCMCreateResponse`.
-            ///
-            /// - Parameters:
-            ///   - timestamp:
-            ///   - httpStatus:
-            ///   - code:
-            ///   - message:
-            ///   - data:
-            public init(
-                timestamp: Swift.String? = nil,
-                httpStatus: Swift.Int32? = nil,
-                code: Swift.String? = nil,
-                message: Swift.String? = nil,
-                data: Components.Schemas.FCMCreateResponse? = nil
-            ) {
-                self.timestamp = timestamp
-                self.httpStatus = httpStatus
-                self.code = code
-                self.message = message
-                self.data = data
-            }
-            public enum CodingKeys: String, CodingKey {
-                case timestamp
-                case httpStatus
-                case code
-                case message
-                case data
-            }
-        }
         /// - Remark: Generated from `#/components/schemas/TaskModifyRequest`.
         public struct TaskModifyRequest: Codable, Hashable, Sendable {
             /// 투두 항목 ID
@@ -2415,7 +2233,7 @@ public enum Components {
             /// 변경 적용할 권한
             ///
             /// - Remark: Generated from `#/components/schemas/ChangeRoleRequest/role`.
-            @frozen public enum rolePayload: String, Codable, Hashable, Sendable {
+            @frozen public enum rolePayload: String, Codable, Hashable, Sendable, CaseIterable {
                 case ADMIN = "ADMIN"
                 case LEADER = "LEADER"
                 case PARTICIPANT = "PARTICIPANT"
@@ -2463,140 +2281,6 @@ public enum Components {
                 case imageUrl
             }
         }
-        /// - Remark: Generated from `#/components/schemas/NotificationTimeChangeRequest`.
-        public struct NotificationTimeChangeRequest: Codable, Hashable, Sendable {
-            /// 공지 ID
-            ///
-            /// - Remark: Generated from `#/components/schemas/NotificationTimeChangeRequest/announcementId`.
-            public var announcementId: Swift.Int64
-            /// 알림 시간 변경 초(second)
-            ///
-            /// - Remark: Generated from `#/components/schemas/NotificationTimeChangeRequest/noticeBefore`.
-            public var noticeBefore: [Swift.String]
-            /// 알림 시간 변경 기준 일자
-            ///
-            /// - Remark: Generated from `#/components/schemas/NotificationTimeChangeRequest/noticeDate`.
-            public var noticeDate: [Swift.String]
-            /// Creates a new `NotificationTimeChangeRequest`.
-            ///
-            /// - Parameters:
-            ///   - announcementId: 공지 ID
-            ///   - noticeBefore: 알림 시간 변경 초(second)
-            ///   - noticeDate: 알림 시간 변경 기준 일자
-            public init(
-                announcementId: Swift.Int64,
-                noticeBefore: [Swift.String],
-                noticeDate: [Swift.String]
-            ) {
-                self.announcementId = announcementId
-                self.noticeBefore = noticeBefore
-                self.noticeDate = noticeDate
-            }
-            public enum CodingKeys: String, CodingKey {
-                case announcementId
-                case noticeBefore
-                case noticeDate
-            }
-        }
-        /// - Remark: Generated from `#/components/schemas/NofficeResponseNotificationTimeChangeResponse`.
-        public struct NofficeResponseNotificationTimeChangeResponse: Codable, Hashable, Sendable {
-            /// - Remark: Generated from `#/components/schemas/NofficeResponseNotificationTimeChangeResponse/timestamp`.
-            public var timestamp: Swift.String?
-            /// - Remark: Generated from `#/components/schemas/NofficeResponseNotificationTimeChangeResponse/httpStatus`.
-            public var httpStatus: Swift.Int32?
-            /// - Remark: Generated from `#/components/schemas/NofficeResponseNotificationTimeChangeResponse/code`.
-            public var code: Swift.String?
-            /// - Remark: Generated from `#/components/schemas/NofficeResponseNotificationTimeChangeResponse/message`.
-            public var message: Swift.String?
-            /// - Remark: Generated from `#/components/schemas/NofficeResponseNotificationTimeChangeResponse/data`.
-            public var data: Components.Schemas.NotificationTimeChangeResponse?
-            /// Creates a new `NofficeResponseNotificationTimeChangeResponse`.
-            ///
-            /// - Parameters:
-            ///   - timestamp:
-            ///   - httpStatus:
-            ///   - code:
-            ///   - message:
-            ///   - data:
-            public init(
-                timestamp: Swift.String? = nil,
-                httpStatus: Swift.Int32? = nil,
-                code: Swift.String? = nil,
-                message: Swift.String? = nil,
-                data: Components.Schemas.NotificationTimeChangeResponse? = nil
-            ) {
-                self.timestamp = timestamp
-                self.httpStatus = httpStatus
-                self.code = code
-                self.message = message
-                self.data = data
-            }
-            public enum CodingKeys: String, CodingKey {
-                case timestamp
-                case httpStatus
-                case code
-                case message
-                case data
-            }
-        }
-        /// - Remark: Generated from `#/components/schemas/NotificationResponse`.
-        public struct NotificationResponse: Codable, Hashable, Sendable {
-            /// - Remark: Generated from `#/components/schemas/NotificationResponse/notificationId`.
-            public var notificationId: Swift.Int64?
-            /// - Remark: Generated from `#/components/schemas/NotificationResponse/announcementId`.
-            public var announcementId: Swift.Int64?
-            /// - Remark: Generated from `#/components/schemas/NotificationResponse/title`.
-            public var title: Swift.String?
-            /// - Remark: Generated from `#/components/schemas/NotificationResponse/content`.
-            public var content: Swift.String?
-            /// Creates a new `NotificationResponse`.
-            ///
-            /// - Parameters:
-            ///   - notificationId:
-            ///   - announcementId:
-            ///   - title:
-            ///   - content:
-            public init(
-                notificationId: Swift.Int64? = nil,
-                announcementId: Swift.Int64? = nil,
-                title: Swift.String? = nil,
-                content: Swift.String? = nil
-            ) {
-                self.notificationId = notificationId
-                self.announcementId = announcementId
-                self.title = title
-                self.content = content
-            }
-            public enum CodingKeys: String, CodingKey {
-                case notificationId
-                case announcementId
-                case title
-                case content
-            }
-        }
-        /// - Remark: Generated from `#/components/schemas/NotificationTimeChangeResponse`.
-        public struct NotificationTimeChangeResponse: Codable, Hashable, Sendable {
-            /// - Remark: Generated from `#/components/schemas/NotificationTimeChangeResponse/announcementId`.
-            public var announcementId: Swift.Int64?
-            /// - Remark: Generated from `#/components/schemas/NotificationTimeChangeResponse/notifications`.
-            public var notifications: [Components.Schemas.NotificationResponse]?
-            /// Creates a new `NotificationTimeChangeResponse`.
-            ///
-            /// - Parameters:
-            ///   - announcementId:
-            ///   - notifications:
-            public init(
-                announcementId: Swift.Int64? = nil,
-                notifications: [Components.Schemas.NotificationResponse]? = nil
-            ) {
-                self.announcementId = announcementId
-                self.notifications = notifications
-            }
-            public enum CodingKeys: String, CodingKey {
-                case announcementId
-                case notifications
-            }
-        }
         /// - Remark: Generated from `#/components/schemas/MemberProfileUpdateRequest`.
         public struct MemberProfileUpdateRequest: Codable, Hashable, Sendable {
             /// 사용자의 이미지가 저장된 Bucket URL
@@ -2612,6 +2296,23 @@ public enum Components {
             }
             public enum CodingKeys: String, CodingKey {
                 case imageUrl
+            }
+        }
+        /// - Remark: Generated from `#/components/schemas/MemberNameUpdateRequest`.
+        public struct MemberNameUpdateRequest: Codable, Hashable, Sendable {
+            /// 사용자가 변경하려는 이름
+            ///
+            /// - Remark: Generated from `#/components/schemas/MemberNameUpdateRequest/name`.
+            public var name: Swift.String
+            /// Creates a new `MemberNameUpdateRequest`.
+            ///
+            /// - Parameters:
+            ///   - name: 사용자가 변경하려는 이름
+            public init(name: Swift.String) {
+                self.name = name
+            }
+            public enum CodingKeys: String, CodingKey {
+                case name
             }
         }
         /// - Remark: Generated from `#/components/schemas/MemberAliasUpdateRequest`.
@@ -2877,47 +2578,6 @@ public enum Components {
                 case isMemberChecked
             }
         }
-        /// - Remark: Generated from `#/components/schemas/NofficeResponsePromotionVerifyResponse`.
-        public struct NofficeResponsePromotionVerifyResponse: Codable, Hashable, Sendable {
-            /// - Remark: Generated from `#/components/schemas/NofficeResponsePromotionVerifyResponse/timestamp`.
-            public var timestamp: Swift.String?
-            /// - Remark: Generated from `#/components/schemas/NofficeResponsePromotionVerifyResponse/httpStatus`.
-            public var httpStatus: Swift.Int32?
-            /// - Remark: Generated from `#/components/schemas/NofficeResponsePromotionVerifyResponse/code`.
-            public var code: Swift.String?
-            /// - Remark: Generated from `#/components/schemas/NofficeResponsePromotionVerifyResponse/message`.
-            public var message: Swift.String?
-            /// - Remark: Generated from `#/components/schemas/NofficeResponsePromotionVerifyResponse/data`.
-            public var data: Components.Schemas.PromotionVerifyResponse?
-            /// Creates a new `NofficeResponsePromotionVerifyResponse`.
-            ///
-            /// - Parameters:
-            ///   - timestamp:
-            ///   - httpStatus:
-            ///   - code:
-            ///   - message:
-            ///   - data:
-            public init(
-                timestamp: Swift.String? = nil,
-                httpStatus: Swift.Int32? = nil,
-                code: Swift.String? = nil,
-                message: Swift.String? = nil,
-                data: Components.Schemas.PromotionVerifyResponse? = nil
-            ) {
-                self.timestamp = timestamp
-                self.httpStatus = httpStatus
-                self.code = code
-                self.message = message
-                self.data = data
-            }
-            public enum CodingKeys: String, CodingKey {
-                case timestamp
-                case httpStatus
-                case code
-                case message
-                case data
-            }
-        }
         /// - Remark: Generated from `#/components/schemas/NofficeResponseSliceOrganizationResponse`.
         public struct NofficeResponseSliceOrganizationResponse: Codable, Hashable, Sendable {
             /// - Remark: Generated from `#/components/schemas/NofficeResponseSliceOrganizationResponse/timestamp`.
@@ -2964,7 +2624,7 @@ public enum Components {
             /// 요청한 사용자의 조직 내 권한
             ///
             /// - Remark: Generated from `#/components/schemas/OrganizationResponse/role`.
-            @frozen public enum rolePayload: String, Codable, Hashable, Sendable {
+            @frozen public enum rolePayload: String, Codable, Hashable, Sendable, CaseIterable {
                 case ADMIN = "ADMIN"
                 case LEADER = "LEADER"
                 case PARTICIPANT = "PARTICIPANT"
@@ -2989,7 +2649,7 @@ public enum Components {
             /// 가입 상태
             ///
             /// - Remark: Generated from `#/components/schemas/OrganizationResponse/joinStatus`.
-            @frozen public enum joinStatusPayload: String, Codable, Hashable, Sendable {
+            @frozen public enum joinStatusPayload: String, Codable, Hashable, Sendable, CaseIterable {
                 case ACTIVE = "ACTIVE"
                 case PENDING = "PENDING"
                 case REJECTED = "REJECTED"
@@ -3139,7 +2799,7 @@ public enum Components {
             /// 요청한 사용자의 조직 내 권한
             ///
             /// - Remark: Generated from `#/components/schemas/OrganizationInfoResponse/role`.
-            @frozen public enum rolePayload: String, Codable, Hashable, Sendable {
+            @frozen public enum rolePayload: String, Codable, Hashable, Sendable, CaseIterable {
                 case ADMIN = "ADMIN"
                 case LEADER = "LEADER"
                 case PARTICIPANT = "PARTICIPANT"
@@ -3301,7 +2961,7 @@ public enum Components {
             /// 이미지 타입
             ///
             /// - Remark: Generated from `#/components/schemas/CommonImageResponse/type`.
-            @frozen public enum _typePayload: String, Codable, Hashable, Sendable {
+            @frozen public enum _typePayload: String, Codable, Hashable, Sendable, CaseIterable {
                 case ORGANIZATION_LOGO = "ORGANIZATION_LOGO"
                 case MEMBER_PROFILE = "MEMBER_PROFILE"
                 case ANNOUNCEMENT_PROFILE = "ANNOUNCEMENT_PROFILE"
@@ -4027,17 +3687,19 @@ public enum Components {
         }
         /// - Remark: Generated from `#/components/schemas/DeleteTokenRequest`.
         public struct DeleteTokenRequest: Codable, Hashable, Sendable {
-            /// - Remark: Generated from `#/components/schemas/DeleteTokenRequest/FCM_토큰`.
-            public var FCM_토큰: Swift.String
+            /// FCM 토큰
+            ///
+            /// - Remark: Generated from `#/components/schemas/DeleteTokenRequest/token`.
+            public var token: Swift.String
             /// Creates a new `DeleteTokenRequest`.
             ///
             /// - Parameters:
-            ///   - FCM_토큰:
-            public init(FCM_토큰: Swift.String) {
-                self.FCM_토큰 = FCM_토큰
+            ///   - token: FCM 토큰
+            public init(token: Swift.String) {
+                self.token = token
             }
             public enum CodingKeys: String, CodingKey {
-                case FCM_토큰
+                case token
             }
         }
     }
@@ -4995,6 +4657,180 @@ public enum Operations {
                     default:
                         try throwUnexpectedResponseStatus(
                             expectedStatus: "internalServerError",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// Undocumented response.
+            ///
+            /// A response with a code that is not documented in the OpenAPI document.
+            case undocumented(statusCode: Swift.Int, OpenAPIRuntime.UndocumentedPayload)
+        }
+        @frozen public enum AcceptableContentType: AcceptableProtocol {
+            case json
+            case other(Swift.String)
+            public init?(rawValue: Swift.String) {
+                switch rawValue.lowercased() {
+                case "application/json":
+                    self = .json
+                default:
+                    self = .other(rawValue)
+                }
+            }
+            public var rawValue: Swift.String {
+                switch self {
+                case let .other(string):
+                    return string
+                case .json:
+                    return "application/json"
+                }
+            }
+            public static var allCases: [Self] {
+                [
+                    .json
+                ]
+            }
+        }
+    }
+    /// 프로모션 코드 검증
+    ///
+    /// 프로모션 코드를 검증합니다.
+    ///
+    /// - Remark: HTTP `POST /api/v1/promotion/verify`.
+    /// - Remark: Generated from `#/paths//api/v1/promotion/verify/post(verifyPromotionCode)`.
+    public enum verifyPromotionCode {
+        public static let id: Swift.String = "verifyPromotionCode"
+        public struct Input: Sendable, Hashable {
+            /// - Remark: Generated from `#/paths/api/v1/promotion/verify/POST/header`.
+            public struct Headers: Sendable, Hashable {
+                public var accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.verifyPromotionCode.AcceptableContentType>]
+                /// Creates a new `Headers`.
+                ///
+                /// - Parameters:
+                ///   - accept:
+                public init(accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.verifyPromotionCode.AcceptableContentType>] = .defaultValues()) {
+                    self.accept = accept
+                }
+            }
+            public var headers: Operations.verifyPromotionCode.Input.Headers
+            /// - Remark: Generated from `#/paths/api/v1/promotion/verify/POST/requestBody`.
+            @frozen public enum Body: Sendable, Hashable {
+                /// - Remark: Generated from `#/paths/api/v1/promotion/verify/POST/requestBody/content/application\/json`.
+                case json(Components.Schemas.VerifyPromotionRequest)
+            }
+            public var body: Operations.verifyPromotionCode.Input.Body
+            /// Creates a new `Input`.
+            ///
+            /// - Parameters:
+            ///   - headers:
+            ///   - body:
+            public init(
+                headers: Operations.verifyPromotionCode.Input.Headers = .init(),
+                body: Operations.verifyPromotionCode.Input.Body
+            ) {
+                self.headers = headers
+                self.body = body
+            }
+        }
+        @frozen public enum Output: Sendable, Hashable {
+            public struct Ok: Sendable, Hashable {
+                /// - Remark: Generated from `#/paths/api/v1/promotion/verify/POST/responses/200/content`.
+                @frozen public enum Body: Sendable, Hashable {
+                    /// - Remark: Generated from `#/paths/api/v1/promotion/verify/POST/responses/200/content/application\/json`.
+                    case json(Components.Schemas.NofficeResponsePromotionVerifyResponse)
+                    /// The associated value of the enum case if `self` is `.json`.
+                    ///
+                    /// - Throws: An error if `self` is not `.json`.
+                    /// - SeeAlso: `.json`.
+                    public var json: Components.Schemas.NofficeResponsePromotionVerifyResponse {
+                        get throws {
+                            switch self {
+                            case let .json(body):
+                                return body
+                            }
+                        }
+                    }
+                }
+                /// Received HTTP response body
+                public var body: Operations.verifyPromotionCode.Output.Ok.Body
+                /// Creates a new `Ok`.
+                ///
+                /// - Parameters:
+                ///   - body: Received HTTP response body
+                public init(body: Operations.verifyPromotionCode.Output.Ok.Body) {
+                    self.body = body
+                }
+            }
+            /// 프로모션 코드 검증 성공
+            ///
+            /// - Remark: Generated from `#/paths//api/v1/promotion/verify/post(verifyPromotionCode)/responses/200`.
+            ///
+            /// HTTP response code: `200 ok`.
+            case ok(Operations.verifyPromotionCode.Output.Ok)
+            /// The associated value of the enum case if `self` is `.ok`.
+            ///
+            /// - Throws: An error if `self` is not `.ok`.
+            /// - SeeAlso: `.ok`.
+            public var ok: Operations.verifyPromotionCode.Output.Ok {
+                get throws {
+                    switch self {
+                    case let .ok(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "ok",
+                            response: self
+                        )
+                    }
+                }
+            }
+            public struct NotFound: Sendable, Hashable {
+                /// - Remark: Generated from `#/paths/api/v1/promotion/verify/POST/responses/404/content`.
+                @frozen public enum Body: Sendable, Hashable {
+                    /// - Remark: Generated from `#/paths/api/v1/promotion/verify/POST/responses/404/content/application\/json`.
+                    case json(Components.Schemas.NofficeResponsePromotionVerifyResponse)
+                    /// The associated value of the enum case if `self` is `.json`.
+                    ///
+                    /// - Throws: An error if `self` is not `.json`.
+                    /// - SeeAlso: `.json`.
+                    public var json: Components.Schemas.NofficeResponsePromotionVerifyResponse {
+                        get throws {
+                            switch self {
+                            case let .json(body):
+                                return body
+                            }
+                        }
+                    }
+                }
+                /// Received HTTP response body
+                public var body: Operations.verifyPromotionCode.Output.NotFound.Body
+                /// Creates a new `NotFound`.
+                ///
+                /// - Parameters:
+                ///   - body: Received HTTP response body
+                public init(body: Operations.verifyPromotionCode.Output.NotFound.Body) {
+                    self.body = body
+                }
+            }
+            /// 프로모션 코드가 존재하지 않습니다.
+            ///
+            /// - Remark: Generated from `#/paths//api/v1/promotion/verify/post(verifyPromotionCode)/responses/404`.
+            ///
+            /// HTTP response code: `404 notFound`.
+            case notFound(Operations.verifyPromotionCode.Output.NotFound)
+            /// The associated value of the enum case if `self` is `.notFound`.
+            ///
+            /// - Throws: An error if `self` is not `.notFound`.
+            /// - SeeAlso: `.notFound`.
+            public var notFound: Operations.verifyPromotionCode.Output.NotFound {
+                get throws {
+                    switch self {
+                    case let .notFound(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "notFound",
                             response: self
                         )
                     }
@@ -6098,517 +5934,6 @@ public enum Operations {
             }
         }
     }
-    /// [인증] 사용자에게 수신된 알림 조회
-    ///
-    /// 사용자에게 수신된 알림을 조회합니다.
-    ///
-    /// - Remark: HTTP `GET /api/v1/notifications`.
-    /// - Remark: Generated from `#/paths//api/v1/notifications/get(findById)`.
-    public enum findById {
-        public static let id: Swift.String = "findById"
-        public struct Input: Sendable, Hashable {
-            /// - Remark: Generated from `#/paths/api/v1/notifications/GET/header`.
-            public struct Headers: Sendable, Hashable {
-                public var accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.findById.AcceptableContentType>]
-                /// Creates a new `Headers`.
-                ///
-                /// - Parameters:
-                ///   - accept:
-                public init(accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.findById.AcceptableContentType>] = .defaultValues()) {
-                    self.accept = accept
-                }
-            }
-            public var headers: Operations.findById.Input.Headers
-            /// Creates a new `Input`.
-            ///
-            /// - Parameters:
-            ///   - headers:
-            public init(headers: Operations.findById.Input.Headers = .init()) {
-                self.headers = headers
-            }
-        }
-        @frozen public enum Output: Sendable, Hashable {
-            public struct Ok: Sendable, Hashable {
-                /// - Remark: Generated from `#/paths/api/v1/notifications/GET/responses/200/content`.
-                @frozen public enum Body: Sendable, Hashable {
-                    /// - Remark: Generated from `#/paths/api/v1/notifications/GET/responses/200/content/application\/json`.
-                    case json(Components.Schemas.NofficeResponseVoid)
-                    /// The associated value of the enum case if `self` is `.json`.
-                    ///
-                    /// - Throws: An error if `self` is not `.json`.
-                    /// - SeeAlso: `.json`.
-                    public var json: Components.Schemas.NofficeResponseVoid {
-                        get throws {
-                            switch self {
-                            case let .json(body):
-                                return body
-                            }
-                        }
-                    }
-                }
-                /// Received HTTP response body
-                public var body: Operations.findById.Output.Ok.Body
-                /// Creates a new `Ok`.
-                ///
-                /// - Parameters:
-                ///   - body: Received HTTP response body
-                public init(body: Operations.findById.Output.Ok.Body) {
-                    self.body = body
-                }
-            }
-            /// 알림 조회 성공
-            ///
-            /// - Remark: Generated from `#/paths//api/v1/notifications/get(findById)/responses/200`.
-            ///
-            /// HTTP response code: `200 ok`.
-            case ok(Operations.findById.Output.Ok)
-            /// The associated value of the enum case if `self` is `.ok`.
-            ///
-            /// - Throws: An error if `self` is not `.ok`.
-            /// - SeeAlso: `.ok`.
-            public var ok: Operations.findById.Output.Ok {
-                get throws {
-                    switch self {
-                    case let .ok(response):
-                        return response
-                    default:
-                        try throwUnexpectedResponseStatus(
-                            expectedStatus: "ok",
-                            response: self
-                        )
-                    }
-                }
-            }
-            public struct NotFound: Sendable, Hashable {
-                /// - Remark: Generated from `#/paths/api/v1/notifications/GET/responses/404/content`.
-                @frozen public enum Body: Sendable, Hashable {
-                    /// - Remark: Generated from `#/paths/api/v1/notifications/GET/responses/404/content/application\/json`.
-                    case json(Components.Schemas.NofficeResponseVoid)
-                    /// The associated value of the enum case if `self` is `.json`.
-                    ///
-                    /// - Throws: An error if `self` is not `.json`.
-                    /// - SeeAlso: `.json`.
-                    public var json: Components.Schemas.NofficeResponseVoid {
-                        get throws {
-                            switch self {
-                            case let .json(body):
-                                return body
-                            }
-                        }
-                    }
-                }
-                /// Received HTTP response body
-                public var body: Operations.findById.Output.NotFound.Body
-                /// Creates a new `NotFound`.
-                ///
-                /// - Parameters:
-                ///   - body: Received HTTP response body
-                public init(body: Operations.findById.Output.NotFound.Body) {
-                    self.body = body
-                }
-            }
-            /// 알림이 없습니다.
-            ///
-            /// - Remark: Generated from `#/paths//api/v1/notifications/get(findById)/responses/404`.
-            ///
-            /// HTTP response code: `404 notFound`.
-            case notFound(Operations.findById.Output.NotFound)
-            /// The associated value of the enum case if `self` is `.notFound`.
-            ///
-            /// - Throws: An error if `self` is not `.notFound`.
-            /// - SeeAlso: `.notFound`.
-            public var notFound: Operations.findById.Output.NotFound {
-                get throws {
-                    switch self {
-                    case let .notFound(response):
-                        return response
-                    default:
-                        try throwUnexpectedResponseStatus(
-                            expectedStatus: "notFound",
-                            response: self
-                        )
-                    }
-                }
-            }
-            /// Undocumented response.
-            ///
-            /// A response with a code that is not documented in the OpenAPI document.
-            case undocumented(statusCode: Swift.Int, OpenAPIRuntime.UndocumentedPayload)
-        }
-        @frozen public enum AcceptableContentType: AcceptableProtocol {
-            case json
-            case other(Swift.String)
-            public init?(rawValue: Swift.String) {
-                switch rawValue.lowercased() {
-                case "application/json":
-                    self = .json
-                default:
-                    self = .other(rawValue)
-                }
-            }
-            public var rawValue: Swift.String {
-                switch self {
-                case let .other(string):
-                    return string
-                case .json:
-                    return "application/json"
-                }
-            }
-            public static var allCases: [Self] {
-                [
-                    .json
-                ]
-            }
-        }
-    }
-    /// [인증] 단일 사용자 알림 대기열 추가
-    ///
-    /// 단일 사용자를 특정하여 노티 알림 대기열에 등록합니다.
-    ///
-    /// - Remark: HTTP `POST /api/v1/notifications`.
-    /// - Remark: Generated from `#/paths//api/v1/notifications/post(create_1)`.
-    public enum create_1 {
-        public static let id: Swift.String = "create_1"
-        public struct Input: Sendable, Hashable {
-            /// - Remark: Generated from `#/paths/api/v1/notifications/POST/header`.
-            public struct Headers: Sendable, Hashable {
-                public var accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.create_1.AcceptableContentType>]
-                /// Creates a new `Headers`.
-                ///
-                /// - Parameters:
-                ///   - accept:
-                public init(accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.create_1.AcceptableContentType>] = .defaultValues()) {
-                    self.accept = accept
-                }
-            }
-            public var headers: Operations.create_1.Input.Headers
-            /// - Remark: Generated from `#/paths/api/v1/notifications/POST/requestBody`.
-            @frozen public enum Body: Sendable, Hashable {
-                /// - Remark: Generated from `#/paths/api/v1/notifications/POST/requestBody/content/application\/json`.
-                case json(Components.Schemas.NotificationRequest)
-            }
-            public var body: Operations.create_1.Input.Body
-            /// Creates a new `Input`.
-            ///
-            /// - Parameters:
-            ///   - headers:
-            ///   - body:
-            public init(
-                headers: Operations.create_1.Input.Headers = .init(),
-                body: Operations.create_1.Input.Body
-            ) {
-                self.headers = headers
-                self.body = body
-            }
-        }
-        @frozen public enum Output: Sendable, Hashable {
-            public struct Ok: Sendable, Hashable {
-                /// - Remark: Generated from `#/paths/api/v1/notifications/POST/responses/200/content`.
-                @frozen public enum Body: Sendable, Hashable {
-                    /// - Remark: Generated from `#/paths/api/v1/notifications/POST/responses/200/content/application\/json`.
-                    case json(Components.Schemas.NofficeResponseVoid)
-                    /// The associated value of the enum case if `self` is `.json`.
-                    ///
-                    /// - Throws: An error if `self` is not `.json`.
-                    /// - SeeAlso: `.json`.
-                    public var json: Components.Schemas.NofficeResponseVoid {
-                        get throws {
-                            switch self {
-                            case let .json(body):
-                                return body
-                            }
-                        }
-                    }
-                }
-                /// Received HTTP response body
-                public var body: Operations.create_1.Output.Ok.Body
-                /// Creates a new `Ok`.
-                ///
-                /// - Parameters:
-                ///   - body: Received HTTP response body
-                public init(body: Operations.create_1.Output.Ok.Body) {
-                    self.body = body
-                }
-            }
-            /// 알림 대기열 등록 성공
-            ///
-            /// - Remark: Generated from `#/paths//api/v1/notifications/post(create_1)/responses/200`.
-            ///
-            /// HTTP response code: `200 ok`.
-            case ok(Operations.create_1.Output.Ok)
-            /// The associated value of the enum case if `self` is `.ok`.
-            ///
-            /// - Throws: An error if `self` is not `.ok`.
-            /// - SeeAlso: `.ok`.
-            public var ok: Operations.create_1.Output.Ok {
-                get throws {
-                    switch self {
-                    case let .ok(response):
-                        return response
-                    default:
-                        try throwUnexpectedResponseStatus(
-                            expectedStatus: "ok",
-                            response: self
-                        )
-                    }
-                }
-            }
-            public struct BadRequest: Sendable, Hashable {
-                /// - Remark: Generated from `#/paths/api/v1/notifications/POST/responses/400/content`.
-                @frozen public enum Body: Sendable, Hashable {
-                    /// - Remark: Generated from `#/paths/api/v1/notifications/POST/responses/400/content/application\/json`.
-                    case json(Components.Schemas.NofficeResponseVoid)
-                    /// The associated value of the enum case if `self` is `.json`.
-                    ///
-                    /// - Throws: An error if `self` is not `.json`.
-                    /// - SeeAlso: `.json`.
-                    public var json: Components.Schemas.NofficeResponseVoid {
-                        get throws {
-                            switch self {
-                            case let .json(body):
-                                return body
-                            }
-                        }
-                    }
-                }
-                /// Received HTTP response body
-                public var body: Operations.create_1.Output.BadRequest.Body
-                /// Creates a new `BadRequest`.
-                ///
-                /// - Parameters:
-                ///   - body: Received HTTP response body
-                public init(body: Operations.create_1.Output.BadRequest.Body) {
-                    self.body = body
-                }
-            }
-            /// 알림 발송 실패
-            ///
-            /// - Remark: Generated from `#/paths//api/v1/notifications/post(create_1)/responses/400`.
-            ///
-            /// HTTP response code: `400 badRequest`.
-            case badRequest(Operations.create_1.Output.BadRequest)
-            /// The associated value of the enum case if `self` is `.badRequest`.
-            ///
-            /// - Throws: An error if `self` is not `.badRequest`.
-            /// - SeeAlso: `.badRequest`.
-            public var badRequest: Operations.create_1.Output.BadRequest {
-                get throws {
-                    switch self {
-                    case let .badRequest(response):
-                        return response
-                    default:
-                        try throwUnexpectedResponseStatus(
-                            expectedStatus: "badRequest",
-                            response: self
-                        )
-                    }
-                }
-            }
-            /// Undocumented response.
-            ///
-            /// A response with a code that is not documented in the OpenAPI document.
-            case undocumented(statusCode: Swift.Int, OpenAPIRuntime.UndocumentedPayload)
-        }
-        @frozen public enum AcceptableContentType: AcceptableProtocol {
-            case json
-            case other(Swift.String)
-            public init?(rawValue: Swift.String) {
-                switch rawValue.lowercased() {
-                case "application/json":
-                    self = .json
-                default:
-                    self = .other(rawValue)
-                }
-            }
-            public var rawValue: Swift.String {
-                switch self {
-                case let .other(string):
-                    return string
-                case .json:
-                    return "application/json"
-                }
-            }
-            public static var allCases: [Self] {
-                [
-                    .json
-                ]
-            }
-        }
-    }
-    /// [인증] 알림 발송 시간 변경
-    ///
-    /// 노티 알림 발송 시간을 변경합니다.
-    ///
-    /// - Remark: HTTP `PATCH /api/v1/notifications`.
-    /// - Remark: Generated from `#/paths//api/v1/notifications/patch(changeSendTime)`.
-    public enum changeSendTime {
-        public static let id: Swift.String = "changeSendTime"
-        public struct Input: Sendable, Hashable {
-            /// - Remark: Generated from `#/paths/api/v1/notifications/PATCH/header`.
-            public struct Headers: Sendable, Hashable {
-                public var accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.changeSendTime.AcceptableContentType>]
-                /// Creates a new `Headers`.
-                ///
-                /// - Parameters:
-                ///   - accept:
-                public init(accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.changeSendTime.AcceptableContentType>] = .defaultValues()) {
-                    self.accept = accept
-                }
-            }
-            public var headers: Operations.changeSendTime.Input.Headers
-            /// - Remark: Generated from `#/paths/api/v1/notifications/PATCH/requestBody`.
-            @frozen public enum Body: Sendable, Hashable {
-                /// - Remark: Generated from `#/paths/api/v1/notifications/PATCH/requestBody/content/application\/json`.
-                case json(Components.Schemas.NotificationTimeChangeRequest)
-            }
-            public var body: Operations.changeSendTime.Input.Body
-            /// Creates a new `Input`.
-            ///
-            /// - Parameters:
-            ///   - headers:
-            ///   - body:
-            public init(
-                headers: Operations.changeSendTime.Input.Headers = .init(),
-                body: Operations.changeSendTime.Input.Body
-            ) {
-                self.headers = headers
-                self.body = body
-            }
-        }
-        @frozen public enum Output: Sendable, Hashable {
-            public struct Ok: Sendable, Hashable {
-                /// - Remark: Generated from `#/paths/api/v1/notifications/PATCH/responses/200/content`.
-                @frozen public enum Body: Sendable, Hashable {
-                    /// - Remark: Generated from `#/paths/api/v1/notifications/PATCH/responses/200/content/application\/json`.
-                    case json(Components.Schemas.NofficeResponseNotificationTimeChangeResponse)
-                    /// The associated value of the enum case if `self` is `.json`.
-                    ///
-                    /// - Throws: An error if `self` is not `.json`.
-                    /// - SeeAlso: `.json`.
-                    public var json: Components.Schemas.NofficeResponseNotificationTimeChangeResponse {
-                        get throws {
-                            switch self {
-                            case let .json(body):
-                                return body
-                            }
-                        }
-                    }
-                }
-                /// Received HTTP response body
-                public var body: Operations.changeSendTime.Output.Ok.Body
-                /// Creates a new `Ok`.
-                ///
-                /// - Parameters:
-                ///   - body: Received HTTP response body
-                public init(body: Operations.changeSendTime.Output.Ok.Body) {
-                    self.body = body
-                }
-            }
-            /// 알림 발송 시간 변경 성공
-            ///
-            /// - Remark: Generated from `#/paths//api/v1/notifications/patch(changeSendTime)/responses/200`.
-            ///
-            /// HTTP response code: `200 ok`.
-            case ok(Operations.changeSendTime.Output.Ok)
-            /// The associated value of the enum case if `self` is `.ok`.
-            ///
-            /// - Throws: An error if `self` is not `.ok`.
-            /// - SeeAlso: `.ok`.
-            public var ok: Operations.changeSendTime.Output.Ok {
-                get throws {
-                    switch self {
-                    case let .ok(response):
-                        return response
-                    default:
-                        try throwUnexpectedResponseStatus(
-                            expectedStatus: "ok",
-                            response: self
-                        )
-                    }
-                }
-            }
-            public struct BadRequest: Sendable, Hashable {
-                /// - Remark: Generated from `#/paths/api/v1/notifications/PATCH/responses/400/content`.
-                @frozen public enum Body: Sendable, Hashable {
-                    /// - Remark: Generated from `#/paths/api/v1/notifications/PATCH/responses/400/content/application\/json`.
-                    case json(Components.Schemas.NofficeResponseNotificationTimeChangeResponse)
-                    /// The associated value of the enum case if `self` is `.json`.
-                    ///
-                    /// - Throws: An error if `self` is not `.json`.
-                    /// - SeeAlso: `.json`.
-                    public var json: Components.Schemas.NofficeResponseNotificationTimeChangeResponse {
-                        get throws {
-                            switch self {
-                            case let .json(body):
-                                return body
-                            }
-                        }
-                    }
-                }
-                /// Received HTTP response body
-                public var body: Operations.changeSendTime.Output.BadRequest.Body
-                /// Creates a new `BadRequest`.
-                ///
-                /// - Parameters:
-                ///   - body: Received HTTP response body
-                public init(body: Operations.changeSendTime.Output.BadRequest.Body) {
-                    self.body = body
-                }
-            }
-            /// 알림 발송 시간 변경 실패
-            ///
-            /// - Remark: Generated from `#/paths//api/v1/notifications/patch(changeSendTime)/responses/400`.
-            ///
-            /// HTTP response code: `400 badRequest`.
-            case badRequest(Operations.changeSendTime.Output.BadRequest)
-            /// The associated value of the enum case if `self` is `.badRequest`.
-            ///
-            /// - Throws: An error if `self` is not `.badRequest`.
-            /// - SeeAlso: `.badRequest`.
-            public var badRequest: Operations.changeSendTime.Output.BadRequest {
-                get throws {
-                    switch self {
-                    case let .badRequest(response):
-                        return response
-                    default:
-                        try throwUnexpectedResponseStatus(
-                            expectedStatus: "badRequest",
-                            response: self
-                        )
-                    }
-                }
-            }
-            /// Undocumented response.
-            ///
-            /// A response with a code that is not documented in the OpenAPI document.
-            case undocumented(statusCode: Swift.Int, OpenAPIRuntime.UndocumentedPayload)
-        }
-        @frozen public enum AcceptableContentType: AcceptableProtocol {
-            case json
-            case other(Swift.String)
-            public init?(rawValue: Swift.String) {
-                switch rawValue.lowercased() {
-                case "application/json":
-                    self = .json
-                default:
-                    self = .other(rawValue)
-                }
-            }
-            public var rawValue: Swift.String {
-                switch self {
-                case let .other(string):
-                    return string
-                case .json:
-                    return "application/json"
-                }
-            }
-            public static var allCases: [Self] {
-                [
-                    .json
-                ]
-            }
-        }
-    }
     /// [인증] 기기별 FCM Token 저장
     ///
     /// 기기별 FCM Token을 저장합니다.
@@ -6914,180 +6239,6 @@ public enum Operations {
             /// - Throws: An error if `self` is not `.badRequest`.
             /// - SeeAlso: `.badRequest`.
             public var badRequest: Operations.deleteFcmToken.Output.BadRequest {
-                get throws {
-                    switch self {
-                    case let .badRequest(response):
-                        return response
-                    default:
-                        try throwUnexpectedResponseStatus(
-                            expectedStatus: "badRequest",
-                            response: self
-                        )
-                    }
-                }
-            }
-            /// Undocumented response.
-            ///
-            /// A response with a code that is not documented in the OpenAPI document.
-            case undocumented(statusCode: Swift.Int, OpenAPIRuntime.UndocumentedPayload)
-        }
-        @frozen public enum AcceptableContentType: AcceptableProtocol {
-            case json
-            case other(Swift.String)
-            public init?(rawValue: Swift.String) {
-                switch rawValue.lowercased() {
-                case "application/json":
-                    self = .json
-                default:
-                    self = .other(rawValue)
-                }
-            }
-            public var rawValue: Swift.String {
-                switch self {
-                case let .other(string):
-                    return string
-                case .json:
-                    return "application/json"
-                }
-            }
-            public static var allCases: [Self] {
-                [
-                    .json
-                ]
-            }
-        }
-    }
-    /// [인증] 조직 단위 알림 대량 발송
-    ///
-    /// 조직 내 모든 사용자에게 전체 발송되는 알림을 등록합니다.
-    ///
-    /// - Remark: HTTP `POST /api/v1/notifications/bulk`.
-    /// - Remark: Generated from `#/paths//api/v1/notifications/bulk/post(createAll)`.
-    public enum createAll {
-        public static let id: Swift.String = "createAll"
-        public struct Input: Sendable, Hashable {
-            /// - Remark: Generated from `#/paths/api/v1/notifications/bulk/POST/header`.
-            public struct Headers: Sendable, Hashable {
-                public var accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.createAll.AcceptableContentType>]
-                /// Creates a new `Headers`.
-                ///
-                /// - Parameters:
-                ///   - accept:
-                public init(accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.createAll.AcceptableContentType>] = .defaultValues()) {
-                    self.accept = accept
-                }
-            }
-            public var headers: Operations.createAll.Input.Headers
-            /// - Remark: Generated from `#/paths/api/v1/notifications/bulk/POST/requestBody`.
-            @frozen public enum Body: Sendable, Hashable {
-                /// - Remark: Generated from `#/paths/api/v1/notifications/bulk/POST/requestBody/content/application\/json`.
-                case json(Components.Schemas.NotificationBulkRequest)
-            }
-            public var body: Operations.createAll.Input.Body
-            /// Creates a new `Input`.
-            ///
-            /// - Parameters:
-            ///   - headers:
-            ///   - body:
-            public init(
-                headers: Operations.createAll.Input.Headers = .init(),
-                body: Operations.createAll.Input.Body
-            ) {
-                self.headers = headers
-                self.body = body
-            }
-        }
-        @frozen public enum Output: Sendable, Hashable {
-            public struct Ok: Sendable, Hashable {
-                /// - Remark: Generated from `#/paths/api/v1/notifications/bulk/POST/responses/200/content`.
-                @frozen public enum Body: Sendable, Hashable {
-                    /// - Remark: Generated from `#/paths/api/v1/notifications/bulk/POST/responses/200/content/application\/json`.
-                    case json(Components.Schemas.NofficeResponseVoid)
-                    /// The associated value of the enum case if `self` is `.json`.
-                    ///
-                    /// - Throws: An error if `self` is not `.json`.
-                    /// - SeeAlso: `.json`.
-                    public var json: Components.Schemas.NofficeResponseVoid {
-                        get throws {
-                            switch self {
-                            case let .json(body):
-                                return body
-                            }
-                        }
-                    }
-                }
-                /// Received HTTP response body
-                public var body: Operations.createAll.Output.Ok.Body
-                /// Creates a new `Ok`.
-                ///
-                /// - Parameters:
-                ///   - body: Received HTTP response body
-                public init(body: Operations.createAll.Output.Ok.Body) {
-                    self.body = body
-                }
-            }
-            /// 조직 전체 알림 대량 등록 성공
-            ///
-            /// - Remark: Generated from `#/paths//api/v1/notifications/bulk/post(createAll)/responses/200`.
-            ///
-            /// HTTP response code: `200 ok`.
-            case ok(Operations.createAll.Output.Ok)
-            /// The associated value of the enum case if `self` is `.ok`.
-            ///
-            /// - Throws: An error if `self` is not `.ok`.
-            /// - SeeAlso: `.ok`.
-            public var ok: Operations.createAll.Output.Ok {
-                get throws {
-                    switch self {
-                    case let .ok(response):
-                        return response
-                    default:
-                        try throwUnexpectedResponseStatus(
-                            expectedStatus: "ok",
-                            response: self
-                        )
-                    }
-                }
-            }
-            public struct BadRequest: Sendable, Hashable {
-                /// - Remark: Generated from `#/paths/api/v1/notifications/bulk/POST/responses/400/content`.
-                @frozen public enum Body: Sendable, Hashable {
-                    /// - Remark: Generated from `#/paths/api/v1/notifications/bulk/POST/responses/400/content/application\/json`.
-                    case json(Components.Schemas.NofficeResponseVoid)
-                    /// The associated value of the enum case if `self` is `.json`.
-                    ///
-                    /// - Throws: An error if `self` is not `.json`.
-                    /// - SeeAlso: `.json`.
-                    public var json: Components.Schemas.NofficeResponseVoid {
-                        get throws {
-                            switch self {
-                            case let .json(body):
-                                return body
-                            }
-                        }
-                    }
-                }
-                /// Received HTTP response body
-                public var body: Operations.createAll.Output.BadRequest.Body
-                /// Creates a new `BadRequest`.
-                ///
-                /// - Parameters:
-                ///   - body: Received HTTP response body
-                public init(body: Operations.createAll.Output.BadRequest.Body) {
-                    self.body = body
-                }
-            }
-            /// 조직 전체 알림 대량 등록 실패
-            ///
-            /// - Remark: Generated from `#/paths//api/v1/notifications/bulk/post(createAll)/responses/400`.
-            ///
-            /// HTTP response code: `400 badRequest`.
-            case badRequest(Operations.createAll.Output.BadRequest)
-            /// The associated value of the enum case if `self` is `.badRequest`.
-            ///
-            /// - Throws: An error if `self` is not `.badRequest`.
-            /// - SeeAlso: `.badRequest`.
-            public var badRequest: Operations.createAll.Output.BadRequest {
                 get throws {
                     switch self {
                     case let .badRequest(response):
@@ -7756,7 +6907,7 @@ public enum Operations {
                 /// - Remark: Generated from `#/paths/api/v1/image/GET/query/fileName`.
                 public var fileName: Swift.String
                 /// - Remark: Generated from `#/paths/api/v1/image/GET/query/imagePurpose`.
-                @frozen public enum imagePurposePayload: String, Codable, Hashable, Sendable {
+                @frozen public enum imagePurposePayload: String, Codable, Hashable, Sendable, CaseIterable {
                     case ORGANIZATION_LOGO = "ORGANIZATION_LOGO"
                     case MEMBER_PROFILE = "MEMBER_PROFILE"
                     case ANNOUNCEMENT_PROFILE = "ANNOUNCEMENT_PROFILE"
@@ -7952,36 +7103,36 @@ public enum Operations {
     /// 노티를 생성합니다.
     ///
     /// - Remark: HTTP `POST /api/v1/announcement`.
-    /// - Remark: Generated from `#/paths//api/v1/announcement/post(create_2)`.
-    public enum create_2 {
-        public static let id: Swift.String = "create_2"
+    /// - Remark: Generated from `#/paths//api/v1/announcement/post(create_1)`.
+    public enum create_1 {
+        public static let id: Swift.String = "create_1"
         public struct Input: Sendable, Hashable {
             /// - Remark: Generated from `#/paths/api/v1/announcement/POST/header`.
             public struct Headers: Sendable, Hashable {
-                public var accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.create_2.AcceptableContentType>]
+                public var accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.create_1.AcceptableContentType>]
                 /// Creates a new `Headers`.
                 ///
                 /// - Parameters:
                 ///   - accept:
-                public init(accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.create_2.AcceptableContentType>] = .defaultValues()) {
+                public init(accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.create_1.AcceptableContentType>] = .defaultValues()) {
                     self.accept = accept
                 }
             }
-            public var headers: Operations.create_2.Input.Headers
+            public var headers: Operations.create_1.Input.Headers
             /// - Remark: Generated from `#/paths/api/v1/announcement/POST/requestBody`.
             @frozen public enum Body: Sendable, Hashable {
                 /// - Remark: Generated from `#/paths/api/v1/announcement/POST/requestBody/content/application\/json`.
                 case json(Components.Schemas.AnnouncementCreateRequest)
             }
-            public var body: Operations.create_2.Input.Body
+            public var body: Operations.create_1.Input.Body
             /// Creates a new `Input`.
             ///
             /// - Parameters:
             ///   - headers:
             ///   - body:
             public init(
-                headers: Operations.create_2.Input.Headers = .init(),
-                body: Operations.create_2.Input.Body
+                headers: Operations.create_1.Input.Headers = .init(),
+                body: Operations.create_1.Input.Body
             ) {
                 self.headers = headers
                 self.body = body
@@ -8007,26 +7158,26 @@ public enum Operations {
                     }
                 }
                 /// Received HTTP response body
-                public var body: Operations.create_2.Output.Created.Body
+                public var body: Operations.create_1.Output.Created.Body
                 /// Creates a new `Created`.
                 ///
                 /// - Parameters:
                 ///   - body: Received HTTP response body
-                public init(body: Operations.create_2.Output.Created.Body) {
+                public init(body: Operations.create_1.Output.Created.Body) {
                     self.body = body
                 }
             }
             /// 노티 생성 성공
             ///
-            /// - Remark: Generated from `#/paths//api/v1/announcement/post(create_2)/responses/201`.
+            /// - Remark: Generated from `#/paths//api/v1/announcement/post(create_1)/responses/201`.
             ///
             /// HTTP response code: `201 created`.
-            case created(Operations.create_2.Output.Created)
+            case created(Operations.create_1.Output.Created)
             /// The associated value of the enum case if `self` is `.created`.
             ///
             /// - Throws: An error if `self` is not `.created`.
             /// - SeeAlso: `.created`.
-            public var created: Operations.create_2.Output.Created {
+            public var created: Operations.create_1.Output.Created {
                 get throws {
                     switch self {
                     case let .created(response):
@@ -8058,26 +7209,26 @@ public enum Operations {
                     }
                 }
                 /// Received HTTP response body
-                public var body: Operations.create_2.Output.BadRequest.Body
+                public var body: Operations.create_1.Output.BadRequest.Body
                 /// Creates a new `BadRequest`.
                 ///
                 /// - Parameters:
                 ///   - body: Received HTTP response body
-                public init(body: Operations.create_2.Output.BadRequest.Body) {
+                public init(body: Operations.create_1.Output.BadRequest.Body) {
                     self.body = body
                 }
             }
             /// 노티 생성 실패
             ///
-            /// - Remark: Generated from `#/paths//api/v1/announcement/post(create_2)/responses/400`.
+            /// - Remark: Generated from `#/paths//api/v1/announcement/post(create_1)/responses/400`.
             ///
             /// HTTP response code: `400 badRequest`.
-            case badRequest(Operations.create_2.Output.BadRequest)
+            case badRequest(Operations.create_1.Output.BadRequest)
             /// The associated value of the enum case if `self` is `.badRequest`.
             ///
             /// - Throws: An error if `self` is not `.badRequest`.
             /// - SeeAlso: `.badRequest`.
-            public var badRequest: Operations.create_2.Output.BadRequest {
+            public var badRequest: Operations.create_1.Output.BadRequest {
                 get throws {
                     switch self {
                     case let .badRequest(response):
@@ -8109,26 +7260,26 @@ public enum Operations {
                     }
                 }
                 /// Received HTTP response body
-                public var body: Operations.create_2.Output.InternalServerError.Body
+                public var body: Operations.create_1.Output.InternalServerError.Body
                 /// Creates a new `InternalServerError`.
                 ///
                 /// - Parameters:
                 ///   - body: Received HTTP response body
-                public init(body: Operations.create_2.Output.InternalServerError.Body) {
+                public init(body: Operations.create_1.Output.InternalServerError.Body) {
                     self.body = body
                 }
             }
             /// 서버 내부 에러 발생
             ///
-            /// - Remark: Generated from `#/paths//api/v1/announcement/post(create_2)/responses/500`.
+            /// - Remark: Generated from `#/paths//api/v1/announcement/post(create_1)/responses/500`.
             ///
             /// HTTP response code: `500 internalServerError`.
-            case internalServerError(Operations.create_2.Output.InternalServerError)
+            case internalServerError(Operations.create_1.Output.InternalServerError)
             /// The associated value of the enum case if `self` is `.internalServerError`.
             ///
             /// - Throws: An error if `self` is not `.internalServerError`.
             /// - SeeAlso: `.internalServerError`.
-            public var internalServerError: Operations.create_2.Output.InternalServerError {
+            public var internalServerError: Operations.create_1.Output.InternalServerError {
                 get throws {
                     switch self {
                     case let .internalServerError(response):
@@ -8854,9 +8005,9 @@ public enum Operations {
     /// 노티를 삭제합니다.
     ///
     /// - Remark: HTTP `DELETE /api/v1/announcement/{announcementId}`.
-    /// - Remark: Generated from `#/paths//api/v1/announcement/{announcementId}/delete(delete_1)`.
-    public enum delete_1 {
-        public static let id: Swift.String = "delete_1"
+    /// - Remark: Generated from `#/paths//api/v1/announcement/{announcementId}/delete(delete)`.
+    public enum delete {
+        public static let id: Swift.String = "delete"
         public struct Input: Sendable, Hashable {
             /// - Remark: Generated from `#/paths/api/v1/announcement/{announcementId}/DELETE/path`.
             public struct Path: Sendable, Hashable {
@@ -8870,27 +8021,27 @@ public enum Operations {
                     self.announcementId = announcementId
                 }
             }
-            public var path: Operations.delete_1.Input.Path
+            public var path: Operations.delete.Input.Path
             /// - Remark: Generated from `#/paths/api/v1/announcement/{announcementId}/DELETE/header`.
             public struct Headers: Sendable, Hashable {
-                public var accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.delete_1.AcceptableContentType>]
+                public var accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.delete.AcceptableContentType>]
                 /// Creates a new `Headers`.
                 ///
                 /// - Parameters:
                 ///   - accept:
-                public init(accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.delete_1.AcceptableContentType>] = .defaultValues()) {
+                public init(accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.delete.AcceptableContentType>] = .defaultValues()) {
                     self.accept = accept
                 }
             }
-            public var headers: Operations.delete_1.Input.Headers
+            public var headers: Operations.delete.Input.Headers
             /// Creates a new `Input`.
             ///
             /// - Parameters:
             ///   - path:
             ///   - headers:
             public init(
-                path: Operations.delete_1.Input.Path,
-                headers: Operations.delete_1.Input.Headers = .init()
+                path: Operations.delete.Input.Path,
+                headers: Operations.delete.Input.Headers = .init()
             ) {
                 self.path = path
                 self.headers = headers
@@ -8916,26 +8067,26 @@ public enum Operations {
                     }
                 }
                 /// Received HTTP response body
-                public var body: Operations.delete_1.Output.NoContent.Body
+                public var body: Operations.delete.Output.NoContent.Body
                 /// Creates a new `NoContent`.
                 ///
                 /// - Parameters:
                 ///   - body: Received HTTP response body
-                public init(body: Operations.delete_1.Output.NoContent.Body) {
+                public init(body: Operations.delete.Output.NoContent.Body) {
                     self.body = body
                 }
             }
             /// 노티 삭제 성공
             ///
-            /// - Remark: Generated from `#/paths//api/v1/announcement/{announcementId}/delete(delete_1)/responses/204`.
+            /// - Remark: Generated from `#/paths//api/v1/announcement/{announcementId}/delete(delete)/responses/204`.
             ///
             /// HTTP response code: `204 noContent`.
-            case noContent(Operations.delete_1.Output.NoContent)
+            case noContent(Operations.delete.Output.NoContent)
             /// The associated value of the enum case if `self` is `.noContent`.
             ///
             /// - Throws: An error if `self` is not `.noContent`.
             /// - SeeAlso: `.noContent`.
-            public var noContent: Operations.delete_1.Output.NoContent {
+            public var noContent: Operations.delete.Output.NoContent {
                 get throws {
                     switch self {
                     case let .noContent(response):
@@ -8967,26 +8118,26 @@ public enum Operations {
                     }
                 }
                 /// Received HTTP response body
-                public var body: Operations.delete_1.Output.BadRequest.Body
+                public var body: Operations.delete.Output.BadRequest.Body
                 /// Creates a new `BadRequest`.
                 ///
                 /// - Parameters:
                 ///   - body: Received HTTP response body
-                public init(body: Operations.delete_1.Output.BadRequest.Body) {
+                public init(body: Operations.delete.Output.BadRequest.Body) {
                     self.body = body
                 }
             }
             /// 노티 삭제에 실패하였습니다.
             ///
-            /// - Remark: Generated from `#/paths//api/v1/announcement/{announcementId}/delete(delete_1)/responses/400`.
+            /// - Remark: Generated from `#/paths//api/v1/announcement/{announcementId}/delete(delete)/responses/400`.
             ///
             /// HTTP response code: `400 badRequest`.
-            case badRequest(Operations.delete_1.Output.BadRequest)
+            case badRequest(Operations.delete.Output.BadRequest)
             /// The associated value of the enum case if `self` is `.badRequest`.
             ///
             /// - Throws: An error if `self` is not `.badRequest`.
             /// - SeeAlso: `.badRequest`.
-            public var badRequest: Operations.delete_1.Output.BadRequest {
+            public var badRequest: Operations.delete.Output.BadRequest {
                 get throws {
                     switch self {
                     case let .badRequest(response):
@@ -9018,26 +8169,26 @@ public enum Operations {
                     }
                 }
                 /// Received HTTP response body
-                public var body: Operations.delete_1.Output.Forbidden.Body
+                public var body: Operations.delete.Output.Forbidden.Body
                 /// Creates a new `Forbidden`.
                 ///
                 /// - Parameters:
                 ///   - body: Received HTTP response body
-                public init(body: Operations.delete_1.Output.Forbidden.Body) {
+                public init(body: Operations.delete.Output.Forbidden.Body) {
                     self.body = body
                 }
             }
             /// 요청을 수행할 수 있는 권한이 없습니다.
             ///
-            /// - Remark: Generated from `#/paths//api/v1/announcement/{announcementId}/delete(delete_1)/responses/403`.
+            /// - Remark: Generated from `#/paths//api/v1/announcement/{announcementId}/delete(delete)/responses/403`.
             ///
             /// HTTP response code: `403 forbidden`.
-            case forbidden(Operations.delete_1.Output.Forbidden)
+            case forbidden(Operations.delete.Output.Forbidden)
             /// The associated value of the enum case if `self` is `.forbidden`.
             ///
             /// - Throws: An error if `self` is not `.forbidden`.
             /// - SeeAlso: `.forbidden`.
-            public var forbidden: Operations.delete_1.Output.Forbidden {
+            public var forbidden: Operations.delete.Output.Forbidden {
                 get throws {
                     switch self {
                     case let .forbidden(response):
@@ -9069,360 +8220,26 @@ public enum Operations {
                     }
                 }
                 /// Received HTTP response body
-                public var body: Operations.delete_1.Output.InternalServerError.Body
+                public var body: Operations.delete.Output.InternalServerError.Body
                 /// Creates a new `InternalServerError`.
                 ///
                 /// - Parameters:
                 ///   - body: Received HTTP response body
-                public init(body: Operations.delete_1.Output.InternalServerError.Body) {
+                public init(body: Operations.delete.Output.InternalServerError.Body) {
                     self.body = body
                 }
             }
             /// 서버 내부 에러 발생
             ///
-            /// - Remark: Generated from `#/paths//api/v1/announcement/{announcementId}/delete(delete_1)/responses/500`.
+            /// - Remark: Generated from `#/paths//api/v1/announcement/{announcementId}/delete(delete)/responses/500`.
             ///
             /// HTTP response code: `500 internalServerError`.
-            case internalServerError(Operations.delete_1.Output.InternalServerError)
+            case internalServerError(Operations.delete.Output.InternalServerError)
             /// The associated value of the enum case if `self` is `.internalServerError`.
             ///
             /// - Throws: An error if `self` is not `.internalServerError`.
             /// - SeeAlso: `.internalServerError`.
-            public var internalServerError: Operations.delete_1.Output.InternalServerError {
-                get throws {
-                    switch self {
-                    case let .internalServerError(response):
-                        return response
-                    default:
-                        try throwUnexpectedResponseStatus(
-                            expectedStatus: "internalServerError",
-                            response: self
-                        )
-                    }
-                }
-            }
-            /// Undocumented response.
-            ///
-            /// A response with a code that is not documented in the OpenAPI document.
-            case undocumented(statusCode: Swift.Int, OpenAPIRuntime.UndocumentedPayload)
-        }
-        @frozen public enum AcceptableContentType: AcceptableProtocol {
-            case json
-            case other(Swift.String)
-            public init?(rawValue: Swift.String) {
-                switch rawValue.lowercased() {
-                case "application/json":
-                    self = .json
-                default:
-                    self = .other(rawValue)
-                }
-            }
-            public var rawValue: Swift.String {
-                switch self {
-                case let .other(string):
-                    return string
-                case .json:
-                    return "application/json"
-                }
-            }
-            public static var allCases: [Self] {
-                [
-                    .json
-                ]
-            }
-        }
-    }
-    /// [인증] 노티 미열람자 대상 FCM 알림
-    ///
-    /// 노티 미열람자 대상으로 알림을 전송합니다.
-    ///
-    /// - Remark: HTTP `POST /api/v1/announcement/{announcementId}/remind-unread`.
-    /// - Remark: Generated from `#/paths//api/v1/announcement/{announcementId}/remind-unread/post(sendToUnReader)`.
-    public enum sendToUnReader {
-        public static let id: Swift.String = "sendToUnReader"
-        public struct Input: Sendable, Hashable {
-            /// - Remark: Generated from `#/paths/api/v1/announcement/{announcementId}/remind-unread/POST/path`.
-            public struct Path: Sendable, Hashable {
-                /// - Remark: Generated from `#/paths/api/v1/announcement/{announcementId}/remind-unread/POST/path/announcementId`.
-                public var announcementId: Swift.Int64
-                /// Creates a new `Path`.
-                ///
-                /// - Parameters:
-                ///   - announcementId:
-                public init(announcementId: Swift.Int64) {
-                    self.announcementId = announcementId
-                }
-            }
-            public var path: Operations.sendToUnReader.Input.Path
-            /// - Remark: Generated from `#/paths/api/v1/announcement/{announcementId}/remind-unread/POST/header`.
-            public struct Headers: Sendable, Hashable {
-                public var accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.sendToUnReader.AcceptableContentType>]
-                /// Creates a new `Headers`.
-                ///
-                /// - Parameters:
-                ///   - accept:
-                public init(accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.sendToUnReader.AcceptableContentType>] = .defaultValues()) {
-                    self.accept = accept
-                }
-            }
-            public var headers: Operations.sendToUnReader.Input.Headers
-            /// Creates a new `Input`.
-            ///
-            /// - Parameters:
-            ///   - path:
-            ///   - headers:
-            public init(
-                path: Operations.sendToUnReader.Input.Path,
-                headers: Operations.sendToUnReader.Input.Headers = .init()
-            ) {
-                self.path = path
-                self.headers = headers
-            }
-        }
-        @frozen public enum Output: Sendable, Hashable {
-            public struct Ok: Sendable, Hashable {
-                /// - Remark: Generated from `#/paths/api/v1/announcement/{announcementId}/remind-unread/POST/responses/200/content`.
-                @frozen public enum Body: Sendable, Hashable {
-                    /// - Remark: Generated from `#/paths/api/v1/announcement/{announcementId}/remind-unread/POST/responses/200/content/application\/json`.
-                    case json(Components.Schemas.NofficeResponseFCMCreateResponse)
-                    /// The associated value of the enum case if `self` is `.json`.
-                    ///
-                    /// - Throws: An error if `self` is not `.json`.
-                    /// - SeeAlso: `.json`.
-                    public var json: Components.Schemas.NofficeResponseFCMCreateResponse {
-                        get throws {
-                            switch self {
-                            case let .json(body):
-                                return body
-                            }
-                        }
-                    }
-                }
-                /// Received HTTP response body
-                public var body: Operations.sendToUnReader.Output.Ok.Body
-                /// Creates a new `Ok`.
-                ///
-                /// - Parameters:
-                ///   - body: Received HTTP response body
-                public init(body: Operations.sendToUnReader.Output.Ok.Body) {
-                    self.body = body
-                }
-            }
-            /// 알림 전송 성공
-            ///
-            /// - Remark: Generated from `#/paths//api/v1/announcement/{announcementId}/remind-unread/post(sendToUnReader)/responses/200`.
-            ///
-            /// HTTP response code: `200 ok`.
-            case ok(Operations.sendToUnReader.Output.Ok)
-            /// The associated value of the enum case if `self` is `.ok`.
-            ///
-            /// - Throws: An error if `self` is not `.ok`.
-            /// - SeeAlso: `.ok`.
-            public var ok: Operations.sendToUnReader.Output.Ok {
-                get throws {
-                    switch self {
-                    case let .ok(response):
-                        return response
-                    default:
-                        try throwUnexpectedResponseStatus(
-                            expectedStatus: "ok",
-                            response: self
-                        )
-                    }
-                }
-            }
-            public struct BadRequest: Sendable, Hashable {
-                /// - Remark: Generated from `#/paths/api/v1/announcement/{announcementId}/remind-unread/POST/responses/400/content`.
-                @frozen public enum Body: Sendable, Hashable {
-                    /// - Remark: Generated from `#/paths/api/v1/announcement/{announcementId}/remind-unread/POST/responses/400/content/application\/json`.
-                    case json(Components.Schemas.NofficeResponse)
-                    /// The associated value of the enum case if `self` is `.json`.
-                    ///
-                    /// - Throws: An error if `self` is not `.json`.
-                    /// - SeeAlso: `.json`.
-                    public var json: Components.Schemas.NofficeResponse {
-                        get throws {
-                            switch self {
-                            case let .json(body):
-                                return body
-                            }
-                        }
-                    }
-                }
-                /// Received HTTP response body
-                public var body: Operations.sendToUnReader.Output.BadRequest.Body
-                /// Creates a new `BadRequest`.
-                ///
-                /// - Parameters:
-                ///   - body: Received HTTP response body
-                public init(body: Operations.sendToUnReader.Output.BadRequest.Body) {
-                    self.body = body
-                }
-            }
-            /// 알림 전송에 실패하였습니다.
-            ///
-            /// - Remark: Generated from `#/paths//api/v1/announcement/{announcementId}/remind-unread/post(sendToUnReader)/responses/400`.
-            ///
-            /// HTTP response code: `400 badRequest`.
-            case badRequest(Operations.sendToUnReader.Output.BadRequest)
-            /// The associated value of the enum case if `self` is `.badRequest`.
-            ///
-            /// - Throws: An error if `self` is not `.badRequest`.
-            /// - SeeAlso: `.badRequest`.
-            public var badRequest: Operations.sendToUnReader.Output.BadRequest {
-                get throws {
-                    switch self {
-                    case let .badRequest(response):
-                        return response
-                    default:
-                        try throwUnexpectedResponseStatus(
-                            expectedStatus: "badRequest",
-                            response: self
-                        )
-                    }
-                }
-            }
-            public struct Unauthorized: Sendable, Hashable {
-                /// - Remark: Generated from `#/paths/api/v1/announcement/{announcementId}/remind-unread/POST/responses/401/content`.
-                @frozen public enum Body: Sendable, Hashable {
-                    /// - Remark: Generated from `#/paths/api/v1/announcement/{announcementId}/remind-unread/POST/responses/401/content/application\/json`.
-                    case json(Components.Schemas.NofficeResponse)
-                    /// The associated value of the enum case if `self` is `.json`.
-                    ///
-                    /// - Throws: An error if `self` is not `.json`.
-                    /// - SeeAlso: `.json`.
-                    public var json: Components.Schemas.NofficeResponse {
-                        get throws {
-                            switch self {
-                            case let .json(body):
-                                return body
-                            }
-                        }
-                    }
-                }
-                /// Received HTTP response body
-                public var body: Operations.sendToUnReader.Output.Unauthorized.Body
-                /// Creates a new `Unauthorized`.
-                ///
-                /// - Parameters:
-                ///   - body: Received HTTP response body
-                public init(body: Operations.sendToUnReader.Output.Unauthorized.Body) {
-                    self.body = body
-                }
-            }
-            /// 인증되지 않은 사용자입니다. 토큰을 확인해주세요.
-            ///
-            /// - Remark: Generated from `#/paths//api/v1/announcement/{announcementId}/remind-unread/post(sendToUnReader)/responses/401`.
-            ///
-            /// HTTP response code: `401 unauthorized`.
-            case unauthorized(Operations.sendToUnReader.Output.Unauthorized)
-            /// The associated value of the enum case if `self` is `.unauthorized`.
-            ///
-            /// - Throws: An error if `self` is not `.unauthorized`.
-            /// - SeeAlso: `.unauthorized`.
-            public var unauthorized: Operations.sendToUnReader.Output.Unauthorized {
-                get throws {
-                    switch self {
-                    case let .unauthorized(response):
-                        return response
-                    default:
-                        try throwUnexpectedResponseStatus(
-                            expectedStatus: "unauthorized",
-                            response: self
-                        )
-                    }
-                }
-            }
-            public struct Forbidden: Sendable, Hashable {
-                /// - Remark: Generated from `#/paths/api/v1/announcement/{announcementId}/remind-unread/POST/responses/403/content`.
-                @frozen public enum Body: Sendable, Hashable {
-                    /// - Remark: Generated from `#/paths/api/v1/announcement/{announcementId}/remind-unread/POST/responses/403/content/application\/json`.
-                    case json(Components.Schemas.NofficeResponse)
-                    /// The associated value of the enum case if `self` is `.json`.
-                    ///
-                    /// - Throws: An error if `self` is not `.json`.
-                    /// - SeeAlso: `.json`.
-                    public var json: Components.Schemas.NofficeResponse {
-                        get throws {
-                            switch self {
-                            case let .json(body):
-                                return body
-                            }
-                        }
-                    }
-                }
-                /// Received HTTP response body
-                public var body: Operations.sendToUnReader.Output.Forbidden.Body
-                /// Creates a new `Forbidden`.
-                ///
-                /// - Parameters:
-                ///   - body: Received HTTP response body
-                public init(body: Operations.sendToUnReader.Output.Forbidden.Body) {
-                    self.body = body
-                }
-            }
-            /// 요청을 수행할 수 있는 권한이 없습니다.
-            ///
-            /// - Remark: Generated from `#/paths//api/v1/announcement/{announcementId}/remind-unread/post(sendToUnReader)/responses/403`.
-            ///
-            /// HTTP response code: `403 forbidden`.
-            case forbidden(Operations.sendToUnReader.Output.Forbidden)
-            /// The associated value of the enum case if `self` is `.forbidden`.
-            ///
-            /// - Throws: An error if `self` is not `.forbidden`.
-            /// - SeeAlso: `.forbidden`.
-            public var forbidden: Operations.sendToUnReader.Output.Forbidden {
-                get throws {
-                    switch self {
-                    case let .forbidden(response):
-                        return response
-                    default:
-                        try throwUnexpectedResponseStatus(
-                            expectedStatus: "forbidden",
-                            response: self
-                        )
-                    }
-                }
-            }
-            public struct InternalServerError: Sendable, Hashable {
-                /// - Remark: Generated from `#/paths/api/v1/announcement/{announcementId}/remind-unread/POST/responses/500/content`.
-                @frozen public enum Body: Sendable, Hashable {
-                    /// - Remark: Generated from `#/paths/api/v1/announcement/{announcementId}/remind-unread/POST/responses/500/content/application\/json`.
-                    case json(Components.Schemas.NofficeResponse)
-                    /// The associated value of the enum case if `self` is `.json`.
-                    ///
-                    /// - Throws: An error if `self` is not `.json`.
-                    /// - SeeAlso: `.json`.
-                    public var json: Components.Schemas.NofficeResponse {
-                        get throws {
-                            switch self {
-                            case let .json(body):
-                                return body
-                            }
-                        }
-                    }
-                }
-                /// Received HTTP response body
-                public var body: Operations.sendToUnReader.Output.InternalServerError.Body
-                /// Creates a new `InternalServerError`.
-                ///
-                /// - Parameters:
-                ///   - body: Received HTTP response body
-                public init(body: Operations.sendToUnReader.Output.InternalServerError.Body) {
-                    self.body = body
-                }
-            }
-            /// 서버 내부 에러 발생
-            ///
-            /// - Remark: Generated from `#/paths//api/v1/announcement/{announcementId}/remind-unread/post(sendToUnReader)/responses/500`.
-            ///
-            /// HTTP response code: `500 internalServerError`.
-            case internalServerError(Operations.sendToUnReader.Output.InternalServerError)
-            /// The associated value of the enum case if `self` is `.internalServerError`.
-            ///
-            /// - Throws: An error if `self` is not `.internalServerError`.
-            /// - SeeAlso: `.internalServerError`.
-            public var internalServerError: Operations.sendToUnReader.Output.InternalServerError {
+            public var internalServerError: Operations.delete.Output.InternalServerError {
                 get throws {
                     switch self {
                     case let .internalServerError(response):
@@ -11646,6 +10463,282 @@ public enum Operations {
             }
         }
     }
+    /// [인증] 회원 이름 변경
+    ///
+    /// 회원의 이름을 변경합니다.
+    ///
+    /// - Remark: HTTP `PATCH /api/v1/member/name`.
+    /// - Remark: Generated from `#/paths//api/v1/member/name/patch(updateName)`.
+    public enum updateName {
+        public static let id: Swift.String = "updateName"
+        public struct Input: Sendable, Hashable {
+            /// - Remark: Generated from `#/paths/api/v1/member/name/PATCH/header`.
+            public struct Headers: Sendable, Hashable {
+                public var accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.updateName.AcceptableContentType>]
+                /// Creates a new `Headers`.
+                ///
+                /// - Parameters:
+                ///   - accept:
+                public init(accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.updateName.AcceptableContentType>] = .defaultValues()) {
+                    self.accept = accept
+                }
+            }
+            public var headers: Operations.updateName.Input.Headers
+            /// - Remark: Generated from `#/paths/api/v1/member/name/PATCH/requestBody`.
+            @frozen public enum Body: Sendable, Hashable {
+                /// - Remark: Generated from `#/paths/api/v1/member/name/PATCH/requestBody/content/application\/json`.
+                case json(Components.Schemas.MemberNameUpdateRequest)
+            }
+            public var body: Operations.updateName.Input.Body
+            /// Creates a new `Input`.
+            ///
+            /// - Parameters:
+            ///   - headers:
+            ///   - body:
+            public init(
+                headers: Operations.updateName.Input.Headers = .init(),
+                body: Operations.updateName.Input.Body
+            ) {
+                self.headers = headers
+                self.body = body
+            }
+        }
+        @frozen public enum Output: Sendable, Hashable {
+            public struct NoContent: Sendable, Hashable {
+                /// - Remark: Generated from `#/paths/api/v1/member/name/PATCH/responses/204/content`.
+                @frozen public enum Body: Sendable, Hashable {
+                    /// - Remark: Generated from `#/paths/api/v1/member/name/PATCH/responses/204/content/application\/json`.
+                    case json(Components.Schemas.NofficeResponseVoid)
+                    /// The associated value of the enum case if `self` is `.json`.
+                    ///
+                    /// - Throws: An error if `self` is not `.json`.
+                    /// - SeeAlso: `.json`.
+                    public var json: Components.Schemas.NofficeResponseVoid {
+                        get throws {
+                            switch self {
+                            case let .json(body):
+                                return body
+                            }
+                        }
+                    }
+                }
+                /// Received HTTP response body
+                public var body: Operations.updateName.Output.NoContent.Body
+                /// Creates a new `NoContent`.
+                ///
+                /// - Parameters:
+                ///   - body: Received HTTP response body
+                public init(body: Operations.updateName.Output.NoContent.Body) {
+                    self.body = body
+                }
+            }
+            /// 회원 이름 변경에 성공하였습니다.
+            ///
+            /// - Remark: Generated from `#/paths//api/v1/member/name/patch(updateName)/responses/204`.
+            ///
+            /// HTTP response code: `204 noContent`.
+            case noContent(Operations.updateName.Output.NoContent)
+            /// The associated value of the enum case if `self` is `.noContent`.
+            ///
+            /// - Throws: An error if `self` is not `.noContent`.
+            /// - SeeAlso: `.noContent`.
+            public var noContent: Operations.updateName.Output.NoContent {
+                get throws {
+                    switch self {
+                    case let .noContent(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "noContent",
+                            response: self
+                        )
+                    }
+                }
+            }
+            public struct Unauthorized: Sendable, Hashable {
+                /// - Remark: Generated from `#/paths/api/v1/member/name/PATCH/responses/401/content`.
+                @frozen public enum Body: Sendable, Hashable {
+                    /// - Remark: Generated from `#/paths/api/v1/member/name/PATCH/responses/401/content/application\/json`.
+                    case json(Components.Schemas.NofficeResponse)
+                    /// The associated value of the enum case if `self` is `.json`.
+                    ///
+                    /// - Throws: An error if `self` is not `.json`.
+                    /// - SeeAlso: `.json`.
+                    public var json: Components.Schemas.NofficeResponse {
+                        get throws {
+                            switch self {
+                            case let .json(body):
+                                return body
+                            }
+                        }
+                    }
+                }
+                /// Received HTTP response body
+                public var body: Operations.updateName.Output.Unauthorized.Body
+                /// Creates a new `Unauthorized`.
+                ///
+                /// - Parameters:
+                ///   - body: Received HTTP response body
+                public init(body: Operations.updateName.Output.Unauthorized.Body) {
+                    self.body = body
+                }
+            }
+            /// 인증되지 않은 사용자입니다. 토큰을 확인해주세요.
+            ///
+            /// - Remark: Generated from `#/paths//api/v1/member/name/patch(updateName)/responses/401`.
+            ///
+            /// HTTP response code: `401 unauthorized`.
+            case unauthorized(Operations.updateName.Output.Unauthorized)
+            /// The associated value of the enum case if `self` is `.unauthorized`.
+            ///
+            /// - Throws: An error if `self` is not `.unauthorized`.
+            /// - SeeAlso: `.unauthorized`.
+            public var unauthorized: Operations.updateName.Output.Unauthorized {
+                get throws {
+                    switch self {
+                    case let .unauthorized(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "unauthorized",
+                            response: self
+                        )
+                    }
+                }
+            }
+            public struct Forbidden: Sendable, Hashable {
+                /// - Remark: Generated from `#/paths/api/v1/member/name/PATCH/responses/403/content`.
+                @frozen public enum Body: Sendable, Hashable {
+                    /// - Remark: Generated from `#/paths/api/v1/member/name/PATCH/responses/403/content/application\/json`.
+                    case json(Components.Schemas.NofficeResponse)
+                    /// The associated value of the enum case if `self` is `.json`.
+                    ///
+                    /// - Throws: An error if `self` is not `.json`.
+                    /// - SeeAlso: `.json`.
+                    public var json: Components.Schemas.NofficeResponse {
+                        get throws {
+                            switch self {
+                            case let .json(body):
+                                return body
+                            }
+                        }
+                    }
+                }
+                /// Received HTTP response body
+                public var body: Operations.updateName.Output.Forbidden.Body
+                /// Creates a new `Forbidden`.
+                ///
+                /// - Parameters:
+                ///   - body: Received HTTP response body
+                public init(body: Operations.updateName.Output.Forbidden.Body) {
+                    self.body = body
+                }
+            }
+            /// 요청을 수행할 수 있는 권한이 없습니다.
+            ///
+            /// - Remark: Generated from `#/paths//api/v1/member/name/patch(updateName)/responses/403`.
+            ///
+            /// HTTP response code: `403 forbidden`.
+            case forbidden(Operations.updateName.Output.Forbidden)
+            /// The associated value of the enum case if `self` is `.forbidden`.
+            ///
+            /// - Throws: An error if `self` is not `.forbidden`.
+            /// - SeeAlso: `.forbidden`.
+            public var forbidden: Operations.updateName.Output.Forbidden {
+                get throws {
+                    switch self {
+                    case let .forbidden(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "forbidden",
+                            response: self
+                        )
+                    }
+                }
+            }
+            public struct InternalServerError: Sendable, Hashable {
+                /// - Remark: Generated from `#/paths/api/v1/member/name/PATCH/responses/500/content`.
+                @frozen public enum Body: Sendable, Hashable {
+                    /// - Remark: Generated from `#/paths/api/v1/member/name/PATCH/responses/500/content/application\/json`.
+                    case json(Components.Schemas.NofficeResponse)
+                    /// The associated value of the enum case if `self` is `.json`.
+                    ///
+                    /// - Throws: An error if `self` is not `.json`.
+                    /// - SeeAlso: `.json`.
+                    public var json: Components.Schemas.NofficeResponse {
+                        get throws {
+                            switch self {
+                            case let .json(body):
+                                return body
+                            }
+                        }
+                    }
+                }
+                /// Received HTTP response body
+                public var body: Operations.updateName.Output.InternalServerError.Body
+                /// Creates a new `InternalServerError`.
+                ///
+                /// - Parameters:
+                ///   - body: Received HTTP response body
+                public init(body: Operations.updateName.Output.InternalServerError.Body) {
+                    self.body = body
+                }
+            }
+            /// 서버 내부 에러 발생
+            ///
+            /// - Remark: Generated from `#/paths//api/v1/member/name/patch(updateName)/responses/500`.
+            ///
+            /// HTTP response code: `500 internalServerError`.
+            case internalServerError(Operations.updateName.Output.InternalServerError)
+            /// The associated value of the enum case if `self` is `.internalServerError`.
+            ///
+            /// - Throws: An error if `self` is not `.internalServerError`.
+            /// - SeeAlso: `.internalServerError`.
+            public var internalServerError: Operations.updateName.Output.InternalServerError {
+                get throws {
+                    switch self {
+                    case let .internalServerError(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "internalServerError",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// Undocumented response.
+            ///
+            /// A response with a code that is not documented in the OpenAPI document.
+            case undocumented(statusCode: Swift.Int, OpenAPIRuntime.UndocumentedPayload)
+        }
+        @frozen public enum AcceptableContentType: AcceptableProtocol {
+            case json
+            case other(Swift.String)
+            public init?(rawValue: Swift.String) {
+                switch rawValue.lowercased() {
+                case "application/json":
+                    self = .json
+                default:
+                    self = .other(rawValue)
+                }
+            }
+            public var rawValue: Swift.String {
+                switch self {
+                case let .other(string):
+                    return string
+                case .json:
+                    return "application/json"
+                }
+            }
+            public static var allCases: [Self] {
+                [
+                    .json
+                ]
+            }
+        }
+    }
     /// [인증] 회원 별명 변경
     ///
     /// 회원의 별명을 변경합니다.
@@ -12280,187 +11373,6 @@ public enum Operations {
                     default:
                         try throwUnexpectedResponseStatus(
                             expectedStatus: "internalServerError",
-                            response: self
-                        )
-                    }
-                }
-            }
-            /// Undocumented response.
-            ///
-            /// A response with a code that is not documented in the OpenAPI document.
-            case undocumented(statusCode: Swift.Int, OpenAPIRuntime.UndocumentedPayload)
-        }
-        @frozen public enum AcceptableContentType: AcceptableProtocol {
-            case json
-            case other(Swift.String)
-            public init?(rawValue: Swift.String) {
-                switch rawValue.lowercased() {
-                case "application/json":
-                    self = .json
-                default:
-                    self = .other(rawValue)
-                }
-            }
-            public var rawValue: Swift.String {
-                switch self {
-                case let .other(string):
-                    return string
-                case .json:
-                    return "application/json"
-                }
-            }
-            public static var allCases: [Self] {
-                [
-                    .json
-                ]
-            }
-        }
-    }
-    /// 프로모션 코드 검증
-    ///
-    /// 프로모션 코드를 검증합니다.
-    ///
-    /// - Remark: HTTP `GET /api/v1/promotion/verify`.
-    /// - Remark: Generated from `#/paths//api/v1/promotion/verify/get(verifyPromotionCode)`.
-    public enum verifyPromotionCode {
-        public static let id: Swift.String = "verifyPromotionCode"
-        public struct Input: Sendable, Hashable {
-            /// - Remark: Generated from `#/paths/api/v1/promotion/verify/GET/query`.
-            public struct Query: Sendable, Hashable {
-                /// - Remark: Generated from `#/paths/api/v1/promotion/verify/GET/query/promotionCode`.
-                public var promotionCode: Swift.String
-                /// Creates a new `Query`.
-                ///
-                /// - Parameters:
-                ///   - promotionCode:
-                public init(promotionCode: Swift.String) {
-                    self.promotionCode = promotionCode
-                }
-            }
-            public var query: Operations.verifyPromotionCode.Input.Query
-            /// - Remark: Generated from `#/paths/api/v1/promotion/verify/GET/header`.
-            public struct Headers: Sendable, Hashable {
-                public var accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.verifyPromotionCode.AcceptableContentType>]
-                /// Creates a new `Headers`.
-                ///
-                /// - Parameters:
-                ///   - accept:
-                public init(accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.verifyPromotionCode.AcceptableContentType>] = .defaultValues()) {
-                    self.accept = accept
-                }
-            }
-            public var headers: Operations.verifyPromotionCode.Input.Headers
-            /// Creates a new `Input`.
-            ///
-            /// - Parameters:
-            ///   - query:
-            ///   - headers:
-            public init(
-                query: Operations.verifyPromotionCode.Input.Query,
-                headers: Operations.verifyPromotionCode.Input.Headers = .init()
-            ) {
-                self.query = query
-                self.headers = headers
-            }
-        }
-        @frozen public enum Output: Sendable, Hashable {
-            public struct Ok: Sendable, Hashable {
-                /// - Remark: Generated from `#/paths/api/v1/promotion/verify/GET/responses/200/content`.
-                @frozen public enum Body: Sendable, Hashable {
-                    /// - Remark: Generated from `#/paths/api/v1/promotion/verify/GET/responses/200/content/application\/json`.
-                    case json(Components.Schemas.NofficeResponsePromotionVerifyResponse)
-                    /// The associated value of the enum case if `self` is `.json`.
-                    ///
-                    /// - Throws: An error if `self` is not `.json`.
-                    /// - SeeAlso: `.json`.
-                    public var json: Components.Schemas.NofficeResponsePromotionVerifyResponse {
-                        get throws {
-                            switch self {
-                            case let .json(body):
-                                return body
-                            }
-                        }
-                    }
-                }
-                /// Received HTTP response body
-                public var body: Operations.verifyPromotionCode.Output.Ok.Body
-                /// Creates a new `Ok`.
-                ///
-                /// - Parameters:
-                ///   - body: Received HTTP response body
-                public init(body: Operations.verifyPromotionCode.Output.Ok.Body) {
-                    self.body = body
-                }
-            }
-            /// 프로모션 코드 검증 성공
-            ///
-            /// - Remark: Generated from `#/paths//api/v1/promotion/verify/get(verifyPromotionCode)/responses/200`.
-            ///
-            /// HTTP response code: `200 ok`.
-            case ok(Operations.verifyPromotionCode.Output.Ok)
-            /// The associated value of the enum case if `self` is `.ok`.
-            ///
-            /// - Throws: An error if `self` is not `.ok`.
-            /// - SeeAlso: `.ok`.
-            public var ok: Operations.verifyPromotionCode.Output.Ok {
-                get throws {
-                    switch self {
-                    case let .ok(response):
-                        return response
-                    default:
-                        try throwUnexpectedResponseStatus(
-                            expectedStatus: "ok",
-                            response: self
-                        )
-                    }
-                }
-            }
-            public struct NotFound: Sendable, Hashable {
-                /// - Remark: Generated from `#/paths/api/v1/promotion/verify/GET/responses/404/content`.
-                @frozen public enum Body: Sendable, Hashable {
-                    /// - Remark: Generated from `#/paths/api/v1/promotion/verify/GET/responses/404/content/application\/json`.
-                    case json(Components.Schemas.NofficeResponsePromotionVerifyResponse)
-                    /// The associated value of the enum case if `self` is `.json`.
-                    ///
-                    /// - Throws: An error if `self` is not `.json`.
-                    /// - SeeAlso: `.json`.
-                    public var json: Components.Schemas.NofficeResponsePromotionVerifyResponse {
-                        get throws {
-                            switch self {
-                            case let .json(body):
-                                return body
-                            }
-                        }
-                    }
-                }
-                /// Received HTTP response body
-                public var body: Operations.verifyPromotionCode.Output.NotFound.Body
-                /// Creates a new `NotFound`.
-                ///
-                /// - Parameters:
-                ///   - body: Received HTTP response body
-                public init(body: Operations.verifyPromotionCode.Output.NotFound.Body) {
-                    self.body = body
-                }
-            }
-            /// 프로모션 코드가 존재하지 않습니다.
-            ///
-            /// - Remark: Generated from `#/paths//api/v1/promotion/verify/get(verifyPromotionCode)/responses/404`.
-            ///
-            /// HTTP response code: `404 notFound`.
-            case notFound(Operations.verifyPromotionCode.Output.NotFound)
-            /// The associated value of the enum case if `self` is `.notFound`.
-            ///
-            /// - Throws: An error if `self` is not `.notFound`.
-            /// - SeeAlso: `.notFound`.
-            public var notFound: Operations.verifyPromotionCode.Output.NotFound {
-                get throws {
-                    switch self {
-                    case let .notFound(response):
-                        return response
-                    default:
-                        try throwUnexpectedResponseStatus(
-                            expectedStatus: "notFound",
                             response: self
                         )
                     }
@@ -15855,187 +14767,6 @@ public enum Operations {
                     default:
                         try throwUnexpectedResponseStatus(
                             expectedStatus: "internalServerError",
-                            response: self
-                        )
-                    }
-                }
-            }
-            /// Undocumented response.
-            ///
-            /// A response with a code that is not documented in the OpenAPI document.
-            case undocumented(statusCode: Swift.Int, OpenAPIRuntime.UndocumentedPayload)
-        }
-        @frozen public enum AcceptableContentType: AcceptableProtocol {
-            case json
-            case other(Swift.String)
-            public init?(rawValue: Swift.String) {
-                switch rawValue.lowercased() {
-                case "application/json":
-                    self = .json
-                default:
-                    self = .other(rawValue)
-                }
-            }
-            public var rawValue: Swift.String {
-                switch self {
-                case let .other(string):
-                    return string
-                case .json:
-                    return "application/json"
-                }
-            }
-            public static var allCases: [Self] {
-                [
-                    .json
-                ]
-            }
-        }
-    }
-    /// 알림 삭제
-    ///
-    /// 노티 알림을 삭제합니다.
-    ///
-    /// - Remark: HTTP `DELETE /api/v1/notifications/{notificationId}`.
-    /// - Remark: Generated from `#/paths//api/v1/notifications/{notificationId}/delete(delete)`.
-    public enum delete {
-        public static let id: Swift.String = "delete"
-        public struct Input: Sendable, Hashable {
-            /// - Remark: Generated from `#/paths/api/v1/notifications/{notificationId}/DELETE/path`.
-            public struct Path: Sendable, Hashable {
-                /// - Remark: Generated from `#/paths/api/v1/notifications/{notificationId}/DELETE/path/notificationId`.
-                public var notificationId: Swift.Int64
-                /// Creates a new `Path`.
-                ///
-                /// - Parameters:
-                ///   - notificationId:
-                public init(notificationId: Swift.Int64) {
-                    self.notificationId = notificationId
-                }
-            }
-            public var path: Operations.delete.Input.Path
-            /// - Remark: Generated from `#/paths/api/v1/notifications/{notificationId}/DELETE/header`.
-            public struct Headers: Sendable, Hashable {
-                public var accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.delete.AcceptableContentType>]
-                /// Creates a new `Headers`.
-                ///
-                /// - Parameters:
-                ///   - accept:
-                public init(accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.delete.AcceptableContentType>] = .defaultValues()) {
-                    self.accept = accept
-                }
-            }
-            public var headers: Operations.delete.Input.Headers
-            /// Creates a new `Input`.
-            ///
-            /// - Parameters:
-            ///   - path:
-            ///   - headers:
-            public init(
-                path: Operations.delete.Input.Path,
-                headers: Operations.delete.Input.Headers = .init()
-            ) {
-                self.path = path
-                self.headers = headers
-            }
-        }
-        @frozen public enum Output: Sendable, Hashable {
-            public struct NoContent: Sendable, Hashable {
-                /// - Remark: Generated from `#/paths/api/v1/notifications/{notificationId}/DELETE/responses/204/content`.
-                @frozen public enum Body: Sendable, Hashable {
-                    /// - Remark: Generated from `#/paths/api/v1/notifications/{notificationId}/DELETE/responses/204/content/application\/json`.
-                    case json(Components.Schemas.NofficeResponseVoid)
-                    /// The associated value of the enum case if `self` is `.json`.
-                    ///
-                    /// - Throws: An error if `self` is not `.json`.
-                    /// - SeeAlso: `.json`.
-                    public var json: Components.Schemas.NofficeResponseVoid {
-                        get throws {
-                            switch self {
-                            case let .json(body):
-                                return body
-                            }
-                        }
-                    }
-                }
-                /// Received HTTP response body
-                public var body: Operations.delete.Output.NoContent.Body
-                /// Creates a new `NoContent`.
-                ///
-                /// - Parameters:
-                ///   - body: Received HTTP response body
-                public init(body: Operations.delete.Output.NoContent.Body) {
-                    self.body = body
-                }
-            }
-            /// 알림 삭제 성공
-            ///
-            /// - Remark: Generated from `#/paths//api/v1/notifications/{notificationId}/delete(delete)/responses/204`.
-            ///
-            /// HTTP response code: `204 noContent`.
-            case noContent(Operations.delete.Output.NoContent)
-            /// The associated value of the enum case if `self` is `.noContent`.
-            ///
-            /// - Throws: An error if `self` is not `.noContent`.
-            /// - SeeAlso: `.noContent`.
-            public var noContent: Operations.delete.Output.NoContent {
-                get throws {
-                    switch self {
-                    case let .noContent(response):
-                        return response
-                    default:
-                        try throwUnexpectedResponseStatus(
-                            expectedStatus: "noContent",
-                            response: self
-                        )
-                    }
-                }
-            }
-            public struct BadRequest: Sendable, Hashable {
-                /// - Remark: Generated from `#/paths/api/v1/notifications/{notificationId}/DELETE/responses/400/content`.
-                @frozen public enum Body: Sendable, Hashable {
-                    /// - Remark: Generated from `#/paths/api/v1/notifications/{notificationId}/DELETE/responses/400/content/application\/json`.
-                    case json(Components.Schemas.NofficeResponseVoid)
-                    /// The associated value of the enum case if `self` is `.json`.
-                    ///
-                    /// - Throws: An error if `self` is not `.json`.
-                    /// - SeeAlso: `.json`.
-                    public var json: Components.Schemas.NofficeResponseVoid {
-                        get throws {
-                            switch self {
-                            case let .json(body):
-                                return body
-                            }
-                        }
-                    }
-                }
-                /// Received HTTP response body
-                public var body: Operations.delete.Output.BadRequest.Body
-                /// Creates a new `BadRequest`.
-                ///
-                /// - Parameters:
-                ///   - body: Received HTTP response body
-                public init(body: Operations.delete.Output.BadRequest.Body) {
-                    self.body = body
-                }
-            }
-            /// 알림 삭제 실패
-            ///
-            /// - Remark: Generated from `#/paths//api/v1/notifications/{notificationId}/delete(delete)/responses/400`.
-            ///
-            /// HTTP response code: `400 badRequest`.
-            case badRequest(Operations.delete.Output.BadRequest)
-            /// The associated value of the enum case if `self` is `.badRequest`.
-            ///
-            /// - Throws: An error if `self` is not `.badRequest`.
-            /// - SeeAlso: `.badRequest`.
-            public var badRequest: Operations.delete.Output.BadRequest {
-                get throws {
-                    switch self {
-                    case let .badRequest(response):
-                        return response
-                    default:
-                        try throwUnexpectedResponseStatus(
-                            expectedStatus: "badRequest",
                             response: self
                         )
                     }

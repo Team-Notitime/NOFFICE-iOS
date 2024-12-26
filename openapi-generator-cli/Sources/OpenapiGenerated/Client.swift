@@ -185,7 +185,10 @@ public struct Client: APIProtocol {
                 default:
                     return .undocumented(
                         statusCode: response.status.code,
-                        .init()
+                        .init(
+                            headerFields: response.headerFields,
+                            body: responseBody
+                        )
                     )
                 }
             }
@@ -321,7 +324,10 @@ public struct Client: APIProtocol {
                 default:
                     return .undocumented(
                         statusCode: response.status.code,
-                        .init()
+                        .init(
+                            headerFields: response.headerFields,
+                            body: responseBody
+                        )
                     )
                 }
             }
@@ -479,7 +485,103 @@ public struct Client: APIProtocol {
                 default:
                     return .undocumented(
                         statusCode: response.status.code,
-                        .init()
+                        .init(
+                            headerFields: response.headerFields,
+                            body: responseBody
+                        )
+                    )
+                }
+            }
+        )
+    }
+    /// 프로모션 코드 검증
+    ///
+    /// 프로모션 코드를 검증합니다.
+    ///
+    /// - Remark: HTTP `POST /api/v1/promotion/verify`.
+    /// - Remark: Generated from `#/paths//api/v1/promotion/verify/post(verifyPromotionCode)`.
+    public func verifyPromotionCode(_ input: Operations.verifyPromotionCode.Input) async throws -> Operations.verifyPromotionCode.Output {
+        try await client.send(
+            input: input,
+            forOperation: Operations.verifyPromotionCode.id,
+            serializer: { input in
+                let path = try converter.renderedPath(
+                    template: "/api/v1/promotion/verify",
+                    parameters: []
+                )
+                var request: HTTPTypes.HTTPRequest = .init(
+                    soar_path: path,
+                    method: .post
+                )
+                suppressMutabilityWarning(&request)
+                converter.setAcceptHeader(
+                    in: &request.headerFields,
+                    contentTypes: input.headers.accept
+                )
+                let body: OpenAPIRuntime.HTTPBody?
+                switch input.body {
+                case let .json(value):
+                    body = try converter.setRequiredRequestBodyAsJSON(
+                        value,
+                        headerFields: &request.headerFields,
+                        contentType: "application/json; charset=utf-8"
+                    )
+                }
+                return (request, body)
+            },
+            deserializer: { response, responseBody in
+                switch response.status.code {
+                case 200:
+                    let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
+                    let body: Operations.verifyPromotionCode.Output.Ok.Body
+                    let chosenContentType = try converter.bestContentType(
+                        received: contentType,
+                        options: [
+                            "application/json"
+                        ]
+                    )
+                    switch chosenContentType {
+                    case "application/json":
+                        body = try await converter.getResponseBodyAsJSON(
+                            Components.Schemas.NofficeResponsePromotionVerifyResponse.self,
+                            from: responseBody,
+                            transforming: { value in
+                                .json(value)
+                            }
+                        )
+                    default:
+                        preconditionFailure("bestContentType chose an invalid content type.")
+                    }
+                    return .ok(.init(body: body))
+                case 404:
+                    let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
+                    let body: Operations.verifyPromotionCode.Output.NotFound.Body
+                    let chosenContentType = try converter.bestContentType(
+                        received: contentType,
+                        options: [
+                            "application/json"
+                        ]
+                    )
+                    switch chosenContentType {
+                    case "application/json":
+                        body = try await converter.getResponseBodyAsJSON(
+                            Components.Schemas.NofficeResponsePromotionVerifyResponse.self,
+                            from: responseBody,
+                            transforming: { value in
+                                .json(value)
+                            }
+                        )
+                    default:
+                        preconditionFailure("bestContentType chose an invalid content type.")
+                    }
+                    return .notFound(.init(body: body))
+                default:
+                    return .undocumented(
+                        statusCode: response.status.code,
+                        .init(
+                            headerFields: response.headerFields,
+                            body: responseBody
+                        )
                     )
                 }
             }
@@ -569,7 +671,10 @@ public struct Client: APIProtocol {
                 default:
                     return .undocumented(
                         statusCode: response.status.code,
-                        .init()
+                        .init(
+                            headerFields: response.headerFields,
+                            body: responseBody
+                        )
                     )
                 }
             }
@@ -723,7 +828,10 @@ public struct Client: APIProtocol {
                 default:
                     return .undocumented(
                         statusCode: response.status.code,
-                        .init()
+                        .init(
+                            headerFields: response.headerFields,
+                            body: responseBody
+                        )
                     )
                 }
             }
@@ -857,7 +965,10 @@ public struct Client: APIProtocol {
                 default:
                     return .undocumented(
                         statusCode: response.status.code,
-                        .init()
+                        .init(
+                            headerFields: response.headerFields,
+                            body: responseBody
+                        )
                     )
                 }
             }
@@ -984,268 +1095,10 @@ public struct Client: APIProtocol {
                 default:
                     return .undocumented(
                         statusCode: response.status.code,
-                        .init()
-                    )
-                }
-            }
-        )
-    }
-    /// [인증] 사용자에게 수신된 알림 조회
-    ///
-    /// 사용자에게 수신된 알림을 조회합니다.
-    ///
-    /// - Remark: HTTP `GET /api/v1/notifications`.
-    /// - Remark: Generated from `#/paths//api/v1/notifications/get(findById)`.
-    public func findById(_ input: Operations.findById.Input) async throws -> Operations.findById.Output {
-        try await client.send(
-            input: input,
-            forOperation: Operations.findById.id,
-            serializer: { input in
-                let path = try converter.renderedPath(
-                    template: "/api/v1/notifications",
-                    parameters: []
-                )
-                var request: HTTPTypes.HTTPRequest = .init(
-                    soar_path: path,
-                    method: .get
-                )
-                suppressMutabilityWarning(&request)
-                converter.setAcceptHeader(
-                    in: &request.headerFields,
-                    contentTypes: input.headers.accept
-                )
-                return (request, nil)
-            },
-            deserializer: { response, responseBody in
-                switch response.status.code {
-                case 200:
-                    let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.findById.Output.Ok.Body
-                    let chosenContentType = try converter.bestContentType(
-                        received: contentType,
-                        options: [
-                            "application/json"
-                        ]
-                    )
-                    switch chosenContentType {
-                    case "application/json":
-                        body = try await converter.getResponseBodyAsJSON(
-                            Components.Schemas.NofficeResponseVoid.self,
-                            from: responseBody,
-                            transforming: { value in
-                                .json(value)
-                            }
+                        .init(
+                            headerFields: response.headerFields,
+                            body: responseBody
                         )
-                    default:
-                        preconditionFailure("bestContentType chose an invalid content type.")
-                    }
-                    return .ok(.init(body: body))
-                case 404:
-                    let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.findById.Output.NotFound.Body
-                    let chosenContentType = try converter.bestContentType(
-                        received: contentType,
-                        options: [
-                            "application/json"
-                        ]
-                    )
-                    switch chosenContentType {
-                    case "application/json":
-                        body = try await converter.getResponseBodyAsJSON(
-                            Components.Schemas.NofficeResponseVoid.self,
-                            from: responseBody,
-                            transforming: { value in
-                                .json(value)
-                            }
-                        )
-                    default:
-                        preconditionFailure("bestContentType chose an invalid content type.")
-                    }
-                    return .notFound(.init(body: body))
-                default:
-                    return .undocumented(
-                        statusCode: response.status.code,
-                        .init()
-                    )
-                }
-            }
-        )
-    }
-    /// [인증] 단일 사용자 알림 대기열 추가
-    ///
-    /// 단일 사용자를 특정하여 노티 알림 대기열에 등록합니다.
-    ///
-    /// - Remark: HTTP `POST /api/v1/notifications`.
-    /// - Remark: Generated from `#/paths//api/v1/notifications/post(create_1)`.
-    public func create_1(_ input: Operations.create_1.Input) async throws -> Operations.create_1.Output {
-        try await client.send(
-            input: input,
-            forOperation: Operations.create_1.id,
-            serializer: { input in
-                let path = try converter.renderedPath(
-                    template: "/api/v1/notifications",
-                    parameters: []
-                )
-                var request: HTTPTypes.HTTPRequest = .init(
-                    soar_path: path,
-                    method: .post
-                )
-                suppressMutabilityWarning(&request)
-                converter.setAcceptHeader(
-                    in: &request.headerFields,
-                    contentTypes: input.headers.accept
-                )
-                let body: OpenAPIRuntime.HTTPBody?
-                switch input.body {
-                case let .json(value):
-                    body = try converter.setRequiredRequestBodyAsJSON(
-                        value,
-                        headerFields: &request.headerFields,
-                        contentType: "application/json; charset=utf-8"
-                    )
-                }
-                return (request, body)
-            },
-            deserializer: { response, responseBody in
-                switch response.status.code {
-                case 200:
-                    let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.create_1.Output.Ok.Body
-                    let chosenContentType = try converter.bestContentType(
-                        received: contentType,
-                        options: [
-                            "application/json"
-                        ]
-                    )
-                    switch chosenContentType {
-                    case "application/json":
-                        body = try await converter.getResponseBodyAsJSON(
-                            Components.Schemas.NofficeResponseVoid.self,
-                            from: responseBody,
-                            transforming: { value in
-                                .json(value)
-                            }
-                        )
-                    default:
-                        preconditionFailure("bestContentType chose an invalid content type.")
-                    }
-                    return .ok(.init(body: body))
-                case 400:
-                    let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.create_1.Output.BadRequest.Body
-                    let chosenContentType = try converter.bestContentType(
-                        received: contentType,
-                        options: [
-                            "application/json"
-                        ]
-                    )
-                    switch chosenContentType {
-                    case "application/json":
-                        body = try await converter.getResponseBodyAsJSON(
-                            Components.Schemas.NofficeResponseVoid.self,
-                            from: responseBody,
-                            transforming: { value in
-                                .json(value)
-                            }
-                        )
-                    default:
-                        preconditionFailure("bestContentType chose an invalid content type.")
-                    }
-                    return .badRequest(.init(body: body))
-                default:
-                    return .undocumented(
-                        statusCode: response.status.code,
-                        .init()
-                    )
-                }
-            }
-        )
-    }
-    /// [인증] 알림 발송 시간 변경
-    ///
-    /// 노티 알림 발송 시간을 변경합니다.
-    ///
-    /// - Remark: HTTP `PATCH /api/v1/notifications`.
-    /// - Remark: Generated from `#/paths//api/v1/notifications/patch(changeSendTime)`.
-    public func changeSendTime(_ input: Operations.changeSendTime.Input) async throws -> Operations.changeSendTime.Output {
-        try await client.send(
-            input: input,
-            forOperation: Operations.changeSendTime.id,
-            serializer: { input in
-                let path = try converter.renderedPath(
-                    template: "/api/v1/notifications",
-                    parameters: []
-                )
-                var request: HTTPTypes.HTTPRequest = .init(
-                    soar_path: path,
-                    method: .patch
-                )
-                suppressMutabilityWarning(&request)
-                converter.setAcceptHeader(
-                    in: &request.headerFields,
-                    contentTypes: input.headers.accept
-                )
-                let body: OpenAPIRuntime.HTTPBody?
-                switch input.body {
-                case let .json(value):
-                    body = try converter.setRequiredRequestBodyAsJSON(
-                        value,
-                        headerFields: &request.headerFields,
-                        contentType: "application/json; charset=utf-8"
-                    )
-                }
-                return (request, body)
-            },
-            deserializer: { response, responseBody in
-                switch response.status.code {
-                case 200:
-                    let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.changeSendTime.Output.Ok.Body
-                    let chosenContentType = try converter.bestContentType(
-                        received: contentType,
-                        options: [
-                            "application/json"
-                        ]
-                    )
-                    switch chosenContentType {
-                    case "application/json":
-                        body = try await converter.getResponseBodyAsJSON(
-                            Components.Schemas.NofficeResponseNotificationTimeChangeResponse.self,
-                            from: responseBody,
-                            transforming: { value in
-                                .json(value)
-                            }
-                        )
-                    default:
-                        preconditionFailure("bestContentType chose an invalid content type.")
-                    }
-                    return .ok(.init(body: body))
-                case 400:
-                    let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.changeSendTime.Output.BadRequest.Body
-                    let chosenContentType = try converter.bestContentType(
-                        received: contentType,
-                        options: [
-                            "application/json"
-                        ]
-                    )
-                    switch chosenContentType {
-                    case "application/json":
-                        body = try await converter.getResponseBodyAsJSON(
-                            Components.Schemas.NofficeResponseNotificationTimeChangeResponse.self,
-                            from: responseBody,
-                            transforming: { value in
-                                .json(value)
-                            }
-                        )
-                    default:
-                        preconditionFailure("bestContentType chose an invalid content type.")
-                    }
-                    return .badRequest(.init(body: body))
-                default:
-                    return .undocumented(
-                        statusCode: response.status.code,
-                        .init()
                     )
                 }
             }
@@ -1335,7 +1188,10 @@ public struct Client: APIProtocol {
                 default:
                     return .undocumented(
                         statusCode: response.status.code,
-                        .init()
+                        .init(
+                            headerFields: response.headerFields,
+                            body: responseBody
+                        )
                     )
                 }
             }
@@ -1425,97 +1281,10 @@ public struct Client: APIProtocol {
                 default:
                     return .undocumented(
                         statusCode: response.status.code,
-                        .init()
-                    )
-                }
-            }
-        )
-    }
-    /// [인증] 조직 단위 알림 대량 발송
-    ///
-    /// 조직 내 모든 사용자에게 전체 발송되는 알림을 등록합니다.
-    ///
-    /// - Remark: HTTP `POST /api/v1/notifications/bulk`.
-    /// - Remark: Generated from `#/paths//api/v1/notifications/bulk/post(createAll)`.
-    public func createAll(_ input: Operations.createAll.Input) async throws -> Operations.createAll.Output {
-        try await client.send(
-            input: input,
-            forOperation: Operations.createAll.id,
-            serializer: { input in
-                let path = try converter.renderedPath(
-                    template: "/api/v1/notifications/bulk",
-                    parameters: []
-                )
-                var request: HTTPTypes.HTTPRequest = .init(
-                    soar_path: path,
-                    method: .post
-                )
-                suppressMutabilityWarning(&request)
-                converter.setAcceptHeader(
-                    in: &request.headerFields,
-                    contentTypes: input.headers.accept
-                )
-                let body: OpenAPIRuntime.HTTPBody?
-                switch input.body {
-                case let .json(value):
-                    body = try converter.setRequiredRequestBodyAsJSON(
-                        value,
-                        headerFields: &request.headerFields,
-                        contentType: "application/json; charset=utf-8"
-                    )
-                }
-                return (request, body)
-            },
-            deserializer: { response, responseBody in
-                switch response.status.code {
-                case 200:
-                    let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.createAll.Output.Ok.Body
-                    let chosenContentType = try converter.bestContentType(
-                        received: contentType,
-                        options: [
-                            "application/json"
-                        ]
-                    )
-                    switch chosenContentType {
-                    case "application/json":
-                        body = try await converter.getResponseBodyAsJSON(
-                            Components.Schemas.NofficeResponseVoid.self,
-                            from: responseBody,
-                            transforming: { value in
-                                .json(value)
-                            }
+                        .init(
+                            headerFields: response.headerFields,
+                            body: responseBody
                         )
-                    default:
-                        preconditionFailure("bestContentType chose an invalid content type.")
-                    }
-                    return .ok(.init(body: body))
-                case 400:
-                    let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.createAll.Output.BadRequest.Body
-                    let chosenContentType = try converter.bestContentType(
-                        received: contentType,
-                        options: [
-                            "application/json"
-                        ]
-                    )
-                    switch chosenContentType {
-                    case "application/json":
-                        body = try await converter.getResponseBodyAsJSON(
-                            Components.Schemas.NofficeResponseVoid.self,
-                            from: responseBody,
-                            transforming: { value in
-                                .json(value)
-                            }
-                        )
-                    default:
-                        preconditionFailure("bestContentType chose an invalid content type.")
-                    }
-                    return .badRequest(.init(body: body))
-                default:
-                    return .undocumented(
-                        statusCode: response.status.code,
-                        .init()
                     )
                 }
             }
@@ -1618,7 +1387,10 @@ public struct Client: APIProtocol {
                 default:
                     return .undocumented(
                         statusCode: response.status.code,
-                        .init()
+                        .init(
+                            headerFields: response.headerFields,
+                            body: responseBody
+                        )
                     )
                 }
             }
@@ -1726,7 +1498,10 @@ public struct Client: APIProtocol {
                 default:
                     return .undocumented(
                         statusCode: response.status.code,
-                        .init()
+                        .init(
+                            headerFields: response.headerFields,
+                            body: responseBody
+                        )
                     )
                 }
             }
@@ -1816,7 +1591,10 @@ public struct Client: APIProtocol {
                 default:
                     return .undocumented(
                         statusCode: response.status.code,
-                        .init()
+                        .init(
+                            headerFields: response.headerFields,
+                            body: responseBody
+                        )
                     )
                 }
             }
@@ -1896,7 +1674,10 @@ public struct Client: APIProtocol {
                 default:
                     return .undocumented(
                         statusCode: response.status.code,
-                        .init()
+                        .init(
+                            headerFields: response.headerFields,
+                            body: responseBody
+                        )
                     )
                 }
             }
@@ -1940,7 +1721,10 @@ public struct Client: APIProtocol {
                 default:
                     return .undocumented(
                         statusCode: response.status.code,
-                        .init()
+                        .init(
+                            headerFields: response.headerFields,
+                            body: responseBody
+                        )
                     )
                 }
             }
@@ -1951,11 +1735,11 @@ public struct Client: APIProtocol {
     /// 노티를 생성합니다.
     ///
     /// - Remark: HTTP `POST /api/v1/announcement`.
-    /// - Remark: Generated from `#/paths//api/v1/announcement/post(create_2)`.
-    public func create_2(_ input: Operations.create_2.Input) async throws -> Operations.create_2.Output {
+    /// - Remark: Generated from `#/paths//api/v1/announcement/post(create_1)`.
+    public func create_1(_ input: Operations.create_1.Input) async throws -> Operations.create_1.Output {
         try await client.send(
             input: input,
-            forOperation: Operations.create_2.id,
+            forOperation: Operations.create_1.id,
             serializer: { input in
                 let path = try converter.renderedPath(
                     template: "/api/v1/announcement",
@@ -1985,7 +1769,7 @@ public struct Client: APIProtocol {
                 switch response.status.code {
                 case 201:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.create_2.Output.Created.Body
+                    let body: Operations.create_1.Output.Created.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -2007,7 +1791,7 @@ public struct Client: APIProtocol {
                     return .created(.init(body: body))
                 case 400:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.create_2.Output.BadRequest.Body
+                    let body: Operations.create_1.Output.BadRequest.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -2029,7 +1813,7 @@ public struct Client: APIProtocol {
                     return .badRequest(.init(body: body))
                 case 500:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.create_2.Output.InternalServerError.Body
+                    let body: Operations.create_1.Output.InternalServerError.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -2052,7 +1836,10 @@ public struct Client: APIProtocol {
                 default:
                     return .undocumented(
                         statusCode: response.status.code,
-                        .init()
+                        .init(
+                            headerFields: response.headerFields,
+                            body: responseBody
+                        )
                     )
                 }
             }
@@ -2201,7 +1988,10 @@ public struct Client: APIProtocol {
                 default:
                     return .undocumented(
                         statusCode: response.status.code,
-                        .init()
+                        .init(
+                            headerFields: response.headerFields,
+                            body: responseBody
+                        )
                     )
                 }
             }
@@ -2359,7 +2149,10 @@ public struct Client: APIProtocol {
                 default:
                     return .undocumented(
                         statusCode: response.status.code,
-                        .init()
+                        .init(
+                            headerFields: response.headerFields,
+                            body: responseBody
+                        )
                     )
                 }
             }
@@ -2370,11 +2163,11 @@ public struct Client: APIProtocol {
     /// 노티를 삭제합니다.
     ///
     /// - Remark: HTTP `DELETE /api/v1/announcement/{announcementId}`.
-    /// - Remark: Generated from `#/paths//api/v1/announcement/{announcementId}/delete(delete_1)`.
-    public func delete_1(_ input: Operations.delete_1.Input) async throws -> Operations.delete_1.Output {
+    /// - Remark: Generated from `#/paths//api/v1/announcement/{announcementId}/delete(delete)`.
+    public func delete(_ input: Operations.delete.Input) async throws -> Operations.delete.Output {
         try await client.send(
             input: input,
-            forOperation: Operations.delete_1.id,
+            forOperation: Operations.delete.id,
             serializer: { input in
                 let path = try converter.renderedPath(
                     template: "/api/v1/announcement/{}",
@@ -2397,7 +2190,7 @@ public struct Client: APIProtocol {
                 switch response.status.code {
                 case 204:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.delete_1.Output.NoContent.Body
+                    let body: Operations.delete.Output.NoContent.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -2419,7 +2212,7 @@ public struct Client: APIProtocol {
                     return .noContent(.init(body: body))
                 case 400:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.delete_1.Output.BadRequest.Body
+                    let body: Operations.delete.Output.BadRequest.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -2441,7 +2234,7 @@ public struct Client: APIProtocol {
                     return .badRequest(.init(body: body))
                 case 403:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.delete_1.Output.Forbidden.Body
+                    let body: Operations.delete.Output.Forbidden.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -2463,7 +2256,7 @@ public struct Client: APIProtocol {
                     return .forbidden(.init(body: body))
                 case 500:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.delete_1.Output.InternalServerError.Body
+                    let body: Operations.delete.Output.InternalServerError.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -2486,156 +2279,10 @@ public struct Client: APIProtocol {
                 default:
                     return .undocumented(
                         statusCode: response.status.code,
-                        .init()
-                    )
-                }
-            }
-        )
-    }
-    /// [인증] 노티 미열람자 대상 FCM 알림
-    ///
-    /// 노티 미열람자 대상으로 알림을 전송합니다.
-    ///
-    /// - Remark: HTTP `POST /api/v1/announcement/{announcementId}/remind-unread`.
-    /// - Remark: Generated from `#/paths//api/v1/announcement/{announcementId}/remind-unread/post(sendToUnReader)`.
-    public func sendToUnReader(_ input: Operations.sendToUnReader.Input) async throws -> Operations.sendToUnReader.Output {
-        try await client.send(
-            input: input,
-            forOperation: Operations.sendToUnReader.id,
-            serializer: { input in
-                let path = try converter.renderedPath(
-                    template: "/api/v1/announcement/{}/remind-unread",
-                    parameters: [
-                        input.path.announcementId
-                    ]
-                )
-                var request: HTTPTypes.HTTPRequest = .init(
-                    soar_path: path,
-                    method: .post
-                )
-                suppressMutabilityWarning(&request)
-                converter.setAcceptHeader(
-                    in: &request.headerFields,
-                    contentTypes: input.headers.accept
-                )
-                return (request, nil)
-            },
-            deserializer: { response, responseBody in
-                switch response.status.code {
-                case 200:
-                    let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.sendToUnReader.Output.Ok.Body
-                    let chosenContentType = try converter.bestContentType(
-                        received: contentType,
-                        options: [
-                            "application/json"
-                        ]
-                    )
-                    switch chosenContentType {
-                    case "application/json":
-                        body = try await converter.getResponseBodyAsJSON(
-                            Components.Schemas.NofficeResponseFCMCreateResponse.self,
-                            from: responseBody,
-                            transforming: { value in
-                                .json(value)
-                            }
+                        .init(
+                            headerFields: response.headerFields,
+                            body: responseBody
                         )
-                    default:
-                        preconditionFailure("bestContentType chose an invalid content type.")
-                    }
-                    return .ok(.init(body: body))
-                case 400:
-                    let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.sendToUnReader.Output.BadRequest.Body
-                    let chosenContentType = try converter.bestContentType(
-                        received: contentType,
-                        options: [
-                            "application/json"
-                        ]
-                    )
-                    switch chosenContentType {
-                    case "application/json":
-                        body = try await converter.getResponseBodyAsJSON(
-                            Components.Schemas.NofficeResponse.self,
-                            from: responseBody,
-                            transforming: { value in
-                                .json(value)
-                            }
-                        )
-                    default:
-                        preconditionFailure("bestContentType chose an invalid content type.")
-                    }
-                    return .badRequest(.init(body: body))
-                case 401:
-                    let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.sendToUnReader.Output.Unauthorized.Body
-                    let chosenContentType = try converter.bestContentType(
-                        received: contentType,
-                        options: [
-                            "application/json"
-                        ]
-                    )
-                    switch chosenContentType {
-                    case "application/json":
-                        body = try await converter.getResponseBodyAsJSON(
-                            Components.Schemas.NofficeResponse.self,
-                            from: responseBody,
-                            transforming: { value in
-                                .json(value)
-                            }
-                        )
-                    default:
-                        preconditionFailure("bestContentType chose an invalid content type.")
-                    }
-                    return .unauthorized(.init(body: body))
-                case 403:
-                    let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.sendToUnReader.Output.Forbidden.Body
-                    let chosenContentType = try converter.bestContentType(
-                        received: contentType,
-                        options: [
-                            "application/json"
-                        ]
-                    )
-                    switch chosenContentType {
-                    case "application/json":
-                        body = try await converter.getResponseBodyAsJSON(
-                            Components.Schemas.NofficeResponse.self,
-                            from: responseBody,
-                            transforming: { value in
-                                .json(value)
-                            }
-                        )
-                    default:
-                        preconditionFailure("bestContentType chose an invalid content type.")
-                    }
-                    return .forbidden(.init(body: body))
-                case 500:
-                    let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.sendToUnReader.Output.InternalServerError.Body
-                    let chosenContentType = try converter.bestContentType(
-                        received: contentType,
-                        options: [
-                            "application/json"
-                        ]
-                    )
-                    switch chosenContentType {
-                    case "application/json":
-                        body = try await converter.getResponseBodyAsJSON(
-                            Components.Schemas.NofficeResponse.self,
-                            from: responseBody,
-                            transforming: { value in
-                                .json(value)
-                            }
-                        )
-                    default:
-                        preconditionFailure("bestContentType chose an invalid content type.")
-                    }
-                    return .internalServerError(.init(body: body))
-                default:
-                    return .undocumented(
-                        statusCode: response.status.code,
-                        .init()
                     )
                 }
             }
@@ -2769,7 +2416,10 @@ public struct Client: APIProtocol {
                 default:
                     return .undocumented(
                         statusCode: response.status.code,
-                        .init()
+                        .init(
+                            headerFields: response.headerFields,
+                            body: responseBody
+                        )
                     )
                 }
             }
@@ -2905,7 +2555,10 @@ public struct Client: APIProtocol {
                 default:
                     return .undocumented(
                         statusCode: response.status.code,
-                        .init()
+                        .init(
+                            headerFields: response.headerFields,
+                            body: responseBody
+                        )
                     )
                 }
             }
@@ -3085,7 +2738,10 @@ public struct Client: APIProtocol {
                 default:
                     return .undocumented(
                         statusCode: response.status.code,
-                        .init()
+                        .init(
+                            headerFields: response.headerFields,
+                            body: responseBody
+                        )
                     )
                 }
             }
@@ -3243,7 +2899,10 @@ public struct Client: APIProtocol {
                 default:
                     return .undocumented(
                         statusCode: response.status.code,
-                        .init()
+                        .init(
+                            headerFields: response.headerFields,
+                            body: responseBody
+                        )
                     )
                 }
             }
@@ -3392,7 +3051,10 @@ public struct Client: APIProtocol {
                 default:
                     return .undocumented(
                         statusCode: response.status.code,
-                        .init()
+                        .init(
+                            headerFields: response.headerFields,
+                            body: responseBody
+                        )
                     )
                 }
             }
@@ -3526,7 +3188,10 @@ public struct Client: APIProtocol {
                 default:
                     return .undocumented(
                         statusCode: response.status.code,
-                        .init()
+                        .init(
+                            headerFields: response.headerFields,
+                            body: responseBody
+                        )
                     )
                 }
             }
@@ -3651,7 +3316,147 @@ public struct Client: APIProtocol {
                 default:
                     return .undocumented(
                         statusCode: response.status.code,
-                        .init()
+                        .init(
+                            headerFields: response.headerFields,
+                            body: responseBody
+                        )
+                    )
+                }
+            }
+        )
+    }
+    /// [인증] 회원 이름 변경
+    ///
+    /// 회원의 이름을 변경합니다.
+    ///
+    /// - Remark: HTTP `PATCH /api/v1/member/name`.
+    /// - Remark: Generated from `#/paths//api/v1/member/name/patch(updateName)`.
+    public func updateName(_ input: Operations.updateName.Input) async throws -> Operations.updateName.Output {
+        try await client.send(
+            input: input,
+            forOperation: Operations.updateName.id,
+            serializer: { input in
+                let path = try converter.renderedPath(
+                    template: "/api/v1/member/name",
+                    parameters: []
+                )
+                var request: HTTPTypes.HTTPRequest = .init(
+                    soar_path: path,
+                    method: .patch
+                )
+                suppressMutabilityWarning(&request)
+                converter.setAcceptHeader(
+                    in: &request.headerFields,
+                    contentTypes: input.headers.accept
+                )
+                let body: OpenAPIRuntime.HTTPBody?
+                switch input.body {
+                case let .json(value):
+                    body = try converter.setRequiredRequestBodyAsJSON(
+                        value,
+                        headerFields: &request.headerFields,
+                        contentType: "application/json; charset=utf-8"
+                    )
+                }
+                return (request, body)
+            },
+            deserializer: { response, responseBody in
+                switch response.status.code {
+                case 204:
+                    let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
+                    let body: Operations.updateName.Output.NoContent.Body
+                    let chosenContentType = try converter.bestContentType(
+                        received: contentType,
+                        options: [
+                            "application/json"
+                        ]
+                    )
+                    switch chosenContentType {
+                    case "application/json":
+                        body = try await converter.getResponseBodyAsJSON(
+                            Components.Schemas.NofficeResponseVoid.self,
+                            from: responseBody,
+                            transforming: { value in
+                                .json(value)
+                            }
+                        )
+                    default:
+                        preconditionFailure("bestContentType chose an invalid content type.")
+                    }
+                    return .noContent(.init(body: body))
+                case 401:
+                    let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
+                    let body: Operations.updateName.Output.Unauthorized.Body
+                    let chosenContentType = try converter.bestContentType(
+                        received: contentType,
+                        options: [
+                            "application/json"
+                        ]
+                    )
+                    switch chosenContentType {
+                    case "application/json":
+                        body = try await converter.getResponseBodyAsJSON(
+                            Components.Schemas.NofficeResponse.self,
+                            from: responseBody,
+                            transforming: { value in
+                                .json(value)
+                            }
+                        )
+                    default:
+                        preconditionFailure("bestContentType chose an invalid content type.")
+                    }
+                    return .unauthorized(.init(body: body))
+                case 403:
+                    let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
+                    let body: Operations.updateName.Output.Forbidden.Body
+                    let chosenContentType = try converter.bestContentType(
+                        received: contentType,
+                        options: [
+                            "application/json"
+                        ]
+                    )
+                    switch chosenContentType {
+                    case "application/json":
+                        body = try await converter.getResponseBodyAsJSON(
+                            Components.Schemas.NofficeResponse.self,
+                            from: responseBody,
+                            transforming: { value in
+                                .json(value)
+                            }
+                        )
+                    default:
+                        preconditionFailure("bestContentType chose an invalid content type.")
+                    }
+                    return .forbidden(.init(body: body))
+                case 500:
+                    let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
+                    let body: Operations.updateName.Output.InternalServerError.Body
+                    let chosenContentType = try converter.bestContentType(
+                        received: contentType,
+                        options: [
+                            "application/json"
+                        ]
+                    )
+                    switch chosenContentType {
+                    case "application/json":
+                        body = try await converter.getResponseBodyAsJSON(
+                            Components.Schemas.NofficeResponse.self,
+                            from: responseBody,
+                            transforming: { value in
+                                .json(value)
+                            }
+                        )
+                    default:
+                        preconditionFailure("bestContentType chose an invalid content type.")
+                    }
+                    return .internalServerError(.init(body: body))
+                default:
+                    return .undocumented(
+                        statusCode: response.status.code,
+                        .init(
+                            headerFields: response.headerFields,
+                            body: responseBody
+                        )
                     )
                 }
             }
@@ -3663,6 +3468,7 @@ public struct Client: APIProtocol {
     ///
     /// - Remark: HTTP `PATCH /api/v1/member/alias`.
     /// - Remark: Generated from `#/paths//api/v1/member/alias/patch(updateAlias)`.
+    @available(*, deprecated)
     public func updateAlias(_ input: Operations.updateAlias.Input) async throws -> Operations.updateAlias.Output {
         try await client.send(
             input: input,
@@ -3785,7 +3591,10 @@ public struct Client: APIProtocol {
                 default:
                     return .undocumented(
                         statusCode: response.status.code,
-                        .init()
+                        .init(
+                            headerFields: response.headerFields,
+                            body: responseBody
+                        )
                     )
                 }
             }
@@ -3965,95 +3774,10 @@ public struct Client: APIProtocol {
                 default:
                     return .undocumented(
                         statusCode: response.status.code,
-                        .init()
-                    )
-                }
-            }
-        )
-    }
-    /// 프로모션 코드 검증
-    ///
-    /// 프로모션 코드를 검증합니다.
-    ///
-    /// - Remark: HTTP `GET /api/v1/promotion/verify`.
-    /// - Remark: Generated from `#/paths//api/v1/promotion/verify/get(verifyPromotionCode)`.
-    public func verifyPromotionCode(_ input: Operations.verifyPromotionCode.Input) async throws -> Operations.verifyPromotionCode.Output {
-        try await client.send(
-            input: input,
-            forOperation: Operations.verifyPromotionCode.id,
-            serializer: { input in
-                let path = try converter.renderedPath(
-                    template: "/api/v1/promotion/verify",
-                    parameters: []
-                )
-                var request: HTTPTypes.HTTPRequest = .init(
-                    soar_path: path,
-                    method: .get
-                )
-                suppressMutabilityWarning(&request)
-                try converter.setQueryItemAsURI(
-                    in: &request,
-                    style: .form,
-                    explode: true,
-                    name: "promotionCode",
-                    value: input.query.promotionCode
-                )
-                converter.setAcceptHeader(
-                    in: &request.headerFields,
-                    contentTypes: input.headers.accept
-                )
-                return (request, nil)
-            },
-            deserializer: { response, responseBody in
-                switch response.status.code {
-                case 200:
-                    let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.verifyPromotionCode.Output.Ok.Body
-                    let chosenContentType = try converter.bestContentType(
-                        received: contentType,
-                        options: [
-                            "application/json"
-                        ]
-                    )
-                    switch chosenContentType {
-                    case "application/json":
-                        body = try await converter.getResponseBodyAsJSON(
-                            Components.Schemas.NofficeResponsePromotionVerifyResponse.self,
-                            from: responseBody,
-                            transforming: { value in
-                                .json(value)
-                            }
+                        .init(
+                            headerFields: response.headerFields,
+                            body: responseBody
                         )
-                    default:
-                        preconditionFailure("bestContentType chose an invalid content type.")
-                    }
-                    return .ok(.init(body: body))
-                case 404:
-                    let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.verifyPromotionCode.Output.NotFound.Body
-                    let chosenContentType = try converter.bestContentType(
-                        received: contentType,
-                        options: [
-                            "application/json"
-                        ]
-                    )
-                    switch chosenContentType {
-                    case "application/json":
-                        body = try await converter.getResponseBodyAsJSON(
-                            Components.Schemas.NofficeResponsePromotionVerifyResponse.self,
-                            from: responseBody,
-                            transforming: { value in
-                                .json(value)
-                            }
-                        )
-                    default:
-                        preconditionFailure("bestContentType chose an invalid content type.")
-                    }
-                    return .notFound(.init(body: body))
-                default:
-                    return .undocumented(
-                        statusCode: response.status.code,
-                        .init()
                     )
                 }
             }
@@ -4180,7 +3904,10 @@ public struct Client: APIProtocol {
                 default:
                     return .undocumented(
                         statusCode: response.status.code,
-                        .init()
+                        .init(
+                            headerFields: response.headerFields,
+                            body: responseBody
+                        )
                     )
                 }
             }
@@ -4307,7 +4034,10 @@ public struct Client: APIProtocol {
                 default:
                     return .undocumented(
                         statusCode: response.status.code,
-                        .init()
+                        .init(
+                            headerFields: response.headerFields,
+                            body: responseBody
+                        )
                     )
                 }
             }
@@ -4456,7 +4186,10 @@ public struct Client: APIProtocol {
                 default:
                     return .undocumented(
                         statusCode: response.status.code,
-                        .init()
+                        .init(
+                            headerFields: response.headerFields,
+                            body: responseBody
+                        )
                     )
                 }
             }
@@ -4605,7 +4338,10 @@ public struct Client: APIProtocol {
                 default:
                     return .undocumented(
                         statusCode: response.status.code,
-                        .init()
+                        .init(
+                            headerFields: response.headerFields,
+                            body: responseBody
+                        )
                     )
                 }
             }
@@ -4754,7 +4490,10 @@ public struct Client: APIProtocol {
                 default:
                     return .undocumented(
                         statusCode: response.status.code,
-                        .init()
+                        .init(
+                            headerFields: response.headerFields,
+                            body: responseBody
+                        )
                     )
                 }
             }
@@ -4910,7 +4649,10 @@ public struct Client: APIProtocol {
                 default:
                     return .undocumented(
                         statusCode: response.status.code,
-                        .init()
+                        .init(
+                            headerFields: response.headerFields,
+                            body: responseBody
+                        )
                     )
                 }
             }
@@ -5035,7 +4777,10 @@ public struct Client: APIProtocol {
                 default:
                     return .undocumented(
                         statusCode: response.status.code,
-                        .init()
+                        .init(
+                            headerFields: response.headerFields,
+                            body: responseBody
+                        )
                     )
                 }
             }
@@ -5070,7 +4815,10 @@ public struct Client: APIProtocol {
                 default:
                     return .undocumented(
                         statusCode: response.status.code,
-                        .init()
+                        .init(
+                            headerFields: response.headerFields,
+                            body: responseBody
+                        )
                     )
                 }
             }
@@ -5151,7 +4899,10 @@ public struct Client: APIProtocol {
                 default:
                     return .undocumented(
                         statusCode: response.status.code,
-                        .init()
+                        .init(
+                            headerFields: response.headerFields,
+                            body: responseBody
+                        )
                     )
                 }
             }
@@ -5300,7 +5051,10 @@ public struct Client: APIProtocol {
                 default:
                     return .undocumented(
                         statusCode: response.status.code,
-                        .init()
+                        .init(
+                            headerFields: response.headerFields,
+                            body: responseBody
+                        )
                     )
                 }
             }
@@ -5449,7 +5203,10 @@ public struct Client: APIProtocol {
                 default:
                     return .undocumented(
                         statusCode: response.status.code,
-                        .init()
+                        .init(
+                            headerFields: response.headerFields,
+                            body: responseBody
+                        )
                     )
                 }
             }
@@ -5598,90 +5355,10 @@ public struct Client: APIProtocol {
                 default:
                     return .undocumented(
                         statusCode: response.status.code,
-                        .init()
-                    )
-                }
-            }
-        )
-    }
-    /// 알림 삭제
-    ///
-    /// 노티 알림을 삭제합니다.
-    ///
-    /// - Remark: HTTP `DELETE /api/v1/notifications/{notificationId}`.
-    /// - Remark: Generated from `#/paths//api/v1/notifications/{notificationId}/delete(delete)`.
-    public func delete(_ input: Operations.delete.Input) async throws -> Operations.delete.Output {
-        try await client.send(
-            input: input,
-            forOperation: Operations.delete.id,
-            serializer: { input in
-                let path = try converter.renderedPath(
-                    template: "/api/v1/notifications/{}",
-                    parameters: [
-                        input.path.notificationId
-                    ]
-                )
-                var request: HTTPTypes.HTTPRequest = .init(
-                    soar_path: path,
-                    method: .delete
-                )
-                suppressMutabilityWarning(&request)
-                converter.setAcceptHeader(
-                    in: &request.headerFields,
-                    contentTypes: input.headers.accept
-                )
-                return (request, nil)
-            },
-            deserializer: { response, responseBody in
-                switch response.status.code {
-                case 204:
-                    let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.delete.Output.NoContent.Body
-                    let chosenContentType = try converter.bestContentType(
-                        received: contentType,
-                        options: [
-                            "application/json"
-                        ]
-                    )
-                    switch chosenContentType {
-                    case "application/json":
-                        body = try await converter.getResponseBodyAsJSON(
-                            Components.Schemas.NofficeResponseVoid.self,
-                            from: responseBody,
-                            transforming: { value in
-                                .json(value)
-                            }
+                        .init(
+                            headerFields: response.headerFields,
+                            body: responseBody
                         )
-                    default:
-                        preconditionFailure("bestContentType chose an invalid content type.")
-                    }
-                    return .noContent(.init(body: body))
-                case 400:
-                    let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.delete.Output.BadRequest.Body
-                    let chosenContentType = try converter.bestContentType(
-                        received: contentType,
-                        options: [
-                            "application/json"
-                        ]
-                    )
-                    switch chosenContentType {
-                    case "application/json":
-                        body = try await converter.getResponseBodyAsJSON(
-                            Components.Schemas.NofficeResponseVoid.self,
-                            from: responseBody,
-                            transforming: { value in
-                                .json(value)
-                            }
-                        )
-                    default:
-                        preconditionFailure("bestContentType chose an invalid content type.")
-                    }
-                    return .badRequest(.init(body: body))
-                default:
-                    return .undocumented(
-                        statusCode: response.status.code,
-                        .init()
                     )
                 }
             }
@@ -5784,7 +5461,10 @@ public struct Client: APIProtocol {
                 default:
                     return .undocumented(
                         statusCode: response.status.code,
-                        .init()
+                        .init(
+                            headerFields: response.headerFields,
+                            body: responseBody
+                        )
                     )
                 }
             }
@@ -5934,7 +5614,10 @@ public struct Client: APIProtocol {
                 default:
                     return .undocumented(
                         statusCode: response.status.code,
-                        .init()
+                        .init(
+                            headerFields: response.headerFields,
+                            body: responseBody
+                        )
                     )
                 }
             }
