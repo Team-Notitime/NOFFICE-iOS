@@ -19,7 +19,7 @@ import RxGesture
 import MainEntity
 
 public protocol SignupTermsPageViewDelegate: AnyObject {
-  func termsPageViewController(_ viewController: SignupTermsPageViewController, didRequestPresentTerFile termFile: TermFile)
+  func termsPageViewController(_ viewController: SignupTermsPageViewController, didRequestPresentTerFile termFile: TermFile, reactor: SignupTermsPageReactor)
 }
 
 public class SignupTermsPageViewController: BaseViewController<SignupTermsPageView> {
@@ -58,7 +58,7 @@ public class SignupTermsPageViewController: BaseViewController<SignupTermsPageVi
                         let termFile = TermOptionType.allCases[index].termOption.termFile
                         guard let termFile,
                               let self else { return }
-                        self.delegate?.termsPageViewController(self, didRequestPresentTerFile: termFile)
+                      self.delegate?.termsPageViewController(self, didRequestPresentTerFile: termFile, reactor: reactor)
                     })
                     .disposed(by: self.disposeBag)
             }

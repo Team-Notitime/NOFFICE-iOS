@@ -11,6 +11,8 @@ import MainEntity
 import UserDefaultsUtility
 
 import RxSwift
+import MemberDataInterface
+import Swinject
 
 public struct GetMemberUsecase {
     // MARK: DTO
@@ -24,34 +26,39 @@ public struct GetMemberUsecase {
     
     // MARK: Error
     public enum Error: LocalizedError {
+        case invalidResponse
         case memberNotFoundInUserDefaults
+        case notExistingMember
     }
     
     // MARK: Dependency
     private let memberUserDefaultsManager = UserDefaultsManager<Member>()
-    
+    private let memberRepository = Container.shared.resolve(MemberRepositoryInterface.self)!
+  
     // MARK: Initializer
     public init() { }
     
     // MARK: Execute method
     public func execute(_ input: Input) -> Observable<Output> {
-        let member = memberUserDefaultsManager.get()
-        
-        let observable = Observable.create { observer in
-            if let member = member {
-                let memberEntity = MemberEntity(
-                    uid: member.id,
-                    name: member.name,
-                    email: "" // TODO:
-                )
-                observer.onNext(Output(member: memberEntity))
-            } else {
-                observer.onError(Error.memberNotFoundInUserDefaults)
-            }
-            return Disposables.create()
+      return memberRepository.getMember(.init())
+        .map { member in
+          guard let id = member.id,
+                let name = member.name else {
+            throw Error.invalidResponse
+          }
+          
+          let memberEntity = MemberEntity(
+            uid: id,
+            name: name,
+            email: "",
+            profileImageURL: member.profileImage
+          )
+          
+          return Output(member: memberEntity)
         }
-        
-        return observable
+        .catch { _ in 
+          return .error(Error.notExistingMember)
+        }
     }
 }
 

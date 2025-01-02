@@ -16,4 +16,6 @@ public protocol MemberRepositoryInterface {
     func reissue(_ request: ReissueRequest) -> Observable<ReissueResponse>
 
     func withdrawal(_ request: WithdrawalRequest) -> Observable<WithdrawalResponse>
+  
+    func rename(_ request: RenameRequest) -> Observable<RenameResponse>
 }

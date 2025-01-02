@@ -32,7 +32,12 @@ public final class AppleLoginUsecase: NSObject {
         /// 로그인 성공 여부 입니다.
         ///
         /// 성공시 ture를 반환하고, 실패 시엔 Observable error가 방출됩니다.
-        public let isSuccess: Bool
+        public let isSuccess: OutputType
+      
+        public enum OutputType {
+            case isAlreadyMember
+            case requiredSignup
+        }
     }
     
     // MARK: Error
@@ -137,7 +142,9 @@ extension AppleLoginUsecase: ASAuthorizationControllerDelegate,
                        let refreshToken = result.token?.refreshToken {
                         self.saveToKeychain(accessToken: accessToken, refreshToken: refreshToken)
                         self.saveToUserDefaults(response: result)
-                        return Observable.just(Output(isSuccess: true))
+                        let isAlreadyMember = result.isAlreadyMember ?? false
+                        let output = isAlreadyMember ? Output(isSuccess: .isAlreadyMember) : Output(isSuccess: .requiredSignup)
+                        return Observable.just(output)
                     } else {
                         return Observable.error(Error.invalidToken)
                     }

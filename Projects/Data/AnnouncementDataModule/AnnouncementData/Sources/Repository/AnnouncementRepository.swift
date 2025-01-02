@@ -34,7 +34,7 @@ public struct AnnouncementRepository: AnnouncementRepositoryInterface {
         return Observable.create { observer in
             Task {
                 do {
-                    let response = try await client.create_2(
+                    let response = try await client.create_1(
                         .init(
                             body: .json(request)
                         )
@@ -114,7 +114,7 @@ public struct AnnouncementRepository: AnnouncementRepositoryInterface {
         return Observable.create { observer in
             Task {
                 do {
-                    _ = try await client.delete_1(
+                    _ = try await client.delete(
                         .init(
                             path: .init(
                                 announcementId: request.announcementId

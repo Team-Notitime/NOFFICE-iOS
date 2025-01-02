@@ -56,6 +56,9 @@ public class MypageViewController: BaseViewController<MypageView> {
         baseView.withdrawRow
             .rx.tapGesture()
             .when(.recognized)
+            .do(onNext: { _ in
+              print("터치 됨")
+            })
             .map { _ in .tapWithdrawRow }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)

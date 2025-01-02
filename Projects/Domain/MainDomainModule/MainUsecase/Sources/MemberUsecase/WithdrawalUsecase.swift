@@ -32,11 +32,16 @@ public struct WithdrawalUsecase {
     
     // MARK: Execute method
     public func execute(_ input: Input) -> Observable<Output> {
-        tokenKeychainManager.delete()
-        
         let outputObservable = self.memberRepository
             .withdrawal(.init())
+            .do { _ in
+              tokenKeychainManager.delete()
+            }
             .map { Output(isSuccess: true) }
+            .catch { _ in
+              let _ = tokenKeychainManager.delete()
+              return .empty()
+            }
         
         return outputObservable
     }

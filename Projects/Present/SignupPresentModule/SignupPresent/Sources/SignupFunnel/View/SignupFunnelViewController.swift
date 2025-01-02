@@ -66,8 +66,8 @@ public class SignupFunnelViewController: BaseViewController<SignupFunnelView> {
 }
 
 extension SignupFunnelViewController: SignupTermsPageViewDelegate {
-  public func termsPageViewController(_ viewController: SignupTermsPageViewController, didRequestPresentTerFile termFile: TermFile) {
-    let termsDetailVC = TermsDetailBottomSheetController(termFile: termFile)
+  public func termsPageViewController(_ viewController: SignupTermsPageViewController, didRequestPresentTerFile termFile: TermFile, reactor: SignupTermsPageReactor) {
+    let termsDetailVC = TermsDetailBottomSheetController(termFile: termFile, reactor: reactor)
     self.present(termsDetailVC, animated: true)
   }
 }

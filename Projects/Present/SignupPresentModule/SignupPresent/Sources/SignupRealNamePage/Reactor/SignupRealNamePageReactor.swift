@@ -8,6 +8,7 @@
 import Foundation
 
 import ReactorKit
+import MainUsecase
 
 class SignupRealNamePageReactor: Reactor {
     // MARK: Action
@@ -25,8 +26,11 @@ class SignupRealNamePageReactor: Reactor {
         var name: String = ""
         var completeButtonActive: Bool = false
     }
-    
+  
     let initialState: State = State()
+  
+    // MARK: Dependency
+    private let renameUsecase: RenameUsecase = RenameUsecase()
     
     // MARK: DisposeBag
     private let disposeBag = DisposeBag()
@@ -41,8 +45,14 @@ class SignupRealNamePageReactor: Reactor {
             return .just(.setName(name))
             
         case .tapCompleteButton:
-            // pass to parent
-            return .empty()
+            let name = currentState.name
+            let renameExecuted = renameUsecase
+                .execute(.init(name: name))
+                .flatMap { _ in
+                    return Observable<Mutation>.empty()
+                }
+            
+            return renameExecuted
         }
     }
     

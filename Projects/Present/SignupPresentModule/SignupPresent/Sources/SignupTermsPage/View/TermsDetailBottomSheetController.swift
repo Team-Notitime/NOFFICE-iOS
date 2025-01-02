@@ -11,17 +11,18 @@ import MainEntity
 import Assets
 import WebKit
 import Router
+import RxSwift
 
 public struct TermsDetailBottomSheet: View {
   private let termFile: TermFile
-  private let onDismiss: () -> Void
+  @ObservedObject private var reactor: SignupTermsDetailContainer
   
   public init(
     termFile: TermFile,
-    onDismiss: @escaping () -> Void
+    reactor: SignupTermsDetailContainer
   ) {
     self.termFile = termFile
-    self.onDismiss = onDismiss
+    self.reactor = reactor
   }
   
   public var body: some View {
@@ -39,7 +40,7 @@ public struct TermsDetailBottomSheet: View {
         .frame(maxWidth: .infinity)
         .overlay(alignment: .trailing) {
           Button(action: {
-            onDismiss()
+            reactor.dismiss()
           }) {
             AssetsImages(name: "icon-x").swiftUIImage
               .foregroundColor(.grey700)
@@ -56,29 +57,34 @@ public struct TermsDetailBottomSheet: View {
   }
 }
 
-#Preview {
-  TermsDetailBottomSheet(termFile: .init(
-    title: "개인정보 처리방침",
-    fileName: "privacy_policy"
-  ), onDismiss: {
-    
-  })
-}
-
 public class TermsDetailBottomSheetController: BaseHostingController<TermsDetailBottomSheet> {
-  public init(termFile: TermFile) {
-    super.init(
-      rootView: TermsDetailBottomSheet(
-        termFile: termFile,
-        onDismiss: {
-          Router.shared.dismiss(animated: true)
-        }
-      )
+  private let reactor: SignupTermsPageReactor
+  private let disposeBag = DisposeBag()
+  
+  public init(
+    termFile: TermFile,
+    reactor: SignupTermsPageReactor
+  ) {
+    self.reactor = reactor
+    let rootView = TermsDetailBottomSheet(
+      termFile: termFile,
+      reactor: .init(reactor: reactor)
     )
+    
+    super.init(rootView: rootView)
   }
   
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
+  }
+  
+  public override func setupStateBind() {
+    reactor.state.map(\.termsDetailVisible)
+      .filter { $0 == false }
+      .subscribe { _ in
+        self.dismiss(animated: true)
+      }
+      .disposed(by: disposeBag)
   }
 }
 

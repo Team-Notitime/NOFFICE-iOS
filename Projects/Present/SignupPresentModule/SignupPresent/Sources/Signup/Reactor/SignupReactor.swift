@@ -17,6 +17,7 @@ class SignupReactor: Reactor {
     // MARK: Action
     enum Action { 
         case tapAppleSigninButton
+        case fetchMemberInfo
     }
     
     enum Mutation { }
@@ -30,6 +31,7 @@ class SignupReactor: Reactor {
     
     // MARK: Dependency
     private let appleLoginUsecase = AppleLoginUsecase()
+    private let memberUsecase = GetMemberUsecase()
     
     // MARK: DisposeBag
     private let disposeBag = DisposeBag()
@@ -44,18 +46,27 @@ class SignupReactor: Reactor {
             let appleLoginExecuted = appleLoginUsecase
                 .execute(.init())
                 .flatMap { result in
-                    if result.isSuccess {
-                        DispatchQueue.main.async {
-                          Router.shared.pushToPresent(SignupFunnelViewController(), animated: true)
-                        }
-                    } else {
-                        // TODO: Error dialog 처리하기
-                      print("애플로그인 실패?")
+                  switch result.isSuccess {
+                  case .isAlreadyMember:
+                    return self.mutate(action: .fetchMemberInfo)
+                  case .requiredSignup:
+                    DispatchQueue.main.async {
+                      Router.shared.pushToPresent(SignupFunnelViewController(), animated: true)
                     }
                     return Observable<Mutation>.empty()
+                  }
                 }
             
             return appleLoginExecuted
+        case .fetchMemberInfo:
+          return memberUsecase
+            .execute(.init())
+            .do { _ in
+              DispatchQueue.main.async {
+                Router.shared.dismiss()
+              }
+            }
+            .flatMap { _ in Observable<Mutation>.empty() }
         }
     }
     
