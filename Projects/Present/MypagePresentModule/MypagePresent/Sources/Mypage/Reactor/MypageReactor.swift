@@ -8,6 +8,7 @@
 import Foundation
 
 import MainUsecase
+import MainEntity
 import Router
 import UserDefaultsUtility
 import NotificationCenterUtility
@@ -22,14 +23,14 @@ class MypageReactor: Reactor {
         case tapLogoutRow
         case tapWithdrawRow
     }
-    
-    enum Mutation { 
-        case setMember(Member?)
+
+    enum Mutation {
+        case setMember(MemberEntity?)
     }
     
     // MARK: State
     struct State { 
-        var member: Member?
+        var member: MemberEntity?
     }
     
     let initialState: State = State()
@@ -37,8 +38,8 @@ class MypageReactor: Reactor {
     // MARK: ChildReactor
     
     // MARK: Dependency
-    private let memberUserDefaultsManager = UserDefaultsManager<Member>()
-    
+    private let memberUsecase = GetMemberUsecase()
+  
     private let notificationCenterManager = NotificationCenterManager<Void>(name: .tokenExpired)
     
     private let logoutUsecase = LogoutUsecase()
@@ -55,9 +56,12 @@ class MypageReactor: Reactor {
     func mutate(action: Action) -> Observable<Mutation> {
         switch action { 
         case .viewDidLoad:
-            let member = memberUserDefaultsManager.get()
-            return .just(.setMember(member))
-            
+          return memberUsecase.execute(.init())
+                  .withUnretained(self)
+                  .flatMap { owner, output -> Observable<Mutation> in
+                      print(output.member.name)
+                      return .just(.setMember(output.member))
+                  }
         case .tapLogoutRow:
             let logoutOuput = logoutUsecase.execute(.init())
                 .withUnretained(self)

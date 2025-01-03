@@ -32,7 +32,6 @@ public struct GetMemberUsecase {
     }
     
     // MARK: Dependency
-    private let memberUserDefaultsManager = UserDefaultsManager<Member>()
     private let memberRepository = Container.shared.resolve(MemberRepositoryInterface.self)!
   
     // MARK: Initializer

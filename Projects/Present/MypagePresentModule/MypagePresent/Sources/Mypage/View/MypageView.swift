@@ -13,6 +13,8 @@ import Assets
 import SnapKit
 import Then
 
+import MainEntity
+
 public class MypageView: BaseView {
     // MARK: UI Constant
     private static let UserProfileCardSize: CGFloat = 76
