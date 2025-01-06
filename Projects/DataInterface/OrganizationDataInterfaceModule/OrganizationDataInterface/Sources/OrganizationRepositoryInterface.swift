@@ -26,4 +26,8 @@ public protocol OrganizationRepositoryInterface {
     func createOrganization(
         _ request: CreateOrganizationRequest
     ) -> Observable<CreateOrganizationResponse>
+  
+    func verifyPromotion(
+        _ request: PromotionVerifyRequest
+    ) -> Observable<PromotionVerifyResponse>
 }

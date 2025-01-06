@@ -28,17 +28,30 @@ class NewOrganizationPromotionPageViewController: BaseViewController<NewOrganiza
                 owner.baseView.completeButton.isEnabled = active
             })
             .disposed(by: self.disposeBag)
-        
-        // - Promotion code text field
-        reactor.state.map { $0.promotionCode }
-            .bind(to: baseView.promotionTextField.rx.text)
-            .disposed(by: disposeBag)
+      
+        reactor.state.compactMap(\.promotionisValid)
+          .withUnretained(self)
+          .subscribe { owner, valid in
+            owner.baseView.errorState = valid
+          }
+          .disposed(by: self.disposeBag)
     }
     
     override func setupActionBind() {
+      baseView.promotionTextField.rx.text
+        .orEmpty
+        .map { $0.isEmpty }
+        .withUnretained(self)
+        .subscribe { owner, isEmpty in
+          owner.baseView.errorLabel.isHidden = isEmpty
+        }
+        .disposed(by: disposeBag)
+      
         // - Text field
         baseView.promotionTextField.rx.text
             .orEmpty
+            .distinctUntilChanged()
+            .debounce(.milliseconds(150), scheduler: MainScheduler.instance)
             .map { .changePromotionCode($0) }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)

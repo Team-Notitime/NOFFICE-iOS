@@ -6,6 +6,7 @@
 //
 
 import ReactorKit
+import MainUsecase
 
 class NewOrganizationPromotionPageReactor: Reactor {
     // MARK: Action
@@ -16,11 +17,14 @@ class NewOrganizationPromotionPageReactor: Reactor {
     
     enum Mutation {
         case setName(String)
+        case setPageButtonActive(Bool)
+        case setPromotionValidity(Bool)
     }
     
     // MARK: State
     struct State {
         var promotionCode: String = ""
+        var promotionisValid: Bool?
         var completePageButtonActive: Bool = true
     }
     
@@ -31,16 +35,41 @@ class NewOrganizationPromotionPageReactor: Reactor {
     
     // MARK: Initializer
     init() { }
+  
+    // MARK: Dependency
+    private let verifyPromotionUsecase = VerifyPromotionUsecase()
     
     // MARK: Action operation
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case let .changePromotionCode(promotionCode):
-            return .just(.setName(promotionCode))
+          print("프로모션 코드 \(promotionCode)")
+          if promotionCode.isEmpty {
+              // 프로모션 코드가 비어있으면 버튼 활성화 + 이름 설정
+              return .concat([
+                  .just(.setPageButtonActive(true)),
+                  .just(.setName(promotionCode))
+              ])
+          } else {
+              // 프로모션 코드가 있으면 검증 후 버튼 상태 설정 + 이름 설정
+              return .concat([
+                  verifyPromotionUsecase.execute(.init(promotionCode: promotionCode))
+                      .flatMap { output -> Observable<Mutation> in
+                        return .concat([
+                          .just(.setPageButtonActive(output.isValid)),
+                          .just(.setPromotionValidity(output.isValid))
+                        ])
+                      }
+                      .catch { _ in
+                          return .just(.setPageButtonActive(false))
+                      }
+                      .observe(on: MainScheduler.instance),
+                  .just(.setName(promotionCode))
+              ])
+          }
             
         case .tapCompleteButton:
-            // pass to parent
-            return .empty()
+          return .empty()
         }
     }
     
@@ -49,7 +78,10 @@ class NewOrganizationPromotionPageReactor: Reactor {
         switch mutation {
         case let .setName(promotionCode):
             state.promotionCode = promotionCode
-            state.completePageButtonActive = true // TODO: 추후 규칙 추가
+        case let .setPageButtonActive(isActive):
+            state.completePageButtonActive = isActive
+        case let .setPromotionValidity(isValid):
+            state.promotionisValid = isValid
         }
         return state
     }

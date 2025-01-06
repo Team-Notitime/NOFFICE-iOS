@@ -39,6 +39,15 @@ class NewOrganizationPromotionPageView: BaseView {
         $0.placeholder = "코드를 입력해주세요"
         $0.styled(variant: .outlined, shape: .round)
     }
+  
+    lazy var errorState: Bool = false
+  
+    lazy var errorLabel = UILabel().then {
+      $0.text = errorState ? "코드가 인증되었어요" : "코드가 유효하지 않아요"
+      $0.setDefaultFont(size: 10, weight: .semibold)
+      $0.textColor = errorState ? .green500 : .red500
+      $0.isHidden = true
+    }
     
     // - Complete button
     lazy var completeButton = BaseButton(
@@ -62,6 +71,8 @@ class NewOrganizationPromotionPageView: BaseView {
         contentView.addSubview(funnelHeader)
         
         contentView.addSubview(promotionTextField)
+      
+        contentView.addSubview(errorLabel)
         
         contentView.addSubview(completeButton)
     }
@@ -82,6 +93,11 @@ class NewOrganizationPromotionPageView: BaseView {
         promotionTextField.snp.makeConstraints {
             $0.top.equalTo(funnelHeader.snp.bottom)
             $0.left.right.equalToSuperview()
+        }
+      
+        errorLabel.snp.makeConstraints {
+            $0.top.equalTo(promotionTextField.snp.bottom).offset(7)  // 텍스트필드와 8포인트 간격
+            $0.left.right.equalToSuperview().inset(21)
         }
         
         completeButton.snp.makeConstraints {

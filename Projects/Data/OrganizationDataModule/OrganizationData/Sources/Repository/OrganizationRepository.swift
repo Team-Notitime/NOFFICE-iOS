@@ -138,4 +138,35 @@ public struct OrganizationRepository: OrganizationRepositoryInterface {
             return Disposables.create()
         }
     }
+  
+    public func verifyPromotion(
+        _ request: PromotionVerifyRequest
+    ) -> Observable<PromotionVerifyResponse> {
+      return Observable.create { observer in
+        let task = Task {
+          do {
+            let response = try await client.verifyPromotionCode(
+              .init(
+                body: .json(
+                  .init(code: request.body.promotionCode ?? "")
+                )
+              )
+            )
+            
+            if let data = try response.ok.body.json.data {
+              observer.onNext(data)
+              observer.onCompleted()
+            } else {
+              observer.onError(OrganizationError.invalidResponse)
+            }
+          } catch {
+            observer.onError(OrganizationError.underlying(error))
+          }
+        }
+        
+        return Disposables.create {
+          task.cancel()
+        }
+      }
+    }
 }
