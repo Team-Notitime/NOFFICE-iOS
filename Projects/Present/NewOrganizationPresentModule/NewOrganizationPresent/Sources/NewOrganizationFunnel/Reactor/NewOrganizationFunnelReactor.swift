@@ -19,16 +19,19 @@ class NewOrganizationFunnelReactor: Reactor {
     enum Action { 
         case moveNextPage
         case movePreviousPage
+        case setCreatedOrganization(OrganizationEntity)
     }
     
     enum Mutation { 
         case setCurrentPage(NewOrganizationFunnelPage)
+        case setCreatedOrganization(OrganizationEntity)
     }
     
     // MARK: State
     struct State { 
         var pages: [NewOrganizationFunnelPage] = NewOrganizationFunnelPage.allCases
         var currentPage: NewOrganizationFunnelPage = .name
+        var createdOrganization: OrganizationEntity?
     }
     
     let initialState: State = State()
@@ -80,6 +83,8 @@ class NewOrganizationFunnelReactor: Reactor {
         case .movePreviousPage:
             let previousPage = previousPage(before: currentState.currentPage)
             return Observable.just(.setCurrentPage(previousPage))
+        case let .setCreatedOrganization(org):
+            return .just(.setCreatedOrganization(org))
         }
     }
     
@@ -88,6 +93,8 @@ class NewOrganizationFunnelReactor: Reactor {
         switch mutation {
         case .setCurrentPage(let page):
             state.currentPage = page
+        case .setCreatedOrganization(let org):
+            state.createdOrganization = org
         }
         return state
     }
@@ -135,7 +142,7 @@ class NewOrganizationFunnelReactor: Reactor {
             .disposed(by: disposeBag)
         
         promotionReactor.action
-            .flatMapLatest { [weak self] action -> Observable<Void> in
+        .flatMapLatest { [weak self] action -> Observable<OrganizationEntity> in
                 guard let self = self else { return .empty() }
 
                 switch action {
@@ -149,16 +156,16 @@ class NewOrganizationFunnelReactor: Reactor {
                     )
                     
                     ProgressHUD.animate(
-                        "그룹을 생성중입니다",
+                        "그룹 생성 중",
                         .horizontalDotScaling,
                         interaction: false
                     )
                     
                     return self.createOrganizationUsecase
                         .execute(.init(newOrganization: newOrganization))
-                        .map { _ in
+                        .map { output in
                             ProgressHUD.dismiss()
-                            return Void()
+                          return output.organization
                         }
                     
                 default:
@@ -168,8 +175,9 @@ class NewOrganizationFunnelReactor: Reactor {
             .observe(on: MainScheduler.asyncInstance)
             .subscribe(
                 with: self,
-                onNext: { owner, _ in
-                    owner.action.onNext(.moveNextPage)
+                onNext: { owner, newOrganization in
+                  owner.completeReactor.action.onNext(.setNewOrganization(newOrganization))
+                  owner.action.onNext(.moveNextPage)
                 }, onError: { _, error in
                     // 에러 핸들링 추가 필요
                     print("Error: \(error)")

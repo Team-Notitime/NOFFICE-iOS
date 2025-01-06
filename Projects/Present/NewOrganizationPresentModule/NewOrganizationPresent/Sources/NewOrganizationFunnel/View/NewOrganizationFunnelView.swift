@@ -12,6 +12,7 @@ import Assets
 
 import SnapKit
 import Then
+import Swinject
 
 public class NewOrganizationFunnelView: BaseView {
     // MARK: Data
@@ -64,7 +65,7 @@ extension NewOrganizationFunnelPage: Paginable {
         case .promotion:
             return NewOrganizationPromotionPageViewController()
         case .complete:
-            return NewOrganizationCompletePageViewController()
+          return NewOrganizationCompletePageViewController()
         }
     }
 }

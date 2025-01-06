@@ -8,25 +8,40 @@
 import Foundation
 
 import ReactorKit
+import MainEntity
 
 class NewOrganizationCompletePageReactor: Reactor {
     // MARK: Action
-    enum Action { 
+    enum Action {
+        case setNewOrganization(OrganizationEntity)
         case tapGoHomeButton
         case tapCopyLinkButton
     }
     
-    enum Mutation { }
-    
-    // MARK: State
-    struct State { 
-        var link: String = "https://www.noffice.com/3KGj2ISA"
+    enum Mutation {
+      case setNewOrganization(OrganizationEntity)
     }
     
-    let initialState: State = State()
+    // MARK: State
+    struct State {
+      var organization: OrganizationEntity?
+      
+      public init(
+        organization: OrganizationEntity? = nil
+      ) {
+        self.organization = organization
+      }
+    }
+    
+    public var initialState: State = State(organization: nil)
     
     // MARK: Initializer
-    init() { }
+    public init() { }
+  
+    public convenience init(state: State) {
+      self.init()
+      self.initialState = state
+    }
     
     // MARK: Action operation
     func mutate(action: Action) -> Observable<Mutation> {
@@ -36,12 +51,17 @@ class NewOrganizationCompletePageReactor: Reactor {
             return .empty()
         case .tapCopyLinkButton:
             return .empty()
+        case let .setNewOrganization(organizationEntity):
+            return .just(.setNewOrganization(organizationEntity))
         }
     }
     
     func reduce(state: State, mutation: Mutation) -> State {
         var state = state
-        switch mutation { }
+        switch mutation {
+        case let .setNewOrganization(org):
+            state.organization = org
+        }
         return state
     }
 }

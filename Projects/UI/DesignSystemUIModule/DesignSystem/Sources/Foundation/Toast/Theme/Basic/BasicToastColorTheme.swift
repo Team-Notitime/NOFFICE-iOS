@@ -16,7 +16,7 @@ struct BasicToastColorTheme: ToastColorTheme {
     
     func backgroundColor() -> UniversalColor {
         switch variant {
-        case .success: return .init(.green100)
+        case .success: return .init(.grey500)
         case .warning: return .init(.yellow100)
         case .error: return .init(.red500.opacity(0.2))
         case .info: return .init(.grey100)
@@ -25,7 +25,7 @@ struct BasicToastColorTheme: ToastColorTheme {
     
     func foregroundColor() -> UniversalColor {
         switch variant {
-        case .success: return .init(.green600)
+        case .success: return .init(.green500)
         case .warning: return .init(.yellow600)
         case .error: return .init(.red500)
         case .info: return .init(.grey600)

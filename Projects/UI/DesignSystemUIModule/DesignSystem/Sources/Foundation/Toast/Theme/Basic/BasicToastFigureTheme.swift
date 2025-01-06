@@ -46,7 +46,7 @@ struct BasicToastFigureTheme: ToastFigureTheme {
     
     func imageName() -> ImageName? {
         switch variant {
-        case .success: return .system("checkmark.circle")
+        case .success: return .system("checkmark.circle.fill")
         case .warning: return .system("exclamationmark.triangle")
         case .error: return .system("exclamationmark.circle.fill")
         case .info: return nil

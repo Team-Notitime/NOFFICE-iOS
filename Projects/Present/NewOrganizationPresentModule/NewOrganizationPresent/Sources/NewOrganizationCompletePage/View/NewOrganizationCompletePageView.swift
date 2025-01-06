@@ -34,7 +34,7 @@ class NewOrganizationCompletePageView: BaseView {
     }
 
     lazy var subTitleLabel = UILabel().then {
-        $0.text = "링크를 통해 멤버들을 초대해보세요."
+        $0.text = "코드를 복사하고 멤버들에게 전달해주세요."
         $0.setTypo(.body2)
         $0.textColor = .grey600
     }
@@ -50,7 +50,7 @@ class NewOrganizationCompletePageView: BaseView {
         contentsBuilder: {
             [
                 UILabel().then {
-                    $0.text = "홈으로"
+                    $0.text = "그룹 메인으로"
                     $0.setTypo(.body1b)
                 }
             ]
@@ -63,7 +63,7 @@ class NewOrganizationCompletePageView: BaseView {
         contentsBuilder: {
             [
                 UILabel().then {
-                    $0.text = "초대 링크 복사"
+                    $0.text = "초대 코드 복사"
                     $0.setTypo(.body1b)
                 }
             ]

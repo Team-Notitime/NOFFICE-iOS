@@ -12,6 +12,7 @@ import DesignSystem
 import Swinject
 import RxSwift
 import RxCocoa
+import MainEntity
 
 class NewOrganizationCompletePageViewController: BaseViewController<NewOrganizationCompletePageView> {
     // MARK: Reactor
@@ -21,7 +22,7 @@ class NewOrganizationCompletePageViewController: BaseViewController<NewOrganizat
     override func setupViewBind() { }
     
     override func setupStateBind() {
-        reactor.state.map { $0.link }
+      reactor.state.map { "\(String(describing: $0.organization?.id))" }
             .bind(to: baseView.linkTextField.rx.text)
             .disposed(by: disposeBag)
     }
@@ -34,8 +35,7 @@ class NewOrganizationCompletePageViewController: BaseViewController<NewOrganizat
         
         baseView.copyLinkButton.onTap
             .map {
-                let toast = BaseToast()
-                toast.show(in: self.view, message: "링크가 복사되었습니다")
+              BaseToast.show(in: self.view, message: "코드가 복사되었습니다", variant: .success)
             }
             .map { _ in .tapCopyLinkButton }
             .bind(to: reactor.action)

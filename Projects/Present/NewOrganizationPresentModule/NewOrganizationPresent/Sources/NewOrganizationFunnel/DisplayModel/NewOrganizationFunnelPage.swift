@@ -6,12 +6,13 @@
 //
 
 import Foundation
+import MainEntity
 
 enum NewOrganizationFunnelPage: CaseIterable {
-    case name
-    case category
-    case image
-    case endDate
-    case promotion
-    case complete
+  case name
+  case category
+  case image
+  case endDate
+  case promotion
+  case complete
 }

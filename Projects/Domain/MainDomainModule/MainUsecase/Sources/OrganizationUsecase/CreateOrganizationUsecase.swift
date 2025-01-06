@@ -26,7 +26,15 @@ public struct CreateOrganizationUsecase {
         }
     }
     
-    public struct Output { }
+    public struct Output {
+      public let organization: OrganizationEntity
+      
+      public init(
+        organization: OrganizationEntity
+      ) {
+        self.organization = organization
+      }
+    }
     
     // MARK: Dependency
     private let organizationRepository = Container.shared.resolve(OrganizationRepositoryInterface.self)!
@@ -49,8 +57,19 @@ public struct CreateOrganizationUsecase {
                 )
             )
         )
-        .map { _ in
-            .init()
+        .map { org in
+          return Output(
+            organization: .init(
+              id: Int(org.id),
+              name: org.name,
+              categories: [],
+              profileImageUrl: URL(string: org.profileImage ?? ""),
+              endDate: org.endAt,
+              promotionCode: org.promotion?.promotionCode,
+              leader: 0,
+              member: 0
+            )
+          )
         }
     }
 }

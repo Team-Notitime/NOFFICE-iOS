@@ -10,7 +10,7 @@ import Foundation
 /**
  Represents the information of a new organization to be created.
  */
-public struct NewOrganizationEntity: Equatable {
+public struct NewOrganizationEntity: Hashable {
     /// Name of the organization.
     public let name: String
     

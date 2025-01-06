@@ -11,34 +11,47 @@ import RxSwift
 import Then
 import SnapKit
 
+public class ToastManager {
+    static let shared = ToastManager()
+    private init() {}
+    
+    public var isShowing = false
+}
+
 public extension BaseToast {
-    func show(
+    static func show(
         in view: UIView,
         message: String,
         variant: BasicToastVariant = .info,
-        shape: BasicToastShape = .round,
+        shape: BasicToastShape = .pill,
         alignment: BasicToastAlignment = .bottom,
         duration: TimeInterval = 3.0
     ) {
+      
+        guard !ToastManager.shared.isShowing else { return }
+             ToastManager.shared.isShowing = true
+      
+        let toast = BaseToast()
+      
         // - Set message
-        self.messageLabel.text = message
+      toast.messageLabel.text = message
         
         // - Set theme
-        self.colorTheme = BasicToastColorTheme(
+      toast.colorTheme = BasicToastColorTheme(
             variant: variant
         )
-        self.figureTheme = BasicToastFigureTheme(
+      toast.figureTheme = BasicToastFigureTheme(
             variant: variant,
             shape: shape
         )
 
         // - Set hierarchy
-        view.addSubview(self)
+        view.addSubview(toast)
         
         // Set initial frame and final frame for animation
-        self.snp.makeConstraints {
+      toast.snp.makeConstraints {
             $0.centerX.equalToSuperview()
-            $0.bottom.equalToSuperview().offset(100)
+            $0.bottom.equalToSuperview().offset(130)
         }
         view.layoutIfNeeded()
 
@@ -48,20 +61,21 @@ public extension BaseToast {
             delay: 0,
             options: [.curveEaseInOut],
             animations: {
-                self.snp.updateConstraints {
-                    $0.bottom.equalToSuperview().offset(-100)
+              toast.snp.updateConstraints {
+                    $0.bottom.equalToSuperview().offset(-130)
                 }
                 view.layoutIfNeeded()
             }
         ) { _ in
             DispatchQueue.main.asyncAfter(deadline: .now() + duration) {
                 UIView.animate(withDuration: 0.35, animations: {
-                    self.snp.updateConstraints {
-                        $0.bottom.equalToSuperview().offset(100)
+                  toast.snp.updateConstraints {
+                        $0.bottom.equalToSuperview().offset(130)
                     }
                     view.layoutIfNeeded()
                 }) { _ in
-                    self.removeFromSuperview()
+                  toast.removeFromSuperview()
+                  ToastManager.shared.isShowing = false
                 }
             }
         }
@@ -177,31 +191,33 @@ public class BaseToast: UIView {
         case .none:
             iconImageView.isHidden = true
         }
-        iconImageView.tintColor = foregroundColor
-        
+        let configuration = UIImage.SymbolConfiguration(hierarchicalColor: foregroundColor)
+              .applying(UIImage.SymbolConfiguration(paletteColors: [.white, foregroundColor]))
+          
+        iconImageView.image = UIImage(systemName: "checkmark.circle.fill")
+        iconImageView.preferredSymbolConfiguration = configuration
+          
         // - Message label
         messageLabel.setTypo(messageLabelTypo)
-        messageLabel.textColor = foregroundColor
+        messageLabel.textColor = .white
     }
     
     private func updateLayout() {
         guard let figureTheme = figureTheme else { return }
         
         // - Theme value
-        let padding = figureTheme.padding()
-        let imageSize = figureTheme.imageSize()
         
         // - Stack view
         stackView.snp.remakeConstraints {
             $0.top.bottom.equalToSuperview()
-                .inset(padding.vertical ?? 0)
+            .inset(13.75)
             $0.left.right.equalToSuperview()
-                .inset(padding.horizontal ?? 0)
+            .inset(24)
         }
         
         // - Icon image view
         iconImageView.snp.remakeConstraints {
-            $0.width.height.equalTo(imageSize.same ?? 20)
+            $0.width.height.equalTo(18)
         }
     }
 }
