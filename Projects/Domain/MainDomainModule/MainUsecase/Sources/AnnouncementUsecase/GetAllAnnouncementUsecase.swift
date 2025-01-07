@@ -80,7 +80,7 @@ public final class GetAllAnnouncementUsecase {
                         organizationId: organization.organizationId,
                         organizationName: organization.organizationName,
                         organizationProfileImageUrl: URL(
-                            string: organization.profileImage
+                            string: organization.profileImage ?? ""
                         )
                     )
                 }

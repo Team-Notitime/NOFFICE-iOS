@@ -57,7 +57,7 @@ public class GetJoinedOrganizationsUsecase {
                     id: $0.organizationId,
                     name: $0.organizationName,
                     profileImageUrl: URL(
-                        string: $0.profileImage
+                      string: $0.profileImage ?? ""
                     ),
                     role: $0.role == .LEADER ? .leader : .member
                 )

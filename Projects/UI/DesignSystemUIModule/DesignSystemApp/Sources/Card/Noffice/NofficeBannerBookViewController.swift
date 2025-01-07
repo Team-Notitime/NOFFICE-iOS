@@ -27,7 +27,7 @@ class NofficeBannerBookViewController: UIViewController {
     }
     
     private lazy var banner = NofficeBanner().then {
-        $0.userName = "이즌"
+        $0.userName = ""
         $0.todayPrefixText = "활기찬"
         $0.dateText = "8월 27일 화요일"
     }
