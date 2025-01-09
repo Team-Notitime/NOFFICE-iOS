@@ -29,6 +29,58 @@ public class NewOrganizationFunnelView: BaseView {
     ).then {
         $0.gestureScrollEnabled = false
     }
+  
+    lazy var unsavedChangedsDialog = BaseDialog {
+      DialogContentView(
+        icon: .imgNottiBang,
+        title: "완료하지 않고 나갈 건가요?",
+        message: "지금까지의 작성 내용이 사라집니다."
+      )
+    } buttonBuilder: {
+      [
+        goHomeButton,
+        continueButton
+      ]
+    }.then {
+      $0.styled(
+        variant: .overlay,
+        shape: .round
+      )
+    }
+    
+    lazy var goHomeButton = BaseButton(
+        contentsBuilder: {
+            [
+                UILabel().then {
+                    $0.text = "나가기"
+                    $0.setTypo(.body1b)
+                }
+            ]
+        }
+    ).then {
+        $0.styled(
+            variant: .fill,
+            color: .ghost,
+            size: .medium
+        )
+    }
+    
+    lazy var continueButton = BaseButton(
+      contentsBuilder: {
+        [
+          UILabel().then {
+            $0.text = "이어서 완료하기"
+            $0.setTypo(.body1b)
+          }
+        ]
+      }
+    ).then {
+      $0.styled(
+        variant: .fill,
+        color: .green,
+        size: .medium
+      )
+    }
     
     // MARK: Setup
     public override func setupHierarchy() {

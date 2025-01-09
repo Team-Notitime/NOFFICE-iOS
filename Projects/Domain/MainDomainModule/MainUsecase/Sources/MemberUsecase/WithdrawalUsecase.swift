@@ -39,7 +39,7 @@ public struct WithdrawalUsecase {
             }
             .map { Output(isSuccess: true) }
             .catch { _ in
-              let _ = tokenKeychainManager.delete()
+              _ = tokenKeychainManager.delete()
               return .empty()
             }
         

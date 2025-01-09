@@ -72,142 +72,150 @@ public extension BaseDialog {
 }
 
 public class BaseDialog: UIView {
-    public typealias ViewBuilder = () -> [UIView]
+  public typealias ContentViewBuilder = () -> UIView
+  public typealias ButtonViewBuilder = () -> [UIView]
+  
+  // MARK: UIConstant
+  private let dialogPadding: CGFloat = 20  // 상하좌우 여백
+  private let contentButtonSpacing: CGFloat = 30  // 컨텐츠와 버튼 영역 사이 여백
+  private let buttonSpacing: CGFloat = 8  // 버튼 간 간격
+  
+  // MARK: Theme
+  private var colorTheme: BasicDialogColorTheme? {
+    didSet {
+      updateCornerRadius()
+      updateTheme()
+      updateLayout()
+    }
+  }
+  
+  private var figureTheme: BasicDialogFigureTheme? {
+    didSet {
+      updateCornerRadius()
+      updateTheme()
+      updateLayout()
+    }
+  }
+  
+  // MARK: UI Component
+  private let overlayView = UIView()
+  
+  private let backgroundView = UIView().then {
+    $0.backgroundColor = .fullWhite
+  }
+  
+  private let containerStackView = UIStackView().then {
+    $0.axis = .vertical
+    $0.spacing = 30  // contentButtonSpacing
+  }
+  
+  private let buttonStackView = UIStackView().then {
+    $0.axis = .vertical
+    $0.spacing = 8  // buttonSpacing
+    $0.distribution = .fillEqually
+  }
+  
+  // MARK: Build component
+  private var contentView: UIView?
+  private var buttonViews: [UIView] = []
+  
+  // MARK: DisposeBag
+  private let disposeBag = DisposeBag()
+  
+  // MARK: Initializer
+  public override init(frame: CGRect) {
+    super.init(frame: frame)
+    setupHierarchy()
+    updateCornerRadius()
+    setupBind()
+    updateTheme()
+    updateLayout()
+  }
+  
+  public required init?(coder: NSCoder) {
+    super.init(coder: coder)
+    setupHierarchy()
+    setupBind()
+    updateCornerRadius()
+    updateTheme()
+    updateLayout()
+  }
+  
+  public init(
+    contentBuilder: ContentViewBuilder,
+    buttonBuilder: ButtonViewBuilder
+  ) {
+    super.init(frame: .zero)
     
-    // MARK: Theme
-    private var colorTheme: BasicDialogColorTheme? {
-        didSet {
-            updateCornerRadius()
-            updateTheme()
-            updateLayout()
-        }
+    contentView = contentBuilder()
+    buttonViews = buttonBuilder()
+    
+    setupHierarchy()
+    updateCornerRadius()
+    setupBind()
+    updateTheme()
+    updateLayout()
+  }
+  
+  // MARK: Life cycle
+  
+  // MARK: Setup
+  private func setupHierarchy() {
+    addSubview(overlayView)
+    addSubview(backgroundView)
+    
+    backgroundView.addSubview(containerStackView)
+    
+    if let contentView = contentView {
+      containerStackView.addArrangedSubview(contentView)
     }
     
-    private var figureTheme: BasicDialogFigureTheme? {
-        didSet {
-            updateCornerRadius()
-            updateTheme()
-            updateLayout()
-        }
+    containerStackView.addArrangedSubview(buttonStackView)
+    
+    buttonViews.forEach {
+      buttonStackView.addArrangedSubview($0)
+    }
+  }
+  
+  private func setupBind() { }
+  
+  // MARK: Update
+  private func updateCornerRadius() {
+    guard let figureTheme = figureTheme else { return }
+    
+    let rounded = figureTheme.rounded().max
+    
+    backgroundView.layer.cornerRadius = rounded
+  }
+  
+  private func updateTheme() {
+    guard let colorTheme = colorTheme else { return }
+    
+    // overaly
+    let overlayColor = colorTheme.overlayColor().uiColor
+    overlayView.backgroundColor = overlayColor
+    
+    // shadow
+    let shadowColor = colorTheme.shadowColor().cgColor
+    backgroundView.layer.shadowColor = shadowColor
+    backgroundView.layer.shadowOffset = CGSize(width: 0, height: 0)
+    backgroundView.layer.shadowOpacity = 0.5
+    backgroundView.layer.shadowRadius = 12
+    
+  }
+  
+  private func updateLayout() {
+    overlayView.snp.makeConstraints {
+      $0.edges.equalToSuperview()
     }
     
-    // MARK: UIConstant
-    private let pagePadding: CGFloat = 24
-    
-    // MARK: UI Component
-    private let overlayView = UIView()
-    
-    private let backgroundView = UIView().then {
-        $0.backgroundColor = .fullWhite
+    backgroundView.snp.makeConstraints {
+      $0.center.equalToSuperview()
+      $0.left.right.equalToSuperview().inset(24)
     }
     
-    private let contentStackView = UIStackView().then {
-        $0.axis = .vertical
-        $0.spacing = 8
+    containerStackView.snp.makeConstraints {
+      $0.edges.equalToSuperview().inset(dialogPadding)
     }
-    
-    // MARK: Build component
-    private var contentComponents: [UIView] = []
-    
-    // MARK: DisposeBag
-    private let disposeBag = DisposeBag()
-    
-    // MARK: Initializer
-    public override init(frame: CGRect) {
-        super.init(frame: frame)
-        setupHierarchy()
-        updateCornerRadius()
-        setupBind()
-        updateTheme()
-        updateLayout()
-    }
-    
-    public required init?(coder: NSCoder) {
-        super.init(coder: coder)
-        setupHierarchy()
-        setupBind()
-        updateCornerRadius()
-        updateTheme()
-        updateLayout()
-    }
-    
-    public init(
-        contentsBuilder: ViewBuilder
-    ) {
-        super.init(frame: .zero)
-        
-        contentComponents.append(contentsOf: contentsBuilder())
-        
-        setupHierarchy()
-        updateCornerRadius()
-        setupBind()
-        updateTheme()
-        updateLayout()
-    }
-    
-    // MARK: Life cycle
-    
-    // MARK: Setup
-    private func setupHierarchy() { 
-        addSubview(overlayView)
-        
-        addSubview(backgroundView)
-        
-        backgroundView.addSubview(contentStackView)
-        
-        contentComponents.forEach {
-            contentStackView.addArrangedSubview($0)
-        }
-    }
-    
-    private func setupBind() { }
-    
-    // MARK: Update
-    private func updateCornerRadius() {
-        guard let figureTheme = figureTheme else { return }
-        
-        let rounded = figureTheme.rounded().max
-        
-        backgroundView.layer.cornerRadius = rounded
-    }
-    
-    private func updateTheme() { 
-        guard let colorTheme = colorTheme else { return }
-        
-        // overaly
-        let overlayColor = colorTheme.overlayColor().uiColor
-        overlayView.backgroundColor = overlayColor
-        
-        // shadow
-        let shadowColor = colorTheme.shadowColor().cgColor
-        backgroundView.layer.shadowColor = shadowColor
-        backgroundView.layer.shadowOffset = CGSize(width: 0, height: 0)
-        backgroundView.layer.shadowOpacity = 0.5
-        backgroundView.layer.shadowRadius = 12
-        
-    }
-    
-    private func updateLayout() { 
-        guard let figureTheme = figureTheme else { return }
-        
-        let padding = figureTheme.padding()
-        
-        overlayView.snp.makeConstraints {
-            $0.centerX.centerY.equalToSuperview()
-            $0.width.equalTo(UIScreen.main.bounds.width)
-            $0.height.equalTo(UIScreen.main.bounds.height)
-            $0.edges.equalToSuperview()
-        }
-        
-        backgroundView.snp.makeConstraints {
-            $0.center.equalToSuperview()
-            $0.left.right.equalToSuperview().inset(pagePadding)
-        }
-        
-        contentStackView.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(padding.vertical ?? 0)
-            $0.left.right.equalToSuperview().inset(padding.horizontal ?? 0)
-            $0.bottom.equalTo(backgroundView.snp.bottom).inset(padding.vertical ?? 0)
-        }
-    }
+  }
 }

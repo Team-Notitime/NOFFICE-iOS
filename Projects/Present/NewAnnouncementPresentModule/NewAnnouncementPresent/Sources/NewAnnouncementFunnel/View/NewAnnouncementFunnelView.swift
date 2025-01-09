@@ -33,24 +33,48 @@ public class NewAnnouncementFunnelView: BaseView {
     
     // - Has leader role organization dialog
     lazy var hasLeaderRoleOrganizationDialog = BaseDialog(
-        contentsBuilder: {
-            [
-                UILabel().then {
-                    $0.text = "참여한 그룹이 없습니다!"
-                    $0.setTypo(.body2b)
-                },
-                goHomeButton
-            ]
-        }
+      contentBuilder: {
+        DialogContentView(
+          icon: .imgNottiBang,
+          title: "참여한 그룹이 없어요",
+          message: "그룹에 참여해서 공지를 확인해보세요!"
+        )
+      },
+      buttonBuilder: {
+        [
+          goCreateGroupButton,
+          goHomeButton
+        ]
+      }
     ).then {
-        $0.styled()
+      $0.styled(
+        variant: .overlay,
+        shape: .round
+      )
+    }
+  
+    lazy var goCreateGroupButton = BaseButton(
+      contentsBuilder: {
+        [
+          UILabel().then {
+            $0.text = "그룹 만들러가기"
+            $0.setTypo(.body1b)
+          }
+        ]
+      }
+    ).then {
+      $0.styled(
+        variant: .fill,
+        color: .ghost,
+        size: .medium
+      )
     }
     
     lazy var goHomeButton = BaseButton(
         contentsBuilder: {
             [
                 UILabel().then {
-                    $0.text = "홈으로 돌아가기"
+                    $0.text = "확인"
                     $0.setTypo(.body1b)
                 }
             ]
@@ -58,7 +82,7 @@ public class NewAnnouncementFunnelView: BaseView {
     ).then {
         $0.styled(
             variant: .fill,
-            color: .ghost,
+            color: .green,
             size: .medium
         )
     }

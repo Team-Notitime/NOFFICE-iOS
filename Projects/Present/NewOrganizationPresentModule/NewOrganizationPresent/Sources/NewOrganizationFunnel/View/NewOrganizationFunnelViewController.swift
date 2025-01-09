@@ -19,7 +19,22 @@ public class NewOrganizationFunnelViewController: BaseViewController<NewOrganiza
     private let reactor = Container.shared.resolve(NewOrganizationFunnelReactor.self)!
     
     // MARK: Setup
-    public override func setupViewBind() { }
+    public override func setupViewBind() {
+      baseView.goHomeButton
+        .onTap
+        .subscribe(with: self) { owner, _ in
+          owner.baseView.unsavedChangedsDialog.close()
+          Router.shared.back()
+        }
+        .disposed(by: disposeBag)
+      
+      baseView.continueButton
+        .onTap
+        .subscribe(with: self) { owner, _ in
+          owner.baseView.unsavedChangedsDialog.close()
+        }
+        .disposed(by: disposeBag)
+    }
     
     public override func setupStateBind() {
         reactor.state.map { $0.currentPage }
@@ -41,7 +56,7 @@ public class NewOrganizationFunnelViewController: BaseViewController<NewOrganiza
                 if currentPage == .name {
                     Router.shared.back()
                 } else {
-                    owner.reactor.action.onNext(.movePreviousPage)
+                    owner.baseView.unsavedChangedsDialog.open()
                 }
             })
             .disposed(by: disposeBag)

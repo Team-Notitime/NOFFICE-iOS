@@ -58,7 +58,7 @@ class MypageReactor: Reactor {
         case .viewDidLoad:
           return memberUsecase.execute(.init())
                   .withUnretained(self)
-                  .flatMap { owner, output -> Observable<Mutation> in
+                  .flatMap { _, output -> Observable<Mutation> in
                       print(output.member.name)
                       return .just(.setMember(output.member))
                   }

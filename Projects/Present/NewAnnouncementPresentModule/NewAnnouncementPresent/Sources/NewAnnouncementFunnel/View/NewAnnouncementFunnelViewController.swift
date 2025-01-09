@@ -47,7 +47,7 @@ public class NewAnnouncementFunnelViewController: BaseViewController<NewAnnounce
             })
           .disposed(by: self.disposeBag)
         
-        reactor.state.map { $0.isOpenHasLeaderRoleOrganizationDialog }
+      reactor.state.map(\.isOpenHasLeaderRoleOrganizationDialog)
             .skip(1)
             .withUnretained(self.baseView)
             .subscribe(onNext: { owner, isOpen in
