@@ -39,7 +39,7 @@ public struct MemberRepository: MemberRepositoryInterface {
         return Observable.create { observer in
             Task {
                 do {
-                    let response = try await authenticatedClient.getById(request)
+                    let response = try await authenticatedClient.getById()
                     
                     if let data = try response.ok.body.json.data {
                         observer.onNext(data)

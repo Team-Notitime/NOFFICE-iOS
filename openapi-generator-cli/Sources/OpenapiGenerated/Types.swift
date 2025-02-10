@@ -2645,7 +2645,7 @@ public enum Components {
             /// 프로필 이미지
             ///
             /// - Remark: Generated from `#/components/schemas/OrganizationResponse/profileImage`.
-            public var profileImage: Swift.String?
+            public var profileImage: Swift.String
             /// 가입 상태
             ///
             /// - Remark: Generated from `#/components/schemas/OrganizationResponse/joinStatus`.

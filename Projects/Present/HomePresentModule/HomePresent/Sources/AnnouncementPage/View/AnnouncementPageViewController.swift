@@ -27,7 +27,11 @@ class AnnouncementPageViewController: BaseViewController<AnnouncementPageView> {
     // MARK: Setup
     override func setupStateBind() {
         reactor.state.map { $0.organizations }
+            .observe(on: MainScheduler.instance)
             .withUnretained(self)
+            .do(onNext: { owner, organizations in
+              owner.baseView.showEmptyView(organizations.isEmpty)
+            })
             .map { owner, organizations in
                 [
                     BannerSection(

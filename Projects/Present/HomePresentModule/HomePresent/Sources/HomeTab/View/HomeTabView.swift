@@ -19,13 +19,24 @@ public class HomeTabView: BaseView {
     lazy var topBarStackView = BaseHStack(spacing: 0) {
         [
             BaseSpacer(size: GlobalViewConstant.PagePadding / 2, orientation: .horizontal),
-            segmentControl,
+            logo,
             BaseSpacer(),
-//            notificationButton, // TODO: 우선 Hide 처리
+            notificationButton, // TODO: 우선 Hide 처리
             BaseSpacer(size: 6, orientation: .horizontal),
             mypageButton,
             BaseSpacer(size: GlobalViewConstant.PagePadding / 2, orientation: .horizontal)
         ]
+    }
+  
+    lazy var logo = BaseButton {
+        [
+            UIImageView(image: .imgNottiLogo).then {
+                $0.tintColor = .grey500
+                $0.contentMode = .scaleAspectFit
+            }
+        ]
+    }.then {
+        $0.styled(variant: .transparent, color: .ghost, size: .xsmall)
     }
     
     // - Notification icon

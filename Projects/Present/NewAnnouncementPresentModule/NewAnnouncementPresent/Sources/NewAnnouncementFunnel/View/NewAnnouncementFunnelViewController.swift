@@ -37,10 +37,21 @@ public class NewAnnouncementFunnelViewController: BaseViewController<NewAnnounce
                 Router.shared.dismiss()
             })
             .disposed(by: disposeBag)
+      
+      baseView.goCreateGroupButton
+        .onTap
+        .subscribe(with: self) { owner, _ in
+          owner.reactor.action.onNext(.toggleisOpenHasLeaderRoleOrganizationDialog)
+          Router.shared.dismiss(animated: false) {
+            Router.shared.push(.newOrganization)
+          }
+        }
+        .disposed(by: disposeBag)
     }
     
     public override func setupStateBind() { 
         reactor.state.map { $0.currentPage }
+            .observe(on: MainScheduler.instance)
             .withUnretained(self.baseView)
             .subscribe(onNext: { owner, page in
                 owner.paginableView.currentPage = page
@@ -49,6 +60,7 @@ public class NewAnnouncementFunnelViewController: BaseViewController<NewAnnounce
         
       reactor.state.map(\.isOpenHasLeaderRoleOrganizationDialog)
             .skip(1)
+            .observe(on: MainScheduler.instance)
             .withUnretained(self.baseView)
             .subscribe(onNext: { owner, isOpen in
                 if isOpen {

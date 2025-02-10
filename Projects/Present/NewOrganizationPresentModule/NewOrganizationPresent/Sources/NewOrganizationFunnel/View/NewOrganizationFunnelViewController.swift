@@ -48,6 +48,7 @@ public class NewOrganizationFunnelViewController: BaseViewController<NewOrganiza
     public override func setupActionBind() {
         baseView.navigationBar
             .onTapBackButton
+            .observe(on: MainScheduler.instance)
             .withUnretained(self)
             .subscribe(onNext: { owner, _ in
                 guard let currentPage = owner.baseView.paginableView.currentPage

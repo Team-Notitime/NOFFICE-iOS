@@ -99,13 +99,13 @@ public final class OrganizationDetailView: BaseView {
     }
     
     lazy var leaderCountLabel = UILabel().then {
-        $0.text = "0"
+        $0.text = ""
         $0.setTypo(.body1m)
         $0.textColor = .grey800
     }
     
     lazy var memberCountLabel = UILabel().then {
-        $0.text = "0"
+        $0.text = ""
         $0.setTypo(.body1m)
         $0.textColor = .grey800
     }

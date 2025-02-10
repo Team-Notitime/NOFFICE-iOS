@@ -9,6 +9,7 @@ import Foundation
 
 import ReactorKit
 import MainEntity
+import UIKit
 
 class NewOrganizationCompletePageReactor: Reactor {
     // MARK: Action
@@ -50,6 +51,9 @@ class NewOrganizationCompletePageReactor: Reactor {
             // pass to parent
             return .empty()
         case .tapCopyLinkButton:
+          if let id = currentState.organization?.id {
+            UIPasteboard.general.string = "\(id)"
+          }
             return .empty()
         case let .setNewOrganization(organizationEntity):
             return .just(.setNewOrganization(organizationEntity))

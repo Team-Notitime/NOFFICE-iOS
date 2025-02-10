@@ -22,9 +22,10 @@ class NewOrganizationCompletePageViewController: BaseViewController<NewOrganizat
     override func setupViewBind() { }
     
     override func setupStateBind() {
-        reactor.state.map { "\(String(describing: $0.organization?.id))" }
-            .bind(to: baseView.linkTextField.rx.text)
-            .disposed(by: disposeBag)
+      reactor.state.compactMap { $0.organization?.id }
+                  .map { String(describing: $0) }
+                  .bind(to: baseView.linkTextField.rx.text)
+                  .disposed(by: disposeBag)
     }
     
     override func setupActionBind() { 
