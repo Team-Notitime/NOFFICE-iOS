@@ -18,6 +18,7 @@ import MainEntity
 public class MypageView: BaseView {
     // MARK: UI Constant
     private static let UserProfileCardSize: CGFloat = 76
+    private static let UserProfileEditSize: CGFloat = 32
     
     // MARK: UI Component
     // - Navigation bar
@@ -52,15 +53,15 @@ public class MypageView: BaseView {
                         [
                             userNameLabel,
                             // TODO: v1.1.0 추가 예정
-//                            UIImageView(image: .iconEdit).then {
-//                                $0.contentMode = .scaleAspectFit
-//                                $0.setSize(width: 22, height: 22)
-//                                $0.tintColor = .green600
-//                            },
+                            UIImageView(image: .iconEdit).then {
+                                $0.contentMode = .scaleAspectFit
+                                $0.setSize(width: 22, height: 22)
+                                $0.tintColor = .green600
+                            },
                             BaseSpacer()
                         ]
                     },
-//                    emailLabel, // TODO: v1.1.0 추가 예정
+                    emailLabel, // TODO: v1.1.0 추가 예정
                     BaseSpacer()
                 ]
             }
@@ -74,6 +75,16 @@ public class MypageView: BaseView {
         )
         $0.layer.cornerRadius = Self.UserProfileCardSize / 2
         $0.layer.masksToBounds = true
+    }
+  
+    lazy var userImageEditView = BaseButton {
+        [
+          UIImageView(image: .iconCameraPlz).then {
+            $0.contentMode = .scaleAspectFit
+          }
+        ]
+    }.then {
+      $0.styled(variant: .transparent, color: .ghost, size: .xsmall)
     }
     
     lazy var userNameLabel = UILabel().then {
@@ -95,12 +106,11 @@ public class MypageView: BaseView {
                 BaseVStack(spacing: 18) {
                     let menus = [
                         ("앱 버전", "1.0.0"),
-                        ("문의하기", "do83430208@gmail.com")
+                        ("문의하기", "do83430208@gmail.com"),
                         // TODO: v1.1.0 추가 예정
-//                        ("문의하기", nil),
-//                        ("공지사항", nil),
-//                        ("서비스 이용 약관", nil),
-//                        ("개인정보 처리 방침", nil)
+                        ("공지사항", nil),
+                        ("서비스 이용 약관", nil),
+                        ("개인정보 처리 방침", nil)
                     ].map { (title, rightText) in
                         BaseHStack {
                             [
@@ -125,7 +135,7 @@ public class MypageView: BaseView {
 
                     return [
                         UILabel().then {
-                            $0.text = "공지사항"
+                            $0.text = "이용 안내"
                             $0.setTypo(.body3m)
                             $0.textColor = .grey500
                         }
@@ -177,26 +187,26 @@ public class MypageView: BaseView {
                 BaseVStack(spacing: 18) {
                     [
                         UILabel().then {
-                            $0.text = "앱기타"
+                            $0.text = "기타"
                             $0.setTypo(.body3m)
                             $0.textColor = .grey500
                         },
                         // TODO: v1.1.0 추가 예정
-//                        BaseHStack {
-//                            [
-//                                UILabel().then {
-//                                    $0.text = "정보 동의 설정"
-//                                    $0.setTypo(.body2m)
-//                                    $0.textColor = .grey800
-//                                },
-//                                BaseSpacer(),
-//                                UIImageView(image: .iconChevronRight).then {
-//                                   $0.contentMode = .scaleAspectFit
-//                                   $0.setSize(width: 18, height: 18)
-//                                   $0.tintColor = .grey500
-//                               }
-//                            ]
-//                        },
+                        BaseHStack {
+                            [
+                                UILabel().then {
+                                    $0.text = "정보 동의 설정"
+                                    $0.setTypo(.body2m)
+                                    $0.textColor = .grey800
+                                },
+                                BaseSpacer(),
+                                UIImageView(image: .iconChevronRight).then {
+                                   $0.contentMode = .scaleAspectFit
+                                   $0.setSize(width: 18, height: 18)
+                                   $0.tintColor = .grey500
+                               }
+                            ]
+                        },
                         withdrawRow,
                         logoutRow
                     ]
@@ -249,14 +259,22 @@ public class MypageView: BaseView {
         
         scrollView.addSubview(contentView)
         
+        scrollView.addSubview(userProfile)
+      
         scrollView.addSubview(stackView)
         
-        stackView.addArrangedSubview(userProfile)
+        userProfile.addSubview(userImageEditView)
+        userImageEditView.snp.makeConstraints {
+          $0.trailing.equalTo(self.userImageView.snp.trailing).offset(13)
+          $0.bottom.equalTo(self.userImageView.snp.bottom).offset(12)
+        }
+      
+//        stackView.addArrangedSubview(userProfile)
         
         stackView.addArrangedSubview(announcementCard)
         
         // TODO: v1.1.0 추가 예정
-//        stackView.addArrangedSubview(appSettingCard)
+        stackView.addArrangedSubview(appSettingCard)
         
         stackView.addArrangedSubview(etcCard)
     }
@@ -276,10 +294,17 @@ public class MypageView: BaseView {
             $0.edges.equalTo(scrollView.contentLayoutGuide)
             $0.width.equalTo(scrollView.frameLayoutGuide)
         }
+      
+        userProfile.snp.makeConstraints {
+            $0.top.equalToSuperview()
+              .offset(GlobalViewConstant.SpacingUnit * 2)
+            $0.left.right.equalToSuperview()
+                .inset(GlobalViewConstant.PagePaddingLarge)
+        }
         
         stackView.snp.makeConstraints {
-            $0.top.equalToSuperview()
-                .offset(GlobalViewConstant.SpacingUnit * 2)
+            $0.top.equalTo(self.userProfile.snp.bottom)
+                .offset(30)
             $0.left.right.equalToSuperview()
                 .inset(GlobalViewConstant.PagePaddingLarge)
             $0.bottom.equalToSuperview()

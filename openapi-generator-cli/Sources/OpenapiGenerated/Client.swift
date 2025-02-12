@@ -4697,17 +4697,23 @@ public struct Client: APIProtocol {
                     )
                     switch chosenContentType {
                     case "application/json":
+                      do {
                         body = try await converter.getResponseBodyAsJSON(
-                            Components.Schemas.NofficeResponseMemberResponse.self,
-                            from: responseBody,
-                            transforming: { value in
-                                .json(value)
-                            }
+                          Components.Schemas.NofficeResponseMemberResponse.self,
+                          from: responseBody,
+                          transforming: { value in
+                              .json(value)
+                          }
                         )
+                        print("Decoded Response: \(body)")
+                        return .ok(.init(body: body))
+                      } catch {
+                        print("JSON Decoding Error: \(error)")
+                        throw error 
+                      }
                     default:
                         preconditionFailure("bestContentType chose an invalid content type.")
                     }
-                    return .ok(.init(body: body))
                 case 401:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
                     let body: Operations.getById.Output.Unauthorized.Body

@@ -36,6 +36,7 @@ public class HomeTabView: BaseView {
             }
         ]
     }.then {
+        $0.isEnabled = false
         $0.styled(variant: .transparent, color: .ghost, size: .xsmall)
     }
     

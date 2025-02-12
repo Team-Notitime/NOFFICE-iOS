@@ -55,9 +55,9 @@ public class NewOrganizationFunnelViewController: BaseViewController<NewOrganiza
                 else { return }
                 
                 if currentPage == .name {
-                    Router.shared.back()
+                  Router.shared.back()
                 } else {
-                    owner.baseView.unsavedChangedsDialog.open()
+                  owner.baseView.unsavedChangedsDialog.open()
                 }
             })
             .disposed(by: disposeBag)
