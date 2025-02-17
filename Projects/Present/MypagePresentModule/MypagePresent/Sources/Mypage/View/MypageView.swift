@@ -52,12 +52,8 @@ public class MypageView: BaseView {
                     BaseHStack {
                         [
                             userNameLabel,
+                            userNameEditButton,
                             // TODO: v1.1.0 추가 예정
-                            UIImageView(image: .iconEdit).then {
-                                $0.contentMode = .scaleAspectFit
-                                $0.setSize(width: 22, height: 22)
-                                $0.tintColor = .green600
-                            },
                             BaseSpacer()
                         ]
                     },
@@ -66,6 +62,12 @@ public class MypageView: BaseView {
                 ]
             }
         ]
+    }
+  
+    lazy var userNameEditButton = UIImageView(image: .iconEdit).then {
+      $0.contentMode = .scaleAspectFit
+      $0.setSize(width: 22, height: 22)
+      $0.tintColor = .green600
     }
     
     lazy var userImageView = UIImageView(image: .imgProfileUser).then {
@@ -247,6 +249,56 @@ public class MypageView: BaseView {
                $0.tintColor = .red500
            }
         ]
+    }
+  
+    public lazy var signOutDialog = BaseDialog {
+      DialogContentView(
+        title: "로그아웃 할까요?", message: ""
+      )
+    } buttonBuilder: {
+      [
+        cancel,
+        signOutButton
+      ]
+    }.then {
+      $0.styled(
+        variant: .overlay,
+        shape: .round
+      )
+    }
+    
+    lazy var cancel = BaseButton(
+        contentsBuilder: {
+            [
+                UILabel().then {
+                    $0.text = "취소"
+                    $0.setTypo(.body1b)
+                }
+            ]
+        }
+    ).then {
+        $0.styled(
+            variant: .fill,
+            color: .green,
+            size: .medium
+        )
+    }
+    
+    lazy var signOutButton = BaseButton(
+      contentsBuilder: {
+        [
+          UILabel().then {
+            $0.text = "로그아웃"
+            $0.setTypo(.body1b)
+          }
+        ]
+      }
+    ).then {
+      $0.styled(
+        variant: .fill,
+        color: .ghost,
+        size: .medium
+      )
     }
 
     // MARK: Setup

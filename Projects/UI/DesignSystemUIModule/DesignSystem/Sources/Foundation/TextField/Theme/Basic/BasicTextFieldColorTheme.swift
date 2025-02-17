@@ -73,6 +73,8 @@ extension BasicTextFieldColorTheme {
             return .init(.grey800)
         case .blue:
             return .init(.blue600)
+        case .white:
+          return .init(.grey800)
         }
     }
     
@@ -88,6 +90,8 @@ extension BasicTextFieldColorTheme {
         case (_, .disabled): return .init(.grey50)
         case (_, .error): return .init(.red500.opacity(0.1))
         case (_, .success): return .init(.green500.opacity(0.1))
+        case (.white, .normal): return .init(.white)
+        case (.white, .focused): return .init(.white)
         }
     }
     
@@ -103,6 +107,10 @@ extension BasicTextFieldColorTheme {
         case (_, .disabled): return .init(.grey100)
         case (_, .error): return .init(.red500)
         case (_, .success): return .init(.green500)
+        case (.white, .normal):
+          return .init(.white)
+        case (.white, .focused):
+          return .init(.white)
         }
     }
 }

@@ -313,7 +313,7 @@ public extension UIImage {
   static let {{asset.name|swiftIdentifier:"pretty"|lowerFirstWord|escapeReservedKeywords}}: UIImage = {
     let image = {{imageType}}(name: "{{asset.value}}").image
     {% if "icon" in asset.name %}
-    return image.withRenderingMode(.alwaysTemplate)
+    return image.withRenderingMode(.automatic)
     {% else %}
     return image
     {% endif %}

@@ -388,8 +388,12 @@ public class BaseTextField: UIView {
     }
     
     // MARK: Delegate
-    private func focusTextField() {
+    public func focusTextField() {
         innerTextField.becomeFirstResponder()
+    }
+  
+    public func unfocusTextField() {
+      innerTextField.resignFirstResponder()
     }
     
     // MARK: Inner token

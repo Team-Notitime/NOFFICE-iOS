@@ -15,7 +15,12 @@ import UIKit
 public class MypageViewController: BaseViewController<MypageView> {
     // MARK: Reactor
     private let reactor = Container.shared.resolve(MypageReactor.self)!
-    
+  
+    private let dimmedView = UIView()
+    private let textField = BaseTextField().then {
+      $0.styled(variant: .plain, color: .white, size: .medium, shape: .round, state: .normal)
+    }
+
     // MARK: Life cycle
     override public func viewDidLoad() {
         super.viewDidLoad()
@@ -24,7 +29,20 @@ public class MypageViewController: BaseViewController<MypageView> {
     }
     
     // MARK: Setup
-    override public func setupViewBind() {}
+    override public func setupViewBind() {
+      
+      dimmedView.backgroundColor = .black.withAlphaComponent(0.5)
+      dimmedView.alpha = 0
+      baseView.addSubview(dimmedView)
+      dimmedView.snp.makeConstraints {
+        $0.edges.equalToSuperview()
+      }
+      dimmedView.addSubview(textField)
+      textField.snp.makeConstraints {
+        $0.horizontalEdges.equalToSuperview().inset(16)
+        $0.bottom.equalTo(view.keyboardLayoutGuide.snp.top).offset(-16)
+      }
+    }
     
     override public func setupStateBind() {
         reactor.state.map { $0.member }
@@ -46,12 +64,17 @@ public class MypageViewController: BaseViewController<MypageView> {
             .disposed(by: disposeBag)
         
         // - Bind logout row
-        baseView.logoutRow
-            .rx.tapGesture()
+      baseView.logoutRow.rx.tapGesture()
             .when(.recognized)
-            .map { _ in .tapLogoutRow }
-            .bind(to: reactor.action)
+            .subscribe(with: self) { owner, _ in
+              owner.baseView.signOutDialog.open()
+            }
             .disposed(by: disposeBag)
+      
+      baseView.cancel.onTap.subscribe { _ in
+          self.baseView.signOutDialog.close()
+        }
+        .disposed(by: disposeBag)
         
         // - Bind Withdraw row
         baseView.withdrawRow
@@ -63,5 +86,33 @@ public class MypageViewController: BaseViewController<MypageView> {
             .map { _ in .tapWithdrawRow }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
+      
+      baseView.userNameEditButton
+        .rx.tapGesture()
+        .when(.recognized)
+        .subscribe { _ in
+            UIView.animate(withDuration: 0.3) {
+                self.dimmedView.alpha = 1
+            }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+              self.textField.focusTextField()
+            }
+        }
+      
+      textField.textField.rx.controlEvent(.editingDidEndOnExit)
+        .subscribe { _ in
+          print("리턴 버튼 눌림")
+          self.dismissEditView()
+        }
+      
+      let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissEditView))
+      dimmedView.addGestureRecognizer(tapGesture)
     }
+  
+  @objc private func dismissEditView() {
+    UIView.animate(withDuration: 0.3) {
+       self.dimmedView.alpha = 0
+    }
+    self.textField.unfocusTextField()
+  }
 }
