@@ -212,7 +212,6 @@ public class BaseToggleButton<Option>: UIControl, ToggleButton where Option: Equ
                     
                     label.textColor = labelForegorundColor
                 }
-                label.setTypo(labelTypo)
                 label.textAlignment = .left
             }
     }

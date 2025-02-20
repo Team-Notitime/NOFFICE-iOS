@@ -80,12 +80,17 @@ public class MypageViewController: BaseViewController<MypageView> {
         baseView.withdrawRow
             .rx.tapGesture()
             .when(.recognized)
-            .do(onNext: { _ in
-              print("터치 됨")
-            })
-            .map { _ in .tapWithdrawRow }
-            .bind(to: reactor.action)
+            .subscribe(with: self) { _, _ in
+              Router.shared.pushViewController(WithdrawViewController(), animated: true)
+            }
             .disposed(by: disposeBag)
+      
+      baseView.signOutButton.onTap
+        .map {
+          .tapLogoutRow
+        }
+        .bind(to: reactor.action)
+        .disposed(by: disposeBag)
       
       baseView.userNameEditButton
         .rx.tapGesture()
@@ -98,12 +103,14 @@ public class MypageViewController: BaseViewController<MypageView> {
               self.textField.focusTextField()
             }
         }
+        .disposed(by: disposeBag)
       
       textField.textField.rx.controlEvent(.editingDidEndOnExit)
         .subscribe { _ in
           print("리턴 버튼 눌림")
           self.dismissEditView()
         }
+        .disposed(by: disposeBag)
       
       let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissEditView))
       dimmedView.addGestureRecognizer(tapGesture)

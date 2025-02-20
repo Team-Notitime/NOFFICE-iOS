@@ -81,7 +81,7 @@ public class MypageView: BaseView {
   
     lazy var userImageEditView = BaseButton {
         [
-          UIImageView(image: .iconCameraPlz).then {
+          UIImageView(image: .iconCameraPlz.withRenderingMode(.alwaysOriginal)).then {
             $0.contentMode = .scaleAspectFit
           }
         ]
@@ -109,7 +109,6 @@ public class MypageView: BaseView {
                     let menus = [
                         ("앱 버전", "1.0.0"),
                         ("문의하기", "do83430208@gmail.com"),
-                        // TODO: v1.1.0 추가 예정
                         ("공지사항", nil),
                         ("서비스 이용 약관", nil),
                         ("개인정보 처리 방침", nil)
