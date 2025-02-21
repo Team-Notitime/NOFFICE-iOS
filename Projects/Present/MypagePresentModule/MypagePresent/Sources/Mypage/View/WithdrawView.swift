@@ -58,7 +58,7 @@ public class WithdrawView: BaseView {
                   $0.text = "· 연결된 소셜 계정 정보"
                   $0.setTypo(.body2m)
                   $0.textColor = .grey600
-                },
+                }
               ]
             }
           ]
@@ -69,24 +69,26 @@ public class WithdrawView: BaseView {
     $0.styled(variant: .translucent, color: .background, padding: .large)
   }
   
+  let termOption = BaseToggleButton<TermOption>(
+    option: .init(text: "안내 사항을 확인하고 회원 탈퇴에 동의합니다."),
+    itemBuilder: { option in
+      return [
+        UILabel().then {
+          $0.text = option.text
+          $0.setTypo(.body2m)
+          $0.textColor = .grey800
+        }
+      ]
+    }
+  )
+  .then { $0.styled(shape: .circle) }
+  
   lazy var withdrawTermoptionCard = BaseCard(
     contentsBuilder: {
       [
         BaseVStack(spacing: 0) {
           [
-            BaseToggleButton<TermOption>(
-              option: .init(text: "안내 사항을 확인하고 회원 탈퇴에 동의합니다."),
-              itemBuilder: { option in
-                return [
-                  UILabel().then {
-                    $0.text = option.text
-                    $0.setTypo(.body2m)
-                    $0.textColor = .grey800
-                  }
-                ]
-              }
-            )
-            .then { $0.styled(shape: .circle) }
+            termOption
           ]
         }
       ]
@@ -95,11 +97,26 @@ public class WithdrawView: BaseView {
     $0.styled(variant: .translucent, color: .background, padding: .large)
   }
   
+  lazy var nextButton = BaseButton(
+      contentsBuilder: {
+          [
+              UILabel().then {
+                  $0.text = "탈퇴하기"
+                  $0.setTypo(.body1b)
+              }
+          ]
+      }
+  ).then {
+      $0.styled(variant: .fill, color: .green)
+      $0.isEnabled = false
+  }
+  
   public override func setupHierarchy() {
     addSubview(navigationBar)
     addSubview(titleBox)
     addSubview(withdrawNoticeCard)
     addSubview(withdrawTermoptionCard)
+    addSubview(nextButton)
     
     titleBox.addSubview(titleLabel)
     titleBox.addSubview(subtitleLabel)
@@ -141,6 +158,11 @@ public class WithdrawView: BaseView {
     withdrawTermoptionCard.snp.makeConstraints {
       $0.top.equalTo(withdrawNoticeCard.snp.bottom).offset(18)
       $0.horizontalEdges.equalTo(titleBox)
+    }
+    
+    nextButton.snp.makeConstraints {
+      $0.bottom.equalTo(self.safeAreaLayoutGuide)
+      $0.horizontalEdges.equalToSuperview().inset(16)
     }
   }
 }
